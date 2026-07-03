@@ -2,21 +2,110 @@
 
 ## 方針
 
-企業情報、財務情報、採用情報には、必ず情報ソース URL と最終更新日を持たせます。推測値は使わず、不確かな情報は不確かと明記します。
+Phase 1.5 ではローカル静的データで診断を実装する。
 
-Phase 1 では、これらのモデルをローカル静的データとして実装する想定です。将来 Supabase に移行しやすいように、ID、slug、参照関係、情報ソースは最初から明示します。
+将来 Supabase に移行しやすいように、診断、企業、職種、年収レンジ、アフィリエイト CTA を分けて設計する。
 
-## Phase 1 必須データ
+年収、企業情報、採用情報には情報ソース URL と最終更新日を持たせる。推測値は断定せず、レンジと目安として表示する。
 
-Phase 1 の初期公開に最低限必要なデータは以下です。
+## Phase 1.5 必須データ
 
+- DiagnosisQuestion
+- DiagnosisOption
+- DiagnosisRule
+- DiagnosisResult
+- MarketValueBand
+- RoleProfile
 - Company
-- IndustrySegment
-- CompanySegment
 - CareerInfo
 - AffiliatePartner
+- LearningPartner
 
-CompanyMetric、CompanyLocation、Article、ComparisonPage は Phase 1 で必要な範囲だけ最小限に作成し、詳細化は Phase 2 以降で行います。
+## Entity: DiagnosisQuestion
+
+| Field | Type | Note |
+| --- | --- | --- |
+| id | string | 一意 ID |
+| order | number | 表示順 |
+| title | string | 質問文 |
+| description | string | 補足 |
+| optionIds | string[] | 選択肢 |
+| required | boolean | 必須 |
+
+## Entity: DiagnosisOption
+
+| Field | Type | Note |
+| --- | --- | --- |
+| id | string | 一意 ID |
+| questionId | string | 質問 ID |
+| label | string | 表示名 |
+| description | string | 補足 |
+| tags | string[] | 診断用タグ |
+| scoreModifiers | object | スコア補正 |
+
+## Entity: DiagnosisRule
+
+| Field | Type | Note |
+| --- | --- | --- |
+| id | string | 一意 ID |
+| name | string | ルール名 |
+| conditions | object | 適用条件 |
+| marketValueScoreDelta | number | 市場価値スコア補正 |
+| salaryBandId | string | 年収レンジ |
+| reachableRoleIds | string[] | 今狙える職種 |
+| stretchRoleIds | string[] | 将来狙える職種 |
+| growthLeverIds | string[] | 伸ばすべき要素 |
+| ctaIds | string[] | 表示する CTA |
+
+## Entity: DiagnosisResult
+
+| Field | Type | Note |
+| --- | --- | --- |
+| id | string | 一意 ID |
+| title | string | 結果タイトル |
+| summary | string | 要約 |
+| marketValueScore | number | 市場価値スコア |
+| salaryRangeCurrent | string | 現在の想定年収レンジ |
+| salaryRangePotential | string | 伸ばした後の想定年収レンジ |
+| reachableCompanyIds | string[] | 今狙いやすい会社 |
+| stretchCompanyIds | string[] | 将来狙える会社 |
+| reachableRoleIds | string[] | 今狙いやすい職種 |
+| growthLeverIds | string[] | 伸ばすべき要素 |
+| actionsToday | string[] | 今日やること |
+| roadmap30Days | string[] | 30日ロードマップ |
+| roadmap90Days | string[] | 90日ロードマップ |
+| roadmap6Months | string[] | 6か月ロードマップ |
+| recommendedCtaIds | string[] | 推奨 CTA |
+| disclaimer | string | 注意書き |
+
+## Entity: MarketValueBand
+
+| Field | Type | Note |
+| --- | --- | --- |
+| id | string | 一意 ID |
+| label | string | 例: Entry, Growth, High Potential |
+| scoreMin | number | 最小スコア |
+| scoreMax | number | 最大スコア |
+| salaryRangeJa | string | 想定年収レンジ |
+| description | string | 説明 |
+| sources | Source[] | 情報ソース |
+| lastUpdated | string | 最終更新日 |
+
+## Entity: RoleProfile
+
+| Field | Type | Note |
+| --- | --- | --- |
+| id | string | 一意 ID |
+| slug | string | URL 用識別子 |
+| name | string | 職種名 |
+| segmentIds | string[] | 関連セグメント |
+| typicalSalaryRange | string | 年収レンジ目安 |
+| requiredExperience | string[] | 必要経験 |
+| usefulSkills | string[] | 有用スキル |
+| englishImpact | string | 英語力の影響 |
+| nextActions | string[] | 次の行動 |
+| sources | Source[] | 情報ソース |
+| lastUpdated | string | 最終更新日 |
 
 ## Entity: Company
 
@@ -34,78 +123,17 @@ CompanyMetric、CompanyLocation、Article、ComparisonPage は Phase 1 で必要
 | businessModel | string | IDM、ファブレス、ファウンドリ等 |
 | mainProducts | string[] | 主力製品 |
 | competitors | string[] | 競合企業 ID |
-| revenue | number | 売上 |
-| operatingIncome | number | 営業利益 |
-| marketCap | number | 時価総額 |
-| employees | number | 従業員数 |
+| revenue | string | 売上 |
+| operatingIncome | string | 営業利益 |
+| marketCap | string | 時価総額 |
+| employees | string | 従業員数 |
 | fiscalYear | string | 数値の対象年度 |
-| currency | string | 売上・利益・時価総額の通貨 |
+| currency | string | 通貨 |
 | japanPresence | string | 日本での事業状況 |
 | locationsJapan | string[] | 日本拠点 |
 | englishRequirement | string | 英語必要度 |
 | jobCategories | string[] | 募集職種カテゴリ |
 | careerSummary | string | 転職者向け要約 |
-| affiliateCtaType | string | CTA 種別 |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
-
-## Entity: IndustrySegment
-
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| slug | string | URL 用識別子 |
-| name | string | セグメント名 |
-| description | string | 説明 |
-| parentSegmentId | string | 親セグメント |
-| relatedCompanyIds | string[] | 関連企業 |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
-
-## Entity: CompanySegment
-
-| Field | Type | Note |
-| --- | --- | --- |
-| companyId | string | 企業 ID |
-| segmentId | string | セグメント ID |
-| role | string | その企業の役割 |
-| importance | string | 主力、関連、補助など |
-
-## Entity: ProductCategory
-
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| slug | string | URL 用識別子 |
-| name | string | 製品カテゴリ名 |
-| description | string | 説明 |
-| segmentIds | string[] | 関連セグメント |
-| companyIds | string[] | 関連企業 |
-
-## Entity: CompanyMetric
-
-| Field | Type | Note |
-| --- | --- | --- |
-| companyId | string | 企業 ID |
-| fiscalYear | string | 会計年度 |
-| revenue | number | 売上 |
-| operatingIncome | number | 営業利益 |
-| marketCap | number | 時価総額 |
-| employees | number | 従業員数 |
-| currency | string | 通貨 |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
-
-## Entity: CompanyLocation
-
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| companyId | string | 企業 ID |
-| country | string | 国 |
-| region | string | 地域 |
-| city | string | 都市 |
-| role | string | 拠点の役割 |
 | sources | Source[] | 情報ソース |
 | lastUpdated | string | 最終更新日 |
 
@@ -114,45 +142,18 @@ CompanyMetric、CompanyLocation、Article、ComparisonPage は Phase 1 で必要
 | Field | Type | Note |
 | --- | --- | --- |
 | companyId | string | 企業 ID |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
 | typicalRoles | string[] | 代表的な職種 |
 | recommendedExperience | string[] | 推奨経験 |
 | usefulSkills | string[] | 有用なスキル |
 | englishLevel | string | 英語目安 |
 | helpfulCertifications | string[] | 役立つ資格 |
-| typicalCareerPaths | string[] | よくあるキャリアパス |
 | suitableBackgrounds | string[] | 今狙いやすい経歴 |
 | stretchBackgrounds | string[] | 将来狙える経歴 |
 | preparationActions6Months | string[] | 半年の準備 |
 | preparationActions1Year | string[] | 1年の準備 |
 | steppingStoneCompanies | string[] | ステップになる会社 |
-| notes | string | 補足 |
-
-## Entity: CareerReadiness
-
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| roleSlug | string | 職種識別子 |
-| currentBackground | string | 現在の経験 |
-| reachableCompanies | string[] | 今狙いやすい会社 |
-| stretchCompanies | string[] | 将来狙える会社 |
-| gaps | string[] | 準備課題 |
-| nextActions | string[] | 次の行動 |
-
-## Entity: CareerRoadmap
-
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| targetRole | string | 目標職種 |
-| targetCompanyIds | string[] | 目標企業 |
-| actionsNow | string[] | 今日からできる行動 |
-| actions6Months | string[] | 半年の行動 |
-| actions1Year | string[] | 1年の行動 |
-| steppingStoneRoles | string[] | ステップ職種 |
-| steppingStoneCompanies | string[] | ステップ企業 |
+| sources | Source[] | 情報ソース |
+| lastUpdated | string | 最終更新日 |
 
 ## Entity: AffiliatePartner
 
@@ -163,36 +164,23 @@ CompanyMetric、CompanyLocation、Article、ComparisonPage は Phase 1 で必要
 | url | string | アフィリエイト URL |
 | category | string | 転職エージェント等 |
 | targetUser | string | 対象ユーザー |
+| triggerCondition | string | 表示条件 |
+| ctaText | string | CTA 文言 |
 | disclosureText | string | 広告表記 |
 | isActive | boolean | 有効状態 |
 
-## Entity: Article
+## Entity: LearningPartner
 
 | Field | Type | Note |
 | --- | --- | --- |
 | id | string | 一意 ID |
-| slug | string | URL 用識別子 |
-| title | string | タイトル |
-| description | string | 説明 |
-| category | string | カテゴリ |
-| targetKeywords | string[] | 対象キーワード |
-| relatedCompanyIds | string[] | 関連企業 |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
-
-## Entity: ComparisonPage
-
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| slug | string | URL 用識別子 |
-| companyIds | string[] | 比較企業 |
-| title | string | タイトル |
-| comparisonAxes | string[] | 比較軸 |
-| summary | string | 要約 |
-| targetKeywords | string[] | 対象キーワード |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
+| name | string | サービス名 |
+| category | string | 英語、資格、統計、半導体講座など |
+| url | string | アフィリエイト URL |
+| targetGap | string | 対応する不足要素 |
+| ctaText | string | CTA 文言 |
+| disclosureText | string | 広告表記 |
+| isActive | boolean | 有効状態 |
 
 ## Shared Type: Source
 

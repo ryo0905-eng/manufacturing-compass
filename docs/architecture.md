@@ -1,79 +1,127 @@
 # Architecture
 
-このドキュメントは将来の技術アーキテクチャ方針です。Phase 0 ではコードを作成しません。
+## 方針
+
+Manufacturing Compass は、情報サイトではなく「半導体キャリア市場価値診断」を中心にしたキャリア診断プロダクトとして設計する。
+
+Phase 1.5 では、ログイン、個人情報保存、AI、求人連携は使わず、ローカル静的データとルールベースで診断体験を作る。
 
 ## 想定技術
 
 - Next.js App Router
 - TypeScript
 - Tailwind CSS
-- Supabase
 - Vercel
 - Google Analytics
 - Google Search Console
-- PostHog
-- OpenAI API
+- 将来的に Supabase
+- 将来的に PostHog
+- 将来的に OpenAI API
 
 ## フロントエンド構成
 
-Next.js App Router を使い、Server Components を基本にします。企業詳細、セグメント、記事、比較ページは SEO を重視し、可能な限りサーバー側でレンダリングします。
+Server Components を基本にする。
 
-Client Components は検索、フィルター、比較選択、診断フォームなど、ユーザー操作が必要な箇所に限定します。
+Client Components は、診断フォーム、診断結果の状態管理、検索、フィルター、比較選択など、ユーザー操作が必要な箇所に限定する。
 
-## データ構成
+重要な体験:
 
-Phase 1 ではローカル静的データを使います。Supabase は、更新頻度、管理画面、ユーザー機能が必要になった段階で導入します。
+- `/`: 診断開始を主役にしたトップページ
+- `/diagnosis` または `/career-value-check`: 半導体キャリア市場価値診断
+- `/diagnosis/result`: 将来的な結果ページ
+- `/companies`: 企業 DB
+- `/companies/[slug]`: 企業詳細
+- `/compare`: 企業比較
+- `/industry-map`: 業界理解
 
-企業情報、業界セグメント、製品カテゴリ、財務指標、拠点、キャリア情報、アフィリエイトパートナーを分けて管理します。
+## Phase 1.5 のデータ構成
 
-企業情報や財務情報には、情報ソース URL と最終更新日を必ず持たせます。
+ローカル静的データで開始する。
 
-Phase 1 の想定:
-
+- `src/data/diagnosis`
 - `src/data/companies`
 - `src/data/segments`
-- `src/data/articles`
 - `src/data/affiliate-partners`
 - `src/types`
 
-## コンテンツ構成
+診断ロジックは、ユーザー入力を以下の出力へ変換する。
 
-- 企業詳細ページ
-- セグメントページ
-- 比較ページ
-- ランキングページ
-- 初心者向け記事
-- キャリア準備ページ
+- marketValueScore
+- salaryRange
+- reachableRoles
+- reachableCompanies
+- stretchCompanies
+- growthLevers
+- actionsToday
+- roadmap30Days
+- roadmap90Days
+- roadmap6Months
+- recommendedCtas
 
-コンテンツは SEO の検索意図ごとに設計し、企業ページから関連記事、比較ページ、キャリア準備ページへ内部リンクします。
+## 将来のデータ構成
+
+Supabase を導入する場合は、以下を保存対象にする。
+
+- 診断結果
+- メール登録
+- CTA クリックイベント
+- 診断入力の匿名集計
+- 記事閲覧履歴
+- ユーザーアカウント
+
+ただし、個人情報保存は需要検証後に行う。
+
+## 診断ロジック
+
+Phase 1.5 では静的ルールベース。
+
+入力例:
+
+- 現在職種
+- 経験年数
+- 業界経験
+- 英語力
+- 実績
+- 志向
+- 転職時期
+
+出力例:
+
+- 市場価値スコア
+- 想定年収レンジ
+- 今狙える職種・会社
+- 伸ばすべき経験・スキル・英語
+- 今日やること
+- 相談すべき論点
 
 ## SEO 構成
 
-- ページごとの title と description
-- OGP
-- canonical
-- sitemap
-- robots.txt
-- Article、Organization、BreadcrumbList などの構造化データ
-- 内部リンク設計
+診断ページはコンバージョンの中心。
+
+SEO流入は以下から診断へつなぐ。
+
+- 半導体 転職 市場価値
+- 半導体 転職 年収
+- 品質保証 半導体 転職
+- 生産技術 半導体 転職
+- 設備保全 半導体 転職
+- 半導体 転職 英語
+
+## CTA 構成
+
+診断結果に応じてCTAを出し分ける。
+
+- 転職エージェント
+- 英語学習
+- 資格・学習教材
+- 将来的な有料ロードマップ
+
+CTA は結果の直後ではなく、ユーザーが「なぜ必要か」を理解した後に出す。
 
 ## デプロイ構成
 
-Vercel にデプロイします。main ブランチを本番、プルリクエストを Preview として扱う想定です。Search Console と Analytics を導入し、公開後の検索流入と CTA クリックを測定します。
+Vercel にデプロイする。
 
-## 将来の AI 機能構成
+main ブランチを本番、Pull Request を Preview とする。
 
-OpenAI API は、キャリア診断、企業比較の補助、ロードマップ生成に利用する可能性があります。AI 出力は助言として扱い、断定的な合否判定や不確かな企業情報の生成には使いません。
-
-## 将来のキャリア現在地診断構成
-
-ユーザーの職種、経験年数、業界経験、英語力、スキル、資格、希望職種を入力として、以下を返す構成を想定します。
-
-- 今狙いやすい会社・職種
-- 今すぐはチャレンジングだが将来狙える会社
-- 足りない経験・スキル
-- 半年後の準備アクション
-- 1年後の準備アクション
-- ステップになる会社
-
-Phase 1 では診断フォームを作らず、企業詳細ページと比較ページの中で「今狙いやすい背景」「将来チャレンジしやすい背景」「半年後・1年後の準備」を表示します。
+Vercel 連携後は、Codex ローカルで Next.js build が不安定な場合、Vercel のビルドログを最終確認として扱う。

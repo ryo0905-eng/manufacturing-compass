@@ -1,81 +1,133 @@
 # SEO Strategy
 
-## URL 方針
+## SEO の役割
+
+SEO は企業一覧へ直接流すためではなく、診断へ流すための集客チャネルとして設計する。
+
+主導線:
+
+```text
+検索流入
+↓
+職種別・悩み別ページ
+↓
+半導体キャリア市場価値診断
+↓
+診断結果
+↓
+転職エージェント / 英語学習 CTA
+```
+
+## Phase 1.5 URL 方針
 
 ```text
 /
+/diagnosis
+/diagnosis/result
 /industry-map
 /companies
-/companies/skyworks
+/companies/tsmc
 /companies/micron
-/segments/fabless
-/segments/foundry
-/segments/equipment
-/compare/skyworks-vs-qorvo
-/rankings/market-cap
-/rankings/revenue
-/articles/what-is-idm
-/articles/fabless-vs-foundry
-/career-readiness/process-engineer
-/career-path/quality-to-process-engineer
+/compare/tsmc-vs-micron
 ```
 
-Phase 1 で作る URL は、`/`、`/industry-map`、`/companies`、`/companies/[slug]`、`/compare` または `/compare/[slug]` に絞ります。`/rankings`、`/articles`、`/career-readiness`、`/career-path` は Phase 2 以降で追加します。
+既存の `/career-compass` は、実装上は残してもよいが、最終的な訴求名は「半導体キャリア市場価値診断」に寄せる。
+
+将来的に追加する URL:
+
+```text
+/market-value/process-engineer
+/market-value/quality-assurance
+/market-value/production-engineer
+/market-value/equipment-engineer
+/salary/semiconductor-process-engineer
+/salary/semiconductor-quality
+/career-path/quality-to-semiconductor
+/career-path/equipment-to-field-engineer
+/english/semiconductor-career
+/agents/semiconductor
+```
 
 ## 狙うキーワード
 
-- 半導体 転職
-- 半導体メーカー 年収
-- 半導体 業界地図
-- 半導体 会社一覧
-- Skyworks 転職
-- Micron 年収
-- TSMC 仕事内容
-- 半導体 製造装置メーカー
-- ファブレス ファウンドリ 違い
-- 半導体 プロセスエンジニア 転職
+診断系:
+
+- 半導体 転職 市場価値
+- 半導体 転職 年収
+- 半導体 キャリア診断
+- 半導体 転職 可能性
+- 半導体 転職 未経験
+- 半導体 転職 英語
+
+職種系:
+
 - 品質保証 半導体 転職
 - 生産技術 半導体 転職
-- 半導体 転職 英語
+- 設備保全 半導体 転職
+- プロセスエンジニア 転職
+- フィールドエンジニア 半導体 転職
+- FAE 半導体 転職
+
+企業系:
+
+- TSMC 転職
+- Micron 年収
+- 東京エレクトロン 転職
+- Skyworks 転職
+- 半導体メーカー 年収
+
+学習・準備系:
+
+- 半導体 転職 何を勉強
+- 半導体 転職 資格
+- 半導体 転職 英語 必要
+- 半導体 プロセス 勉強
 
 ## メタデータルール
 
-- title は検索意図とページ内容を一致させる
-- description はユーザーが得られる情報を具体的に書く
-- 企業ページは「会社名 + 転職 + 年収/仕事内容/英語/日本拠点」などを意識する
-- 比較ページは比較対象企業名を title に含める
-- 記事ページは初心者が検索する言葉を優先する
+診断ページ:
+
+- title に「市場価値」「年収」「診断」を含める
+- description で「今狙える会社」「伸ばすべきスキル」「今日やること」を明示する
+
+職種ページ:
+
+- title に職種名 + 半導体転職 + 年収/市場価値を含める
+- 診断への CTA をファーストビュー近くに置く
+
+企業ページ:
+
+- title に会社名 + 転職 + 年収/仕事内容/英語/日本拠点を含める
+- 診断結果の根拠ページとして内部リンクする
 
 ## 内部リンクルール
 
-- トップページから業界地図、企業一覧、主要記事へリンクする
-- 業界地図からセグメントページへリンクする
-- セグメントページから関連企業へリンクする
-- 企業ページから競合企業、比較ページ、関連記事、キャリア準備ページへリンクする
-- 記事ページから企業ページや CTA へ自然につなぐ
+- トップページから診断へ強く誘導する
+- 診断結果から企業詳細、比較、英語学習、転職エージェント CTA へ誘導する
+- 記事ページから診断へ誘導する
+- 企業ページから診断へ戻れる導線を置く
+- 比較ページから診断へ戻れる導線を置く
 
 ## 構造化データ案
 
-- Organization
+- WebSite
+- WebApplication
+- FAQPage
 - Article
 - BreadcrumbList
-- FAQPage
-- WebSite
+- Organization
 - ItemList
 
-企業ページでは Organization、記事では Article、比較や一覧では ItemList を検討します。
+診断ページでは WebApplication を検討する。
 
 ## sitemap 方針
 
-- Phase 1 では静的ページ、企業ページ、比較ページを sitemap に含める
-- Phase 2 以降でセグメントページ、ランキングページ、記事ページを sitemap に追加する
-- 更新頻度が高い企業ページと記事ページは lastmod を持たせる
-- noindex ページを sitemap に含めない
+- Phase 1.5 では診断ページ、トップ、企業ページ、比較ページ、業界地図を sitemap に含める
+- Phase 2 以降で職種別市場価値ページ、年収ページ、英語学習ページ、転職エージェントページを追加する
 
 ## コンテンツ更新方針
 
-- 企業情報は定期的に更新する
-- 財務情報は年度と情報ソースを明記する
-- 古い採用情報や募集職種は更新日を確認する
-- 半導体用語記事と比較記事を継続的に追加する
-- 検索順位、クリック率、CTA クリック率を見て改善する
+- 診断ロジックと結果文言を継続的に改善する
+- 年収レンジの根拠情報を定期更新する
+- 職種別ページを増やす
+- 診断完了率と CTA クリック率を見てページ構成を改善する
