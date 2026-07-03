@@ -23,6 +23,7 @@
 - [x] Tailwind CSS 導入
 - [x] 静的データ構造作成
 - [x] 初期企業データ 3〜5 社作成
+- [x] Career Compass 作成
 - [x] トップページ作成
 - [x] 半導体業界地図作成
 - [x] 企業一覧作成
@@ -34,6 +35,14 @@
 - [x] SEO メタデータ追加
 - [x] sitemap 追加
 - [ ] Vercel へデプロイ
+
+## Phase 1.5: Conversion Redesign
+
+- [x] サイト構成を Career Compass 中心に再設計
+- [x] 静的ルールベースの現在地チェック追加
+- [x] 結果に応じた相談論点 CTA 追加
+- [ ] 実際の Vercel 画面で CV 導線確認
+- [ ] Career Compass の選択肢と結果文言を改善
 
 ## Phase 2: Content Expansion
 

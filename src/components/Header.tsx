@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 
 const navItems = [
+  { href: "/career-compass", label: "コンパス" },
   { href: "/industry-map", label: "業界地図" },
   { href: "/companies", label: "企業一覧" },
   { href: "/compare", label: "企業比較" },

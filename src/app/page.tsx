@@ -30,11 +30,11 @@ export default function Home() {
             <span>Manufacturing Compass</span>
             <span>Semiconductor career map</span>
           </div>
-          <h1>求人を見る前に、半導体業界の現在地をつかむ。</h1>
-          <p>会社名の羅列ではなく、業界構造、企業の役割、あなたの経験からの距離感をひとつの地図にします。</p>
+          <h1>求人を見る前に、あなたの半導体キャリア現在地をつかむ。</h1>
+          <p>会社名を眺める前に、経験から近い領域、狙いやすい会社、半年後に向けた準備をひとつの地図にします。</p>
           <div className="actions">
-            <Link className="button primary" href="/industry-map">探索を始める</Link>
-            <Link className="button ghost" href="/compare">企業を比べる</Link>
+            <Link className="button primary" href="/career-compass">現在地をチェックする</Link>
+            <Link className="button ghost" href="/industry-map">業界地図を見る</Link>
           </div>
           <div className="hero-metrics" aria-label="MVP の概要">
             <div><strong>4</strong><span>Segments</span></div>
@@ -62,6 +62,17 @@ export default function Home() {
             <strong>半年で近づく準備</strong>
             <small>統計 / 歩留まり / 英語説明</small>
           </div>
+        </div>
+      </section>
+
+      <section className="home-section">
+        <div className="conversion-band">
+          <div>
+            <p className="eyebrow">Start here</p>
+            <h2>4つ選ぶだけで、最初の進み方が見える。</h2>
+          </div>
+          <p>職種、経験年数、英語、転職の狙いから、今近い会社と半年後の準備を返します。</p>
+          <Link className="button primary" href="/career-compass">Career Compass を使う</Link>
         </div>
       </section>
 
