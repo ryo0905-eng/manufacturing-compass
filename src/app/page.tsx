@@ -6,10 +6,10 @@ import { companies, segments } from "@/data/companies";
 import { siteUrl } from "@/lib/format";
 
 const compassSteps = [
-  { label: "業界", value: "Map" },
-  { label: "企業", value: "Company" },
-  { label: "距離", value: "Fit" },
-  { label: "準備", value: "Next" },
+  { label: "価値", value: "Score" },
+  { label: "年収", value: "Salary" },
+  { label: "伸ばす", value: "Skill" },
+  { label: "今日", value: "Action" },
 ];
 
 export default function Home() {
@@ -28,12 +28,12 @@ export default function Home() {
         <div className="hero-copy">
           <div className="hero-kicker">
             <span>Manufacturing Compass</span>
-            <span>Semiconductor career map</span>
+            <span>Market value check</span>
           </div>
-          <h1>求人を見る前に、あなたの半導体キャリア現在地をつかむ。</h1>
-          <p>会社名を眺める前に、経験から近い領域、狙いやすい会社、半年後に向けた準備をひとつの地図にします。</p>
+          <h1>あなたの半導体キャリア市場価値を、3分で見える化。</h1>
+          <p>経験から想定年収、狙える会社、伸ばすべきスキル、今日やることまで整理します。</p>
           <div className="actions">
-            <Link className="button primary" href="/career-compass">現在地をチェックする</Link>
+            <Link className="button primary" href="/career-compass">市場価値を診断する</Link>
             <Link className="button ghost" href="/industry-map">業界地図を見る</Link>
           </div>
           <div className="hero-metrics" aria-label="MVP の概要">
@@ -43,13 +43,13 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="compass-stage" aria-label="半導体キャリアコンパス">
+        <div className="compass-stage" aria-label="半導体キャリア市場価値診断">
           <div className="compass-grid" />
           <div className="compass-orbit orbit-one" />
           <div className="compass-orbit orbit-two" />
           <div className="compass-core">
             <span>MC</span>
-            <strong>Career Compass</strong>
+            <strong>Market Value</strong>
           </div>
           {compassSteps.map((step, index) => (
             <div className={`compass-node node-${index + 1}`} key={step.label}>
@@ -58,9 +58,9 @@ export default function Home() {
             </div>
           ))}
           <div className="route-card">
-            <span>Quality → Process</span>
-            <strong>半年で近づく準備</strong>
-            <small>統計 / 歩留まり / 英語説明</small>
+            <span>Production → Process</span>
+            <strong>市場価値 81</strong>
+            <small>年収 / 伸ばすこと / 今日の一手</small>
           </div>
         </div>
       </section>
@@ -69,10 +69,10 @@ export default function Home() {
         <div className="conversion-band">
           <div>
             <p className="eyebrow">Start here</p>
-            <h2>4つ選ぶだけで、最初の進み方が見える。</h2>
+            <h2>まずは、いまの市場価値を知る。</h2>
           </div>
-          <p>職種、経験年数、英語、転職の狙いから、今近い会社と半年後の準備を返します。</p>
-          <Link className="button primary" href="/career-compass">Career Compass を使う</Link>
+          <p>職種、年数、英語、狙いから、年収レンジと次の一手を返します。</p>
+          <Link className="button primary" href="/career-compass">診断する</Link>
         </div>
       </section>
 

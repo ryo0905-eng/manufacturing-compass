@@ -1,17 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
 import type { Route } from "next";
+import { useMemo, useState } from "react";
 import {
   backgroundOptions,
-  compassProfiles,
   englishOptions,
   experienceOptions,
   goalOptions,
+  marketValueProfiles,
   type CompassOption,
 } from "@/data/career-compass";
-import { affiliatePartners, companies, segments } from "@/data/companies";
+import { affiliatePartners, companies } from "@/data/companies";
+
+const experienceBonus: Record<string, number> = {
+  early: -4,
+  middle: 4,
+  senior: 9,
+};
+
+const englishBonus: Record<string, number> = {
+  low: -3,
+  middle: 3,
+  high: 8,
+};
+
+const goalBonus: Record<string, number> = {
+  entry: 0,
+  global: 5,
+  specialist: 3,
+  income: 4,
+};
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
 
 function OptionGroup({
   label,
@@ -48,114 +71,131 @@ export function CareerCompassTool() {
   const [background, setBackground] = useState("production");
   const [experience, setExperience] = useState("middle");
   const [english, setEnglish] = useState("middle");
-  const [goal, setGoal] = useState("entry");
+  const [goal, setGoal] = useState("income");
 
   const result = useMemo(() => {
-    const profile = compassProfiles[background] ?? compassProfiles.beginner;
-    const englishAction =
-      english === "low"
-        ? "英語はまず職務経歴・改善事例を短く説明する練習から始めると、外資系やグローバル職の準備になります。"
-        : english === "high"
-          ? "英語対応ができるなら、外資系や顧客対応職も早めに候補へ入れられます。"
-          : "英語はメール・資料説明レベルを磨くと、応募先の幅が広がります。";
-    const experienceAction =
-      experience === "early"
-        ? "経験年数が浅い場合は、実績を広く見せるより、1つの改善事例を数字で語れる状態を作るのが近道です。"
-        : experience === "senior"
-          ? "経験が長い場合は、現場改善だけでなく、関係者を動かした経験や再現性を整理すると伝わりやすくなります。"
-          : "主担当として進めた改善・立ち上げ・顧客対応を、成果と一緒に整理しましょう。";
-    const goalAction =
+    const profile = marketValueProfiles[background] ?? marketValueProfiles.beginner;
+    const score = clamp(
+      profile.baseScore +
+        (experienceBonus[experience] ?? 0) +
+        (englishBonus[english] ?? 0) +
+        (goalBonus[goal] ?? 0),
+      35,
+      92,
+    );
+    const band = score >= 80 ? "High potential" : score >= 65 ? "Growth" : "Entry";
+    const focus =
       goal === "global"
-        ? "グローバル志向なら、英語での技術説明と外資系職種の要件確認を優先しましょう。"
+        ? profile.englishTalkTrack
         : goal === "income"
-          ? "年収アップを狙うなら、半導体内でも市場価値が伝わりやすい実績の言語化が重要です。"
+          ? "年収を上げるなら、成果を数字で語れる経験に変えるのが近道です。"
           : goal === "specialist"
-            ? "専門性を深めるなら、プロセス・装置・品質のどれを軸にするかを先に決めましょう。"
-            : "まず半導体へ入るなら、近い職種から入って半年後・1年後に選択肢を広げるのが現実的です。";
+            ? "専門軸を1つ決めると、応募先と学ぶ順番が絞れます。"
+            : "まず近い職種から入り、半年後の選択肢を広げる作戦が現実的です。";
 
-    return {
-      profile,
-      extraActions: [experienceAction, englishAction, goalAction],
-    };
+    return { band, focus, profile, score };
   }, [background, english, experience, goal]);
 
-  const primarySegments = segments.filter((segment) => result.profile.primarySegmentIds.includes(segment.id));
-  const reachableCompanies = companies.filter((company) => result.profile.reachableCompanyIds.includes(company.id));
-  const stretchCompanies = companies.filter((company) => result.profile.stretchCompanyIds.includes(company.id));
+  const reachableCompanies = companies.filter((company) =>
+    result.profile.reachableCompanyIds.includes(company.id),
+  );
+  const stretchCompanies = companies.filter((company) =>
+    result.profile.stretchCompanyIds.includes(company.id),
+  );
   const partner = affiliatePartners.find((item) => item.isActive);
 
   return (
-    <div className="compass-tool">
-      <section className="compass-input-panel">
+    <div className="value-check">
+      <section className="value-input-panel">
         <div>
-          <p className="eyebrow">Career Compass</p>
-          <h1>あなたの経験から、半導体業界への入口を探す。</h1>
-          <p>4つ選ぶだけで、今近い領域、将来チャレンジしやすい会社、半年の準備を整理します。</p>
+          <p className="eyebrow">Market value check</p>
+          <h1>半導体キャリア市場価値診断</h1>
+          <p>4つ選ぶだけ。想定年収、伸ばすこと、今日の一手を返します。</p>
         </div>
 
-        <OptionGroup label="いま一番近い経験" onChange={setBackground} options={backgroundOptions} value={background} />
-        <OptionGroup label="経験年数" onChange={setExperience} options={experienceOptions} value={experience} />
-        <OptionGroup label="英語の状態" onChange={setEnglish} options={englishOptions} value={english} />
-        <OptionGroup label="転職の狙い" onChange={setGoal} options={goalOptions} value={goal} />
+        <OptionGroup label="経験" onChange={setBackground} options={backgroundOptions} value={background} />
+        <OptionGroup label="年数" onChange={setExperience} options={experienceOptions} value={experience} />
+        <OptionGroup label="英語" onChange={setEnglish} options={englishOptions} value={english} />
+        <OptionGroup label="狙い" onChange={setGoal} options={goalOptions} value={goal} />
       </section>
 
-      <aside className="compass-result-panel">
-        <p className="eyebrow">Your route</p>
-        <h2>{result.profile.title}</h2>
-        <p>{result.profile.summary}</p>
+      <aside className="value-result-panel" aria-live="polite">
+        <div className="score-hero">
+          <div>
+            <span>市場価値スコア</span>
+            <strong>{result.score}</strong>
+          </div>
+          <small>{result.band}</small>
+          <div className="score-bar" aria-hidden="true">
+            <span style={{ width: `${result.score}%` }} />
+          </div>
+        </div>
 
-        <div className="result-section">
-          <span>近い領域</span>
-          <div className="result-tags">
-            {primarySegments.map((segment) => (
-              <Link href="/industry-map" key={segment.id}>{segment.name}</Link>
+        <div className="salary-grid">
+          <div className="salary-card">
+            <span>現在の目安</span>
+            <strong>{result.profile.salaryRangeCurrent}</strong>
+          </div>
+          <div className="salary-card accent">
+            <span>伸ばした後</span>
+            <strong>{result.profile.salaryRangePotential}</strong>
+          </div>
+        </div>
+
+        <section className="result-compact">
+          <p className="eyebrow">{result.profile.shortLabel}</p>
+          <h2>{result.profile.title}</h2>
+          <p>{result.profile.summary}</p>
+        </section>
+
+        <div className="result-mini-grid">
+          <div className="result-mini-card">
+            <span>今狙える</span>
+            {reachableCompanies.slice(0, 3).map((company) => (
+              <Link href={`/companies/${company.slug}` as Route} key={company.id}>
+                {company.nameJa}
+              </Link>
+            ))}
+          </div>
+          <div className="result-mini-card">
+            <span>伸ばす</span>
+            {result.profile.growthLevers.slice(0, 3).map((item) => (
+              <b key={item}>{item}</b>
+            ))}
+          </div>
+          <div className="result-mini-card">
+            <span>今日やる</span>
+            {result.profile.actionsToday.slice(0, 2).map((item) => (
+              <b key={item}>{item}</b>
             ))}
           </div>
         </div>
 
-        <div className="result-section">
-          <span>今狙いやすい会社</span>
-          <div className="result-company-list">
-            {reachableCompanies.map((company) => (
+        <div className="next-panel">
+          <span>次の30日</span>
+          <strong>{result.profile.roadmap30Days[0]}</strong>
+          <p>{result.focus}</p>
+        </div>
+
+        <div className="stretch-row">
+          <span>ストレッチ目標</span>
+          <div>
+            {stretchCompanies.slice(0, 3).map((company) => (
               <Link href={`/companies/${company.slug}` as Route} key={company.id}>
-                <strong>{company.nameJa}</strong>
-                <small>{company.businessModel}</small>
+                {company.nameJa}
               </Link>
             ))}
           </div>
         </div>
 
-        <div className="result-section">
-          <span>将来のストレッチ目標</span>
-          <div className="result-tags subtle">
-            {stretchCompanies.map((company) => (
-              <Link href={`/companies/${company.slug}` as Route} key={company.id}>{company.nameJa}</Link>
-            ))}
+        <div className="value-cta">
+          <div>
+            <span>相談メモ</span>
+            <p>{result.profile.agentTalkTrack}</p>
           </div>
-        </div>
-
-        <div className="result-section">
-          <span>今日からできること</span>
-          <ol className="action-list">
-            {result.profile.actionsNow.map((action) => (
-              <li key={action}>{action}</li>
-            ))}
-          </ol>
-        </div>
-
-        <div className="result-section">
-          <span>半年で近づく準備</span>
-          <ul className="compact-list">
-            {[...result.profile.actionsSixMonths, ...result.extraActions].map((action) => (
-              <li key={action}>{action}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="result-cta">
-          <h3>この結果をもとに相談する</h3>
-          <p>{result.profile.agentTalkTrack}</p>
-          <a className="button primary" href={partner?.url ?? "#"}>相談の選択肢を見る</a>
+          <a className="button primary" href={partner?.url ?? "#"}>
+            転職相談を見る
+          </a>
           <small>{partner?.disclosureText ?? "本ページには広告リンクが含まれる場合があります。"}</small>
         </div>
       </aside>

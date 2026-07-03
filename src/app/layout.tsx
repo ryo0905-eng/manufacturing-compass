@@ -5,13 +5,13 @@ import { Header } from "@/components/Header";
 export const metadata: Metadata = {
   metadataBase: new URL("https://manufacturing-compass.vercel.app"),
   title: {
-    default: "Manufacturing Compass | 半導体業界への転職を、もっとわかりやすく",
+    default: "Manufacturing Compass | 半導体キャリア市場価値診断",
     template: "%s | Manufacturing Compass",
   },
-  description: "半導体業界地図、企業データベース、企業比較、キャリア準備情報を通じて、今狙える会社と将来チャレンジできる会社を整理する日本語キャリアプラットフォームです。",
+  description: "半導体業界での市場価値、想定年収、伸ばすべきスキル、今日の一手を整理する日本語キャリアプラットフォームです。",
   openGraph: {
     title: "Manufacturing Compass",
-    description: "半導体業界への転職を、もっとわかりやすく。",
+    description: "半導体キャリアの市場価値と次の一手を、もっとわかりやすく。",
     type: "website",
     locale: "ja_JP",
   },
