@@ -18,7 +18,7 @@ export default function ComparePage() {
       <section className="page-hero">
         <p className="eyebrow">Company compare</p>
         <h1>半導体企業比較</h1>
-        <p>会社の優劣ではなく、事業領域、向いている経験、準備ポイントの違いを整理します。今狙いやすい会社と将来のストレッチ目標を分けて考えられます。</p>
+        <p>会社の優劣ではなく、役割とキャリアの距離感だけを比べます。</p>
       </section>
 
       <CompareSelector companies={companies} />
@@ -37,9 +37,7 @@ export default function ComparePage() {
               <h3>
                 {first.nameJa} / {second.nameJa}
               </h3>
-              <p>
-                {first.businessModel} と {second.businessModel} の違いを、職種や準備ポイントから確認します。
-              </p>
+              <p>{first.businessModel} と {second.businessModel}</p>
               <Link className="text-link" href={`/compare/${companyCompareSlug([first.id, second.id])}` as Route}>
                 比較を見る
               </Link>

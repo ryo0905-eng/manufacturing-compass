@@ -19,10 +19,10 @@ export default function Home() {
       />
       <section className="hero">
         <div className="hero-copy">
-          <p className="eyebrow">Semiconductor career guide</p>
+          <p className="eyebrow">Manufacturing Compass</p>
           <h1>半導体業界への転職を、もっとわかりやすく。</h1>
           <p>
-            業界地図、企業研究、比較、キャリア準備をまとめて確認。今狙える会社と、半年後・1年後に向けて挑戦しやすくなる会社を前向きに整理します。
+            企業を見る前に、業界の構造とキャリアの距離感をつかむ。今狙える会社と、次に近づける会社を静かに整理します。
           </p>
           <div className="actions">
             <Link className="button primary" href="/industry-map">
@@ -35,11 +35,8 @@ export default function Home() {
         </div>
         <div className="hero-visual" aria-label="半導体ウェハーを模したビジュアル">
           <div className="wafer" />
-          <div className="hero-stat">
-            <p className="eyebrow">MVP focus</p>
-            <strong>半導体業界に一点突破</strong>
-            <p>ファウンドリ、メモリ、製造装置、ファブレスから始めます。</p>
-          </div>
+          <div className="signal-line line-one" />
+          <div className="signal-line line-two" />
         </div>
       </section>
 
@@ -47,9 +44,8 @@ export default function Home() {
         <div className="section-header">
           <div>
             <p className="eyebrow">Industry map</p>
-            <h2>まず業界の位置関係をつかむ</h2>
+            <h2>業界を4つに分けて見る</h2>
           </div>
-          <p>半導体企業は同じ業界でも役割が大きく違います。求人を見る前に、どの領域が自分の経験と近いかを確認できます。</p>
         </div>
         <div className="grid-3">
           {segments.slice(0, 3).map((segment) => (
@@ -69,7 +65,7 @@ export default function Home() {
         <div className="section-header">
           <div>
             <p className="eyebrow">Companies</p>
-            <h2>初期企業データ</h2>
+            <h2>まず見る4社</h2>
           </div>
           <Link className="text-link" href="/companies">
             すべて見る

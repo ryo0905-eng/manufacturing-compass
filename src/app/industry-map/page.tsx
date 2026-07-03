@@ -14,7 +14,7 @@ export default function IndustryMapPage() {
       <section className="page-hero">
         <p className="eyebrow">Industry map</p>
         <h1>半導体業界地図</h1>
-        <p>半導体業界は、設計する会社、製造する会社、装置を作る会社、メモリを量産する会社などに分かれます。まずは役割の違いから見ていきます。</p>
+        <p>設計、製造、メモリ、装置。求人を見る前に、会社の役割だけ先につかみます。</p>
       </section>
 
       <section className="section">
@@ -27,8 +27,6 @@ export default function IndustryMapPage() {
                 <p className="eyebrow">{segment.shortName}</p>
                 <h2>{segment.name}</h2>
                 <p>{segment.description}</p>
-                <strong>役割</strong>
-                <p>{segment.roleInValueChain}</p>
                 <strong>代表企業</strong>
                 <ul className="tag-list">
                   {relatedCompanies.map((company) => (

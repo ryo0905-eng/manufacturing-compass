@@ -57,7 +57,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
       <section className="page-hero">
         <p className="eyebrow">{company.businessModel}</p>
         <h1>{company.nameJa}</h1>
-        <p>{company.summary}</p>
+        <p>{company.careerSummary}</p>
         <div className="actions">
           <Link className="button primary" href={compareHref}>
             近い会社と比較する
@@ -73,7 +73,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
           <section className="detail-panel">
             <p className="eyebrow">3分でわかる会社概要</p>
             <h2>業界での立ち位置</h2>
-            <p>{company.careerSummary}</p>
+            <p>{company.summary}</p>
             <ul className="tag-list">
               {companySegments.map((segment) => (
                 <li key={segment?.id}>{segment?.name}</li>
@@ -93,35 +93,35 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
 
           <section className="detail-panel">
             <p className="eyebrow">Career readiness</p>
-            <h2>この会社を目指すための準備</h2>
+            <h2>近づくための準備</h2>
             {career ? (
-              <div className="stack">
-                <div>
-                  <h3>今狙いやすい背景</h3>
+              <div className="readiness-grid">
+                <div className="readiness-block">
+                  <h3>今近い経験</h3>
                   <ul>
                     {career.suitableBackgrounds.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </div>
-                <div>
-                  <h3>将来チャレンジしやすい背景</h3>
+                <div className="readiness-block">
+                  <h3>次に近づく経験</h3>
                   <ul>
                     {career.stretchBackgrounds.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </div>
-                <div>
-                  <h3>半年後に向けてできる準備</h3>
+                <div className="readiness-block">
+                  <h3>半年の準備</h3>
                   <ul>
                     {career.preparationActions6Months.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </div>
-                <div>
-                  <h3>1年後に向けてできる準備</h3>
+                <div className="readiness-block">
+                  <h3>1年の準備</h3>
                   <ul>
                     {career.preparationActions1Year.map((item) => (
                       <li key={item}>{item}</li>
