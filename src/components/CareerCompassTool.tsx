@@ -33,6 +33,11 @@ type AnswerKey =
   | "currentSalary"
   | "goal";
 type Answers = Partial<Record<AnswerKey, string>>;
+type InsightState =
+  | { status: "idle"; items: string[]; message?: string }
+  | { status: "loading"; items: string[]; message?: string }
+  | { status: "ready"; items: string[]; message?: string }
+  | { status: "error"; items: string[]; message: string };
 
 type QuestionStep = {
   key: AnswerKey;
@@ -222,6 +227,7 @@ export function CareerCompassTool() {
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState(0);
   const [completedQuestIds, setCompletedQuestIds] = useState<string[]>([]);
+  const [insightState, setInsightState] = useState<InsightState>({ items: [], status: "idle" });
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
   const currentValue = answers[currentStep.key];
@@ -291,6 +297,56 @@ export function CareerCompassTool() {
     setAnswers((current) => ({ ...current, [key]: value }));
   }
 
+  async function generateInsights() {
+    setInsightState({ items: [], status: "loading" });
+
+    try {
+      const response = await fetch("/api/career-insight", {
+        body: JSON.stringify({
+          answers,
+          buildName: result.buildName,
+          modules: result.modules,
+          profile: {
+            actionsToday: result.profile.actionsToday,
+            growthLevers: result.profile.growthLevers,
+            reachableRoles: result.profile.reachableRoles,
+            salaryRangeCurrent: result.profile.salaryRangeCurrent,
+            salaryRangePotential: result.profile.salaryRangePotential,
+            shortLabel: result.profile.shortLabel,
+          },
+          reachableCompanies: reachableCompanies.slice(0, 3).map((company) => company.nameJa),
+          rewardGap: result.rewardGap,
+          score: displayedScore,
+        }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        setInsightState({
+          items: [],
+          message: response.status === 503 ? "OPENAI_API_KEY を設定すると使えます。" : "AI Insight の生成に失敗しました。",
+          status: "error",
+        });
+        return;
+      }
+
+      const data = (await response.json()) as { insights?: string[] };
+      const insights = data.insights?.filter(Boolean) ?? [];
+
+      setInsightState({
+        items: insights.length > 0 ? insights : ["半導体向けに実績を翻訳すると、見え方が変わります。"],
+        status: "ready",
+      });
+    } catch {
+      setInsightState({
+        items: [],
+        message: "AI Insight に接続できませんでした。",
+        status: "error",
+      });
+    }
+  }
+
   function toggleQuest(id: string) {
     setCompletedQuestIds((current) =>
       current.includes(id) ? current.filter((questId) => questId !== id) : [...current, id],
@@ -306,6 +362,7 @@ export function CareerCompassTool() {
     setAnswers({});
     setStep(0);
     setCompletedQuestIds([]);
+    setInsightState({ items: [], status: "idle" });
   }
 
   if (isResult) {
@@ -357,6 +414,29 @@ export function CareerCompassTool() {
           <div className="reward-gap-note">
             <span>Unlock Potential</span>
             <b>{result.rewardGap.note}</b>
+          </div>
+
+          <div className="ai-insight-card">
+            <div>
+              <span>AI Insight</span>
+              <b>半導体向けに、経験の見え方を読み替える</b>
+            </div>
+            <button
+              className="button ghost"
+              disabled={insightState.status === "loading"}
+              onClick={generateInsights}
+              type="button"
+            >
+              {insightState.status === "loading" ? "生成中" : "AIで深掘り"}
+            </button>
+            {insightState.message ? <small>{insightState.message}</small> : null}
+            {insightState.items.length > 0 ? (
+              <ul>
+                {insightState.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            ) : null}
           </div>
 
           <div className="quiz-result-list">
