@@ -1063,7 +1063,8 @@ select {
 .quiz-result-grid,
 .quiz-result-list,
 .score-modules,
-.power-up-quests {
+.power-up-quests,
+.reward-gap-note {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1075,7 +1076,8 @@ select {
 .quiz-next-card,
 .score-modules div,
 .quest-roadmap,
-.power-quest {
+.power-quest,
+.reward-gap-note {
   display: grid;
   gap: 8px;
   border: 2px solid rgba(17, 24, 28, 0.12);
@@ -1094,7 +1096,8 @@ select {
 
 .score-modules span,
 .quest-roadmap span,
-.power-up-quests > span {
+.power-up-quests > span,
+.reward-gap-note span {
   color: var(--muted);
   font-size: 10px;
   font-weight: 900;
@@ -1146,8 +1149,23 @@ select {
 .quiz-next-card,
 .quiz-result-actions,
 .quest-roadmap,
-.power-up-quests {
+.power-up-quests,
+.reward-gap-note {
   grid-column: 1 / -1;
+}
+
+.reward-gap-note {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  border-color: rgba(201, 148, 46, 0.34);
+  background:
+    linear-gradient(90deg, rgba(201, 148, 46, 0.16), transparent 58%),
+    #fff;
+}
+
+.reward-gap-note b {
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .power-up-quests {
@@ -1761,7 +1779,8 @@ select {
   .quiz-result-list,
   .score-modules,
   .quest-roadmap,
-  .power-up-quests {
+  .power-up-quests,
+  .reward-gap-note {
     grid-template-columns: 1fr;
   }
 
@@ -1785,6 +1804,7 @@ select {
   .score-modules,
   .quest-roadmap,
   .power-up-quests,
+  .reward-gap-note,
   .quiz-next-card,
   .quiz-result-actions {
     grid-column: 1;

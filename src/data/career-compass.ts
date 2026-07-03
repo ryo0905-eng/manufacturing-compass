@@ -93,6 +93,16 @@ export const learningOptions: CompassOption[] = [
   { id: "daily", label: "毎日", description: "本気で積む" },
 ];
 
+export const currentSalaryOptions: CompassOption[] = [
+  { id: "skip", label: "入力しない", description: "あとで見る" },
+  { id: "under400", label: "〜400万", description: "現在年収" },
+  { id: "400-500", label: "400〜500万", description: "現在年収" },
+  { id: "500-600", label: "500〜600万", description: "現在年収" },
+  { id: "600-700", label: "600〜700万", description: "現在年収" },
+  { id: "700-800", label: "700〜800万", description: "現在年収" },
+  { id: "over800", label: "800万〜", description: "現在年収" },
+];
+
 export const marketValueProfiles: Record<string, MarketValueProfile> = {
   quality: {
     id: "quality",

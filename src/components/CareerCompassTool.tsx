@@ -7,6 +7,7 @@ import {
   achievementOptions,
   analysisOptions,
   backgroundOptions,
+  currentSalaryOptions,
   englishOptions,
   experienceOptions,
   exposureOptions,
@@ -29,6 +30,7 @@ type AnswerKey =
   | "analysis"
   | "english"
   | "learning"
+  | "currentSalary"
   | "goal";
 type Answers = Partial<Record<AnswerKey, string>>;
 
@@ -93,6 +95,12 @@ const questionSteps: QuestionStep[] = [
     label: "積上げ",
     question: "週に積める時間は？",
     options: learningOptions,
+  },
+  {
+    key: "currentSalary",
+    label: "年収",
+    question: "今の年収は？",
+    options: currentSalaryOptions,
   },
   {
     key: "goal",
@@ -163,12 +171,51 @@ const learningBonus: Record<string, number> = {
   daily: 7,
 };
 
+const currentSalaryMidpoint: Record<string, number | null> = {
+  skip: null,
+  under400: 350,
+  "400-500": 450,
+  "500-600": 550,
+  "600-700": 650,
+  "700-800": 750,
+  over800: 850,
+};
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
 function optionLabel(options: CompassOption[], id: string | undefined) {
   return options.find((option) => option.id === id)?.label ?? "";
+}
+
+function parseSalaryRange(range: string) {
+  const [low = 0, high = 0] = [...range.matchAll(/\d+/g)].map((match) => Number(match[0]));
+
+  return { high, low };
+}
+
+function formatRewardGap(currentSalaryId: string | undefined, marketRange: string) {
+  const current = currentSalaryMidpoint[currentSalaryId ?? "skip"];
+
+  if (!current) {
+    return { currentLabel: "未入力", gapLabel: "表示なし", note: "年収を入れると差分が見えます" };
+  }
+
+  const market = parseSalaryRange(marketRange);
+  const lowGap = market.low - current;
+  const highGap = market.high - current;
+  const currentLabel = `${current}万円`;
+
+  if (highGap <= 0) {
+    return { currentLabel, gapLabel: "現年収も強い", note: "専門性や外資ルートで上振れを狙えます" };
+  }
+
+  if (lowGap <= 0) {
+    return { currentLabel, gapLabel: `〜+${highGap}万円`, note: "半導体向けに実績を翻訳すると上振れ余地があります" };
+  }
+
+  return { currentLabel, gapLabel: `+${lowGap}〜${highGap}万円`, note: "経験の見せ方で評価レンジが変わる可能性があります" };
 }
 
 export function CareerCompassTool() {
@@ -191,6 +238,7 @@ export function CareerCompassTool() {
     const analysis = answers.analysis ?? "none";
     const learning = answers.learning ?? "zero";
     const goal = answers.goal ?? "entry";
+    const currentSalary = answers.currentSalary ?? "skip";
     const profile = marketValueProfiles[background] ?? marketValueProfiles.beginner;
     const routeScore = clamp(profile.baseScore + (exposureBonus[exposure] ?? 0), 35, 96);
     const evidenceScore = clamp(
@@ -221,13 +269,14 @@ export function CareerCompassTool() {
       { label: "Aim", value: optionLabel(goalOptions, goal), score: targetScore },
     ];
     const buildName = `${profile.shortLabel} / ${optionLabel(impactOptions, impact) || "探索"}ビルド`;
+    const rewardGap = formatRewardGap(currentSalary, profile.salaryRangeCurrent);
     const powerQuests = [
       { id: "proof", label: impact === "none" ? "成果を1つ数字にする" : profile.actionsToday[0], xp: 2 },
       { id: "skill", label: analysis === "none" ? "半導体用語を10個覚える" : profile.roadmap30Days[0], xp: 2 },
       { id: "route", label: "求人を3件だけ読む", xp: 1 },
     ];
 
-    return { band, buildName, modules, powerQuests, profile, score };
+    return { band, buildName, modules, powerQuests, profile, rewardGap, score };
   }, [answers]);
 
   const questBoost = result.powerQuests
@@ -288,13 +337,26 @@ export function CareerCompassTool() {
 
           <div className="quiz-result-grid">
             <div>
-              <span>Reward Range</span>
+              <span>Current Reward</span>
+              <strong>{result.rewardGap.currentLabel}</strong>
+            </div>
+            <div>
+              <span>Market Reward</span>
               <strong>{result.profile.salaryRangeCurrent}</strong>
+            </div>
+            <div>
+              <span>Reward Gap</span>
+              <strong>{result.rewardGap.gapLabel}</strong>
             </div>
             <div>
               <span>Next Reward</span>
               <strong>{result.profile.salaryRangePotential}</strong>
             </div>
+          </div>
+
+          <div className="reward-gap-note">
+            <span>Unlock Potential</span>
+            <b>{result.rewardGap.note}</b>
           </div>
 
           <div className="quiz-result-list">
