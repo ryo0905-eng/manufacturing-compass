@@ -64,6 +64,10 @@ npm run typecheck
 npm run build
 ```
 
+Next.js 16 は Turbopack がデフォルトですが、このリポジトリの `npm run build` は Codex 環境でのポート制限を避けるため `next build --webpack` を使います。
+
+Codex 内で作業する場合、日常確認は `npm run typecheck` を優先し、フルビルドは必要な時だけ実行してください。
+
 ## Vercel デプロイ手順
 
 Vercel への初回デプロイは、GitHub リポジトリを Vercel に接続する操作が必要です。基本的にはブラウザで自分の Vercel アカウントから行います。
