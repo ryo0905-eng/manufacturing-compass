@@ -1003,9 +1003,9 @@ select {
 
 .quiz-result-card {
   display: grid;
-  grid-template-columns: minmax(140px, 0.32fr) minmax(0, 1fr);
+  grid-template-columns: minmax(140px, 0.3fr) minmax(0, 1fr);
   gap: 12px;
-  max-width: 760px;
+  max-width: 820px;
   padding: clamp(18px, 3vw, 26px);
 }
 
@@ -1061,7 +1061,8 @@ select {
 }
 
 .quiz-result-grid,
-.quiz-result-list {
+.quiz-result-list,
+.score-modules {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1070,7 +1071,9 @@ select {
 
 .quiz-result-grid div,
 .quiz-result-list div,
-.quiz-next-card {
+.quiz-next-card,
+.score-modules div,
+.quest-roadmap {
   display: grid;
   gap: 8px;
   border: 2px solid rgba(17, 24, 28, 0.12);
@@ -1081,6 +1084,39 @@ select {
     #fff;
   background-size: 14px 14px;
   padding: 11px;
+}
+
+.score-modules {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.score-modules span,
+.quest-roadmap span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.score-modules b {
+  min-height: 34px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.score-modules i {
+  display: block;
+  height: 7px;
+  border: 1px solid var(--quest-bg);
+  background: #fff;
+  overflow: hidden;
+}
+
+.score-modules em {
+  display: block;
+  height: 100%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.32) 0 3px, transparent 3px 6px),
+    var(--quest-green);
 }
 
 .quiz-result-grid strong {
@@ -1105,8 +1141,19 @@ select {
 }
 
 .quiz-next-card,
-.quiz-result-actions {
+.quiz-result-actions,
+.quest-roadmap {
   grid-column: 1 / -1;
+}
+
+.quest-roadmap {
+  grid-template-columns: auto repeat(3, minmax(0, 1fr));
+  align-items: center;
+}
+
+.quest-roadmap b {
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .quiz-next-card strong {
@@ -1666,7 +1713,9 @@ select {
   .quiz-options,
   .quiz-result-card,
   .quiz-result-grid,
-  .quiz-result-list {
+  .quiz-result-list,
+  .score-modules,
+  .quest-roadmap {
     grid-template-columns: 1fr;
   }
 
@@ -1687,6 +1736,8 @@ select {
   .quiz-result-main,
   .quiz-result-grid,
   .quiz-result-list,
+  .score-modules,
+  .quest-roadmap,
   .quiz-next-card,
   .quiz-result-actions {
     grid-column: 1;

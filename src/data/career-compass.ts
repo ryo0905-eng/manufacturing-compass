@@ -51,6 +51,27 @@ export const goalOptions: CompassOption[] = [
   { id: "income", label: "年収を上げる", description: "市場価値を上げる" },
 ];
 
+export const exposureOptions: CompassOption[] = [
+  { id: "none", label: "なし", description: "これから" },
+  { id: "supplier", label: "周辺", description: "部品・材料・設備" },
+  { id: "equipment", label: "装置", description: "装置・保全・立上げ" },
+  { id: "fab", label: "工場", description: "量産・品質・工程" },
+];
+
+export const achievementOptions: CompassOption[] = [
+  { id: "routine", label: "担当", description: "日常業務" },
+  { id: "improvement", label: "改善", description: "数字で成果あり" },
+  { id: "launch", label: "立上げ", description: "量産・導入経験" },
+  { id: "lead", label: "主導", description: "横断・育成あり" },
+];
+
+export const analysisOptions: CompassOption[] = [
+  { id: "none", label: "少ない", description: "これから" },
+  { id: "qc", label: "QC", description: "品質・不良解析" },
+  { id: "stats", label: "統計", description: "SPC・DOE" },
+  { id: "data", label: "データ", description: "BI・Python等" },
+];
+
 export const marketValueProfiles: Record<string, MarketValueProfile> = {
   quality: {
     id: "quality",
