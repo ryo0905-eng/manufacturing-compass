@@ -136,31 +136,31 @@ export function CareerCompassTool() {
       <div className="quiz-result-shell">
         <section className="quiz-result-card">
           <div className="quiz-result-score">
-            <span>市場価値スコア</span>
+            <span>Career Power</span>
             <strong>{result.score}</strong>
             <small>{result.band}</small>
           </div>
 
           <div className="quiz-result-main">
-            <p className="eyebrow">{result.profile.shortLabel}</p>
+            <p className="eyebrow">Status unlocked</p>
             <h1>{result.profile.title}</h1>
             <p>{result.profile.summary}</p>
           </div>
 
           <div className="quiz-result-grid">
             <div>
-              <span>年収目安</span>
+              <span>Reward Range</span>
               <strong>{result.profile.salaryRangeCurrent}</strong>
             </div>
             <div>
-              <span>伸ばした後</span>
+              <span>Next Reward</span>
               <strong>{result.profile.salaryRangePotential}</strong>
             </div>
           </div>
 
           <div className="quiz-result-list">
             <div>
-              <span>今狙える</span>
+              <span>Available Routes</span>
               {reachableCompanies.slice(0, 2).map((company) => (
                 <Link href={`/companies/${company.slug}` as Route} key={company.id}>
                   {company.nameJa}
@@ -168,29 +168,29 @@ export function CareerCompassTool() {
               ))}
             </div>
             <div>
-              <span>伸ばす</span>
+              <span>Skill Tree</span>
               {result.profile.growthLevers.slice(0, 2).map((item) => (
                 <b key={item}>{item}</b>
               ))}
             </div>
             <div>
-              <span>今日</span>
+              <span>Today Quest</span>
               <b>{result.profile.actionsToday[0]}</b>
             </div>
           </div>
 
           <div className="quiz-next-card">
-            <span>次の一手</span>
+            <span>Next Mission</span>
             <strong>{result.profile.roadmap30Days[0]}</strong>
             <p>{result.focus}</p>
           </div>
 
           <div className="quiz-result-actions">
             <a className="button primary" href={partner?.url ?? "#"}>
-              転職相談を見る
+              相談ルートを見る
             </a>
             <button className="button ghost" onClick={restart} type="button">
-              もう一度
+              もう一度探索
             </button>
             <small>{partner?.disclosureText ?? "本ページには広告リンクが含まれる場合があります。"}</small>
           </div>
@@ -204,14 +204,14 @@ export function CareerCompassTool() {
       <section className="quiz-card">
         <div className="quiz-progress">
           <span>
-            {step + 1} / {questionSteps.length}
+            Stage {step + 1} / {questionSteps.length}
           </span>
           <div aria-hidden="true">
             <i style={{ width: `${((step + 1) / questionSteps.length) * 100}%` }} />
           </div>
         </div>
 
-        <p className="eyebrow">Market value check</p>
+        <p className="eyebrow">Career Quest</p>
         <h1>{currentStep.question}</h1>
         <p>{currentStep.helper}</p>
 
@@ -239,15 +239,22 @@ export function CareerCompassTool() {
             戻る
           </button>
           <button className="button primary" disabled={!currentValue} onClick={goNext} type="button">
-            {step === questionSteps.length - 1 ? "結果を見る" : "次へ"}
+            {step === questionSteps.length - 1 ? "ステータスを見る" : "次のStageへ"}
           </button>
         </div>
       </section>
 
       <aside className="quiz-side" aria-hidden="true">
+        <div className="quest-map">
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </div>
         <span>MC</span>
-        <strong>半導体キャリア市場価値診断</strong>
-        <small>4 questions</small>
+        <strong>Career Quest</strong>
+        <small>Semiconductor route finder</small>
       </aside>
     </div>
   );

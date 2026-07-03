@@ -6,10 +6,10 @@ import { companies, segments } from "@/data/companies";
 import { siteUrl } from "@/lib/format";
 
 const compassSteps = [
-  { label: "価値", value: "Score" },
-  { label: "年収", value: "Salary" },
-  { label: "伸ばす", value: "Skill" },
-  { label: "今日", value: "Action" },
+  { label: "Power", value: "81" },
+  { label: "Reward", value: "700+" },
+  { label: "Skill", value: "SPC" },
+  { label: "Quest", value: "Today" },
 ];
 
 export default function Home() {
@@ -28,12 +28,12 @@ export default function Home() {
         <div className="hero-copy">
           <div className="hero-kicker">
             <span>Manufacturing Compass</span>
-            <span>Market value check</span>
+            <span>Career Quest</span>
           </div>
-          <h1>あなたの半導体キャリア市場価値を、3分で見える化。</h1>
-          <p>経験から想定年収、狙える会社、伸ばすべきスキル、今日やることまで整理します。</p>
+          <h1>半導体キャリアの次のルートを探索する。</h1>
+          <p>4つのStageに答えるだけ。市場価値、年収レンジ、伸ばすSkill、Today Questが見えてきます。</p>
           <div className="actions">
-            <Link className="button primary" href="/career-compass">市場価値を診断する</Link>
+            <Link className="button primary" href="/career-compass">Questを開始する</Link>
             <Link className="button ghost" href="/industry-map">業界地図を見る</Link>
           </div>
           <div className="hero-metrics" aria-label="MVP の概要">
@@ -49,7 +49,7 @@ export default function Home() {
           <div className="compass-orbit orbit-two" />
           <div className="compass-core">
             <span>MC</span>
-            <strong>Market Value</strong>
+            <strong>Career Quest</strong>
           </div>
           {compassSteps.map((step, index) => (
             <div className={`compass-node node-${index + 1}`} key={step.label}>
@@ -59,8 +59,8 @@ export default function Home() {
           ))}
           <div className="route-card">
             <span>Production → Process</span>
-            <strong>市場価値 81</strong>
-            <small>年収 / 伸ばすこと / 今日の一手</small>
+            <strong>Career Power 81</strong>
+            <small>Reward / Skill / Today Quest</small>
           </div>
         </div>
       </section>
@@ -69,10 +69,10 @@ export default function Home() {
         <div className="conversion-band">
           <div>
             <p className="eyebrow">Start here</p>
-            <h2>まずは、いまの市場価値を知る。</h2>
+            <h2>まずは、キャリア探索を始める。</h2>
           </div>
           <p>職種、年数、英語、狙いから、年収レンジと次の一手を返します。</p>
-          <Link className="button primary" href="/career-compass">診断する</Link>
+          <Link className="button primary" href="/career-compass">Questを開始</Link>
         </div>
       </section>
 

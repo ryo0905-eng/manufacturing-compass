@@ -12,6 +12,10 @@
   --accent: #347e68;
   --signal: #30b6c9;
   --gold: #c9942e;
+  --quest-bg: #10161a;
+  --quest-panel: #152027;
+  --quest-line: rgba(76, 232, 255, 0.26);
+  --quest-green: #6ee7a8;
   --shadow: 0 20px 70px rgba(17, 24, 28, 0.06);
 }
 
@@ -26,9 +30,12 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 18% 4%, rgba(48, 182, 201, 0.14), transparent 28%),
-    radial-gradient(circle at 88% 10%, rgba(201, 148, 46, 0.12), transparent 26%),
+    linear-gradient(rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 18% 4%, rgba(48, 182, 201, 0.16), transparent 28%),
+    radial-gradient(circle at 88% 10%, rgba(201, 148, 46, 0.13), transparent 26%),
     var(--background);
+  background-size: 24px 24px, 24px 24px, auto, auto, auto;
   color: var(--text);
   font-family: Arial, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
   line-height: 1.7;
@@ -127,16 +134,18 @@ select {
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 20px;
-  color: var(--primary-dark);
+  color: var(--quest-bg);
   font-size: 12px;
   font-weight: 700;
 }
 
 .hero-kicker span {
-  border: 1px solid rgba(0, 107, 128, 0.16);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(17, 24, 28, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
   padding: 6px 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-transform: uppercase;
 }
 
 .home-hero .hero-copy h1 {
@@ -163,7 +172,7 @@ select {
 }
 
 .hero-metrics div {
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--quest-bg);
   padding-top: 12px;
 }
 
@@ -181,12 +190,13 @@ select {
 .compass-stage {
   position: relative;
   min-height: 590px;
-  border: 1px solid rgba(230, 236, 239, 0.9);
+  border: 2px solid rgba(17, 24, 28, 0.92);
   border-radius: 8px;
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(240, 248, 250, 0.7)),
-    #fff;
-  box-shadow: 0 34px 110px rgba(17, 24, 28, 0.1);
+    radial-gradient(circle at 24% 18%, rgba(48, 182, 201, 0.2), transparent 24%),
+    linear-gradient(145deg, rgba(21, 32, 39, 0.96), rgba(16, 22, 26, 0.98)),
+    var(--quest-bg);
+  box-shadow: 10px 10px 0 rgba(17, 24, 28, 0.1), 0 34px 110px rgba(17, 24, 28, 0.16);
   overflow: hidden;
 }
 
@@ -194,22 +204,23 @@ select {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(17, 24, 28, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(17, 24, 28, 0.04) 1px, transparent 1px);
-  background-size: 38px 38px;
+    radial-gradient(circle, rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(var(--quest-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--quest-line) 1px, transparent 1px);
+  background-size: 16px 16px, 48px 48px, 48px 48px;
   mask-image: radial-gradient(circle at 50% 50%, #000 10%, transparent 72%);
 }
 
 .compass-orbit {
   position: absolute;
   inset: 72px;
-  border: 1px solid rgba(0, 107, 128, 0.18);
-  border-radius: 50%;
+  border: 1px dashed rgba(76, 232, 255, 0.34);
+  border-radius: 8px;
 }
 
 .orbit-two {
   inset: 132px;
-  border-color: rgba(201, 148, 46, 0.28);
+  border-color: rgba(201, 148, 46, 0.44);
 }
 
 .compass-core {
@@ -220,12 +231,11 @@ select {
   width: 156px;
   height: 156px;
   place-items: center;
-  border: 1px solid rgba(0, 107, 128, 0.2);
-  border-radius: 50%;
+  border: 2px solid rgba(76, 232, 255, 0.5);
+  border-radius: 8px;
   background:
-    radial-gradient(circle at 35% 25%, rgba(48, 182, 201, 0.38), transparent 35%),
-    #fff;
-  box-shadow: 0 18px 60px rgba(0, 107, 128, 0.12);
+    linear-gradient(180deg, rgba(21, 32, 39, 0.95), rgba(16, 22, 26, 0.96));
+  box-shadow: 0 0 0 6px rgba(76, 232, 255, 0.08), 0 18px 60px rgba(0, 0, 0, 0.24);
   transform: translate(-50%, -50%);
 }
 
@@ -234,16 +244,18 @@ select {
   width: 48px;
   height: 48px;
   place-items: center;
-  border-radius: 50%;
-  background: var(--text);
-  color: #fff;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--quest-bg);
   font-size: 13px;
   font-weight: 800;
 }
 
 .compass-core strong {
-  color: var(--primary-dark);
+  color: #fff;
   font-size: 13px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-transform: uppercase;
 }
 
 .compass-node {
@@ -251,16 +263,18 @@ select {
   display: grid;
   gap: 2px;
   min-width: 116px;
-  border: 1px solid rgba(230, 236, 239, 0.95);
+  border: 1px solid rgba(76, 232, 255, 0.28);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(16, 22, 26, 0.82);
+  color: #fff;
   padding: 12px;
-  box-shadow: 0 16px 48px rgba(17, 24, 28, 0.08);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
 }
 
 .compass-node span {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.58);
   font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .compass-node strong {
@@ -294,14 +308,16 @@ select {
   display: grid;
   gap: 4px;
   width: min(260px, calc(100% - 76px));
-  border-left: 3px solid var(--gold);
-  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(201, 148, 46, 0.56);
+  border-left: 5px solid var(--gold);
+  background: rgba(16, 22, 26, 0.88);
+  color: #fff;
   padding: 14px 16px;
 }
 
 .route-card span,
 .route-card small {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.62);
   font-size: 12px;
 }
 
@@ -755,10 +771,14 @@ select {
 .quiz-card,
 .quiz-result-card {
   width: min(720px, 100%);
-  border: 1px solid var(--line);
+  border: 2px solid rgba(17, 24, 28, 0.92);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 28px 100px rgba(17, 24, 28, 0.08);
+  background:
+    linear-gradient(rgba(17, 24, 28, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 28, 0.03) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.98);
+  background-size: 18px 18px;
+  box-shadow: 8px 8px 0 rgba(17, 24, 28, 0.09), 0 28px 100px rgba(17, 24, 28, 0.1);
 }
 
 .quiz-card {
@@ -773,23 +793,28 @@ select {
 }
 
 .quiz-progress span {
-  color: var(--muted);
+  color: var(--quest-bg);
   font-size: 13px;
   font-weight: 800;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-transform: uppercase;
 }
 
 .quiz-progress div {
-  height: 5px;
-  border-radius: 999px;
-  background: var(--surface-soft);
+  height: 10px;
+  border: 2px solid var(--quest-bg);
+  border-radius: 0;
+  background: #fff;
   overflow: hidden;
 }
 
 .quiz-progress i {
   display: block;
   height: 100%;
-  border-radius: inherit;
-  background: var(--text);
+  border-radius: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0 4px, transparent 4px 8px),
+    var(--quest-green);
 }
 
 .quiz-card h1 {
@@ -813,7 +838,7 @@ select {
 
 .quiz-option {
   min-height: 104px;
-  border: 1px solid var(--line);
+  border: 2px solid rgba(17, 24, 28, 0.14);
   border-radius: 8px;
   background: #fff;
   color: var(--text);
@@ -823,7 +848,14 @@ select {
   gap: 6px;
   padding: 18px;
   text-align: left;
-  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
+}
+
+.quiz-option::before {
+  content: ">";
+  color: rgba(0, 107, 128, 0.36);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 900;
 }
 
 .quiz-option strong {
@@ -839,13 +871,15 @@ select {
 
 .quiz-option:hover,
 .quiz-option.active {
-  border-color: rgba(0, 107, 128, 0.44);
-  box-shadow: 0 16px 46px rgba(0, 107, 128, 0.12);
+  border-color: var(--quest-bg);
+  box-shadow: 6px 6px 0 rgba(48, 182, 201, 0.18);
   transform: translateY(-1px);
 }
 
 .quiz-option.active {
-  background: linear-gradient(180deg, rgba(48, 182, 201, 0.13), #fff);
+  background:
+    linear-gradient(90deg, rgba(110, 231, 168, 0.18), transparent 52%),
+    #fff;
 }
 
 .quiz-actions {
@@ -865,12 +899,70 @@ select {
   justify-self: stretch;
   min-height: 360px;
   align-content: end;
-  border: 1px solid rgba(0, 107, 128, 0.18);
+  position: relative;
+  border: 2px solid rgba(17, 24, 28, 0.92);
   border-radius: 8px;
-  background: linear-gradient(135deg, #11181c, #0f4450 72%, #006b80);
+  background:
+    radial-gradient(circle at 28% 20%, rgba(110, 231, 168, 0.24), transparent 18%),
+    linear-gradient(var(--quest-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--quest-line) 1px, transparent 1px),
+    linear-gradient(135deg, #11181c, #0f4450 72%, #006b80);
+  background-size: auto, 28px 28px, 28px 28px, auto;
   color: #fff;
   padding: 24px;
-  box-shadow: 0 28px 100px rgba(17, 24, 28, 0.12);
+  box-shadow: 8px 8px 0 rgba(17, 24, 28, 0.12), 0 28px 100px rgba(17, 24, 28, 0.14);
+  overflow: hidden;
+}
+
+.quiz-side::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 5px);
+  pointer-events: none;
+}
+
+.quest-map {
+  position: absolute;
+  inset: 24px 24px auto;
+  height: 150px;
+}
+
+.quest-map i {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  background: rgba(110, 231, 168, 0.62);
+  box-shadow: 0 0 22px rgba(110, 231, 168, 0.32);
+}
+
+.quest-map i:nth-child(1) {
+  top: 18px;
+  left: 20px;
+}
+
+.quest-map i:nth-child(2) {
+  top: 52px;
+  left: 76px;
+  background: rgba(48, 182, 201, 0.66);
+}
+
+.quest-map i:nth-child(3) {
+  top: 96px;
+  left: 132px;
+  background: rgba(201, 148, 46, 0.72);
+}
+
+.quest-map i:nth-child(4) {
+  top: 40px;
+  right: 62px;
+}
+
+.quest-map i:nth-child(5) {
+  top: 112px;
+  right: 24px;
+  background: #fff;
 }
 
 .quiz-side span {
@@ -879,6 +971,8 @@ select {
   height: 42px;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1;
   border-radius: 8px;
   background: #fff;
   color: var(--text);
@@ -886,14 +980,19 @@ select {
 }
 
 .quiz-side strong {
+  position: relative;
+  z-index: 1;
   max-width: 260px;
   font-size: 34px;
   line-height: 1.05;
 }
 
 .quiz-side small {
+  position: relative;
+  z-index: 1;
   color: rgba(255, 255, 255, 0.65);
   font-weight: 800;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .quiz-result-card {
@@ -910,7 +1009,12 @@ select {
   gap: 8px;
   min-height: 270px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #11181c, #0f4450 72%, #006b80);
+  border: 2px solid rgba(76, 232, 255, 0.32);
+  background:
+    linear-gradient(rgba(76, 232, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(76, 232, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(135deg, #11181c, #0f4450 72%, #006b80);
+  background-size: 18px 18px, 18px 18px, auto;
   color: #fff;
   padding: 22px;
 }
@@ -933,6 +1037,7 @@ select {
 .quiz-result-score strong {
   font-size: clamp(82px, 14vw, 130px);
   line-height: 0.82;
+  text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .quiz-result-main {
@@ -962,9 +1067,13 @@ select {
 .quiz-next-card {
   display: grid;
   gap: 8px;
-  border: 1px solid var(--line);
+  border: 2px solid rgba(17, 24, 28, 0.12);
   border-radius: 8px;
-  background: #fff;
+  background:
+    linear-gradient(rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    #fff;
+  background-size: 14px 14px;
   padding: 14px;
 }
 
@@ -1104,19 +1213,28 @@ select {
   min-height: 42px;
   align-items: center;
   justify-content: center;
+  border: 2px solid transparent;
   border-radius: 8px;
   padding: 9px 15px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
+  box-shadow: 4px 4px 0 rgba(17, 24, 28, 0.08);
+  transition: box-shadow 160ms ease, transform 160ms ease;
+}
+
+.button:hover {
+  box-shadow: 6px 6px 0 rgba(17, 24, 28, 0.12);
+  transform: translateY(-1px);
 }
 
 .button.primary {
-  background: var(--primary);
+  border-color: var(--quest-bg);
+  background: var(--quest-bg);
   color: #fff;
 }
 
 .button.ghost {
-  border: 1px solid var(--line);
+  border-color: rgba(17, 24, 28, 0.14);
   background: #fff;
   color: var(--text);
 }
