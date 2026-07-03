@@ -20,7 +20,6 @@ type QuestionStep = {
   key: AnswerKey;
   label: string;
   question: string;
-  helper: string;
   options: CompassOption[];
 };
 
@@ -28,29 +27,25 @@ const questionSteps: QuestionStep[] = [
   {
     key: "background",
     label: "経験",
-    question: "いちばん近い経験は？",
-    helper: "迷ったら、いま一番話しやすい仕事を選んでください。",
+    question: "経験は？",
     options: backgroundOptions,
   },
   {
     key: "experience",
     label: "年数",
-    question: "経験年数はどれくらい？",
-    helper: "半導体以外の製造業経験も含めてOKです。",
+    question: "年数は？",
     options: experienceOptions,
   },
   {
     key: "english",
     label: "英語",
-    question: "英語はどの状態に近い？",
-    helper: "完璧さより、仕事で使える場面を見ます。",
+    question: "英語は？",
     options: englishOptions,
   },
   {
     key: "goal",
     label: "狙い",
-    question: "次にいちばん欲しいものは？",
-    helper: "いまの本音に近いものを選んでください。",
+    question: "狙いは？",
     options: goalOptions,
   },
 ];
@@ -90,27 +85,18 @@ export function CareerCompassTool() {
     const background = answers.background ?? "beginner";
     const experience = answers.experience ?? "middle";
     const english = answers.english ?? "middle";
-    const goal = answers.goal ?? "entry";
     const profile = marketValueProfiles[background] ?? marketValueProfiles.beginner;
     const score = clamp(
       profile.baseScore +
         (experienceBonus[experience] ?? 0) +
         (englishBonus[english] ?? 0) +
-        (goalBonus[goal] ?? 0),
+        (goalBonus[answers.goal ?? "entry"] ?? 0),
       35,
       92,
     );
     const band = score >= 80 ? "High" : score >= 65 ? "Growth" : "Start";
-    const focus =
-      goal === "global"
-        ? profile.englishTalkTrack
-        : goal === "income"
-          ? "年収を上げるなら、成果を数字で語れる経験に変えるのが近道です。"
-          : goal === "specialist"
-            ? "専門軸を1つ決めると、応募先と学ぶ順番が絞れます。"
-            : "まず近い職種から入り、半年後の選択肢を広げる作戦が現実的です。";
 
-    return { band, focus, profile, score };
+    return { band, profile, score };
   }, [answers]);
 
   const reachableCompanies = companies.filter((company) =>
@@ -144,7 +130,6 @@ export function CareerCompassTool() {
           <div className="quiz-result-main">
             <p className="eyebrow">Status unlocked</p>
             <h1>{result.profile.title}</h1>
-            <p>{result.profile.summary}</p>
           </div>
 
           <div className="quiz-result-grid">
@@ -182,7 +167,6 @@ export function CareerCompassTool() {
           <div className="quiz-next-card">
             <span>Next Mission</span>
             <strong>{result.profile.roadmap30Days[0]}</strong>
-            <p>{result.focus}</p>
           </div>
 
           <div className="quiz-result-actions">
@@ -213,7 +197,6 @@ export function CareerCompassTool() {
 
         <p className="eyebrow">Career Quest</p>
         <h1>{currentStep.question}</h1>
-        <p>{currentStep.helper}</p>
 
         <div className="quiz-options" aria-label={currentStep.label}>
           {currentStep.options.map((option) => (
@@ -239,7 +222,7 @@ export function CareerCompassTool() {
             戻る
           </button>
           <button className="button primary" disabled={!currentValue} onClick={goNext} type="button">
-            {step === questionSteps.length - 1 ? "ステータスを見る" : "次のStageへ"}
+            {step === questionSteps.length - 1 ? "結果" : "次へ"}
           </button>
         </div>
       </section>
