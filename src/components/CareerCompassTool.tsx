@@ -11,12 +11,25 @@ import {
   experienceOptions,
   exposureOptions,
   goalOptions,
+  impactOptions,
+  learningOptions,
   marketValueProfiles,
+  scopeOptions,
   type CompassOption,
 } from "@/data/career-compass";
 import { affiliatePartners, companies } from "@/data/companies";
 
-type AnswerKey = "background" | "exposure" | "experience" | "achievement" | "analysis" | "english" | "goal";
+type AnswerKey =
+  | "background"
+  | "exposure"
+  | "experience"
+  | "achievement"
+  | "impact"
+  | "scope"
+  | "analysis"
+  | "english"
+  | "learning"
+  | "goal";
 type Answers = Partial<Record<AnswerKey, string>>;
 
 type QuestionStep = {
@@ -52,6 +65,18 @@ const questionSteps: QuestionStep[] = [
     options: achievementOptions,
   },
   {
+    key: "impact",
+    label: "数字",
+    question: "成果は数字で語れる？",
+    options: impactOptions,
+  },
+  {
+    key: "scope",
+    label: "範囲",
+    question: "巻き込んだ範囲は？",
+    options: scopeOptions,
+  },
+  {
     key: "analysis",
     label: "武器",
     question: "データ武器は？",
@@ -62,6 +87,12 @@ const questionSteps: QuestionStep[] = [
     label: "英語",
     question: "英語は？",
     options: englishOptions,
+  },
+  {
+    key: "learning",
+    label: "積上げ",
+    question: "週に積める時間は？",
+    options: learningOptions,
   },
   {
     key: "goal",
@@ -98,6 +129,20 @@ const analysisBonus: Record<string, number> = {
   data: 7,
 };
 
+const impactBonus: Record<string, number> = {
+  none: -5,
+  story: 1,
+  number: 6,
+  money: 8,
+};
+
+const scopeBonus: Record<string, number> = {
+  solo: -2,
+  team: 2,
+  cross: 5,
+  customer: 6,
+};
+
 const englishBonus: Record<string, number> = {
   low: -3,
   middle: 3,
@@ -111,6 +156,13 @@ const goalBonus: Record<string, number> = {
   income: 4,
 };
 
+const learningBonus: Record<string, number> = {
+  zero: -3,
+  one: 1,
+  three: 4,
+  daily: 7,
+};
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
@@ -122,6 +174,7 @@ function optionLabel(options: CompassOption[], id: string | undefined) {
 export function CareerCompassTool() {
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState(0);
+  const [completedQuestIds, setCompletedQuestIds] = useState<string[]>([]);
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
   const currentValue = answers[currentStep.key];
@@ -133,13 +186,28 @@ export function CareerCompassTool() {
     const experience = answers.experience ?? "middle";
     const english = answers.english ?? "middle";
     const achievement = answers.achievement ?? "routine";
+    const impact = answers.impact ?? "none";
+    const scope = answers.scope ?? "solo";
     const analysis = answers.analysis ?? "none";
+    const learning = answers.learning ?? "zero";
     const goal = answers.goal ?? "entry";
     const profile = marketValueProfiles[background] ?? marketValueProfiles.beginner;
     const routeScore = clamp(profile.baseScore + (exposureBonus[exposure] ?? 0), 35, 96);
-    const evidenceScore = clamp(54 + (experienceBonus[experience] ?? 0) + (achievementBonus[achievement] ?? 0), 35, 96);
-    const skillScore = clamp(50 + (analysisBonus[analysis] ?? 0) + (englishBonus[english] ?? 0), 35, 96);
-    const targetScore = clamp(56 + (goalBonus[goal] ?? 0) + (exposureBonus[exposure] ?? 0), 35, 96);
+    const evidenceScore = clamp(
+      50 +
+        (experienceBonus[experience] ?? 0) +
+        (achievementBonus[achievement] ?? 0) +
+        (impactBonus[impact] ?? 0) +
+        (scopeBonus[scope] ?? 0),
+      35,
+      96,
+    );
+    const skillScore = clamp(
+      48 + (analysisBonus[analysis] ?? 0) + (englishBonus[english] ?? 0) + (learningBonus[learning] ?? 0),
+      35,
+      96,
+    );
+    const targetScore = clamp(54 + (goalBonus[goal] ?? 0) + (exposureBonus[exposure] ?? 0) + (learningBonus[learning] ?? 0), 35, 96);
     const score = clamp(
       Math.round(routeScore * 0.36 + evidenceScore * 0.28 + skillScore * 0.22 + targetScore * 0.14),
       35,
@@ -148,21 +216,36 @@ export function CareerCompassTool() {
     const band = score >= 80 ? "High" : score >= 65 ? "Growth" : "Start";
     const modules = [
       { label: "Route", value: profile.reachableRoles[0], score: routeScore },
-      { label: "Proof", value: optionLabel(achievementOptions, achievement), score: evidenceScore },
+      { label: "Proof", value: optionLabel(impactOptions, impact), score: evidenceScore },
       { label: "Skill", value: optionLabel(analysisOptions, analysis), score: skillScore },
       { label: "Aim", value: optionLabel(goalOptions, goal), score: targetScore },
     ];
-    const buildName = `${profile.shortLabel} / ${optionLabel(achievementOptions, achievement) || "探索"}ビルド`;
+    const buildName = `${profile.shortLabel} / ${optionLabel(impactOptions, impact) || "探索"}ビルド`;
+    const powerQuests = [
+      { id: "proof", label: impact === "none" ? "成果を1つ数字にする" : profile.actionsToday[0], xp: 2 },
+      { id: "skill", label: analysis === "none" ? "半導体用語を10個覚える" : profile.roadmap30Days[0], xp: 2 },
+      { id: "route", label: "求人を3件だけ読む", xp: 1 },
+    ];
 
-    return { band, buildName, modules, profile, score };
+    return { band, buildName, modules, powerQuests, profile, score };
   }, [answers]);
 
+  const questBoost = result.powerQuests
+    .filter((quest) => completedQuestIds.includes(quest.id))
+    .reduce((sum, quest) => sum + quest.xp, 0);
+  const displayedScore = clamp(result.score + questBoost, 35, 99);
   const reachableCompanies = companies.filter((company) =>
     result.profile.reachableCompanyIds.includes(company.id),
   );
 
   function chooseAnswer(key: AnswerKey, value: string) {
     setAnswers((current) => ({ ...current, [key]: value }));
+  }
+
+  function toggleQuest(id: string) {
+    setCompletedQuestIds((current) =>
+      current.includes(id) ? current.filter((questId) => questId !== id) : [...current, id],
+    );
   }
 
   function goNext() {
@@ -173,6 +256,7 @@ export function CareerCompassTool() {
   function restart() {
     setAnswers({});
     setStep(0);
+    setCompletedQuestIds([]);
   }
 
   if (isResult) {
@@ -181,8 +265,8 @@ export function CareerCompassTool() {
         <section className="quiz-result-card">
           <div className="quiz-result-score">
             <span>Career Power</span>
-            <strong>{result.score}</strong>
-            <small>{result.band}</small>
+            <strong>{displayedScore}</strong>
+            <small>{questBoost > 0 ? `+${questBoost} today` : result.band}</small>
           </div>
 
           <div className="quiz-result-main">
@@ -239,6 +323,25 @@ export function CareerCompassTool() {
             {result.profile.roadmap30Days.map((item) => (
               <b key={item}>{item}</b>
             ))}
+          </div>
+
+          <div className="power-up-quests">
+            <span>Power Up</span>
+            {result.powerQuests.map((quest) => {
+              const isDone = completedQuestIds.includes(quest.id);
+
+              return (
+                <button
+                  className={isDone ? "power-quest done" : "power-quest"}
+                  key={quest.id}
+                  onClick={() => toggleQuest(quest.id)}
+                  type="button"
+                >
+                  <b>{quest.label}</b>
+                  <small>{isDone ? "DONE" : `+${quest.xp}`}</small>
+                </button>
+              );
+            })}
           </div>
 
           <div className="quiz-result-actions">

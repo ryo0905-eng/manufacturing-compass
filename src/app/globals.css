@@ -1062,7 +1062,8 @@ select {
 
 .quiz-result-grid,
 .quiz-result-list,
-.score-modules {
+.score-modules,
+.power-up-quests {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1073,7 +1074,8 @@ select {
 .quiz-result-list div,
 .quiz-next-card,
 .score-modules div,
-.quest-roadmap {
+.quest-roadmap,
+.power-quest {
   display: grid;
   gap: 8px;
   border: 2px solid rgba(17, 24, 28, 0.12);
@@ -1091,7 +1093,8 @@ select {
 }
 
 .score-modules span,
-.quest-roadmap span {
+.quest-roadmap span,
+.power-up-quests > span {
   color: var(--muted);
   font-size: 10px;
   font-weight: 900;
@@ -1142,8 +1145,50 @@ select {
 
 .quiz-next-card,
 .quiz-result-actions,
-.quest-roadmap {
+.quest-roadmap,
+.power-up-quests {
   grid-column: 1 / -1;
+}
+
+.power-up-quests {
+  grid-template-columns: auto repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.power-up-quests > span {
+  align-self: center;
+}
+
+.power-quest {
+  cursor: pointer;
+  color: var(--text);
+  text-align: left;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.power-quest:hover,
+.power-quest.done {
+  border-color: var(--quest-bg);
+  box-shadow: 4px 4px 0 rgba(110, 231, 168, 0.18);
+  transform: translateY(-1px);
+}
+
+.power-quest.done {
+  background:
+    linear-gradient(90deg, rgba(110, 231, 168, 0.24), transparent 58%),
+    #fff;
+}
+
+.power-quest b {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.power-quest small {
+  color: var(--primary-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 900;
 }
 
 .quest-roadmap {
@@ -1715,7 +1760,8 @@ select {
   .quiz-result-grid,
   .quiz-result-list,
   .score-modules,
-  .quest-roadmap {
+  .quest-roadmap,
+  .power-up-quests {
     grid-template-columns: 1fr;
   }
 
@@ -1738,6 +1784,7 @@ select {
   .quiz-result-list,
   .score-modules,
   .quest-roadmap,
+  .power-up-quests,
   .quiz-next-card,
   .quiz-result-actions {
     grid-column: 1;

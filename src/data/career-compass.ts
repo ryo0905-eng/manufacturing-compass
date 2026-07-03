@@ -72,6 +72,27 @@ export const analysisOptions: CompassOption[] = [
   { id: "data", label: "データ", description: "BI・Python等" },
 ];
 
+export const impactOptions: CompassOption[] = [
+  { id: "none", label: "未整理", description: "まだ曖昧" },
+  { id: "story", label: "事例あり", description: "説明できる" },
+  { id: "number", label: "数字あり", description: "改善率・件数" },
+  { id: "money", label: "効果額", description: "金額で語れる" },
+];
+
+export const scopeOptions: CompassOption[] = [
+  { id: "solo", label: "個人", description: "自分の担当" },
+  { id: "team", label: "チーム", description: "周囲と改善" },
+  { id: "cross", label: "横断", description: "部門をまたぐ" },
+  { id: "customer", label: "顧客", description: "社外対応あり" },
+];
+
+export const learningOptions: CompassOption[] = [
+  { id: "zero", label: "0h", description: "まだ未定" },
+  { id: "one", label: "週1h", description: "少しずつ" },
+  { id: "three", label: "週3h", description: "準備できる" },
+  { id: "daily", label: "毎日", description: "本気で積む" },
+];
+
 export const marketValueProfiles: Record<string, MarketValueProfile> = {
   quality: {
     id: "quality",
