@@ -13,6 +13,48 @@ import {
 } from "@/data/career-compass";
 import { affiliatePartners, companies } from "@/data/companies";
 
+type AnswerKey = "background" | "experience" | "english" | "goal";
+type Answers = Partial<Record<AnswerKey, string>>;
+
+type QuestionStep = {
+  key: AnswerKey;
+  label: string;
+  question: string;
+  helper: string;
+  options: CompassOption[];
+};
+
+const questionSteps: QuestionStep[] = [
+  {
+    key: "background",
+    label: "経験",
+    question: "いちばん近い経験は？",
+    helper: "迷ったら、いま一番話しやすい仕事を選んでください。",
+    options: backgroundOptions,
+  },
+  {
+    key: "experience",
+    label: "年数",
+    question: "経験年数はどれくらい？",
+    helper: "半導体以外の製造業経験も含めてOKです。",
+    options: experienceOptions,
+  },
+  {
+    key: "english",
+    label: "英語",
+    question: "英語はどの状態に近い？",
+    helper: "完璧さより、仕事で使える場面を見ます。",
+    options: englishOptions,
+  },
+  {
+    key: "goal",
+    label: "狙い",
+    question: "次にいちばん欲しいものは？",
+    helper: "いまの本音に近いものを選んでください。",
+    options: goalOptions,
+  },
+];
+
 const experienceBonus: Record<string, number> = {
   early: -4,
   middle: 4,
@@ -36,44 +78,19 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
-function OptionGroup({
-  label,
-  options,
-  value,
-  onChange,
-}: {
-  label: string;
-  options: CompassOption[];
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <fieldset className="compass-fieldset">
-      <legend>{label}</legend>
-      <div className="choice-grid">
-        {options.map((option) => (
-          <button
-            className={value === option.id ? "choice-card active" : "choice-card"}
-            key={option.id}
-            onClick={() => onChange(option.id)}
-            type="button"
-          >
-            <strong>{option.label}</strong>
-            <span>{option.description}</span>
-          </button>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
-
 export function CareerCompassTool() {
-  const [background, setBackground] = useState("production");
-  const [experience, setExperience] = useState("middle");
-  const [english, setEnglish] = useState("middle");
-  const [goal, setGoal] = useState("income");
+  const [answers, setAnswers] = useState<Answers>({});
+  const [step, setStep] = useState(0);
+  const isResult = step >= questionSteps.length;
+  const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
+  const currentValue = answers[currentStep.key];
+  const partner = affiliatePartners.find((item) => item.isActive);
 
   const result = useMemo(() => {
+    const background = answers.background ?? "beginner";
+    const experience = answers.experience ?? "middle";
+    const english = answers.english ?? "middle";
+    const goal = answers.goal ?? "entry";
     const profile = marketValueProfiles[background] ?? marketValueProfiles.beginner;
     const score = clamp(
       profile.baseScore +
@@ -83,7 +100,7 @@ export function CareerCompassTool() {
       35,
       92,
     );
-    const band = score >= 80 ? "High potential" : score >= 65 ? "Growth" : "Entry";
+    const band = score >= 80 ? "High" : score >= 65 ? "Growth" : "Start";
     const focus =
       goal === "global"
         ? profile.englishTalkTrack
@@ -94,110 +111,143 @@ export function CareerCompassTool() {
             : "まず近い職種から入り、半年後の選択肢を広げる作戦が現実的です。";
 
     return { band, focus, profile, score };
-  }, [background, english, experience, goal]);
+  }, [answers]);
 
   const reachableCompanies = companies.filter((company) =>
     result.profile.reachableCompanyIds.includes(company.id),
   );
-  const stretchCompanies = companies.filter((company) =>
-    result.profile.stretchCompanyIds.includes(company.id),
-  );
-  const partner = affiliatePartners.find((item) => item.isActive);
 
-  return (
-    <div className="value-check">
-      <section className="value-input-panel">
-        <div>
-          <p className="eyebrow">Market value check</p>
-          <h1>半導体キャリア市場価値診断</h1>
-          <p>4つ選ぶだけ。想定年収、伸ばすこと、今日の一手を返します。</p>
-        </div>
+  function chooseAnswer(key: AnswerKey, value: string) {
+    setAnswers((current) => ({ ...current, [key]: value }));
+  }
 
-        <OptionGroup label="経験" onChange={setBackground} options={backgroundOptions} value={background} />
-        <OptionGroup label="年数" onChange={setExperience} options={experienceOptions} value={experience} />
-        <OptionGroup label="英語" onChange={setEnglish} options={englishOptions} value={english} />
-        <OptionGroup label="狙い" onChange={setGoal} options={goalOptions} value={goal} />
-      </section>
+  function goNext() {
+    if (!currentValue) return;
+    setStep((current) => current + 1);
+  }
 
-      <aside className="value-result-panel" aria-live="polite">
-        <div className="score-hero">
-          <div>
+  function restart() {
+    setAnswers({});
+    setStep(0);
+  }
+
+  if (isResult) {
+    return (
+      <div className="quiz-result-shell">
+        <section className="quiz-result-card">
+          <div className="quiz-result-score">
             <span>市場価値スコア</span>
             <strong>{result.score}</strong>
+            <small>{result.band}</small>
           </div>
-          <small>{result.band}</small>
-          <div className="score-bar" aria-hidden="true">
-            <span style={{ width: `${result.score}%` }} />
-          </div>
-        </div>
 
-        <div className="salary-grid">
-          <div className="salary-card">
-            <span>現在の目安</span>
-            <strong>{result.profile.salaryRangeCurrent}</strong>
+          <div className="quiz-result-main">
+            <p className="eyebrow">{result.profile.shortLabel}</p>
+            <h1>{result.profile.title}</h1>
+            <p>{result.profile.summary}</p>
           </div>
-          <div className="salary-card accent">
-            <span>伸ばした後</span>
-            <strong>{result.profile.salaryRangePotential}</strong>
-          </div>
-        </div>
 
-        <section className="result-compact">
-          <p className="eyebrow">{result.profile.shortLabel}</p>
-          <h2>{result.profile.title}</h2>
-          <p>{result.profile.summary}</p>
+          <div className="quiz-result-grid">
+            <div>
+              <span>年収目安</span>
+              <strong>{result.profile.salaryRangeCurrent}</strong>
+            </div>
+            <div>
+              <span>伸ばした後</span>
+              <strong>{result.profile.salaryRangePotential}</strong>
+            </div>
+          </div>
+
+          <div className="quiz-result-list">
+            <div>
+              <span>今狙える</span>
+              {reachableCompanies.slice(0, 2).map((company) => (
+                <Link href={`/companies/${company.slug}` as Route} key={company.id}>
+                  {company.nameJa}
+                </Link>
+              ))}
+            </div>
+            <div>
+              <span>伸ばす</span>
+              {result.profile.growthLevers.slice(0, 2).map((item) => (
+                <b key={item}>{item}</b>
+              ))}
+            </div>
+            <div>
+              <span>今日</span>
+              <b>{result.profile.actionsToday[0]}</b>
+            </div>
+          </div>
+
+          <div className="quiz-next-card">
+            <span>次の一手</span>
+            <strong>{result.profile.roadmap30Days[0]}</strong>
+            <p>{result.focus}</p>
+          </div>
+
+          <div className="quiz-result-actions">
+            <a className="button primary" href={partner?.url ?? "#"}>
+              転職相談を見る
+            </a>
+            <button className="button ghost" onClick={restart} type="button">
+              もう一度
+            </button>
+            <small>{partner?.disclosureText ?? "本ページには広告リンクが含まれる場合があります。"}</small>
+          </div>
         </section>
+      </div>
+    );
+  }
 
-        <div className="result-mini-grid">
-          <div className="result-mini-card">
-            <span>今狙える</span>
-            {reachableCompanies.slice(0, 3).map((company) => (
-              <Link href={`/companies/${company.slug}` as Route} key={company.id}>
-                {company.nameJa}
-              </Link>
-            ))}
-          </div>
-          <div className="result-mini-card">
-            <span>伸ばす</span>
-            {result.profile.growthLevers.slice(0, 3).map((item) => (
-              <b key={item}>{item}</b>
-            ))}
-          </div>
-          <div className="result-mini-card">
-            <span>今日やる</span>
-            {result.profile.actionsToday.slice(0, 2).map((item) => (
-              <b key={item}>{item}</b>
-            ))}
+  return (
+    <div className="quiz-shell">
+      <section className="quiz-card">
+        <div className="quiz-progress">
+          <span>
+            {step + 1} / {questionSteps.length}
+          </span>
+          <div aria-hidden="true">
+            <i style={{ width: `${((step + 1) / questionSteps.length) * 100}%` }} />
           </div>
         </div>
 
-        <div className="next-panel">
-          <span>次の30日</span>
-          <strong>{result.profile.roadmap30Days[0]}</strong>
-          <p>{result.focus}</p>
+        <p className="eyebrow">Market value check</p>
+        <h1>{currentStep.question}</h1>
+        <p>{currentStep.helper}</p>
+
+        <div className="quiz-options" aria-label={currentStep.label}>
+          {currentStep.options.map((option) => (
+            <button
+              className={currentValue === option.id ? "quiz-option active" : "quiz-option"}
+              key={option.id}
+              onClick={() => chooseAnswer(currentStep.key, option.id)}
+              type="button"
+            >
+              <strong>{option.label}</strong>
+              <span>{option.description}</span>
+            </button>
+          ))}
         </div>
 
-        <div className="stretch-row">
-          <span>ストレッチ目標</span>
-          <div>
-            {stretchCompanies.slice(0, 3).map((company) => (
-              <Link href={`/companies/${company.slug}` as Route} key={company.id}>
-                {company.nameJa}
-              </Link>
-            ))}
-          </div>
+        <div className="quiz-actions">
+          <button
+            className="button ghost"
+            disabled={step === 0}
+            onClick={() => setStep((current) => Math.max(0, current - 1))}
+            type="button"
+          >
+            戻る
+          </button>
+          <button className="button primary" disabled={!currentValue} onClick={goNext} type="button">
+            {step === questionSteps.length - 1 ? "結果を見る" : "次へ"}
+          </button>
         </div>
+      </section>
 
-        <div className="value-cta">
-          <div>
-            <span>相談メモ</span>
-            <p>{result.profile.agentTalkTrack}</p>
-          </div>
-          <a className="button primary" href={partner?.url ?? "#"}>
-            転職相談を見る
-          </a>
-          <small>{partner?.disclosureText ?? "本ページには広告リンクが含まれる場合があります。"}</small>
-        </div>
+      <aside className="quiz-side" aria-hidden="true">
+        <span>MC</span>
+        <strong>半導体キャリア市場価値診断</strong>
+        <small>4 questions</small>
       </aside>
     </div>
   );
