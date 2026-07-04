@@ -259,7 +259,7 @@ export const affiliatePartners: AffiliatePartner[] = [
   {
     id: "semiconductor-agent",
     name: "半導体・製造業に強い転職エージェント",
-    url: "#",
+    url: "/career-consultation",
     category: "転職エージェント",
     targetUser: "半導体業界への転職を具体的に相談したい人",
     disclosureText: "本ページには広告リンクが含まれる場合があります。",

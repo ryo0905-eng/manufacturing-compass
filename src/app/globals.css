@@ -350,6 +350,81 @@ select {
   color: var(--muted);
 }
 
+.consultation-hero {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+  margin: 0 auto 26px;
+  text-align: center;
+}
+
+.consultation-hero h1 {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 1.04;
+}
+
+.consultation-hero p {
+  margin: 0 auto;
+  max-width: 560px;
+  color: var(--muted);
+}
+
+.consultation-hero .actions {
+  justify-content: center;
+}
+
+.consultation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.consultation-card,
+.consultation-note {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+}
+
+.consultation-card span,
+.consultation-note span {
+  color: var(--primary-dark);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.consultation-card h2 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.consultation-card p,
+.consultation-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.consultation-note {
+  margin-top: 10px;
+  border-color: rgba(201, 148, 46, 0.28);
+  background:
+    linear-gradient(90deg, rgba(201, 148, 46, 0.12), transparent 58%),
+    #fff;
+}
+
+.consultation-note b {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
 .compass-tool {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
@@ -1879,6 +1954,7 @@ select {
   .spotlight-section .company-grid,
   .compass-tool,
   .value-check,
+  .consultation-grid,
   .conversion-band {
     grid-template-columns: 1fr;
   }

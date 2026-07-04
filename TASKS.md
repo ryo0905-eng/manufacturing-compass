@@ -42,6 +42,7 @@
 - [x] 静的ルールベースの現在地チェック追加
 - [x] 結果に応じた相談論点 CTA 追加
 - [ ] 実際の Vercel 画面で CV 導線確認
+  - 2026-07-04: 指定 Preview URL は Vercel ログインへリダイレクト。Deployment Protection 解除後に再確認する。
 - [x] Career Compass の選択肢と結果文言を改善
 
 ## Phase 2: Content Expansion
