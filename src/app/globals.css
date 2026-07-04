@@ -151,7 +151,7 @@ select {
 .home-hero .hero-copy h1 {
   margin: 0;
   max-width: 680px;
-  font-size: clamp(44px, 7vw, 88px);
+  font-size: clamp(38px, 6vw, 72px);
   line-height: 0.98;
   letter-spacing: 0;
 }
@@ -348,6 +348,156 @@ select {
 
 .conversion-band p {
   color: var(--muted);
+}
+
+.sample-result-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.75fr 1fr 1fr 1.15fr;
+  gap: 12px;
+}
+
+.sample-result-card,
+.quest-flow-card,
+.today-quest-preview,
+.today-quest-card {
+  border: 1px solid rgba(17, 24, 28, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 18px 70px rgba(17, 24, 28, 0.07);
+}
+
+.sample-result-card {
+  display: grid;
+  min-height: 150px;
+  align-content: space-between;
+  padding: 18px;
+}
+
+.sample-result-card span,
+.sample-result-card small,
+.today-quest-card span,
+.today-quest-card small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.sample-result-card span,
+.today-quest-card span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-transform: uppercase;
+}
+
+.sample-result-card strong {
+  color: var(--quest-bg);
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.12;
+}
+
+.sample-result-card:nth-child(2) {
+  background:
+    linear-gradient(180deg, rgba(110, 231, 168, 0.22), rgba(255, 255, 255, 0.88)),
+    #fff;
+}
+
+.sample-result-card:nth-child(5) {
+  border-color: rgba(201, 148, 46, 0.34);
+  background:
+    linear-gradient(180deg, rgba(201, 148, 46, 0.16), rgba(255, 255, 255, 0.9)),
+    #fff;
+}
+
+.quest-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.quest-flow-card {
+  position: relative;
+  min-height: 170px;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.quest-flow-card::after {
+  position: absolute;
+  right: 18px;
+  bottom: 12px;
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(17, 24, 28, 0.16);
+  border-left: 0;
+  border-bottom: 0;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.quest-flow-card span {
+  color: rgba(17, 24, 28, 0.18);
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.quest-flow-card h3 {
+  margin: 28px 0 8px;
+  font-size: 24px;
+}
+
+.quest-flow-card p,
+.today-quest-preview p {
+  color: var(--muted);
+}
+
+.today-quest-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 22px;
+  background:
+    linear-gradient(135deg, rgba(48, 182, 201, 0.12), rgba(110, 231, 168, 0.14)),
+    #fff;
+}
+
+.today-quest-preview h2 {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.15;
+}
+
+.today-quest-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  background: var(--quest-bg);
+  color: #fff;
+  box-shadow: 8px 8px 0 rgba(17, 24, 28, 0.12);
+}
+
+.today-quest-card strong {
+  display: block;
+  margin: 4px 0 6px;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.today-quest-card span,
+.today-quest-card small {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.quest-check {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--quest-green);
+  border-radius: 6px;
+  background: rgba(110, 231, 168, 0.16);
+  box-shadow: 0 0 0 4px rgba(110, 231, 168, 0.08);
 }
 
 .consultation-hero {
@@ -1960,7 +2110,7 @@ select {
   }
 
   .compass-stage {
-    min-height: 460px;
+    min-height: 420px;
   }
 
   .compass-orbit {
@@ -1978,6 +2128,7 @@ select {
 
   .compass-node {
     min-width: 98px;
+    padding: 10px;
   }
 
   .node-1 {
@@ -2002,6 +2153,9 @@ select {
 
   .segment-strip,
   .spotlight-section .company-grid,
+  .sample-result-grid,
+  .quest-flow-grid,
+  .today-quest-preview,
   .compass-tool,
   .value-check,
   .consultation-grid,
@@ -2076,6 +2230,19 @@ select {
     min-height: 140px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
+  }
+
+  .sample-result-card,
+  .quest-flow-card {
+    min-height: 118px;
+  }
+
+  .quest-flow-card h3 {
+    margin-top: 18px;
+  }
+
+  .today-quest-card {
+    grid-template-columns: 1fr;
   }
 
   .segment-tile:last-child {
