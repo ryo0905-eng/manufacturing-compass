@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { companies } from "@/data/companies";
+import { companies, segments } from "@/data/companies";
 import { companyCompareSlug, siteUrl } from "@/lib/format";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -18,6 +18,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
+  const segmentRoutes = segments.map((segment) => ({
+    url: `${siteUrl}/segments/${segment.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
   const compareRoutes = [
     ["tsmc", "micron"],
     ["tsmc", "tokyo-electron"],
@@ -29,5 +36,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.65,
   }));
 
-  return [...staticRoutes, ...companyRoutes, ...compareRoutes];
+  return [...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes];
 }

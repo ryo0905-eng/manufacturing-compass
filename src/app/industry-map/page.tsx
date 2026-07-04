@@ -27,6 +27,9 @@ export default function IndustryMapPage() {
                 <p className="eyebrow">{segment.shortName}</p>
                 <h2>{segment.name}</h2>
                 <p>{segment.description}</p>
+                <Link className="text-link" href={`/segments/${segment.slug}` as Route}>
+                  {segment.name}を詳しく見る
+                </Link>
                 <strong>代表企業</strong>
                 <ul className="tag-list">
                   {relatedCompanies.map((company) => (

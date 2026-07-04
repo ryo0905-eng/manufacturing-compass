@@ -86,7 +86,7 @@ export default function Home() {
         </div>
         <div className="segment-strip">
           {segments.map((segment, index) => (
-            <Link className="segment-tile" href="/industry-map" key={segment.id}>
+            <Link className="segment-tile" href={`/segments/${segment.slug}`} key={segment.id}>
               <span>{String(index + 1).padStart(2, "0")}</span>
               <p className="eyebrow">{segment.shortName}</p>
               <h3>{segment.name}</h3>

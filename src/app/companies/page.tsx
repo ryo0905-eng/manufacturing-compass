@@ -7,7 +7,13 @@ export const metadata: Metadata = {
   description: "半導体企業をファウンドリ、メモリ、製造装置、ファブレスなどのセグメント別に調べられる企業データベースです。",
 };
 
-export default function CompaniesPage() {
+type CompaniesPageProps = {
+  searchParams: Promise<{ query?: string }>;
+};
+
+export default async function CompaniesPage({ searchParams }: CompaniesPageProps) {
+  const { query = "" } = await searchParams;
+
   return (
     <main className="page">
       <section className="page-hero">
@@ -15,7 +21,7 @@ export default function CompaniesPage() {
         <h1>半導体企業一覧</h1>
         <p>会社名だけでなく、業界での役割、主な職種、英語必要度、キャリア準備ポイントまでまとめて確認できます。</p>
       </section>
-      <FilterableCompanies companies={companies} segments={segments} />
+      <FilterableCompanies companies={companies} initialQuery={query} segments={segments} />
     </main>
   );
 }

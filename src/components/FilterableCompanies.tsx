@@ -1,16 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { Company, IndustrySegment } from "@/types/content";
 import { CompanyCard } from "@/components/CompanyCard";
 
 type FilterableCompaniesProps = {
   companies: Company[];
+  initialQuery?: string;
   segments: IndustrySegment[];
 };
 
-export function FilterableCompanies({ companies, segments }: FilterableCompaniesProps) {
-  const [query, setQuery] = useState("");
+export function FilterableCompanies({ companies, initialQuery = "", segments }: FilterableCompaniesProps) {
+  const [query, setQuery] = useState(initialQuery);
   const [segment, setSegment] = useState("all");
 
   const filteredCompanies = useMemo(() => {
@@ -54,6 +56,13 @@ export function FilterableCompanies({ companies, segments }: FilterableCompanies
             ))}
           </select>
         </label>
+      </div>
+      <div className="category-links" aria-label="カテゴリページ">
+        {segments.map((item) => (
+          <Link href={`/segments/${item.slug}`} key={item.id}>
+            {item.name}
+          </Link>
+        ))}
       </div>
       <div className="company-grid">
         {filteredCompanies.map((company) => (

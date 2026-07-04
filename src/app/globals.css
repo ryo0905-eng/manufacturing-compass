@@ -425,6 +425,56 @@ select {
   line-height: 1.4;
 }
 
+.segment-detail-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr 1fr;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.segment-detail-grid div {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+}
+
+.segment-detail-grid span {
+  color: var(--primary-dark);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.segment-detail-grid b {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.keyword-grid,
+.category-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keyword-chip,
+.category-links a {
+  border: 1px solid rgba(0, 107, 128, 0.22);
+  border-radius: 999px;
+  background: rgba(48, 182, 201, 0.1);
+  color: var(--primary-dark);
+  padding: 8px 11px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.category-links {
+  margin-top: 12px;
+}
+
 .compass-tool {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
@@ -1955,6 +2005,7 @@ select {
   .compass-tool,
   .value-check,
   .consultation-grid,
+  .segment-detail-grid,
   .conversion-band {
     grid-template-columns: 1fr;
   }
