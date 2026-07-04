@@ -62,6 +62,9 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
           <Link className="button primary" href={compareHref}>
             近い会社と比較する
           </Link>
+          <Link className="button ghost" href={`/companies/${company.slug}/career-prep` as Route}>
+            準備を見る
+          </Link>
           <Link className="button ghost" href="/companies">
             企業一覧に戻る
           </Link>

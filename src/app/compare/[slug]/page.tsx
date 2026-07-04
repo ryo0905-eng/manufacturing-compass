@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { companies, getCareerInfo } from "@/data/companies";
+import { comparePairs } from "@/data/editorial";
 import { companyCompareSlug, getCompaniesFromCompareSlug } from "@/lib/format";
 
 type CompareDetailPageProps = {
@@ -11,13 +12,7 @@ type CompareDetailPageProps = {
 };
 
 export function generateStaticParams() {
-  const pairs = [
-    ["tsmc", "micron"],
-    ["tsmc", "tokyo-electron"],
-    ["tokyo-electron", "skyworks"],
-  ];
-
-  return pairs.map((pair) => ({ slug: companyCompareSlug(pair) }));
+  return comparePairs.map((pair) => ({ slug: companyCompareSlug(pair) }));
 }
 
 export async function generateMetadata({ params }: CompareDetailPageProps): Promise<Metadata> {

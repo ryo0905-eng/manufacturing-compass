@@ -6,6 +6,7 @@ const navItems = [
   { href: "/industry-map", label: "業界地図" },
   { href: "/companies", label: "企業一覧" },
   { href: "/compare", label: "企業比較" },
+  { href: "/guides", label: "ガイド" },
 ] satisfies Array<{ href: Route; label: string }>;
 
 export function Header() {

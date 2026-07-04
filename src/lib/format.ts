@@ -1,4 +1,5 @@
 import { companies, getCareerInfo } from "@/data/companies";
+import { comparePairs } from "@/data/editorial";
 import type { Company } from "@/types/content";
 
 export const siteUrl = "https://manufacturing-compass.vercel.app";
@@ -19,11 +20,9 @@ export function getCompaniesFromCompareSlug(slug: string) {
 }
 
 export function getDefaultComparePairs() {
-  return [
-    [companies[0], companies[1]],
-    [companies[0], companies[2]],
-    [companies[2], companies[3]],
-  ].filter((pair) => pair.every(Boolean));
+  return comparePairs
+    .map((pair) => pair.map((id) => companies.find((company) => company.id === id)))
+    .filter((pair): pair is [Company, Company] => pair.length === 2 && pair.every(Boolean));
 }
 
 export function careerReadinessSummary(companyId: string) {
