@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { Route } from "next";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   achievementOptions,
   analysisOptions,
@@ -228,6 +228,7 @@ export function CareerCompassTool() {
   const [step, setStep] = useState(0);
   const [completedQuestIds, setCompletedQuestIds] = useState<string[]>([]);
   const [insightState, setInsightState] = useState<InsightState>({ items: [], status: "idle" });
+  const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
   const currentValue = answers[currentStep.key];
@@ -293,8 +294,24 @@ export function CareerCompassTool() {
     result.profile.reachableCompanyIds.includes(company.id),
   );
 
+  useEffect(() => {
+    return () => {
+      if (nextTimerRef.current) {
+        clearTimeout(nextTimerRef.current);
+      }
+    };
+  }, []);
+
   function chooseAnswer(key: AnswerKey, value: string) {
     setAnswers((current) => ({ ...current, [key]: value }));
+
+    if (nextTimerRef.current) {
+      clearTimeout(nextTimerRef.current);
+    }
+
+    nextTimerRef.current = setTimeout(() => {
+      setStep((current) => Math.min(questionSteps.length, current + 1));
+    }, 180);
   }
 
   async function generateInsights() {
@@ -355,7 +372,19 @@ export function CareerCompassTool() {
 
   function goNext() {
     if (!currentValue) return;
+    if (nextTimerRef.current) {
+      clearTimeout(nextTimerRef.current);
+    }
+
     setStep((current) => current + 1);
+  }
+
+  function goBack() {
+    if (nextTimerRef.current) {
+      clearTimeout(nextTimerRef.current);
+    }
+
+    setStep((current) => Math.max(0, current - 1));
   }
 
   function restart() {
@@ -363,6 +392,9 @@ export function CareerCompassTool() {
     setStep(0);
     setCompletedQuestIds([]);
     setInsightState({ items: [], status: "idle" });
+    if (nextTimerRef.current) {
+      clearTimeout(nextTimerRef.current);
+    }
   }
 
   if (isResult) {
@@ -505,24 +537,29 @@ export function CareerCompassTool() {
       <section className="quiz-card">
         <div className="quiz-progress">
           <span>
-            Stage {step + 1} / {questionSteps.length}
+            Q {String(step + 1).padStart(2, "0")} / {questionSteps.length}
           </span>
+          <b>{currentStep.label}</b>
           <div aria-hidden="true">
             <i style={{ width: `${((step + 1) / questionSteps.length) * 100}%` }} />
           </div>
         </div>
 
-        <p className="eyebrow">Career Quest</p>
-        <h1>{currentStep.question}</h1>
+        <div className="quiz-question-head">
+          <p className="eyebrow">Career Quest</p>
+          <h1>{currentStep.question}</h1>
+          <small>直感で選ぶだけ。自動で次へ進みます。</small>
+        </div>
 
         <div className="quiz-options" aria-label={currentStep.label}>
-          {currentStep.options.map((option) => (
+          {currentStep.options.map((option, index) => (
             <button
               className={currentValue === option.id ? "quiz-option active" : "quiz-option"}
               key={option.id}
               onClick={() => chooseAnswer(currentStep.key, option.id)}
               type="button"
             >
+              <i>{String(index + 1).padStart(2, "0")}</i>
               <strong>{option.label}</strong>
               <span>{option.description}</span>
             </button>
@@ -533,12 +570,12 @@ export function CareerCompassTool() {
           <button
             className="button ghost"
             disabled={step === 0}
-            onClick={() => setStep((current) => Math.max(0, current - 1))}
+            onClick={goBack}
             type="button"
           >
             戻る
           </button>
-          <button className="button primary" disabled={!currentValue} onClick={goNext} type="button">
+          <button className="button primary compact-next" disabled={!currentValue} onClick={goNext} type="button">
             {step === questionSteps.length - 1 ? "結果" : "次へ"}
           </button>
         </div>
