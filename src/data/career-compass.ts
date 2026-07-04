@@ -17,19 +17,22 @@ export type MarketValueProfile = {
   stretchCompanyIds: string[];
   reachableRoles: string[];
   growthLevers: string[];
+  resumeSignals: string[];
   actionsToday: string[];
   roadmap30Days: string[];
+  roadmap90Days: string;
+  roadmap6Months: string;
   agentTalkTrack: string;
   englishTalkTrack: string;
 };
 
 export const backgroundOptions: CompassOption[] = [
-  { id: "quality", label: "品質保証", description: "不良解析・工程品質" },
-  { id: "production", label: "生産技術", description: "工程改善・量産立ち上げ" },
-  { id: "equipment", label: "設備保全", description: "装置トラブル・保全改善" },
-  { id: "mechanical", label: "設計", description: "機械・電気・制御" },
-  { id: "sales-fae", label: "技術営業", description: "FAE・顧客技術対応" },
-  { id: "beginner", label: "未経験", description: "製造業から半導体へ" },
+  { id: "quality", label: "品質保証", description: "不良解析・工程監査" },
+  { id: "production", label: "生産技術", description: "立上げ・歩留まり改善" },
+  { id: "equipment", label: "設備保全", description: "停止時間・再発防止" },
+  { id: "mechanical", label: "設計", description: "装置・電気・制御" },
+  { id: "sales-fae", label: "技術営業", description: "顧客課題・技術提案" },
+  { id: "beginner", label: "近い経験なし", description: "製造業から探索" },
 ];
 
 export const experienceOptions: CompassOption[] = [
@@ -52,17 +55,17 @@ export const goalOptions: CompassOption[] = [
 ];
 
 export const exposureOptions: CompassOption[] = [
-  { id: "none", label: "なし", description: "これから" },
-  { id: "supplier", label: "周辺", description: "部品・材料・設備" },
-  { id: "equipment", label: "装置", description: "装置・保全・立上げ" },
-  { id: "fab", label: "工場", description: "量産・品質・工程" },
+  { id: "none", label: "これから", description: "求人票を読み始める" },
+  { id: "supplier", label: "周辺あり", description: "部品・材料・設備" },
+  { id: "equipment", label: "装置あり", description: "保全・立上げ・調整" },
+  { id: "fab", label: "工場あり", description: "量産・品質・工程" },
 ];
 
 export const achievementOptions: CompassOption[] = [
-  { id: "routine", label: "担当", description: "日常業務" },
-  { id: "improvement", label: "改善", description: "数字で成果あり" },
-  { id: "launch", label: "立上げ", description: "量産・導入経験" },
-  { id: "lead", label: "主導", description: "横断・育成あり" },
+  { id: "routine", label: "運用担当", description: "日常業務を安定化" },
+  { id: "improvement", label: "改善実績", description: "不良率・時間を改善" },
+  { id: "launch", label: "立上げ経験", description: "導入・移管・量産化" },
+  { id: "lead", label: "主導経験", description: "横断・育成・標準化" },
 ];
 
 export const analysisOptions: CompassOption[] = [
@@ -74,9 +77,9 @@ export const analysisOptions: CompassOption[] = [
 
 export const impactOptions: CompassOption[] = [
   { id: "none", label: "未整理", description: "まだ曖昧" },
-  { id: "story", label: "事例あり", description: "説明できる" },
-  { id: "number", label: "数字あり", description: "改善率・件数" },
-  { id: "money", label: "効果額", description: "金額で語れる" },
+  { id: "story", label: "事例あり", description: "背景から説明できる" },
+  { id: "number", label: "数字あり", description: "率・件数・時間あり" },
+  { id: "money", label: "効果額あり", description: "原価・損失を改善" },
 ];
 
 export const scopeOptions: CompassOption[] = [
@@ -87,10 +90,10 @@ export const scopeOptions: CompassOption[] = [
 ];
 
 export const learningOptions: CompassOption[] = [
-  { id: "zero", label: "0h", description: "まだ未定" },
-  { id: "one", label: "週1h", description: "少しずつ" },
-  { id: "three", label: "週3h", description: "準備できる" },
-  { id: "daily", label: "毎日", description: "本気で積む" },
+  { id: "zero", label: "まだ未定", description: "まず方向を決めたい" },
+  { id: "one", label: "週1h", description: "求人を読む時間あり" },
+  { id: "three", label: "週3h", description: "学習と棚卸し可" },
+  { id: "daily", label: "毎日", description: "短期で仕上げたい" },
 ];
 
 export const currentSalaryOptions: CompassOption[] = [
@@ -117,8 +120,11 @@ export const marketValueProfiles: Record<string, MarketValueProfile> = {
     stretchCompanyIds: ["tsmc", "skyworks"],
     reachableRoles: ["品質保証", "プロセスエンジニア", "製品技術"],
     growthLevers: ["SPC・統計", "歩留まり改善", "英語での不具合説明"],
+    resumeSignals: ["不良モード", "暫定対策", "恒久対策", "再発防止率"],
     actionsToday: ["品質改善の成果を3つ数値で書く", "不良解析の流れを1件整理する", "半導体工程を30分だけ学ぶ"],
     roadmap30Days: ["QC/統計の弱点を補う", "半導体品質職の求人を10件読む", "職務経歴書に改善前後の数字を入れる"],
+    roadmap90Days: "SPCと不良解析を職務経歴書の主軸にする",
+    roadmap6Months: "品質保証からプロセス・製品技術へ応募軸を広げる",
     agentTalkTrack: "品質保証経験を半導体品質職・プロセス職へどう接続できるか相談する",
     englishTalkTrack: "外資系や顧客品質を狙うなら、英語で不具合報告を説明する練習が効きます。",
   },
@@ -135,8 +141,11 @@ export const marketValueProfiles: Record<string, MarketValueProfile> = {
     stretchCompanyIds: ["skyworks"],
     reachableRoles: ["プロセスエンジニア", "生産技術", "設備技術"],
     growthLevers: ["歩留まり改善", "DOE・SPC", "半導体前工程の理解"],
+    resumeSignals: ["改善前後", "歩留まり", "タクト", "効果額"],
     actionsToday: ["改善テーマと効果額を1つ書く", "プロセス職の求人を3件読む", "統計・データ解析経験を棚卸しする"],
     roadmap30Days: ["SPC/DOEを学ぶ", "半導体前工程の流れを説明できるようにする", "英語で改善事例を短く説明する"],
+    roadmap90Days: "工程改善をプロセスエンジニア向けに言い換える",
+    roadmap6Months: "量産改善の実績で工場側と装置側の両方を狙う",
     agentTalkTrack: "生産技術経験で狙えるプロセス職と、半年後に広がる選択肢を相談する",
     englishTalkTrack: "外資系やグローバル工場を狙うなら、工程改善を英語で説明できることが年収レンジに効きます。",
   },
@@ -153,8 +162,11 @@ export const marketValueProfiles: Record<string, MarketValueProfile> = {
     stretchCompanyIds: ["micron"],
     reachableRoles: ["フィールドエンジニア", "設備エンジニア", "装置立ち上げ"],
     growthLevers: ["装置トラブルの再現性", "顧客対応", "英語マニュアル読解"],
+    resumeSignals: ["停止時間", "故障頻度", "原因切り分け", "復旧手順"],
     actionsToday: ["担当装置と故障対応を3件書く", "停止時間を短縮した実績を整理する", "装置メーカーの求人を3件読む"],
     roadmap30Days: ["真空・プラズマ・洗浄の基礎を学ぶ", "顧客対応エピソードを整理する", "英語の技術用語を覚える"],
+    roadmap90Days: "装置トラブル対応をフィールド職向けに整理する",
+    roadmap6Months: "装置メーカーと半導体工場の両ルートを比較する",
     agentTalkTrack: "設備保全経験を装置メーカー・半導体工場のどちらへ寄せるべきか相談する",
     englishTalkTrack: "海外顧客や外資装置メーカーを狙うなら、英語マニュアルと技術説明に慣れるのが近道です。",
   },
@@ -171,8 +183,11 @@ export const marketValueProfiles: Record<string, MarketValueProfile> = {
     stretchCompanyIds: ["tsmc", "micron"],
     reachableRoles: ["装置開発", "電気設計", "制御設計"],
     growthLevers: ["半導体工程理解", "真空・熱・薬液の基礎", "設計改善の定量化"],
+    resumeSignals: ["設計範囲", "制約条件", "改善理由", "評価結果"],
     actionsToday: ["担当した装置・機構・制御範囲を書く", "設計改善の成果を1つ数値化する", "製造装置の工程別役割を調べる"],
     roadmap30Days: ["装置メーカーの求人要件を比較する", "弱い技術領域を1つ補う", "海外顧客対応の英語表現を準備する"],
+    roadmap90Days: "設計経験を半導体製造装置の要求仕様に寄せる",
+    roadmap6Months: "装置開発・制御・電気設計の応募軸を絞る",
     agentTalkTrack: "設計経験を半導体製造装置メーカーでどう評価される形にするか相談する",
     englishTalkTrack: "海外顧客向け装置や外資系を狙うなら、設計意図を英語で説明する準備が効きます。",
   },
@@ -189,8 +204,11 @@ export const marketValueProfiles: Record<string, MarketValueProfile> = {
     stretchCompanyIds: ["micron", "tsmc"],
     reachableRoles: ["FAE", "アプリケーションエンジニア", "営業技術"],
     growthLevers: ["英語での顧客対応", "RF・アナログ基礎", "導入事例の言語化"],
+    resumeSignals: ["顧客課題", "技術提案", "採用理由", "売上・導入効果"],
     actionsToday: ["顧客課題と提案結果を3件書く", "扱った製品と半導体の接点を整理する", "英語で製品説明を1分で作る"],
     roadmap30Days: ["RF/アナログの基礎を学ぶ", "外資系FAE求人を10件読む", "英語面接で顧客対応を説明する"],
+    roadmap90Days: "顧客技術対応をFAE向けの成功事例に変える",
+    roadmap6Months: "英語対応と製品理解で外資系FAEを狙う",
     agentTalkTrack: "技術営業・FAE経験で外資系半導体を狙う現実的な順番を相談する",
     englishTalkTrack: "このタイプは英語が市場価値に直結しやすいです。技術説明と顧客対応の練習から始めましょう。",
   },
@@ -207,8 +225,11 @@ export const marketValueProfiles: Record<string, MarketValueProfile> = {
     stretchCompanyIds: ["tsmc", "micron", "skyworks"],
     reachableRoles: ["品質保証", "設備エンジニア", "フィールドエンジニア"],
     growthLevers: ["職種の絞り込み", "半導体基礎", "実績の翻訳"],
+    resumeSignals: ["担当工程", "改善経験", "扱った設備", "数字で語れる成果"],
     actionsToday: ["経験を品質・生産技術・設備・設計・技術営業に分類する", "近い職種の求人を5件読む", "半導体用語を10個覚える"],
     roadmap30Days: ["職種を1つに絞る", "職務経歴を半導体向けに翻訳する", "転職エージェントに現在地を相談する"],
+    roadmap90Days: "近い職種の応募要件に合わせて実績を作る",
+    roadmap6Months: "入口職種から半導体経験を積むルートを作る",
     agentTalkTrack: "半導体未経験から最初に狙う職種と企業の順番を相談する",
     englishTalkTrack: "英語は後回しにしすぎず、まず求人票と技術用語を読める状態を作ると選択肢が広がります。",
   },

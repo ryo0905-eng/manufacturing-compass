@@ -1120,6 +1120,7 @@ select {
 .score-modules,
 .power-up-quests,
 .reward-gap-note,
+.resume-signal-card,
 .ai-insight-card {
   grid-column: 1 / -1;
   display: grid;
@@ -1134,6 +1135,7 @@ select {
 .quest-roadmap,
 .power-quest,
 .reward-gap-note,
+.resume-signal-card,
 .ai-insight-card {
   display: grid;
   gap: 8px;
@@ -1155,6 +1157,7 @@ select {
 .quest-roadmap span,
 .power-up-quests > span,
 .reward-gap-note span,
+.resume-signal-card span,
 .ai-insight-card span {
   color: var(--muted);
   font-size: 10px;
@@ -1209,6 +1212,7 @@ select {
 .quest-roadmap,
 .power-up-quests,
 .reward-gap-note,
+.resume-signal-card,
 .ai-insight-card {
   grid-column: 1 / -1;
 }
@@ -1264,6 +1268,20 @@ select {
   line-height: 1.45;
 }
 
+.resume-signal-card {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  border-color: rgba(110, 231, 168, 0.34);
+  background:
+    linear-gradient(90deg, rgba(110, 231, 168, 0.18), transparent 58%),
+    #fff;
+}
+
+.resume-signal-card b {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .power-up-quests {
   grid-template-columns: auto repeat(3, minmax(0, 1fr));
   align-items: stretch;
@@ -1311,8 +1329,17 @@ select {
 }
 
 .quest-roadmap b {
+  display: grid;
+  gap: 4px;
   font-size: 12px;
   line-height: 1.4;
+}
+
+.quest-roadmap small {
+  color: var(--primary-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 900;
 }
 
 .quiz-next-card strong {
@@ -1877,6 +1904,7 @@ select {
   .quest-roadmap,
   .power-up-quests,
   .reward-gap-note,
+  .resume-signal-card,
   .ai-insight-card {
     grid-template-columns: 1fr;
   }
@@ -1902,6 +1930,7 @@ select {
   .quest-roadmap,
   .power-up-quests,
   .reward-gap-note,
+  .resume-signal-card,
   .ai-insight-card,
   .quiz-next-card,
   .quiz-result-actions {

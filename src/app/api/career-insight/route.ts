@@ -12,7 +12,10 @@ type InsightRequest = {
     salaryRangePotential: string;
     reachableRoles: string[];
     growthLevers: string[];
+    resumeSignals?: string[];
     actionsToday: string[];
+    roadmap90Days?: string;
+    roadmap6Months?: string;
   };
   reachableCompanies?: string[];
 };

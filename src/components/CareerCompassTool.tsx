@@ -275,7 +275,16 @@ export function CareerCompassTool() {
       { label: "Skill", value: optionLabel(analysisOptions, analysis), score: skillScore },
       { label: "Aim", value: optionLabel(goalOptions, goal), score: targetScore },
     ];
-    const buildName = `${profile.shortLabel} / ${optionLabel(impactOptions, impact) || "探索"}ビルド`;
+    const buildName = `${profile.shortLabel} / ${optionLabel(achievementOptions, achievement) || "探索"}ビルド`;
+    const resumeSignal =
+      impact === "none"
+        ? "まず改善前後の数字を1つ作る"
+        : `${optionLabel(impactOptions, impact)}: ${profile.resumeSignals.slice(0, 3).join("・")}`;
+    const roadmap = [
+      { label: "30d", value: profile.roadmap30Days[0] },
+      { label: "90d", value: profile.roadmap90Days },
+      { label: "180d", value: profile.roadmap6Months },
+    ];
     const rewardGap = formatRewardGap(currentSalary, profile.salaryRangeCurrent);
     const powerQuests = [
       { id: "proof", label: impact === "none" ? "成果を1つ数字にする" : profile.actionsToday[0], xp: 2 },
@@ -283,7 +292,7 @@ export function CareerCompassTool() {
       { id: "route", label: "求人を3件だけ読む", xp: 1 },
     ];
 
-    return { band, buildName, modules, powerQuests, profile, rewardGap, score };
+    return { band, buildName, modules, powerQuests, profile, resumeSignal, rewardGap, roadmap, score };
   }, [answers]);
 
   const questBoost = result.powerQuests
@@ -326,7 +335,10 @@ export function CareerCompassTool() {
           profile: {
             actionsToday: result.profile.actionsToday,
             growthLevers: result.profile.growthLevers,
+            resumeSignals: result.profile.resumeSignals,
             reachableRoles: result.profile.reachableRoles,
+            roadmap90Days: result.profile.roadmap90Days,
+            roadmap6Months: result.profile.roadmap6Months,
             salaryRangeCurrent: result.profile.salaryRangeCurrent,
             salaryRangePotential: result.profile.salaryRangePotential,
             shortLabel: result.profile.shortLabel,
@@ -448,6 +460,11 @@ export function CareerCompassTool() {
             <b>{result.rewardGap.note}</b>
           </div>
 
+          <div className="resume-signal-card">
+            <span>Resume Signal</span>
+            <b>{result.resumeSignal}</b>
+          </div>
+
           <div className="ai-insight-card">
             <div>
               <span>AI Insight</span>
@@ -493,9 +510,12 @@ export function CareerCompassTool() {
           </div>
 
           <div className="quest-roadmap">
-            <span>7 days</span>
-            {result.profile.roadmap30Days.map((item) => (
-              <b key={item}>{item}</b>
+            <span>Build Plan</span>
+            {result.roadmap.map((item) => (
+              <b key={item.label}>
+                <small>{item.label}</small>
+                {item.value}
+              </b>
             ))}
           </div>
 
