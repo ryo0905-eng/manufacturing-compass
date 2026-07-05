@@ -1615,10 +1615,10 @@ select {
 
 .quiz-result-card {
   display: grid;
-  grid-template-columns: minmax(140px, 0.3fr) minmax(0, 1fr);
-  gap: 12px;
-  max-width: 820px;
-  padding: clamp(18px, 3vw, 26px);
+  grid-template-columns: 1fr;
+  gap: 14px;
+  max-width: 920px;
+  padding: clamp(16px, 3vw, 24px);
 }
 
 .quiz-result-score {
@@ -1670,6 +1670,210 @@ select {
 
 .quiz-result-main p:not(.eyebrow) {
   color: var(--muted);
+}
+
+.result-hero-v2,
+.result-answer-grid,
+.result-route-panel,
+.result-detail-drawer {
+  grid-column: 1 / -1;
+}
+
+.result-hero-v2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 16px;
+  align-items: stretch;
+  border: 2px solid rgba(17, 24, 28, 0.92);
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    #fff;
+  background-size: 16px 16px;
+  padding: clamp(18px, 3vw, 28px);
+  box-shadow: 7px 7px 0 rgba(17, 24, 28, 0.08);
+}
+
+.result-hero-copy {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.result-hero-copy h1 {
+  margin: 0;
+  max-width: 680px;
+  font-size: clamp(28px, 4.4vw, 48px);
+  line-height: 1.08;
+}
+
+.result-hero-copy p:not(.eyebrow) {
+  max-width: 680px;
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.85;
+}
+
+.result-hero-stats {
+  display: grid;
+  gap: 8px;
+}
+
+.result-hero-stats > div {
+  display: grid;
+  gap: 5px;
+  border: 2px solid rgba(17, 24, 28, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 10px;
+}
+
+.result-hero-stats span,
+.result-answer-grid span,
+.result-route-panel > span,
+.result-detail-drawer summary {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.result-hero-stats strong {
+  font-size: 20px;
+  line-height: 1.08;
+}
+
+.result-hero-stats .power-score-card {
+  min-height: 104px;
+  align-content: center;
+}
+
+.result-hero-stats .power-score-card strong {
+  font-size: 56px;
+  line-height: 0.88;
+}
+
+.result-answer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.result-answer-grid article,
+.result-route-panel,
+.result-detail-drawer {
+  border: 2px solid rgba(17, 24, 28, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    #fff;
+  background-size: 14px 14px;
+}
+
+.result-answer-grid article {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  padding: 14px;
+}
+
+.result-answer-grid b {
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.result-answer-grid small,
+.result-route-panel small {
+  display: block;
+  position: relative;
+  padding-left: 13px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.55;
+}
+
+.result-answer-grid small::before,
+.result-route-panel small::before {
+  content: "";
+  position: absolute;
+  top: 0.72em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 2px;
+  background: var(--quest-green);
+  transform: translateY(-50%);
+}
+
+.result-route-panel {
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+  padding: 14px;
+}
+
+.result-route-panel > span {
+  align-self: center;
+  color: var(--primary-dark);
+}
+
+.result-route-panel div {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  border-left: 2px solid rgba(17, 24, 28, 0.1);
+  padding-left: 12px;
+}
+
+.result-route-panel b {
+  color: var(--quest-bg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+}
+
+.result-detail-drawer {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.result-detail-drawer summary {
+  cursor: pointer;
+  color: var(--primary-dark);
+  list-style: none;
+}
+
+.result-detail-drawer summary::-webkit-details-marker {
+  display: none;
+}
+
+.result-detail-drawer summary::before {
+  content: "+";
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  margin-right: 8px;
+  border: 1px solid rgba(17, 24, 28, 0.16);
+  border-radius: 5px;
+  color: var(--quest-bg);
+}
+
+.result-detail-drawer[open] summary::before {
+  content: "-";
+}
+
+.result-detail-drawer > .score-modules,
+.result-detail-drawer > .company-route-ladder,
+.result-detail-drawer > .quest-roadmap,
+.result-detail-drawer > .power-up-quests,
+.result-detail-drawer > .ai-insight-card {
+  margin-top: 8px;
 }
 
 .quiz-result-grid,
@@ -2791,6 +2995,10 @@ select {
   .quiz-shell,
   .quiz-options,
   .quiz-result-card,
+  .result-hero-v2,
+  .result-hero-stats,
+  .result-answer-grid,
+  .result-route-panel,
   .quiz-result-grid,
   .quiz-result-list,
   .career-report-hero,
@@ -2819,6 +3027,10 @@ select {
 
   .quiz-result-score,
   .quiz-result-main,
+  .result-hero-v2,
+  .result-answer-grid,
+  .result-route-panel,
+  .result-detail-drawer,
   .quiz-result-grid,
   .quiz-result-list,
   .career-report-hero,
@@ -2836,6 +3048,21 @@ select {
   .quiz-next-card,
   .quiz-result-actions {
     grid-column: 1;
+  }
+
+  .result-hero-v2 {
+    padding: 18px;
+  }
+
+  .result-hero-copy h1 {
+    font-size: clamp(28px, 8.5vw, 42px);
+  }
+
+  .result-route-panel div {
+    border-left: 0;
+    border-top: 2px solid rgba(17, 24, 28, 0.1);
+    padding-top: 10px;
+    padding-left: 0;
   }
 
   .stretch-row {
