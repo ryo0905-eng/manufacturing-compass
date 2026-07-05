@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { Route } from "next";
+import type { FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   achievementOptions,
@@ -227,6 +228,8 @@ export function CareerCompassTool() {
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState(0);
   const [completedQuestIds, setCompletedQuestIds] = useState<string[]>([]);
+  const [email, setEmail] = useState("");
+  const [emailStatus, setEmailStatus] = useState<"idle" | "saved">("idle");
   const [insightState, setInsightState] = useState<InsightState>({ items: [], status: "idle" });
   const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResult = step >= questionSteps.length;
@@ -406,6 +409,12 @@ export function CareerCompassTool() {
     );
   }
 
+  function submitEmailCapture(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!email.trim()) return;
+    setEmailStatus("saved");
+  }
+
   function goNext() {
     if (!currentValue) return;
     if (nextTimerRef.current) {
@@ -576,6 +585,41 @@ export function CareerCompassTool() {
                 </button>
               );
             })}
+          </div>
+
+          <form className="result-capture-card" onSubmit={submitEmailCapture}>
+            <div>
+              <span>Save Route</span>
+              <b>診断結果とToday Questを受け取る</b>
+              <small>保存・完了履歴機能の先行案内です。現時点では外部送信は行いません。</small>
+            </div>
+            <label>
+              <span>メール</span>
+              <input
+                inputMode="email"
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  setEmailStatus("idle");
+                }}
+                placeholder="you@example.com"
+                type="email"
+                value={email}
+              />
+            </label>
+            <button className="button primary" type="submit">
+              {emailStatus === "saved" ? "登録候補に追加" : "先行案内を受け取る"}
+            </button>
+            {emailStatus === "saved" ? <small>次は、相談メモを見ながら応募軸を整理できます。</small> : null}
+          </form>
+
+          <div className="conversion-brief-card">
+            <span>Consult Brief</span>
+            <b>相談で話すこと</b>
+            <ul>
+              <li>{result.profile.agentTalkTrack}</li>
+              <li>現年収と市場レンジの差分: {result.rewardGap.gapLabel}</li>
+              <li>今日のQuest: {result.profile.actionsToday[0]}</li>
+            </ul>
           </div>
 
           <div className="quiz-result-actions">

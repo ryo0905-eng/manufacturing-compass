@@ -1555,6 +1555,8 @@ select {
 .score-modules,
 .company-route-ladder,
 .power-up-quests,
+.result-capture-card,
+.conversion-brief-card,
 .reward-gap-note,
 .resume-signal-card,
 .ai-insight-card {
@@ -1571,6 +1573,8 @@ select {
 .company-route-ladder div,
 .quest-roadmap,
 .power-quest,
+.result-capture-card,
+.conversion-brief-card,
 .reward-gap-note,
 .resume-signal-card,
 .ai-insight-card {
@@ -1594,6 +1598,8 @@ select {
 .company-route-ladder > span,
 .quest-roadmap span,
 .power-up-quests > span,
+.result-capture-card span,
+.conversion-brief-card span,
 .reward-gap-note span,
 .resume-signal-card span,
 .ai-insight-card span {
@@ -1650,6 +1656,8 @@ select {
 .company-route-ladder,
 .quest-roadmap,
 .power-up-quests,
+.result-capture-card,
+.conversion-brief-card,
 .reward-gap-note,
 .resume-signal-card,
 .ai-insight-card {
@@ -1755,6 +1763,54 @@ select {
 .company-route-ladder em {
   color: var(--muted);
   font-style: normal;
+}
+
+.result-capture-card {
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.72fr) auto;
+  align-items: end;
+  border-color: rgba(0, 107, 128, 0.32);
+  background:
+    linear-gradient(90deg, rgba(48, 182, 201, 0.13), transparent 62%),
+    #fff;
+}
+
+.result-capture-card b,
+.conversion-brief-card b {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.result-capture-card small,
+.conversion-brief-card li {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.result-capture-card label {
+  gap: 5px;
+  font-size: 11px;
+}
+
+.result-capture-card input {
+  min-height: 40px;
+  font-size: 12px;
+}
+
+.conversion-brief-card {
+  grid-template-columns: auto minmax(0, 1fr);
+  border-color: rgba(201, 148, 46, 0.32);
+  background:
+    linear-gradient(90deg, rgba(201, 148, 46, 0.14), transparent 58%),
+    #fff;
+}
+
+.conversion-brief-card ul {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
 }
 
 .power-up-quests {
@@ -2388,6 +2444,8 @@ select {
   .company-route-ladder,
   .quest-roadmap,
   .power-up-quests,
+  .result-capture-card,
+  .conversion-brief-card,
   .reward-gap-note,
   .resume-signal-card,
   .ai-insight-card {
@@ -2415,6 +2473,8 @@ select {
   .company-route-ladder,
   .quest-roadmap,
   .power-up-quests,
+  .result-capture-card,
+  .conversion-brief-card,
   .reward-gap-note,
   .resume-signal-card,
   .ai-insight-card,
