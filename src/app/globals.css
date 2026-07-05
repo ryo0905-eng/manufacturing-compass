@@ -1312,6 +1312,142 @@ select {
   padding: clamp(18px, 3vw, 24px);
 }
 
+.analysis-card {
+  width: min(560px, 100%);
+  border: 2px solid rgba(17, 24, 28, 0.92);
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(17, 24, 28, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 28, 0.03) 1px, transparent 1px),
+    #fff;
+  background-size: 18px 18px;
+  box-shadow: 8px 8px 0 rgba(17, 24, 28, 0.09), 0 28px 100px rgba(17, 24, 28, 0.1);
+  padding: clamp(18px, 3vw, 24px);
+}
+
+.analysis-screen {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  min-height: 330px;
+  align-content: center;
+  border: 2px solid var(--quest-bg);
+  border-radius: 8px;
+  background:
+    linear-gradient(var(--quest-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--quest-line) 1px, transparent 1px),
+    linear-gradient(135deg, #11181c, #0f4450 72%, #006b80);
+  background-size: 20px 20px, 20px 20px, auto;
+  color: #fff;
+  overflow: hidden;
+  padding: clamp(18px, 4vw, 30px);
+}
+
+.analysis-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 6px);
+  pointer-events: none;
+}
+
+.analysis-screen > * {
+  position: relative;
+  z-index: 1;
+}
+
+.analysis-screen > span {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--quest-bg);
+  font-weight: 900;
+}
+
+.analysis-screen h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.08;
+}
+
+.analysis-bar {
+  height: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.analysis-bar i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0 5px, transparent 5px 10px),
+    var(--quest-green);
+  transform-origin: left;
+  animation: route-analyze 1600ms steps(8, end) both;
+}
+
+.analysis-screen ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.analysis-screen li {
+  color: rgba(255, 255, 255, 0.78);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 900;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: analysis-log 420ms ease both;
+}
+
+.analysis-screen li:nth-child(1) {
+  animation-delay: 120ms;
+}
+
+.analysis-screen li:nth-child(2) {
+  animation-delay: 380ms;
+}
+
+.analysis-screen li:nth-child(3) {
+  animation-delay: 660ms;
+}
+
+.analysis-screen li:nth-child(4) {
+  animation-delay: 940ms;
+}
+
+.analysis-screen li:nth-child(5) {
+  color: #fff;
+  animation-delay: 1220ms;
+}
+
+@keyframes route-analyze {
+  from {
+    transform: scaleX(0.08);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes analysis-log {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .quiz-progress {
   display: grid;
   grid-template-columns: auto 1fr;

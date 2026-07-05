@@ -227,10 +227,12 @@ function formatRewardGap(currentSalaryId: string | undefined, marketRange: strin
 export function CareerCompassTool() {
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState(0);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [completedQuestIds, setCompletedQuestIds] = useState<string[]>([]);
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
   const [insightState, setInsightState] = useState<InsightState>({ items: [], status: "idle" });
   const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const analysisTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
   const currentValue = answers[currentStep.key];
@@ -333,8 +335,19 @@ export function CareerCompassTool() {
       if (nextTimerRef.current) {
         clearTimeout(nextTimerRef.current);
       }
+      if (analysisTimerRef.current) {
+        clearTimeout(analysisTimerRef.current);
+      }
     };
   }, []);
+
+  function showAnalysisThenResult() {
+    setIsAnalyzing(true);
+    analysisTimerRef.current = setTimeout(() => {
+      setIsAnalyzing(false);
+      setStep(questionSteps.length);
+    }, 1600);
+  }
 
   function chooseAnswer(key: AnswerKey, value: string) {
     setAnswers((current) => ({ ...current, [key]: value }));
@@ -342,9 +355,17 @@ export function CareerCompassTool() {
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
     }
+    if (analysisTimerRef.current) {
+      clearTimeout(analysisTimerRef.current);
+    }
 
     nextTimerRef.current = setTimeout(() => {
-      setStep((current) => Math.min(questionSteps.length, current + 1));
+      if (step >= questionSteps.length - 1) {
+        showAnalysisThenResult();
+        return;
+      }
+
+      setStep((current) => Math.min(questionSteps.length - 1, current + 1));
     }, 180);
   }
 
@@ -437,6 +458,14 @@ export function CareerCompassTool() {
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
     }
+    if (analysisTimerRef.current) {
+      clearTimeout(analysisTimerRef.current);
+    }
+
+    if (step >= questionSteps.length - 1) {
+      showAnalysisThenResult();
+      return;
+    }
 
     setStep((current) => current + 1);
   }
@@ -452,12 +481,46 @@ export function CareerCompassTool() {
   function restart() {
     setAnswers({});
     setStep(0);
+    setIsAnalyzing(false);
     setCompletedQuestIds([]);
     setCopyStatus("idle");
     setInsightState({ items: [], status: "idle" });
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
     }
+    if (analysisTimerRef.current) {
+      clearTimeout(analysisTimerRef.current);
+    }
+  }
+
+  if (isAnalyzing) {
+    const analysisLogs = [
+      "経験データを解析中...",
+      "半導体業界向けに翻訳中...",
+      "市場価値レンジを計算中...",
+      "今日のQuestを生成中...",
+      "Route Unlocked",
+    ];
+
+    return (
+      <div className="quiz-shell">
+        <section className="analysis-card" aria-live="polite">
+          <div className="analysis-screen">
+            <span>MC</span>
+            <p className="eyebrow">Analyzing Career Route</p>
+            <h1>半導体キャリアを鑑定中</h1>
+            <div className="analysis-bar" aria-hidden="true">
+              <i />
+            </div>
+            <ul>
+              {analysisLogs.map((log) => (
+                <li key={log}>{log}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </div>
+    );
   }
 
   if (isResult) {
