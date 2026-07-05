@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import Link from "next/link";
 import "./globals.css";
 import { Header } from "@/components/Header";
 
@@ -26,7 +27,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Header />
           {children}
           <footer className="footer">
-            <p>Manufacturing Compass は公開情報をもとに半導体業界研究を支援します。企業情報は必ず公式情報もあわせて確認してください。</p>
+            <div>
+              <p>Manufacturing Compass は公開情報をもとに半導体業界研究を支援します。企業情報は必ず公式情報もあわせて確認してください。</p>
+              <nav aria-label="サイト情報">
+                <Link href="/about">運営者情報</Link>
+                <Link href="/privacy">プライバシーポリシー</Link>
+                <Link href="/disclaimer">免責事項</Link>
+                <Link href="/advertising-policy">広告掲載ポリシー</Link>
+                <Link href="/contact">お問い合わせ</Link>
+              </nav>
+            </div>
           </footer>
         </div>
         <Analytics />

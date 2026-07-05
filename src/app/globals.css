@@ -2227,6 +2227,93 @@ select {
   padding: 48px 0 30px;
 }
 
+.legal-hero p {
+  max-width: 760px;
+}
+
+.legal-layout {
+  display: grid;
+  gap: 14px;
+  max-width: 860px;
+}
+
+.legal-layout article,
+.agent-guide {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.legal-layout article {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+}
+
+.legal-layout h2,
+.agent-guide h2 {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.35;
+}
+
+.legal-layout p,
+.legal-layout li,
+.agent-guide p,
+.agent-guide li {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.legal-layout p,
+.agent-guide p,
+.legal-layout ul,
+.agent-guide ul {
+  margin: 0;
+}
+
+.legal-layout ul,
+.agent-guide ul {
+  padding-left: 18px;
+}
+
+.legal-layout a,
+.contact-card a {
+  color: var(--primary-dark);
+  font-weight: 900;
+}
+
+.contact-card small {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.agent-guide {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 18px;
+  padding: 22px;
+}
+
+.agent-guide.compact {
+  grid-template-columns: 1fr;
+  margin-top: 18px;
+}
+
+.agent-guide span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .interactive-panel {
   margin-top: 26px;
 }
@@ -2369,6 +2456,35 @@ select {
   font-size: 14px;
 }
 
+.footer div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer p {
+  max-width: 760px;
+  margin: 0;
+}
+
+.footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+}
+
+.footer a {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.footer a:hover {
+  color: var(--primary-dark);
+}
+
 @media (max-width: 860px) {
   .site-header,
   .section-header,
@@ -2445,6 +2561,7 @@ select {
   .article-grid,
   .agent-grid,
   .agent-cta,
+  .agent-guide,
   .prep-grid,
   .ranking-criteria,
   .compass-tool,

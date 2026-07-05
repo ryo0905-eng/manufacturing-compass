@@ -5,11 +5,26 @@ import { companyCompareSlug, siteUrl } from "@/lib/format";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const staticRoutes = ["", "/career-compass", "/career-consultation", "/career-agents", "/industry-map", "/companies", "/compare", "/guides", "/rankings"].map((path) => ({
+  const staticRoutes = [
+    "",
+    "/career-compass",
+    "/career-consultation",
+    "/career-agents",
+    "/industry-map",
+    "/companies",
+    "/compare",
+    "/guides",
+    "/rankings",
+    "/about",
+    "/privacy",
+    "/disclaimer",
+    "/advertising-policy",
+    "/contact",
+  ].map((path) => ({
     url: `${siteUrl}${path}`,
     lastModified: now,
     changeFrequency: "weekly" as const,
-    priority: path === "" ? 1 : 0.8,
+    priority: path === "" ? 1 : path === "/career-agents" ? 0.85 : 0.8,
   }));
 
   const companyRoutes = companies.map((company) => ({
