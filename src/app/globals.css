@@ -1553,6 +1553,7 @@ select {
 .quiz-result-grid,
 .quiz-result-list,
 .score-modules,
+.company-route-ladder,
 .power-up-quests,
 .reward-gap-note,
 .resume-signal-card,
@@ -1567,6 +1568,7 @@ select {
 .quiz-result-list div,
 .quiz-next-card,
 .score-modules div,
+.company-route-ladder div,
 .quest-roadmap,
 .power-quest,
 .reward-gap-note,
@@ -1589,6 +1591,7 @@ select {
 }
 
 .score-modules span,
+.company-route-ladder > span,
 .quest-roadmap span,
 .power-up-quests > span,
 .reward-gap-note span,
@@ -1644,6 +1647,7 @@ select {
 
 .quiz-next-card,
 .quiz-result-actions,
+.company-route-ladder,
 .quest-roadmap,
 .power-up-quests,
 .reward-gap-note,
@@ -1717,6 +1721,42 @@ select {
   line-height: 1.45;
 }
 
+.company-route-ladder {
+  grid-template-columns: auto repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.company-route-ladder > span {
+  align-self: center;
+}
+
+.company-route-ladder small,
+.company-route-ladder em,
+.company-route-ladder a {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.company-route-ladder small {
+  color: var(--primary-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 900;
+}
+
+.company-route-ladder b {
+  font-size: 13px;
+}
+
+.company-route-ladder a {
+  color: var(--primary-dark);
+  font-weight: 900;
+}
+
+.company-route-ladder em {
+  color: var(--muted);
+  font-style: normal;
+}
+
 .power-up-quests {
   grid-template-columns: auto repeat(3, minmax(0, 1fr));
   align-items: stretch;
@@ -1759,7 +1799,7 @@ select {
 }
 
 .quest-roadmap {
-  grid-template-columns: auto repeat(3, minmax(0, 1fr));
+  grid-template-columns: auto repeat(4, minmax(0, 1fr));
   align-items: center;
 }
 
@@ -2345,6 +2385,7 @@ select {
   .quiz-result-grid,
   .quiz-result-list,
   .score-modules,
+  .company-route-ladder,
   .quest-roadmap,
   .power-up-quests,
   .reward-gap-note,
@@ -2371,6 +2412,7 @@ select {
   .quiz-result-grid,
   .quiz-result-list,
   .score-modules,
+  .company-route-ladder,
   .quest-roadmap,
   .power-up-quests,
   .reward-gap-note,

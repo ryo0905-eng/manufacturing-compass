@@ -284,6 +284,7 @@ export function CareerCompassTool() {
       { label: "30d", value: profile.roadmap30Days[0] },
       { label: "90d", value: profile.roadmap90Days },
       { label: "180d", value: profile.roadmap6Months },
+      { label: "1y", value: `${profile.growthLevers[0]}を実績化し、ストレッチ企業の応募軸を作る` },
     ];
     const rewardGap = formatRewardGap(currentSalary, profile.salaryRangeCurrent);
     const powerQuests = [
@@ -302,6 +303,29 @@ export function CareerCompassTool() {
   const reachableCompanies = companies.filter((company) =>
     result.profile.reachableCompanyIds.includes(company.id),
   );
+  const stretchCompanies = companies.filter((company) =>
+    result.profile.stretchCompanyIds.includes(company.id),
+  );
+  const routeLadder = [
+    {
+      companies: reachableCompanies.slice(0, 2),
+      label: "Now",
+      note: result.profile.reachableRoles[0],
+      title: "今狙う",
+    },
+    {
+      companies: stretchCompanies.slice(0, 2),
+      label: "6M",
+      note: result.profile.roadmap6Months,
+      title: "半年後",
+    },
+    {
+      companies: stretchCompanies.slice(1, 3).length > 0 ? stretchCompanies.slice(1, 3) : stretchCompanies.slice(0, 2),
+      label: "1Y",
+      note: `${result.profile.growthLevers[0]}を武器にする`,
+      title: "1年後",
+    },
+  ];
 
   useEffect(() => {
     return () => {
@@ -507,6 +531,22 @@ export function CareerCompassTool() {
               <span>Today Quest</span>
               <b>{result.profile.actionsToday[0]}</b>
             </div>
+          </div>
+
+          <div className="company-route-ladder">
+            <span>Target Route</span>
+            {routeLadder.map((route) => (
+              <div key={route.label}>
+                <small>{route.label}</small>
+                <b>{route.title}</b>
+                {route.companies.map((company) => (
+                  <Link href={`/companies/${company.slug}` as Route} key={company.id}>
+                    {company.nameJa}
+                  </Link>
+                ))}
+                <em>{route.note}</em>
+              </div>
+            ))}
           </div>
 
           <div className="quest-roadmap">
