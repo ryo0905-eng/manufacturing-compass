@@ -5,7 +5,7 @@ import { companyCompareSlug, siteUrl } from "@/lib/format";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const staticRoutes = ["", "/career-compass", "/career-consultation", "/industry-map", "/companies", "/compare", "/guides", "/rankings"].map((path) => ({
+  const staticRoutes = ["", "/career-compass", "/career-consultation", "/career-agents", "/industry-map", "/companies", "/compare", "/guides", "/rankings"].map((path) => ({
     url: `${siteUrl}${path}`,
     lastModified: now,
     changeFrequency: "weekly" as const,

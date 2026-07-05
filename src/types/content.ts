@@ -67,13 +67,3 @@ export type CareerInfo = {
   steppingStoneCompanies: string[];
   notes: string;
 };
-
-export type AffiliatePartner = {
-  id: string;
-  name: string;
-  url: string;
-  category: string;
-  targetUser: string;
-  disclosureText: string;
-  isActive: boolean;
-};

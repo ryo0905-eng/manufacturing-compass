@@ -19,7 +19,8 @@ import {
   scopeOptions,
   type CompassOption,
 } from "@/data/career-compass";
-import { affiliatePartners, companies } from "@/data/companies";
+import { affiliateDisclosureText } from "@/data/affiliateLinks";
+import { companies } from "@/data/companies";
 
 type AnswerKey =
   | "background"
@@ -235,7 +236,6 @@ export function CareerCompassTool() {
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
   const currentValue = answers[currentStep.key];
-  const partner = affiliatePartners.find((item) => item.isActive);
 
   const result = useMemo(() => {
     const background = answers.background ?? "beginner";
@@ -623,13 +623,13 @@ export function CareerCompassTool() {
           </div>
 
           <div className="quiz-result-actions">
-            <a className="button primary" href={partner?.url ?? "#"}>
+            <Link className="button primary" href="/career-agents">
               相談ルートを見る
-            </a>
+            </Link>
             <button className="button ghost" onClick={restart} type="button">
               もう一度探索
             </button>
-            <small>{partner?.disclosureText ?? "本ページには広告リンクが含まれる場合があります。"}</small>
+            <small>{affiliateDisclosureText}</small>
           </div>
         </section>
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AgentCta } from "@/components/AgentCta";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
 
@@ -60,6 +61,8 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <small>診断で自分向けに調整できます</small>
           </div>
         </section>
+
+        <AgentCta agentId="ties" />
 
         <div className="actions">
           <Link className="button primary" href="/career-compass">

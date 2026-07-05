@@ -1,4 +1,4 @@
-import type { AffiliatePartner, CareerInfo, Company, IndustrySegment } from "@/types/content";
+import type { CareerInfo, Company, IndustrySegment } from "@/types/content";
 
 const accessedAt = "2026-07-05";
 
@@ -1451,18 +1451,6 @@ export const careerInfo: CareerInfo[] = [
     preparationActions1Year: ["回路評価や信頼性評価の成果物を増やす", "英語で製品説明を練習する", "デバイス・FAE・品質の応募軸を絞る"],
     steppingStoneCompanies: ["電子部品メーカー", "電源メーカー", "車載部品メーカー"],
     notes: "パワー半導体は電子部品や車載領域の経験と接続しやすく、評価・品質・顧客対応の見せ方が重要です。",
-  },
-];
-
-export const affiliatePartners: AffiliatePartner[] = [
-  {
-    id: "semiconductor-agent",
-    name: "半導体・製造業に強い転職エージェント",
-    url: "/career-consultation",
-    category: "転職エージェント",
-    targetUser: "半導体業界への転職を具体的に相談したい人",
-    disclosureText: "本ページには広告リンクが含まれる場合があります。",
-    isActive: true,
   },
 ];
 

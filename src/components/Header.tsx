@@ -7,6 +7,7 @@ const navItems = [
   { href: "/companies", label: "企業一覧" },
   { href: "/compare", label: "企業比較" },
   { href: "/guides", label: "ガイド" },
+  { href: "/career-agents", label: "転職エージェント" },
 ] satisfies Array<{ href: Route; label: string }>;
 
 export function Header() {

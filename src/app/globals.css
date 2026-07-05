@@ -501,6 +501,7 @@ select {
 }
 
 .article-grid,
+.agent-grid,
 .prep-grid,
 .ranking-criteria {
   display: grid;
@@ -512,6 +513,9 @@ select {
 }
 
 .article-card,
+.agent-card,
+.agent-cta,
+.affiliate-disclosure,
 .prep-card,
 .ranking-item,
 .ranking-criteria div {
@@ -528,6 +532,92 @@ select {
   gap: 16px;
   padding: 22px;
   transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.agent-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 24px;
+}
+
+.agent-card {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.agent-card h2 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+.agent-card p,
+.agent-card dd,
+.agent-cta p,
+.agent-cta b,
+.affiliate-disclosure p {
+  color: var(--muted);
+}
+
+.agent-card dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.agent-card dt {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.agent-card dd {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.agent-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+}
+
+.agent-cta h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.agent-cta b {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.affiliate-disclosure {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 16px 18px;
+  border-color: rgba(201, 148, 46, 0.34);
+  background:
+    linear-gradient(90deg, rgba(201, 148, 46, 0.12), transparent 62%),
+    #fff;
+}
+
+.affiliate-disclosure span {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.affiliate-disclosure p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .article-card:hover {
@@ -2413,6 +2503,8 @@ select {
   .quest-flow-grid,
   .today-quest-preview,
   .article-grid,
+  .agent-grid,
+  .agent-cta,
   .prep-grid,
   .ranking-criteria,
   .compass-tool,
