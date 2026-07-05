@@ -455,6 +455,7 @@ export function CareerCompassTool() {
           <div className="quiz-result-main">
             <p className="eyebrow">Status unlocked</p>
             <h1>{result.buildName}</h1>
+            <p>{result.profile.summary}</p>
           </div>
 
           <div className="score-modules">
@@ -496,6 +497,30 @@ export function CareerCompassTool() {
           <div className="resume-signal-card">
             <span>Resume Signal</span>
             <b>{result.resumeSignal}</b>
+          </div>
+
+          <div className="deep-result-grid">
+            <article>
+              <span>Why Valuable</span>
+              <b>市場で評価される理由</b>
+              {result.profile.marketValueReasons.slice(0, 2).map((item) => (
+                <p key={item}>{item}</p>
+              ))}
+            </article>
+            <article>
+              <span>Hidden Asset</span>
+              <b>埋もれている強み</b>
+              {result.profile.hiddenAssets.slice(0, 3).map((item) => (
+                <small key={item}>{item}</small>
+              ))}
+            </article>
+            <article>
+              <span>Bottleneck</span>
+              <b>伸びしろ</b>
+              {result.profile.bottlenecks.slice(0, 3).map((item) => (
+                <small key={item}>{item}</small>
+              ))}
+            </article>
           </div>
 
           <div className="ai-insight-card">
@@ -616,7 +641,9 @@ export function CareerCompassTool() {
             <span>Consult Brief</span>
             <b>相談で話すこと</b>
             <ul>
-              <li>{result.profile.agentTalkTrack}</li>
+              {result.profile.consultQuestions.map((question) => (
+                <li key={question}>{question}</li>
+              ))}
               <li>現年収と市場レンジの差分: {result.rewardGap.gapLabel}</li>
               <li>今日のQuest: {result.profile.actionsToday[0]}</li>
             </ul>
