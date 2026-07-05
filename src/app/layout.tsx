@@ -3,7 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://manufacturing-compass.vercel.app"),
+  metadataBase: new URL("https://mfg-compass.com"),
   title: {
     default: "Manufacturing Compass | 半導体キャリア市場価値診断",
     template: "%s | Manufacturing Compass",

@@ -2,7 +2,7 @@ import { companies, getCareerInfo } from "@/data/companies";
 import { comparePairs } from "@/data/editorial";
 import type { Company } from "@/types/content";
 
-export const siteUrl = "https://manufacturing-compass.vercel.app";
+export const siteUrl = "https://mfg-compass.com";
 
 export function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
