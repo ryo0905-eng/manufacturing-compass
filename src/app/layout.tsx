@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <p>Manufacturing Compass は公開情報をもとに半導体業界研究を支援します。企業情報は必ず公式情報もあわせて確認してください。</p>
           </footer>
         </div>
+        <Analytics />
       </body>
     </html>
   );
