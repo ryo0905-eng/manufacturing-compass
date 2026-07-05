@@ -1796,8 +1796,8 @@ select {
 }
 
 .result-capture-card {
-  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.72fr) auto;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   border-color: rgba(0, 107, 128, 0.32);
   background:
     linear-gradient(90deg, rgba(48, 182, 201, 0.13), transparent 62%),
@@ -1817,14 +1817,8 @@ select {
   line-height: 1.45;
 }
 
-.result-capture-card label {
-  gap: 5px;
-  font-size: 11px;
-}
-
-.result-capture-card input {
-  min-height: 40px;
-  font-size: 12px;
+.result-capture-card > small {
+  grid-column: 1 / -1;
 }
 
 .conversion-brief-card {

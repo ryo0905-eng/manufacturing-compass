@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import type { Route } from "next";
-import type { FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   achievementOptions,
@@ -229,8 +228,7 @@ export function CareerCompassTool() {
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState(0);
   const [completedQuestIds, setCompletedQuestIds] = useState<string[]>([]);
-  const [email, setEmail] = useState("");
-  const [emailStatus, setEmailStatus] = useState<"idle" | "saved">("idle");
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
   const [insightState, setInsightState] = useState<InsightState>({ items: [], status: "idle" });
   const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResult = step >= questionSteps.length;
@@ -409,10 +407,28 @@ export function CareerCompassTool() {
     );
   }
 
-  function submitEmailCapture(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!email.trim()) return;
-    setEmailStatus("saved");
+  async function copyConsultMemo() {
+    const memo = [
+      "Manufacturing Compass 相談メモ",
+      `タイプ: ${result.buildName}`,
+      `Career Power: ${displayedScore}`,
+      `市場レンジ: ${result.profile.salaryRangeCurrent}`,
+      `伸ばした後: ${result.profile.salaryRangePotential}`,
+      `現年収との差分: ${result.rewardGap.gapLabel}`,
+      `狙える職種: ${result.profile.reachableRoles.join(" / ")}`,
+      `強み: ${result.profile.hiddenAssets.slice(0, 2).join(" / ")}`,
+      `伸びしろ: ${result.profile.bottlenecks.slice(0, 2).join(" / ")}`,
+      `Today Quest: ${result.profile.actionsToday[0]}`,
+      "相談したいこと:",
+      ...result.profile.consultQuestions.map((question) => `- ${question}`),
+    ].join("\n");
+
+    try {
+      await navigator.clipboard.writeText(memo);
+      setCopyStatus("copied");
+    } catch {
+      setCopyStatus("error");
+    }
   }
 
   function goNext() {
@@ -436,6 +452,7 @@ export function CareerCompassTool() {
     setAnswers({});
     setStep(0);
     setCompletedQuestIds([]);
+    setCopyStatus("idle");
     setInsightState({ items: [], status: "idle" });
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
@@ -612,30 +629,17 @@ export function CareerCompassTool() {
             })}
           </div>
 
-          <form className="result-capture-card" onSubmit={submitEmailCapture}>
+          <div className="result-capture-card">
             <div>
-              <span>Save Route</span>
-              <b>診断結果とToday Questを受け取る</b>
-              <small>保存・完了履歴機能の先行案内です。現時点では外部送信は行いません。</small>
+              <span>Consult Memo</span>
+              <b>相談前メモを作る</b>
+              <small>診断結果、伸びしろ、相談したいことをまとめます。エージェント相談前の整理に使えます。</small>
             </div>
-            <label>
-              <span>メール</span>
-              <input
-                inputMode="email"
-                onChange={(event) => {
-                  setEmail(event.target.value);
-                  setEmailStatus("idle");
-                }}
-                placeholder="you@example.com"
-                type="email"
-                value={email}
-              />
-            </label>
-            <button className="button primary" type="submit">
-              {emailStatus === "saved" ? "登録候補に追加" : "先行案内を受け取る"}
+            <button className="button primary" onClick={copyConsultMemo} type="button">
+              {copyStatus === "copied" ? "コピーしました" : "相談メモをコピー"}
             </button>
-            {emailStatus === "saved" ? <small>次は、相談メモを見ながら応募軸を整理できます。</small> : null}
-          </form>
+            {copyStatus === "error" ? <small>コピーできませんでした。画面の相談テーマをメモしてください。</small> : null}
+          </div>
 
           <div className="conversion-brief-card">
             <span>Consult Brief</span>
