@@ -599,13 +599,31 @@ export function CareerCompassTool() {
             </div>
           </div>
 
+          <div className="conversion-brief-card">
+            <span>Consult Brief</span>
+            <b>相談で話すこと</b>
+            <ul>
+              {result.profile.consultQuestions.map((question) => (
+                <li key={question}>{question}</li>
+              ))}
+              <li>現年収と市場レンジの差分: {result.rewardGap.gapLabel}</li>
+              <li>今日のQuest: {result.profile.todayQuest}</li>
+            </ul>
+          </div>
+
           <div className="agent-bridge-card">
             <p>
               完璧な職務経歴書は不要です。まずは担当工程、改善実績、使った技術、英語対応の有無を整理できれば、エージェントとの相談は十分に始められます。
             </p>
-            <Link className="button primary" href="/career-agents">
-              この診断結果で相談できるエージェントを見る
-            </Link>
+            <div className="agent-bridge-actions">
+              <Link className="button primary" href="/career-agents">
+                この診断結果で相談できるエージェントを見る
+              </Link>
+              <button className="button ghost" onClick={copyConsultMemo} type="button">
+                {copyStatus === "copied" ? "コピーしました" : "相談メモをコピー"}
+              </button>
+            </div>
+            {copyStatus === "error" ? <small>コピーできませんでした。画面の相談テーマをメモしてください。</small> : null}
           </div>
 
           <details className="result-detail-drawer">
@@ -691,30 +709,6 @@ export function CareerCompassTool() {
               ) : null}
             </div>
           </details>
-
-          <div className="result-capture-card">
-            <div>
-              <span>Consult Memo</span>
-              <b>相談前メモを作る</b>
-              <small>診断結果、伸びしろ、相談したいことをまとめます。エージェント相談前の整理に使えます。</small>
-            </div>
-            <button className="button primary" onClick={copyConsultMemo} type="button">
-              {copyStatus === "copied" ? "コピーしました" : "相談メモをコピー"}
-            </button>
-            {copyStatus === "error" ? <small>コピーできませんでした。画面の相談テーマをメモしてください。</small> : null}
-          </div>
-
-          <div className="conversion-brief-card">
-            <span>Consult Brief</span>
-            <b>相談で話すこと</b>
-            <ul>
-              {result.profile.consultQuestions.map((question) => (
-                <li key={question}>{question}</li>
-              ))}
-              <li>現年収と市場レンジの差分: {result.rewardGap.gapLabel}</li>
-              <li>今日のQuest: {result.profile.todayQuest}</li>
-            </ul>
-          </div>
 
           <div className="quiz-result-actions">
             <Link className="button primary" href="/career-agents">
