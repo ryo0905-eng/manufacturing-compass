@@ -289,7 +289,7 @@ export function CareerCompassTool() {
     ];
     const rewardGap = formatRewardGap(currentSalary, profile.salaryRangeCurrent);
     const powerQuests = [
-      { id: "proof", label: impact === "none" ? "成果を1つ数字にする" : profile.actionsToday[0], xp: 2 },
+      { id: "proof", label: profile.todayQuest, xp: 2 },
       { id: "skill", label: analysis === "none" ? "半導体用語を10個覚える" : profile.roadmap30Days[0], xp: 2 },
       { id: "route", label: "求人を3件だけ読む", xp: 1 },
     ];
@@ -410,15 +410,16 @@ export function CareerCompassTool() {
   async function copyConsultMemo() {
     const memo = [
       "Manufacturing Compass 相談メモ",
-      `タイプ: ${result.buildName}`,
+      `タイプ: ${result.profile.typeName}`,
       `Career Power: ${displayedScore}`,
       `市場レンジ: ${result.profile.salaryRangeCurrent}`,
       `伸ばした後: ${result.profile.salaryRangePotential}`,
       `現年収との差分: ${result.rewardGap.gapLabel}`,
       `狙える職種: ${result.profile.reachableRoles.join(" / ")}`,
-      `強み: ${result.profile.hiddenAssets.slice(0, 2).join(" / ")}`,
-      `伸びしろ: ${result.profile.bottlenecks.slice(0, 2).join(" / ")}`,
-      `Today Quest: ${result.profile.actionsToday[0]}`,
+      `強み: ${result.profile.strengths.join(" / ")}`,
+      `半導体向けの翻訳: ${result.profile.semiconductorTranslation.join(" / ")}`,
+      `Today Quest: ${result.profile.todayQuest}`,
+      `相性のよい相談先: ${result.profile.agentMatch.join(" / ")}`,
       "相談したいこと:",
       ...result.profile.consultQuestions.map((question) => `- ${question}`),
     ].join("\n");
@@ -463,19 +464,18 @@ export function CareerCompassTool() {
     return (
       <div className="quiz-result-shell">
         <section className="quiz-result-card">
-          <div className="quiz-result-score">
-            <span>Career Power</span>
-            <strong>{displayedScore}</strong>
-            <small>{questBoost > 0 ? `+${questBoost} today` : result.band}</small>
-          </div>
-
-          <div className="quiz-result-main">
-            <p className="eyebrow">Status unlocked</p>
-            <h1>{result.buildName}</h1>
-            <p>{result.profile.summary}</p>
+          <div className="career-report-hero">
+            <p className="eyebrow">{result.profile.reportTitle}</p>
+            <h1>{result.profile.typeName}</h1>
+            <p>{result.profile.narrative}</p>
           </div>
 
           <div className="score-modules">
+            <div className="power-score-card">
+              <span>Power Score</span>
+              <strong>{displayedScore}</strong>
+              <small>{questBoost > 0 ? `+${questBoost} today` : result.band}</small>
+            </div>
             {result.modules.map((module) => (
               <div key={module.label}>
                 <span>{module.label}</span>
@@ -493,7 +493,7 @@ export function CareerCompassTool() {
               <strong>{result.rewardGap.currentLabel}</strong>
             </div>
             <div>
-              <span>Market Reward</span>
+              <span>Estimated Reward</span>
               <strong>{result.profile.salaryRangeCurrent}</strong>
             </div>
             <div>
@@ -507,37 +507,46 @@ export function CareerCompassTool() {
           </div>
 
           <div className="reward-gap-note">
-            <span>Unlock Potential</span>
+            <span>Route Unlocked</span>
             <b>{result.rewardGap.note}</b>
           </div>
 
           <div className="resume-signal-card">
-            <span>Resume Signal</span>
-            <b>{result.resumeSignal}</b>
+            <span>Recommended Skill</span>
+            <b>{result.profile.growthLevers.slice(0, 2).join(" / ")}</b>
           </div>
 
           <div className="deep-result-grid">
             <article>
-              <span>Why Valuable</span>
-              <b>市場で評価される理由</b>
-              {result.profile.marketValueReasons.slice(0, 2).map((item) => (
-                <p key={item}>{item}</p>
-              ))}
-            </article>
-            <article>
-              <span>Hidden Asset</span>
-              <b>埋もれている強み</b>
-              {result.profile.hiddenAssets.slice(0, 3).map((item) => (
+              <span>Your Strengths</span>
+              <b>あなたの強み</b>
+              {result.profile.strengths.map((item) => (
                 <small key={item}>{item}</small>
               ))}
             </article>
             <article>
-              <span>Bottleneck</span>
-              <b>伸びしろ</b>
-              {result.profile.bottlenecks.slice(0, 3).map((item) => (
+              <span>Semiconductor Translation</span>
+              <b>半導体業界で評価されやすい経験</b>
+              {result.profile.semiconductorTranslation.map((item) => (
                 <small key={item}>{item}</small>
               ))}
             </article>
+            <article>
+              <span>Agent Match</span>
+              <b>相談相性がよい候補</b>
+              {result.profile.agentMatch.map((item) => (
+                <small key={item}>{item}</small>
+              ))}
+            </article>
+          </div>
+
+          <div className="agent-bridge-card">
+            <p>
+              完璧な職務経歴書は不要です。まずは担当工程、改善実績、使った技術、英語対応の有無を整理できれば、エージェントとの相談は十分に始められます。
+            </p>
+            <Link className="button primary" href="/career-agents">
+              この診断結果で相談できるエージェントを見る
+            </Link>
           </div>
 
           <div className="ai-insight-card">
@@ -565,22 +574,20 @@ export function CareerCompassTool() {
 
           <div className="quiz-result-list">
             <div>
-              <span>Available Routes</span>
-              {reachableCompanies.slice(0, 2).map((company) => (
-                <Link href={`/companies/${company.slug}` as Route} key={company.id}>
-                  {company.nameJa}
-                </Link>
+              <span>Now Route</span>
+              {result.profile.immediateRoutes.slice(0, 3).map((route) => (
+                <b key={route}>{route}</b>
               ))}
             </div>
             <div>
-              <span>Skill Tree</span>
-              {result.profile.growthLevers.slice(0, 3).map((item) => (
-                <b key={item}>{item}</b>
+              <span>Stretch Route</span>
+              {result.profile.stretchRoutes.slice(0, 3).map((route) => (
+                <b key={route}>{route}</b>
               ))}
             </div>
             <div>
-              <span>Today Quest</span>
-              <b>{result.profile.actionsToday[0]}</b>
+              <span>Next Quest</span>
+              <b>{result.profile.todayQuest}</b>
             </div>
           </div>
 
@@ -649,13 +656,13 @@ export function CareerCompassTool() {
                 <li key={question}>{question}</li>
               ))}
               <li>現年収と市場レンジの差分: {result.rewardGap.gapLabel}</li>
-              <li>今日のQuest: {result.profile.actionsToday[0]}</li>
+              <li>今日のQuest: {result.profile.todayQuest}</li>
             </ul>
           </div>
 
           <div className="quiz-result-actions">
             <Link className="button primary" href="/career-agents">
-              相談ルートを見る
+              この診断結果で相談できるエージェントを見る
             </Link>
             <button className="button ghost" onClick={restart} type="button">
               もう一度探索

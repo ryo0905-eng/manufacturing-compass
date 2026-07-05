@@ -1538,8 +1538,10 @@ select {
 
 .quiz-result-grid,
 .quiz-result-list,
+.career-report-hero,
 .score-modules,
 .deep-result-grid,
+.agent-bridge-card,
 .company-route-ladder,
 .power-up-quests,
 .result-capture-card,
@@ -1556,8 +1558,10 @@ select {
 .quiz-result-grid div,
 .quiz-result-list div,
 .quiz-next-card,
+.career-report-hero,
 .score-modules div,
 .deep-result-grid article,
+.agent-bridge-card,
 .company-route-ladder div,
 .quest-roadmap,
 .power-quest,
@@ -1578,12 +1582,41 @@ select {
   padding: 11px;
 }
 
+.career-report-hero {
+  gap: 12px;
+  border-color: rgba(0, 107, 128, 0.28);
+  background:
+    linear-gradient(90deg, rgba(48, 182, 201, 0.12), transparent 62%),
+    linear-gradient(rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 24, 28, 0.025) 1px, transparent 1px),
+    #fff;
+  background-size: auto, 14px 14px, 14px 14px, auto;
+  padding: clamp(18px, 3vw, 28px);
+}
+
+.career-report-hero h1 {
+  margin: 0;
+  max-width: 820px;
+  font-size: clamp(26px, 4vw, 44px);
+  line-height: 1.12;
+}
+
+.career-report-hero p:not(.eyebrow) {
+  max-width: 880px;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(14px, 1.65vw, 16px);
+  font-weight: 700;
+  line-height: 1.9;
+}
+
 .score-modules {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1.1fr repeat(4, minmax(0, 1fr));
 }
 
 .score-modules span,
 .deep-result-grid span,
+.agent-bridge-card span,
 .company-route-ladder > span,
 .quest-roadmap span,
 .power-up-quests > span,
@@ -1601,6 +1634,28 @@ select {
   min-height: 34px;
   font-size: 12px;
   line-height: 1.35;
+}
+
+.power-score-card {
+  border-color: var(--quest-bg);
+  background:
+    linear-gradient(var(--quest-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--quest-line) 1px, transparent 1px),
+    linear-gradient(135deg, #11181c, #0f4450 72%, #006b80);
+  background-size: 18px 18px, 18px 18px, auto;
+  color: #fff;
+}
+
+.power-score-card span,
+.power-score-card small {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.power-score-card strong {
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 0.9;
 }
 
 .deep-result-grid {
@@ -1682,7 +1737,9 @@ select {
 
 .quiz-next-card,
 .quiz-result-actions,
+.career-report-hero,
 .deep-result-grid,
+.agent-bridge-card,
 .company-route-ladder,
 .quest-roadmap,
 .power-up-quests,
@@ -1701,6 +1758,23 @@ select {
   background:
     linear-gradient(90deg, rgba(48, 182, 201, 0.13), transparent 60%),
     #fff;
+}
+
+.agent-bridge-card {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border-color: rgba(17, 24, 28, 0.22);
+  background:
+    linear-gradient(90deg, rgba(110, 231, 168, 0.18), transparent 58%),
+    #fff;
+}
+
+.agent-bridge-card p {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.65;
 }
 
 .ai-insight-card b {
@@ -2583,8 +2657,10 @@ select {
   .quiz-result-card,
   .quiz-result-grid,
   .quiz-result-list,
+  .career-report-hero,
   .score-modules,
   .deep-result-grid,
+  .agent-bridge-card,
   .company-route-ladder,
   .quest-roadmap,
   .power-up-quests,
@@ -2609,8 +2685,10 @@ select {
   .quiz-result-main,
   .quiz-result-grid,
   .quiz-result-list,
+  .career-report-hero,
   .score-modules,
   .deep-result-grid,
+  .agent-bridge-card,
   .company-route-ladder,
   .quest-roadmap,
   .power-up-quests,
