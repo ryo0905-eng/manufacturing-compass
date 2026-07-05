@@ -685,18 +685,6 @@ export function CareerCompassTool() {
         </div>
       </section>
 
-      <aside className="quiz-side" aria-hidden="true">
-        <div className="quest-map">
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-        </div>
-        <span>MC</span>
-        <strong>Career Quest</strong>
-        <small>Semiconductor route finder</small>
-      </aside>
     </div>
   );
 }

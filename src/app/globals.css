@@ -1289,8 +1289,7 @@ select {
 }
 
 .quiz-shell {
-  grid-template-columns: minmax(0, 500px) minmax(180px, 240px);
-  gap: 16px;
+  grid-template-columns: minmax(0, 560px);
   justify-content: center;
 }
 
@@ -1476,109 +1475,6 @@ select {
 
 .quiz-actions .compact-next:disabled {
   opacity: 0;
-}
-
-.quiz-side {
-  display: grid;
-  gap: 10px;
-  justify-self: stretch;
-  min-height: 220px;
-  align-content: end;
-  position: relative;
-  border: 2px solid rgba(17, 24, 28, 0.92);
-  border-radius: 8px;
-  background:
-    radial-gradient(circle at 28% 20%, rgba(110, 231, 168, 0.24), transparent 18%),
-    linear-gradient(var(--quest-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--quest-line) 1px, transparent 1px),
-    linear-gradient(135deg, #11181c, #0f4450 72%, #006b80);
-  background-size: auto, 28px 28px, 28px 28px, auto;
-  color: #fff;
-  padding: 14px;
-  box-shadow: 6px 6px 0 rgba(17, 24, 28, 0.1), 0 20px 80px rgba(17, 24, 28, 0.12);
-  overflow: hidden;
-}
-
-.quiz-side::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 5px);
-  pointer-events: none;
-}
-
-.quest-map {
-  position: absolute;
-  inset: 14px 14px auto;
-  height: 96px;
-}
-
-.quest-map i {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.72);
-  background: rgba(110, 231, 168, 0.62);
-  box-shadow: 0 0 22px rgba(110, 231, 168, 0.32);
-}
-
-.quest-map i:nth-child(1) {
-  top: 18px;
-  left: 20px;
-}
-
-.quest-map i:nth-child(2) {
-  top: 42px;
-  left: 64px;
-  background: rgba(48, 182, 201, 0.66);
-}
-
-.quest-map i:nth-child(3) {
-  top: 72px;
-  left: 112px;
-  background: rgba(201, 148, 46, 0.72);
-}
-
-.quest-map i:nth-child(4) {
-  top: 40px;
-  right: 62px;
-}
-
-.quest-map i:nth-child(5) {
-  top: 82px;
-  right: 24px;
-  background: #fff;
-}
-
-.quiz-side span {
-  display: inline-flex;
-  width: 30px;
-  height: 30px;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  border-radius: 8px;
-  background: #fff;
-  color: var(--text);
-  font-weight: 900;
-}
-
-.quiz-side strong {
-  position: relative;
-  z-index: 1;
-  max-width: 190px;
-  font-size: 22px;
-  line-height: 1.05;
-}
-
-.quiz-side small {
-  position: relative;
-  z-index: 1;
-  color: rgba(255, 255, 255, 0.65);
-  font-weight: 800;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 11px;
 }
 
 .quiz-result-card {
@@ -2542,10 +2438,6 @@ select {
   .resume-signal-card,
   .ai-insight-card {
     grid-template-columns: 1fr;
-  }
-
-  .quiz-side {
-    display: none;
   }
 
   .quiz-card,

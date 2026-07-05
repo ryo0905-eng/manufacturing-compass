@@ -40,12 +40,12 @@ export const affiliateAgents: AffiliateAgent[] = [
     id: "give-creation",
     name: "ギブクリエーション",
     category: "製造業・技術職転職",
-    description: "製造業・技術職領域の転職支援候補として管理します。",
+    description: "製造業・技術職領域の転職支援候補として紹介します。",
     recommendedFor: "製造業エンジニアとして、職務経歴の見せ方から相談したい人",
     affiliateUrl: undefined,
-    officialUrl: "",
+    officialUrl: "https://givecreation.com/",
     hasAffiliate: false,
-    note: "公式URL確認後に officialUrl または affiliateUrl を設定してください。",
+    note: "アフィリエイト提携は未確認です。公式サイトへの通常リンクとして掲載します。",
   },
   {
     id: "robert-walters",
@@ -92,5 +92,5 @@ export function getAgentCtaLabel(agent: AffiliateAgent) {
 }
 
 export function getAgentRel(agent: AffiliateAgent) {
-  return "sponsored noopener noreferrer";
+  return agent.hasAffiliate ? "sponsored noopener noreferrer" : "noopener noreferrer";
 }
