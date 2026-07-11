@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import type { Route } from "next";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { CareerCompassResult } from "@/components/career-compass/CareerCompassResult";
 import {
   achievementOptions,
   analysisOptions,
@@ -18,7 +17,6 @@ import {
   scopeOptions,
   type CompassOption,
 } from "@/data/career-compass";
-import { affiliateDisclosureText } from "@/data/affiliateLinks";
 import { companies } from "@/data/companies";
 
 type AnswerKey =
@@ -233,6 +231,7 @@ export function CareerCompassTool() {
   const [insightState, setInsightState] = useState<InsightState>({ items: [], status: "idle" });
   const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const analysisTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
   const currentValue = answers[currentStep.key];
@@ -337,6 +336,9 @@ export function CareerCompassTool() {
       }
       if (analysisTimerRef.current) {
         clearTimeout(analysisTimerRef.current);
+      }
+      if (copyTimerRef.current) {
+        clearTimeout(copyTimerRef.current);
       }
     };
   }, []);
@@ -451,6 +453,9 @@ export function CareerCompassTool() {
     } catch {
       setCopyStatus("error");
     }
+
+    if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    copyTimerRef.current = setTimeout(() => setCopyStatus("idle"), 2400);
   }
 
   function goNext() {
@@ -524,204 +529,27 @@ export function CareerCompassTool() {
   }
 
   if (isResult) {
-    return (
-      <div className="quiz-result-shell">
-        <section className="quiz-result-card">
-          <header className="result-hero-v2">
-            <div className="result-hero-copy">
-              <p className="eyebrow">{result.profile.reportTitle}</p>
-              <h1>{result.profile.typeName}</h1>
-              <p>{result.profile.narrative}</p>
-            </div>
-
-            <div className="result-hero-stats" aria-label="診断サマリー">
-              <div className="power-score-card">
-                <span>Power Score</span>
-                <strong>{displayedScore}</strong>
-                <small>{questBoost > 0 ? `+${questBoost} today` : result.band}</small>
-              </div>
-              <div>
-                <span>Estimated Reward</span>
-                <strong>{result.profile.salaryRangeCurrent}</strong>
-              </div>
-              <div>
-                <span>Next Reward</span>
-                <strong>{result.profile.salaryRangePotential}</strong>
-              </div>
-              <div>
-                <span>Reward Gap</span>
-                <strong>{result.rewardGap.gapLabel}</strong>
-              </div>
-            </div>
-          </header>
-
-          <div className="result-answer-grid">
-            <article>
-              <span>Your Strengths</span>
-              <b>あなたの強み</b>
-              {result.profile.strengths.map((item) => (
-                <small key={item}>{item}</small>
-              ))}
-            </article>
-            <article>
-              <span>Semiconductor Translation</span>
-              <b>半導体業界で評価されやすい経験</b>
-              {result.profile.semiconductorTranslation.map((item) => (
-                <small key={item}>{item}</small>
-              ))}
-            </article>
-            <article>
-              <span>Today Quest</span>
-              <b>今日の一手</b>
-              <small>{result.profile.todayQuest}</small>
-            </article>
-          </div>
-
-          <div className="result-route-panel">
-            <span>Career Route</span>
-            <div>
-              <b>Now</b>
-              {result.profile.immediateRoutes.slice(0, 2).map((item) => (
-                <small key={item}>{item}</small>
-              ))}
-            </div>
-            <div>
-              <b>6M</b>
-              {result.profile.stretchRoutes.slice(0, 2).map((item) => (
-                <small key={item}>{item}</small>
-              ))}
-            </div>
-            <div>
-              <b>1Y</b>
-              {result.profile.stretchRoutes.slice(2, 3).concat(result.profile.growthLevers.slice(0, 1)).map((item) => (
-                <small key={item}>{item}</small>
-              ))}
-            </div>
-          </div>
-
-          <div className="conversion-brief-card">
-            <span>Consult Brief</span>
-            <b>相談で話すこと</b>
-            <ul>
-              {result.profile.consultQuestions.map((question) => (
-                <li key={question}>{question}</li>
-              ))}
-              <li>現年収と市場レンジの差分: {result.rewardGap.gapLabel}</li>
-              <li>今日のQuest: {result.profile.todayQuest}</li>
-            </ul>
-          </div>
-
-          <div className="agent-bridge-card">
-            <p>
-              完璧な職務経歴書は不要です。まずは担当工程、改善実績、使った技術、英語対応の有無を整理できれば、エージェントとの相談は十分に始められます。
-            </p>
-            <div className="agent-bridge-actions">
-              <Link className="button primary" href="/career-agents">
-                この診断結果で相談できるエージェントを見る
-              </Link>
-              <button className="button ghost" onClick={copyConsultMemo} type="button">
-                {copyStatus === "copied" ? "コピーしました" : "相談メモをコピー"}
-              </button>
-            </div>
-            {copyStatus === "error" ? <small>コピーできませんでした。画面の相談テーマをメモしてください。</small> : null}
-          </div>
-
-          <details className="result-detail-drawer">
-            <summary>スコア内訳と準備ロードマップを見る</summary>
-
-            <div className="score-modules">
-              {result.modules.map((module) => (
-                <div key={module.label}>
-                  <span>{module.label}</span>
-                  <b>{module.value}</b>
-                  <i aria-hidden="true">
-                    <em style={{ width: `${module.score}%` }} />
-                  </i>
-                </div>
-              ))}
-            </div>
-
-            <div className="company-route-ladder">
-              <span>Target Route</span>
-              {routeLadder.map((route) => (
-                <div key={route.label}>
-                  <small>{route.label}</small>
-                  <b>{route.title}</b>
-                  {route.companies.map((company) => (
-                    <Link href={`/companies/${company.slug}` as Route} key={company.id}>
-                      {company.nameJa}
-                    </Link>
-                  ))}
-                  <em>{route.note}</em>
-                </div>
-              ))}
-            </div>
-
-            <div className="quest-roadmap">
-              <span>Build Plan</span>
-              {result.roadmap.map((item) => (
-                <b key={item.label}>
-                  <small>{item.label}</small>
-                  {item.value}
-                </b>
-              ))}
-            </div>
-
-            <div className="power-up-quests">
-              <span>Power Up</span>
-              {result.powerQuests.map((quest) => {
-                const isDone = completedQuestIds.includes(quest.id);
-
-                return (
-                  <button
-                    className={isDone ? "power-quest done" : "power-quest"}
-                    key={quest.id}
-                    onClick={() => toggleQuest(quest.id)}
-                    type="button"
-                  >
-                    <b>{quest.label}</b>
-                    <small>{isDone ? "DONE" : `+${quest.xp}`}</small>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="ai-insight-card">
-              <div>
-                <span>AI Insight</span>
-                <b>半導体向けに、経験の見え方を読み替える</b>
-              </div>
-              <button
-                className="button ghost"
-                disabled={insightState.status === "loading"}
-                onClick={generateInsights}
-                type="button"
-              >
-                {insightState.status === "loading" ? "生成中" : "AIで深掘り"}
-              </button>
-              {insightState.message ? <small>{insightState.message}</small> : null}
-              {insightState.items.length > 0 ? (
-                <ul>
-                  {insightState.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              ) : null}
-            </div>
-          </details>
-
-          <div className="quiz-result-actions">
-            <Link className="button primary" href="/career-agents">
-              この診断結果で相談できるエージェントを見る
-            </Link>
-            <button className="button ghost" onClick={restart} type="button">
-              もう一度探索
-            </button>
-            <small>{affiliateDisclosureText}</small>
-          </div>
-        </section>
-      </div>
-    );
+    return <CareerCompassResult
+      band={questBoost > 0 ? `+${questBoost} today` : result.band}
+      buildName={result.buildName}
+      completedQuestIds={completedQuestIds}
+      copyStatus={copyStatus}
+      currentRole={optionLabel(backgroundOptions, answers.background)}
+      displayedScore={displayedScore}
+      insightState={insightState}
+      modules={result.modules}
+      onCopyConsultMemo={copyConsultMemo}
+      onGenerateInsights={generateInsights}
+      onRestart={restart}
+      onToggleQuest={toggleQuest}
+      powerQuests={result.powerQuests}
+      profile={result.profile}
+      resumeSignal={result.resumeSignal}
+      rewardGap={result.rewardGap}
+      roadmap={result.roadmap}
+      routeLadder={routeLadder}
+      showRewardGap={answers.currentSalary !== undefined && answers.currentSalary !== "skip"}
+    />;
   }
 
   return (
