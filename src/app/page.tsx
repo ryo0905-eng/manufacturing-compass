@@ -5,12 +5,18 @@ import { StructuredData } from "@/components/StructuredData";
 import { companies, segments } from "@/data/companies";
 import { siteUrl } from "@/lib/format";
 
-const resultCards = [
-  { label: "Career Route", value: "設備保全 → 装置FE", note: "近い入口" },
-  { label: "Power Score", value: "78", note: "Growth" },
-  { label: "Estimated Reward", value: "620〜820万", note: "目安" },
-  { label: "Recommended Skill", value: "停止時間の数値化", note: "伸ばす" },
-  { label: "Today Quest", value: "改善実績を1つ書く", note: "今日" },
+const trustItems = [
+  { title: "ログイン不要", body: "アカウント登録なしで使えます" },
+  { title: "入力内容を保存しない", body: "ブラウザ上で結果を整理します" },
+  { title: "静的ルールで診断", body: "回答に応じた根拠を確認できます" },
+  { title: "すぐに結果を表示", body: "次に狙う職種と行動がわかります" },
+];
+
+const resultOverview = [
+  { label: "Career route", title: "経験がつながる職種", body: "現在の経験を、半導体業界の職種へ翻訳します。" },
+  { label: "Market value", title: "市場価値と年収の目安", body: "今の立ち位置と、次に狙えるゾーンを整理します。" },
+  { label: "Experience", title: "強みと準備ポイント", body: "評価される経験と、補いたい要素を分けて確認できます。" },
+  { label: "Today quest", title: "今日からできる一手", body: "市場価値につながる行動を、ひとつに絞って提案します。" },
 ];
 
 const questFlow = [
@@ -21,7 +27,10 @@ const questFlow = [
 ];
 
 export default function Home() {
-  const featuredCompanies = companies.slice(0, 8);
+  const featuredCompanies = segments.flatMap((segment) => {
+    const company = companies.find((item) => segment.relatedCompanyIds.includes(item.id));
+    return company ? [company] : [];
+  });
 
   return (
     <main>
@@ -34,32 +43,37 @@ export default function Home() {
           inLanguage: "ja",
         }}
       />
+
       <section className="home-hero">
         <div className="hero-copy">
           <div className="hero-kicker">
-            <span>4 Stage Career Quest</span>
+            <span>4 Stage Career Compass</span>
             <span>No login</span>
           </div>
-          <h1>半導体キャリアの次のルートを探索する。</h1>
-          <p>4つのStageで、今の市場価値、想定年収、伸ばすSkill、Today Questを表示します。</p>
+          <h1>
+            <span>半導体業界で、</span>
+            <span>次に狙う職種と</span>
+            <span>準備がわかる。</span>
+          </h1>
+          <p>
+            今の経験がどの職種につながるか。市場価値、想定年収、伸ばしたいスキル、今日からできる行動まで整理します。
+          </p>
           <div className="actions">
-            <Link className="button primary" href="/career-compass">Questを開始する</Link>
-            <Link className="button ghost" href="/industry-map">業界地図を見る</Link>
+            <Link className="button primary home-primary-action" href="/career-compass">
+              無料でキャリアの現在地を確認する
+            </Link>
+            <Link className="button ghost" href="/industry-map">半導体業界の全体像を見る</Link>
           </div>
-          <div className="hero-metrics" aria-label="MVP の概要">
-            <div><strong>4</strong><span>Stages</span></div>
-            <div><strong>{companies.length}</strong><span>Companies</span></div>
-            <div><strong>1</strong><span>Today Quest</span></div>
-          </div>
+          <p className="hero-assurance">所要時間は数分。氏名や連絡先の入力はありません。</p>
         </div>
 
-        <div className="compass-stage" aria-label="半導体キャリア市場価値診断">
+        <div className="compass-stage" aria-label="Career Compassで整理できる4つの段階">
           <div className="compass-grid" />
           <div className="compass-orbit orbit-one" />
           <div className="compass-orbit orbit-two" />
           <div className="compass-core">
             <span>MC</span>
-            <strong>4 Stage Quest</strong>
+            <strong>Career Compass</strong>
           </div>
           {questFlow.map((step, index) => (
             <div className={`compass-node node-${index + 1}`} key={step.stage}>
@@ -68,66 +82,63 @@ export default function Home() {
             </div>
           ))}
           <div className="route-card">
-            <span>Route unlocked</span>
-            <strong>装置FEルート</strong>
-            <small>Power / Reward / Skill / Today Quest</small>
+            <span>Result preview</span>
+            <strong>経験がつながる職種</strong>
+            <small>Route / Market value / Skill / Today Quest</small>
           </div>
         </div>
       </section>
 
-      <section className="home-section">
+      <section className="home-trust-strip" aria-label="Career Compassの特徴">
+        {trustItems.map((item) => (
+          <div key={item.title}>
+            <strong>{item.title}</strong>
+            <span>{item.body}</span>
+          </div>
+        ))}
+      </section>
+
+      <section className="home-section home-result-overview">
         <div className="section-header">
           <div>
-            <p className="eyebrow">Sample result</p>
-            <h2>入力後に見えるもの。</h2>
+            <p className="eyebrow">What you will know</p>
+            <h2>診断後に、転職の判断材料が残る。</h2>
+            <p>点数だけで終わらず、経験の見せ方と次の行動まで一続きで確認できます。</p>
           </div>
-          <Link className="text-link" href="/career-compass">Questを開始する</Link>
+          <Link className="text-link" href="/career-compass">Career Compassを始める</Link>
         </div>
-        <div className="sample-result-grid">
-          {resultCards.map((card) => (
-            <article className="sample-result-card" key={card.label}>
-              <span>{card.label}</span>
-              <strong>{card.value}</strong>
-              <small>{card.note}</small>
-            </article>
-          ))}
-        </div>
-      </section>
 
-      <section className="home-section">
-        <div className="section-header">
-          <div>
-            <p className="eyebrow">4 Stage Quest Flow</p>
-            <h2>現在地から、今日の一手まで。</h2>
+        <div className="result-overview-layout">
+          <div className="result-output-list">
+            {resultOverview.map((item, index) => (
+              <article key={item.label}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <p className="eyebrow">{item.label}</p>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </div>
+              </article>
+            ))}
           </div>
-        </div>
-        <div className="quest-flow-grid">
-          {questFlow.map((step) => (
-            <article className="quest-flow-card" key={step.stage}>
-              <span>{step.stage}</span>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
 
-      <section className="home-section">
-        <div className="today-quest-preview">
-          <div>
-            <p className="eyebrow">Today Quest Preview</p>
-            <h2>今日やることが、1つ出る。</h2>
-            <p>将来は保存、完了、履歴化して、市場価値の積み上げにします。</p>
+          <div className="quest-flow-panel">
+            <p className="eyebrow">4 Stage Flow</p>
+            <h3>答える順番にも、理由があります。</h3>
+            <p>現在地から狙いを整理し、最後に今日の一手へつなげます。</p>
+            <ol>
+              {questFlow.map((step) => (
+                <li key={step.stage}>
+                  <span>{step.stage}</span>
+                  <div>
+                    <strong>{step.title}</strong>
+                    <small>{step.body}</small>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <Link className="button primary" href="/career-compass">現在地を確認する</Link>
           </div>
-          <div className="today-quest-card">
-            <div className="quest-check" aria-hidden="true" />
-            <div>
-              <span>Today Quest</span>
-              <strong>担当装置の停止時間を、改善前後で1行にする</strong>
-              <small>保存・完了・履歴化予定</small>
-            </div>
-          </div>
-          <Link className="button primary" href="/career-compass">Questを開始する</Link>
         </div>
       </section>
 
@@ -135,7 +146,8 @@ export default function Home() {
         <div className="section-header">
           <div>
             <p className="eyebrow">Industry map</p>
-            <h2>診断後、近い領域を見る。</h2>
+            <h2>職種だけでなく、業界のどこで働くかを見る。</h2>
+            <p>同じ半導体業界でも、企業の役割によって求められる経験は異なります。</p>
           </div>
           <Link className="text-link" href="/industry-map">業界地図を見る</Link>
         </div>
@@ -145,6 +157,8 @@ export default function Home() {
               <span>{String(index + 1).padStart(2, "0")}</span>
               <p className="eyebrow">{segment.shortName}</p>
               <h3>{segment.name}</h3>
+              <p>{segment.description}</p>
+              <small>{segment.roleInValueChain}</small>
             </Link>
           ))}
         </div>
@@ -153,12 +167,11 @@ export default function Home() {
       <section className="home-section spotlight-section">
         <div className="section-header">
           <div>
-            <p className="eyebrow">Companies</p>
-            <h2>診断後に気になる企業を見る。</h2>
+            <p className="eyebrow">Company research</p>
+            <h2>業界の役割から、代表的な企業を知る。</h2>
+            <p>各領域の企業情報を、公開情報と出典をもとに整理しています。</p>
           </div>
-          <Link className="text-link" href="/companies">
-            すべて見る
-          </Link>
+          <Link className="text-link" href="/companies">企業一覧を見る</Link>
         </div>
         <div className="company-grid">
           {featuredCompanies.map((company) => (
@@ -167,10 +180,24 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="home-section editorial-note" aria-labelledby="editorial-note-title">
+        <div>
+          <p className="eyebrow">How we research</p>
+          <h2 id="editorial-note-title">キャリア判断に使える、確かな情報を。</h2>
+        </div>
+        <p>
+          企業公式サイト、IR、採用情報などの公開情報を優先し、情報ソースと最終更新日を掲載します。診断結果は転職可能性を断定するものではなく、相談論点と準備を整理するための参考情報です。
+        </p>
+        <div className="editorial-links">
+          <Link className="text-link" href="/about">編集・運営方針を見る</Link>
+          <Link className="text-link" href="/disclaimer">診断結果の考え方を見る</Link>
+        </div>
+      </section>
+
       <div className="home-section">
         <AffiliateCta
           title="半導体業界に強い転職エージェントに相談する"
-          body="診断でルートと相談論点が見えたら、今狙える会社と半年後の準備を確認できます。"
+          body="診断で経験の見せ方と相談論点が見えたら、今狙える職種とこれからの準備を第三者に確認できます。"
         />
       </div>
     </main>
