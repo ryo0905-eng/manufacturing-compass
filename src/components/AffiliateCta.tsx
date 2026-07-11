@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { affiliateDisclosureText, getPrimaryAgent } from "@/data/affiliateLinks";
+import { affiliateDisclosureText, getPrimaryAgent, officialLinkDisclosureText } from "@/data/affiliateLinks";
 
 type AffiliateCtaProps = {
   title?: string;
@@ -25,7 +25,9 @@ export function AffiliateCta({
           企業研究を続ける
         </Link>
       </div>
-      <p className="disclosure">{partner ? affiliateDisclosureText : "本ページには広告リンクが含まれる場合があります。"}</p>
+      <p className="disclosure">
+        {partner?.linkType === "affiliate" ? affiliateDisclosureText : officialLinkDisclosureText}
+      </p>
     </section>
   );
 }

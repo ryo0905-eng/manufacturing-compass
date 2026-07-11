@@ -19,6 +19,7 @@ import {
   type CompassOption,
 } from "@/data/career-compass";
 import { companies } from "@/data/companies";
+import type { AgentFocus } from "@/data/affiliateLinks";
 
 type AnswerKey =
   | "background"
@@ -280,6 +281,11 @@ export function CareerCompassTool() {
               : baseProfile.todayQuest;
     const goalLabel = optionLabel(goalOptions, goal);
     const workStyleLabel = optionLabel(workStyleOptions, workStyle);
+    const agentFocus: AgentFocus = goal === "global"
+      ? "global"
+      : goal === "specialist" || goal === "income"
+        ? "specialist"
+        : "career-translation";
     const goalRoadmap: Record<string, { sixMonths: string; threeMonths: string }> = {
       entry: { threeMonths: `${targetRole}向けに実績を3件整理する`, sixMonths: `${targetRole}の応募要件に沿った経験を作る` },
       global: { threeMonths: `${targetRole}の実績を英語で説明できる形にする`, sixMonths: "英語を使う求人と国内求人を比較し、応募軸を決める" },
@@ -347,7 +353,7 @@ export function CareerCompassTool() {
       { id: "route", label: `${targetRole}の求人を3件だけ読む` },
     ];
 
-    return { band, buildName, modules, powerQuests, profile, resumeSignal, rewardGap, roadmap, score };
+    return { agentFocus, band, buildName, modules, powerQuests, profile, resumeSignal, rewardGap, roadmap, score };
   }, [answers]);
 
   const displayedScore = result.score;
@@ -571,6 +577,7 @@ export function CareerCompassTool() {
   if (isResult) {
     return <CareerCompassResult
       band={result.band}
+      agentFocus={result.agentFocus}
       buildName={result.buildName}
       completedQuestIds={completedQuestIds}
       copyStatus={copyStatus}
