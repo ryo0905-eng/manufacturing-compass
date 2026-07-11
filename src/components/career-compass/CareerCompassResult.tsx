@@ -232,7 +232,7 @@ function CareerRoadmap({ profile, roadmap }: Pick<CareerCompassResultProps, "pro
   );
 }
 
-function ConsultationCTA({ copyStatus, onCopyConsultMemo, onRestart, profile }: Pick<CareerCompassResultProps, "copyStatus" | "onCopyConsultMemo" | "onRestart" | "profile">) {
+function ConsultationCTA({ onRestart, profile }: Pick<CareerCompassResultProps, "onRestart" | "profile">) {
   return (
     <section className="consultation-cta-result" aria-labelledby="consultation-title">
       <div>
@@ -243,11 +243,7 @@ function ConsultationCTA({ copyStatus, onCopyConsultMemo, onRestart, profile }: 
       <div className="consultation-cta-actions">
         <Link className="button primary" href="/career-agents">この経歴に合うエージェントを見る</Link>
         <button className="button ghost" onClick={onRestart} type="button">もう一度診断する</button>
-        <button className="consult-memo-button" onClick={onCopyConsultMemo} type="button">
-          {copyStatus === "copied" ? "コピーしました" : "相談メモをコピー"}
-        </button>
       </div>
-      {copyStatus === "error" ? <small>コピーできませんでした。詳細レポートの相談テーマをご利用ください。</small> : null}
       <small className="result-disclosure">{affiliateDisclosureText}</small>
     </section>
   );
@@ -257,9 +253,11 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
   const {
     buildName,
     completedQuestIds,
+    copyStatus,
     displayedScore,
     insightState,
     modules,
+    onCopyConsultMemo,
     onGenerateInsights,
     onToggleQuest,
     powerQuests,
@@ -269,90 +267,180 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
     roadmap,
     routeLadder,
   } = props;
+  const moduleGuide: Record<string, { description: string; title: string }> = {
+    Route: { title: "経験の接続", description: "今の経験が、狙う職種へどれだけつながるか" },
+    Proof: { title: "実績の証拠", description: "成果を数字や具体例で伝えられる状態か" },
+    Skill: { title: "活かせるスキル", description: "半導体業界で評価される武器が整理できているか" },
+    Aim: { title: "目標との距離", description: "希望するキャリアへ向けた準備ができているか" },
+  };
+  const buildPlanLabels: Record<string, string> = {
+    "30d": "30日",
+    "90d": "3か月",
+    "180d": "半年",
+    "1y": "1年",
+  };
+  const scoreStatus = props.band === "High"
+    ? "応募準備がかなり整っています"
+    : props.band === "Growth"
+      ? "経験の見せ方で伸びる段階です"
+      : props.band === "Start"
+        ? "転職材料を整理し始める段階です"
+        : props.band.replace("today", "今日の行動");
+  const additionalQuests = powerQuests.filter((quest) => quest.label !== profile.todayQuest);
 
   return (
     <details className="detailed-report-accordion">
       <summary>
-        <span>Detailed Report</span>
-        <strong>診断スコアと詳しい準備プランを見る</strong>
+        <span>Diagnosis Evidence &amp; Consultation Prep</span>
+        <strong>診断の根拠と相談準備を見る</strong>
       </summary>
       <div className="detailed-report-body">
-        <section className="detail-score-overview">
-          <div><span>診断スコア</span><strong>{displayedScore}</strong><small>{props.band}</small></div>
-          <div><span>Build</span><strong>{buildName}</strong><small>{rewardGap.note}</small></div>
-        </section>
+        <div className="detailed-report-intro">
+          <p>このレポートは合否を判定するものではありません。</p>
+          <strong>今ある転職材料と、次に整理すると選択肢が広がるポイントを確認できます。</strong>
+        </div>
 
-        <section className="detail-block">
-          <h3>Route / Proof / Skill / Aim</h3>
-          <div className="detail-module-grid">
-            {modules.map((module) => (
-              <div key={module.label}>
-                <span>{module.label}</span><b>{module.value}</b>
-                <i aria-hidden="true"><em style={{ width: `${module.score}%` }} /></i>
-              </div>
-            ))}
+        <section className="detail-report-chapter">
+          <header className="detail-chapter-heading">
+            <span>01</span>
+            <div>
+              <p>Diagnosis Evidence</p>
+              <h3>なぜ、この診断結果になったのか</h3>
+            </div>
+          </header>
+
+          <div className="detail-score-context">
+            <div className="detail-score-number">
+              <span>転職材料の整理度</span>
+              <strong>{displayedScore}<small>/ 100</small></strong>
+              <p>経験・実績・スキル・目標の4要素を、応募準備の目安として整理した数値です。</p>
+            </div>
+            <div className="detail-build-context">
+              <span>現在のキャリア設計</span>
+              <strong>{buildName}</strong>
+              <p>{rewardGap.note}</p>
+              <small>{scoreStatus}</small>
+            </div>
           </div>
-          {resumeSignal ? <p className="detail-proof"><span>Proof</span>{resumeSignal}</p> : null}
+
+          <div className="detail-module-grid">
+            {modules.map((module) => {
+              const guide = moduleGuide[module.label];
+
+              return (
+                <article key={module.label}>
+                  <div>
+                    <span>{guide?.title ?? module.label}</span>
+                    <small>{module.score} / 100</small>
+                  </div>
+                  <strong>{module.value}</strong>
+                  {guide ? <p>{guide.description}</p> : null}
+                  <i aria-hidden="true"><em style={{ width: `${module.score}%` }} /></i>
+                </article>
+              );
+            })}
+          </div>
+
+          {resumeSignal ? (
+            <div className="detail-proof">
+              <span>職務経歴書で先に整えること</span>
+              <strong>{resumeSignal}</strong>
+            </div>
+          ) : null}
         </section>
 
-        {routeLadder.length > 0 ? (
-          <section className="detail-block">
-            <h3>Target Route</h3>
+        <section className="detail-report-chapter">
+          <header className="detail-chapter-heading">
+            <span>02</span>
+            <div>
+              <p>Application Preparation</p>
+              <h3>応募に向けて、何を準備するか</h3>
+            </div>
+          </header>
+
+          {routeLadder.length > 0 ? (
+            <div className="detail-subsection">
+              <h4>今と将来の応募ルート</h4>
+              <p>今すぐ狙う選択肢と、経験を補ってから狙う選択肢を分けています。</p>
             <div className="detail-route-grid">
               {routeLadder.map((route) => (
                 <div key={route.label}>
-                  <span>{route.label}</span><b>{route.title}</b>
+                    <span>{route.title}</span>
                   {route.companies.map((company) => <Link href={`/companies/${company.slug}` as Route} key={company.id}>{company.nameJa}</Link>)}
                   <small>{route.note}</small>
                 </div>
               ))}
             </div>
-          </section>
-        ) : null}
-
-        {roadmap.length > 0 ? (
-          <section className="detail-block">
-            <h3>Build Plan</h3>
-            <div className="detail-build-plan">
-              {roadmap.map((item) => <div key={item.label}><span>{item.label}</span><b>{item.value}</b></div>)}
             </div>
-          </section>
-        ) : null}
+          ) : null}
 
-        {powerQuests.length > 0 ? (
-          <section className="detail-block">
-            <h3>Power Up</h3>
+          {roadmap.length > 0 ? (
+            <div className="detail-subsection">
+              <h4>準備の進め方</h4>
+            <div className="detail-build-plan">
+                {roadmap.map((item) => <div key={item.label}><span>{buildPlanLabels[item.label] ?? item.label}</span><b>{item.value}</b></div>)}
+            </div>
+            </div>
+          ) : null}
+
+          {additionalQuests.length > 0 ? (
+            <div className="detail-subsection">
+              <h4>今日のクエストの次に進めること</h4>
             <div className="detail-power-quests">
-              {powerQuests.map((quest) => {
+                {additionalQuests.map((quest) => {
                 const isDone = completedQuestIds.includes(quest.id);
                 return (
                   <button className={isDone ? "detail-power-quest done" : "detail-power-quest"} key={quest.id} onClick={() => onToggleQuest(quest.id)} type="button">
-                    <b>{quest.label}</b><small>{isDone ? "DONE" : `+${quest.xp}`}</small>
+                      <i aria-hidden="true">{isDone ? "✓" : ""}</i>
+                      <b>{quest.label}</b>
+                      <small>{isDone ? "完了" : "未完了"}</small>
                   </button>
                 );
               })}
             </div>
-          </section>
-        ) : null}
+            </div>
+          ) : null}
+        </section>
 
-        <section className="detail-block detail-ai-insight">
-          <div><h3>AI Insight</h3><p>半導体向けに、経験の見え方を読み替えます。</p></div>
+        <section className="detail-report-chapter detail-consult-brief">
+          <header className="detail-chapter-heading">
+            <span>03</span>
+            <div>
+              <p>Consultation Brief</p>
+              <h3>エージェントへ相談すること</h3>
+            </div>
+          </header>
+
+          {profile.agentTalkTrack ? <p className="detail-consult-lead">{profile.agentTalkTrack}</p> : null}
+          {profile.consultQuestions.length > 0 ? (
+            <ol>
+              {profile.consultQuestions.map((question) => <li key={question}>{question}</li>)}
+            </ol>
+          ) : null}
+          <dl className="detail-consult-facts">
+            {props.showRewardGap ? <div><dt>年収上昇余地</dt><dd>{rewardGap.gapLabel}</dd></div> : null}
+            {profile.todayQuest ? <div><dt>今日整理する実績</dt><dd>{profile.todayQuest}</dd></div> : null}
+          </dl>
+          <div className="detail-consult-copy">
+            <button className="button primary" onClick={onCopyConsultMemo} type="button">
+              {copyStatus === "copied" ? "コピーしました" : "この内容を相談メモとしてコピー"}
+            </button>
+            {copyStatus === "error" ? <small>コピーできませんでした。上の相談テーマをメモしてください。</small> : null}
+          </div>
+        </section>
+
+        <aside className="detail-ai-insight">
+          <div>
+            <span>Optional Insight</span>
+            <strong>経験の見え方を、さらに深掘りする</strong>
+            <p>必要な場合だけ、AIによる補足分析を確認できます。</p>
+          </div>
           <button className="button ghost" disabled={insightState.status === "loading"} onClick={onGenerateInsights} type="button">
-            {insightState.status === "loading" ? "生成中" : "AIで深掘り"}
+            {insightState.status === "loading" ? "生成中" : "補足分析を見る"}
           </button>
           {insightState.message ? <small>{insightState.message}</small> : null}
           {insightState.items.length > 0 ? <ul>{insightState.items.map((item) => <li key={item}>{item}</li>)}</ul> : null}
-        </section>
-
-        {profile.consultQuestions.length > 0 ? (
-          <section className="detail-block detail-consult-brief">
-            <h3>Consult Brief</h3>
-            <ul>
-              {profile.consultQuestions.map((question) => <li key={question}>{question}</li>)}
-              <li>今日のキャリアクエスト: {profile.todayQuest}</li>
-            </ul>
-          </section>
-        ) : null}
+        </aside>
       </div>
     </details>
   );
