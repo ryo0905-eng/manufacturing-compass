@@ -3115,18 +3115,18 @@ select {
   font-size: 11px;
 }
 
-.detail-route-grid,
+.detail-company-grid,
 .detail-build-plan,
 .detail-power-quests {
   display: grid;
   gap: 12px;
 }
 
-.detail-route-grid {
+.detail-company-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.detail-route-grid > div {
+.detail-company-grid > article {
   display: grid;
   align-content: start;
   gap: 7px;
@@ -3135,24 +3135,40 @@ select {
   padding-top: 12px;
 }
 
-.detail-route-grid span,
+.detail-company-grid span,
 .detail-build-plan span {
   color: var(--muted);
   font-size: 10px;
   font-weight: 900;
 }
 
-.detail-route-grid a {
+.detail-company-grid a {
   color: var(--primary-dark);
   font-size: 13px;
   font-weight: 900;
   line-height: 1.45;
 }
 
-.detail-route-grid small {
+.detail-company-grid p {
+  display: grid;
+  gap: 2px;
+  margin: 0;
   color: var(--muted);
   font-size: 11px;
   line-height: 1.5;
+}
+
+.detail-company-grid p b {
+  color: var(--text);
+  font-size: 9px;
+}
+
+.detail-company-note {
+  display: block;
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
 }
 
 .detail-build-plan {
@@ -3416,7 +3432,7 @@ select {
   .consultation-cta-result,
   .detail-score-context,
   .detail-module-grid,
-  .detail-route-grid,
+  .detail-company-grid,
   .detail-build-plan,
   .detail-power-quests,
   .detail-consult-facts,

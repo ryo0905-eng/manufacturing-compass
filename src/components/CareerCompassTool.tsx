@@ -308,26 +308,15 @@ export function CareerCompassTool() {
   const stretchCompanies = companies.filter((company) =>
     result.profile.stretchCompanyIds.includes(company.id),
   );
-  const routeLadder = [
-    {
-      companies: reachableCompanies.slice(0, 2),
-      label: "Now",
-      note: result.profile.reachableRoles[0],
-      title: "今狙う",
-    },
-    {
-      companies: stretchCompanies.slice(0, 2),
-      label: "6M",
-      note: result.profile.roadmap6Months,
-      title: "半年後",
-    },
-    {
-      companies: stretchCompanies.slice(1, 3).length > 0 ? stretchCompanies.slice(1, 3) : stretchCompanies.slice(0, 2),
-      label: "1Y",
-      note: `${result.profile.growthLevers[0]}を武器にする`,
-      title: "1年後",
-    },
-  ];
+  const companyExamples = [...reachableCompanies, ...stretchCompanies]
+    .filter((company, index, candidates) => candidates.findIndex((candidate) => candidate.id === company.id) === index)
+    .map((company) => ({
+      company,
+      matchedRoles: company.jobCategories.filter((role) => result.profile.reachableRoles.includes(role)),
+      matchesSegment: company.industrySegments.some((segmentId) => result.profile.primarySegmentIds.includes(segmentId)),
+    }))
+    .filter((example) => example.matchedRoles.length > 0 || example.matchesSegment)
+    .slice(0, 4);
 
   useEffect(() => {
     return () => {
@@ -547,7 +536,7 @@ export function CareerCompassTool() {
       resumeSignal={result.resumeSignal}
       rewardGap={result.rewardGap}
       roadmap={result.roadmap}
-      routeLadder={routeLadder}
+      companyExamples={companyExamples}
       showRewardGap={answers.currentSalary !== undefined && answers.currentSalary !== "skip"}
     />;
   }

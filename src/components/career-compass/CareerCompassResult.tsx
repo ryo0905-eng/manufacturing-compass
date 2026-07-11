@@ -8,7 +8,7 @@ import { TodayQuest } from "@/components/career-compass/TodayQuest";
 type ScoreModule = { label: string; value: string; score: number };
 type PowerQuest = { id: string; label: string; xp: number };
 type RoadmapItem = { label: string; value: string };
-type RouteStep = { companies: Company[]; label: string; note: string; title: string };
+type CompanyExample = { company: Company; matchedRoles: string[]; matchesSegment: boolean };
 type RewardGap = { currentLabel: string; gapLabel: string; note: string };
 type InsightState =
   | { status: "idle"; items: string[]; message?: string }
@@ -34,7 +34,7 @@ type CareerCompassResultProps = {
   resumeSignal: string;
   rewardGap: RewardGap;
   roadmap: RoadmapItem[];
-  routeLadder: RouteStep[];
+  companyExamples: CompanyExample[];
   showRewardGap: boolean;
 };
 
@@ -252,6 +252,7 @@ function ConsultationCTA({ onRestart, profile }: Pick<CareerCompassResultProps, 
 function DetailedReportAccordion(props: CareerCompassResultProps) {
   const {
     buildName,
+    companyExamples,
     completedQuestIds,
     copyStatus,
     displayedScore,
@@ -265,7 +266,6 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
     resumeSignal,
     rewardGap,
     roadmap,
-    routeLadder,
   } = props;
   const moduleGuide: Record<string, { description: string; title: string }> = {
     Route: { title: "経験の接続", description: "今の経験が、狙う職種へどれだけつながるか" },
@@ -358,19 +358,24 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
             </div>
           </header>
 
-          {routeLadder.length > 0 ? (
+          {companyExamples.length > 0 ? (
             <div className="detail-subsection">
-              <h4>今と将来の応募ルート</h4>
-              <p>今すぐ狙う選択肢と、経験を補ってから狙う選択肢を分けています。</p>
-            <div className="detail-route-grid">
-              {routeLadder.map((route) => (
-                <div key={route.label}>
-                    <span>{route.title}</span>
-                  {route.companies.map((company) => <Link href={`/companies/${company.slug}` as Route} key={company.id}>{company.nameJa}</Link>)}
-                  <small>{route.note}</small>
-                </div>
-              ))}
-            </div>
+              <h4>経験と接点のある企業例</h4>
+              <p>診断結果の職種・事業領域と接点がある企業を、優劣や難易度の順ではなく同列に掲載しています。</p>
+              <div className="detail-company-grid">
+                {companyExamples.map(({ company, matchedRoles }) => (
+                  <article key={company.id}>
+                    <span>{company.businessModel}</span>
+                    <Link href={`/companies/${company.slug}` as Route}>{company.nameJa}</Link>
+                    {matchedRoles.length > 0 ? (
+                      <p><b>接点のある職種</b>{matchedRoles.join("・")}</p>
+                    ) : (
+                      <p>{company.careerSummary}</p>
+                    )}
+                  </article>
+                ))}
+              </div>
+              <small className="detail-company-note">企業例は現在の募集状況や選考通過の可能性を保証するものではありません。応募時は各社の最新求人をご確認ください。</small>
             </div>
           ) : null}
 
