@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     template: "%s | Manufacturing Compass",
   },
   description: "半導体業界での市場価値、想定年収、伸ばすべきスキル、今日の一手を整理する日本語キャリアプラットフォームです。",
+  verification: {
+    google: "3flJsORA3BERm-KxYL_CVe5fX6yGFtwJYKLpj3d0TxI",
+  },
   openGraph: {
     title: "Manufacturing Compass",
     description: "半導体キャリアの市場価値と次の一手を、もっとわかりやすく。",
