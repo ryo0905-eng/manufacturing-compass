@@ -11,6 +11,8 @@ export type AffiliateAgent = {
   consultationTopics: string[];
   pointsToConfirm: string;
   affiliateUrl?: string;
+  /** 提携プログラムから提供された広告コード。文言・計測画像を変えずに表示する。 */
+  affiliateCreativeHtml?: string;
   officialUrl: string;
   linkType: "affiliate" | "official";
   sourceUrl: string;
@@ -57,9 +59,11 @@ export const affiliateAgents: AffiliateAgent[] = [
     suitableRoles: ["設計・研究開発", "製造マネジメント", "業界スペシャリスト"],
     consultationTopics: ["専門性を評価される職種・役職", "外資系・グローバル企業への接続", "年収条件とキャリアの優先順位"],
     pointsToConfirm: "希望する職種・年収帯・勤務地に合う求人の取り扱いがあるか",
-    affiliateUrl: undefined,
+    affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=01004u2g00ova3",
+    affiliateCreativeHtml:
+      '<a href="https://h.accesstrade.net/sp/cc?rk=01004u2g00ova3" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="https://h.accesstrade.net/sp/rr?rk=01004u2g00ova3" alt="ジェイエイシーリクルートメント" border="0" width="234" height="60"></a>',
     officialUrl: "https://www.jac-recruitment.jp/",
-    linkType: "official",
+    linkType: "affiliate",
     sourceUrl: "https://www.jac-recruitment.jp/market/manufacture/",
     lastUpdated,
   },
@@ -138,7 +142,9 @@ export function getPrimaryAgent() {
 }
 
 export function getAgentUrl(agent: AffiliateAgent) {
-  return agent.linkType === "affiliate" && agent.affiliateUrl ? agent.affiliateUrl : agent.officialUrl;
+  // 汎用CTAには、提供元の広告文言を変えたアフィリエイトリンクを使わない。
+  // 提携リンクはエージェント一覧の広告クリエイティブとしてのみ表示する。
+  return agent.officialUrl;
 }
 
 export function getAgentCtaLabel(agent: AffiliateAgent) {
@@ -146,9 +152,9 @@ export function getAgentCtaLabel(agent: AffiliateAgent) {
     return "準備中";
   }
 
-  return agent.linkType === "affiliate" ? "無料相談してみる" : "公式情報を確認する";
+  return "公式情報を確認する";
 }
 
 export function getAgentRel(agent: AffiliateAgent) {
-  return agent.linkType === "affiliate" ? "sponsored noopener noreferrer" : "noopener noreferrer";
+  return "noopener noreferrer";
 }

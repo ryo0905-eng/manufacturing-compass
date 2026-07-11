@@ -34,7 +34,7 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
   const orderedAgents = selectedFocus
     ? [...affiliateAgents].sort((left, right) => Number(right.focusAreas.includes(selectedFocus)) - Number(left.focusAreas.includes(selectedFocus)))
     : affiliateAgents;
-  const hasAffiliateLink = affiliateAgents.some((agent) => agent.linkType === "affiliate" && agent.affiliateUrl);
+  const hasAffiliateLink = affiliateAgents.some((agent) => agent.linkType === "affiliate" && agent.affiliateCreativeHtml);
 
   return (
     <main className="page career-agents-page">
@@ -144,7 +144,12 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
                     <a href={agent.sourceUrl} rel="noopener noreferrer" target="_blank">情報源</a>
                     <small>確認日 {agent.lastUpdated}</small>
                   </div>
-                  {url ? (
+                  {agent.affiliateCreativeHtml ? (
+                    <div className="agent-affiliate-creative">
+                      <span>広告</span>
+                      <div dangerouslySetInnerHTML={{ __html: agent.affiliateCreativeHtml }} />
+                    </div>
+                  ) : url ? (
                     <a className="agent-official-link" href={url} rel={getAgentRel(agent)} target="_blank">
                       {getAgentCtaLabel(agent)} <span aria-hidden="true">↗</span>
                     </a>

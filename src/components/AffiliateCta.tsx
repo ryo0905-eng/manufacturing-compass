@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { affiliateDisclosureText, getPrimaryAgent, officialLinkDisclosureText } from "@/data/affiliateLinks";
+import { officialLinkDisclosureText } from "@/data/affiliateLinks";
 
 type AffiliateCtaProps = {
   title?: string;
@@ -10,8 +10,6 @@ export function AffiliateCta({
   title = "半導体業界に強い転職エージェントに相談する",
   body = "企業研究で方向性が見えてきたら、今狙える会社と半年後・1年後に向けた準備を第三者に相談するのも現実的です。",
 }: AffiliateCtaProps) {
-  const partner = getPrimaryAgent();
-
   return (
     <section className="cta-panel" aria-labelledby="career-cta-title">
       <p className="eyebrow">Career next step</p>
@@ -26,7 +24,7 @@ export function AffiliateCta({
         </Link>
       </div>
       <p className="disclosure">
-        {partner?.linkType === "affiliate" ? affiliateDisclosureText : officialLinkDisclosureText}
+        {officialLinkDisclosureText}
       </p>
     </section>
   );

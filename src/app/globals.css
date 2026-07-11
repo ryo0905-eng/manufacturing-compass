@@ -2295,6 +2295,23 @@ select {
   text-align: right;
 }
 
+.agent-affiliate-creative {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+}
+
+.agent-affiliate-creative > span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.agent-affiliate-creative img {
+  display: block;
+  max-width: 234px;
+  height: auto;
+}
+
 .agent-official-link.disabled {
   color: var(--muted);
   opacity: 0.6;
@@ -2445,6 +2462,10 @@ select {
 
   .career-agent-card .agent-official-link {
     text-align: left;
+  }
+
+  .agent-affiliate-creative {
+    justify-items: start;
   }
 }
 
