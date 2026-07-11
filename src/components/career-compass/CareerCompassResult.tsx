@@ -6,7 +6,7 @@ import type { Company } from "@/types/content";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
 
 type ScoreModule = { label: string; value: string; score: number };
-type PowerQuest = { id: string; label: string; xp: number };
+type PowerQuest = { id: string; label: string };
 type RoadmapItem = { label: string; value: string };
 type CompanyExample = { company: Company; matchedRoles: string[]; matchesSegment: boolean };
 type RewardGap = { currentLabel: string; gapLabel: string; note: string };
@@ -40,8 +40,8 @@ type CareerCompassResultProps = {
 
 function MarketValueSummary({ profile, rewardGap, showRewardGap }: Pick<CareerCompassResultProps, "profile" | "rewardGap" | "showRewardGap">) {
   const metrics = [
-    profile.salaryRangeCurrent ? { label: "現在の推定市場価値", value: profile.salaryRangeCurrent } : null,
-    profile.salaryRangePotential ? { label: "次に狙える年収ゾーン", value: profile.salaryRangePotential } : null,
+    profile.salaryRangeCurrent ? { label: "関連職種の参考年収レンジ", value: profile.salaryRangeCurrent } : null,
+    profile.salaryRangePotential ? { label: "経験を補った場合の参考レンジ", value: profile.salaryRangePotential } : null,
     showRewardGap && rewardGap.gapLabel ? { label: "年収上昇余地", value: rewardGap.gapLabel } : null,
   ].filter((metric): metric is { label: string; value: string } => Boolean(metric));
 
@@ -57,7 +57,7 @@ function MarketValueSummary({ profile, rewardGap, showRewardGap }: Pick<CareerCo
           </div>
         ))}
       </div>
-      <small>年収は経験、英語力、勤務地、勤務形態、企業の採用条件などによって変動します。</small>
+      <small>職種別の参考値です。実際の年収は経験、英語力、勤務地、勤務形態、企業の採用条件などによって変動します。</small>
     </div>
   );
 }
@@ -271,7 +271,7 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
     Route: { title: "経験の接続", description: "今の経験が、狙う職種へどれだけつながるか" },
     Proof: { title: "実績の証拠", description: "成果を数字や具体例で伝えられる状態か" },
     Skill: { title: "活かせるスキル", description: "半導体業界で評価される武器が整理できているか" },
-    Aim: { title: "目標との距離", description: "希望するキャリアへ向けた準備ができているか" },
+    Aim: { title: "目標との距離", description: "希望を支える英語・専門性・実績が準備できているか" },
   };
   const buildPlanLabels: Record<string, string> = {
     "30d": "30日",

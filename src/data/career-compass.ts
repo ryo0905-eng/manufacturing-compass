@@ -4,6 +4,12 @@ export type CompassOption = {
   description: string;
 };
 
+export type SpecialtyOption = CompassOption & {
+  strength: string;
+  targetRole: string;
+  translation: string;
+};
+
 export type MarketValueProfile = {
   id: string;
   title: string;
@@ -45,7 +51,7 @@ export const backgroundOptions: CompassOption[] = [
   { id: "equipment", label: "設備保全", description: "停止時間・再発防止" },
   { id: "mechanical", label: "設計", description: "装置・電気・制御" },
   { id: "sales-fae", label: "技術営業", description: "顧客課題・技術提案" },
-  { id: "beginner", label: "近い経験なし", description: "製造業から探索" },
+  { id: "beginner", label: "製造・その他", description: "製造現場から探索" },
 ];
 
 export const experienceOptions: CompassOption[] = [
@@ -81,13 +87,6 @@ export const achievementOptions: CompassOption[] = [
   { id: "lead", label: "主導経験", description: "横断・育成・標準化" },
 ];
 
-export const analysisOptions: CompassOption[] = [
-  { id: "none", label: "少ない", description: "これから" },
-  { id: "qc", label: "QC", description: "品質・不良解析" },
-  { id: "stats", label: "統計", description: "SPC・DOE" },
-  { id: "data", label: "データ", description: "BI・Python等" },
-];
-
 export const impactOptions: CompassOption[] = [
   { id: "none", label: "未整理", description: "まだ曖昧" },
   { id: "story", label: "事例あり", description: "背景から説明できる" },
@@ -102,13 +101,6 @@ export const scopeOptions: CompassOption[] = [
   { id: "customer", label: "顧客", description: "社外対応あり" },
 ];
 
-export const learningOptions: CompassOption[] = [
-  { id: "zero", label: "まだ未定", description: "まず方向を決めたい" },
-  { id: "one", label: "週1h", description: "求人を読む時間あり" },
-  { id: "three", label: "週3h", description: "学習と棚卸し可" },
-  { id: "daily", label: "毎日", description: "短期で仕上げたい" },
-];
-
 export const currentSalaryOptions: CompassOption[] = [
   { id: "skip", label: "入力しない", description: "あとで見る" },
   { id: "under400", label: "〜400万", description: "現在年収" },
@@ -118,6 +110,91 @@ export const currentSalaryOptions: CompassOption[] = [
   { id: "700-800", label: "700〜800万", description: "現在年収" },
   { id: "over800", label: "800万〜", description: "現在年収" },
 ];
+
+export const workStyleOptions: CompassOption[] = [
+  { id: "flexible", label: "幅広く検討", description: "勤務地・勤務形態を限定しない" },
+  { id: "location", label: "勤務地を優先", description: "転居せず通える範囲" },
+  { id: "daytime", label: "日勤を優先", description: "交替勤務を避けたい" },
+  { id: "limited-travel", label: "出張少なめ", description: "長期・頻繁な出張を避けたい" },
+];
+
+export const specialtyOptionsByBackground: Record<string, SpecialtyOption[]> = {
+  quality: [
+    { id: "failure-analysis", label: "不良解析", description: "原因特定・再発防止", strength: "不良原因を切り分け、再発防止へつなげる力", targetRole: "品質保証", translation: "不良解析・品質改善" },
+    { id: "process-quality", label: "工程品質", description: "工程監査・品質安定化", strength: "工程のばらつきを見つけ、品質を安定させる力", targetRole: "プロセスエンジニア", translation: "工程品質・プロセス改善" },
+    { id: "customer-quality", label: "顧客品質", description: "顧客対応・品質報告", strength: "顧客要求を整理し、社内の改善へつなげる力", targetRole: "品質保証", translation: "顧客品質・品質窓口" },
+    { id: "supplier-quality", label: "サプライヤー品質", description: "監査・是正・受入品質", strength: "仕入先と是正を進め、品質を作り込む力", targetRole: "品質保証", translation: "サプライヤー品質管理" },
+  ],
+  production: [
+    { id: "yield", label: "工程・歩留まり改善", description: "条件最適化・不良低減", strength: "工程データから改善点を見つける力", targetRole: "プロセスエンジニア", translation: "歩留まり改善・プロセス最適化" },
+    { id: "launch", label: "量産立ち上げ", description: "新製品・新ライン・移管", strength: "量産条件を整え、立ち上げを安定させる力", targetRole: "生産技術", translation: "新ライン立ち上げ・量産安定化" },
+    { id: "automation", label: "自動化・省人化", description: "設備導入・制御・改善", strength: "現場課題を設備や仕組みで改善する力", targetRole: "生産技術", translation: "製造自動化・スマートファクトリー" },
+    { id: "productivity", label: "生産性・コスト改善", description: "タクト・稼働率・原価", strength: "生産性とコストを数字で改善する力", targetRole: "生産技術", translation: "生産性改善・コスト改善" },
+  ],
+  equipment: [
+    { id: "maintenance", label: "保全・早期復旧", description: "故障対応・予防保全", strength: "装置異常を切り分け、早期復旧へ導く力", targetRole: "設備エンジニア", translation: "設備保全・トラブルシュート" },
+    { id: "installation", label: "据付・立ち上げ", description: "導入・調整・試運転", strength: "装置を導入し、安定稼働まで仕上げる力", targetRole: "装置立ち上げ", translation: "装置据付・立ち上げ" },
+    { id: "controls", label: "電気・PLC・制御", description: "回路・ラダー・制御改善", strength: "電気と制御から装置課題を解決する力", targetRole: "制御設計", translation: "装置制御・自動化技術" },
+    { id: "vendor-support", label: "メーカー・顧客対応", description: "折衝・説明・現地対応", strength: "現場と装置メーカーをつないで解決する力", targetRole: "フィールドエンジニア", translation: "フィールドサービス・顧客技術対応" },
+  ],
+  mechanical: [
+    { id: "mechanical-design", label: "機械設計", description: "機構・筐体・搬送", strength: "制約条件から成立する機構を設計する力", targetRole: "装置開発", translation: "半導体製造装置の機械設計" },
+    { id: "electrical-design", label: "電気設計", description: "回路・配線・電装", strength: "装置要求を電気仕様へ落とし込む力", targetRole: "電気設計", translation: "半導体製造装置の電気設計" },
+    { id: "control-design", label: "制御・ソフト", description: "PLC・組み込み・制御", strength: "装置動作を制御仕様へ落とし込む力", targetRole: "制御設計", translation: "装置制御・組み込み開発" },
+    { id: "validation", label: "評価・検証", description: "性能・信頼性・改善", strength: "評価結果から設計改善へつなげる力", targetRole: "装置開発", translation: "装置性能評価・信頼性改善" },
+  ],
+  "sales-fae": [
+    { id: "technical-sales", label: "技術提案", description: "顧客課題・提案・商談", strength: "顧客課題を技術提案へ変える力", targetRole: "営業技術", translation: "半導体製品の技術提案" },
+    { id: "fae", label: "FAE・評価支援", description: "技術説明・評価・採用支援", strength: "顧客評価を支え、製品採用へつなげる力", targetRole: "FAE", translation: "アプリケーション評価・デザインイン支援" },
+    { id: "customer-support", label: "顧客技術サポート", description: "問い合わせ・不具合・導入", strength: "顧客の技術課題を整理し、解決へ導く力", targetRole: "アプリケーションエンジニア", translation: "顧客技術サポート" },
+    { id: "product-introduction", label: "製品導入・採用支援", description: "デモ・評価・量産採用", strength: "製品の価値を実証し、導入へつなげる力", targetRole: "FAE", translation: "製品導入・量産採用支援" },
+  ],
+  beginner: [
+    { id: "manufacturing", label: "製造・オペレーション", description: "手順・安全・安定稼働", strength: "製造現場で標準を守り、安定稼働を支える力", targetRole: "製造技術", translation: "半導体製造オペレーション" },
+    { id: "near-quality", label: "検査・品質に近い", description: "測定・記録・異常対応", strength: "異常を見つけ、品質を守る力", targetRole: "品質保証", translation: "工程検査・品質管理" },
+    { id: "near-equipment", label: "設備に近い", description: "点検・復旧・段取り", strength: "設備を安全に動かし、異常へ対応する力", targetRole: "設備エンジニア", translation: "設備技術・保全支援" },
+    { id: "near-improvement", label: "改善に近い", description: "作業・時間・ムダの改善", strength: "現場のムダを見つけ、改善する力", targetRole: "生産技術", translation: "生産性改善・工程改善" },
+  ],
+};
+
+export const skillOptionsByBackground: Record<string, CompassOption[]> = {
+  quality: [
+    { id: "none", label: "これから", description: "品質手法を整理したい" },
+    { id: "basic", label: "QC・なぜなぜ", description: "基本的な原因分析" },
+    { id: "applied", label: "FMEA・8D", description: "再発防止・品質設計" },
+    { id: "advanced", label: "SPC・DOE", description: "統計的な工程改善" },
+  ],
+  production: [
+    { id: "none", label: "これから", description: "改善手法を整理したい" },
+    { id: "basic", label: "IE・QC", description: "ムダ・ばらつきの改善" },
+    { id: "applied", label: "SPC・工程能力", description: "量産データを分析" },
+    { id: "advanced", label: "DOE・Python", description: "条件最適化・自動分析" },
+  ],
+  equipment: [
+    { id: "none", label: "これから", description: "装置技術を整理したい" },
+    { id: "basic", label: "図面・点検", description: "機械・電気の基礎" },
+    { id: "applied", label: "PLC・故障解析", description: "制御・原因切り分け" },
+    { id: "advanced", label: "真空・予兆保全", description: "装置原理・データ保全" },
+  ],
+  mechanical: [
+    { id: "none", label: "これから", description: "設計技術を整理したい" },
+    { id: "basic", label: "CAD・回路・PLC", description: "担当領域の設計基礎" },
+    { id: "applied", label: "評価・公差・制御", description: "成立性と性能を検証" },
+    { id: "advanced", label: "安全・信頼性設計", description: "装置要求を横断して設計" },
+  ],
+  "sales-fae": [
+    { id: "none", label: "これから", description: "技術知識を補いたい" },
+    { id: "basic", label: "製品説明", description: "仕様・用途を説明" },
+    { id: "applied", label: "評価・提案支援", description: "顧客条件で技術提案" },
+    { id: "advanced", label: "デザインイン", description: "評価から量産採用まで支援" },
+  ],
+  beginner: [
+    { id: "none", label: "これから", description: "まず基礎を選びたい" },
+    { id: "basic", label: "安全・標準作業", description: "製造現場の基本" },
+    { id: "applied", label: "QC・改善活動", description: "異常とムダを改善" },
+    { id: "advanced", label: "データ・自動化", description: "数字や仕組みで改善" },
+  ],
+};
 
 export const marketValueProfiles: Record<string, MarketValueProfile> = {
   quality: {

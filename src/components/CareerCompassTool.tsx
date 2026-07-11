@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CareerCompassResult } from "@/components/career-compass/CareerCompassResult";
 import {
   achievementOptions,
-  analysisOptions,
   backgroundOptions,
   currentSalaryOptions,
   englishOptions,
@@ -12,15 +11,18 @@ import {
   exposureOptions,
   goalOptions,
   impactOptions,
-  learningOptions,
   marketValueProfiles,
   scopeOptions,
+  skillOptionsByBackground,
+  specialtyOptionsByBackground,
+  workStyleOptions,
   type CompassOption,
 } from "@/data/career-compass";
 import { companies } from "@/data/companies";
 
 type AnswerKey =
   | "background"
+  | "specialty"
   | "exposure"
   | "experience"
   | "achievement"
@@ -28,9 +30,9 @@ type AnswerKey =
   | "scope"
   | "analysis"
   | "english"
-  | "learning"
-  | "currentSalary"
-  | "goal";
+  | "goal"
+  | "workStyle"
+  | "currentSalary";
 type Answers = Partial<Record<AnswerKey, string>>;
 type InsightState =
   | { status: "idle"; items: string[]; message?: string }
@@ -45,74 +47,24 @@ type QuestionStep = {
   options: CompassOption[];
 };
 
-const questionSteps: QuestionStep[] = [
-  {
-    key: "background",
-    label: "経験",
-    question: "経験は？",
-    options: backgroundOptions,
-  },
-  {
-    key: "exposure",
-    label: "接点",
-    question: "半導体接点は？",
-    options: exposureOptions,
-  },
-  {
-    key: "experience",
-    label: "年数",
-    question: "年数は？",
-    options: experienceOptions,
-  },
-  {
-    key: "achievement",
-    label: "実績",
-    question: "一番強い実績は？",
-    options: achievementOptions,
-  },
-  {
-    key: "impact",
-    label: "数字",
-    question: "成果は数字で語れる？",
-    options: impactOptions,
-  },
-  {
-    key: "scope",
-    label: "範囲",
-    question: "巻き込んだ範囲は？",
-    options: scopeOptions,
-  },
-  {
-    key: "analysis",
-    label: "武器",
-    question: "データ武器は？",
-    options: analysisOptions,
-  },
-  {
-    key: "english",
-    label: "英語",
-    question: "英語は？",
-    options: englishOptions,
-  },
-  {
-    key: "learning",
-    label: "積上げ",
-    question: "週に積める時間は？",
-    options: learningOptions,
-  },
-  {
-    key: "currentSalary",
-    label: "年収",
-    question: "今の年収は？",
-    options: currentSalaryOptions,
-  },
-  {
-    key: "goal",
-    label: "狙い",
-    question: "狙いは？",
-    options: goalOptions,
-  },
-];
+function getQuestionSteps(backgroundId: string | undefined): QuestionStep[] {
+  const background = backgroundId ?? "beginner";
+
+  return [
+    { key: "background", label: "現在地", question: "現在の仕事で、最も近い領域は？", options: backgroundOptions },
+    { key: "specialty", label: "担当業務", question: "実際に担当している仕事は？", options: specialtyOptionsByBackground[background] ?? specialtyOptionsByBackground.beginner },
+    { key: "exposure", label: "半導体接点", question: "半導体の製品・工場・装置に、どの深さで関わった？", options: exposureOptions },
+    { key: "experience", label: "経験期間", question: "その仕事を主担当として経験した期間は？", options: experienceOptions },
+    { key: "achievement", label: "成果", question: "直近で、最も説明しやすい成果は？", options: achievementOptions },
+    { key: "impact", label: "証拠", question: "その成果を、どこまで証拠付きで説明できる？", options: impactOptions },
+    { key: "scope", label: "役割", question: "その成果で、どの範囲を担当した？", options: scopeOptions },
+    { key: "analysis", label: "専門スキル", question: "仕事で使える専門スキルは？", options: skillOptionsByBackground[background] ?? skillOptionsByBackground.beginner },
+    { key: "english", label: "英語", question: "英語を仕事でどこまで使える？", options: englishOptions },
+    { key: "goal", label: "転職目的", question: "次の転職で、最も優先したいことは？", options: goalOptions },
+    { key: "workStyle", label: "働き方", question: "働き方で、最も優先したい条件は？", options: workStyleOptions },
+    { key: "currentSalary", label: "現在年収", question: "現在の年収帯は？", options: currentSalaryOptions },
+  ];
+}
 
 const experienceBonus: Record<string, number> = {
   early: -4,
@@ -129,16 +81,16 @@ const exposureBonus: Record<string, number> = {
 
 const achievementBonus: Record<string, number> = {
   routine: -3,
-  improvement: 5,
+  improvement: 7,
   launch: 7,
-  lead: 8,
+  lead: 7,
 };
 
 const analysisBonus: Record<string, number> = {
   none: -4,
-  qc: 3,
-  stats: 6,
-  data: 7,
+  basic: 5,
+  applied: 11,
+  advanced: 16,
 };
 
 const impactBonus: Record<string, number> = {
@@ -152,7 +104,7 @@ const scopeBonus: Record<string, number> = {
   solo: -2,
   team: 2,
   cross: 5,
-  customer: 6,
+  customer: 5,
 };
 
 const englishBonus: Record<string, number> = {
@@ -161,28 +113,14 @@ const englishBonus: Record<string, number> = {
   high: 8,
 };
 
-const goalBonus: Record<string, number> = {
-  entry: 0,
-  global: 5,
-  specialist: 3,
-  income: 4,
-};
-
-const learningBonus: Record<string, number> = {
-  zero: -3,
-  one: 1,
-  three: 4,
-  daily: 7,
-};
-
-const currentSalaryMidpoint: Record<string, number | null> = {
-  skip: null,
-  under400: 350,
-  "400-500": 450,
-  "500-600": 550,
-  "600-700": 650,
-  "700-800": 750,
-  over800: 850,
+const currentSalaryRanges: Record<string, { high: number | null; low: number | null }> = {
+  skip: { high: null, low: null },
+  under400: { high: 400, low: null },
+  "400-500": { high: 500, low: 400 },
+  "500-600": { high: 600, low: 500 },
+  "600-700": { high: 700, low: 600 },
+  "700-800": { high: 800, low: 700 },
+  over800: { high: null, low: 800 },
 };
 
 function clamp(value: number, min: number, max: number) {
@@ -200,26 +138,33 @@ function parseSalaryRange(range: string) {
 }
 
 function formatRewardGap(currentSalaryId: string | undefined, marketRange: string) {
-  const current = currentSalaryMidpoint[currentSalaryId ?? "skip"];
+  const salaryId = currentSalaryId ?? "skip";
+  const current = currentSalaryRanges[salaryId];
+  const currentLabel = optionLabel(currentSalaryOptions, salaryId) || "未入力";
 
-  if (!current) {
+  if (!current || current.low === null || current.high === null) {
+    if (salaryId === "under400") {
+      return { currentLabel, gapLabel: "上振れ余地あり", note: "現在年収がレンジ形式のため、差額は参考表示です" };
+    }
+    if (salaryId === "over800") {
+      return { currentLabel, gapLabel: "条件により変動", note: "現年収の維持を含め、職種と条件を個別に確認する必要があります" };
+    }
     return { currentLabel: "未入力", gapLabel: "表示なし", note: "年収を入れると差分が見えます" };
   }
 
   const market = parseSalaryRange(marketRange);
-  const lowGap = market.low - current;
-  const highGap = market.high - current;
-  const currentLabel = `${current}万円`;
+  const lowGap = market.low - current.high;
+  const highGap = market.high - current.low;
 
   if (highGap <= 0) {
-    return { currentLabel, gapLabel: "現年収も強い", note: "専門性や外資ルートで上振れを狙えます" };
+    return { currentLabel, gapLabel: "現年収水準が上回る", note: "年収維持を優先する場合は、求人条件を個別に確認してください" };
   }
 
   if (lowGap <= 0) {
-    return { currentLabel, gapLabel: `〜+${highGap}万円`, note: "半導体向けに実績を翻訳すると上振れ余地があります" };
+    return { currentLabel, gapLabel: `重なる〜最大+${highGap}万円`, note: "現在年収帯と参考レンジには重なりがあります" };
   }
 
-  return { currentLabel, gapLabel: `+${lowGap}〜${highGap}万円`, note: "経験の見せ方で評価レンジが変わる可能性があります" };
+  return { currentLabel, gapLabel: `+${lowGap}〜${highGap}万円`, note: "レンジ同士の比較であり、実際の提示額を保証するものではありません" };
 }
 
 export function CareerCompassTool() {
@@ -232,12 +177,14 @@ export function CareerCompassTool() {
   const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const analysisTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const questionSteps = useMemo(() => getQuestionSteps(answers.background), [answers.background]);
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
   const currentValue = answers[currentStep.key];
 
   const result = useMemo(() => {
     const background = answers.background ?? "beginner";
+    const specialtyId = answers.specialty;
     const exposure = answers.exposure ?? "none";
     const experience = answers.experience ?? "middle";
     const english = answers.english ?? "middle";
@@ -245,11 +192,15 @@ export function CareerCompassTool() {
     const impact = answers.impact ?? "none";
     const scope = answers.scope ?? "solo";
     const analysis = answers.analysis ?? "none";
-    const learning = answers.learning ?? "zero";
     const goal = answers.goal ?? "entry";
+    const workStyle = answers.workStyle ?? "flexible";
     const currentSalary = answers.currentSalary ?? "skip";
-    const profile = marketValueProfiles[background] ?? marketValueProfiles.beginner;
-    const routeScore = clamp(profile.baseScore + (exposureBonus[exposure] ?? 0), 35, 96);
+    const baseProfile = marketValueProfiles[background] ?? marketValueProfiles.beginner;
+    const specialtyOptions = specialtyOptionsByBackground[background] ?? specialtyOptionsByBackground.beginner;
+    const specialty = specialtyOptions.find((option) => option.id === specialtyId) ?? specialtyOptions[0];
+    const skillOptions = skillOptionsByBackground[background] ?? skillOptionsByBackground.beginner;
+    const targetRole = specialty?.targetRole ?? baseProfile.reachableRoles[0];
+    const routeScore = clamp(baseProfile.baseScore + (exposureBonus[exposure] ?? 0) + (specialty ? 4 : 0), 35, 96);
     const evidenceScore = clamp(
       50 +
         (experienceBonus[experience] ?? 0) +
@@ -259,23 +210,124 @@ export function CareerCompassTool() {
       35,
       96,
     );
-    const skillScore = clamp(
-      48 + (analysisBonus[analysis] ?? 0) + (englishBonus[english] ?? 0) + (learningBonus[learning] ?? 0),
+    const skillScore = clamp(52 + (analysisBonus[analysis] ?? 0) + (englishBonus[english] ?? 0), 35, 96);
+    const targetScore = clamp(
+      goal === "global"
+        ? english === "high" ? 82 : english === "middle" ? 66 : 50
+        : goal === "specialist"
+          ? analysis === "advanced" ? 82 : analysis === "applied" ? 74 : analysis === "basic" ? 64 : 50
+          : goal === "income"
+            ? impact === "money" ? 82 : impact === "number" ? 76 : impact === "story" ? 62 : 50
+            : exposure === "none" ? 58 : 72,
       35,
       96,
     );
-    const targetScore = clamp(54 + (goalBonus[goal] ?? 0) + (exposureBonus[exposure] ?? 0) + (learningBonus[learning] ?? 0), 35, 96);
     const score = clamp(
-      Math.round(routeScore * 0.36 + evidenceScore * 0.28 + skillScore * 0.22 + targetScore * 0.14),
+      Math.round(routeScore * 0.3 + evidenceScore * 0.35 + skillScore * 0.25 + targetScore * 0.1),
       35,
       92,
     );
-    const band = score >= 80 ? "High" : score >= 65 ? "Growth" : "Start";
+    const band = score >= 74 ? "High" : score >= 58 ? "Growth" : "Start";
+    const achievementStrength: Record<string, string> = {
+      routine: "日常業務を安定して運用する力",
+      improvement: "改善を実際の成果へつなげた経験",
+      launch: "導入・移管・量産化を前へ進めた経験",
+      lead: "周囲を動かし、改善を定着させた経験",
+    };
+    const impactStrength: Record<string, string> = {
+      none: "",
+      story: "成果の背景と行動を具体的に説明する力",
+      number: "成果を率・件数・時間で示せること",
+      money: "成果を原価・損失の改善として示せること",
+    };
+    const scopeStrength: Record<string, string> = {
+      solo: "自分の担当範囲を着実に完遂する力",
+      team: "チームで改善を進める力",
+      cross: "部門をまたいで関係者を動かす力",
+      customer: "顧客や社外関係者と技術課題を解決する力",
+    };
+    const unique = (items: Array<string | undefined>) => [...new Set(items.filter((item): item is string => Boolean(item)))];
+    const strengths = unique([
+      specialty?.strength,
+      impactStrength[impact],
+      scopeStrength[scope],
+      achievementStrength[achievement],
+      ...baseProfile.strengths,
+    ]).slice(0, 3);
+    const answerBasedBottlenecks = [
+      impact === "none" ? "成果の背景・行動・結果がまだ整理されていない" : undefined,
+      impact === "story" ? "成果を改善前後の数字で補強できていない" : undefined,
+      exposure === "none" ? "現在の経験と半導体工程・装置との接点がまだ言語化できていない" : undefined,
+      analysis === "none" ? "狙う職種で使う専門スキルを1つ選んで補強する必要がある" : undefined,
+      goal === "global" && english === "low" ? "外資系を狙うには、英語で実績を説明する準備が必要" : undefined,
+      workStyle === "limited-travel" && targetRole === "フィールドエンジニア" ? "フィールド職は出張条件を求人ごとに確認する必要がある" : undefined,
+      workStyle === "daytime" && baseProfile.primarySegmentIds.some((segment) => segment === "foundry" || segment === "memory")
+        ? "工場系職種は交替勤務の有無を求人ごとに確認する必要がある"
+        : undefined,
+      workStyle === "location" ? "勤務地を優先する場合、対象企業と職種の選択肢が地域によって変わる" : undefined,
+    ];
+    const bottlenecks = unique([...answerBasedBottlenecks, ...baseProfile.bottlenecks]).slice(0, 3);
+    const todayQuest = impact === "none"
+      ? `${specialty?.label ?? "担当業務"}の実績を1つ選び、課題・行動・結果の3行で書く`
+      : impact === "story"
+        ? `${specialty?.label ?? "担当業務"}の実績に、改善前後の率・件数・時間を1つ加える`
+        : exposure === "none"
+          ? `${targetRole}の求人を3件読み、今の経験と共通する言葉を3つ書き出す`
+          : analysis === "none"
+            ? `${targetRole}の求人で頻出する専門スキルを1つ選び、学ぶ順番を決める`
+            : goal === "global" && english === "low"
+              ? `${specialty?.label ?? "担当業務"}の実績を、英語で3文にする`
+              : baseProfile.todayQuest;
+    const goalLabel = optionLabel(goalOptions, goal);
+    const workStyleLabel = optionLabel(workStyleOptions, workStyle);
+    const goalRoadmap: Record<string, { sixMonths: string; threeMonths: string }> = {
+      entry: { threeMonths: `${targetRole}向けに実績を3件整理する`, sixMonths: `${targetRole}の応募要件に沿った経験を作る` },
+      global: { threeMonths: `${targetRole}の実績を英語で説明できる形にする`, sixMonths: "英語を使う求人と国内求人を比較し、応募軸を決める" },
+      specialist: { threeMonths: `${optionLabel(skillOptions, analysis)}を実務事例として説明できる形にする`, sixMonths: `${targetRole}で評価される専門テーマを1つ実績化する` },
+      income: { threeMonths: "改善実績を数字と効果額で比較できる形にする", sixMonths: "年収条件と仕事内容を両立できる応募軸を作る" },
+    };
+    const selectedRoadmap = goalRoadmap[goal] ?? goalRoadmap.entry;
+    const consultQuestions = unique([
+      `${specialty?.label ?? "現在の経験"}を${targetRole}へどう翻訳すると伝わるか`,
+      `${goalLabel}ために、今の経験で不足している準備は何か`,
+      workStyle !== "flexible" ? `${workStyleLabel}条件で現実的に狙える職種と企業はどこか` : undefined,
+      ...baseProfile.consultQuestions,
+    ]).slice(0, 3);
+    const profile = {
+      ...baseProfile,
+      title: `${specialty?.label ?? baseProfile.shortLabel}の経験を${targetRole}へ翻訳するタイプ`,
+      summary: `${specialty?.label ?? "現在"}の経験は、半導体業界では${targetRole}の文脈で整理できます。`,
+      narrative: specialty
+        ? `${specialty.strength}は、半導体業界の${targetRole}でも評価される経験です。${baseProfile.narrative}`
+        : baseProfile.narrative,
+      reachableRoles: unique([targetRole, ...baseProfile.reachableRoles]),
+      strengths,
+      bottlenecks,
+      marketValueReasons: unique([
+        specialty ? `${specialty.label}の経験を、${specialty.translation}として説明できます。` : undefined,
+        impact === "number" || impact === "money" ? "成果を数字で説明できるため、実績の再現性を伝えやすいです。" : undefined,
+        scope === "cross" || scope === "customer" ? "関係者を巻き込んだ経験は、技術だけでなく推進力の証拠になります。" : undefined,
+        ...baseProfile.marketValueReasons,
+      ]).slice(0, 3),
+      hiddenAssets: strengths,
+      semiconductorTranslation: unique([
+        specialty ? `${specialty.label} → ${specialty.translation}` : undefined,
+        ...baseProfile.semiconductorTranslation,
+      ]).slice(0, 3),
+      immediateRoutes: unique([`${targetRole}への近接ルート`, ...baseProfile.immediateRoutes]),
+      actionsToday: unique([todayQuest, ...baseProfile.actionsToday]),
+      roadmap30Days: unique([todayQuest, ...baseProfile.roadmap30Days]),
+      roadmap90Days: selectedRoadmap.threeMonths,
+      roadmap6Months: selectedRoadmap.sixMonths,
+      consultQuestions,
+      todayQuest,
+      agentTalkTrack: `${specialty?.label ?? "現在の経験"}を${targetRole}へつなげ、${goalLabel}ための現実的な順番を相談する`,
+    };
     const modules = [
-      { label: "Route", value: profile.reachableRoles[0], score: routeScore },
+      { label: "Route", value: targetRole, score: routeScore },
       { label: "Proof", value: optionLabel(impactOptions, impact), score: evidenceScore },
-      { label: "Skill", value: optionLabel(analysisOptions, analysis), score: skillScore },
-      { label: "Aim", value: optionLabel(goalOptions, goal), score: targetScore },
+      { label: "Skill", value: optionLabel(skillOptions, analysis), score: skillScore },
+      { label: "Aim", value: `${goalLabel} / ${workStyleLabel}`, score: targetScore },
     ];
     const buildName = `${profile.shortLabel} / ${optionLabel(achievementOptions, achievement) || "探索"}ビルド`;
     const resumeSignal =
@@ -286,22 +338,19 @@ export function CareerCompassTool() {
       { label: "30d", value: profile.roadmap30Days[0] },
       { label: "90d", value: profile.roadmap90Days },
       { label: "180d", value: profile.roadmap6Months },
-      { label: "1y", value: `${profile.growthLevers[0]}を実績化し、ストレッチ企業の応募軸を作る` },
+      { label: "1y", value: `${profile.growthLevers[0]}を実績化し、${goalLabel}ための応募軸を作る` },
     ];
     const rewardGap = formatRewardGap(currentSalary, profile.salaryRangeCurrent);
     const powerQuests = [
-      { id: "proof", label: profile.todayQuest, xp: 2 },
-      { id: "skill", label: analysis === "none" ? "半導体用語を10個覚える" : profile.roadmap30Days[0], xp: 2 },
-      { id: "route", label: "求人を3件だけ読む", xp: 1 },
+      { id: "proof", label: profile.todayQuest },
+      { id: "skill", label: analysis === "none" ? `${targetRole}で使う専門用語を10個覚える` : profile.roadmap30Days[1] ?? profile.roadmap30Days[0] },
+      { id: "route", label: `${targetRole}の求人を3件だけ読む` },
     ];
 
     return { band, buildName, modules, powerQuests, profile, resumeSignal, rewardGap, roadmap, score };
   }, [answers]);
 
-  const questBoost = result.powerQuests
-    .filter((quest) => completedQuestIds.includes(quest.id))
-    .reduce((sum, quest) => sum + quest.xp, 0);
-  const displayedScore = clamp(result.score + questBoost, 35, 99);
+  const displayedScore = result.score;
   const reachableCompanies = companies.filter((company) =>
     result.profile.reachableCompanyIds.includes(company.id),
   );
@@ -341,7 +390,9 @@ export function CareerCompassTool() {
   }
 
   function chooseAnswer(key: AnswerKey, value: string) {
-    setAnswers((current) => ({ ...current, [key]: value }));
+    setAnswers((current) => key === "background" && current.background !== value
+      ? { ...current, analysis: undefined, background: value, specialty: undefined }
+      : { ...current, [key]: value });
 
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
@@ -423,9 +474,9 @@ export function CareerCompassTool() {
     const memo = [
       "Manufacturing Compass 相談メモ",
       `タイプ: ${result.profile.typeName}`,
-      `Career Power: ${displayedScore}`,
-      `市場レンジ: ${result.profile.salaryRangeCurrent}`,
-      `伸ばした後: ${result.profile.salaryRangePotential}`,
+      `転職材料の整理度: ${displayedScore}`,
+      `関連職種の参考年収レンジ: ${result.profile.salaryRangeCurrent}`,
+      `経験を補った場合の参考レンジ: ${result.profile.salaryRangePotential}`,
       `現年収との差分: ${result.rewardGap.gapLabel}`,
       `狙える職種: ${result.profile.reachableRoles.join(" / ")}`,
       `強み: ${result.profile.strengths.join(" / ")}`,
@@ -491,9 +542,9 @@ export function CareerCompassTool() {
     const analysisLogs = [
       "経験データを解析中...",
       "半導体業界向けに翻訳中...",
-      "市場価値レンジを計算中...",
-      "今日のQuestを生成中...",
-      "Route Unlocked",
+      "関連職種の参考レンジを確認中...",
+      "今日の行動を整理中...",
+      "キャリアルートを作成しました",
     ];
 
     return (
@@ -502,7 +553,7 @@ export function CareerCompassTool() {
           <div className="analysis-screen">
             <span>MC</span>
             <p className="eyebrow">Analyzing Career Route</p>
-            <h1>半導体キャリアを鑑定中</h1>
+            <h1>診断結果を整理中</h1>
             <div className="analysis-bar" aria-hidden="true">
               <i />
             </div>
@@ -519,7 +570,7 @@ export function CareerCompassTool() {
 
   if (isResult) {
     return <CareerCompassResult
-      band={questBoost > 0 ? `+${questBoost} today` : result.band}
+      band={result.band}
       buildName={result.buildName}
       completedQuestIds={completedQuestIds}
       copyStatus={copyStatus}
@@ -557,7 +608,7 @@ export function CareerCompassTool() {
         <div className="quiz-question-head">
           <p className="eyebrow">Career Quest</p>
           <h1>{currentStep.question}</h1>
-          <small>直感で選ぶだけ。自動で次へ進みます。</small>
+          <small>迷ったら、最も実態に近いものを1つ。選択すると次へ進みます。</small>
         </div>
 
         <div className="quiz-options" aria-label={currentStep.label}>
