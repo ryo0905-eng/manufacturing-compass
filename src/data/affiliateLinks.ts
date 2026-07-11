@@ -59,9 +59,9 @@ export const affiliateAgents: AffiliateAgent[] = [
     suitableRoles: ["設計・研究開発", "製造マネジメント", "業界スペシャリスト"],
     consultationTopics: ["専門性を評価される職種・役職", "外資系・グローバル企業への接続", "年収条件とキャリアの優先順位"],
     pointsToConfirm: "希望する職種・年収帯・勤務地に合う求人の取り扱いがあるか",
-    affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=01004u2g00ova3",
+    affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=0100mzmm00ova3",
     affiliateCreativeHtml:
-      '<a href="https://h.accesstrade.net/sp/cc?rk=01004u2g00ova3" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="https://h.accesstrade.net/sp/rr?rk=01004u2g00ova3" alt="ジェイエイシーリクルートメント" border="0" width="234" height="60"></a>',
+      '<a href="https://h.accesstrade.net/sp/cc?rk=0100mzmm00ova3" rel="nofollow" referrerpolicy="no-referrer-when-downgrade">JAC Recruitment<img src="https://h.accesstrade.net/sp/rr?rk=0100mzmm00ova3" width="1" height="1" border="0" alt=""></a>',
     officialUrl: "https://www.jac-recruitment.jp/",
     linkType: "affiliate",
     sourceUrl: "https://www.jac-recruitment.jp/market/manufacture/",

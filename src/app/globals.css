@@ -2312,6 +2312,22 @@ select {
   height: auto;
 }
 
+.agent-affiliate-creative > div > a {
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.agent-affiliate-creative > div > a img {
+  display: inline;
+  width: 1px;
+  height: 1px;
+}
+
+.agent-affiliate-creative > div > a:hover {
+  color: var(--primary);
+}
+
 .agent-official-link.disabled {
   color: var(--muted);
   opacity: 0.6;
