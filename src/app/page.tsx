@@ -26,9 +26,11 @@ const questFlow = [
   { stage: "04", title: "今日の一手", body: "市場価値を上げる行動" },
 ];
 
+const featuredCompanyIds = ["tsmc", "nvidia", "tokyo-electron", "intel", "kioxia"];
+
 export default function Home() {
-  const featuredCompanies = segments.flatMap((segment) => {
-    const company = companies.find((item) => segment.relatedCompanyIds.includes(item.id));
+  const featuredCompanies = featuredCompanyIds.flatMap((companyId) => {
+    const company = companies.find((item) => item.id === companyId);
     return company ? [company] : [];
   });
 
