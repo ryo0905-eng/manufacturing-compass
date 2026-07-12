@@ -4934,7 +4934,7 @@ summary:focus-visible {
 
 .home-simple-hero .hero-copy {
   min-width: 0;
-  max-width: 680px;
+  max-width: 760px;
 }
 
 .home-simple-hero .hero-copy .section-label {
@@ -4942,12 +4942,34 @@ summary:focus-visible {
 }
 
 .home-simple-hero .hero-copy h1 {
-  max-width: 680px;
-  font-size: clamp(42px, 5.4vw, 66px);
-  line-height: 1.16;
-  overflow-wrap: anywhere;
+  max-width: 740px;
+  font-size: clamp(42px, 4.6vw, 56px);
+  line-height: 1.18;
+  overflow-wrap: normal;
   text-wrap: balance;
   word-break: normal;
+}
+
+.home-simple-hero .hero-copy h1 span {
+  display: block;
+  margin-right: 0;
+}
+
+@media (min-width: 1100px) {
+  .home-simple-hero .hero-copy h1 span {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 1040px) {
+  .home-simple-hero {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .home-fact-strip {
+    grid-column: 1;
+  }
 }
 
 .home-simple-hero .hero-copy > p:not(.section-label):not(.hero-assurance) {
