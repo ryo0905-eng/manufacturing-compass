@@ -5,6 +5,7 @@ import { AgentCta } from "@/components/AgentCta";
 import { DiagnosisCta } from "@/components/DiagnosisCta";
 import { StructuredData } from "@/components/StructuredData";
 import { TodayAction } from "@/components/TodayAction";
+import { GuideBlocks } from "@/components/guide/GuideBlocks";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
 import { siteUrl } from "@/lib/format";
 
@@ -64,10 +65,25 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </aside>
         </header>
 
+        {guide.overviewBlocks ? <GuideBlocks blocks={guide.overviewBlocks} /> : null}
+
+        {guide.sections.length >= 4 ? (
+          <nav className="guide-toc" aria-label="記事の目次">
+            <strong>この記事の流れ</strong>
+            <ol>
+              {guide.sections.map((section, index) => (
+                <li key={section.heading}><a href={`#${section.id ?? `section-${index + 1}`}`}>{section.heading}</a></li>
+              ))}
+            </ol>
+          </nav>
+        ) : null}
+
         <div className="article-body">
-          {guide.sections.map((section) => (
-            <section key={section.heading}>
+          {guide.sections.map((section, index) => (
+            <section id={section.id ?? `section-${index + 1}`} key={section.heading}>
               <h2>{section.heading}</h2>
+              {section.lead ? <p className="guide-section-lead">{section.lead}</p> : null}
+              {section.blocks ? <GuideBlocks blocks={section.blocks} /> : null}
               {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
               {section.points ? <ul>{section.points.map((point) => <li key={point}>{point}</li>)}</ul> : null}
             </section>

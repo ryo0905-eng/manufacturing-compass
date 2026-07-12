@@ -58,8 +58,10 @@ test.describe("主要導線", () => {
     await page.goto("/guides/electronics-to-semiconductor-process-engineer");
 
     await expect(page.getByRole("heading", { level: 1, name: "電子部品の経験は半導体転職で生かせる？" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "求人要件を分解すると、過去の経験が一つにつながった" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "求人票を見て「自分のことでは」と思った" })).toBeVisible();
     await expect(page.getByText("オファーを得るまでの記録", { exact: false }).first()).toBeVisible();
+    await expect(page.getByRole("table")).toBeVisible();
+    await expect(page.getByText("これ、自分のことを言っているのでは？", { exact: false })).toBeVisible();
     await expect(page.getByRole("link", { name: "半導体技術者" })).toHaveAttribute("href", /shigoto\.mhlw\.go\.jp/);
   });
 });

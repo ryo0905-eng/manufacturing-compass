@@ -7,6 +7,7 @@ export const qualityEngineerRouteGuide: GuideArticle = {
   targetQuery: "品質保証 半導体 転職",
   searchIntent: "品質保証や不良解析の経験が半導体企業でどう評価され、職務経歴書でどう伝えるか知りたい",
   status: "published",
+  presentation: "legacy",
   author: "RYO",
   reviewedBy: "RYO",
   experienceBasis: ["電子部品メーカーでの品質・不良解析・工程改善経験", "現象と製造データから原因を絞り、対策と標準化へつなげた経験"],
