@@ -38,16 +38,14 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
         <p className="section-label">RYOの利用経験</p>
         <h1>私が使った製造業・半導体向け転職エージェント</h1>
         <p>JACリクルートメント、タイズ、ギブクリエーション、ロバート・ウォルターズ、エンワールドを、実際に利用したり求人紹介を受けたりしました。</p>
-        <p>同じ経歴でも、担当者、時期、地域、職種によって対応や紹介求人は変わります。ここで書くのは私個人の利用経験です。サービスの優劣や、転職結果を保証するものではありません。</p>
+        <p>タイズ経由で次の転職が、ギブクリエーション経由で過去の転職が決まりました。以下は私個人の経験で、サービスの優劣を示すものではありません。</p>
       </section>
 
       <AffiliateDisclosure label="広告表記" text={affiliateDisclosureText} />
 
-      <section className="agent-use-note">
-        <h2>私の場合、相談先ごとに確かめたいことを変えました</h2>
-        <p>製造業の経験をどう伝えるか、外資系まで広げるか、専門職と管理職のどちらを見るか。一社ですべてを決めず、紹介された求人と自分の希望の差も見ました。</p>
-        <p>タイズ経由で次の外資系半導体メーカーへの転職が決まり、ギブクリエーション経由で過去のメーカーへ転職した経験があります。転職先の具体名は、匿名性を守るため掲載していません。</p>
-      </section>
+      <aside className="agent-common-note">
+        担当者、時期、地域、職種によって紹介求人は変わります。希望職種・勤務地・働き方は、登録前後に確認してください。
+      </aside>
 
       <nav className="agent-focus-nav" aria-label="相談したい内容で絞り込む">
         <strong>相談したい内容から先に見る</strong>
@@ -64,14 +62,14 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
             <article id={agent.id} key={agent.id}>
               <header><p>{agent.category}</p><h2>{agent.name}</h2></header>
               <dl>
-                <div><dt>どのような相談に向いているか</dt><dd><p>{agent.description}</p><ul>{agent.consultationTopics.map((topic) => <li key={topic}>{topic}</li>)}</ul></dd></div>
-                <div><dt>RYOがどのように利用したか</dt><dd><p>{agent.personalExperience}</p></dd></div>
-                <div><dt>登録前に確認したいこと</dt><dd><p>{agent.pointsToConfirm}</p><p className="small-note">担当者や求人状況によって内容は変わります。希望職種、勤務地、働き方を登録前後に確認してください。</p></dd></div>
-                <div><dt>公式情報</dt><dd><a className="text-link" href={agent.sourceUrl} rel="noopener noreferrer" target="_blank">公式情報・対象領域を確認する ↗</a><small>確認日 {agent.lastUpdated}</small></dd></div>
-                <div><dt>{agent.linkType === "affiliate" ? "アフィリエイトリンク" : "サービスへのリンク"}</dt><dd>
-                  {agent.affiliateCreativeHtml ? <div className="agent-affiliate-creative"><span>広告・アフィリエイトリンク</span><div dangerouslySetInnerHTML={{ __html: agent.affiliateCreativeHtml }} /><small>このリンクを経由した登録により、当サイトに報酬が発生する場合があります。</small></div> : url ? <a className="button secondary" href={url} rel={getAgentRel(agent)} target="_blank">{getAgentCtaLabel(agent)} ↗</a> : null}
-                </dd></div>
+                <div><dt>どんな相談に向くか</dt><dd><ul>{agent.consultationTopics.map((topic) => <li key={topic}>{topic}</li>)}</ul></dd></div>
+                <div><dt>RYOの利用経験</dt><dd><p>{agent.personalExperience}</p></dd></div>
+                <div><dt>登録前に確認すること</dt><dd><p>{agent.pointsToConfirm}</p></dd></div>
               </dl>
+              <footer className="agent-link-row">
+                <div><a className="text-link" href={agent.sourceUrl} rel="noopener noreferrer" target="_blank">公式情報 ↗</a><small>確認日 {agent.lastUpdated}</small></div>
+                {agent.affiliateCreativeHtml ? <div className="agent-affiliate-creative"><span>広告・アフィリエイトリンク</span><div dangerouslySetInnerHTML={{ __html: agent.affiliateCreativeHtml }} /></div> : url ? <a className="button secondary" href={url} rel={getAgentRel(agent)} target="_blank">{getAgentCtaLabel(agent)} ↗</a> : null}
+              </footer>
             </article>
           );
         })}

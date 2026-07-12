@@ -1,9 +1,15 @@
 import { careerTimeline } from "@/data/operator";
 
-export function CareerTimeline() {
+type TimelineItem = { readonly title: string; readonly body: string };
+
+type CareerTimelineProps = {
+  items?: readonly TimelineItem[];
+};
+
+export function CareerTimeline({ items = careerTimeline }: CareerTimelineProps) {
   return (
     <ol className="career-timeline">
-      {careerTimeline.map((item, index) => (
+      {items.map((item, index) => (
         <li key={item.title}>
           <span>{String(index + 1).padStart(2, "0")}</span>
           <div>

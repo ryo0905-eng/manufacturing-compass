@@ -48,6 +48,11 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <h1>{guide.title}</h1>
           <p>{guide.description}</p>
           <small>執筆：RYO（製造業経験 約10年）</small>
+          <dl className="guide-intro-summary">
+            <div><dt>悩み</dt><dd>{guide.intro.problem}</dd></div>
+            <div><dt>結論</dt><dd>{guide.intro.conclusion}</dd></div>
+            <div><dt>読むと分かること</dt><dd>{guide.intro.learnings}</dd></div>
+          </dl>
         </header>
 
         <div className="article-body">
