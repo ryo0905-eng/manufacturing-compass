@@ -53,4 +53,13 @@ test.describe("主要導線", () => {
     await expect(page.getByRole("heading", { level: 2, name: "参考情報・出典" })).toBeVisible();
     await expect(page.getByRole("link", { name: /半導体・デジタル産業戦略/ })).toHaveAttribute("href", /meti\.go\.jp/);
   });
+
+  test("電子部品から半導体への転職実体験を読める", async ({ page }) => {
+    await page.goto("/guides/electronics-to-semiconductor-process-engineer");
+
+    await expect(page.getByRole("heading", { level: 1, name: "電子部品の経験は半導体転職で生かせる？" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "求人要件を分解すると、過去の経験が一つにつながった" })).toBeVisible();
+    await expect(page.getByText("オファーを得るまでの記録", { exact: false }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "半導体技術者" })).toHaveAttribute("href", /shigoto\.mhlw\.go\.jp/);
+  });
 });
