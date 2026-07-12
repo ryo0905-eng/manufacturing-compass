@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Not found</p>
+        <p className="eyebrow">ページが見つかりません</p>
         <h1>ページが見つかりません</h1>
         <p>企業データや比較ページは、公開情報を確認しながら順次追加しています。</p>
         <div className="actions">

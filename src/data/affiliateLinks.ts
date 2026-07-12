@@ -9,6 +9,7 @@ export type AffiliateAgent = {
   focusAreas: AgentFocus[];
   suitableRoles: string[];
   consultationTopics: string[];
+  personalExperience: string;
   pointsToConfirm: string;
   affiliateUrl?: string;
   /** 提携プログラムから提供された広告コード。文言・計測画像を変えずに表示する。 */
@@ -58,10 +59,11 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["global", "specialist"],
     suitableRoles: ["設計・研究開発", "製造マネジメント", "業界スペシャリスト"],
     consultationTopics: ["専門性を評価される職種・役職", "外資系・グローバル企業への接続", "年収条件とキャリアの優先順位"],
+    personalExperience: "専門性と年収帯に加え、外資系、管理職、専門職の可能性を確認するために利用しました。求人の選択肢を広げるとき、自分の経験がどの役割で評価されるかを相談しました。",
     pointsToConfirm: "希望する職種・年収帯・勤務地に合う求人の取り扱いがあるか",
     affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=0100mzmm00ova3",
     affiliateCreativeHtml:
-      '<a href="https://h.accesstrade.net/sp/cc?rk=0100mzmm00ova3" rel="nofollow" referrerpolicy="no-referrer-when-downgrade">JAC Recruitment<img src="https://h.accesstrade.net/sp/rr?rk=0100mzmm00ova3" width="1" height="1" border="0" alt=""></a>',
+      '<a href="https://h.accesstrade.net/sp/cc?rk=0100mzmm00ova3" rel="nofollow sponsored" referrerpolicy="no-referrer-when-downgrade">JAC Recruitment<img src="https://h.accesstrade.net/sp/rr?rk=0100mzmm00ova3" width="1" height="1" border="0" alt=""></a>',
     officialUrl: "https://www.jac-recruitment.jp/",
     linkType: "affiliate",
     sourceUrl: "https://www.jac-recruitment.jp/market/manufacture/",
@@ -76,6 +78,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["career-translation"],
     suitableRoles: ["研究開発・設計", "生産技術", "品質管理・保証", "製造・保全"],
     consultationTopics: ["製造業経験の職務経歴書への落とし込み", "メーカー技術職の求人比較", "現職に近い職種からのキャリア設計"],
+    personalExperience: "次の外資系半導体メーカーへの転職は、タイズ経由で決まりました。工程改善、品質、海外勤務、データ活用などの経験を伝え、製造業の技術職、電子部品、半導体に関する求人を相談しました。",
     pointsToConfirm: "希望勤務地で、半導体・電子部品・製造装置に近い求人を扱っているか",
     affiliateUrl: undefined,
     officialUrl: "https://www.ee-ties.com/",
@@ -92,6 +95,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["career-translation", "specialist"],
     suitableRoles: ["メーカー技術職", "設計・生産技術", "品質・製造関連職"],
     consultationTopics: ["転職軸と価値観の整理", "メーカー経験の市場での見せ方", "今転職するか、現職で経験を積むか"],
+    personalExperience: "過去のメーカーへの転職は、ギブクリエーション経由で決まりました。求人を紹介してもらうだけでなく、自分が仕事内容に何を求めるか、転職軸を考える相談先として利用しました。",
     pointsToConfirm: "希望地域・職種の支援範囲と、担当コンサルタントの専門領域",
     affiliateUrl: undefined,
     officialUrl: "https://givecreation.com/",
@@ -108,6 +112,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["global", "specialist"],
     suitableRoles: ["製品開発", "品質保証", "技術営業", "マネジメント"],
     consultationTopics: ["英語を使うメーカー技術職", "外資系・日系グローバル企業の比較", "英文レジュメと面接準備"],
+    personalExperience: "外資系メーカー、半導体関連、新規事業、英語を使うポジションの求人紹介を受けました。日系メーカーだけを見ていたときとは異なる職種や要件を知るために利用しました。",
     pointsToConfirm: "求人で求められる英語水準、勤務地、担当領域が現在の経験と合うか",
     affiliateUrl: undefined,
     officialUrl: "https://www.robertwalters.co.jp/",
@@ -124,6 +129,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["global", "specialist"],
     suitableRoles: ["半導体・電気・電子", "自動車・産業機械", "営業・専門職"],
     consultationTopics: ["外資系・日系グローバル企業への転職", "英語と専門性を使う職種", "入社後の活躍を含む長期的なキャリア"],
+    personalExperience: "外資系・グローバル企業の求人を確認する選択肢として利用しました。海外経験や英語を使う仕事を、どの職種で生かせるかを見るためです。",
     pointsToConfirm: "希望職種の求人状況と、選考で必要になる英語・専門性の水準",
     affiliateUrl: undefined,
     officialUrl: "https://www.enworld.com/",

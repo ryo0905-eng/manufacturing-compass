@@ -12,9 +12,9 @@ export default function GuidesPage() {
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Starter guides</p>
+        <p className="section-label">製造業から半導体を考える</p>
         <h1>半導体転職の初心者ガイド</h1>
-        <p>読み切るためではなく、自分のCareer Questを進めるための短いガイドです。</p>
+        <p>RYOの実体験と、製造現場で使う言葉をもとに、経験を求人へつなげる方法を具体的に書きました。</p>
       </section>
 
       <section className="article-grid" aria-label="初心者向け記事">
@@ -23,7 +23,7 @@ export default function GuidesPage() {
             <span>{guide.readTime}</span>
             <h2>{guide.title}</h2>
             <p>{guide.description}</p>
-            <small>Today Quest: {guide.todayQuest}</small>
+            <small>今日15分でやること：{guide.todayQuest}</small>
           </Link>
         ))}
       </section>

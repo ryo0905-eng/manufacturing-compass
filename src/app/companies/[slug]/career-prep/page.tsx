@@ -50,7 +50,7 @@ export default async function CareerPrepPage({ params }: CareerPrepPageProps) {
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Career prep</p>
+        <p className="eyebrow">応募前のキャリア準備</p>
         <h1>{company.nameJa}を目指す準備</h1>
         <p>{company.careerSummary}</p>
         <div className="actions">

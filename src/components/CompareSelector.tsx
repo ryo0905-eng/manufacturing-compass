@@ -24,7 +24,7 @@ export function CompareSelector({ companies }: CompareSelectorProps) {
   return (
     <section className="interactive-panel" aria-labelledby="compare-selector-title">
       <div>
-        <p className="eyebrow">Compare</p>
+        <p className="eyebrow">比較する企業を選ぶ</p>
         <h2 id="compare-selector-title">比較する企業を選ぶ</h2>
       </div>
       <div className="filters two-column">

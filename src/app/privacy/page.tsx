@@ -11,7 +11,7 @@ export default function PrivacyPage() {
   return (
     <main className="page">
       <section className="page-hero legal-hero">
-        <p className="eyebrow">Privacy Policy</p>
+        <p className="eyebrow">個人情報の取り扱い</p>
         <h1>プライバシーポリシー</h1>
         <p>
           Manufacturing Compass は、ユーザーのプライバシーを尊重し、取得する情報を必要最小限にとどめます。

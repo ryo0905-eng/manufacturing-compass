@@ -33,7 +33,7 @@ export default function CareerConsultationPage() {
   return (
     <main className="page">
       <section className="consultation-hero">
-        <p className="eyebrow">Career next step</p>
+        <p className="eyebrow">転職を考える前の次の一歩</p>
         <h1>相談する前に、論点を4つだけ揃える。</h1>
         <p>
           診断結果をそのまま持ち込むより、職種、実績、年収、準備期間に分けると話が早くなります。

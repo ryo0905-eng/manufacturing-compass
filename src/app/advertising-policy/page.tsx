@@ -11,7 +11,7 @@ export default function AdvertisingPolicyPage() {
   return (
     <main className="page">
       <section className="page-hero legal-hero">
-        <p className="eyebrow">Advertising Policy</p>
+        <p className="eyebrow">広告掲載について</p>
         <h1>広告掲載ポリシー</h1>
         <p>
           Manufacturing Compass は、アフィリエイト広告を利用する場合があります。

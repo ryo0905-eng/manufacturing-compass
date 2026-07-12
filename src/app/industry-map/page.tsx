@@ -12,9 +12,9 @@ export default function IndustryMapPage() {
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Industry map</p>
+        <p className="section-label">業界での役割から見る</p>
         <h1>半導体業界地図</h1>
-        <p>設計、製造、メモリ、装置。求人を見る前に、会社の役割だけ先につかみます。</p>
+        <p>設計、製造、メモリ、装置。求人を見る前に、会社がどこで価値を出しているかをつかみます。分類は製品が同じという意味ではなく、半導体の設計・製造を支える役割で分けています。</p>
       </section>
 
       <section className="section">
@@ -24,7 +24,7 @@ export default function IndustryMapPage() {
 
             return (
               <article className="segment-card" key={segment.id}>
-                <p className="eyebrow">{segment.shortName}</p>
+                <p className="section-label">{segment.shortName}</p>
                 <h2>{segment.name}</h2>
                 <p>{segment.description}</p>
                 <Link className="text-link" href={`/segments/${segment.slug}` as Route}>

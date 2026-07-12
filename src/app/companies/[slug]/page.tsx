@@ -85,7 +85,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
           </section>
 
           <section className="detail-panel">
-            <p className="eyebrow">Products</p>
+            <p className="eyebrow">主な製品</p>
             <h2>主力製品</h2>
             <ul className="tag-list">
               {company.mainProducts.map((product) => (
@@ -95,7 +95,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
           </section>
 
           <section className="detail-panel">
-            <p className="eyebrow">Career readiness</p>
+            <p className="eyebrow">キャリア準備</p>
             <h2>近づくための準備</h2>
             {career ? (
               <div className="readiness-grid">
@@ -140,7 +140,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
 
         <aside className="stack">
           <section className="detail-panel">
-            <p className="eyebrow">Facts</p>
+            <p className="eyebrow">基本情報</p>
             <h2>基本情報</h2>
             <dl className="mini-facts">
               <div>
@@ -162,7 +162,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
             </dl>
           </section>
           <section className="detail-panel">
-            <p className="eyebrow">Sources</p>
+            <p className="eyebrow">出典</p>
             <h2>情報ソース</h2>
             <ul className="source-list">
               {company.sources.map((source) => (

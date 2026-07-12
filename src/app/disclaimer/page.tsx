@@ -11,7 +11,7 @@ export default function DisclaimerPage() {
   return (
     <main className="page">
       <section className="page-hero legal-hero">
-        <p className="eyebrow">Disclaimer</p>
+        <p className="eyebrow">ご利用にあたって</p>
         <h1>免責事項</h1>
         <p>
           Manufacturing Compass は、製造業・半導体業界のキャリア検討を支援する情報を提供しています。

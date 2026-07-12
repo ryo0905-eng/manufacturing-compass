@@ -558,7 +558,7 @@ export function CareerCompassTool() {
         <section className="analysis-card" aria-live="polite">
           <div className="analysis-screen">
             <span>MC</span>
-            <p className="eyebrow">Analyzing Career Route</p>
+            <p className="eyebrow">回答から経験を読み替えています</p>
             <h1>診断結果を整理中</h1>
             <div className="analysis-bar" aria-hidden="true">
               <i />
@@ -613,7 +613,7 @@ export function CareerCompassTool() {
         </div>
 
         <div className="quiz-question-head">
-          <p className="eyebrow">Career Quest</p>
+          <p className="eyebrow">12問のキャリア診断</p>
           <h1>{currentStep.question}</h1>
           <small>迷ったら、最も実態に近いものを1つ。選択すると次へ進みます。</small>
         </div>

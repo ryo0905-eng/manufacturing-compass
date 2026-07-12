@@ -40,7 +40,7 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Compare</p>
+        <p className="eyebrow">企業比較</p>
         <h1>{comparedCompanies.map((company) => company.nameJa).join(" と ")} の比較</h1>
         <p>勝ち負けではなく、事業領域、向いている経験、準備ポイントの違いを整理します。</p>
         <div className="actions">
@@ -95,14 +95,14 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
               <th>今狙いやすい背景</th>
               {comparedCompanies.map((company) => {
                 const career = getCareerInfo(company.id);
-                return <td key={company.id}>{career?.suitableBackgrounds.join(" / ") ?? "公開情報を確認中"}</td>;
+                return <td key={company.id}>{career?.suitableBackgrounds.join(" / ") ?? "掲載データなし（推測で補完していません）"}</td>;
               })}
             </tr>
             <tr>
               <th>半年後の準備</th>
               {comparedCompanies.map((company) => {
                 const career = getCareerInfo(company.id);
-                return <td key={company.id}>{career?.preparationActions6Months.join(" / ") ?? "公開情報を確認中"}</td>;
+                return <td key={company.id}>{career?.preparationActions6Months.join(" / ") ?? "掲載データなし（推測で補完していません）"}</td>;
               })}
             </tr>
           </tbody>

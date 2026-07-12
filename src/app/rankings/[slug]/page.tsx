@@ -41,7 +41,7 @@ export default async function RankingPage({ params }: RankingPageProps) {
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Career ranking</p>
+        <p className="eyebrow">経験別の企業研究</p>
         <h1>{ranking.title}</h1>
         <p>{ranking.description}</p>
       </section>
@@ -79,7 +79,7 @@ export default async function RankingPage({ params }: RankingPageProps) {
       <section className="section">
         <div className="section-header">
           <div>
-            <p className="eyebrow">Companies</p>
+            <p className="eyebrow">掲載企業</p>
             <h2>一覧でも見る</h2>
           </div>
         </div>

@@ -12,7 +12,7 @@ export default function ContactPage() {
   return (
     <main className="page">
       <section className="page-hero legal-hero">
-        <p className="eyebrow">Contact</p>
+        <p className="eyebrow">運営者への連絡</p>
         <h1>お問い合わせ</h1>
         <p>
           掲載情報の修正依頼、広告掲載、提携、その他のお問い合わせは、下記メールアドレスまでご連絡ください。

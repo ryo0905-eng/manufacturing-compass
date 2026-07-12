@@ -12,7 +12,7 @@ export default function RankingsPage() {
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Career rankings</p>
+        <p className="eyebrow">経験別の企業研究</p>
         <h1>経験から探す半導体企業ランキング</h1>
         <p>会社の優劣ではなく、あなたの経験をどこへ接続しやすいかで整理します。</p>
       </section>

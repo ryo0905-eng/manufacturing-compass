@@ -109,7 +109,7 @@ function CareerStory({ profile }: { profile: MarketValueProfile }) {
   return (
     <section className="result-section career-story" aria-labelledby="career-story-title">
       <div className="result-section-heading">
-        <p className="result-kicker">Your Career Story</p>
+        <p className="result-kicker">経験の読み解き</p>
         <h2 id="career-story-title">あなたの経験には、すでに次の業界へつながる物語があります</h2>
       </div>
       {sections.length > 0 ? (
@@ -137,7 +137,7 @@ function ExperienceTranslation({ items }: { items: string[] }) {
   return (
     <section className="result-section experience-translation" aria-labelledby="translation-title">
       <div className="result-section-heading">
-        <p className="result-kicker">Experience Translation</p>
+        <p className="result-kicker">半導体職種への置き換え</p>
         <h2 id="translation-title">今の経験を、半導体業界の言葉へ</h2>
         <p>仕事内容を変えるのではなく、採用側に伝わる見せ方へ翻訳します。</p>
       </div>
@@ -165,7 +165,7 @@ function StrengthsSection({ profile }: { profile: MarketValueProfile }) {
   return (
     <section className="result-section strengths-watchouts" aria-labelledby="strengths-title">
       <div className="result-section-heading">
-        <p className="result-kicker">Strengths &amp; Watchouts</p>
+        <p className="result-kicker">強みと準備ポイント</p>
         <h2 id="strengths-title">武器にすること、先に整えること</h2>
       </div>
       <div className="strengths-watchouts-grid">
@@ -213,7 +213,7 @@ function CareerRoadmap({ profile, roadmap }: Pick<CareerCompassResultProps, "pro
   return (
     <section className="result-section career-roadmap-result" aria-labelledby="roadmap-title">
       <div className="result-section-heading">
-        <p className="result-kicker">Career Roadmap</p>
+        <p className="result-kicker">これからの準備</p>
         <h2 id="roadmap-title">今の経験から、1年後の選択肢へ</h2>
       </div>
       <ol className="roadmap-timeline">
@@ -237,7 +237,7 @@ function ConsultationCTA({ agentFocus, onRestart, profile }: Pick<CareerCompassR
   return (
     <section className="consultation-cta-result" aria-labelledby="consultation-title">
       <div>
-        <p className="result-kicker">Your Next Conversation</p>
+        <p className="result-kicker">相談前のメモ</p>
         <h2 id="consultation-title">経験の見せ方を相談すると、選択肢がもっと具体的になります</h2>
         {profile.agentTalkTrack ? <p>{profile.agentTalkTrack}</p> : null}
       </div>

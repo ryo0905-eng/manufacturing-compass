@@ -17,7 +17,7 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Companies</p>
+        <p className="section-label">公開情報から調べる</p>
         <h1>半導体企業一覧</h1>
         <p>会社名だけでなく、業界での役割、主な職種、英語必要度、キャリア準備ポイントまでまとめて確認できます。</p>
       </section>

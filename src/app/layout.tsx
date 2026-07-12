@@ -7,16 +7,16 @@ import { Header } from "@/components/Header";
 export const metadata: Metadata = {
   metadataBase: new URL("https://mfg-compass.com"),
   title: {
-    default: "Manufacturing Compass | 半導体キャリア市場価値診断",
+    default: "製造業経験を半導体キャリアへ | Manufacturing Compass",
     template: "%s | Manufacturing Compass",
   },
-  description: "半導体業界での市場価値、想定年収、伸ばすべきスキル、今日の一手を整理する日本語キャリアプラットフォームです。",
+  description: "製造業で積んだ経験を半導体業界の職種に置き換え、次に準備することを見つける専門メディア＋キャリアツールです。",
   verification: {
     google: "3flJsORA3BERm-KxYL_CVe5fX6yGFtwJYKLpj3d0TxI",
   },
   openGraph: {
     title: "Manufacturing Compass",
-    description: "半導体キャリアの市場価値と次の一手を、もっとわかりやすく。",
+    description: "製造業で積んだ経験に近い半導体職種と、次に準備することを分かりやすく。",
     type: "website",
     locale: "ja_JP",
   },
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {children}
           <footer className="footer">
             <div>
-              <p>Manufacturing Compass は公開情報をもとに半導体業界研究を支援します。企業情報は必ず公式情報もあわせて確認してください。</p>
+              <p>Manufacturing Compassは、製造業で約10年働いてきたRYOが運営しています。企業情報は公開情報と出典を確認し、実体験とは分けて掲載します。</p>
               <nav aria-label="サイト情報">
                 <Link href="/about">運営者情報</Link>
                 <Link href="/privacy">プライバシーポリシー</Link>

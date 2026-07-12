@@ -16,7 +16,7 @@ export default function ComparePage() {
   return (
     <main className="page">
       <section className="page-hero">
-        <p className="eyebrow">Company compare</p>
+        <p className="section-label">役割と仕事内容を比べる</p>
         <h1>半導体企業比較</h1>
         <p>会社の優劣ではなく、役割とキャリアの距離感だけを比べます。</p>
       </section>
@@ -26,14 +26,14 @@ export default function ComparePage() {
       <section className="section">
         <div className="section-header">
           <div>
-            <p className="eyebrow">Recommended</p>
+            <p className="section-label">よく見られる組み合わせ</p>
             <h2>よく見る比較</h2>
           </div>
         </div>
         <div className="grid-3">
           {pairs.map(([first, second]) => (
             <article className="info-card" key={`${first.id}-${second.id}`}>
-              <p className="eyebrow">Compare</p>
+              <p className="section-label">企業比較</p>
               <h3>
                 {first.nameJa} / {second.nameJa}
               </h3>

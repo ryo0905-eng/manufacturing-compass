@@ -12,7 +12,7 @@ export function AffiliateCta({
 }: AffiliateCtaProps) {
   return (
     <section className="cta-panel" aria-labelledby="career-cta-title">
-      <p className="eyebrow">Career next step</p>
+      <p className="section-label">転職を考える前の次の一歩</p>
       <h2 id="career-cta-title">{title}</h2>
       <p>{body}</p>
       <div className="cta-actions">

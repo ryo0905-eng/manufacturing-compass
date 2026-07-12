@@ -66,7 +66,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
       <section className="home-section">
         <div className="section-header">
           <div>
-            <p className="eyebrow">Companies</p>
+            <p className="eyebrow">関連企業</p>
             <h2>この領域の企業</h2>
           </div>
           <Link className="text-link" href="/companies">
@@ -83,7 +83,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
       <section className="home-section">
         <div className="section-header">
           <div>
-            <p className="eyebrow">Career keywords</p>
+            <p className="eyebrow">キャリアのキーワード</p>
             <h2>求人で見かけやすい職種</h2>
           </div>
           <Link className="text-link" href="/career-compass">
@@ -103,7 +103,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         <section className="home-section">
           <div className="section-header">
             <div>
-              <p className="eyebrow">Representative</p>
+              <p className="eyebrow">代表的な企業</p>
               <h2>代表企業</h2>
             </div>
           </div>
