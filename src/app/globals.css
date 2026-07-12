@@ -4933,6 +4933,7 @@ summary:focus-visible {
 }
 
 .home-simple-hero .hero-copy {
+  min-width: 0;
   max-width: 680px;
 }
 
@@ -4941,9 +4942,12 @@ summary:focus-visible {
 }
 
 .home-simple-hero .hero-copy h1 {
-  max-width: 700px;
+  max-width: 680px;
   font-size: clamp(42px, 5.4vw, 66px);
   line-height: 1.16;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  word-break: normal;
 }
 
 .home-simple-hero .hero-copy > p:not(.section-label):not(.hero-assurance) {
