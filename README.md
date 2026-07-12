@@ -61,12 +61,24 @@ npm run dev
 
 ```bash
 npm run typecheck
+npm run lint
 npm run build
 ```
 
 Next.js 16 は Turbopack がデフォルトですが、このリポジトリの `npm run build` は Codex 環境でのポート制限を避けるため `next build --webpack` を使います。
 
 Codex 内で作業する場合、日常確認は `npm run typecheck` を優先し、フルビルドは必要な時だけ実行してください。
+
+### ブラウザ回帰テスト
+
+主要導線は Playwright で確認します。初回だけ Chromium をインストールしてください。
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
+テスト結果の `playwright-report/`、`test-results/`、`blob-report/` は生成物のため Git には含めません。
 
 ## Vercel デプロイ手順
 
