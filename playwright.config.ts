@@ -14,7 +14,7 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: `npm run dev -- --hostname 127.0.0.1 --port ${port}`,
+    command: `npm run dev -- --webpack --hostname 127.0.0.1 --port ${port}`,
     reuseExistingServer: !process.env.CI,
     url: baseURL,
   },
