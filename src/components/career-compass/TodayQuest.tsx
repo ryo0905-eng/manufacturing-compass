@@ -33,22 +33,24 @@ export function TodayQuest({ action, reason, duration }: TodayQuestProps) {
 
   if (!action) return null;
 
+  const shortReason = reason?.match(/[^。！？]+[。！？]?/)?.[0] ?? reason;
+
   return (
     <section className="today-quest-result" id="today-quest" aria-labelledby="today-quest-title">
       <div className="today-quest-result-head">
         <p className="result-kicker">Today Quest</p>
-        <span>今日から、ルートが動き出す</span>
+        <span>15分でできる準備</span>
       </div>
       <div className="today-quest-result-body">
         <div>
-          <h2 id="today-quest-title">今日のキャリアクエスト</h2>
+          <h2 id="today-quest-title">今日やること</h2>
           <p className="today-quest-action">{action}</p>
         </div>
         <dl>
-          {reason ? (
+          {shortReason ? (
             <div>
               <dt>この行動が効く理由</dt>
-              <dd>{reason}</dd>
+              <dd>{shortReason}</dd>
             </div>
           ) : null}
           {duration ? (

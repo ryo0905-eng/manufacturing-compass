@@ -92,42 +92,31 @@ function ResultHero({ agentFocus, currentRole, onAgentCtaClick, profile, rewardG
 }
 
 function CareerStory({ profile }: { profile: MarketValueProfile }) {
-  const sentences = profile.narrative.match(/[^。！？]+[。！？]?/g)?.map((sentence) => sentence.trim()).filter(Boolean) ?? [];
-  const turnIndex = sentences.findIndex((sentence) => /一方で|ただし/.test(sentence));
-  const canSplit = sentences.length >= 3;
-  const firstCut = turnIndex >= 2 ? 1 : Math.ceil(sentences.length / 3);
-  const secondCut = turnIndex >= 2 ? turnIndex : Math.ceil((sentences.length * 2) / 3);
-  const sections = canSplit
-    ? [
-        { title: "あなたが評価される理由", text: sentences.slice(0, firstCut).join("") },
-        { title: "半導体業界で価値になる経験", text: sentences.slice(firstCut, secondCut).join("") },
-        { title: "今のままでは伝わりにくい点", text: sentences.slice(secondCut).join("") },
-      ].filter((section) => section.text)
-    : [];
+  const sections = [
+    { title: "評価される理由", items: profile.marketValueReasons.slice(0, 2) },
+    { title: "半導体でも使いやすい経験", items: profile.semiconductorTranslation.slice(0, 2) },
+    { title: "そのままでは伝わりにくい部分", items: profile.bottlenecks.slice(0, 2) },
+  ].filter((section) => section.items.length > 0);
 
-  if (!profile.narrative) return null;
+  if (sections.length === 0) return null;
 
   return (
     <section className="result-section career-story" aria-labelledby="career-story-title">
       <div className="result-section-heading">
         <p className="result-kicker">経験の読み解き</p>
-        <h2 id="career-story-title">あなたの経験には、すでに次の業界へつながる物語があります</h2>
+        <h2 id="career-story-title">評価される経験と、先に整えること</h2>
       </div>
-      {sections.length > 0 ? (
-        <div className="career-story-sections">
-          {sections.map((section, index) => (
-            <article key={section.title}>
-              <span>0{index + 1}</span>
-              <div>
-                <h3>{section.title}</h3>
-                <p>{section.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      ) : (
-        <p className="career-story-fallback">{profile.narrative}</p>
-      )}
+      <div className="career-story-sections">
+        {sections.map((section, index) => (
+          <article key={section.title}>
+            <span>0{index + 1}</span>
+            <div>
+              <h3>{section.title}</h3>
+              <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
@@ -143,7 +132,7 @@ function ExperienceTranslation({ items }: { items: string[] }) {
         <p>仕事内容を変えるのではなく、採用側に伝わる見せ方へ翻訳します。</p>
       </div>
       <div className="translation-list">
-        {items.map((item) => {
+        {items.slice(0, 5).map((item) => {
           const [before, ...afterParts] = item.split("→").map((part) => part.trim());
           const after = afterParts.join(" → ");
 
@@ -190,24 +179,24 @@ function StrengthsSection({ profile }: { profile: MarketValueProfile }) {
 function CareerRoadmap({ profile, roadmap }: Pick<CareerCompassResultProps, "profile" | "roadmap">) {
   const steps = [
     {
+      actions: profile.roadmap30Days.slice(0, 2),
       label: "今から",
       role: profile.reachableRoles[0],
-      experience: profile.immediateRoutes[0],
-      action: profile.roadmap30Days[0],
+      outcome: profile.immediateRoutes[0],
     },
     {
+      actions: [profile.roadmap90Days, profile.roadmap6Months].filter(Boolean),
       label: "半年後",
       role: profile.stretchRoutes[0],
-      experience: profile.roadmap6Months,
-      action: profile.roadmap90Days,
+      outcome: profile.stretchRoutes[0],
     },
     {
+      actions: [roadmap.find((item) => item.label === "1y")?.value].filter((item): item is string => Boolean(item)),
       label: "1年後",
       role: profile.stretchRoutes[1] ?? profile.stretchRoutes[0],
-      experience: profile.growthLevers[0],
-      action: roadmap.find((item) => item.label === "1y")?.value,
+      outcome: profile.growthLevers[0],
     },
-  ].filter((step) => step.role || step.experience || step.action);
+  ].filter((step) => step.role || step.outcome || step.actions.length > 0);
 
   if (steps.length === 0) return null;
 
@@ -222,11 +211,9 @@ function CareerRoadmap({ profile, roadmap }: Pick<CareerCompassResultProps, "pro
           <li key={step.label}>
             <span className="roadmap-index">{String(index + 1).padStart(2, "0")}</span>
             <h3>{step.label}</h3>
-            <dl>
-              {step.role ? <div><dt>目標職種</dt><dd>{step.role}</dd></div> : null}
-              {step.experience ? <div><dt>身につける経験</dt><dd>{step.experience}</dd></div> : null}
-              {step.action ? <div><dt>具体的な行動</dt><dd>{step.action}</dd></div> : null}
-            </dl>
+            {step.role ? <p className="roadmap-role">{step.role}</p> : null}
+            {step.actions.length > 0 ? <ul>{step.actions.map((action) => <li key={action}>{action}</li>)}</ul> : null}
+            {step.outcome ? <p className="roadmap-outcome"><span>到達イメージ</span>{step.outcome}</p> : null}
           </li>
         ))}
       </ol>
