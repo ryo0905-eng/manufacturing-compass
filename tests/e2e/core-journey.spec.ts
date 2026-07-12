@@ -36,9 +36,21 @@ test.describe("主要導線", () => {
   test("診断の回答後に次の質問へ進める", async ({ page }) => {
     await page.goto("/career-compass");
 
-    await page.getByRole("button", { name: /生産技術/ }).click();
+    await expect(page.getByText("Q 01 / 12")).toBeVisible();
+    const answer = page.getByRole("button", { name: /生産技術/ });
+    await expect(answer).toBeEnabled();
+    await answer.click();
 
     await expect(page.getByText("Q 02 / 12")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1, name: "実際に担当している仕事は？" })).toBeVisible();
+  });
+
+  test("ガイドで実体験の根拠と公開情報を確認できる", async ({ page }) => {
+    await page.goto("/guides/semiconductor-career-start");
+
+    await expect(page.getByRole("heading", { level: 1, name: "半導体業界への転職は何から始める？" })).toBeVisible();
+    await expect(page.getByLabel("この記事の実体験の根拠")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "参考情報・出典" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /半導体・デジタル産業戦略/ })).toHaveAttribute("href", /meti\.go\.jp/);
   });
 });

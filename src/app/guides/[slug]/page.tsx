@@ -39,20 +39,29 @@ export default async function GuidePage({ params }: GuidePageProps) {
     notFound();
   }
 
+  const relatedGuides = guide.relatedGuideSlugs
+    .map((relatedSlug) => getGuideBySlug(relatedSlug))
+    .filter((relatedGuide) => relatedGuide !== undefined);
+
   return (
     <main className="page guide-page">
-      <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": "Person", name: "RYO" }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja" }} />
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": "Person", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja" }} />
       <article className="article-layout">
         <header className="article-hero">
           <p className="section-label">製造業から半導体を考えるガイド・{guide.readTime}</p>
           <h1>{guide.title}</h1>
           <p>{guide.description}</p>
-          <small>執筆：RYO（製造業経験 約10年）</small>
+          <small>執筆・確認：{guide.reviewedBy}（製造業経験 約10年）・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
           <dl className="guide-intro-summary">
             <div><dt>悩み</dt><dd>{guide.intro.problem}</dd></div>
             <div><dt>結論</dt><dd>{guide.intro.conclusion}</dd></div>
             <div><dt>読むと分かること</dt><dd>{guide.intro.learnings}</dd></div>
           </dl>
+          <aside className="guide-experience-basis" aria-label="この記事の実体験の根拠">
+            <strong>この記事の実体験の根拠</strong>
+            <ul>{guide.experienceBasis.map((item) => <li key={item}>{item}</li>)}</ul>
+            <small>実体験と一般情報を分け、一般情報は記事末尾の公開情報で確認しています。</small>
+          </aside>
         </header>
 
         <div className="article-body">
@@ -64,6 +73,26 @@ export default async function GuidePage({ params }: GuidePageProps) {
             </section>
           ))}
         </div>
+
+        <section className="guide-sources" aria-labelledby="guide-sources-title">
+          <p className="section-label">確認した公開情報</p>
+          <h2 id="guide-sources-title">参考情報・出典</h2>
+          <ul>
+            {guide.sources.map((source) => (
+              <li key={source.url}>
+                <a href={source.url} rel="noopener noreferrer" target="_blank">{source.title}</a>
+                <span>{source.publisher}・確認日 {source.accessedAt.replaceAll("-", ".")}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {relatedGuides.length > 0 ? (
+          <nav className="guide-related" aria-label="関連記事">
+            <strong>次に読むガイド</strong>
+            {relatedGuides.map((relatedGuide) => <Link href={`/guides/${relatedGuide.slug}`} key={relatedGuide.slug}>{relatedGuide.title}<span aria-hidden="true">→</span></Link>)}
+          </nav>
+        ) : null}
 
         <TodayAction action={guide.todayQuest} />
 

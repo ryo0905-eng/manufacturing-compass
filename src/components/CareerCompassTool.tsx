@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { CareerCompassResult } from "@/components/career-compass/CareerCompassResult";
 import { trackEvent } from "@/lib/analytics";
 import {
@@ -169,7 +169,12 @@ function formatRewardGap(currentSalaryId: string | undefined, marketRange: strin
   return { currentLabel, gapLabel: `+${lowGap}〜${highGap}万円`, note: "レンジ同士の比較であり、実際の提示額を保証するものではありません" };
 }
 
+function subscribeToHydration() {
+  return () => undefined;
+}
+
 export function CareerCompassTool() {
+  const isHydrated = useSyncExternalStore(subscribeToHydration, () => true, () => false);
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState(0);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -643,6 +648,7 @@ export function CareerCompassTool() {
           {currentStep.options.map((option, index) => (
             <button
               className={currentValue === option.id ? "quiz-option active" : "quiz-option"}
+              disabled={!isHydrated}
               key={option.id}
               onClick={() => chooseAnswer(currentStep.key, option.id)}
               type="button"
