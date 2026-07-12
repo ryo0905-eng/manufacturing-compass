@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { track } from "@vercel/analytics";
 import { CareerCompassResult } from "@/components/career-compass/CareerCompassResult";
 import {
   achievementOptions,
@@ -178,6 +179,7 @@ export function CareerCompassTool() {
   const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const analysisTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasTrackedStartRef = useRef(false);
   const questionSteps = useMemo(() => getQuestionSteps(answers.background), [answers.background]);
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
@@ -390,12 +392,22 @@ export function CareerCompassTool() {
   function showAnalysisThenResult() {
     setIsAnalyzing(true);
     analysisTimerRef.current = setTimeout(() => {
+      track("diagnosis_complete", {
+        agent_focus: result.agentFocus,
+        background: answers.background ?? "beginner",
+        goal: answers.goal ?? "entry",
+      });
       setIsAnalyzing(false);
       setStep(questionSteps.length);
     }, 1600);
   }
 
   function chooseAnswer(key: AnswerKey, value: string) {
+    if (!hasTrackedStartRef.current) {
+      hasTrackedStartRef.current = true;
+      track("diagnosis_start", { source_page: "career_compass" });
+    }
+
     setAnswers((current) => key === "background" && current.background !== value
       ? { ...current, analysis: undefined, background: value, specialty: undefined }
       : { ...current, [key]: value });
@@ -536,6 +548,7 @@ export function CareerCompassTool() {
     setCompletedQuestIds([]);
     setCopyStatus("idle");
     setInsightState({ items: [], status: "idle" });
+    hasTrackedStartRef.current = false;
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
     }
@@ -586,6 +599,12 @@ export function CareerCompassTool() {
       insightState={insightState}
       modules={result.modules}
       onCopyConsultMemo={copyConsultMemo}
+      onAgentCtaClick={() => {
+        track("agent_cta_click", {
+          agent_focus: result.agentFocus,
+          source_page: "diagnosis_result",
+        });
+      }}
       onGenerateInsights={generateInsights}
       onRestart={restart}
       onToggleQuest={toggleQuest}

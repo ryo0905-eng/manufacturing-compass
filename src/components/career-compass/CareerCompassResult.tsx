@@ -27,6 +27,7 @@ type CareerCompassResultProps = {
   insightState: InsightState;
   modules: ScoreModule[];
   onCopyConsultMemo: () => void;
+  onAgentCtaClick: () => void;
   onGenerateInsights: () => void;
   onRestart: () => void;
   onToggleQuest: (id: string) => void;
@@ -63,7 +64,7 @@ function MarketValueSummary({ profile, rewardGap, showRewardGap }: Pick<CareerCo
   );
 }
 
-function ResultHero({ agentFocus, currentRole, profile, rewardGap, showRewardGap }: Pick<CareerCompassResultProps, "agentFocus" | "currentRole" | "profile" | "rewardGap" | "showRewardGap">) {
+function ResultHero({ agentFocus, currentRole, onAgentCtaClick, profile, rewardGap, showRewardGap }: Pick<CareerCompassResultProps, "agentFocus" | "currentRole" | "onAgentCtaClick" | "profile" | "rewardGap" | "showRewardGap">) {
   const targetRole = profile.reachableRoles[0];
 
   return (
@@ -82,7 +83,7 @@ function ResultHero({ agentFocus, currentRole, profile, rewardGap, showRewardGap
         {profile.summary ? <p className="result-lead">{profile.summary}</p> : null}
         <div className="result-hero-actions">
           <a className="button primary" href="#today-quest">今日の一手を見る</a>
-          <Link className="result-inline-link" href={`/career-agents?focus=${agentFocus}`}>相談先を先に見る</Link>
+          <Link className="result-inline-link" href={`/career-agents?focus=${agentFocus}`} onClick={onAgentCtaClick}>相談先を先に見る</Link>
         </div>
       </div>
       <MarketValueSummary profile={profile} rewardGap={rewardGap} showRewardGap={showRewardGap} />
@@ -233,7 +234,7 @@ function CareerRoadmap({ profile, roadmap }: Pick<CareerCompassResultProps, "pro
   );
 }
 
-function ConsultationCTA({ agentFocus, onRestart, profile }: Pick<CareerCompassResultProps, "agentFocus" | "onRestart" | "profile">) {
+function ConsultationCTA({ agentFocus, onAgentCtaClick, onRestart, profile }: Pick<CareerCompassResultProps, "agentFocus" | "onAgentCtaClick" | "onRestart" | "profile">) {
   return (
     <section className="consultation-cta-result" aria-labelledby="consultation-title">
       <div>
@@ -242,7 +243,7 @@ function ConsultationCTA({ agentFocus, onRestart, profile }: Pick<CareerCompassR
         {profile.agentTalkTrack ? <p>{profile.agentTalkTrack}</p> : null}
       </div>
       <div className="consultation-cta-actions">
-        <Link className="button primary" href={`/career-agents?focus=${agentFocus}`}>この経歴に合うエージェントを見る</Link>
+        <Link className="button primary" href={`/career-agents?focus=${agentFocus}`} onClick={onAgentCtaClick}>この経歴に合うエージェントを見る</Link>
         <button className="button ghost" onClick={onRestart} type="button">もう一度診断する</button>
       </div>
       <small className="result-disclosure">{officialLinkDisclosureText}</small>

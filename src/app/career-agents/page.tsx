@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
 import { DiagnosisCta } from "@/components/DiagnosisCta";
+import { TrackedAffiliateCreative } from "@/components/TrackedAffiliateCreative";
 import {
   agentFocusOptions,
   affiliateAgents,
@@ -68,7 +69,7 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
               </dl>
               <footer className="agent-link-row">
                 <div><a className="text-link" href={agent.sourceUrl} rel="noopener noreferrer" target="_blank">公式情報 ↗</a><small>確認日 {agent.lastUpdated}</small></div>
-                {agent.affiliateCreativeHtml ? <div className="agent-affiliate-creative"><span>広告・アフィリエイトリンク</span><div dangerouslySetInnerHTML={{ __html: agent.affiliateCreativeHtml }} /></div> : url ? <a className="button secondary" href={url} rel={getAgentRel(agent)} target="_blank">{getAgentCtaLabel(agent)} ↗</a> : null}
+                {agent.affiliateCreativeHtml ? <TrackedAffiliateCreative agentId={agent.id} html={agent.affiliateCreativeHtml} /> : url ? <a className="button secondary" href={url} rel={getAgentRel(agent)} target="_blank">{getAgentCtaLabel(agent)} ↗</a> : null}
               </footer>
             </article>
           );
