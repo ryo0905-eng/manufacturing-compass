@@ -4,6 +4,7 @@ import type { MarketValueProfile } from "@/data/career-compass";
 import { officialLinkDisclosureText, type AgentFocus } from "@/data/affiliateLinks";
 import type { Company } from "@/types/content";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
+import { trackEvent } from "@/lib/analytics";
 
 type ScoreModule = { label: string; value: string; score: number };
 type PowerQuest = { id: string; label: string };
@@ -278,7 +279,14 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
   const additionalQuests = powerQuests.filter((quest) => quest.label !== profile.todayQuest);
 
   return (
-    <details className="detailed-report-accordion">
+    <details
+      className="detailed-report-accordion"
+      onToggle={(event) => {
+        if (event.currentTarget.open) {
+          trackEvent("result_detail_open", { result_type: profile.id });
+        }
+      }}
+    >
       <summary>
         <span>Diagnosis Evidence &amp; Consultation Prep</span>
         <strong>診断の根拠と相談準備を見る</strong>
@@ -449,7 +457,7 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
         <ExperienceTranslation items={props.profile.semiconductorTranslation} />
         <StrengthsSection profile={props.profile} />
         <CareerRoadmap profile={props.profile} roadmap={props.roadmap} />
-        <TodayQuest action={props.profile.todayQuest} reason={props.profile.bottlenecks[0]} />
+        <TodayQuest action={props.profile.todayQuest} reason={props.profile.bottlenecks[0]} resultType={props.profile.id} />
         <DetailedReportAccordion {...props} />
         <ConsultationCTA {...props} />
       </article>

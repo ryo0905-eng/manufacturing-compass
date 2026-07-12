@@ -1,7 +1,7 @@
 "use client";
 
-import { track } from "@vercel/analytics";
 import type { MouseEvent } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 type TrackedAffiliateCreativeProps = {
   agentId: string;
@@ -15,8 +15,9 @@ export function TrackedAffiliateCreative({ agentId, html }: TrackedAffiliateCrea
 
     if (!link || !event.currentTarget.contains(link)) return;
 
-    track("affiliate_outbound_click", {
+    trackEvent("affiliate_outbound_click", {
       agent_id: agentId,
+      cta_location: "affiliate_creative",
       source_page: "career_agents",
     });
   }

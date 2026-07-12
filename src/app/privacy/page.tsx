@@ -31,8 +31,15 @@ export default function PrivacyPage() {
         <article>
           <h2>アクセス解析について</h2>
           <p>
-            当サイトでは、サイト改善のために Vercel Analytics などのアクセス解析ツールを利用する場合があります。
+            当サイトでは、サイト改善のために Vercel Analytics および Google Analytics 4 を利用します。
+            これらのツールは Cookie 等を利用して、閲覧ページ、利用端末、ブラウザ、参照元、サイト内での操作状況を収集する場合があります。
             取得した情報は、ページ閲覧状況や導線改善の分析に使用し、個人を特定する目的では利用しません。
+          </p>
+          <p>
+            当サイトは、氏名、メールアドレス、自由記述の内容を Google Analytics 4 へ送信しません。
+            Google Analytics による計測は、ブラウザ設定または
+            <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer" target="_blank">Google Analytics オプトアウト アドオン</a>
+            により無効化できます。
           </p>
         </article>
 

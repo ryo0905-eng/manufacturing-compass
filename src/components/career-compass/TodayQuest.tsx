@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 type TodayQuestProps = {
   action: string;
   reason?: string;
+  resultType?: string;
   duration?: string;
 };
 
-export function TodayQuest({ action, reason, duration }: TodayQuestProps) {
+export function TodayQuest({ action, reason, resultType, duration }: TodayQuestProps) {
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
   const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -20,6 +22,8 @@ export function TodayQuest({ action, reason, duration }: TodayQuestProps) {
 
   async function copyAction() {
     if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+
+    trackEvent("today_quest_copy", { result_type: resultType ?? "unknown" });
 
     try {
       await navigator.clipboard.writeText(action);

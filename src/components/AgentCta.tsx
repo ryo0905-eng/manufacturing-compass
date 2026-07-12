@@ -1,3 +1,5 @@
+"use client";
+
 import {
   getAffiliateAgent,
   getAgentCtaLabel,
@@ -5,6 +7,7 @@ import {
   getAgentUrl,
   getPrimaryAgent,
 } from "@/data/affiliateLinks";
+import { trackEvent } from "@/lib/analytics";
 
 type AgentCtaProps = {
   agentId?: string;
@@ -23,7 +26,16 @@ export function AgentCta({ agentId }: AgentCtaProps) {
         <b>{agent.recommendedFor}</b>
       </div>
       {url ? (
-        <a className="button primary" href={url} rel={getAgentRel(agent)} target="_blank">
+        <a
+          className="button primary"
+          href={url}
+          onClick={() => trackEvent("affiliate_outbound_click", {
+            agent_id: agent.id,
+            cta_location: "agent_cta",
+          })}
+          rel={getAgentRel(agent)}
+          target="_blank"
+        >
           {getAgentCtaLabel(agent)}
         </a>
       ) : (

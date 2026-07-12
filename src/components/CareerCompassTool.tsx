@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { track } from "@vercel/analytics";
 import { CareerCompassResult } from "@/components/career-compass/CareerCompassResult";
+import { trackEvent } from "@/lib/analytics";
 import {
   achievementOptions,
   backgroundOptions,
@@ -392,10 +392,11 @@ export function CareerCompassTool() {
   function showAnalysisThenResult() {
     setIsAnalyzing(true);
     analysisTimerRef.current = setTimeout(() => {
-      track("diagnosis_complete", {
+      trackEvent("diagnosis_complete", {
         agent_focus: result.agentFocus,
         background: answers.background ?? "beginner",
         goal: answers.goal ?? "entry",
+        result_type: result.profile.id,
       });
       setIsAnalyzing(false);
       setStep(questionSteps.length);
@@ -405,7 +406,7 @@ export function CareerCompassTool() {
   function chooseAnswer(key: AnswerKey, value: string) {
     if (!hasTrackedStartRef.current) {
       hasTrackedStartRef.current = true;
-      track("diagnosis_start", { source_page: "career_compass" });
+      trackEvent("diagnosis_start", { source_page: "career_compass" });
     }
 
     setAnswers((current) => key === "background" && current.background !== value
@@ -600,8 +601,9 @@ export function CareerCompassTool() {
       modules={result.modules}
       onCopyConsultMemo={copyConsultMemo}
       onAgentCtaClick={() => {
-        track("agent_cta_click", {
+        trackEvent("agent_cta_click", {
           agent_focus: result.agentFocus,
+          cta_location: "diagnosis_result",
           source_page: "diagnosis_result",
         });
       }}
