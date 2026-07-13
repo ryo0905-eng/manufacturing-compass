@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AgentCta } from "@/components/AgentCta";
+import { AffiliateCta } from "@/components/AffiliateCta";
 import { DiagnosisCta } from "@/components/DiagnosisCta";
 import { StructuredData } from "@/components/StructuredData";
 import { TodayAction } from "@/components/TodayAction";
@@ -112,7 +112,10 @@ export default async function GuidePage({ params }: GuidePageProps) {
 
         <TodayAction action={guide.todayQuest} />
 
-        <AgentCta agentId="ties" />
+        <AffiliateCta
+          title="整理した経験を、どの相談先に伝えるか決める"
+          body="記事で整理した経験や希望条件をもとに、製造業・半導体、外資系、専門職など、相談したい内容に合う転職エージェントを比較できます。"
+        />
 
         <DiagnosisCta title="自分の経験に近い半導体職種を確かめる" body="記事で書き出した経験をもとに、強み、足りない経験、次の準備を12問で確認できます。" />
         <p className="back-link"><Link className="text-link" href="/guides">ガイド一覧へ戻る</Link></p>
