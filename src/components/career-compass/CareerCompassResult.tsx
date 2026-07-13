@@ -46,13 +46,13 @@ function MarketValueSummary({ profile, rewardGap, showRewardGap }: Pick<CareerCo
   const metrics = [
     profile.salaryRangeCurrent ? { label: "関連職種の参考年収レンジ", value: profile.salaryRangeCurrent } : null,
     profile.salaryRangePotential ? { label: "経験を補った場合の参考レンジ", value: profile.salaryRangePotential } : null,
-    showRewardGap && rewardGap.gapLabel ? { label: "年収上昇余地", value: rewardGap.gapLabel } : null,
+    showRewardGap && rewardGap.gapLabel ? { label: "現年収との参考差分", value: rewardGap.gapLabel } : null,
   ].filter((metric): metric is { label: string; value: string } => Boolean(metric));
 
   if (metrics.length === 0) return null;
 
   return (
-    <div className="market-value-summary" aria-label="市場価値サマリー">
+    <div className="market-value-summary" aria-label="参考年収サマリー">
       <div className="market-value-metrics">
         {metrics.map((metric) => (
           <div key={metric.label}>
@@ -91,7 +91,7 @@ function ResultHero({ agentFocus, currentRole, onAgentCtaClick, profile, rewardG
   return (
     <header className="result-story-hero">
       <div className="result-story-copy">
-        <p className="result-kicker">半導体キャリア診断結果</p>
+        <p className="result-kicker">ルールベースの参考結果</p>
         <p className="result-type-label">{profile.typeName}</p>
         <h1>{profile.title}</h1>
         {currentRole && targetRole ? (
@@ -112,9 +112,30 @@ function ResultHero({ agentFocus, currentRole, onAgentCtaClick, profile, rewardG
   );
 }
 
+function ResultInformationGuide() {
+  return (
+    <aside className="result-information-guide" aria-labelledby="result-information-title">
+      <div className="result-information-heading">
+        <p className="result-kicker">情報の見方</p>
+        <h2 id="result-information-title">参考結果と公開情報を分けて掲載しています</h2>
+      </div>
+      <div className="result-information-grid">
+        <section>
+          <span>診断による参考整理</span>
+          <p>タイプ、スコア、年収レンジ、強み、ロードマップ、企業との接点は、回答と静的ルールから整理した目安です。企業による評価や選考結果を示すものではありません。</p>
+        </section>
+        <section>
+          <span>公開情報</span>
+          <p>企業名や事業内容の確認には、各企業ページに記載した公開情報と出典を使っています。事業領域・職種カテゴリは公開情報をもとにした編集上の整理で、最新の募集職種や採用条件は各社の公式採用ページでご確認ください。</p>
+        </section>
+      </div>
+    </aside>
+  );
+}
+
 function CareerStory({ profile }: { profile: MarketValueProfile }) {
   const sections = [
-    { title: "評価される理由", items: profile.marketValueReasons.slice(0, 2) },
+    { title: "強みとして整理した理由", items: profile.marketValueReasons.slice(0, 2) },
     { title: "半導体でも使いやすい経験", items: profile.semiconductorTranslation.slice(0, 2) },
     { title: "そのままでは伝わりにくい部分", items: profile.bottlenecks.slice(0, 2) },
   ].filter((section) => section.items.length > 0);
@@ -125,7 +146,7 @@ function CareerStory({ profile }: { profile: MarketValueProfile }) {
     <section className="result-section career-story" aria-labelledby="career-story-title">
       <div className="result-section-heading">
         <p className="result-kicker">経験の読み解き</p>
-        <h2 id="career-story-title">評価される経験と、先に整えること</h2>
+        <h2 id="career-story-title">強みとして整理できる経験と、先に整えること</h2>
       </div>
       <div className="career-story-sections">
         {sections.map((section, index) => (
@@ -182,7 +203,7 @@ function StrengthsSection({ profile }: { profile: MarketValueProfile }) {
       <div className="strengths-watchouts-grid">
         {profile.strengths.length > 0 ? (
           <div className="strengths-column">
-            <h3>あなたの強み</h3>
+            <h3>強みとして整理できる経験</h3>
             <ul>{profile.strengths.map((item) => <li key={item}>{item}</li>)}</ul>
           </div>
         ) : null}
@@ -313,7 +334,7 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
       </summary>
       <div className="detailed-report-body">
         <div className="detailed-report-intro">
-          <p>このレポートは合否を判定するものではありません。</p>
+          <p>このレポートは回答と静的ルールによる参考整理であり、合否や企業評価を判定するものではありません。</p>
           <strong>今ある転職材料と、次に整理すると選択肢が広がるポイントを確認できます。</strong>
         </div>
 
@@ -378,7 +399,7 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
           {companyExamples.length > 0 ? (
             <div className="detail-subsection">
               <h4>経験と接点のある企業例</h4>
-              <p>診断結果の職種・事業領域と接点がある企業を、優劣や難易度の順ではなく同列に掲載しています。</p>
+              <p>公開情報にある職種・事業領域と、診断結果との接点をルールベースで整理しています。優劣や難易度の順ではありません。</p>
               <div className="detail-company-grid">
                 {companyExamples.map(({ company, matchedRoles }) => (
                   <article key={company.id}>
@@ -440,7 +461,7 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
             </ol>
           ) : null}
           <dl className="detail-consult-facts">
-            {props.showRewardGap ? <div><dt>年収上昇余地</dt><dd>{rewardGap.gapLabel}</dd></div> : null}
+            {props.showRewardGap ? <div><dt>現年収との参考差分</dt><dd>{rewardGap.gapLabel}</dd></div> : null}
             {profile.todayQuest ? <div><dt>今日整理する実績</dt><dd>{profile.todayQuest}</dd></div> : null}
           </dl>
           <div className="detail-consult-copy">
@@ -455,7 +476,7 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
           <div>
             <span>Optional Insight</span>
             <strong>経験の見え方を、さらに深掘りする</strong>
-            <p>必要な場合だけ、AIによる補足分析を確認できます。</p>
+            <p>必要な場合だけ、AIによる参考分析を確認できます。事実確認済みの企業情報ではありません。</p>
           </div>
           <button className="button ghost" disabled={insightState.status === "loading"} onClick={onGenerateInsights} type="button">
             {insightState.status === "loading" ? "生成中" : "補足分析を見る"}
@@ -472,7 +493,10 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
   return (
     <div className="quiz-result-shell">
       <article className="career-result-experience">
-        <ResultHero {...props} />
+        <div className="result-overview">
+          <ResultHero {...props} />
+          <ResultInformationGuide />
+        </div>
         <CareerStory profile={props.profile} />
         <ExperienceTranslation items={props.profile.semiconductorTranslation} />
         <StrengthsSection profile={props.profile} />

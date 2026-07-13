@@ -3411,6 +3411,53 @@ select {
   color: rgba(255, 255, 255, 0.54);
 }
 
+.result-overview {
+  display: grid;
+  gap: 18px;
+}
+
+.result-information-guide {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.6fr);
+  gap: 24px 36px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  padding: clamp(22px, 3.5vw, 34px);
+}
+
+.result-information-heading h2 {
+  margin: 7px 0 0;
+  font-size: clamp(21px, 2.7vw, 28px);
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.result-information-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.result-information-grid section {
+  border-left: 2px solid var(--primary);
+  padding-left: 14px;
+}
+
+.result-information-grid span {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.result-information-grid p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.75;
+}
+
 .career-result-experience .result-section {
   min-width: 0;
 }
@@ -4328,6 +4375,8 @@ select {
   }
 
   .market-value-metrics,
+  .result-information-guide,
+  .result-information-grid,
   .translation-list,
   .strengths-watchouts-grid,
   .roadmap-timeline,
