@@ -280,7 +280,7 @@
 
 .guides-card-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 2px solid var(--text);
 }
 
@@ -297,6 +297,7 @@
 }
 
 .guides-article-card:last-child { border-right: 0; }
+.guides-article-card:nth-child(even) { border-right: 0; }
 .guides-article-card:hover { background: var(--surface); }
 
 .guides-article-card__meta {
