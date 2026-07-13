@@ -63,6 +63,7 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
             <article id={agent.id} key={agent.id}>
               <header><p>{agent.category}</p><h2>{agent.name}</h2></header>
               <dl>
+                <div><dt>利用者像の目安</dt><dd><p>{agent.recommendedFor}</p></dd></div>
                 <div><dt>どんな相談に向くか</dt><dd><ul>{agent.consultationTopics.map((topic) => <li key={topic}>{topic}</li>)}</ul></dd></div>
                 <div><dt>RYOの利用経験</dt><dd><p>{agent.personalExperience}</p></dd></div>
                 <div><dt>登録前に確認すること</dt><dd><p>{agent.pointsToConfirm}</p></dd></div>

@@ -47,7 +47,7 @@ export const agentFocusOptions: Array<{ id: AgentFocus; label: string; descripti
   },
 ];
 
-const lastUpdated = "2026-07-12";
+const lastUpdated = "2026-07-13";
 
 export const affiliateAgents: AffiliateAgent[] = [
   {
@@ -55,7 +55,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     name: "JACリクルートメント",
     category: "ハイクラス・外資系転職",
     description: "製造業の専門チームを持ち、管理職・専門職・外資系を含む求人を扱う転職エージェントです。",
-    recommendedFor: "半導体・製造業で年収アップ、外資系、マネジメント、専門職を狙いたい人",
+    recommendedFor: "現在年収600万円以上を目安に、半導体・製造業の管理職、専門職、エンジニアとして次の選択肢を相談したい人",
     focusAreas: ["global", "specialist"],
     suitableRoles: ["設計・研究開発", "製造マネジメント", "業界スペシャリスト"],
     consultationTopics: ["専門性を評価される職種・役職", "外資系・グローバル企業への接続", "年収条件とキャリアの優先順位"],
