@@ -30,9 +30,13 @@ export async function generateMetadata({ params }: CareerPrepPageProps): Promise
     return {};
   }
 
+  const isSearchReady = Boolean(getCareerInfo(company.id));
+
   return {
     title: `${company.nameJa}を目指すキャリア準備`,
     description: `${company.nameJa}を目指すために整理したい経験、伸ばすスキル、半年後・1年後の準備をまとめます。`,
+    alternates: { canonical: `/companies/${company.slug}/career-prep` },
+    robots: isSearchReady ? undefined : { index: false, follow: true },
   };
 }
 

@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
-import { companies, segments } from "@/data/companies";
+import { companies, getCareerInfo, segments } from "@/data/companies";
 import { beginnerGuides, comparePairs, rankings } from "@/data/editorial";
 import { companyCompareSlug, siteUrl } from "@/lib/format";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  const searchReadyCompanies = companies.filter((company) => getCareerInfo(company.id));
   const staticRoutes = [
     "",
     "/career-compass",
@@ -27,14 +28,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : path === "/career-agents" ? 0.85 : 0.8,
   }));
 
-  const companyRoutes = companies.map((company) => ({
+  const companyRoutes = searchReadyCompanies.map((company) => ({
     url: `${siteUrl}/companies/${company.slug}`,
     lastModified: new Date(company.lastUpdated),
     changeFrequency: "monthly" as const,
     priority: 0.75,
   }));
 
-  const companyPrepRoutes = companies.map((company) => ({
+  const companyPrepRoutes = searchReadyCompanies.map((company) => ({
     url: `${siteUrl}/companies/${company.slug}/career-prep`,
     lastModified: new Date(company.lastUpdated),
     changeFrequency: "monthly" as const,

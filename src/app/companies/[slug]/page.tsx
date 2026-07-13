@@ -23,9 +23,13 @@ export async function generateMetadata({ params }: CompanyPageProps): Promise<Me
     return {};
   }
 
+  const isSearchReady = Boolean(getCareerInfo(company.id));
+
   return {
     title: `${company.nameJa}の転職・仕事内容・キャリア準備`,
     description: `${company.nameJa}の事業領域、主力製品、日本拠点、英語必要度、転職時に見たいポイントを整理します。`,
+    alternates: { canonical: `/companies/${company.slug}` },
+    robots: isSearchReady ? undefined : { index: false, follow: true },
   };
 }
 
