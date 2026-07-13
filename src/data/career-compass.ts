@@ -293,7 +293,7 @@ export const marketValueProfiles: Record<string, MarketValueProfile> = {
     shortLabel: "装置対応型",
     summary: "装置トラブル対応や保全改善は、半導体製造装置メーカーや工場側の設備職と相性があります。",
     baseScore: 70,
-    salaryRangeCurrent: "500〜720万円",
+    salaryRangeCurrent: "500〜700万円",
     salaryRangePotential: "650〜900万円",
     primarySegmentIds: ["equipment", "foundry"],
     reachableCompanyIds: ["tokyo-electron", "tsmc"],

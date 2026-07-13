@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { MarketValueProfile } from "@/data/career-compass";
 import { officialLinkDisclosureText, type AgentFocus } from "@/data/affiliateLinks";
+import { salaryMethodology } from "@/data/salary-methodology";
 import type { Company } from "@/types/content";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
 import { trackEvent } from "@/lib/analytics";
@@ -61,6 +62,25 @@ function MarketValueSummary({ profile, rewardGap, showRewardGap }: Pick<CareerCo
         ))}
       </div>
       <small>職種別の参考値です。実際の年収は経験、英語力、勤務地、勤務形態、企業の採用条件などによって変動します。</small>
+      <details className="salary-methodology">
+        <summary>年収レンジの算出方法・情報源</summary>
+        <div>
+          <ol>
+            {salaryMethodology.calculationSteps.map((step) => <li key={step}>{step}</li>)}
+          </ol>
+          <p>{salaryMethodology.compensationNote}</p>
+          <strong>情報源</strong>
+          <ul>
+            {salaryMethodology.sources.map((source) => (
+              <li key={source.url}>
+                <a href={source.url} rel="noopener noreferrer" target="_blank">{source.title}</a>
+                <span>{source.publisher}</span>
+              </li>
+            ))}
+          </ul>
+          <small>最終更新日: {salaryMethodology.updatedAt.replaceAll("-", ".")}</small>
+        </div>
+      </details>
     </div>
   );
 }

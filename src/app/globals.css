@@ -3355,6 +3355,62 @@ select {
   line-height: 1.6;
 }
 
+.salary-methodology {
+  max-width: 780px;
+  margin-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding-top: 12px;
+}
+
+.salary-methodology summary {
+  width: fit-content;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.salary-methodology > div {
+  margin-top: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.12);
+  padding: 16px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.salary-methodology ol,
+.salary-methodology ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.salary-methodology p,
+.salary-methodology strong,
+.salary-methodology ul,
+.salary-methodology > div > small {
+  display: block;
+  margin-top: 12px;
+}
+
+.salary-methodology a {
+  color: #fff;
+  font-weight: 750;
+}
+
+.salary-methodology li span {
+  margin-left: 6px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.salary-methodology > div > small {
+  color: rgba(255, 255, 255, 0.54);
+}
+
 .career-result-experience .result-section {
   min-width: 0;
 }
