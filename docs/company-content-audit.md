@@ -65,11 +65,31 @@
 
 該当なし。
 
+## 優先10社の個別確認
+
+確認日: 2026-07-13
+
+| 企業 | 確認した公式採用情報 | 確認した主な内容 |
+| --- | --- | --- |
+| TSMC / JASM | [JASM open positions](https://ro.careers.tsmc.com/job/Kumamoto-JASM-Open-Position-for-Semi-recent-Graduates-43/1358851666/) | プロセス、設備、インテグレーション、歩留まり、製造、ファシリティなど |
+| Micron Technology | [Hiroshima Process & Equipment Engineer](https://careers.micron.com/careers/job/38677515) | プロセス・設備、トラブル対応、歩留まり・品質・生産性改善 |
+| 東京エレクトロン | [職種一覧](https://tel-special.com/job/) | メカ、エレキ、ソフト、プロセス、フィールドエンジニアなど |
+| Skyworks Solutions | [Career categories](https://careers.skyworksinc.com/viewalljobs/?locale=ja_JP) | エンジニアリング、品質、製造、技術営業・マーケティングなど |
+| ルネサス エレクトロニクス | [Engineering roles](https://jobs.renesas.com/engineering-roles) | システム、アプリケーション、FAE、品質、組み込み・アナログなど |
+| キオクシア | [技術系新卒採用情報](https://graduates-jp.kioxia.com/recruit/index.html) | デバイス、プロセス・パッケージ、回路・ソフト、評価解析・品質など |
+| SCREEN | [採用FAQ](https://www.screen.co.jp/recruit/fresh/recruit/faq.html)・[フィールドサービス職](https://www.screen.co.jp/sesv/recruitment/career) | 機械・電気・情報・化学等の装置開発、保守・立ち上げ、顧客対応 |
+| アドバンテスト | [職種一覧](https://www2.advantest.com/external/careers/work/work.html) | 電気・電子、機械、ソフト、SE、FSE、品質保証など |
+| ソシオネクスト | [キャリア採用](https://www.socionext.com/jp/recruit/career/) | SoC・IP開発、テスト、デバイス評価、プロジェクト推進など |
+| ローム | [採用職種](https://micro.rohm.com/jp/employment/recruit_newg.html) | 商品・技術開発、生産技術、品質保証・品質管理など |
+
+「近い経験」「半年の準備」「1年の準備」は、上記の職種・業務・必要経験をもとにManufacturing Compassが整理した編集上の提案であり、各社が公式に推奨する準備内容ではない。
+
 ## 確認した実装
 
 - 企業詳細ページは `getCareerInfo(company.id)` の有無で個別情報と「公開情報を確認しながら準備ポイントを整理中です。」を切り替える
 - キャリア準備ページは `careerInfo` がない場合に全社共通の `fallbackActions` を表示する
 - 全37社に企業概要、情報ソースURL、最終更新日がある
+- 優先10社は職種を確認できる公式採用情報を追加し、最終更新日を2026-07-13に更新した
 
 ## 次の対応
 

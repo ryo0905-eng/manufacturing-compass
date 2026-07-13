@@ -1,6 +1,7 @@
 import type { CareerInfo, Company, IndustrySegment } from "@/types/content";
 
 const accessedAt = "2026-07-05";
+const careerReviewedAt = "2026-07-13";
 
 export const segments: IndustrySegment[] = [
   {
@@ -91,8 +92,9 @@ export const companies: Company[] = [
     sources: [
       { title: "Company Profile", url: "https://www.tsmc.com/english/aboutTSMC/company_profile", publisher: "TSMC", accessedAt },
       { title: "Careers", url: "https://www.tsmc.com/english/careers", publisher: "TSMC", accessedAt },
+      { title: "JASM open positions", url: "https://ro.careers.tsmc.com/job/Kumamoto-JASM-Open-Position-for-Semi-recent-Graduates-43/1358851666/", publisher: "TSMC", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "micron",
@@ -124,8 +126,9 @@ export const companies: Company[] = [
     sources: [
       { title: "About Micron", url: "https://www.micron.com/about", publisher: "Micron Technology", accessedAt },
       { title: "Careers", url: "https://www.micron.com/careers", publisher: "Micron Technology", accessedAt },
+      { title: "Hiroshima Process & Equipment Engineer", url: "https://careers.micron.com/careers/job/38677515", publisher: "Micron Technology", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "tokyo-electron",
@@ -157,8 +160,9 @@ export const companies: Company[] = [
     sources: [
       { title: "Corporate Information", url: "https://www.tel.com/about/corporateinfo/", publisher: "Tokyo Electron", accessedAt },
       { title: "Careers", url: "https://www.tel.co.jp/careers/", publisher: "Tokyo Electron", accessedAt },
+      { title: "職種一覧", url: "https://tel-special.com/job/", publisher: "Tokyo Electron", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "skyworks",
@@ -190,8 +194,9 @@ export const companies: Company[] = [
     sources: [
       { title: "Skyworks company website", url: "https://www.skyworksinc.com/", publisher: "Skyworks Solutions", accessedAt },
       { title: "Careers", url: "https://www.skyworksinc.com/careers", publisher: "Skyworks Solutions", accessedAt },
+      { title: "Career categories", url: "https://careers.skyworksinc.com/viewalljobs/?locale=ja_JP", publisher: "Skyworks Solutions", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "renesas",
@@ -223,8 +228,9 @@ export const companies: Company[] = [
     sources: [
       { title: "Renesas website", url: "https://www.renesas.com/en", publisher: "Renesas Electronics", accessedAt },
       { title: "Renesas jobs", url: "https://jobs.renesas.com", publisher: "Renesas Electronics", accessedAt },
+      { title: "Engineering roles", url: "https://jobs.renesas.com/engineering-roles", publisher: "Renesas Electronics", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "kioxia",
@@ -255,8 +261,9 @@ export const companies: Company[] = [
     affiliateCtaType: "agent-consultation",
     sources: [
       { title: "Kioxia website", url: "https://www.kioxia.com/en-jp/top.html", publisher: "Kioxia", accessedAt },
+      { title: "技術系新卒採用情報", url: "https://graduates-jp.kioxia.com/recruit/index.html", publisher: "Kioxia", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "screen",
@@ -287,8 +294,10 @@ export const companies: Company[] = [
     affiliateCtaType: "agent-consultation",
     sources: [
       { title: "SCREEN SPE website", url: "https://www.screen.co.jp/spe/en", publisher: "SCREEN Semiconductor Solutions", accessedAt },
+      { title: "採用FAQ・技術分野", url: "https://www.screen.co.jp/recruit/fresh/recruit/faq.html", publisher: "SCREEN Holdings", accessedAt: careerReviewedAt },
+      { title: "フィールドサービス職", url: "https://www.screen.co.jp/sesv/recruitment/career", publisher: "SCREEN SPE Service", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "advantest",
@@ -320,8 +329,9 @@ export const companies: Company[] = [
     sources: [
       { title: "Advantest about", url: "https://www.advantest.com/en/about/", publisher: "Advantest", accessedAt },
       { title: "Advantest careers", url: "https://www.advantest.com/ja/about/career-jp/", publisher: "Advantest", accessedAt },
+      { title: "職種一覧", url: "https://www2.advantest.com/external/careers/work/work.html", publisher: "Advantest", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "socionext",
@@ -353,8 +363,9 @@ export const companies: Company[] = [
     sources: [
       { title: "Socionext website", url: "https://www.socionext.com/en/", publisher: "Socionext", accessedAt },
       { title: "Socionext recruit", url: "https://www.socionext.com/jp/recruit/", publisher: "Socionext", accessedAt },
+      { title: "キャリア採用", url: "https://www.socionext.com/jp/recruit/career/", publisher: "Socionext", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "rohm",
@@ -386,8 +397,9 @@ export const companies: Company[] = [
     sources: [
       { title: "ROHM website", url: "https://www.rohm.com/", publisher: "ROHM", accessedAt },
       { title: "ROHM careers", url: "https://www.rohm.com/careers", publisher: "ROHM", accessedAt },
+      { title: "採用職種", url: "https://micro.rohm.com/jp/employment/recruit_newg.html", publisher: "ROHM", accessedAt: careerReviewedAt },
     ],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
   },
   {
     id: "nvidia",
@@ -1285,7 +1297,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "tsmc",
     sources: companies.find((company) => company.id === "tsmc")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["プロセスエンジニア", "設備エンジニア", "品質保証", "生産技術"],
     recommendedExperience: ["量産工程改善", "設備保全", "品質解析", "統計的工程管理"],
     usefulSkills: ["歩留まり改善", "データ解析", "クリーンルーム経験", "異常解析"],
@@ -1302,7 +1314,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "micron",
     sources: companies.find((company) => company.id === "micron")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["プロセスエンジニア", "品質保証", "設備エンジニア", "製品技術"],
     recommendedExperience: ["半導体または製造業の工程改善", "品質解析", "データ解析", "量産立ち上げ"],
     usefulSkills: ["統計", "Python や BI ツール", "不良解析", "FMEA"],
@@ -1319,7 +1331,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "tokyo-electron",
     sources: companies.find((company) => company.id === "tokyo-electron")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["装置開発", "フィールドエンジニア", "プロセスエンジニア", "品質保証"],
     recommendedExperience: ["機械設計", "電気設計", "制御", "設備保全", "顧客対応"],
     usefulSkills: ["装置トラブルシュート", "図面理解", "PLC", "真空・プラズマ・洗浄の基礎"],
@@ -1336,7 +1348,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "skyworks",
     sources: companies.find((company) => company.id === "skyworks")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["FAE", "アプリケーションエンジニア", "営業技術", "品質"],
     recommendedExperience: ["電子部品の技術営業", "回路評価", "顧客技術サポート", "通信機器の開発"],
     usefulSkills: ["RF 基礎", "アナログ回路", "測定器", "英語での顧客対応"],
@@ -1353,7 +1365,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "renesas",
     sources: companies.find((company) => company.id === "renesas")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["半導体設計", "組み込みソフト", "FAE", "品質保証"],
     recommendedExperience: ["電子回路", "組み込み開発", "車載品質", "顧客技術対応"],
     usefulSkills: ["マイコン", "アナログ回路", "機能安全", "英語での技術説明"],
@@ -1370,7 +1382,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "kioxia",
     sources: companies.find((company) => company.id === "kioxia")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["プロセスエンジニア", "デバイス開発", "設備技術", "品質保証"],
     recommendedExperience: ["量産改善", "品質解析", "設備保全", "データ解析"],
     usefulSkills: ["NAND の基礎", "SPC", "歩留まり改善", "クリーンルーム経験"],
@@ -1387,7 +1399,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "screen",
     sources: companies.find((company) => company.id === "screen")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["装置開発", "プロセス開発", "フィールドエンジニア", "品質保証"],
     recommendedExperience: ["設備保全", "機械設計", "薬液・洗浄工程", "顧客対応"],
     usefulSkills: ["洗浄プロセス", "装置トラブル対応", "図面理解", "英語マニュアル読解"],
@@ -1404,7 +1416,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "advantest",
     sources: companies.find((company) => company.id === "advantest")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["電気設計", "ソフトウェア開発", "アプリケーションエンジニア", "品質保証"],
     recommendedExperience: ["計測", "電気評価", "ソフトウェア", "顧客技術対応"],
     usefulSkills: ["半導体テスト", "測定器", "データ解析", "英語での仕様説明"],
@@ -1421,7 +1433,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "socionext",
     sources: companies.find((company) => company.id === "socionext")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["LSI設計", "組み込みソフト", "FAE", "プロジェクトマネジメント"],
     recommendedExperience: ["デジタル設計", "組み込み開発", "顧客仕様調整", "プロジェクト推進"],
     usefulSkills: ["SoC", "RTL", "ファームウェア", "英語での仕様調整"],
@@ -1438,7 +1450,7 @@ export const careerInfo: CareerInfo[] = [
   {
     companyId: "rohm",
     sources: companies.find((company) => company.id === "rohm")?.sources ?? [],
-    lastUpdated: accessedAt,
+    lastUpdated: careerReviewedAt,
     typicalRoles: ["デバイス開発", "回路設計", "FAE", "品質保証"],
     recommendedExperience: ["パワエレ", "アナログ回路", "電子部品品質", "顧客技術対応"],
     usefulSkills: ["SiC", "パワー半導体", "回路評価", "信頼性評価"],
