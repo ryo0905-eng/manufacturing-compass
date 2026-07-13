@@ -7,6 +7,8 @@ export const electronicsToSemiconductorProcessEngineerGuide: GuideArticle = {
   targetQuery: "電子部品 半導体 転職",
   searchIntent: "電子部品や製造業の経験が半導体のプロセスエンジニア転職で評価されるか、実体験から判断材料を得たい",
   status: "published",
+  category: "experience",
+  featured: true,
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

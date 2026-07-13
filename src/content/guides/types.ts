@@ -1,6 +1,7 @@
 import type { Source } from "@/types/content";
 
 export type GuideStatus = "draft" | "published";
+export type GuideCategory = "experience" | "foundation" | "role";
 
 export type GuideBlock =
   | {
@@ -45,6 +46,8 @@ export type GuideArticle = {
   targetQuery: string;
   searchIntent: string;
   status: GuideStatus;
+  category: GuideCategory;
+  featured?: boolean;
   presentation: "legacy" | "structured";
   author: "RYO";
   reviewedBy: "RYO";

@@ -7,6 +7,7 @@ export const equipmentEngineerRouteGuide: GuideArticle = {
   targetQuery: "設備保全 半導体 転職",
   searchIntent: "設備保全や設備トラブル対応の経験を、半導体工場や装置メーカーの職種へどうつなげるか知りたい",
   status: "published",
+  category: "role",
   presentation: "legacy",
   author: "RYO",
   reviewedBy: "RYO",

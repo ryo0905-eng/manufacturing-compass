@@ -7,6 +7,7 @@ export const semiconductorCareerStartGuide: GuideArticle = {
   targetQuery: "半導体 転職 何から始める",
   searchIntent: "製造業から半導体への転職を考え始めた人が、最初に整理する経験と求人の見方を知りたい",
   status: "published",
+  category: "foundation",
   presentation: "legacy",
   author: "RYO",
   reviewedBy: "RYO",
