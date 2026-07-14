@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
+import { AgentConsultationMatrix } from "@/components/AgentConsultationMatrix";
 import { DiagnosisCta } from "@/components/DiagnosisCta";
 import { TrackedAffiliateCreative } from "@/components/TrackedAffiliateCreative";
 import {
@@ -47,6 +48,8 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
       <aside className="agent-common-note">
         担当者、時期、地域、職種によって紹介求人は変わります。希望職種・勤務地・働き方は、登録前後に確認してください。
       </aside>
+
+      <AgentConsultationMatrix agents={affiliateAgents} focusOptions={agentFocusOptions} />
 
       <nav className="agent-focus-nav" aria-label="相談したい内容で絞り込む">
         <strong>相談したい内容から先に見る</strong>
