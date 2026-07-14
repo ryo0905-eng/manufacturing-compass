@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { CareerResultPreview } from "@/components/CareerResultPreview";
 import { CareerRouteMap } from "@/components/CareerRouteMap";
+import { DiagnosisLaunchPanel } from "@/components/DiagnosisLaunchPanel";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
 import { beginnerGuides } from "@/data/editorial";
@@ -188,11 +189,7 @@ export default function Home() {
         />
       </section>
 
-      <section className="home-section home-simple-section home-final-action" aria-labelledby="final-action-title">
-        <h2 id="final-action-title">まずは、今の経験を一度言葉にしてみる。</h2>
-        <Link className="button primary" href="/career-compass">12問の診断を始める</Link>
-        <Link className="text-link" href="/industry-map">半導体業界地図を見る</Link>
-      </section>
+      <DiagnosisLaunchPanel className="home-section home-simple-section" />
     </main>
   );
 }
