@@ -14,11 +14,6 @@ type PowerQuest = { id: string; label: string };
 type RoadmapItem = { label: string; value: string };
 type CompanyExample = { company: Company; matchedRoles: string[]; matchesSegment: boolean };
 type RewardGap = { currentLabel: string; gapLabel: string; note: string };
-type InsightState =
-  | { status: "idle"; items: string[]; message?: string }
-  | { status: "loading"; items: string[]; message?: string }
-  | { status: "ready"; items: string[]; message?: string }
-  | { status: "error"; items: string[]; message: string };
 
 type CareerCompassResultProps = {
   agentFocus: AgentFocus;
@@ -28,11 +23,9 @@ type CareerCompassResultProps = {
   copyStatus: "idle" | "copied" | "error";
   currentRole: string;
   displayedScore: number;
-  insightState: InsightState;
   modules: ScoreModule[];
   onCopyConsultMemo: () => void;
   onAgentCtaClick: () => void;
-  onGenerateInsights: () => void;
   onRestart: () => void;
   onToggleQuest: (id: string) => void;
   powerQuests: PowerQuest[];
@@ -269,10 +262,8 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
     completedQuestIds,
     copyStatus,
     displayedScore,
-    insightState,
     modules,
     onCopyConsultMemo,
-    onGenerateInsights,
     onToggleQuest,
     powerQuests,
     profile,
@@ -454,18 +445,6 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
           </div>
         </section>
 
-        <aside className="detail-ai-insight">
-          <div>
-            <span>Optional Insight</span>
-            <strong>経験の見え方を、さらに深掘りする</strong>
-            <p>必要な場合だけ、AIによる参考分析を確認できます。事実確認済みの企業情報ではありません。</p>
-          </div>
-          <button className="button ghost" disabled={insightState.status === "loading"} onClick={onGenerateInsights} type="button">
-            {insightState.status === "loading" ? "生成中" : "補足分析を見る"}
-          </button>
-          {insightState.message ? <small>{insightState.message}</small> : null}
-          {insightState.items.length > 0 ? <ul>{insightState.items.map((item) => <li key={item}>{item}</li>)}</ul> : null}
-        </aside>
       </div>
     </details>
   );

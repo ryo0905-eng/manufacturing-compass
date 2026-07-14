@@ -37,11 +37,6 @@ type AnswerKey =
   | "workStyle"
   | "currentSalary";
 type Answers = Partial<Record<AnswerKey, string>>;
-type InsightState =
-  | { status: "idle"; items: string[]; message?: string }
-  | { status: "loading"; items: string[]; message?: string }
-  | { status: "ready"; items: string[]; message?: string }
-  | { status: "error"; items: string[]; message: string };
 
 type QuestionStep = {
   key: AnswerKey;
@@ -181,7 +176,6 @@ export function CareerCompassTool() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [completedQuestIds, setCompletedQuestIds] = useState<string[]>([]);
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
-  const [insightState, setInsightState] = useState<InsightState>({ items: [], status: "idle" });
   const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const analysisTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -436,59 +430,6 @@ export function CareerCompassTool() {
     }, 180);
   }
 
-  async function generateInsights() {
-    setInsightState({ items: [], status: "loading" });
-
-    try {
-      const response = await fetch("/api/career-insight", {
-        body: JSON.stringify({
-          answers,
-          buildName: result.buildName,
-          modules: result.modules,
-          profile: {
-            actionsToday: result.profile.actionsToday,
-            growthLevers: result.profile.growthLevers,
-            resumeSignals: result.profile.resumeSignals,
-            reachableRoles: result.profile.reachableRoles,
-            roadmap90Days: result.profile.roadmap90Days,
-            roadmap6Months: result.profile.roadmap6Months,
-            salaryRangeCurrent: result.profile.salaryRangeCurrent,
-            salaryRangePotential: result.profile.salaryRangePotential,
-            shortLabel: result.profile.shortLabel,
-          },
-          reachableCompanies: reachableCompanies.slice(0, 3).map((company) => company.nameJa),
-          rewardGap: result.rewardGap,
-          score: displayedScore,
-        }),
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-      });
-
-      if (!response.ok) {
-        setInsightState({
-          items: [],
-          message: response.status === 503 ? "OPENAI_API_KEY を設定すると使えます。" : "AI Insight の生成に失敗しました。",
-          status: "error",
-        });
-        return;
-      }
-
-      const data = (await response.json()) as { insights?: string[] };
-      const insights = data.insights?.filter(Boolean) ?? [];
-
-      setInsightState({
-        items: insights.length > 0 ? insights : ["半導体向けに実績を翻訳すると、見え方が変わります。"],
-        status: "ready",
-      });
-    } catch {
-      setInsightState({
-        items: [],
-        message: "AI Insight に接続できませんでした。",
-        status: "error",
-      });
-    }
-  }
-
   function toggleQuest(id: string) {
     setCompletedQuestIds((current) =>
       current.includes(id) ? current.filter((questId) => questId !== id) : [...current, id],
@@ -554,7 +495,6 @@ export function CareerCompassTool() {
     setIsAnalyzing(false);
     setCompletedQuestIds([]);
     setCopyStatus("idle");
-    setInsightState({ items: [], status: "idle" });
     hasTrackedStartRef.current = false;
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
@@ -603,7 +543,6 @@ export function CareerCompassTool() {
       copyStatus={copyStatus}
       currentRole={optionLabel(backgroundOptions, answers.background)}
       displayedScore={displayedScore}
-      insightState={insightState}
       modules={result.modules}
       onCopyConsultMemo={copyConsultMemo}
       onAgentCtaClick={() => {
@@ -613,7 +552,6 @@ export function CareerCompassTool() {
           source_page: "diagnosis_result",
         });
       }}
-      onGenerateInsights={generateInsights}
       onRestart={restart}
       onToggleQuest={toggleQuest}
       powerQuests={result.powerQuests}

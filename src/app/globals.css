@@ -4757,55 +4757,6 @@ select {
   font-size: 11px;
 }
 
-.detail-ai-insight {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  border-top: 1px solid rgba(17, 24, 28, 0.1);
-  background: var(--surface-soft);
-  padding: 20px clamp(20px, 4vw, 38px);
-}
-
-.detail-ai-insight div {
-  display: grid;
-  gap: 3px;
-}
-
-.detail-ai-insight span {
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.detail-ai-insight strong {
-  font-size: 13px;
-}
-
-.detail-ai-insight p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.detail-ai-insight > small,
-.detail-ai-insight > ul {
-  grid-column: 1 / -1;
-}
-
-.detail-ai-insight > small,
-.detail-ai-insight li {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-.detail-ai-insight ul {
-  margin: 0;
-  padding-left: 18px;
-}
 .consultation-cta-result {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.55fr);
@@ -4869,8 +4820,7 @@ select {
   .detail-company-grid,
   .detail-build-plan,
   .detail-power-quests,
-  .detail-consult-facts,
-  .detail-ai-insight {
+  .detail-consult-facts {
     grid-template-columns: 1fr;
   }
 
@@ -4931,10 +4881,6 @@ select {
     gap: 7px;
   }
 
-  .detail-ai-insight > small,
-  .detail-ai-insight > ul {
-    grid-column: 1;
-  }
 }
 
 @media (max-width: 480px) {

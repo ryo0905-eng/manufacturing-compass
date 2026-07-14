@@ -120,12 +120,12 @@ DNS 接続後に確認するURL:
 
 コード側の正規URLは `src/lib/format.ts` の `siteUrl` と `src/app/layout.tsx` の `metadataBase` で管理します。ドメインを変更する場合は、この2か所を必ず更新してください。
 
-AI Career Insight を使う場合は、Vercel の Environment Variables に以下を設定します。
+AI Career Insight の API ルートは将来の検証用に残していますが、現在のUIからは呼び出していません。通常運用ではOpenAI関連の環境変数は不要です。再検証する場合は、Vercel の Environment Variables に以下を設定します。
 
 - `OPENAI_API_KEY`: OpenAI API キー
 - `OPENAI_INSIGHT_MODEL`: 任意。未設定時は `gpt-5.4-mini`
 
-API キーが未設定でも診断本体は動作し、AI Insight だけ準備中表示になります。Supabase はまだ使っていません。
+診断本体は静的ルールベースで動作します。Supabase はまだ使っていません。
 
 ## アクセス解析
 
