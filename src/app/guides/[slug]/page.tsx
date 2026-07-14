@@ -61,7 +61,9 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <aside className="guide-experience-basis" aria-label="この記事の実体験の根拠">
             <strong>この記事の実体験の根拠</strong>
             <ul>{guide.experienceBasis.map((item) => <li key={item}>{item}</li>)}</ul>
-            <small>実体験と一般情報を分け、一般情報は記事末尾の公開情報で確認しています。</small>
+            <small>{guide.sources.length > 0
+              ? "実体験と一般情報を分け、一般情報は記事末尾の公開情報で確認しています。"
+              : "運営者本人の実体験をもとに、事実、判断、AIによる推測を分けて記載しています。"}</small>
           </aside>
         </header>
 
@@ -90,18 +92,20 @@ export default async function GuidePage({ params }: GuidePageProps) {
           ))}
         </div>
 
-        <section className="guide-sources" aria-labelledby="guide-sources-title">
-          <p className="section-label">確認した公開情報</p>
-          <h2 id="guide-sources-title">参考情報・出典</h2>
-          <ul>
-            {guide.sources.map((source) => (
-              <li key={source.url}>
-                <a href={source.url} rel="noopener noreferrer" target="_blank">{source.title}</a>
-                <span>{source.publisher}・確認日 {source.accessedAt.replaceAll("-", ".")}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {guide.sources.length > 0 ? (
+          <section className="guide-sources" aria-labelledby="guide-sources-title">
+            <p className="section-label">確認した公開情報</p>
+            <h2 id="guide-sources-title">参考情報・出典</h2>
+            <ul>
+              {guide.sources.map((source) => (
+                <li key={source.url}>
+                  <a href={source.url} rel="noopener noreferrer" target="_blank">{source.title}</a>
+                  <span>{source.publisher}・確認日 {source.accessedAt.replaceAll("-", ".")}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         {relatedGuides.length > 0 ? (
           <nav className="guide-related" aria-label="関連記事">
