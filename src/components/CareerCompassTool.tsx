@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { CareerCompassResult } from "@/components/career-compass/CareerCompassResult";
+import { DiagnosisStepNavigation } from "@/components/career-compass/DiagnosisStepNavigation";
 import { trackEvent } from "@/lib/analytics";
 import {
   achievementOptions,
@@ -628,15 +629,11 @@ export function CareerCompassTool() {
   return (
     <div className="quiz-shell">
       <section className="quiz-card">
-        <div className="quiz-progress">
-          <span>
-            Q {String(step + 1).padStart(2, "0")} / {questionSteps.length}
-          </span>
-          <b>{currentStep.label}</b>
-          <div aria-hidden="true">
-            <i style={{ width: `${((step + 1) / questionSteps.length) * 100}%` }} />
-          </div>
-        </div>
+        <DiagnosisStepNavigation
+          currentIndex={step}
+          currentLabel={currentStep.label}
+          total={questionSteps.length}
+        />
 
         <div className="quiz-question-head">
           <p className="eyebrow">12問のキャリア診断</p>

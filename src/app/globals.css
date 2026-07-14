@@ -9399,3 +9399,218 @@ summary:focus-visible {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Career Compass question navigation */
+.diagnosis-step-nav {
+  display: grid;
+  gap: 11px;
+  border-bottom: 1px solid rgba(17, 24, 28, 0.13);
+  padding-bottom: 14px;
+}
+
+.diagnosis-step-nav__summary {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.diagnosis-step-nav__summary > div {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 7px;
+  align-items: center;
+}
+
+.diagnosis-step-nav__summary span {
+  color: var(--primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.diagnosis-step-nav__summary strong {
+  border-left: 1px solid rgba(17, 24, 28, 0.16);
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1;
+  padding-left: 7px;
+}
+
+.diagnosis-step-nav__summary > p {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin: 0;
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.diagnosis-step-nav__summary small {
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 9px;
+}
+
+.diagnosis-step-nav__bar {
+  height: 6px;
+  border: 1px solid rgba(17, 24, 28, 0.28);
+  background: rgba(0, 107, 128, 0.06);
+  overflow: hidden;
+}
+
+.diagnosis-step-nav__bar i {
+  display: block;
+  height: 100%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0 4px, transparent 4px 8px),
+    var(--quest-green);
+  transition: width 180ms ease;
+}
+
+.diagnosis-step-nav__phases {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diagnosis-step-nav__phase {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: rgba(79, 93, 99, 0.68);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.diagnosis-step-nav__phase:not(:last-child)::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  min-width: 8px;
+  margin-inline: 4px 8px;
+  background: rgba(17, 24, 28, 0.15);
+}
+
+.diagnosis-step-nav__phase i {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  place-items: center;
+  border: 1px solid rgba(17, 24, 28, 0.2);
+  border-radius: 50%;
+  background: #fff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 8px;
+  font-style: normal;
+}
+
+.diagnosis-step-nav__phase--current {
+  color: var(--text);
+}
+
+.diagnosis-step-nav__phase--current i {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 107, 128, 0.1);
+}
+
+.diagnosis-step-nav__phase--complete {
+  color: var(--primary);
+}
+
+.diagnosis-step-nav__phase--complete i {
+  border-color: rgba(0, 107, 128, 0.32);
+  background: rgba(110, 231, 168, 0.2);
+  color: var(--quest-bg);
+}
+
+.diagnosis-step-nav__outcome {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  border-left: 3px solid var(--quest-green);
+  background: rgba(0, 107, 128, 0.045);
+  padding: 7px 9px;
+}
+
+.diagnosis-step-nav__outcome span {
+  color: var(--primary);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.diagnosis-step-nav__outcome p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .diagnosis-step-nav {
+    gap: 10px;
+  }
+
+  .diagnosis-step-nav__summary {
+    align-items: center;
+  }
+
+  .diagnosis-step-nav__summary > div {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .diagnosis-step-nav__summary strong {
+    border-left: 0;
+    padding-left: 0;
+    font-size: 12px;
+  }
+
+  .diagnosis-step-nav__phase {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    align-items: center;
+    gap: 5px;
+  }
+
+  .diagnosis-step-nav__phase:not(:last-child)::after {
+    position: absolute;
+    top: 9px;
+    right: 5px;
+    width: calc(100% - 76px);
+    min-width: 4px;
+    margin: 0;
+  }
+
+  .diagnosis-step-nav__phase span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .diagnosis-step-nav__outcome {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diagnosis-step-nav__bar i {
+    transition: none;
+  }
+}
