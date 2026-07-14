@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
+import { CompanyComparisonSummary } from "@/components/CompanyComparisonSummary";
 import { companies, getCareerInfo } from "@/data/companies";
 import { comparePairs } from "@/data/editorial";
 import { companyCompareSlug, getCompaniesFromCompareSlug } from "@/lib/format";
@@ -37,6 +38,8 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
     notFound();
   }
 
+  const comparisonEntries = comparedCompanies.map((company) => ({ company, career: getCareerInfo(company.id) }));
+
   return (
     <main className="page">
       <section className="page-hero">
@@ -49,6 +52,8 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
           </Link>
         </div>
       </section>
+
+      <CompanyComparisonSummary entries={comparisonEntries} />
 
       <section className="comparison-table-wrap" aria-label="企業比較表">
         <table className="comparison-table">
