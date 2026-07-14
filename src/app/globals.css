@@ -7723,6 +7723,153 @@ summary:focus-visible {
   margin-top: 24px;
 }
 
+.career-result-snapshot {
+  margin-top: 22px;
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(rgba(0, 107, 128, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 107, 128, 0.03) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.62);
+  background-size: 24px 24px;
+  padding: clamp(22px, 4vw, 36px);
+}
+
+.career-result-snapshot > header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 0.62fr);
+  gap: 28px;
+  align-items: end;
+  margin-bottom: 22px;
+}
+
+.career-result-snapshot h2 {
+  margin: 5px 0 0;
+  font-size: clamp(25px, 3.4vw, 36px);
+  line-height: 1.25;
+}
+
+.career-result-snapshot > header > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.career-result-snapshot__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.career-result-snapshot__grid > article {
+  display: flex;
+  min-width: 0;
+  min-height: 190px;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.58);
+  padding: 18px;
+}
+
+.career-result-snapshot__grid > article:last-child {
+  border-right: 0;
+}
+
+.career-result-snapshot__grid > article > span {
+  color: var(--primary);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.career-result-snapshot__grid > article > strong {
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.career-result-snapshot__grid > article > small {
+  margin-top: auto;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.career-result-snapshot__score > strong {
+  font-size: clamp(31px, 4vw, 44px) !important;
+  line-height: 1.1 !important;
+}
+
+.career-result-snapshot__score > strong small {
+  margin-left: 3px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.career-result-snapshot__score > div {
+  height: 4px;
+  margin-top: 13px;
+  background: rgba(0, 107, 128, 0.1);
+}
+
+.career-result-snapshot__score > div i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-dark), var(--signal));
+}
+
+.career-result-snapshot__route > div {
+  display: grid;
+  gap: 7px;
+  margin-top: 24px;
+}
+
+.career-result-snapshot__route > div small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.career-result-snapshot__route > div i {
+  color: var(--primary);
+  font-style: normal;
+}
+
+.career-result-snapshot__route > div strong {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.career-result-snapshot__quest {
+  border-top: 3px solid var(--accent);
+  background: #edf3ee !important;
+}
+
+.career-result-snapshot__quest > strong {
+  margin-top: 21px !important;
+}
+
+.career-result-snapshot__quest > a {
+  margin-top: auto;
+  color: #315f50;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.career-result-snapshot__quest > a i {
+  font-style: normal;
+}
+
+.career-result-snapshot__note {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.55;
+}
+
 .market-value-summary {
   padding-top: 20px;
 }
@@ -8025,6 +8172,14 @@ summary:focus-visible {
     grid-template-columns: 1fr;
     gap: 4px;
   }
+
+  .career-result-snapshot__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .career-result-snapshot__grid > article:nth-child(2) {
+    border-right: 0;
+  }
 }
 
 @media (max-width: 600px) {
@@ -8048,6 +8203,33 @@ summary:focus-visible {
 
   .result-lead {
     font-size: 16px;
+  }
+
+  .career-result-snapshot {
+    padding: 22px 17px;
+  }
+
+  .career-result-snapshot > header {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .career-result-snapshot__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .career-result-snapshot__grid > article,
+  .career-result-snapshot__grid > article:nth-child(2) {
+    min-height: 0;
+    border-right: 0;
+  }
+
+  .career-result-snapshot__grid > article > strong {
+    margin: 15px 0;
+  }
+
+  .career-result-snapshot__route > div {
+    margin: 15px 0;
   }
 
   .market-value-metrics > div {

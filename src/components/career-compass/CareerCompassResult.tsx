@@ -4,6 +4,7 @@ import type { MarketValueProfile } from "@/data/career-compass";
 import { officialLinkDisclosureText, type AgentFocus } from "@/data/affiliateLinks";
 import { salaryMethodology } from "@/data/salary-methodology";
 import type { Company } from "@/types/content";
+import { CareerResultSnapshot } from "@/components/career-compass/CareerResultSnapshot";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
 import { trackEvent } from "@/lib/analytics";
 
@@ -495,6 +496,13 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
       <article className="career-result-experience">
         <div className="result-overview">
           <ResultHero {...props} />
+          <CareerResultSnapshot
+            currentRole={props.currentRole}
+            recommendedSkill={props.profile.growthLevers[0] ?? props.profile.bottlenecks[0]}
+            score={props.displayedScore}
+            targetRole={props.profile.reachableRoles[0]}
+            todayQuest={props.profile.todayQuest}
+          />
           <ResultInformationGuide />
         </div>
         <CareerStory profile={props.profile} />
