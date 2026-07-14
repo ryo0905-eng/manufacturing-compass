@@ -1,6 +1,7 @@
 import type { Route } from "next";
 import Link from "next/link";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
+import { SalaryRankingTable } from "@/components/SalaryRankingTable";
 import type { GuideBlock } from "@/content/guides/types";
 
 type GuideBlocksProps = {
@@ -67,6 +68,10 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
 
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
+        }
+
+        if (block.type === "salary-ranking") {
+          return <SalaryRankingTable key={`salary-ranking-${index}`} />;
         }
 
         if (block.type === "faq") {

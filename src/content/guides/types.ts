@@ -34,6 +34,9 @@ export type GuideBlock =
       scope: "world" | "japan";
     }
   | {
+      type: "salary-ranking";
+    }
+  | {
       type: "faq";
       items: Array<{ question: string; answer: string }>;
     }
