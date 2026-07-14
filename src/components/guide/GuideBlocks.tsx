@@ -1,3 +1,6 @@
+import type { Route } from "next";
+import Link from "next/link";
+import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
 import type { GuideBlock } from "@/content/guides/types";
 
 type GuideBlocksProps = {
@@ -59,6 +62,36 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
               <p>「{block.quote}」</p>
               {block.caption ? <cite>{block.caption}</cite> : null}
             </blockquote>
+          );
+        }
+
+        if (block.type === "market-cap-ranking") {
+          return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
+        }
+
+        if (block.type === "faq") {
+          return (
+            <dl className="guide-faq" key={`faq-${index}`}>
+              {block.items.map((item) => (
+                <div key={item.question}>
+                  <dt>{item.question}</dt>
+                  <dd>{item.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          );
+        }
+
+        if (block.type === "links") {
+          return (
+            <nav className="guide-link-list" aria-label="関連ページ" key={`links-${index}`}>
+              {block.items.map((item) => (
+                <Link href={item.href as Route} key={item.href}>
+                  <strong>{item.label}<span aria-hidden="true">→</span></strong>
+                  <small>{item.description}</small>
+                </Link>
+              ))}
+            </nav>
           );
         }
 

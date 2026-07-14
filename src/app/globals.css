@@ -5261,8 +5261,122 @@ summary:focus-visible {
 .guide-note strong { font-size: 17px; }
 .guide-note p { margin: 7px 0 0 !important; font-size: 14px !important; line-height: 1.75 !important; }
 
+.market-cap-ranking {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.market-cap-meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.market-cap-meta div {
+  padding: 14px;
+  border-right: 1px solid var(--line);
+}
+
+.market-cap-meta div:last-child { border-right: 0; }
+.market-cap-meta dt { color: var(--muted); font-size: 11px; font-weight: 800; text-transform: uppercase; }
+.market-cap-meta dd { margin: 5px 0 0; font-size: 13px; font-weight: 800; line-height: 1.5; }
+.market-cap-meta a { color: var(--primary-dark); }
+
+.market-cap-caution {
+  margin: 0 !important;
+  border-left: 3px solid var(--primary);
+  background: rgba(48, 182, 201, 0.08);
+  padding: 12px 14px;
+  color: #455158;
+  font-size: 13px;
+}
+
+.market-cap-table-wrap {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow-x: auto;
+  background: var(--surface);
+}
+
+.market-cap-table {
+  width: 100%;
+  min-width: 960px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.market-cap-table th,
+.market-cap-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.market-cap-table thead th {
+  position: sticky;
+  top: 0;
+  background: #e8e7e2;
+  color: #455158;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.market-cap-table tbody tr:last-child > * { border-bottom: 0; }
+.market-cap-table tbody th { min-width: 190px; }
+.market-cap-table tbody th a { color: var(--primary-dark); }
+.market-cap-table tbody th small { display: block; margin-top: 3px; color: var(--muted); font-weight: 500; }
+.market-cap-rank { width: 52px; color: var(--primary-dark); font-size: 18px; font-weight: 900; }
+.market-cap-value { white-space: nowrap; font-weight: 900; }
+.market-cap-category { display: inline-block; border-radius: 999px; background: rgba(0, 107, 128, 0.09); padding: 4px 8px; color: var(--primary-dark); font-size: 11px; font-weight: 800; white-space: nowrap; }
+.market-cap-ranking > small { color: var(--muted); line-height: 1.6; }
+
+.guide-faq {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.guide-faq div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 18px;
+}
+
+.guide-faq dt { font-weight: 900; line-height: 1.5; }
+.guide-faq dd { margin: 8px 0 0; color: #455158; line-height: 1.8; }
+
+.guide-link-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.guide-link-list a {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 16px;
+}
+
+.guide-link-list strong { display: flex; justify-content: space-between; gap: 12px; }
+.guide-link-list small { color: var(--muted); line-height: 1.6; }
+
 @media (max-width: 860px) {
   .guide-card-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .market-cap-meta div { border-bottom: 1px solid var(--line); }
+  .market-cap-meta div:nth-child(2n) { border-right: 0; }
+  .market-cap-meta div:nth-last-child(-n + 2) { border-bottom: 0; }
 }
 
 @media (max-width: 600px) {
@@ -5287,6 +5401,8 @@ summary:focus-visible {
   .guide-mapping th,
   .guide-mapping td { border: 0; padding: 0; }
   .guide-mapping td { margin-top: 5px; color: #455158; }
+  .market-cap-table { min-width: 860px; }
+  .guide-link-list { grid-template-columns: 1fr; }
 }
 
 .guide-experience-basis,

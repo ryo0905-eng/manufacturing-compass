@@ -43,10 +43,15 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const relatedGuides = guide.relatedGuideSlugs
     .map((relatedSlug) => getGuideBySlug(relatedSlug))
     .filter((relatedGuide) => relatedGuide !== undefined);
+  const faqItems = [
+    ...(guide.overviewBlocks ?? []),
+    ...guide.sections.flatMap((section) => section.blocks ?? []),
+  ].flatMap((block) => block.type === "faq" ? block.items : []);
 
   return (
     <main className="page guide-page">
       <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": "Person", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja" }} />
+      {faqItems.length > 0 ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }} /> : null}
       <article className="article-layout">
         <header className="article-hero">
           <p className="section-label">製造業から半導体を考えるガイド・{guide.readTime}</p>
@@ -58,10 +63,12 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <div><dt>結論</dt><dd>{guide.intro.conclusion}</dd></div>
             <div><dt>読むと分かること</dt><dd>{guide.intro.learnings}</dd></div>
           </dl>
-          <aside className="guide-experience-basis" aria-label="この記事の実体験の根拠">
-            <strong>この記事の実体験の根拠</strong>
+          <aside className="guide-experience-basis" aria-label={guide.basisLabel ?? "この記事の実体験の根拠"}>
+            <strong>{guide.basisLabel ?? "この記事の実体験の根拠"}</strong>
             <ul>{guide.experienceBasis.map((item) => <li key={item}>{item}</li>)}</ul>
-            <small>{guide.sources.length > 0
+            <small>{guide.basisLabel
+              ? "ランキングデータと企業分類の確認方法を明記し、記事末尾に主要な出典を掲載しています。"
+              : guide.sources.length > 0
               ? "実体験と一般情報を分け、一般情報は記事末尾の公開情報で確認しています。"
               : "運営者本人の実体験をもとに、事実、判断、AIによる推測を分けて記載しています。"}</small>
           </aside>

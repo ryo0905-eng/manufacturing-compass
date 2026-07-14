@@ -28,6 +28,18 @@ export type GuideBlock =
       type: "note";
       title: string;
       body: string;
+    }
+  | {
+      type: "market-cap-ranking";
+      scope: "world" | "japan";
+    }
+  | {
+      type: "faq";
+      items: Array<{ question: string; answer: string }>;
+    }
+  | {
+      type: "links";
+      items: Array<{ label: string; href: string; description: string }>;
     };
 
 export type GuideSection = {
@@ -52,6 +64,7 @@ export type GuideArticle = {
   author: "RYO";
   reviewedBy: "RYO";
   experienceBasis: string[];
+  basisLabel?: string;
   publishedAt: string;
   updatedAt: string;
   sources: Source[];
