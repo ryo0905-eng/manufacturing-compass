@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
+import { SemiconductorValueChain } from "@/components/SemiconductorValueChain";
 import { companies, segments } from "@/data/companies";
 
 export const metadata: Metadata = {
@@ -17,7 +18,14 @@ export default function IndustryMapPage() {
         <p>設計、製造、メモリ、装置。求人を見る前に、会社がどこで価値を出しているかをつかみます。分類は製品が同じという意味ではなく、半導体の設計・製造を支える役割で分けています。</p>
       </section>
 
+      <SemiconductorValueChain segments={segments} />
+
       <section className="section">
+        <div className="industry-map-directory-heading">
+          <p className="section-label">Segment directory</p>
+          <h2>各領域の特徴と代表企業</h2>
+          <p>興味のある領域から、仕事内容と企業情報を詳しく確認できます。</p>
+        </div>
         <div className="segment-map">
           {segments.map((segment) => {
             const relatedCompanies = companies.filter((company) => segment.relatedCompanyIds.includes(company.id));
