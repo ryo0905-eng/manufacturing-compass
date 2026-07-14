@@ -111,6 +111,8 @@ const englishBonus: Record<string, number> = {
   high: 8,
 };
 
+const diagnosisProgressMilestones = [4, 8, 12] as const;
+
 const currentSalaryRanges: Record<string, { high: number | null; low: number | null }> = {
   skip: { high: null, low: null },
   under400: { high: 400, low: null },
@@ -180,6 +182,7 @@ export function CareerCompassTool() {
   const analysisTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasTrackedStartRef = useRef(false);
+  const trackedProgressMilestonesRef = useRef<Set<number>>(new Set());
   const questionSteps = useMemo(() => getQuestionSteps(answers.background), [answers.background]);
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
@@ -409,6 +412,20 @@ export function CareerCompassTool() {
       trackEvent("diagnosis_start", { source_page: "career_compass" });
     }
 
+    const completedQuestions = step + 1;
+    const isProgressMilestone = diagnosisProgressMilestones.some(
+      (milestone) => milestone === completedQuestions,
+    );
+
+    if (isProgressMilestone && !trackedProgressMilestonesRef.current.has(completedQuestions)) {
+      trackedProgressMilestonesRef.current.add(completedQuestions);
+      trackEvent("diagnosis_progress", {
+        completed_questions: completedQuestions,
+        source_page: "career_compass",
+        total_questions: questionSteps.length,
+      });
+    }
+
     setAnswers((current) => key === "background" && current.background !== value
       ? { ...current, analysis: undefined, background: value, specialty: undefined }
       : { ...current, [key]: value });
@@ -496,6 +513,7 @@ export function CareerCompassTool() {
     setCompletedQuestIds([]);
     setCopyStatus("idle");
     hasTrackedStartRef.current = false;
+    trackedProgressMilestonesRef.current.clear();
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
     }

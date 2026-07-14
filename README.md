@@ -139,6 +139,17 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 - `src/app/layout.tsx` で `<Analytics />` を読み込み済み
 - Vercel の Project Settings または Analytics 画面で有効化すると計測できます
 
+Career Compass の主要イベント:
+
+- `diagnosis_start`: 最初の回答を選択
+- `diagnosis_progress`: 4問・8問・12問の到達時に各1回送信
+- `diagnosis_complete`: 診断結果の表示準備が完了
+- `result_detail_open`: 診断根拠と相談準備を開く
+- `today_quest_copy`: Today Quest をコピー
+- `agent_cta_click`: 診断結果から相談先へ遷移
+
+`diagnosis_progress` が送るのは完了質問数、総質問数、表示元だけです。選択した回答、職種、年収、自由記述は送信しません。
+
 まず見る指標:
 
 - トップから Career Compass への遷移
