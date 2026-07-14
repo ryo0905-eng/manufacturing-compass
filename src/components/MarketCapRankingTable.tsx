@@ -1,5 +1,6 @@
 import type { Route } from "next";
 import Link from "next/link";
+import { MetricBarChart } from "@/components/MetricBarChart";
 import {
   japanSemiconductorMarketCapRanking,
   semiconductorMarketCapMeta,
@@ -26,6 +27,17 @@ export function MarketCapRankingTable({ scope }: MarketCapRankingTableProps) {
         <div><dt>主要出典</dt><dd><a href={semiconductorMarketCapMeta.sourceUrl} rel="noopener noreferrer" target="_blank">{semiconductorMarketCapMeta.sourceName}</a></dd></div>
       </dl>
       <p className="market-cap-caution">時価総額は株価や為替レートによって変動します。本ランキングは上記基準日時点の参考値です。</p>
+      <MetricBarChart
+        eyebrow="Market cap overview"
+        items={companies.slice(0, 10).map((company) => ({
+          category: isWorld ? `${company.country} / ${company.category}` : company.category,
+          displayValue: company.marketCapDisplay,
+          label: company.name,
+          value: company.marketCapUsdB,
+        }))}
+        note="棒の長さは0ドルを基準に、このグラフ内の最大値との比率で表示しています。株価と為替により変動します。"
+        title={isWorld ? "世界ランキング上位10社" : "日本企業ランキング上位10社"}
+      />
       <div className="market-cap-table-wrap">
         <table className="market-cap-table">
           <thead>

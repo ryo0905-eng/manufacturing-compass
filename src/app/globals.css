@@ -6771,6 +6771,10 @@ summary:focus-visible {
   white-space: nowrap;
 }
 
+.metric-bar-chart .salary-bar-chart__value {
+  font-size: 13px;
+}
+
 .salary-bar-chart__value small {
   margin-left: 2px;
   color: var(--muted);
