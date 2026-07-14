@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
+import { CompanyQuickSummary } from "@/components/CompanyQuickSummary";
 import { StructuredData } from "@/components/StructuredData";
 import { companies, getCareerInfo, getCompanyBySlug, getSegmentById } from "@/data/companies";
 import { siteUrl } from "@/lib/format";
@@ -74,6 +75,12 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
           </Link>
         </div>
       </section>
+
+      <CompanyQuickSummary
+        career={career}
+        company={company}
+        segmentNames={companySegments.flatMap((segment) => segment ? [segment.name] : [])}
+      />
 
       <div className="detail-layout">
         <div className="stack">

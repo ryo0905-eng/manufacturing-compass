@@ -4679,6 +4679,208 @@ select {
   }
 }
 
+/* Company detail: compact, evidence-based orientation panel. */
+.company-quick-summary {
+  margin: 34px 0 48px;
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(rgba(0, 107, 128, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 107, 128, 0.03) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.5);
+  background-size: 24px 24px;
+  padding: clamp(24px, 4vw, 38px);
+}
+
+.company-quick-summary > header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.58fr);
+  gap: 28px;
+  align-items: end;
+  margin-bottom: 26px;
+}
+
+.company-quick-summary h2 {
+  margin: 5px 0 0;
+  font-size: clamp(25px, 3.4vw, 36px);
+  line-height: 1.25;
+}
+
+.company-quick-summary > header > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.company-quick-summary dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.company-quick-summary__item {
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 19px 18px 20px 0;
+}
+
+.company-quick-summary__item:nth-child(3n + 2),
+.company-quick-summary__item:nth-child(3n + 3) {
+  padding-left: 18px;
+}
+
+.company-quick-summary__item:nth-child(3n) {
+  border-right: 0;
+}
+
+.company-quick-summary__item dt {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.company-quick-summary__item dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 7px;
+  margin: 12px 0 0;
+}
+
+.company-quick-summary__item dd span {
+  color: #35474e;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.company-quick-summary__item dd span:not(:last-child)::after {
+  margin-left: 7px;
+  color: rgba(0, 107, 128, 0.3);
+  content: "/";
+}
+
+.company-quick-summary__item--suitable dd,
+.company-quick-summary__item--research dd {
+  display: grid;
+  gap: 6px;
+}
+
+.company-quick-summary__item--suitable dd span,
+.company-quick-summary__item--research dd span {
+  font-weight: 500;
+}
+
+.company-quick-summary__item--suitable dd span::after,
+.company-quick-summary__item--research dd span::after {
+  display: none;
+}
+
+.company-quick-summary__icon {
+  position: relative;
+  display: grid;
+  width: 17px;
+  height: 17px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+.company-quick-summary__icon i {
+  border: 1px solid currentColor;
+}
+
+.company-quick-summary__icon i:first-child {
+  grid-column: 1 / -1;
+}
+
+.company-quick-summary__icon--focus i {
+  border-radius: 50%;
+}
+
+.company-quick-summary__icon--roles {
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+}
+
+.company-quick-summary__icon--roles i {
+  height: 50%;
+  border: 0;
+  background: currentColor;
+}
+
+.company-quick-summary__icon--roles i:nth-child(2) { height: 100%; }
+.company-quick-summary__icon--roles i:first-child { grid-column: auto; }
+
+.company-quick-summary__icon--location i:first-child {
+  grid-column: 1 / -1;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg) scale(0.78);
+}
+
+.company-quick-summary__icon--location i:not(:first-child) { display: none; }
+
+.company-quick-summary__icon--suitable i,
+.company-quick-summary__icon--research i {
+  border-width: 0 0 1px;
+}
+
+.company-quick-summary > small {
+  display: block;
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .company-quick-summary > header {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .company-quick-summary dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .company-quick-summary__item,
+  .company-quick-summary__item:nth-child(3n + 2),
+  .company-quick-summary__item:nth-child(3n + 3) {
+    border-right: 1px solid var(--line);
+    padding-inline: 0 14px;
+  }
+
+  .company-quick-summary__item:nth-child(even) {
+    border-right: 0;
+    padding-inline: 14px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .company-quick-summary {
+    margin: 26px 0 38px;
+    padding: 22px 18px;
+  }
+
+  .company-quick-summary dl {
+    grid-template-columns: 1fr;
+  }
+
+  .company-quick-summary__item,
+  .company-quick-summary__item:nth-child(3n + 2),
+  .company-quick-summary__item:nth-child(3n + 3),
+  .company-quick-summary__item:nth-child(even) {
+    border-right: 0;
+    padding-inline: 0;
+  }
+}
+
 .career-result-experience a:focus-visible,
 .career-result-experience button:focus-visible,
 .career-result-experience summary:focus-visible {
