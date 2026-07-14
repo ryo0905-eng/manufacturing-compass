@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AffiliateCta } from "@/components/AffiliateCta";
+import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import type { GuideCategory } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
 
@@ -77,14 +78,17 @@ export default function GuidesPage() {
         <div className="guides-card-grid" aria-label="半導体転職の記事">
           {otherGuides.map((guide) => (
             <Link className={`guides-article-card guides-article-card--${guide.category}`} href={`/guides/${guide.slug}`} key={guide.slug}>
+              <GuideThumbnail category={guide.category} slug={guide.slug} title={guide.title} />
               <div className="guides-article-card__meta">
                 <span className={`guides-category guides-category--${guide.category}`}>{categoryLabels[guide.category]}</span>
                 <span>{guide.readTime}</span>
               </div>
               <h3>{guide.title}</h3>
               <p>{guide.description}</p>
-              <small>今日15分でやること</small>
-              <strong>{guide.todayQuest}</strong>
+              <div className="guides-article-card__quest">
+                <small>Today Quest</small>
+                <strong>{guide.todayQuest}</strong>
+              </div>
               <footer>
                 <span>RYO</span>
                 <time dateTime={guide.updatedAt}>更新 {formatDate(guide.updatedAt)}</time>

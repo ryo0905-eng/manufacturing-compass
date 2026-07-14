@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ExperienceRouteVisual } from "@/components/ExperienceRouteVisual";
+import { AffiliateCta } from "@/components/AffiliateCta";
+import { CareerResultPreview } from "@/components/CareerResultPreview";
+import { CareerRouteMap } from "@/components/CareerRouteMap";
+import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
+import { beginnerGuides } from "@/data/editorial";
+import { companies } from "@/data/companies";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -28,6 +33,14 @@ const researchRoutes = [
   { href: "/compare", number: "03", title: "企業を比較する", body: "2社の違いを表で確認する" },
 ] as const;
 
+const featuredCompanyIds = ["tokyo-electron", "tsmc", "micron"] as const;
+
+const featuredCompanies = featuredCompanyIds
+  .map((id) => companies.find((company) => company.id === id))
+  .filter((company) => company !== undefined);
+
+const featuredGuides = beginnerGuides.slice(0, 3);
+
 export default function Home() {
   return (
     <main className="home-editorial home-simple">
@@ -44,12 +57,24 @@ export default function Home() {
           <div className="actions"><Link className="button primary home-primary-action" href="/career-compass">12問の診断を始める <span aria-hidden="true">→</span></Link></div>
           <p className="hero-assurance">約3分・登録不要</p>
         </div>
-        <ExperienceRouteVisual />
+        <CareerResultPreview />
         <dl className="home-fact-strip" aria-label="診断の概要">
           <div><dt>12問</dt><dd>経験を確認する質問</dd></div>
           <div><dt>約3分</dt><dd>すき間時間で完了</dd></div>
           <div><dt>登録不要</dt><dd>連絡先の入力なし</dd></div>
         </dl>
+      </section>
+
+      <section className="home-section home-simple-section home-career-routes" aria-labelledby="career-route-title">
+        <header className="editorial-heading editorial-heading--split">
+          <div>
+            <p className="section-label">Experience to Semiconductor</p>
+            <h2 id="career-route-title">今の経験は、半導体のどの仕事につながる？</h2>
+          </div>
+          <p>業界が変わっても、工程改善、品質、設備、設計などの仕事には共通点があります。まずは仕事内容の近さから入口を探します。</p>
+        </header>
+        <CareerRouteMap />
+        <p className="home-career-routes__note">診断では12問の回答から、より近い職種と伝えやすい経験を整理します。</p>
       </section>
 
       <section className="home-section home-simple-section" aria-labelledby="output-title">
@@ -60,6 +85,79 @@ export default function Home() {
         <div className="diagnosis-feature-list">
           {diagnosisOutputs.map(([number, title, body]) => <article key={title}><span>{number}</span><h3>{title}</h3><p>{body}</p></article>)}
         </div>
+      </section>
+
+      <section className="home-section home-simple-section home-quest-explainer" aria-labelledby="home-quest-title">
+        <div>
+          <p className="section-label">Today Quest</p>
+          <h2 id="home-quest-title">結果を見て終わらず、今日できる一歩まで。</h2>
+          <p>診断結果に合わせて、職務経歴の棚卸しや求人確認につながる15分程度の小さな課題を提案します。</p>
+          <Link className="text-link" href="/career-compass">自分のToday Questを確認する</Link>
+        </div>
+        <aside aria-label="Today Questの表示例">
+          <span>TODAY QUEST / 15 MIN</span>
+          <strong>改善実績を1つ書く</strong>
+          <ol>
+            <li><i aria-hidden="true">1</i>改善前の課題</li>
+            <li><i aria-hidden="true">2</i>自分が行ったこと</li>
+            <li><i aria-hidden="true">3</i>時間・歩留まりなどの数字</li>
+          </ol>
+          <small>完璧な文章ではなく、まず事実を3行で残します。</small>
+        </aside>
+      </section>
+
+      <section className="home-section home-simple-section research-routes" aria-labelledby="research-title">
+        <header className="editorial-heading">
+          <p className="section-label">業界地図・企業研究</p>
+          <h2 id="research-title">半導体業界のどこに、今の経験が近いのかを見る。</h2>
+        </header>
+        <nav aria-label="半導体業界と企業を調べる">
+          {researchRoutes.map((route) => (
+            <Link href={route.href} key={route.href}>
+              <span>{route.number}</span>
+              <strong>{route.title}</strong>
+              <small>{route.body}</small>
+              <i aria-hidden="true">→</i>
+            </Link>
+          ))}
+        </nav>
+      </section>
+
+      <section className="home-section home-simple-section home-company-spotlight" aria-labelledby="company-spotlight-title">
+        <header className="editorial-heading editorial-heading--split">
+          <div><p className="section-label">Featured companies</p><h2 id="company-spotlight-title">注目企業を、事業と職種から見る</h2></div>
+          <p>知名度や印象ではなく、主力領域と今の経験との接点から企業研究を始められます。</p>
+        </header>
+        <div>
+          {featuredCompanies.map((company, index) => (
+            <Link href={`/companies/${company.slug}`} key={company.id}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div><small>{company.businessModel}</small><strong>{company.nameJa}</strong></div>
+              <p>{company.careerSummary}</p>
+              <i aria-hidden="true">→</i>
+            </Link>
+          ))}
+        </div>
+        <Link className="text-link home-section-link" href="/companies">企業一覧から探す</Link>
+      </section>
+
+      <section className="home-section home-simple-section home-guide-preview" aria-labelledby="home-guide-title">
+        <header className="editorial-heading editorial-heading--split">
+          <div><p className="section-label">Guides &amp; real stories</p><h2 id="home-guide-title">実体験と公開情報から、転職を具体化する</h2></div>
+          <p>職種のつながり、求人の見方、年収や英語など、次の判断に必要なテーマを整理しています。</p>
+        </header>
+        <div className="home-guide-preview__grid">
+          {featuredGuides.map((guide) => (
+            <Link href={`/guides/${guide.slug}`} key={guide.slug}>
+              <GuideThumbnail category={guide.category} compact slug={guide.slug} title={guide.title} />
+              <span>{guide.readTime}</span>
+              <h3>{guide.title}</h3>
+              <p>{guide.description}</p>
+              <small><b>Today Quest</b>{guide.todayQuest}</small>
+            </Link>
+          ))}
+        </div>
+        <Link className="text-link home-section-link" href="/guides">ガイドをすべて見る</Link>
       </section>
 
       <section className="home-section home-simple-section operator-summary" aria-labelledby="operator-title">
@@ -83,21 +181,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-section home-simple-section research-routes" aria-labelledby="research-title">
-        <header className="editorial-heading">
-          <p className="section-label">業界地図・企業研究</p>
-          <h2 id="research-title">半導体業界のどこに、今の経験が近いのかを見る。</h2>
-        </header>
-        <nav aria-label="半導体業界と企業を調べる">
-          {researchRoutes.map((route) => (
-            <Link href={route.href} key={route.href}>
-              <span>{route.number}</span>
-              <strong>{route.title}</strong>
-              <small>{route.body}</small>
-              <i aria-hidden="true">→</i>
-            </Link>
-          ))}
-        </nav>
+      <section className="home-section home-simple-section home-agent-path">
+        <AffiliateCta
+          title="診断結果をもとに、相談したい論点を整理する"
+          body="今狙える職種、半年後に広がる選択肢、経験の伝え方が見えてきたら、相談先の特徴を比較できます。"
+        />
       </section>
 
       <section className="home-section home-simple-section home-final-action" aria-labelledby="final-action-title">
