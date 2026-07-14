@@ -5,6 +5,7 @@ import { officialLinkDisclosureText, type AgentFocus } from "@/data/affiliateLin
 import { salaryMethodology } from "@/data/salary-methodology";
 import type { Company } from "@/types/content";
 import { CareerResultSnapshot } from "@/components/career-compass/CareerResultSnapshot";
+import { ResultCareerRoute, type ResultCareerRouteStage } from "@/components/career-compass/ResultCareerRoute";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
 import { trackEvent } from "@/lib/analytics";
 
@@ -219,8 +220,8 @@ function StrengthsSection({ profile }: { profile: MarketValueProfile }) {
   );
 }
 
-function CareerRoadmap({ profile, roadmap }: Pick<CareerCompassResultProps, "profile" | "roadmap">) {
-  const steps = [
+function CareerRoadmap({ currentRole, profile, roadmap }: Pick<CareerCompassResultProps, "currentRole" | "profile" | "roadmap">) {
+  const steps: ResultCareerRouteStage[] = [
     {
       actions: profile.roadmap30Days.slice(0, 2),
       label: "今から",
@@ -241,27 +242,7 @@ function CareerRoadmap({ profile, roadmap }: Pick<CareerCompassResultProps, "pro
     },
   ].filter((step) => step.role || step.outcome || step.actions.length > 0);
 
-  if (steps.length === 0) return null;
-
-  return (
-    <section className="result-section career-roadmap-result" aria-labelledby="roadmap-title">
-      <div className="result-section-heading">
-        <p className="result-kicker">これからの準備</p>
-        <h2 id="roadmap-title">今の経験から、1年後の選択肢へ</h2>
-      </div>
-      <ol className="roadmap-timeline">
-        {steps.map((step, index) => (
-          <li key={step.label}>
-            <span className="roadmap-index">{String(index + 1).padStart(2, "0")}</span>
-            <h3>{step.label}</h3>
-            {step.role ? <p className="roadmap-role">{step.role}</p> : null}
-            {step.actions.length > 0 ? <ul>{step.actions.map((action) => <li key={action}>{action}</li>)}</ul> : null}
-            {step.outcome ? <p className="roadmap-outcome"><span>到達イメージ</span>{step.outcome}</p> : null}
-          </li>
-        ))}
-      </ol>
-    </section>
-  );
+  return <ResultCareerRoute currentRole={currentRole} stages={steps} />;
 }
 
 function ConsultationCTA({ agentFocus, onAgentCtaClick, onRestart, profile }: Pick<CareerCompassResultProps, "agentFocus" | "onAgentCtaClick" | "onRestart" | "profile">) {
@@ -508,7 +489,7 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
         <CareerStory profile={props.profile} />
         <ExperienceTranslation items={props.profile.semiconductorTranslation} />
         <StrengthsSection profile={props.profile} />
-        <CareerRoadmap profile={props.profile} roadmap={props.roadmap} />
+        <CareerRoadmap currentRole={props.currentRole} profile={props.profile} roadmap={props.roadmap} />
         <TodayQuest action={props.profile.todayQuest} reason={props.profile.bottlenecks[0]} resultType={props.profile.id} />
         <DetailedReportAccordion {...props} />
         <ConsultationCTA {...props} />
