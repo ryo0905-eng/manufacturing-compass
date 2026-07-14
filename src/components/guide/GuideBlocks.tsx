@@ -91,6 +91,33 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "opportunity-ladder") {
+          return (
+            <figure className="guide-opportunity-ladder" key={`opportunity-ladder-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.items.map((item, itemIndex) => (
+                  <li key={`${item.label}-${item.requirement}`}>
+                    <div className="guide-opportunity-ladder__marker">
+                      <span>{String(itemIndex + 1).padStart(2, "0")}</span>
+                      <i aria-hidden="true" />
+                    </div>
+                    <small>{item.label}</small>
+                    <strong>{item.requirement}</strong>
+                    <dl>
+                      <div><dt>使用場面</dt><dd>{item.usage}</dd></div>
+                      <div><dt>求人・職種例</dt><dd>{item.opportunity}</dd></div>
+                    </dl>
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "quote") {
           return (
             <blockquote className="guide-pull-quote" key={`quote-${index}`}>

@@ -17,7 +17,7 @@ export const semiconductorCareerEnglishLevelGuide: GuideArticle = {
     "外資系半導体メーカーの技術面接・人事面接を受け、オファーを得た経験",
   ],
   publishedAt: "2026-07-13",
-  updatedAt: "2026-07-13",
+  updatedAt: "2026-07-14",
   sources: [
     {
       title: "Field Application Engineer Chitose",
@@ -68,6 +68,17 @@ export const semiconductorCareerEnglishLevelGuide: GuideArticle = {
             { left: "Field Application Engineer", right: "TOEIC 600超・日常会話・日英での技術コミュニケーション" },
             { left: "Senior Field Application Engineer", right: "TOEIC 700以上・英語で社内外の技術議論を主導" },
             { left: "Account Manager", right: "日本語・英語ともに流暢・TOEIC 800以上" },
+          ],
+        },
+        {
+          type: "opportunity-ladder",
+          title: "英語力ではなく、求人で求められる使用場面を見る",
+          description: "同じ会社でも、部門とポジションによって英語要件は変わります。点数だけでなく、英語で何をする仕事かを確認します。",
+          items: [
+            { label: "応募前の確認", requirement: "必須・歓迎・記載なし", usage: "会議、メール、顧客対応、海外拠点との連携の有無を確認", opportunity: "会社名だけで除外せず、応募するポジションごとに判断" },
+            { label: "公開求人例", requirement: "TOEIC 600超", usage: "日常会話と、日英での技術コミュニケーション", opportunity: "Field Application Engineer" },
+            { label: "公開求人例", requirement: "TOEIC 700以上", usage: "英語で社内外の技術議論を主導", opportunity: "Senior Field Application Engineer" },
+            { label: "公開求人例", requirement: "TOEIC 800以上・流暢", usage: "日本語と英語を使った顧客・社内調整", opportunity: "Account Manager" },
           ],
         },
         {

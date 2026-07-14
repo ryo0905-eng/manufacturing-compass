@@ -28,6 +28,12 @@ export type GuideBlock =
       rows: Array<{ current: string; target: string; next: string }>;
     }
   | {
+      type: "opportunity-ladder";
+      title: string;
+      description: string;
+      items: Array<{ label: string; requirement: string; usage: string; opportunity: string }>;
+    }
+  | {
       type: "quote";
       quote: string;
       caption?: string;
