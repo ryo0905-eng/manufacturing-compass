@@ -57,6 +57,40 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "career-bridge") {
+          return (
+            <figure className="guide-career-bridge" key={`career-bridge-${index}`}>
+              <figcaption>{block.title}</figcaption>
+              <div className="guide-career-bridge__labels" aria-hidden="true">
+                <span>{block.currentLabel}</span>
+                <span>{block.targetLabel}</span>
+                <span>{block.nextLabel}</span>
+              </div>
+              <ol>
+                {block.rows.map((row, rowIndex) => (
+                  <li key={`${row.current}-${row.target}`}>
+                    <div>
+                      <small>{block.currentLabel}</small>
+                      <span>{String(rowIndex + 1).padStart(2, "0")}</span>
+                      <strong>{row.current}</strong>
+                    </div>
+                    <i aria-hidden="true">→</i>
+                    <div className="guide-career-bridge__target">
+                      <small>{block.targetLabel}</small>
+                      <strong>{row.target}</strong>
+                    </div>
+                    <i aria-hidden="true">→</i>
+                    <div className="guide-career-bridge__next">
+                      <small>{block.nextLabel}</small>
+                      <strong>{row.next}</strong>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "quote") {
           return (
             <blockquote className="guide-pull-quote" key={`quote-${index}`}>

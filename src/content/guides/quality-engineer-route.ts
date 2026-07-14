@@ -13,7 +13,7 @@ export const qualityEngineerRouteGuide: GuideArticle = {
   reviewedBy: "RYO",
   experienceBasis: ["電子部品メーカーでの品質・不良解析・工程改善経験", "現象と製造データから原因を絞り、対策と標準化へつなげた経験"],
   publishedAt: "2026-07-05",
-  updatedAt: "2026-07-12",
+  updatedAt: "2026-07-14",
   sources: [
     { title: "Quality", url: "https://www.semi.org/en/semi-news/topic/quality", publisher: "SEMI", accessedAt: "2026-07-12" },
     { title: "Traceability Standards and Activities", url: "https://www.semi.org/en/products-services/standards/traceability", publisher: "SEMI", accessedAt: "2026-07-12" },
@@ -24,6 +24,20 @@ export const qualityEngineerRouteGuide: GuideArticle = {
     conclusion: "改善結果だけでなく、現象から原因を絞り、再発を防いだ過程を書きます。",
     learnings: "不良解析を整理する順番、職務経歴書の具体例、半導体固有の注意点。",
   },
+  overviewBlocks: [
+    {
+      type: "career-bridge",
+      title: "品質・不良解析の経験を、半導体品質の求人要件へつなぐ",
+      currentLabel: "現在の経験",
+      targetLabel: "求人で伝わる表現",
+      nextLabel: "次に確認すること",
+      rows: [
+        { current: "現象観察と工程・設備・材料データの比較", target: "不良解析・原因切り分け", next: "半導体工程と電気特性の基礎" },
+        { current: "暫定対策・恒久対策・標準化", target: "是正処置と再発防止", next: "SPC・FMEA・DOE・8Dの実務範囲" },
+        { current: "不良率・コスト・工数の改善確認", target: "歩留まり・品質改善の定量実績", next: "算定範囲・因果関係・チーム内の担当" },
+      ],
+    },
+  ],
   sections: [
     { heading: "品質経験から見る入口は一つではない", paragraphs: ["品質保証では、顧客への報告や監査、変更管理が中心になる求人があります。不良解析では、現物観察や測定から故障メカニズムを追う力が重視されます。プロセス改善や製品技術では、工程データと電気特性を見ながら歩留まりを改善する仕事があります。", "同じ品質という言葉でも、顧客対応、解析、量産工程のどこに時間を使うかは違います。これまで最も多く担当した仕事と、次に深めたい仕事を分けて求人を見ると、職種名だけで選ぶよりミスマッチを減らせます。"] },
     { heading: "不良解析を7つの順番で整理する", paragraphs: ["一つの事例を、現象、データ確認、原因候補、切り分け、対策、再発防止、結果の順に並べます。現象では、いつ、どの製品・工程で、どのような不良が増えたかを書きます。データ確認では、検査結果、設備条件、材料ロット、時間帯など、実際に見た情報を挙げます。", "原因候補を出した後、比較試験、追加測定、現物観察などで候補を減らします。対策を実施したら、標準書、管理項目、監視方法まで変えたかを確認します。最後に、不良率、コスト、工数、解析時間、流出件数など、確認できる結果を残します。"], points: ["現象：どこで、何が、どの程度起きたか", "データ確認：検査・設備・材料・工程条件", "原因候補：考えた仮説と根拠", "切り分け：比較した条件と追加調査", "対策：暫定対策と恒久対策", "再発防止：標準化、監視、横展開", "結果：不良率、コスト、工数、件数"] },

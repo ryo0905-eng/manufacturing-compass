@@ -20,6 +20,14 @@ export type GuideBlock =
       rows: Array<{ left: string; right: string }>;
     }
   | {
+      type: "career-bridge";
+      title: string;
+      currentLabel: string;
+      targetLabel: string;
+      nextLabel: string;
+      rows: Array<{ current: string; target: string; next: string }>;
+    }
+  | {
       type: "quote";
       quote: string;
       caption?: string;
