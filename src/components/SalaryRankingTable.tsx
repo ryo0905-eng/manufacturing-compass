@@ -1,5 +1,6 @@
 import type { Route } from "next";
 import Link from "next/link";
+import { SalaryBarChart } from "@/components/SalaryBarChart";
 import { semiconductorSalaryMeta, semiconductorSalaryRanking } from "@/data/semiconductor-salary";
 
 export function SalaryRankingTable() {
@@ -12,6 +13,15 @@ export function SalaryRankingTable() {
         <div><dt>確認日</dt><dd>{semiconductorSalaryMeta.retrievedAt.replaceAll("-", ".")}</dd></div>
       </dl>
       <p className="market-cap-caution">平均年間給与は提出会社・単体の平均です。職種別・年齢別の給与、グループ全体の平均、求人票の提示レンジではありません。</p>
+      <SalaryBarChart
+        items={semiconductorSalaryRanking.slice(0, 10).map((company) => ({
+          category: company.category,
+          label: company.name,
+          value: company.annualSalaryManYen,
+        }))}
+        title="主要20社のうち平均年間給与 上位10社"
+        unit="万円"
+      />
       <div className="market-cap-table-wrap">
         <table className="market-cap-table salary-ranking-table">
           <thead>
