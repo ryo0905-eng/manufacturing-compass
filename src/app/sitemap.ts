@@ -3,9 +3,18 @@ import { companies, getCareerInfo, segments } from "@/data/companies";
 import { beginnerGuides, comparePairs, rankings } from "@/data/editorial";
 import { companyCompareSlug, siteUrl } from "@/lib/format";
 
+function contentDate(date: string) {
+  return new Date(`${date}T00:00:00+09:00`);
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const searchReadyCompanies = companies.filter((company) => getCareerInfo(company.id));
+  const latestGuideUpdatedAt = beginnerGuides.reduce(
+    (latest, guide) => guide.updatedAt > latest ? guide.updatedAt : latest,
+    "1970-01-01",
+  );
+  const guidesLastModified = contentDate(latestGuideUpdatedAt);
   const staticRoutes = [
     "",
     "/career-compass",
@@ -23,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
-    lastModified: now,
+    lastModified: path === "/guides" ? guidesLastModified : now,
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/career-agents" ? 0.85 : 0.8,
   }));
@@ -58,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const guideRoutes = beginnerGuides.map((guide) => ({
     url: `${siteUrl}/guides/${guide.slug}`,
-    lastModified: now,
+    lastModified: contentDate(guide.updatedAt),
     changeFrequency: "monthly" as const,
     priority: 0.66,
   }));
