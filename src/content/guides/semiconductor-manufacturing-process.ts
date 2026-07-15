@@ -339,6 +339,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
           items: [
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "レジスト塗布、露光、現像で加工場所を決める流れを断面図で見る" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "PVD・CVD・ALDが薄膜を作る原理と使い分けを図で見る" },
+            { label: "酸化・熱処理の仕組み", href: "/guides/semiconductor-oxidation-thermal-process", description: "熱酸化の膜内拡散・界面反応と、目的別アニールの違いを見る" },
             { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "ウェット・ドライ、等方性・異方性、選択比を断面図で見る" },
             { label: "洗浄の仕組み", href: "/guides/semiconductor-cleaning-process", description: "汚染除去、純水リンス、乾燥までの表面変化を図で見る" },
             { label: "イオン注入・拡散の仕組み", href: "/guides/semiconductor-ion-implantation-process", description: "ドーピング、注入量・深さ、活性化アニールを図で見る" },
@@ -361,6 +362,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
   relatedGuideSlugs: [
     "photolithography-process",
     "semiconductor-deposition-process",
+    "semiconductor-oxidation-thermal-process",
     "semiconductor-etching-process",
     "semiconductor-cleaning-process",
     "semiconductor-ion-implantation-process",

@@ -8954,6 +8954,196 @@ summary:focus-visible {
   font-weight: 900;
 }
 
+.guide-wafer-manufacturing {
+  margin: 0;
+  border: 1px solid rgba(46, 85, 100, 0.2);
+  background:
+    linear-gradient(rgba(46, 85, 100, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 85, 100, 0.035) 1px, transparent 1px),
+    #f8fafb;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-wafer-manufacturing > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-wafer-manufacturing > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-wafer-manufacturing > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-wafer-manufacturing > ol {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-wafer-manufacturing__stage {
+  --wafer-manufacturing-accent: #65767c;
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--wafer-manufacturing-accent);
+  background: #fff;
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-wafer-manufacturing__stage--crystal { --wafer-manufacturing-accent: #725f95; }
+.guide-wafer-manufacturing__stage--slice { --wafer-manufacturing-accent: #9a6844; }
+.guide-wafer-manufacturing__stage--shape { --wafer-manufacturing-accent: #587d8d; }
+.guide-wafer-manufacturing__stage--polish { --wafer-manufacturing-accent: #397f86; }
+.guide-wafer-manufacturing__stage--inspect { --wafer-manufacturing-accent: #5d7f4d; }
+
+.guide-wafer-manufacturing__stage > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--wafer-manufacturing-accent);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.guide-wafer-manufacturing__stage > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.guide-wafer-manufacturing__visual {
+  position: relative;
+  height: 112px;
+  margin: 13px 0;
+  overflow: hidden;
+  border: 1px solid rgba(46, 85, 100, 0.12);
+  background: linear-gradient(#eff5f6, #fff);
+}
+
+.guide-wafer-manufacturing__visual i {
+  position: absolute;
+  display: block;
+}
+
+.guide-wafer-manufacturing__feed {
+  right: 20%;
+  bottom: 18px;
+  left: 20%;
+  height: 42px;
+  background:
+    radial-gradient(circle at 15% 70%, #77898f 0 7px, transparent 8px),
+    radial-gradient(circle at 45% 35%, #8b9da3 0 8px, transparent 9px),
+    radial-gradient(circle at 75% 70%, #697c83 0 9px, transparent 10px);
+}
+
+.guide-wafer-manufacturing__ingot {
+  top: 16px;
+  right: 35%;
+  bottom: 15px;
+  left: 35%;
+  border-radius: 45% 45% 10% 10%;
+  background: linear-gradient(90deg, #647980, #b5c5c9 48%, #687c83);
+}
+
+.guide-wafer-manufacturing__wire {
+  top: 11px;
+  bottom: 11px;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: #b77840;
+  box-shadow: -9px 0 #b77840, 9px 0 #b77840;
+}
+
+.guide-wafer-manufacturing__wafer {
+  right: 15%;
+  bottom: 20px;
+  left: 15%;
+  height: 40px;
+  border: 3px solid #61777e;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 40% 30%, #fff, #a9c3ca 55%, #668087);
+  box-shadow: 0 9px 0 -6px rgba(55, 76, 82, .55);
+}
+
+.guide-wafer-manufacturing__shine {
+  top: 14px;
+  right: 16%;
+  color: #4f8b94;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.guide-wafer-manufacturing__stage--polysilicon .guide-wafer-manufacturing__ingot,
+.guide-wafer-manufacturing__stage--polysilicon .guide-wafer-manufacturing__wire,
+.guide-wafer-manufacturing__stage--polysilicon .guide-wafer-manufacturing__wafer,
+.guide-wafer-manufacturing__stage--polysilicon .guide-wafer-manufacturing__shine,
+.guide-wafer-manufacturing__stage--crystal .guide-wafer-manufacturing__feed,
+.guide-wafer-manufacturing__stage--crystal .guide-wafer-manufacturing__wire,
+.guide-wafer-manufacturing__stage--crystal .guide-wafer-manufacturing__wafer,
+.guide-wafer-manufacturing__stage--crystal .guide-wafer-manufacturing__shine,
+.guide-wafer-manufacturing__stage--slice .guide-wafer-manufacturing__feed,
+.guide-wafer-manufacturing__stage--slice .guide-wafer-manufacturing__wafer,
+.guide-wafer-manufacturing__stage--slice .guide-wafer-manufacturing__shine,
+.guide-wafer-manufacturing__stage--shape .guide-wafer-manufacturing__feed,
+.guide-wafer-manufacturing__stage--shape .guide-wafer-manufacturing__ingot,
+.guide-wafer-manufacturing__stage--shape .guide-wafer-manufacturing__wire,
+.guide-wafer-manufacturing__stage--shape .guide-wafer-manufacturing__shine,
+.guide-wafer-manufacturing__stage--polish .guide-wafer-manufacturing__feed,
+.guide-wafer-manufacturing__stage--polish .guide-wafer-manufacturing__ingot,
+.guide-wafer-manufacturing__stage--polish .guide-wafer-manufacturing__wire,
+.guide-wafer-manufacturing__stage--inspect .guide-wafer-manufacturing__feed,
+.guide-wafer-manufacturing__stage--inspect .guide-wafer-manufacturing__ingot,
+.guide-wafer-manufacturing__stage--inspect .guide-wafer-manufacturing__wire { display: none; }
+
+.guide-wafer-manufacturing__stage--slice .guide-wafer-manufacturing__ingot {
+  right: 29%;
+  left: 29%;
+}
+
+.guide-wafer-manufacturing__stage--shape .guide-wafer-manufacturing__wafer { border-width: 5px; }
+
+.guide-wafer-manufacturing__stage--shape .guide-wafer-manufacturing__visual {
+  background: linear-gradient(135deg, rgba(88, 125, 141, .12) 0 48%, transparent 48%), #fff;
+}
+
+.guide-wafer-manufacturing__stage > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-wafer-manufacturing__arrow {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  right: -16px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--wafer-manufacturing-accent);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -9219,7 +9409,8 @@ summary:focus-visible {
   .guide-package-flow > ol,
   .guide-final-test > ol,
   .guide-interconnect > ol,
-  .guide-thermal-oxidation > ol { grid-template-columns: 1fr; }
+  .guide-thermal-oxidation > ol,
+  .guide-wafer-manufacturing > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
   .guide-etch-comparison__method > strong,
   .guide-cleaning-flow__stage > strong,
@@ -9232,7 +9423,8 @@ summary:focus-visible {
   .guide-package-flow__stage > strong,
   .guide-final-test__stage > strong,
   .guide-interconnect__stage > strong,
-  .guide-thermal-oxidation__stage > strong { min-height: 0; }
+  .guide-thermal-oxidation__stage > strong,
+  .guide-wafer-manufacturing__stage > strong { min-height: 0; }
   .guide-cleaning-flow__arrow,
   .guide-cmp-flow__arrow,
   .guide-control-loop__stage > i,
@@ -9241,7 +9433,8 @@ summary:focus-visible {
   .guide-package-flow__arrow,
   .guide-final-test__arrow,
   .guide-interconnect__arrow,
-  .guide-thermal-oxidation__arrow { display: none; }
+  .guide-thermal-oxidation__arrow,
+  .guide-wafer-manufacturing__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }

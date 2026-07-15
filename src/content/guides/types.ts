@@ -207,6 +207,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "wafer-manufacturing-flow";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "polysilicon" | "crystal" | "slice" | "shape" | "polish" | "inspect";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

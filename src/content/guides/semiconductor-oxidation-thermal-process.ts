@@ -8,7 +8,7 @@ export const semiconductorOxidationThermalProcessGuide: GuideArticle = {
   targetQuery: "半導体 酸化 熱処理 工程",
   searchIntent:
     "シリコン表面に酸化膜が成長する仕組み、ドライ酸化・ウェット酸化、炉・RTP、アニールの目的と管理項目を図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",
