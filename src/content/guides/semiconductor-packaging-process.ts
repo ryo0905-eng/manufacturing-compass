@@ -8,7 +8,7 @@ export const semiconductorPackagingProcessGuide: GuideArticle = {
   targetQuery: "半導体 パッケージング 工程",
   searchIntent:
     "半導体パッケージの役割、ダイを基板へ載せて電気接続・封止・外部端子形成する工程、ワイヤボンドとフリップチップの違いを図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

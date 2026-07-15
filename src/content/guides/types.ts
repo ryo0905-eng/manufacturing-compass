@@ -174,6 +174,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "final-test-flow";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "load" | "temperature" | "contact" | "test" | "sort";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

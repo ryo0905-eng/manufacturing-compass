@@ -349,6 +349,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
           items: [
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "ダイシングがウェーハテストと組立の間に入る位置を見る" },
             { label: "ウェーハテストの仕組み", href: "/guides/semiconductor-wafer-test", description: "個片化前に良品ダイと座標を決める工程を見る" },
+            { label: "パッケージングの仕組み", href: "/guides/semiconductor-packaging-process", description: "取り出した良品ダイを基材へ接合し、接続・封止する後続工程を見る" },
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "欠陥・寸法・画像データを工程へ戻す考え方を見る" },
             { label: "洗浄の仕組み", href: "/guides/semiconductor-cleaning-process", description: "粒子除去、リンス、乾燥の基本を確認する" },
             { label: "CMPの仕組み", href: "/guides/semiconductor-cmp-process", description: "ダイシングとは異なる平坦化研磨の目的を見る" },
@@ -404,6 +405,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-manufacturing-process",
     "semiconductor-wafer-test",
+    "semiconductor-packaging-process",
     "semiconductor-inspection-metrology",
     "semiconductor-cleaning-process",
     "semiconductor-cmp-process",

@@ -8412,6 +8412,184 @@ summary:focus-visible {
   font-weight: 900;
 }
 
+.guide-final-test {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-final-test > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-final-test > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-final-test > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-final-test > ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-final-test__stage {
+  --final-test-accent: #65757b;
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--final-test-accent);
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-final-test__stage--temperature { --final-test-accent: #a16b45; }
+.guide-final-test__stage--contact { --final-test-accent: #826b4e; }
+.guide-final-test__stage--test { --final-test-accent: #34778d; }
+.guide-final-test__stage--sort { --final-test-accent: #607d4f; }
+
+.guide-final-test__stage > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--final-test-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-final-test__stage > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.guide-final-test__visual {
+  position: relative;
+  height: 120px;
+  margin: 14px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#edf4f5, #fff);
+}
+
+.guide-final-test__tester,
+.guide-final-test__socket,
+.guide-final-test__device,
+.guide-final-test__signal {
+  position: absolute;
+  display: block;
+}
+
+.guide-final-test__tester {
+  top: 8px;
+  right: 22%;
+  left: 22%;
+  height: 25px;
+  border: 2px solid var(--final-test-accent);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.guide-final-test__socket {
+  right: 16%;
+  bottom: 15px;
+  left: 16%;
+  height: 24px;
+  border: 5px solid #7e8a8e;
+  border-radius: 4px;
+  background: #dce3e2;
+}
+
+.guide-final-test__device {
+  z-index: 3;
+  right: 29%;
+  bottom: 32px;
+  left: 29%;
+  height: 29px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--final-test-accent), #26343a 38%);
+  box-shadow:
+    -7px 4px 0 -5px #9b7d3f,
+    7px 4px 0 -5px #9b7d3f;
+}
+
+.guide-final-test__signal {
+  top: 34px;
+  left: calc(50% - 8px);
+  color: var(--final-test-accent);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.guide-final-test__stage--load .guide-final-test__tester,
+.guide-final-test__stage--load .guide-final-test__socket,
+.guide-final-test__stage--load .guide-final-test__signal,
+.guide-final-test__stage--temperature .guide-final-test__tester,
+.guide-final-test__stage--temperature .guide-final-test__socket,
+.guide-final-test__stage--temperature .guide-final-test__signal,
+.guide-final-test__stage--sort .guide-final-test__tester,
+.guide-final-test__stage--sort .guide-final-test__socket,
+.guide-final-test__stage--sort .guide-final-test__signal { display: none; }
+
+.guide-final-test__stage--temperature .guide-final-test__visual {
+  background:
+    radial-gradient(circle at 50% 55%, rgba(202,104,55,.22), transparent 38%),
+    linear-gradient(#fff3ec, #fff);
+}
+
+.guide-final-test__stage--temperature .guide-final-test__device {
+  box-shadow: 0 0 18px rgba(202,104,55,.48);
+}
+
+.guide-final-test__stage--sort .guide-final-test__visual {
+  background:
+    linear-gradient(135deg, rgba(96,125,79,.14) 0 49%, transparent 49% 51%, rgba(174,92,78,.12) 51%),
+    #fff;
+}
+
+.guide-final-test__stage > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-final-test__arrow {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  right: -16px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--final-test-accent);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -8674,7 +8852,8 @@ summary:focus-visible {
   .guide-control-loop > ol,
   .guide-wafer-test > ol,
   .guide-dicing-flow > ol,
-  .guide-package-flow > ol { grid-template-columns: 1fr; }
+  .guide-package-flow > ol,
+  .guide-final-test > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
   .guide-etch-comparison__method > strong,
   .guide-cleaning-flow__stage > strong,
@@ -8684,13 +8863,15 @@ summary:focus-visible {
   .guide-control-loop__stage > p,
   .guide-wafer-test__stage > strong,
   .guide-dicing-flow__stage > strong,
-  .guide-package-flow__stage > strong { min-height: 0; }
+  .guide-package-flow__stage > strong,
+  .guide-final-test__stage > strong { min-height: 0; }
   .guide-cleaning-flow__arrow,
   .guide-cmp-flow__arrow,
   .guide-control-loop__stage > i,
   .guide-wafer-test__arrow,
   .guide-dicing-flow__arrow,
-  .guide-package-flow__arrow { display: none; }
+  .guide-package-flow__arrow,
+  .guide-final-test__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }
