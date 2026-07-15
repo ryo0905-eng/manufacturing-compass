@@ -4,8 +4,8 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
   slug: "semiconductor-deposition-process",
   title: "半導体の成膜とは？CVD・PVD・ALDの違いと仕組みを初心者向けに図解",
   description:
-    "半導体製造の成膜工程を初心者向けに図解。PVDはターゲット材料を物理的に飛ばし、CVDは気体原料を表面で反応させ、ALDは原料供給とパージを交互に繰り返します。膜厚、均一性、段差被覆、膜質、用途の違いも整理します。",
-  targetQuery: "半導体 成膜 CVD PVD ALD 違い",
+    "材料をウェーハ表面へ堆積する半導体の成膜工程を図解。PVDは材料を物理的に飛ばし、CVDは気体原料を表面で反応させ、ALDは原料供給とパージを交互に繰り返します。膜厚、均一性、段差被覆、膜質、用途の違いも整理します。",
+  targetQuery: "半導体 成膜 とは",
   searchIntent:
     "半導体の成膜工程について、PVD・CVD・ALDがどのように膜を作るのか、何が違い、どのように使い分けるのかを図で理解したい",
   status: "published",

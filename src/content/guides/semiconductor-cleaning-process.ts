@@ -5,7 +5,7 @@ export const semiconductorCleaningProcessGuide: GuideArticle = {
   title: "半導体の洗浄とは？汚染の種類・ウェット洗浄・乾燥を初心者向けに図解",
   description:
     "半導体の洗浄工程を初心者向けに図解。パーティクル、有機物、金属汚染、自然酸化膜を何のために除去するのか、薬液処理・物理洗浄・純水リンス・乾燥、RCA洗浄、枚葉式とバッチ式の違いを整理します。",
-  targetQuery: "半導体 洗浄 工程",
+  targetQuery: "半導体 洗浄 とは",
   searchIntent:
     "半導体製造で洗浄を繰り返す理由、除去する汚染、ウェット洗浄の流れ、RCA洗浄、枚葉式とバッチ式、乾燥の重要性を図で理解したい",
   status: "published",

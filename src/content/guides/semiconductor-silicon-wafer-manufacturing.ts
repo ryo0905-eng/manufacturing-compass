@@ -4,8 +4,8 @@ export const semiconductorSiliconWaferManufacturingGuide: GuideArticle = {
   slug: "semiconductor-silicon-wafer-manufacturing",
   title: "半導体のシリコンウェーハ製造とは？単結晶・スライス・研磨を初心者向けに図解",
   description:
-    "半導体用シリコンウェーハの製造工程を初心者向けに図解。高純度多結晶シリコン、CZ・MCZ・FZによる単結晶育成、インゴット整形、スライス、ラッピング、エッチング、鏡面研磨、洗浄・検査と、抵抗率・結晶方位・平坦度・表面欠陥を整理します。",
-  targetQuery: "半導体 シリコンウェーハ 製造工程",
+    "回路形成前の半導体用シリコンウェーハ製造を図解。高純度多結晶シリコン、CZ・MCZ・FZによる単結晶育成、インゴット整形、スライス、ラッピング、加工ダメージ除去、鏡面研磨、洗浄・検査と、抵抗率・結晶方位・平坦度を整理します。",
+  targetQuery: "シリコンウェーハ 製造工程",
   searchIntent:
     "半導体の土台となるシリコンウェーハが、原料から単結晶、薄い円板、鏡面基板へどう作られるかを図で理解したい",
   status: "published",

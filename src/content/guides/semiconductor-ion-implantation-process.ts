@@ -5,7 +5,7 @@ export const semiconductorIonImplantationProcessGuide: GuideArticle = {
   title: "半導体のイオン注入・拡散とは？ドーピングと活性化アニールを初心者向けに図解",
   description:
     "半導体のイオン注入・拡散工程を初心者向けに図解。ドーピングでp型・n型を作る目的、イオン源・質量分離・加速・注入の流れ、注入量・エネルギー・角度、結晶ダメージ、活性化アニール、熱拡散との違いを整理します。",
-  targetQuery: "半導体 イオン注入 工程",
+  targetQuery: "半導体 イオン注入 とは",
   searchIntent:
     "半導体のイオン注入が何をする工程か、注入量・エネルギー・角度で何が変わるか、活性化アニールと熱拡散がなぜ必要かを図で理解したい",
   status: "published",

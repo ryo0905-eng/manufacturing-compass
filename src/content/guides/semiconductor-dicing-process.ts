@@ -5,7 +5,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
   title: "半導体のダイシングとは？ブレード・レーザー・テープを初心者向けに図解",
   description:
     "半導体のダイシング工程を初心者向けに図解。ダイシングテープへの固定、位置合わせ、ブレードダイシング、レーザーアブレーション、ステルスダイシング、洗浄・乾燥、UV照射、ピックアップと、チッピング・カーフ・加工くずを整理します。",
-  targetQuery: "半導体 ダイシング 工程",
+  targetQuery: "半導体 ダイシング とは",
   searchIntent:
     "半導体ウェーハを個々のダイへ分割する目的、ブレードとレーザーの違い、ダイシングテープの役割、代表的な不良と管理項目を図で理解したい",
   status: "published",

@@ -5,7 +5,7 @@ export const semiconductorInterconnectProcessGuide: GuideArticle = {
   title: "半導体の配線形成とは？銅配線・ビア・ダマシン工程を初心者向けに図解",
   description:
     "半導体の配線形成を初心者向けに図解。トランジスタを金属配線とビアでつなぐ目的、絶縁膜形成・溝と孔の加工・バリア／ライナー・導体充填・CMPの流れ、アルミ系配線との違い、RC遅延や代表的な不良を整理します。",
-  targetQuery: "半導体 配線形成 工程",
+  targetQuery: "半導体 配線形成 とは",
   searchIntent:
     "半導体チップのトランジスタを金属配線とビアでどう接続するのか、銅ダマシン工程、絶縁膜、バリア、CMP、配線不良を図で理解したい",
   status: "published",

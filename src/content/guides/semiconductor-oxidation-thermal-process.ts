@@ -4,8 +4,8 @@ export const semiconductorOxidationThermalProcessGuide: GuideArticle = {
   slug: "semiconductor-oxidation-thermal-process",
   title: "半導体の酸化・熱処理とは？熱酸化とアニールの仕組みを初心者向けに図解",
   description:
-    "半導体の酸化・熱処理を初心者向けに図解。シリコン熱酸化の拡散・界面反応、ドライ酸化とウェット酸化、炉とRTP、活性化・膜質改善・欠陥回復などのアニール目的、熱履歴と代表的な不良を整理します。",
-  targetQuery: "半導体 酸化 熱処理 工程",
+    "シリコンを消費して酸化膜を成長させる熱酸化と、材料の状態を変えるアニールを図解。拡散・界面反応、ドライ酸化とウェット酸化、炉とRTP、活性化・膜質改善・欠陥回復、熱履歴と代表的な不良を整理します。",
+  targetQuery: "半導体 熱酸化 アニール",
   searchIntent:
     "シリコン表面に酸化膜が成長する仕組み、ドライ酸化・ウェット酸化、炉・RTP、アニールの目的と管理項目を図で理解したい",
   status: "published",

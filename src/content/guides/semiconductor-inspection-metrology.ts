@@ -4,7 +4,7 @@ export const semiconductorInspectionMetrologyGuide: GuideArticle = {
   slug: "semiconductor-inspection-metrology",
   title: "半導体の検査・計測とは？欠陥・CD・膜厚・重ね合わせを初心者向けに図解",
   description:
-    "半導体製造の検査・計測を初心者向けに図解。欠陥検査、CD測定、膜厚測定、重ね合わせ測定、レビューSEMの違いと、光学・電子線の特徴、サンプリング、測定データを工程へ戻す流れを整理します。",
+    "半導体製造途中の物理検査・寸法計測を図解。欠陥検査、CD・膜厚・重ね合わせ測定、レビューSEMの違い、光学・電子線、サンプリング、工程へのフィードバックと、ウェーハテスト・最終検査との違いを整理します。",
   targetQuery: "半導体 検査 計測",
   searchIntent:
     "半導体製造における検査・計測の役割、欠陥検査と寸法・膜厚測定の違い、主な装置、測定データを工程改善へ使う流れを図で理解したい",

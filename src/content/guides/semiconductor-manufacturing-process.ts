@@ -4,7 +4,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
   slug: "semiconductor-manufacturing-process",
   title: "半導体の製造工程とは？設計から前工程・後工程まで初心者向けに図解",
   description:
-    "半導体が設計、シリコンウェーハ、成膜、フォトリソグラフィ、エッチング、検査、ダイシング、パッケージングを経て完成する流れを図解。前工程・後工程とFEOL・MOL・BEOLの違いも初心者向けに整理します。",
+    "半導体が設計、シリコンウェーハ製造、前工程、ウェーハテスト、ダイシング、パッケージング、最終検査を経て完成する流れを図解。前工程・後工程とFEOL・MOL・BEOLの違いも初心者向けに整理します。",
   targetQuery: "半導体 製造工程",
   searchIntent:
     "半導体が設計から完成品になるまでの全体像、前工程と後工程の違い、成膜・フォトリソグラフィ・エッチングなど各工程の役割を初心者向けに理解したい",

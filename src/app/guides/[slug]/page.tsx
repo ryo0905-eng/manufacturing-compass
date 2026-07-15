@@ -29,6 +29,21 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
     title: guide.title,
     description: guide.description,
     alternates: { canonical: `/guides/${guide.slug}` },
+    openGraph: {
+      type: "article",
+      locale: "ja_JP",
+      url: `/guides/${guide.slug}`,
+      title: guide.title,
+      description: guide.description,
+      publishedTime: guide.publishedAt,
+      modifiedTime: guide.updatedAt,
+      authors: [guide.author],
+    },
+    twitter: {
+      card: "summary",
+      title: guide.title,
+      description: guide.description,
+    },
   };
 }
 
@@ -51,6 +66,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
   return (
     <main className="page guide-page">
       <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": "Person", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja" }} />
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "初心者ガイド", item: `${siteUrl}/guides` }, { "@type": "ListItem", position: 3, name: guide.title, item: `${siteUrl}/guides/${guide.slug}` }] }} />
       {faqItems.length > 0 ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }} /> : null}
       <article className="article-layout">
         <header className="article-hero">

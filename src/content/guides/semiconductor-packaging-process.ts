@@ -5,7 +5,7 @@ export const semiconductorPackagingProcessGuide: GuideArticle = {
   title: "半導体のパッケージングとは？ダイ接合・ワイヤボンド・封止を初心者向けに図解",
   description:
     "半導体のパッケージング工程を初心者向けに図解。ダイ接合、ワイヤボンディング、フリップチップ、アンダーフィル、モールド封止、基板・リードフレーム、外部端子と、BGA・QFN・WLP・2.5D・3Dパッケージを整理します。",
-  targetQuery: "半導体 パッケージング 工程",
+  targetQuery: "半導体 パッケージング とは",
   searchIntent:
     "半導体パッケージの役割、ダイを基板へ載せて電気接続・封止・外部端子形成する工程、ワイヤボンドとフリップチップの違いを図で理解したい",
   status: "published",
