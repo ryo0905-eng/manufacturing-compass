@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
+import { StructuredData } from "@/components/StructuredData";
 import type { GuideCategory } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
+import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "半導体業界・転職のガイドと実体験",
@@ -18,16 +20,85 @@ const categoryLabels: Record<GuideCategory, string> = {
   technology: "半導体の技術",
 };
 
+const processSeriesHubSlug = "semiconductor-manufacturing-process";
+
+const processSeriesPhases = [
+  {
+    number: "01",
+    label: "材料・基板",
+    title: "回路を作る土台を知る",
+    description: "高純度原料から単結晶を育て、平らなシリコンウェーハへ仕上げます。",
+    slugs: ["semiconductor-silicon-wafer-manufacturing"],
+  },
+  {
+    number: "02",
+    label: "前工程・素子形成",
+    title: "薄膜と微細な形を作る",
+    description: "洗浄、膜形成、パターン転写、加工、ドーピングを繰り返します。",
+    slugs: [
+      "semiconductor-cleaning-process",
+      "semiconductor-oxidation-thermal-process",
+      "semiconductor-deposition-process",
+      "photolithography-process",
+      "semiconductor-etching-process",
+      "semiconductor-ion-implantation-process",
+    ],
+  },
+  {
+    number: "03",
+    label: "前工程・配線と管理",
+    title: "平らにして、つなぎ、測る",
+    description: "表面を平坦に整え、多層配線を形成し、寸法や欠陥を工程へ戻します。",
+    slugs: [
+      "semiconductor-cmp-process",
+      "semiconductor-interconnect-process",
+      "semiconductor-inspection-metrology",
+    ],
+  },
+  {
+    number: "04",
+    label: "テスト・組立",
+    title: "選び、分け、製品にする",
+    description: "良品ダイを選別・個片化し、接続・封止して完成品を試験します。",
+    slugs: [
+      "semiconductor-wafer-test",
+      "semiconductor-dicing-process",
+      "semiconductor-packaging-process",
+      "semiconductor-final-test",
+    ],
+  },
+] as const;
+
+const processSeriesDetailSlugs = processSeriesPhases.flatMap((phase) => [...phase.slugs]);
+const processSeriesSlugs = [processSeriesHubSlug, ...processSeriesDetailSlugs];
+
 function formatDate(date: string) {
   return date.replaceAll("-", ".");
 }
 
 export default function GuidesPage() {
   const featuredGuide = beginnerGuides.find((guide) => guide.featured) ?? beginnerGuides[0];
-  const otherGuides = beginnerGuides.filter((guide) => guide.slug !== featuredGuide.slug);
+  const processSeriesGuides = processSeriesSlugs
+    .map((slug) => beginnerGuides.find((guide) => guide.slug === slug))
+    .filter((guide) => guide !== undefined);
+  const processHubGuide = processSeriesGuides.find((guide) => guide.slug === processSeriesHubSlug);
+  const processGuideNumbers = new Map<string, number>(
+    processSeriesDetailSlugs.map((slug, index) => [slug, index + 1]),
+  );
+  const processPhases = processSeriesPhases.map((phase) => ({
+    ...phase,
+    guides: phase.slugs
+      .map((slug) => processSeriesGuides.find((guide) => guide.slug === slug))
+      .filter((guide) => guide !== undefined),
+  }));
+  const processSeriesSlugSet = new Set(processSeriesSlugs);
+  const otherGuides = beginnerGuides.filter(
+    (guide) => guide.slug !== featuredGuide.slug && !processSeriesSlugSet.has(guide.slug),
+  );
 
   return (
     <main className="page guides-hub-page">
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "ItemList", name: "半導体製造工程シリーズ", numberOfItems: processSeriesGuides.length, itemListElement: processSeriesGuides.map((guide, index) => ({ "@type": "ListItem", position: index + 1, name: guide.title, url: `${siteUrl}/guides/${guide.slug}` })) }} />
       <section className="guides-hub-hero">
         <div className="guides-hub-hero__copy">
           <p className="section-label">製造業から半導体を考える</p>
@@ -69,6 +140,52 @@ export default function GuidesPage() {
             <strong className="guides-read-link">実体験を読む <span aria-hidden="true">→</span></strong>
           </div>
         </Link>
+      </section>
+
+      <section className="guides-process-series" aria-labelledby="process-series-title">
+        <header className="guides-section-heading">
+          <div><p className="section-label">Semiconductor process</p><h2 id="process-series-title">半導体ができるまでを、工程順に読む</h2></div>
+          <p>まず全体像をつかみ、気になった工程へ進める全15記事のシリーズです。図解とやさしい言葉で、工程前後の変化と仕組みを整理します。</p>
+        </header>
+
+        {processHubGuide ? (
+          <Link className="guides-process-hub" href={`/guides/${processHubGuide.slug}`}>
+            <div className="guides-process-hub__copy">
+              <span>START HERE · 全体像</span>
+              <h3>{processHubGuide.title}</h3>
+              <p>{processHubGuide.description}</p>
+              <strong>最初に全工程を見る <span aria-hidden="true">→</span></strong>
+            </div>
+            <ol className="guides-process-hub__route" aria-label="半導体製造の4段階">
+              {processSeriesPhases.map((phase) => (
+                <li key={phase.number}><small>{phase.number}</small><span>{phase.label}</span></li>
+              ))}
+            </ol>
+          </Link>
+        ) : null}
+
+        <div className="guides-process-phases">
+          {processPhases.map((phase) => (
+            <section className="guides-process-phase" key={phase.number} aria-labelledby={`process-phase-${phase.number}`}>
+              <header>
+                <span>{phase.number}</span>
+                <div><small>{phase.label}</small><h3 id={`process-phase-${phase.number}`}>{phase.title}</h3></div>
+              </header>
+              <p>{phase.description}</p>
+              <ol>
+                {phase.guides.map((guide) => (
+                  <li key={guide.slug}>
+                    <Link href={`/guides/${guide.slug}`}>
+                      <span>{String(processGuideNumbers.get(guide.slug) ?? "").padStart(2, "0")}</span>
+                      <strong>{guide.title.split("とは？")[0]}の仕組み</strong>
+                      <i aria-hidden="true">→</i>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))}
+        </div>
       </section>
 
       <section className="guides-library" aria-labelledby="guide-library-title">
