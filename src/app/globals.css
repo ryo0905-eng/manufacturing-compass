@@ -7587,6 +7587,179 @@ summary:focus-visible {
   line-height: 1.7;
 }
 
+.guide-cmp-flow {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-cmp-flow > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-cmp-flow > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-cmp-flow > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-cmp-flow > ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-cmp-flow__stage {
+  --cmp-accent: #826b4e;
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--cmp-accent);
+  background: #fff;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-cmp-flow__stage--polish { --cmp-accent: #3f7d89; }
+.guide-cmp-flow__stage--after { --cmp-accent: #6e8655; }
+
+.guide-cmp-flow__stage > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--cmp-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-cmp-flow__stage > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.guide-cmp-flow__visual {
+  position: relative;
+  height: 190px;
+  margin: 16px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#eef6f6, #fff);
+}
+
+.guide-cmp-flow__substrate,
+.guide-cmp-flow__features,
+.guide-cmp-flow__overburden,
+.guide-cmp-flow__pad,
+.guide-cmp-flow__slurry {
+  position: absolute;
+  display: block;
+}
+
+.guide-cmp-flow__substrate {
+  right: 8%;
+  bottom: 18px;
+  left: 8%;
+  height: 34px;
+  background: #c7d2d1;
+}
+
+.guide-cmp-flow__features {
+  right: 8%;
+  bottom: 52px;
+  left: 8%;
+  height: 48px;
+  background: linear-gradient(90deg, #657c88 0 18%, transparent 18% 31%, #657c88 31% 58%, transparent 58% 73%, #657c88 73% 100%);
+}
+
+.guide-cmp-flow__overburden {
+  z-index: 2;
+  right: 8%;
+  bottom: 52px;
+  left: 8%;
+  height: 86px;
+  background: color-mix(in srgb, var(--cmp-accent), white 36%);
+  clip-path: polygon(0 32%, 18% 32%, 18% 0, 31% 0, 31% 22%, 58% 22%, 58% 7%, 73% 7%, 73% 27%, 100% 27%, 100% 100%, 0 100%);
+  opacity: 0.82;
+}
+
+.guide-cmp-flow__pad {
+  z-index: 5;
+  top: 18px;
+  right: 5%;
+  left: 5%;
+  display: none;
+  height: 28px;
+  border-radius: 5px;
+  background: #58666c;
+  box-shadow: inset 0 -6px 0 rgba(255, 255, 255, 0.16);
+}
+
+.guide-cmp-flow__slurry {
+  z-index: 4;
+  top: 52px;
+  right: 14%;
+  left: 14%;
+  display: none;
+  height: 48px;
+  background-image: radial-gradient(circle, var(--cmp-accent) 0 3px, transparent 3.5px);
+  background-size: 23px 18px;
+  opacity: 0.7;
+}
+
+.guide-cmp-flow__stage--polish .guide-cmp-flow__pad,
+.guide-cmp-flow__stage--polish .guide-cmp-flow__slurry { display: block; }
+
+.guide-cmp-flow__stage--polish .guide-cmp-flow__overburden {
+  height: 66px;
+  clip-path: polygon(0 15%, 20% 15%, 20% 0, 34% 0, 34% 10%, 60% 10%, 60% 2%, 74% 2%, 74% 12%, 100% 12%, 100% 100%, 0 100%);
+}
+
+.guide-cmp-flow__stage--after .guide-cmp-flow__overburden {
+  height: 50px;
+  clip-path: none;
+}
+
+.guide-cmp-flow__stage > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-cmp-flow__arrow {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  right: -17px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--cmp-accent);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -7844,12 +8017,15 @@ summary:focus-visible {
   .guide-deposition-comparison > ol,
   .guide-etch-comparison > ol,
   .guide-cleaning-flow > ol,
-  .guide-dopant-profile > ol { grid-template-columns: 1fr; }
+  .guide-dopant-profile > ol,
+  .guide-cmp-flow > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
   .guide-etch-comparison__method > strong,
   .guide-cleaning-flow__stage > strong,
-  .guide-dopant-profile__panel > strong { min-height: 0; }
-  .guide-cleaning-flow__arrow { display: none; }
+  .guide-dopant-profile__panel > strong,
+  .guide-cmp-flow__stage > strong { min-height: 0; }
+  .guide-cleaning-flow__arrow,
+  .guide-cmp-flow__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }

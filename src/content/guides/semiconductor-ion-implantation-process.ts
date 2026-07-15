@@ -8,7 +8,7 @@ export const semiconductorIonImplantationProcessGuide: GuideArticle = {
   targetQuery: "半導体 イオン注入 工程",
   searchIntent:
     "半導体のイオン注入が何をする工程か、注入量・エネルギー・角度で何が変わるか、活性化アニールと熱拡散がなぜ必要かを図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

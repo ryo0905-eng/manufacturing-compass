@@ -118,6 +118,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "cmp-planarization";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "before" | "polish" | "after";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

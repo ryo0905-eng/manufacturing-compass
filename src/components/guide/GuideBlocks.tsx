@@ -307,6 +307,34 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "cmp-planarization") {
+          return (
+            <figure className="guide-cmp-flow" key={`cmp-planarization-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.stages.map((stage, stageIndex) => (
+                  <li className={`guide-cmp-flow__stage guide-cmp-flow__stage--${stage.kind}`} key={stage.kind}>
+                    <span>{stage.label}</span>
+                    <strong>{stage.title}</strong>
+                    <div className="guide-cmp-flow__visual" aria-hidden="true">
+                      <i className="guide-cmp-flow__pad" />
+                      <i className="guide-cmp-flow__slurry" />
+                      <i className="guide-cmp-flow__overburden" />
+                      <i className="guide-cmp-flow__features" />
+                      <i className="guide-cmp-flow__substrate" />
+                    </div>
+                    <p>{stage.body}</p>
+                    {stageIndex < block.stages.length - 1 ? <i className="guide-cmp-flow__arrow" aria-hidden="true">→</i> : null}
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }

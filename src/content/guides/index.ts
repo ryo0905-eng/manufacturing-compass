@@ -7,6 +7,7 @@ import { semiconductorCareerEnglishLevelGuide } from "@/content/guides/semicondu
 import { semiconductorCareerChatgptGuide } from "@/content/guides/semiconductor-career-chatgpt";
 import { semiconductorCareerStartGuide } from "@/content/guides/semiconductor-career-start";
 import { semiconductorCleaningProcessGuide } from "@/content/guides/semiconductor-cleaning-process";
+import { semiconductorCmpProcessGuide } from "@/content/guides/semiconductor-cmp-process";
 import { semiconductorMarketCapRankingGuide } from "@/content/guides/semiconductor-market-cap-ranking";
 import { semiconductorManufacturingProcessGuide } from "@/content/guides/semiconductor-manufacturing-process";
 import { semiconductorDepositionProcessGuide } from "@/content/guides/semiconductor-deposition-process";
@@ -26,6 +27,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorEtchingProcessGuide,
   semiconductorCleaningProcessGuide,
   semiconductorIonImplantationProcessGuide,
+  semiconductorCmpProcessGuide,
   electronicsToSemiconductorProcessEngineerGuide,
   productionEngineeringToSemiconductorProcessEngineerGuide,
   semiconductorCareerChatgptGuide,
