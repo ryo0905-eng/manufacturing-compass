@@ -48,7 +48,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
   const compareHref = (compareTarget ? `/compare/${company.id}-vs-${compareTarget.id}` : "/compare") as Route;
 
   return (
-    <main className="page">
+    <main className="page company-detail-page">
       <StructuredData
         data={{
           "@context": "https://schema.org",
