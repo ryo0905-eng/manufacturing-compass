@@ -8,7 +8,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
   targetQuery: "半導体 ダイシング 工程",
   searchIntent:
     "半導体ウェーハを個々のダイへ分割する目的、ブレードとレーザーの違い、ダイシングテープの役割、代表的な不良と管理項目を図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

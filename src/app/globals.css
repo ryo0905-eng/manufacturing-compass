@@ -8238,6 +8238,180 @@ summary:focus-visible {
   font-weight: 900;
 }
 
+.guide-package-flow {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-package-flow > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-package-flow > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-package-flow > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-package-flow > ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-package-flow__stage {
+  --package-accent: #65757b;
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--package-accent);
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-package-flow__stage--attach { --package-accent: #826b4e; }
+.guide-package-flow__stage--interconnect { --package-accent: #34778d; }
+.guide-package-flow__stage--encapsulate { --package-accent: #806183; }
+.guide-package-flow__stage--terminal { --package-accent: #607d4f; }
+
+.guide-package-flow__stage > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--package-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-package-flow__stage > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.guide-package-flow__visual {
+  position: relative;
+  height: 122px;
+  margin: 14px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#edf4f5, #fff);
+}
+
+.guide-package-flow__mold,
+.guide-package-flow__wire,
+.guide-package-flow__die,
+.guide-package-flow__substrate,
+.guide-package-flow__balls {
+  position: absolute;
+  display: block;
+}
+
+.guide-package-flow__substrate {
+  z-index: 3;
+  right: 9%;
+  bottom: 28px;
+  left: 9%;
+  height: 18px;
+  border-top: 4px solid color-mix(in srgb, var(--package-accent), white 20%);
+  background: #b89a62;
+  box-shadow: inset 0 -4px 0 rgba(91,69,31,.2);
+}
+
+.guide-package-flow__die {
+  z-index: 5;
+  right: 28%;
+  bottom: 46px;
+  left: 28%;
+  height: 25px;
+  border-radius: 2px;
+  background: #607984;
+  box-shadow: inset 0 4px 0 rgba(255,255,255,.25);
+}
+
+.guide-package-flow__wire {
+  z-index: 4;
+  right: 15%;
+  bottom: 55px;
+  left: 15%;
+  height: 34px;
+  border-top: 3px solid #d1a74b;
+  border-radius: 50% 50% 0 0;
+}
+
+.guide-package-flow__mold {
+  z-index: 2;
+  right: 7%;
+  bottom: 42px;
+  left: 7%;
+  height: 61px;
+  border-radius: 7px 7px 2px 2px;
+  background: color-mix(in srgb, var(--package-accent), #29353a 42%);
+  opacity: .88;
+}
+
+.guide-package-flow__balls {
+  right: 15%;
+  bottom: 9px;
+  left: 15%;
+  height: 16px;
+  background: radial-gradient(circle, #9b7d3f 0 5px, transparent 5.5px);
+  background-size: 28px 16px;
+}
+
+.guide-package-flow__stage--substrate .guide-package-flow__die,
+.guide-package-flow__stage--substrate .guide-package-flow__wire,
+.guide-package-flow__stage--substrate .guide-package-flow__mold,
+.guide-package-flow__stage--substrate .guide-package-flow__balls,
+.guide-package-flow__stage--attach .guide-package-flow__wire,
+.guide-package-flow__stage--attach .guide-package-flow__mold,
+.guide-package-flow__stage--attach .guide-package-flow__balls,
+.guide-package-flow__stage--interconnect .guide-package-flow__mold,
+.guide-package-flow__stage--interconnect .guide-package-flow__balls,
+.guide-package-flow__stage--encapsulate .guide-package-flow__balls { display: none; }
+
+.guide-package-flow__stage > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-package-flow__arrow {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  right: -16px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--package-accent);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -8499,7 +8673,8 @@ summary:focus-visible {
   .guide-cmp-flow > ol,
   .guide-control-loop > ol,
   .guide-wafer-test > ol,
-  .guide-dicing-flow > ol { grid-template-columns: 1fr; }
+  .guide-dicing-flow > ol,
+  .guide-package-flow > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
   .guide-etch-comparison__method > strong,
   .guide-cleaning-flow__stage > strong,
@@ -8508,12 +8683,14 @@ summary:focus-visible {
   .guide-control-loop__stage > strong,
   .guide-control-loop__stage > p,
   .guide-wafer-test__stage > strong,
-  .guide-dicing-flow__stage > strong { min-height: 0; }
+  .guide-dicing-flow__stage > strong,
+  .guide-package-flow__stage > strong { min-height: 0; }
   .guide-cleaning-flow__arrow,
   .guide-cmp-flow__arrow,
   .guide-control-loop__stage > i,
   .guide-wafer-test__arrow,
-  .guide-dicing-flow__arrow { display: none; }
+  .guide-dicing-flow__arrow,
+  .guide-package-flow__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }

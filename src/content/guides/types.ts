@@ -163,6 +163,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "package-assembly-flow";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "substrate" | "attach" | "interconnect" | "encapsulate" | "terminal";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

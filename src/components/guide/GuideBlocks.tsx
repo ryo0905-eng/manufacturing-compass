@@ -412,6 +412,34 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "package-assembly-flow") {
+          return (
+            <figure className="guide-package-flow" key={`package-assembly-flow-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.stages.map((stage, stageIndex) => (
+                  <li className={`guide-package-flow__stage guide-package-flow__stage--${stage.kind}`} key={stage.kind}>
+                    <span>{stage.label}</span>
+                    <strong>{stage.title}</strong>
+                    <div className="guide-package-flow__visual" aria-hidden="true">
+                      <i className="guide-package-flow__mold" />
+                      <i className="guide-package-flow__wire" />
+                      <i className="guide-package-flow__die" />
+                      <i className="guide-package-flow__substrate" />
+                      <i className="guide-package-flow__balls" />
+                    </div>
+                    <p>{stage.body}</p>
+                    {stageIndex < block.stages.length - 1 ? <i className="guide-package-flow__arrow" aria-hidden="true">→</i> : null}
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }
