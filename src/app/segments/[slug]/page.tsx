@@ -46,6 +46,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         <p className="eyebrow">{segment.shortName}</p>
         <h1>{segment.name}の半導体企業</h1>
         <p>{segment.description}</p>
+        {segment.id === "foundry" ? <Link className="text-link" href="/guides/semiconductor-foundry">ファウンドリの意味と分業の仕組みを図解で見る</Link> : null}
       </section>
 
       <section className="segment-detail-grid" aria-label={`${segment.name}の概要`}>

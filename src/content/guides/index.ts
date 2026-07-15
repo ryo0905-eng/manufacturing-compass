@@ -17,6 +17,7 @@ import { semiconductorDepositionProcessGuide } from "@/content/guides/semiconduc
 import { semiconductorDicingProcessGuide } from "@/content/guides/semiconductor-dicing-process";
 import { semiconductorEtchingProcessGuide } from "@/content/guides/semiconductor-etching-process";
 import { semiconductorFinalTestGuide } from "@/content/guides/semiconductor-final-test";
+import { semiconductorFoundryGuide } from "@/content/guides/semiconductor-foundry";
 import { semiconductorInterconnectProcessGuide } from "@/content/guides/semiconductor-interconnect-process";
 import { semiconductorIonImplantationProcessGuide } from "@/content/guides/semiconductor-ion-implantation-process";
 import { semiconductorOxidationThermalProcessGuide } from "@/content/guides/semiconductor-oxidation-thermal-process";
@@ -29,6 +30,7 @@ export type { GuideArticle } from "@/content/guides/types";
 
 const guideArticles: GuideArticle[] = [
   semiconductorCareerStartGuide,
+  semiconductorFoundryGuide,
   semiconductorManufacturingProcessGuide,
   photolithographyProcessGuide,
   semiconductorDepositionProcessGuide,
