@@ -8053,6 +8053,191 @@ summary:focus-visible {
   font-weight: 900;
 }
 
+.guide-dicing-flow {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-dicing-flow > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-dicing-flow > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-dicing-flow > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-dicing-flow > ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-dicing-flow__stage {
+  --dicing-accent: #65757b;
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--dicing-accent);
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-dicing-flow__stage--align { --dicing-accent: #826b4e; }
+.guide-dicing-flow__stage--cut { --dicing-accent: #34778d; }
+.guide-dicing-flow__stage--clean { --dicing-accent: #4d7f82; }
+.guide-dicing-flow__stage--pick { --dicing-accent: #607d4f; }
+
+.guide-dicing-flow__stage > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--dicing-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-dicing-flow__stage > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.guide-dicing-flow__visual {
+  position: relative;
+  height: 118px;
+  margin: 14px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#edf4f5, #fff);
+}
+
+.guide-dicing-flow__tool,
+.guide-dicing-flow__chips,
+.guide-dicing-flow__tape,
+.guide-dicing-flow__frame {
+  position: absolute;
+  display: block;
+}
+
+.guide-dicing-flow__frame {
+  right: 8%;
+  bottom: 9px;
+  left: 8%;
+  height: 21px;
+  border: 4px solid #9aa7a9;
+  border-radius: 50%;
+}
+
+.guide-dicing-flow__tape {
+  right: 13%;
+  bottom: 17px;
+  left: 13%;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(80, 145, 170, 0.34);
+}
+
+.guide-dicing-flow__chips {
+  right: 19%;
+  bottom: 25px;
+  left: 19%;
+  height: 45px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 12px, #fff 12px 14px),
+    repeating-linear-gradient(90deg, transparent 0 14px, #fff 14px 16px),
+    color-mix(in srgb, var(--dicing-accent), white 24%);
+  clip-path: ellipse(50% 48% at 50% 50%);
+}
+
+.guide-dicing-flow__tool {
+  z-index: 3;
+  top: 7px;
+  left: calc(50% - 18px);
+  width: 36px;
+  height: 36px;
+  border: 6px solid var(--dicing-accent);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 6px 0 rgba(255,255,255,.75);
+}
+
+.guide-dicing-flow__stage--mount .guide-dicing-flow__tool,
+.guide-dicing-flow__stage--align .guide-dicing-flow__tool,
+.guide-dicing-flow__stage--clean .guide-dicing-flow__tool { display: none; }
+
+.guide-dicing-flow__stage--align .guide-dicing-flow__chips::after {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #fff;
+  content: "";
+}
+
+.guide-dicing-flow__stage--clean .guide-dicing-flow__visual {
+  background:
+    radial-gradient(circle at 25% 20%, rgba(75,150,180,.35) 0 3px, transparent 4px),
+    radial-gradient(circle at 68% 15%, rgba(75,150,180,.35) 0 3px, transparent 4px),
+    radial-gradient(circle at 48% 36%, rgba(75,150,180,.35) 0 3px, transparent 4px),
+    linear-gradient(#edf4f5, #fff);
+}
+
+.guide-dicing-flow__stage--pick .guide-dicing-flow__tool {
+  top: 5px;
+  width: 25px;
+  height: 50px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--dicing-accent);
+  clip-path: polygon(28% 0, 72% 0, 72% 70%, 100% 70%, 50% 100%, 0 70%, 28% 70%);
+}
+
+.guide-dicing-flow__stage--pick .guide-dicing-flow__chips {
+  transform: scale(1.06);
+}
+
+.guide-dicing-flow__stage > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-dicing-flow__arrow {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  right: -16px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--dicing-accent);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -8313,7 +8498,8 @@ summary:focus-visible {
   .guide-dopant-profile > ol,
   .guide-cmp-flow > ol,
   .guide-control-loop > ol,
-  .guide-wafer-test > ol { grid-template-columns: 1fr; }
+  .guide-wafer-test > ol,
+  .guide-dicing-flow > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
   .guide-etch-comparison__method > strong,
   .guide-cleaning-flow__stage > strong,
@@ -8321,11 +8507,13 @@ summary:focus-visible {
   .guide-cmp-flow__stage > strong,
   .guide-control-loop__stage > strong,
   .guide-control-loop__stage > p,
-  .guide-wafer-test__stage > strong { min-height: 0; }
+  .guide-wafer-test__stage > strong,
+  .guide-dicing-flow__stage > strong { min-height: 0; }
   .guide-cleaning-flow__arrow,
   .guide-cmp-flow__arrow,
   .guide-control-loop__stage > i,
-  .guide-wafer-test__arrow { display: none; }
+  .guide-wafer-test__arrow,
+  .guide-dicing-flow__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }

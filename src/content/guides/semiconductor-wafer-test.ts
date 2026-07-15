@@ -8,7 +8,7 @@ export const semiconductorWaferTestGuide: GuideArticle = {
   targetQuery: "半導体 ウェーハテスト",
   searchIntent:
     "ウェーハテストを行う目的、テスタ・プローバ・プローブカードの違い、試験項目、良否判定とウェーハマップの使い方を図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

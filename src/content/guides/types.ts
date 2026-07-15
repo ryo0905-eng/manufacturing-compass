@@ -152,6 +152,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "dicing-flow";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "mount" | "align" | "cut" | "clean" | "pick";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }
