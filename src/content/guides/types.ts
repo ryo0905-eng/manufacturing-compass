@@ -71,6 +71,18 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "deposition-comparison";
+      title: string;
+      description: string;
+      methods: Array<{
+        kind: "pvd" | "cvd" | "ald";
+        label: string;
+        title: string;
+        mechanism: string;
+        characteristic: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

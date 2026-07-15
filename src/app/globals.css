@@ -6864,6 +6864,210 @@ summary:focus-visible {
   line-height: 1.7 !important;
 }
 
+.guide-deposition-comparison {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-deposition-comparison > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-deposition-comparison > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-deposition-comparison > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-deposition-comparison > ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-deposition-comparison__method {
+  --method-accent: var(--primary);
+  min-width: 0;
+  border-top: 4px solid var(--method-accent);
+  background: #fff;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-deposition-comparison__method--cvd { --method-accent: #6f8256; }
+.guide-deposition-comparison__method--ald { --method-accent: #9b7a3f; }
+
+.guide-deposition-comparison__method > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--method-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-deposition-comparison__method > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.guide-deposition-comparison__visual {
+  position: relative;
+  height: 180px;
+  margin: 16px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#eef6f6, #fff);
+}
+
+.guide-deposition-comparison__source {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  right: 22%;
+  left: 22%;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--method-accent);
+}
+
+.guide-deposition-comparison__method--pvd .guide-deposition-comparison__source::after {
+  display: grid;
+  height: 100%;
+  place-items: center;
+  color: #fff;
+  content: "TARGET";
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.guide-deposition-comparison__method--cvd .guide-deposition-comparison__source {
+  border-radius: 999px;
+  opacity: 0.82;
+}
+
+.guide-deposition-comparison__method--cvd .guide-deposition-comparison__source::after {
+  display: grid;
+  height: 100%;
+  place-items: center;
+  color: #fff;
+  content: "PRECURSOR GAS";
+  font-size: 7px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.guide-deposition-comparison__method--ald .guide-deposition-comparison__source {
+  background: linear-gradient(90deg, #9b7a3f 0 43%, #fff 43% 47%, #5d8e91 47% 90%, #fff 90% 94%, #9b7a3f 94%);
+}
+
+.guide-deposition-comparison__method--ald .guide-deposition-comparison__source::after {
+  display: grid;
+  height: 100%;
+  place-items: center;
+  color: #fff;
+  content: "A → PURGE → B";
+  font-size: 7px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.guide-deposition-comparison__particles {
+  position: absolute;
+  top: 46px;
+  right: 18%;
+  bottom: 58px;
+  left: 18%;
+  background-image: radial-gradient(circle, var(--method-accent) 0 2px, transparent 2.5px);
+  background-position: 0 0, 8px 12px;
+  background-size: 18px 22px;
+  opacity: 0.62;
+}
+
+.guide-deposition-comparison__method--pvd .guide-deposition-comparison__particles {
+  transform: perspective(120px) rotateX(-20deg);
+}
+
+.guide-deposition-comparison__method--cvd .guide-deposition-comparison__particles {
+  right: 8%;
+  left: 8%;
+  background-size: 24px 18px;
+}
+
+.guide-deposition-comparison__method--ald .guide-deposition-comparison__particles {
+  right: 6%;
+  left: 6%;
+  background-image: repeating-linear-gradient(180deg, transparent 0 12px, color-mix(in srgb, var(--method-accent), transparent 42%) 12px 14px);
+}
+
+.guide-deposition-comparison__feature {
+  position: absolute;
+  right: 12%;
+  bottom: 12px;
+  left: 12%;
+  height: 62px;
+  background: #cfd6d5;
+  clip-path: polygon(0 100%, 0 62%, 30% 62%, 30% 15%, 70% 15%, 70% 62%, 100% 62%, 100% 100%);
+}
+
+.guide-deposition-comparison__feature::after {
+  position: absolute;
+  inset: 0;
+  background: var(--method-accent);
+  clip-path: polygon(0 62%, 30% 62%, 30% 15%, 70% 15%, 70% 62%, 100% 62%, 100% 72%, 64% 72%, 64% 26%, 36% 26%, 36% 72%, 0 72%);
+  content: "";
+  opacity: 0.82;
+}
+
+.guide-deposition-comparison__method--pvd .guide-deposition-comparison__feature::after {
+  clip-path: polygon(0 62%, 30% 62%, 30% 15%, 70% 15%, 70% 62%, 100% 62%, 100% 72%, 66% 72%, 66% 25%, 34% 25%, 34% 72%, 0 72%);
+  opacity: 0.58;
+}
+
+.guide-deposition-comparison__method dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.guide-deposition-comparison__method dl > div {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.guide-deposition-comparison__method dt {
+  color: var(--method-accent);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.guide-deposition-comparison__method dd {
+  margin: 4px 0 0;
+  color: #536067;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -7118,6 +7322,8 @@ summary:focus-visible {
   .guide-process-flow__stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .guide-process-flow__stages > li > i { display: none; }
   .guide-layer-process > ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .guide-deposition-comparison > ol { grid-template-columns: 1fr; }
+  .guide-deposition-comparison__method > strong { min-height: 0; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }

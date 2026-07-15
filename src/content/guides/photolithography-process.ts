@@ -8,7 +8,7 @@ export const photolithographyProcessGuide: GuideArticle = {
   targetQuery: "フォトリソグラフィ とは",
   searchIntent:
     "半導体製造のフォトリソグラフィについて、塗布・露光・現像の順序、光でパターンができる仕組み、装置と管理項目を図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

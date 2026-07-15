@@ -192,6 +192,34 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "deposition-comparison") {
+          return (
+            <figure className="guide-deposition-comparison" key={`deposition-comparison-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.methods.map((method) => (
+                  <li className={`guide-deposition-comparison__method guide-deposition-comparison__method--${method.kind}`} key={method.kind}>
+                    <span>{method.label}</span>
+                    <strong>{method.title}</strong>
+                    <div className="guide-deposition-comparison__visual" aria-hidden="true">
+                      <i className="guide-deposition-comparison__source" />
+                      <i className="guide-deposition-comparison__particles" />
+                      <i className="guide-deposition-comparison__feature" />
+                    </div>
+                    <dl>
+                      <div><dt>仕組み</dt><dd>{method.mechanism}</dd></div>
+                      <div><dt>特徴</dt><dd>{method.characteristic}</dd></div>
+                    </dl>
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }

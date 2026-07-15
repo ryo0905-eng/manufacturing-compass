@@ -334,6 +334,12 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
             { label: "TERMS", title: "区分の範囲を確認する", body: "BEOLと組立の後工程を混同せず、資料ごとの定義を見る" },
           ],
         },
+        {
+          type: "links",
+          items: [
+            { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "レジスト塗布、露光、現像で加工場所を決める流れを断面図で見る" },
+          ],
+        },
       ],
       paragraphs: [
         "次はフォトリソグラフィ、成膜、エッチングなどを個別に取り上げ、ウェーハ断面がどのように変化するかを図で追います。個別記事を読むときも、今回の全体フローへ戻れば、前後工程との関係を確認できます。",
@@ -342,6 +348,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な半導体製品を一つ選び、設計・ウェーハ加工・組立のどこで価値が作られているか考える",
   relatedGuideSlugs: [
+    "photolithography-process",
     "semiconductor-career-start",
     "production-engineering-to-semiconductor-process-engineer",
     "equipment-engineer-route",
