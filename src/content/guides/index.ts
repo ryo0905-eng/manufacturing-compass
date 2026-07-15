@@ -2,6 +2,7 @@ import { equipmentEngineerRouteGuide } from "@/content/guides/equipment-engineer
 import { electronicsToSemiconductorProcessEngineerGuide } from "@/content/guides/electronics-to-semiconductor-process-engineer";
 import { qualityEngineerRouteGuide } from "@/content/guides/quality-engineer-route";
 import { productionEngineeringToSemiconductorProcessEngineerGuide } from "@/content/guides/production-engineering-to-semiconductor-process-engineer";
+import { photolithographyProcessGuide } from "@/content/guides/photolithography-process";
 import { semiconductorCareerEnglishLevelGuide } from "@/content/guides/semiconductor-career-english-level";
 import { semiconductorCareerChatgptGuide } from "@/content/guides/semiconductor-career-chatgpt";
 import { semiconductorCareerStartGuide } from "@/content/guides/semiconductor-career-start";
@@ -16,6 +17,7 @@ export type { GuideArticle } from "@/content/guides/types";
 const guideArticles: GuideArticle[] = [
   semiconductorCareerStartGuide,
   semiconductorManufacturingProcessGuide,
+  photolithographyProcessGuide,
   electronicsToSemiconductorProcessEngineerGuide,
   productionEngineeringToSemiconductorProcessEngineerGuide,
   semiconductorCareerChatgptGuide,

@@ -8,7 +8,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
   targetQuery: "半導体 製造工程",
   searchIntent:
     "半導体が設計から完成品になるまでの全体像、前工程と後工程の違い、成膜・フォトリソグラフィ・エッチングなど各工程の役割を初心者向けに理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

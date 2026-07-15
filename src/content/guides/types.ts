@@ -55,6 +55,22 @@ export type GuideBlock =
       };
     }
   | {
+      type: "layer-process";
+      title: string;
+      description: string;
+      stages: Array<{
+        label: string;
+        title: string;
+        body: string;
+        signal?: string;
+        layers: Array<{
+          label: string;
+          tone: "mask" | "resist" | "film" | "substrate";
+          pattern?: "solid" | "openings" | "latent";
+        }>;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

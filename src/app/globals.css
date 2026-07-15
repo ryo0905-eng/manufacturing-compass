@@ -6737,6 +6737,133 @@ summary:focus-visible {
   line-height: 1.7 !important;
 }
 
+.guide-layer-process {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background: #f7faf9;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-layer-process > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-layer-process > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-layer-process > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-layer-process > ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-layer-process > ol > li {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  min-width: 0;
+  border-top: 3px solid var(--primary);
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-layer-process > ol > li:nth-child(2n) { border-top-color: #6f8256; }
+.guide-layer-process > ol > li:nth-child(3n) { border-top-color: #9b7a3f; }
+
+.guide-layer-process__label {
+  margin-bottom: 8px;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-layer-process > ol > li > strong {
+  min-height: 44px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.guide-layer-process__visual {
+  display: grid;
+  align-content: end;
+  min-height: 190px;
+  margin: 14px 0;
+  border-right: 1px dashed rgba(36, 91, 120, 0.16);
+  border-left: 1px dashed rgba(36, 91, 120, 0.16);
+  background: linear-gradient(#f1f7f7, #fff);
+  padding: 12px 8px 8px;
+}
+
+.guide-layer-process__signal {
+  display: grid;
+  justify-items: center;
+  align-self: end;
+  margin-bottom: 10px;
+  color: #8a6128;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.guide-layer-process__signal i {
+  color: #c9942e;
+  font-size: 18px;
+  font-style: normal;
+  letter-spacing: 0.14em;
+}
+
+.guide-layer-process__stack {
+  display: flex;
+  min-height: 94px;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.guide-layer-process__layer {
+  display: grid;
+  min-height: 22px;
+  place-items: center;
+  border: 1px solid rgba(17, 24, 28, 0.12);
+  color: rgba(17, 24, 28, 0.78);
+  font-size: 8px;
+  font-weight: 900;
+}
+
+.guide-layer-process__layer--mask { --layer-color: #556269; background: var(--layer-color); color: #fff; }
+.guide-layer-process__layer--resist { --layer-color: #e5aa54; background: var(--layer-color); }
+.guide-layer-process__layer--film { --layer-color: #78b8c3; background: var(--layer-color); }
+.guide-layer-process__layer--substrate { --layer-color: #cfd6d5; min-height: 32px; background: var(--layer-color); }
+
+.guide-layer-process__layer--openings {
+  background: linear-gradient(90deg, var(--layer-color) 0 23%, transparent 23% 39%, var(--layer-color) 39% 66%, transparent 66% 82%, var(--layer-color) 82% 100%);
+  color: transparent;
+}
+
+.guide-layer-process__layer--latent {
+  background: repeating-linear-gradient(90deg, var(--layer-color) 0 14px, color-mix(in srgb, var(--layer-color), white 32%) 14px 24px);
+}
+
+.guide-layer-process > ol > li > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -6990,6 +7117,7 @@ summary:focus-visible {
   .guide-card-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .guide-process-flow__stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .guide-process-flow__stages > li > i { display: none; }
+  .guide-layer-process > ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }
@@ -7011,6 +7139,10 @@ summary:focus-visible {
   .guide-process-flow__stages { grid-template-columns: 1fr; }
   .guide-process-flow__stages > li { padding: 16px; }
   .guide-process-flow__stages > li > p { font-size: 13px !important; }
+  .guide-layer-process { padding: 20px 16px; }
+  .guide-layer-process > ol { grid-template-columns: 1fr; }
+  .guide-layer-process > ol > li > strong { min-height: 0; }
+  .guide-layer-process__visual { min-height: 170px; }
   .guide-pull-quote { padding: 22px; }
   .guide-mapping thead { display: none; }
   .guide-mapping table,
