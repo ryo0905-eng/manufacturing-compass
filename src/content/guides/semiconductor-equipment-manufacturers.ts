@@ -345,6 +345,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
             { label: "アプライドマテリアルズ", href: "/guides/applied-materials-semiconductor-equipment", description: "成膜・除去・改質・分析の製品領域を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "設計から前工程・後工程までの流れを見る" },
             { label: "成膜装置メーカー", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "CVD・ALD・PVD装置と主要企業を見る" },
+            { label: "エッチング装置メーカー", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "プラズマ装置・対象材料・主要企業を見る" },
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "塗布・露光・現像と装置のつながりを見る" },
             { label: "成膜工程", href: "/guides/semiconductor-deposition-process", description: "CVD・PVD・ALDの違いと仕組みを見る" },
             { label: "エッチング工程", href: "/guides/semiconductor-etching-process", description: "ウェット・ドライ加工の仕組みを見る" },
@@ -363,6 +364,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   ],
   todayQuest: "気になる装置企業を1社選び、扱う装置を成膜・露光・エッチング・洗浄・検査・テスト・個片化のどこへ置けるか確認する",
   relatedGuideSlugs: [
+    "semiconductor-etching-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
     "applied-materials-semiconductor-equipment",
     "semiconductor-tester-ate",

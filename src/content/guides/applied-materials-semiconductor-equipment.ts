@@ -359,6 +359,7 @@ export const appliedMaterialsSemiconductorEquipmentGuide: GuideArticle = {
             { label: "半導体製造装置メーカー", href: "/guides/semiconductor-equipment-manufacturers", description: "工程別の装置と主要企業を見る" },
             { label: "成膜装置メーカー", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "CVD・ALD・PVD装置と企業を見る" },
             { label: "エッチング", href: "/guides/semiconductor-etching-process", description: "材料を選択的に除く仕組みを見る" },
+            { label: "エッチング装置メーカー", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "Lam Research・東京エレクトロンなどの装置領域を見る" },
             { label: "イオン注入", href: "/guides/semiconductor-ion-implantation-process", description: "半導体へ不純物を導入する仕組みを見る" },
             { label: "CMP", href: "/guides/semiconductor-cmp-process", description: "表面を平坦化する仕組みを見る" },
             { label: "検査・計測", href: "/guides/semiconductor-inspection-metrology", description: "欠陥と工程変動を測る仕組みを見る" },
@@ -373,6 +374,7 @@ export const appliedMaterialsSemiconductorEquipmentGuide: GuideArticle = {
   ],
   todayQuest: "Applied Materialsの製品ページから一つ装置領域を選び、Create・Shape・Modify・Analyzeのどこに入り、前後にどの工程があるか整理する",
   relatedGuideSlugs: [
+    "semiconductor-etching-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-deposition-equipment-manufacturers",

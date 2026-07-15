@@ -21,6 +21,7 @@ import { semiconductorDepositionProcessGuide } from "@/content/guides/semiconduc
 import { semiconductorDicingProcessGuide } from "@/content/guides/semiconductor-dicing-process";
 import { semiconductorDepositionEquipmentManufacturersGuide } from "@/content/guides/semiconductor-deposition-equipment-manufacturers";
 import { semiconductorEquipmentManufacturersGuide } from "@/content/guides/semiconductor-equipment-manufacturers";
+import { semiconductorEtchingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-etching-equipment-manufacturers";
 import { semiconductorEtchingProcessGuide } from "@/content/guides/semiconductor-etching-process";
 import { semiconductorFinalTestGuide } from "@/content/guides/semiconductor-final-test";
 import { semiconductorFoundryGuide } from "@/content/guides/semiconductor-foundry";
@@ -47,6 +48,7 @@ const guideArticles: GuideArticle[] = [
   photolithographyProcessGuide,
   semiconductorDepositionEquipmentManufacturersGuide,
   semiconductorDepositionProcessGuide,
+  semiconductorEtchingEquipmentManufacturersGuide,
   semiconductorEtchingProcessGuide,
   semiconductorCleaningProcessGuide,
   semiconductorIonImplantationProcessGuide,
