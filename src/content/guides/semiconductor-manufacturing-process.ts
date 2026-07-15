@@ -361,6 +361,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な半導体製品を一つ選び、設計・ウェーハ加工・組立のどこで価値が作られているか考える",
   relatedGuideSlugs: [
+    "semiconductor-equipment-manufacturers",
     "semiconductor-silicon-wafer-manufacturing",
     "photolithography-process",
     "semiconductor-deposition-process",

@@ -16,6 +16,7 @@ import { semiconductorPackagingProcessGuide } from "@/content/guides/semiconduct
 import { semiconductorWaferTestGuide } from "@/content/guides/semiconductor-wafer-test";
 import { semiconductorDepositionProcessGuide } from "@/content/guides/semiconductor-deposition-process";
 import { semiconductorDicingProcessGuide } from "@/content/guides/semiconductor-dicing-process";
+import { semiconductorEquipmentManufacturersGuide } from "@/content/guides/semiconductor-equipment-manufacturers";
 import { semiconductorEtchingProcessGuide } from "@/content/guides/semiconductor-etching-process";
 import { semiconductorFinalTestGuide } from "@/content/guides/semiconductor-final-test";
 import { semiconductorFoundryGuide } from "@/content/guides/semiconductor-foundry";
@@ -33,6 +34,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCareerStartGuide,
   analogSemiconductorCompaniesGuide,
   semiconductorFoundryGuide,
+  semiconductorEquipmentManufacturersGuide,
   semiconductorManufacturingProcessGuide,
   photolithographyProcessGuide,
   semiconductorDepositionProcessGuide,
