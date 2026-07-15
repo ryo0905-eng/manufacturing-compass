@@ -185,6 +185,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "interconnect-flow";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "dielectric" | "pattern" | "liner" | "fill" | "cmp";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

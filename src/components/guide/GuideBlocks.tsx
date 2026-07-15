@@ -467,6 +467,35 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "interconnect-flow") {
+          return (
+            <figure className="guide-interconnect" key={`interconnect-flow-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.stages.map((stage, stageIndex) => (
+                  <li className={`guide-interconnect__stage guide-interconnect__stage--${stage.kind}`} key={stage.kind}>
+                    <span>{stage.label}</span>
+                    <strong>{stage.title}</strong>
+                    <div className="guide-interconnect__visual" aria-hidden="true">
+                      <i className="guide-interconnect__lower-metal" />
+                      <i className="guide-interconnect__dielectric" />
+                      <i className="guide-interconnect__trench" />
+                      <i className="guide-interconnect__via" />
+                      <i className="guide-interconnect__liner" />
+                      <i className="guide-interconnect__metal" />
+                    </div>
+                    <p>{stage.body}</p>
+                    {stageIndex < block.stages.length - 1 ? <i className="guide-interconnect__arrow" aria-hidden="true">→</i> : null}
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }

@@ -8,7 +8,7 @@ export const semiconductorFinalTestGuide: GuideArticle = {
   targetQuery: "半導体 最終検査 工程",
   searchIntent:
     "パッケージ後の半導体をどのように搬送・接触・温度調整して電気試験するか、テスタとハンドラの役割、バーンインやSLTとの違いを図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",
