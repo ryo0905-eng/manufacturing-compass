@@ -343,6 +343,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
           items: [
             { label: "半導体製造装置の企業一覧", href: "/segments/equipment", description: "国内外の装置企業と企業詳細ページを見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "設計から前工程・後工程までの流れを見る" },
+            { label: "成膜装置メーカー", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "CVD・ALD・PVD装置と主要企業を見る" },
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "塗布・露光・現像と装置のつながりを見る" },
             { label: "成膜工程", href: "/guides/semiconductor-deposition-process", description: "CVD・PVD・ALDの違いと仕組みを見る" },
             { label: "エッチング工程", href: "/guides/semiconductor-etching-process", description: "ウェット・ドライ加工の仕組みを見る" },
@@ -361,6 +362,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   todayQuest: "気になる装置企業を1社選び、扱う装置を成膜・露光・エッチング・洗浄・検査・テスト・個片化のどこへ置けるか確認する",
   relatedGuideSlugs: [
     "semiconductor-tester-ate",
+    "semiconductor-deposition-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "photolithography-process",
     "semiconductor-deposition-process",

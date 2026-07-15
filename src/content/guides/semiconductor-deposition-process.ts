@@ -356,6 +356,7 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
   ],
   todayQuest: "PVD・CVD・ALDを『材料の供給源』『反応の進み方』『複雑形状の被覆』の3軸で説明する",
   relatedGuideSlugs: [
+    "semiconductor-deposition-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "photolithography-process",
     "semiconductor-etching-process",
