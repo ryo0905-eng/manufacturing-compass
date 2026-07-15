@@ -16,6 +16,7 @@ export default function IndustryMapPage() {
         <p className="section-label">業界での役割から見る</p>
         <h1>半導体業界地図</h1>
         <p>設計、製造、メモリ、装置。求人を見る前に、会社がどこで価値を出しているかをつかみます。分類は製品が同じという意味ではなく、半導体の設計・製造を支える役割で分けています。</p>
+        <Link className="text-link" href="/guides/ic-chip-manufacturing-companies">ICチップを作る会社の種類と役割を図解で見る</Link>
       </section>
 
       <SemiconductorValueChain segments={segments} />

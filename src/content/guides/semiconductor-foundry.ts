@@ -293,6 +293,7 @@ export const semiconductorFoundryGuide: GuideArticle = {
   ],
   todayQuest: "気になる半導体企業を1社選び、ファブレス・ファウンドリ・IDM・OSATのどれに近いか書き出す",
   relatedGuideSlugs: [
+    "ic-chip-manufacturing-companies",
     "semiconductor-manufacturing-process",
     "semiconductor-packaging-process",
     "semiconductor-market-cap-ranking",
