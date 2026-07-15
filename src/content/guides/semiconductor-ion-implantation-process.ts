@@ -377,6 +377,7 @@ export const semiconductorIonImplantationProcessGuide: GuideArticle = {
             { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "注入前後に薄膜へ開口や構造を作る工程を見る" },
             { label: "洗浄の仕組み", href: "/guides/semiconductor-cleaning-process", description: "注入前後の表面汚染と残留物を除去する工程を見る" },
             { label: "酸化・熱処理の仕組み", href: "/guides/semiconductor-oxidation-thermal-process", description: "注入後の結晶損傷回復とドーパント活性化を熱履歴から見る" },
+            { label: "半導体業界地図", href: "/industry-map", description: "デバイス、イオン注入・熱処理装置、材料企業の位置を見る" },
           ],
         },
       ],

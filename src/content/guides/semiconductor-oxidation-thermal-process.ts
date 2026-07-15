@@ -323,6 +323,7 @@ export const semiconductorOxidationThermalProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "酸化・熱処理が前工程の反復へどう入るか確認する" },
+            { label: "シリコンウェーハ製造の仕組み", href: "/guides/semiconductor-silicon-wafer-manufacturing", description: "熱酸化前の単結晶基板と、結晶・表面品質を作る工程を見る" },
             { label: "洗浄の仕組み", href: "/guides/semiconductor-cleaning-process", description: "酸化・拡散前に表面汚染と自然酸化膜を管理する流れを見る" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "熱酸化による成長膜とCVD・ALDの堆積膜を比較する" },
             { label: "イオン注入・拡散の仕組み", href: "/guides/semiconductor-ion-implantation-process", description: "注入後の活性化アニールとドーパント拡散を見る" },
@@ -379,6 +380,7 @@ export const semiconductorOxidationThermalProcessGuide: GuideArticle = {
   todayQuest: "料理の加熱を例に、『温度』『時間』『雰囲気』『中心まで届く速さ』『冷却』が仕上がりへどう影響するか説明する",
   relatedGuideSlugs: [
     "semiconductor-manufacturing-process",
+    "semiconductor-silicon-wafer-manufacturing",
     "semiconductor-cleaning-process",
     "semiconductor-deposition-process",
     "semiconductor-ion-implantation-process",

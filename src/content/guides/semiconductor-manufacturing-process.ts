@@ -337,6 +337,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "シリコンウェーハ製造の仕組み", href: "/guides/semiconductor-silicon-wafer-manufacturing", description: "高純度原料から単結晶を育て、鏡面基板へ仕上げる流れを見る" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "レジスト塗布、露光、現像で加工場所を決める流れを断面図で見る" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "PVD・CVD・ALDが薄膜を作る原理と使い分けを図で見る" },
             { label: "酸化・熱処理の仕組み", href: "/guides/semiconductor-oxidation-thermal-process", description: "熱酸化の膜内拡散・界面反応と、目的別アニールの違いを見る" },
@@ -354,12 +355,13 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
         },
       ],
       paragraphs: [
-        "次はフォトリソグラフィ、成膜、エッチングなどを個別に取り上げ、ウェーハ断面がどのように変化するかを図で追います。個別記事を読むときも、今回の全体フローへ戻れば、前後工程との関係を確認できます。",
+        "各工程の個別記事では、材料やウェーハ断面がどのように変化するかを図で追えます。分からない工程名が出てきたら今回の全体フローへ戻り、前後工程との関係を確認してください。",
       ],
     },
   ],
   todayQuest: "身近な半導体製品を一つ選び、設計・ウェーハ加工・組立のどこで価値が作られているか考える",
   relatedGuideSlugs: [
+    "semiconductor-silicon-wafer-manufacturing",
     "photolithography-process",
     "semiconductor-deposition-process",
     "semiconductor-oxidation-thermal-process",

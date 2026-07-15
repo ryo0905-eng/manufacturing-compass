@@ -301,11 +301,13 @@ export const semiconductorCmpProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "CMPが前工程の反復のどこに入るか確認する" },
+            { label: "シリコンウェーハ製造の仕組み", href: "/guides/semiconductor-silicon-wafer-manufacturing", description: "回路形成前の単結晶基板を鏡面・平坦に仕上げる研磨と比較する" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "CMP前に絶縁膜や金属膜を形成する工程を見る" },
             { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "埋め込み前の溝や穴を作る工程を見る" },
             { label: "洗浄の仕組み", href: "/guides/semiconductor-cleaning-process", description: "CMP後の粒子・薬液残留物を除去する基本を見る" },
             { label: "配線形成の仕組み", href: "/guides/semiconductor-interconnect-process", description: "導体充填後のCMPが多層配線へどう組み込まれるか見る" },
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "残膜・段差・表面欠陥を測り、CMP工程へ返す流れを見る" },
+            { label: "半導体業界地図", href: "/industry-map", description: "デバイス、CMP装置・材料、検査・計測企業の位置を見る" },
           ],
         },
       ],
@@ -355,6 +357,7 @@ export const semiconductorCmpProcessGuide: GuideArticle = {
   todayQuest: "身近な凹凸のある面を例に、『高い部分だけを除去する方法』『止める高さ』『研磨後の洗浄』を説明する",
   relatedGuideSlugs: [
     "semiconductor-manufacturing-process",
+    "semiconductor-silicon-wafer-manufacturing",
     "semiconductor-deposition-process",
     "semiconductor-etching-process",
     "semiconductor-cleaning-process",

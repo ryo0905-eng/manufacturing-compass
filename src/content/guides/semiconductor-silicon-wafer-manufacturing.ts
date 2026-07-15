@@ -8,7 +8,7 @@ export const semiconductorSiliconWaferManufacturingGuide: GuideArticle = {
   targetQuery: "半導体 シリコンウェーハ 製造工程",
   searchIntent:
     "半導体の土台となるシリコンウェーハが、原料から単結晶、薄い円板、鏡面基板へどう作られるかを図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",
