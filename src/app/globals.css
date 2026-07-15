@@ -7881,6 +7881,178 @@ summary:focus-visible {
   text-align: center;
 }
 
+.guide-wafer-test {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-wafer-test > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-wafer-test > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-wafer-test > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-wafer-test > ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-wafer-test__stage {
+  --wafer-test-accent: #65757b;
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--wafer-test-accent);
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-wafer-test__stage--contact { --wafer-test-accent: #826b4e; }
+.guide-wafer-test__stage--test { --wafer-test-accent: #34778d; }
+.guide-wafer-test__stage--bin { --wafer-test-accent: #806183; }
+.guide-wafer-test__stage--map { --wafer-test-accent: #607d4f; }
+
+.guide-wafer-test__stage > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--wafer-test-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-wafer-test__stage > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.guide-wafer-test__visual {
+  position: relative;
+  height: 116px;
+  margin: 14px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#edf4f5, #fff);
+}
+
+.guide-wafer-test__tester,
+.guide-wafer-test__probes,
+.guide-wafer-test__wafer,
+.guide-wafer-test__signal {
+  position: absolute;
+  display: block;
+}
+
+.guide-wafer-test__wafer {
+  right: 14%;
+  bottom: 13px;
+  left: 14%;
+  height: 25px;
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, transparent 30%, rgba(255,255,255,.6) 30% 34%, transparent 34% 64%, rgba(255,255,255,.6) 64% 68%, transparent 68%),
+    var(--wafer-test-accent);
+  box-shadow: inset 0 -5px 0 rgba(0,0,0,.1);
+  opacity: .78;
+}
+
+.guide-wafer-test__tester {
+  top: 12px;
+  right: 25%;
+  left: 25%;
+  height: 24px;
+  border: 2px solid var(--wafer-test-accent);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.guide-wafer-test__probes {
+  top: 40px;
+  right: 28%;
+  left: 28%;
+  height: 36px;
+  background: repeating-linear-gradient(90deg, transparent 0 8px, var(--wafer-test-accent) 8px 10px);
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%);
+}
+
+.guide-wafer-test__signal {
+  top: 37px;
+  left: calc(50% - 8px);
+  color: var(--wafer-test-accent);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.guide-wafer-test__stage--load .guide-wafer-test__tester,
+.guide-wafer-test__stage--load .guide-wafer-test__probes,
+.guide-wafer-test__stage--load .guide-wafer-test__signal { display: none; }
+
+.guide-wafer-test__stage--bin .guide-wafer-test__wafer,
+.guide-wafer-test__stage--map .guide-wafer-test__wafer {
+  background:
+    radial-gradient(circle at 28% 35%, #b86d62 0 7%, transparent 8%),
+    radial-gradient(circle at 63% 58%, #d3a35a 0 7%, transparent 8%),
+    repeating-linear-gradient(0deg, transparent 0 9px, rgba(255,255,255,.65) 9px 11px),
+    repeating-linear-gradient(90deg, transparent 0 11px, rgba(255,255,255,.65) 11px 13px),
+    var(--wafer-test-accent);
+}
+
+.guide-wafer-test__stage--bin .guide-wafer-test__probes,
+.guide-wafer-test__stage--map .guide-wafer-test__probes,
+.guide-wafer-test__stage--bin .guide-wafer-test__tester,
+.guide-wafer-test__stage--map .guide-wafer-test__tester,
+.guide-wafer-test__stage--bin .guide-wafer-test__signal,
+.guide-wafer-test__stage--map .guide-wafer-test__signal { display: none; }
+
+.guide-wafer-test__stage > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-wafer-test__arrow {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  right: -16px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--wafer-test-accent);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -8140,17 +8312,20 @@ summary:focus-visible {
   .guide-cleaning-flow > ol,
   .guide-dopant-profile > ol,
   .guide-cmp-flow > ol,
-  .guide-control-loop > ol { grid-template-columns: 1fr; }
+  .guide-control-loop > ol,
+  .guide-wafer-test > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
   .guide-etch-comparison__method > strong,
   .guide-cleaning-flow__stage > strong,
   .guide-dopant-profile__panel > strong,
   .guide-cmp-flow__stage > strong,
   .guide-control-loop__stage > strong,
-  .guide-control-loop__stage > p { min-height: 0; }
+  .guide-control-loop__stage > p,
+  .guide-wafer-test__stage > strong { min-height: 0; }
   .guide-cleaning-flow__arrow,
   .guide-cmp-flow__arrow,
-  .guide-control-loop__stage > i { display: none; }
+  .guide-control-loop__stage > i,
+  .guide-wafer-test__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }

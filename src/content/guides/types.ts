@@ -141,6 +141,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "wafer-test-flow";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "load" | "contact" | "test" | "bin" | "map";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

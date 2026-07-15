@@ -340,6 +340,7 @@ export const photolithographyProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "リソグラフィが前後工程のどこにあるか確認する" },
+            { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "現像後CD・重ね合わせ・欠陥を測り、露光条件へ返す流れを見る" },
             { label: "半導体業界地図", href: "/industry-map", description: "露光、塗布・現像、計測・検査、材料を担う企業の位置を見る" },
             { label: "半導体企業一覧", href: "/companies", description: "ASML、東京エレクトロン、ニコンなどを企業別に調べる" },
             { label: "装置エンジニアへのルート", href: "/guides/equipment-engineer-route", description: "装置・設備経験と半導体製造装置職の接点を整理する" },
@@ -395,6 +396,7 @@ export const photolithographyProcessGuide: GuideArticle = {
     "semiconductor-manufacturing-process",
     "semiconductor-deposition-process",
     "semiconductor-etching-process",
+    "semiconductor-inspection-metrology",
     "semiconductor-ion-implantation-process",
     "production-engineering-to-semiconductor-process-engineer",
     "equipment-engineer-route",

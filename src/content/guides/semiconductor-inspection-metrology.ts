@@ -8,7 +8,7 @@ export const semiconductorInspectionMetrologyGuide: GuideArticle = {
   targetQuery: "半導体 検査 計測",
   searchIntent:
     "半導体製造における検査・計測の役割、欠陥検査と寸法・膜厚測定の違い、主な装置、測定データを工程改善へ使う流れを図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

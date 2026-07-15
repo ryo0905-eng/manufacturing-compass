@@ -358,6 +358,33 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "wafer-test-flow") {
+          return (
+            <figure className="guide-wafer-test" key={`wafer-test-flow-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.stages.map((stage, stageIndex) => (
+                  <li className={`guide-wafer-test__stage guide-wafer-test__stage--${stage.kind}`} key={stage.kind}>
+                    <span>{stage.label}</span>
+                    <strong>{stage.title}</strong>
+                    <div className="guide-wafer-test__visual" aria-hidden="true">
+                      <i className="guide-wafer-test__tester" />
+                      <i className="guide-wafer-test__probes" />
+                      <i className="guide-wafer-test__wafer" />
+                      <i className="guide-wafer-test__signal">↕</i>
+                    </div>
+                    <p>{stage.body}</p>
+                    {stageIndex < block.stages.length - 1 ? <i className="guide-wafer-test__arrow" aria-hidden="true">→</i> : null}
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }
