@@ -429,6 +429,7 @@ export const semiconductorFinalTestGuide: GuideArticle = {
   ],
   todayQuest: "身近な電子製品を例に、『搬送』『温度』『接触』『測定』『分類』を最終検査のどの装置が担うか説明する",
   relatedGuideSlugs: [
+    "semiconductor-tester-ate",
     "semiconductor-manufacturing-process",
     "semiconductor-packaging-process",
     "semiconductor-dicing-process",

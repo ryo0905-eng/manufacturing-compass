@@ -27,6 +27,7 @@ import { semiconductorOxidationThermalProcessGuide } from "@/content/guides/semi
 import { semiconductorRecruitmentAgentReviewGuide } from "@/content/guides/semiconductor-recruitment-agent-review";
 import { semiconductorSalaryRankingGuide } from "@/content/guides/semiconductor-salary-ranking";
 import { semiconductorSiliconWaferManufacturingGuide } from "@/content/guides/semiconductor-silicon-wafer-manufacturing";
+import { semiconductorTesterAteGuide } from "@/content/guides/semiconductor-tester-ate";
 import type { GuideArticle } from "@/content/guides/types";
 
 export type { GuideArticle } from "@/content/guides/types";
@@ -37,6 +38,7 @@ const guideArticles: GuideArticle[] = [
   analogSemiconductorCompaniesGuide,
   semiconductorFoundryGuide,
   semiconductorEquipmentManufacturersGuide,
+  semiconductorTesterAteGuide,
   semiconductorManufacturingProcessGuide,
   photolithographyProcessGuide,
   semiconductorDepositionProcessGuide,

@@ -347,6 +347,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
             { label: "成膜工程", href: "/guides/semiconductor-deposition-process", description: "CVD・PVD・ALDの違いと仕組みを見る" },
             { label: "エッチング工程", href: "/guides/semiconductor-etching-process", description: "ウェット・ドライ加工の仕組みを見る" },
             { label: "検査・計測", href: "/guides/semiconductor-inspection-metrology", description: "欠陥・寸法・膜厚を測る工程を見る" },
+            { label: "半導体テスタとATE", href: "/guides/semiconductor-tester-ate", description: "テスタ本体・テストセル・主要メーカーを見る" },
             { label: "ウェーハテスト", href: "/guides/semiconductor-wafer-test", description: "テスタ・プローバ・プローブカードの役割を見る" },
             { label: "Career Compass", href: "/career-compass", description: "製造業経験に近い装置・半導体職種を整理する" },
           ],
@@ -359,6 +360,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   ],
   todayQuest: "気になる装置企業を1社選び、扱う装置を成膜・露光・エッチング・洗浄・検査・テスト・個片化のどこへ置けるか確認する",
   relatedGuideSlugs: [
+    "semiconductor-tester-ate",
     "semiconductor-manufacturing-process",
     "photolithography-process",
     "semiconductor-deposition-process",

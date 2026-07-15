@@ -422,6 +422,7 @@ export const semiconductorWaferTestGuide: GuideArticle = {
   ],
   todayQuest: "身近な電子製品を例に、『何を入力し、何を測り、どの結果で分類し、次工程へ何を渡すか』を説明する",
   relatedGuideSlugs: [
+    "semiconductor-tester-ate",
     "semiconductor-manufacturing-process",
     "semiconductor-inspection-metrology",
     "photolithography-process",
