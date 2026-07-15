@@ -339,6 +339,7 @@ export const photolithographyProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線・ナノインプリントと主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "リソグラフィが前後工程のどこにあるか確認する" },
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "現像後CD・重ね合わせ・欠陥を測り、露光条件へ返す流れを見る" },
             { label: "半導体業界地図", href: "/industry-map", description: "露光、塗布・現像、計測・検査、材料を担う企業の位置を見る" },
@@ -393,6 +394,7 @@ export const photolithographyProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な模様の型を一つ思い浮かべ、『型を作る工程』と『材料へ形を移す工程』を分けて説明する",
   relatedGuideSlugs: [
+    "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-deposition-process",
     "semiconductor-etching-process",

@@ -179,7 +179,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
           rows: [
             { left: "成膜・エピタキシー・熱処理", right: "薄膜や結晶層を作り、材料特性を整える。Applied Materials、Lam Research、東京エレクトロン、ASMなど" },
             { left: "塗布・現像", right: "感光材料を塗り、露光後にパターンを現す。東京エレクトロン、SCREENなど" },
-            { left: "露光", right: "フォトマスクの回路パターンをウェーハへ転写する。ASMLなど" },
+            { left: "露光", right: "フォトマスクの回路パターンをウェーハへ転写する。ASML、Nikon、Canonなど" },
             { left: "エッチング", right: "マスクに沿って膜や基板の不要部分を除く。Lam Research、東京エレクトロン、Applied Materials、日立ハイテクなど" },
             { left: "洗浄", right: "粒子、残渣、汚染を除き、次工程に適した表面へ整える。SCREEN、東京エレクトロン、Lam Researchなど" },
             { left: "CMP・イオン注入", right: "表面を平坦化し、必要な元素を導入する。Applied Materialsなど複数の専門企業が装置を提供" },
@@ -345,6 +345,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
             { label: "アプライドマテリアルズ", href: "/guides/applied-materials-semiconductor-equipment", description: "成膜・除去・改質・分析の製品領域を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "設計から前工程・後工程までの流れを見る" },
             { label: "成膜装置メーカー", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "CVD・ALD・PVD装置と主要企業を見る" },
+            { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線・ナノインプリントと主要企業を見る" },
             { label: "エッチング装置メーカー", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "プラズマ装置・対象材料・主要企業を見る" },
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "塗布・露光・現像と装置のつながりを見る" },
             { label: "成膜工程", href: "/guides/semiconductor-deposition-process", description: "CVD・PVD・ALDの違いと仕組みを見る" },
@@ -364,6 +365,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   ],
   todayQuest: "気になる装置企業を1社選び、扱う装置を成膜・露光・エッチング・洗浄・検査・テスト・個片化のどこへ置けるか確認する",
   relatedGuideSlugs: [
+    "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-etching-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
     "applied-materials-semiconductor-equipment",
