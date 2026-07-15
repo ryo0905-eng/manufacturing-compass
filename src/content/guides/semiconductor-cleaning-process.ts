@@ -8,7 +8,7 @@ export const semiconductorCleaningProcessGuide: GuideArticle = {
   targetQuery: "半導体 洗浄 工程",
   searchIntent:
     "半導体製造で洗浄を繰り返す理由、除去する汚染、ウェット洗浄の流れ、RCA洗浄、枚葉式とバッチ式、乾燥の重要性を図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

@@ -66,7 +66,7 @@ export type GuideBlock =
         layers: Array<{
           label: string;
           tone: "mask" | "resist" | "film" | "substrate";
-          pattern?: "solid" | "openings" | "latent";
+          pattern?: "solid" | "openings" | "inverse-openings" | "latent";
         }>;
       }>;
     }
@@ -103,6 +103,18 @@ export type GuideBlock =
         label: string;
         title: string;
         body: string;
+      }>;
+    }
+  | {
+      type: "dopant-profile";
+      title: string;
+      description: string;
+      panels: Array<{
+        kind: "dose" | "energy" | "anneal";
+        label: string;
+        title: string;
+        control: string;
+        effect: string;
       }>;
     }
   | {

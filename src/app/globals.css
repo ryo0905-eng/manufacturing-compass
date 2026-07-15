@@ -6853,6 +6853,11 @@ summary:focus-visible {
   color: transparent;
 }
 
+.guide-layer-process__layer--inverse-openings {
+  background: linear-gradient(90deg, transparent 0 23%, var(--layer-color) 23% 39%, transparent 39% 66%, var(--layer-color) 66% 82%, transparent 82% 100%);
+  color: transparent;
+}
+
 .guide-layer-process__layer--latent {
   background: repeating-linear-gradient(90deg, var(--layer-color) 0 14px, color-mix(in srgb, var(--layer-color), white 32%) 14px 24px);
 }
@@ -7400,6 +7405,188 @@ summary:focus-visible {
   font-weight: 900;
 }
 
+.guide-dopant-profile {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-dopant-profile > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-dopant-profile > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-dopant-profile > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-dopant-profile > ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-dopant-profile__panel {
+  --dopant-accent: #6e5b91;
+  min-width: 0;
+  border-top: 4px solid var(--dopant-accent);
+  background: #fff;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-dopant-profile__panel--energy { --dopant-accent: #436f97; }
+.guide-dopant-profile__panel--anneal { --dopant-accent: #8a7040; }
+
+.guide-dopant-profile__panel > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--dopant-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-dopant-profile__panel > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.guide-dopant-profile__visual {
+  position: relative;
+  height: 190px;
+  margin: 16px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#eef6f6 0 31%, #d6dfde 31% 100%);
+}
+
+.guide-dopant-profile__beam {
+  position: absolute;
+  z-index: 4;
+  top: 8px;
+  right: 0;
+  left: 0;
+  color: var(--dopant-accent);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-align: center;
+}
+
+.guide-dopant-profile__surface {
+  position: absolute;
+  z-index: 3;
+  top: 57px;
+  right: 8%;
+  left: 8%;
+  height: 5px;
+  background: #93a9a8;
+}
+
+.guide-dopant-profile__distribution {
+  position: absolute;
+  z-index: 1;
+  top: 62px;
+  right: 10%;
+  left: 10%;
+  height: 52px;
+  border-radius: 0 0 50% 50%;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dopant-accent), transparent 38%), transparent);
+}
+
+.guide-dopant-profile__dopants {
+  position: absolute;
+  z-index: 2;
+  top: 68px;
+  right: 16%;
+  left: 16%;
+  height: 35px;
+  background-image: radial-gradient(circle, var(--dopant-accent) 0 3px, transparent 3.5px);
+  background-size: 20px 17px;
+}
+
+.guide-dopant-profile__panel--energy .guide-dopant-profile__distribution {
+  top: 88px;
+  height: 72px;
+}
+
+.guide-dopant-profile__panel--energy .guide-dopant-profile__dopants {
+  top: 104px;
+  height: 42px;
+  background-size: 25px 21px;
+}
+
+.guide-dopant-profile__panel--anneal .guide-dopant-profile__beam {
+  color: transparent;
+  letter-spacing: 0;
+}
+
+.guide-dopant-profile__panel--anneal .guide-dopant-profile__beam::after {
+  color: var(--dopant-accent);
+  content: "HEAT 〰 HEAT";
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.guide-dopant-profile__panel--anneal .guide-dopant-profile__distribution {
+  top: 62px;
+  height: 100px;
+  border-radius: 0 0 46% 46%;
+  background: radial-gradient(ellipse at top, color-mix(in srgb, var(--dopant-accent), transparent 36%), transparent 70%);
+}
+
+.guide-dopant-profile__panel--anneal .guide-dopant-profile__dopants {
+  top: 75px;
+  height: 68px;
+  background-size: 24px 23px;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+}
+
+.guide-dopant-profile__panel dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.guide-dopant-profile__panel dl > div {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.guide-dopant-profile__panel dt {
+  color: var(--dopant-accent);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.guide-dopant-profile__panel dd {
+  margin: 4px 0 0;
+  color: #536067;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -7656,10 +7843,12 @@ summary:focus-visible {
   .guide-layer-process > ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .guide-deposition-comparison > ol,
   .guide-etch-comparison > ol,
-  .guide-cleaning-flow > ol { grid-template-columns: 1fr; }
+  .guide-cleaning-flow > ol,
+  .guide-dopant-profile > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
   .guide-etch-comparison__method > strong,
-  .guide-cleaning-flow__stage > strong { min-height: 0; }
+  .guide-cleaning-flow__stage > strong,
+  .guide-dopant-profile__panel > strong { min-height: 0; }
   .guide-cleaning-flow__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }

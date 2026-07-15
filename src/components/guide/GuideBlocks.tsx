@@ -278,6 +278,35 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "dopant-profile") {
+          return (
+            <figure className="guide-dopant-profile" key={`dopant-profile-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.panels.map((panel) => (
+                  <li className={`guide-dopant-profile__panel guide-dopant-profile__panel--${panel.kind}`} key={panel.kind}>
+                    <span>{panel.label}</span>
+                    <strong>{panel.title}</strong>
+                    <div className="guide-dopant-profile__visual" aria-hidden="true">
+                      <i className="guide-dopant-profile__beam">↓ ↓ ↓</i>
+                      <i className="guide-dopant-profile__surface" />
+                      <i className="guide-dopant-profile__distribution" />
+                      <i className="guide-dopant-profile__dopants" />
+                    </div>
+                    <dl>
+                      <div><dt>主な制御</dt><dd>{panel.control}</dd></div>
+                      <div><dt>断面への影響</dt><dd>{panel.effect}</dd></div>
+                    </dl>
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }
