@@ -395,6 +395,7 @@ export const semiconductorInspectionMetrologyGuide: GuideArticle = {
   ],
   todayQuest: "身近な製造品を例に、『寸法を測る』『異常を探す』『原因を詳しく見る』『工程へ返す』を分けて説明する",
   relatedGuideSlugs: [
+    "semiconductor-inspection-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "photolithography-process",
     "semiconductor-deposition-process",

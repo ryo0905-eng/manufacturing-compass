@@ -362,6 +362,7 @@ export const appliedMaterialsSemiconductorEquipmentGuide: GuideArticle = {
             { label: "イオン注入", href: "/guides/semiconductor-ion-implantation-process", description: "半導体へ不純物を導入する仕組みを見る" },
             { label: "CMP", href: "/guides/semiconductor-cmp-process", description: "表面を平坦化する仕組みを見る" },
             { label: "検査・計測", href: "/guides/semiconductor-inspection-metrology", description: "欠陥と工程変動を測る仕組みを見る" },
+            { label: "検査・計測装置メーカー", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "KLA・日立ハイテク・Lasertecなどの装置領域を見る" },
           ],
         },
       ],
@@ -372,6 +373,7 @@ export const appliedMaterialsSemiconductorEquipmentGuide: GuideArticle = {
   ],
   todayQuest: "Applied Materialsの製品ページから一つ装置領域を選び、Create・Shape・Modify・Analyzeのどこに入り、前後にどの工程があるか整理する",
   relatedGuideSlugs: [
+    "semiconductor-inspection-equipment-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-deposition-equipment-manufacturers",
     "semiconductor-deposition-process",
