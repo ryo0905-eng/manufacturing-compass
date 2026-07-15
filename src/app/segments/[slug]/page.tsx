@@ -47,6 +47,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         <h1>{segment.name}の半導体企業</h1>
         <p>{segment.description}</p>
         {segment.id === "foundry" ? <Link className="text-link" href="/guides/semiconductor-foundry">ファウンドリの意味と分業の仕組みを図解で見る</Link> : null}
+        {segment.id === "idm" ? <Link className="text-link" href="/guides/analog-semiconductor-companies">アナログ半導体の意味・用途・主要企業を図解で見る</Link> : null}
       </section>
 
       <section className="segment-detail-grid" aria-label={`${segment.name}の概要`}>

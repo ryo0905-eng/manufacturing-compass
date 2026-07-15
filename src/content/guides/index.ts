@@ -1,3 +1,4 @@
+import { analogSemiconductorCompaniesGuide } from "@/content/guides/analog-semiconductor-companies";
 import { equipmentEngineerRouteGuide } from "@/content/guides/equipment-engineer-route";
 import { electronicsToSemiconductorProcessEngineerGuide } from "@/content/guides/electronics-to-semiconductor-process-engineer";
 import { qualityEngineerRouteGuide } from "@/content/guides/quality-engineer-route";
@@ -30,6 +31,7 @@ export type { GuideArticle } from "@/content/guides/types";
 
 const guideArticles: GuideArticle[] = [
   semiconductorCareerStartGuide,
+  analogSemiconductorCompaniesGuide,
   semiconductorFoundryGuide,
   semiconductorManufacturingProcessGuide,
   photolithographyProcessGuide,
