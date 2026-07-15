@@ -8,7 +8,7 @@ export const semiconductorCmpProcessGuide: GuideArticle = {
   targetQuery: "半導体 CMP とは",
   searchIntent:
     "半導体のCMPが何をする工程か、化学作用と機械作用をどう組み合わせるか、平坦化の用途と代表的な不良を図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

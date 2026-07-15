@@ -335,6 +335,29 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "process-control-loop") {
+          return (
+            <figure className="guide-control-loop" key={`process-control-loop-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.stages.map((stage, stageIndex) => (
+                  <li className={`guide-control-loop__stage guide-control-loop__stage--${stage.kind}`} key={stage.kind}>
+                    <span>{stage.label}</span>
+                    <strong>{stage.title}</strong>
+                    <p>{stage.body}</p>
+                    <dl><dt>次へ渡す情報</dt><dd>{stage.output}</dd></dl>
+                    {stageIndex < block.stages.length - 1 ? <i aria-hidden="true">→</i> : null}
+                  </li>
+                ))}
+              </ol>
+              <p className="guide-control-loop__return"><span aria-hidden="true">↶</span> フィードバック後は、調整した工程をもう一度測って効果を確認する</p>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }

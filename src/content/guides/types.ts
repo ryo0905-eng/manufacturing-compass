@@ -129,6 +129,18 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "process-control-loop";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "process" | "measure" | "review" | "feedback";
+        label: string;
+        title: string;
+        body: string;
+        output: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }
