@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
       authors: [guide.author],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: guide.title,
       description: guide.description,
     },
