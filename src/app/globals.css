@@ -230,6 +230,7 @@
 .guides-category--experience { color: #8a6128; }
 .guides-category--foundation { color: var(--primary); }
 .guides-category--role { color: #597148; }
+.guides-category--technology { color: #3f7185; }
 
 .guides-feature-copy h3 {
   margin: 22px 0 14px;
@@ -6603,6 +6604,139 @@ summary:focus-visible {
 .guide-note strong { font-size: 17px; }
 .guide-note p { margin: 7px 0 0 !important; font-size: 14px !important; line-height: 1.75 !important; }
 
+.guide-process-flow {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-process-flow > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-process-flow > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-process-flow > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-process-flow__stages {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-process-flow__stages > li {
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--primary);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 14px 12px;
+  box-shadow: 0 8px 28px rgba(17, 24, 28, 0.05);
+}
+
+.guide-process-flow__stages > li:nth-child(2n) { border-top-color: #6f8256; }
+.guide-process-flow__stages > li:nth-child(3n) { border-top-color: #9b7a3f; }
+
+.guide-process-flow__stages > li > span {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-process-flow__stages > li > strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.guide-process-flow__stages > li > p {
+  margin: 7px 0 0 !important;
+  color: #536067 !important;
+  font-size: 11px !important;
+  line-height: 1.65 !important;
+}
+
+.guide-process-flow__stages > li > i {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: -9px;
+  width: 18px;
+  border-radius: 999px;
+  background: var(--primary-dark);
+  color: #fff;
+  font-size: 11px;
+  font-style: normal;
+  line-height: 18px;
+  text-align: center;
+  transform: translateY(-50%);
+}
+
+.guide-process-flow__cycle {
+  margin-top: 18px;
+  border-left: 4px solid var(--signal);
+  background: rgba(48, 182, 201, 0.09);
+  padding: 18px 20px;
+}
+
+.guide-process-flow__cycle > strong {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.guide-process-flow__cycle ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-process-flow__cycle li {
+  border: 1px solid rgba(36, 91, 120, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 7px 10px;
+  color: #354249;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.guide-process-flow__cycle li span {
+  margin-right: 6px;
+  color: var(--primary);
+  font-size: 9px;
+}
+
+.guide-process-flow__cycle > p {
+  margin: 10px 0 0 !important;
+  color: #455158 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -6854,6 +6988,8 @@ summary:focus-visible {
 
 @media (max-width: 860px) {
   .guide-card-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .guide-process-flow__stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .guide-process-flow__stages > li > i { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }
@@ -6871,6 +7007,10 @@ summary:focus-visible {
   .guide-card-grid--4 { grid-template-columns: 1fr; }
   .guide-storyline li { min-height: 0; }
   .guide-card-grid article { padding: 18px; }
+  .guide-process-flow { padding: 20px 16px; }
+  .guide-process-flow__stages { grid-template-columns: 1fr; }
+  .guide-process-flow__stages > li { padding: 16px; }
+  .guide-process-flow__stages > li > p { font-size: 13px !important; }
   .guide-pull-quote { padding: 22px; }
   .guide-mapping thead { display: none; }
   .guide-mapping table,
@@ -9083,6 +9223,7 @@ summary:focus-visible {
 .guide-thumbnail--data { --guide-accent: #9ca6ef; background-color: #2f315b; }
 .guide-thumbnail--route { --guide-accent: #e2a95d; background-color: #49382d; }
 .guide-thumbnail--global { --guide-accent: #60a4d5; background-color: #182b4a; }
+.guide-thumbnail--process { --guide-accent: #79c7c0; background-color: #153a45; }
 
 .guide-thumbnail__topline,
 .guide-thumbnail__visual,

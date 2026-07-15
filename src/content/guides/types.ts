@@ -1,7 +1,7 @@
 import type { Source } from "@/types/content";
 
 export type GuideStatus = "draft" | "published";
-export type GuideCategory = "experience" | "foundation" | "role";
+export type GuideCategory = "experience" | "foundation" | "role" | "technology";
 
 export type GuideBlock =
   | {
@@ -44,6 +44,17 @@ export type GuideBlock =
       body: string;
     }
   | {
+      type: "process-flow";
+      title: string;
+      description: string;
+      stages: Array<{ label: string; title: string; body: string }>;
+      cycle?: {
+        title: string;
+        items: string[];
+        note: string;
+      };
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }
@@ -82,6 +93,8 @@ export type GuideArticle = {
   reviewedBy: "RYO";
   experienceBasis: string[];
   basisLabel?: string;
+  basisNote?: string;
+  showCareerCtas?: boolean;
   publishedAt: string;
   updatedAt: string;
   sources: Source[];

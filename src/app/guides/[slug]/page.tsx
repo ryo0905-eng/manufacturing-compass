@@ -66,11 +66,11 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <aside className="guide-experience-basis" aria-label={guide.basisLabel ?? "この記事の実体験の根拠"}>
             <strong>{guide.basisLabel ?? "この記事の実体験の根拠"}</strong>
             <ul>{guide.experienceBasis.map((item) => <li key={item}>{item}</li>)}</ul>
-            <small>{guide.basisLabel
+            <small>{guide.basisNote ?? (guide.basisLabel
               ? "ランキングデータと企業分類の確認方法を明記し、記事末尾に主要な出典を掲載しています。"
               : guide.sources.length > 0
               ? "実体験と一般情報を分け、一般情報は記事末尾の公開情報で確認しています。"
-              : "運営者本人の実体験をもとに、事実、判断、AIによる推測を分けて記載しています。"}</small>
+              : "運営者本人の実体験をもとに、事実、判断、AIによる推測を分けて記載しています。")}</small>
           </aside>
         </header>
 
@@ -123,12 +123,15 @@ export default async function GuidePage({ params }: GuidePageProps) {
 
         <TodayAction action={guide.todayQuest} />
 
-        <AffiliateCta
-          title="整理した経験を、どの相談先に伝えるか決める"
-          body="記事で整理した経験や希望条件をもとに、製造業・半導体、外資系、専門職など、相談したい内容に合う転職エージェントを比較できます。"
-        />
-
-        <DiagnosisCta title="自分の経験に近い半導体職種を確かめる" body="記事で書き出した経験をもとに、強み、足りない経験、次の準備を12問で確認できます。" />
+        {guide.showCareerCtas === false ? null : (
+          <>
+            <AffiliateCta
+              title="整理した経験を、どの相談先に伝えるか決める"
+              body="記事で整理した経験や希望条件をもとに、製造業・半導体、外資系、専門職など、相談したい内容に合う転職エージェントを比較できます。"
+            />
+            <DiagnosisCta title="自分の経験に近い半導体職種を確かめる" body="記事で書き出した経験をもとに、強み、足りない経験、次の準備を12問で確認できます。" />
+          </>
+        )}
         <p className="back-link"><Link className="text-link" href="/guides">ガイド一覧へ戻る</Link></p>
       </article>
     </main>

@@ -1,11 +1,12 @@
 import type { GuideArticle, GuideCategory } from "@/content/guides/types";
 
-type GuideVisualTheme = "experience" | "knowhow" | "data" | "route" | "global";
+type GuideVisualTheme = "experience" | "knowhow" | "data" | "route" | "global" | "process";
 
 const categoryLabels: Record<GuideCategory, string> = {
   experience: "RYOの実体験",
   foundation: "転職ノウハウ",
   role: "職種別ルート",
+  technology: "半導体の技術",
 };
 
 const themeLabels: Record<GuideVisualTheme, string> = {
@@ -14,11 +15,13 @@ const themeLabels: Record<GuideVisualTheme, string> = {
   data: "COMPANY & SALARY DATA",
   route: "ROLE ROUTE MAP",
   global: "GLOBAL CAREER",
+  process: "SEMICONDUCTOR PROCESS",
 };
 
 function getTheme(guide: Pick<GuideArticle, "category" | "slug">): GuideVisualTheme {
   if (guide.slug.includes("english")) return "global";
   if (guide.slug.includes("salary") || guide.slug.includes("market-cap")) return "data";
+  if (guide.category === "technology") return "process";
   if (guide.category === "role" || guide.slug.includes("-to-semiconductor-")) return "route";
   if (guide.category === "experience") return "experience";
   return "knowhow";

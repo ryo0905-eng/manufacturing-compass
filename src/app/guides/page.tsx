@@ -6,8 +6,8 @@ import type { GuideCategory } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
 
 export const metadata: Metadata = {
-  title: "半導体転職のガイドと実体験",
-  description: "製造業経験約10年のRYOが、電子部品から半導体への転職経験と公開情報を分けて、職種、求人の見方、キャリア準備を解説します。",
+  title: "半導体業界・転職のガイドと実体験",
+  description: "半導体の製造工程、企業、職種、求人の見方を、公開情報と製造業経験約10年のRYOの実体験を分けて解説します。",
   alternates: { canonical: "/guides" },
 };
 
@@ -15,6 +15,7 @@ const categoryLabels: Record<GuideCategory, string> = {
   experience: "RYOの実体験",
   foundation: "半導体転職の基本",
   role: "職種別ルート",
+  technology: "半導体の技術",
 };
 
 function formatDate(date: string) {
@@ -30,8 +31,8 @@ export default function GuidesPage() {
       <section className="guides-hub-hero">
         <div className="guides-hub-hero__copy">
           <p className="section-label">製造業から半導体を考える</p>
-          <h1><span>半導体転職の</span><span>ガイドと実体験</span></h1>
-          <p>会社名や年収だけではなく、仕事の中身から次のキャリアを考えるための記事をまとめています。</p>
+          <h1><span>半導体業界と転職の</span><span>ガイド</span></h1>
+          <p>製造工程や仕事の中身を理解し、会社名や年収だけに頼らず次のキャリアを考えるための記事をまとめています。</p>
         </div>
         <aside className="guides-author-card" aria-label="執筆者について">
           <p>WRITTEN &amp; REVIEWED BY</p>

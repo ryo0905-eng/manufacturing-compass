@@ -127,6 +127,38 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "process-flow") {
+          return (
+            <figure className="guide-process-flow" key={`process-flow-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol className="guide-process-flow__stages">
+                {block.stages.map((stage, stageIndex) => (
+                  <li key={`${stage.label}-${stage.title}`}>
+                    <span>{stage.label}</span>
+                    <strong>{stage.title}</strong>
+                    <p>{stage.body}</p>
+                    {stageIndex < block.stages.length - 1 ? <i aria-hidden="true">→</i> : null}
+                  </li>
+                ))}
+              </ol>
+              {block.cycle ? (
+                <div className="guide-process-flow__cycle">
+                  <strong>{block.cycle.title}</strong>
+                  <ol>
+                    {block.cycle.items.map((item, itemIndex) => (
+                      <li key={item}><span>{String(itemIndex + 1).padStart(2, "0")}</span>{item}</li>
+                    ))}
+                  </ol>
+                  <p>{block.cycle.note}</p>
+                </div>
+              ) : null}
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }
