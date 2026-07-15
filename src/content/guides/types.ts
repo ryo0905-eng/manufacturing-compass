@@ -83,6 +83,18 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "etch-profile-comparison";
+      title: string;
+      description: string;
+      methods: Array<{
+        kind: "isotropic" | "anisotropic" | "selective";
+        label: string;
+        title: string;
+        mechanism: string;
+        characteristic: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

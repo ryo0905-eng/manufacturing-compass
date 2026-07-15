@@ -153,6 +153,12 @@ export const photolithographyProcessGuide: GuideArticle = {
           ],
         },
         {
+          type: "links",
+          items: [
+            { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "加工する薄膜をPVD・CVD・ALDで作る流れを図で見る" },
+          ],
+        },
+        {
           type: "note",
           title: "露光だけがリソグラフィではない",
           body: "露光装置は中心的な装置ですが、工程としては表面準備、レジスト塗布、加熱、位置合わせ、露光、露光後ベーク、現像、検査・計測までを連続して考えます。",
@@ -385,6 +391,7 @@ export const photolithographyProcessGuide: GuideArticle = {
   todayQuest: "身近な模様の型を一つ思い浮かべ、『型を作る工程』と『材料へ形を移す工程』を分けて説明する",
   relatedGuideSlugs: [
     "semiconductor-manufacturing-process",
+    "semiconductor-deposition-process",
     "production-engineering-to-semiconductor-process-engineer",
     "equipment-engineer-route",
     "quality-engineer-route",

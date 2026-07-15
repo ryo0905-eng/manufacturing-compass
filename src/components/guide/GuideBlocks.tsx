@@ -220,6 +220,35 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "etch-profile-comparison") {
+          return (
+            <figure className="guide-etch-comparison" key={`etch-profile-comparison-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.methods.map((method) => (
+                  <li className={`guide-etch-comparison__method guide-etch-comparison__method--${method.kind}`} key={method.kind}>
+                    <span>{method.label}</span>
+                    <strong>{method.title}</strong>
+                    <div className="guide-etch-comparison__visual" aria-hidden="true">
+                      <i className="guide-etch-comparison__mask" />
+                      <i className="guide-etch-comparison__film" />
+                      <i className="guide-etch-comparison__cut" />
+                      <i className="guide-etch-comparison__stop" />
+                    </div>
+                    <dl>
+                      <div><dt>加工の考え方</dt><dd>{method.mechanism}</dd></div>
+                      <div><dt>断面で見る点</dt><dd>{method.characteristic}</dd></div>
+                    </dl>
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }

@@ -8,7 +8,7 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
   targetQuery: "半導体 成膜 CVD PVD ALD 違い",
   searchIntent:
     "半導体の成膜工程について、PVD・CVD・ALDがどのように膜を作るのか、何が違い、どのように使い分けるのかを図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

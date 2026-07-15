@@ -7068,6 +7068,157 @@ summary:focus-visible {
   line-height: 1.7;
 }
 
+.guide-etch-comparison {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-etch-comparison > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-etch-comparison > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-etch-comparison > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-etch-comparison > ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-etch-comparison__method {
+  --etch-accent: #397f8d;
+  min-width: 0;
+  border-top: 4px solid var(--etch-accent);
+  background: #fff;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-etch-comparison__method--anisotropic { --etch-accent: #506f9a; }
+.guide-etch-comparison__method--selective { --etch-accent: #778b4f; }
+
+.guide-etch-comparison__method > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--etch-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-etch-comparison__method > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.guide-etch-comparison__visual {
+  position: relative;
+  height: 180px;
+  margin: 16px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#eef6f6, #fff);
+}
+
+.guide-etch-comparison__mask,
+.guide-etch-comparison__film,
+.guide-etch-comparison__cut,
+.guide-etch-comparison__stop {
+  position: absolute;
+  right: 12%;
+  left: 12%;
+  display: block;
+}
+
+.guide-etch-comparison__mask {
+  z-index: 3;
+  top: 28px;
+  height: 28px;
+  background: linear-gradient(90deg, #dfaa56 0 35%, transparent 35% 65%, #dfaa56 65% 100%);
+}
+
+.guide-etch-comparison__film {
+  z-index: 1;
+  top: 56px;
+  bottom: 34px;
+  background: var(--etch-accent);
+  opacity: 0.82;
+}
+
+.guide-etch-comparison__cut {
+  z-index: 2;
+  top: 56px;
+  right: 24%;
+  bottom: 34px;
+  left: 24%;
+  background: #f9fbfa;
+}
+
+.guide-etch-comparison__method--isotropic .guide-etch-comparison__cut {
+  right: 18%;
+  left: 18%;
+  border-radius: 0 0 46% 46%;
+}
+
+.guide-etch-comparison__stop {
+  z-index: 4;
+  bottom: 20px;
+  height: 14px;
+  background: #c9d3d1;
+}
+
+.guide-etch-comparison__method--selective .guide-etch-comparison__stop {
+  background: #aebe83;
+  box-shadow: 0 -4px 0 rgba(119, 139, 79, 0.22);
+}
+
+.guide-etch-comparison__method dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.guide-etch-comparison__method dl > div {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.guide-etch-comparison__method dt {
+  color: var(--etch-accent);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.guide-etch-comparison__method dd {
+  margin: 4px 0 0;
+  color: #536067;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -7322,8 +7473,10 @@ summary:focus-visible {
   .guide-process-flow__stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .guide-process-flow__stages > li > i { display: none; }
   .guide-layer-process > ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .guide-deposition-comparison > ol { grid-template-columns: 1fr; }
-  .guide-deposition-comparison__method > strong { min-height: 0; }
+  .guide-deposition-comparison > ol,
+  .guide-etch-comparison > ol { grid-template-columns: 1fr; }
+  .guide-deposition-comparison__method > strong,
+  .guide-etch-comparison__method > strong { min-height: 0; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }

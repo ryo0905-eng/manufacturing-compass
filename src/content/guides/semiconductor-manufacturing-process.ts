@@ -338,6 +338,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "レジスト塗布、露光、現像で加工場所を決める流れを断面図で見る" },
+            { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "PVD・CVD・ALDが薄膜を作る原理と使い分けを図で見る" },
           ],
         },
       ],
@@ -349,6 +350,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
   todayQuest: "身近な半導体製品を一つ選び、設計・ウェーハ加工・組立のどこで価値が作られているか考える",
   relatedGuideSlugs: [
     "photolithography-process",
+    "semiconductor-deposition-process",
     "semiconductor-career-start",
     "production-engineering-to-semiconductor-process-engineer",
     "equipment-engineer-route",
