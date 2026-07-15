@@ -346,6 +346,7 @@ export const semiconductorDepositionEquipmentManufacturersGuide: GuideArticle = 
           type: "links",
           items: [
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "PVD・CVD・ALDの反応メカニズムを見る" },
+            { label: "アプライドマテリアルズ", href: "/guides/applied-materials-semiconductor-equipment", description: "成膜を含む同社の工程別製品領域を見る" },
             { label: "半導体製造装置メーカー", href: "/guides/semiconductor-equipment-manufacturers", description: "成膜以外の装置企業を工程別に見る" },
             { label: "半導体製造工程", href: "/guides/semiconductor-manufacturing-process", description: "成膜が繰り返し使われる位置を見る" },
             { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "成膜した層を選択的に加工する工程を見る" },
@@ -361,6 +362,7 @@ export const semiconductorDepositionEquipmentManufacturersGuide: GuideArticle = 
   ],
   todayQuest: "気になる成膜装置企業を1社選び、成膜方式・対象膜・装置方式・デバイス用途・職種の5項目で整理する",
   relatedGuideSlugs: [
+    "applied-materials-semiconductor-equipment",
     "semiconductor-deposition-process",
     "semiconductor-equipment-manufacturers",
     "semiconductor-manufacturing-process",
