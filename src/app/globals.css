@@ -11788,6 +11788,151 @@ summary:focus-visible {
   font-size: 10px;
 }
 
+.home-process-entry {
+  max-width: 1120px;
+}
+
+.home-process-entry__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(370px, 0.75fr);
+  overflow: hidden;
+  border-top: 2px solid var(--text);
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.home-process-entry__copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(28px, 5vw, 50px);
+}
+
+.home-process-entry__copy > span {
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.home-process-entry__copy h3 {
+  max-width: 670px;
+  margin: 16px 0 14px;
+  font-size: clamp(27px, 3.3vw, 39px);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+
+.home-process-entry__copy > p {
+  max-width: 650px;
+  margin: 0;
+  color: #536067;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.home-process-entry__copy > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 22px;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.home-process-entry__primary {
+  display: inline-flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 3px;
+  background: var(--primary-dark);
+  padding: 13px 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 900;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.home-process-entry__primary:hover {
+  background: var(--primary);
+  transform: translateY(-1px);
+}
+
+.home-process-entry__stages {
+  display: grid;
+  align-content: center;
+  margin: 0;
+  border-left: 1px solid var(--line);
+  background: #e8f4f6;
+  padding: clamp(24px, 4vw, 38px);
+  list-style: none;
+}
+
+.home-process-entry__stages li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 13px;
+  min-height: 82px;
+  padding-bottom: 18px;
+}
+
+.home-process-entry__stages li:last-child {
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+.home-process-entry__stages li:not(:last-child)::after {
+  position: absolute;
+  top: 31px;
+  bottom: 0;
+  left: 14px;
+  width: 1px;
+  background: rgba(0, 107, 128, 0.26);
+  content: "";
+}
+
+.home-process-entry__stages li > span {
+  display: inline-flex;
+  z-index: 1;
+  width: 29px;
+  height: 29px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 107, 128, 0.38);
+  background: #fff;
+  color: var(--primary);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.home-process-entry__stages small,
+.home-process-entry__stages strong,
+.home-process-entry__stages p {
+  display: block;
+}
+
+.home-process-entry__stages small {
+  color: var(--primary);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.home-process-entry__stages strong {
+  margin-top: 2px;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.home-process-entry__stages p {
+  margin: 2px 0 0;
+  color: #536067;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
 .home-company-spotlight,
 .home-guide-preview {
   max-width: 1120px;
@@ -12088,9 +12233,24 @@ summary:focus-visible {
 
 @media (max-width: 860px) {
   .editorial-heading--split,
-  .home-quest-explainer {
+  .home-quest-explainer,
+  .home-process-entry__panel {
     grid-template-columns: 1fr;
   }
+
+  .home-process-entry__stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .home-process-entry__stages li {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .home-process-entry__stages li::after { display: none; }
 
   .home-guide-preview__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -12161,6 +12321,21 @@ summary:focus-visible {
 
   .home-career-routes__note {
     text-align: left;
+  }
+
+  .home-process-entry__copy { padding: 26px 20px 30px; }
+
+  .home-process-entry__copy > div {
+    display: grid;
+    width: 100%;
+  }
+
+  .home-process-entry__primary { width: 100%; }
+
+  .home-process-entry__stages {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 24px 20px;
   }
 
   .home-company-spotlight > div > a {

@@ -40,7 +40,16 @@ const featuredCompanies = featuredCompanyIds
   .map((id) => companies.find((company) => company.id === id))
   .filter((company) => company !== undefined);
 
-const featuredGuides = beginnerGuides.slice(0, 3);
+const processHubGuide = beginnerGuides.find((guide) => guide.slug === "semiconductor-manufacturing-process");
+
+const processStages = [
+  { number: "01", label: "材料・基板", title: "シリコンウェーハを作る", detail: "単結晶・スライス・鏡面仕上げ" },
+  { number: "02", label: "前工程・素子形成", title: "微細な回路を作る", detail: "成膜・露光・エッチング・注入" },
+  { number: "03", label: "前工程・配線と管理", title: "つないで、測る", detail: "CMP・多層配線・検査計測" },
+  { number: "04", label: "テスト・組立", title: "完成品へ仕上げる", detail: "試験・個片化・接続・封止" },
+] as const;
+
+const featuredGuides = beginnerGuides.filter((guide) => guide.category !== "technology").slice(0, 3);
 
 export default function Home() {
   return (
@@ -106,6 +115,34 @@ export default function Home() {
           <small>完璧な文章ではなく、まず事実を3行で残します。</small>
         </aside>
       </section>
+
+      {processHubGuide ? (
+        <section className="home-section home-simple-section home-process-entry" aria-labelledby="home-process-title">
+          <header className="editorial-heading editorial-heading--split">
+            <div><p className="section-label">Semiconductor process</p><h2 id="home-process-title">半導体は、どうやって作られる？</h2></div>
+            <p>材料から完成品までの流れを知ると、装置・材料・デバイス企業の役割や、プロセス職の仕事がつながって見えてきます。</p>
+          </header>
+          <div className="home-process-entry__panel">
+            <div className="home-process-entry__copy">
+              <span>全15記事・初心者向け図解シリーズ</span>
+              <h3>{processHubGuide.title}</h3>
+              <p>設計、ウェーハ製造、前工程、テスト、組立、最終検査までを一つの流れで整理しました。まず全体像を読み、気になる工程の詳しい仕組みへ進めます。</p>
+              <div>
+                <Link className="home-process-entry__primary" href={`/guides/${processHubGuide.slug}`}>半導体製造工程の全体像を読む <span aria-hidden="true">→</span></Link>
+                <Link className="text-link" href="/guides#process-series-title">15記事を工程順に見る</Link>
+              </div>
+            </div>
+            <ol className="home-process-entry__stages" aria-label="半導体製造工程シリーズの4段階">
+              {processStages.map((stage) => (
+                <li key={stage.number}>
+                  <span>{stage.number}</span>
+                  <div><small>{stage.label}</small><strong>{stage.title}</strong><p>{stage.detail}</p></div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      ) : null}
 
       <section className="home-section home-simple-section research-routes" aria-labelledby="research-title">
         <header className="editorial-heading">
