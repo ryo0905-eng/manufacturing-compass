@@ -95,6 +95,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "surface-cleaning-flow";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "contaminated" | "clean" | "rinse" | "dry";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

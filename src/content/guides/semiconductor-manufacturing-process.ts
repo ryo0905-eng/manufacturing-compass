@@ -339,6 +339,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
           items: [
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "レジスト塗布、露光、現像で加工場所を決める流れを断面図で見る" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "PVD・CVD・ALDが薄膜を作る原理と使い分けを図で見る" },
+            { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "ウェット・ドライ、等方性・異方性、選択比を断面図で見る" },
           ],
         },
       ],
@@ -351,6 +352,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
   relatedGuideSlugs: [
     "photolithography-process",
     "semiconductor-deposition-process",
+    "semiconductor-etching-process",
     "semiconductor-career-start",
     "production-engineering-to-semiconductor-process-engineer",
     "equipment-engineer-route",

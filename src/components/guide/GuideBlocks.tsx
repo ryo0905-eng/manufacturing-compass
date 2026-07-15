@@ -249,6 +249,35 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "surface-cleaning-flow") {
+          return (
+            <figure className="guide-cleaning-flow" key={`surface-cleaning-flow-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.stages.map((stage, stageIndex) => (
+                  <li className={`guide-cleaning-flow__stage guide-cleaning-flow__stage--${stage.kind}`} key={stage.kind}>
+                    <span>{stage.label}</span>
+                    <strong>{stage.title}</strong>
+                    <div className="guide-cleaning-flow__visual" aria-hidden="true">
+                      <i className="guide-cleaning-flow__action" />
+                      <i className="guide-cleaning-flow__particle guide-cleaning-flow__particle--a" />
+                      <i className="guide-cleaning-flow__particle guide-cleaning-flow__particle--b" />
+                      <i className="guide-cleaning-flow__particle guide-cleaning-flow__particle--c" />
+                      <i className="guide-cleaning-flow__residue" />
+                      <i className="guide-cleaning-flow__wafer" />
+                    </div>
+                    <p>{stage.body}</p>
+                    {stageIndex < block.stages.length - 1 ? <i className="guide-cleaning-flow__arrow" aria-hidden="true">→</i> : null}
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }

@@ -300,6 +300,7 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
           items: [
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "成膜がリソグラフィやエッチングとどうつながるか確認する" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "成膜した材料へ加工場所を決める次の工程を断面図で見る" },
+            { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "成膜した層の不要部分を選択して除去する仕組みを見る" },
             { label: "半導体業界地図", href: "/industry-map", description: "デバイス、装置、材料、計測を担う企業の位置を見る" },
             { label: "装置エンジニアへのルート", href: "/guides/equipment-engineer-route", description: "設備経験と半導体製造装置職の接点を整理する" },
           ],
@@ -352,6 +353,7 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-manufacturing-process",
     "photolithography-process",
+    "semiconductor-etching-process",
     "production-engineering-to-semiconductor-process-engineer",
     "equipment-engineer-route",
   ],

@@ -156,6 +156,7 @@ export const photolithographyProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "加工する薄膜をPVD・CVD・ALDで作る流れを図で見る" },
+            { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "レジストの開口を下の薄膜へ転写する流れを断面図で見る" },
           ],
         },
         {
@@ -392,6 +393,7 @@ export const photolithographyProcessGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-manufacturing-process",
     "semiconductor-deposition-process",
+    "semiconductor-etching-process",
     "production-engineering-to-semiconductor-process-engineer",
     "equipment-engineer-route",
     "quality-engineer-route",

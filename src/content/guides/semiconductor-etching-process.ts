@@ -8,7 +8,7 @@ export const semiconductorEtchingProcessGuide: GuideArticle = {
   targetQuery: "半導体 エッチング とは",
   searchIntent:
     "半導体のエッチングが何をする工程か、ウェット・ドライ、等方性・異方性、選択比、プラズマの役割を断面図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

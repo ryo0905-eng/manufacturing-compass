@@ -7219,6 +7219,187 @@ summary:focus-visible {
   line-height: 1.7;
 }
 
+.guide-cleaning-flow {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-cleaning-flow > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-cleaning-flow > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-cleaning-flow > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-cleaning-flow > ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-cleaning-flow__stage {
+  --clean-accent: #7d684a;
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--clean-accent);
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-cleaning-flow__stage--clean { --clean-accent: #397f8d; }
+.guide-cleaning-flow__stage--rinse { --clean-accent: #4e7898; }
+.guide-cleaning-flow__stage--dry { --clean-accent: #708857; }
+
+.guide-cleaning-flow__stage > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--clean-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-cleaning-flow__stage > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.guide-cleaning-flow__visual {
+  position: relative;
+  height: 154px;
+  margin: 14px 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 91, 120, 0.12);
+  background: linear-gradient(#eef6f6, #fff);
+}
+
+.guide-cleaning-flow__wafer {
+  position: absolute;
+  right: 10%;
+  bottom: 24px;
+  left: 10%;
+  height: 24px;
+  border-radius: 50% 50% 5px 5px;
+  background: #b8c7c8;
+  box-shadow: inset 0 5px 0 #dce5e4;
+}
+
+.guide-cleaning-flow__residue {
+  position: absolute;
+  z-index: 2;
+  right: 17%;
+  bottom: 49px;
+  left: 17%;
+  height: 7px;
+  border-radius: 50%;
+  background: #b68159;
+  opacity: 0.78;
+}
+
+.guide-cleaning-flow__particle {
+  position: absolute;
+  z-index: 3;
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #745c45;
+  box-shadow: 0 0 0 3px rgba(116, 92, 69, 0.12);
+}
+
+.guide-cleaning-flow__particle--a { right: 25%; bottom: 55px; }
+.guide-cleaning-flow__particle--b { right: 49%; bottom: 52px; width: 8px; height: 8px; }
+.guide-cleaning-flow__particle--c { left: 24%; bottom: 57px; width: 6px; height: 6px; }
+
+.guide-cleaning-flow__action {
+  position: absolute;
+  z-index: 4;
+  top: 15px;
+  right: 18%;
+  left: 18%;
+  height: 58px;
+}
+
+.guide-cleaning-flow__stage--clean .guide-cleaning-flow__action,
+.guide-cleaning-flow__stage--rinse .guide-cleaning-flow__action {
+  background-image: radial-gradient(ellipse, var(--clean-accent) 0 3px, transparent 3.5px);
+  background-size: 22px 20px;
+  opacity: 0.68;
+}
+
+.guide-cleaning-flow__stage--clean .guide-cleaning-flow__particle--b,
+.guide-cleaning-flow__stage--clean .guide-cleaning-flow__particle--c,
+.guide-cleaning-flow__stage--clean .guide-cleaning-flow__residue,
+.guide-cleaning-flow__stage--rinse .guide-cleaning-flow__particle,
+.guide-cleaning-flow__stage--rinse .guide-cleaning-flow__residue,
+.guide-cleaning-flow__stage--dry .guide-cleaning-flow__particle,
+.guide-cleaning-flow__stage--dry .guide-cleaning-flow__residue {
+  display: none;
+}
+
+.guide-cleaning-flow__stage--clean .guide-cleaning-flow__particle--a {
+  bottom: 78px;
+  opacity: 0.45;
+}
+
+.guide-cleaning-flow__stage--dry .guide-cleaning-flow__action {
+  top: 28px;
+  right: 13%;
+  left: 13%;
+  height: 36px;
+  border-top: 3px solid var(--clean-accent);
+  border-bottom: 3px solid var(--clean-accent);
+  transform: skewX(-28deg);
+  opacity: 0.62;
+}
+
+.guide-cleaning-flow__stage > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-cleaning-flow__arrow {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  right: -17px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--clean-accent);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -7474,9 +7655,12 @@ summary:focus-visible {
   .guide-process-flow__stages > li > i { display: none; }
   .guide-layer-process > ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .guide-deposition-comparison > ol,
-  .guide-etch-comparison > ol { grid-template-columns: 1fr; }
+  .guide-etch-comparison > ol,
+  .guide-cleaning-flow > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
-  .guide-etch-comparison__method > strong { min-height: 0; }
+  .guide-etch-comparison__method > strong,
+  .guide-cleaning-flow__stage > strong { min-height: 0; }
+  .guide-cleaning-flow__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }
