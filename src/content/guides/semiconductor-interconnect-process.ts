@@ -8,7 +8,7 @@ export const semiconductorInterconnectProcessGuide: GuideArticle = {
   targetQuery: "半導体 配線形成 工程",
   searchIntent:
     "半導体チップのトランジスタを金属配線とビアでどう接続するのか、銅ダマシン工程、絶縁膜、バリア、CMP、配線不良を図で理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",

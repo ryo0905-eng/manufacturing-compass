@@ -196,6 +196,17 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "thermal-oxidation-flow";
+      title: string;
+      description: string;
+      stages: Array<{
+        kind: "clean" | "supply" | "diffuse" | "react" | "anneal";
+        label: string;
+        title: string;
+        body: string;
+      }>;
+    }
+  | {
       type: "market-cap-ranking";
       scope: "world" | "japan";
     }

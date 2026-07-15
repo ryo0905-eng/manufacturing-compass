@@ -8767,6 +8767,193 @@ summary:focus-visible {
   font-weight: 900;
 }
 
+.guide-thermal-oxidation {
+  margin: 0;
+  border: 1px solid rgba(119, 82, 58, 0.2);
+  background:
+    linear-gradient(rgba(119, 82, 58, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(119, 82, 58, 0.035) 1px, transparent 1px),
+    #fbfaf8;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-thermal-oxidation > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-thermal-oxidation > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-thermal-oxidation > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-thermal-oxidation > ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-thermal-oxidation__stage {
+  --thermal-accent: #66777c;
+  position: relative;
+  min-width: 0;
+  border-top: 4px solid var(--thermal-accent);
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 28, 0.05);
+}
+
+.guide-thermal-oxidation__stage--supply { --thermal-accent: #4f7e98; }
+.guide-thermal-oxidation__stage--diffuse { --thermal-accent: #6d63a0; }
+.guide-thermal-oxidation__stage--react { --thermal-accent: #b06d3d; }
+.guide-thermal-oxidation__stage--anneal { --thermal-accent: #8d4d48; }
+
+.guide-thermal-oxidation__stage > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--thermal-accent);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-thermal-oxidation__stage > strong {
+  display: block;
+  min-height: 48px;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.guide-thermal-oxidation__visual {
+  position: relative;
+  height: 120px;
+  margin: 14px 0;
+  overflow: hidden;
+  border: 1px solid rgba(119, 82, 58, 0.12);
+  background: linear-gradient(#f3f7f8, #fff);
+}
+
+.guide-thermal-oxidation__visual i {
+  position: absolute;
+  display: block;
+}
+
+.guide-thermal-oxidation__silicon {
+  right: 8%;
+  bottom: 12px;
+  left: 8%;
+  height: 50px;
+  background: linear-gradient(135deg, #8fa3aa, #667b83);
+}
+
+.guide-thermal-oxidation__oxide {
+  z-index: 2;
+  right: 8%;
+  bottom: 62px;
+  left: 8%;
+  height: 8px;
+  background: #c9e4ec;
+}
+
+.guide-thermal-oxidation__interface {
+  z-index: 3;
+  right: 8%;
+  bottom: 60px;
+  left: 8%;
+  height: 3px;
+  background: #d58244;
+}
+
+.guide-thermal-oxidation__ambient {
+  top: 17px;
+  right: 23%;
+  left: 23%;
+  height: 26px;
+  background:
+    radial-gradient(circle at 10% 50%, #4f8cad 0 4px, transparent 5px),
+    radial-gradient(circle at 50% 50%, #4f8cad 0 4px, transparent 5px),
+    radial-gradient(circle at 90% 50%, #4f8cad 0 4px, transparent 5px);
+}
+
+.guide-thermal-oxidation__heat {
+  top: 40px;
+  left: calc(50% - 8px);
+  color: #c46c3b;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.guide-thermal-oxidation__stage--clean .guide-thermal-oxidation__ambient,
+.guide-thermal-oxidation__stage--clean .guide-thermal-oxidation__heat,
+.guide-thermal-oxidation__stage--clean .guide-thermal-oxidation__oxide,
+.guide-thermal-oxidation__stage--clean .guide-thermal-oxidation__interface { display: none; }
+
+.guide-thermal-oxidation__stage--supply .guide-thermal-oxidation__oxide,
+.guide-thermal-oxidation__stage--supply .guide-thermal-oxidation__interface { opacity: .42; }
+
+.guide-thermal-oxidation__stage--diffuse .guide-thermal-oxidation__ambient {
+  top: 35px;
+  right: 34%;
+  left: 34%;
+  height: 40px;
+  background:
+    radial-gradient(circle at 30% 15%, #6d63a0 0 4px, transparent 5px),
+    radial-gradient(circle at 70% 55%, #6d63a0 0 4px, transparent 5px),
+    radial-gradient(circle at 45% 90%, #6d63a0 0 4px, transparent 5px);
+}
+
+.guide-thermal-oxidation__stage--react .guide-thermal-oxidation__oxide,
+.guide-thermal-oxidation__stage--anneal .guide-thermal-oxidation__oxide {
+  bottom: 59px;
+  height: 17px;
+}
+
+.guide-thermal-oxidation__stage--react .guide-thermal-oxidation__interface,
+.guide-thermal-oxidation__stage--anneal .guide-thermal-oxidation__interface { bottom: 57px; }
+
+.guide-thermal-oxidation__stage--anneal .guide-thermal-oxidation__ambient { display: none; }
+
+.guide-thermal-oxidation__stage--anneal .guide-thermal-oxidation__visual {
+  background: radial-gradient(circle at 50% 50%, rgba(207, 102, 53, .2), transparent 58%), #fff;
+}
+
+.guide-thermal-oxidation__stage > p {
+  margin: 0 !important;
+  color: #536067 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-thermal-oxidation__arrow {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  right: -16px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--thermal-accent);
+  font-style: normal;
+  font-weight: 900;
+}
+
 .market-cap-ranking {
   display: grid;
   gap: 14px;
@@ -9031,7 +9218,8 @@ summary:focus-visible {
   .guide-dicing-flow > ol,
   .guide-package-flow > ol,
   .guide-final-test > ol,
-  .guide-interconnect > ol { grid-template-columns: 1fr; }
+  .guide-interconnect > ol,
+  .guide-thermal-oxidation > ol { grid-template-columns: 1fr; }
   .guide-deposition-comparison__method > strong,
   .guide-etch-comparison__method > strong,
   .guide-cleaning-flow__stage > strong,
@@ -9043,7 +9231,8 @@ summary:focus-visible {
   .guide-dicing-flow__stage > strong,
   .guide-package-flow__stage > strong,
   .guide-final-test__stage > strong,
-  .guide-interconnect__stage > strong { min-height: 0; }
+  .guide-interconnect__stage > strong,
+  .guide-thermal-oxidation__stage > strong { min-height: 0; }
   .guide-cleaning-flow__arrow,
   .guide-cmp-flow__arrow,
   .guide-control-loop__stage > i,
@@ -9051,7 +9240,8 @@ summary:focus-visible {
   .guide-dicing-flow__arrow,
   .guide-package-flow__arrow,
   .guide-final-test__arrow,
-  .guide-interconnect__arrow { display: none; }
+  .guide-interconnect__arrow,
+  .guide-thermal-oxidation__arrow { display: none; }
   .market-cap-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .market-cap-meta div { border-bottom: 1px solid var(--line); }
   .market-cap-meta div:nth-child(2n) { border-right: 0; }

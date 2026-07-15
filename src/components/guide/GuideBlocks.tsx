@@ -496,6 +496,34 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "thermal-oxidation-flow") {
+          return (
+            <figure className="guide-thermal-oxidation" key={`thermal-oxidation-flow-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.stages.map((stage, stageIndex) => (
+                  <li className={`guide-thermal-oxidation__stage guide-thermal-oxidation__stage--${stage.kind}`} key={stage.kind}>
+                    <span>{stage.label}</span>
+                    <strong>{stage.title}</strong>
+                    <div className="guide-thermal-oxidation__visual" aria-hidden="true">
+                      <i className="guide-thermal-oxidation__ambient" />
+                      <i className="guide-thermal-oxidation__oxide" />
+                      <i className="guide-thermal-oxidation__interface" />
+                      <i className="guide-thermal-oxidation__silicon" />
+                      <i className="guide-thermal-oxidation__heat">⌁</i>
+                    </div>
+                    <p>{stage.body}</p>
+                    {stageIndex < block.stages.length - 1 ? <i className="guide-thermal-oxidation__arrow" aria-hidden="true">→</i> : null}
+                  </li>
+                ))}
+              </ol>
+            </figure>
+          );
+        }
+
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
         }
