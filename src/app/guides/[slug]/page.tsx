@@ -7,6 +7,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { TodayAction } from "@/components/TodayAction";
 import { GuideBlocks } from "@/components/guide/GuideBlocks";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
+import { semiconductorProcessSeriesSlugs } from "@/data/guide-series";
 import { siteUrl } from "@/lib/format";
 
 type GuidePageProps = {
@@ -62,10 +63,17 @@ export default async function GuidePage({ params }: GuidePageProps) {
     ...(guide.overviewBlocks ?? []),
     ...guide.sections.flatMap((section) => section.blocks ?? []),
   ].flatMap((block) => block.type === "faq" ? block.items : []);
+  const processSeriesIndex = semiconductorProcessSeriesSlugs.findIndex((seriesSlug) => seriesSlug === guide.slug);
+  const previousProcessGuide = processSeriesIndex > 0
+    ? getGuideBySlug(semiconductorProcessSeriesSlugs[processSeriesIndex - 1])
+    : undefined;
+  const nextProcessGuide = processSeriesIndex >= 0 && processSeriesIndex < semiconductorProcessSeriesSlugs.length - 1
+    ? getGuideBySlug(semiconductorProcessSeriesSlugs[processSeriesIndex + 1])
+    : undefined;
 
   return (
     <main className="page guide-page">
-      <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": "Person", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja" }} />
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": "Person", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja", isPartOf: processSeriesIndex >= 0 ? { "@type": "CreativeWorkSeries", name: "半導体製造工程シリーズ", url: `${siteUrl}/guides#process-series-title` } : undefined, position: processSeriesIndex >= 0 ? processSeriesIndex + 1 : undefined }} />
       <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "初心者ガイド", item: `${siteUrl}/guides` }, { "@type": "ListItem", position: 3, name: guide.title, item: `${siteUrl}/guides/${guide.slug}` }] }} />
       {faqItems.length > 0 ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }} /> : null}
       <article className="article-layout">
@@ -128,6 +136,30 @@ export default async function GuidePage({ params }: GuidePageProps) {
               ))}
             </ul>
           </section>
+        ) : null}
+
+        {processSeriesIndex >= 0 ? (
+          <nav className="guide-series-navigation" aria-label="半導体製造工程シリーズの前後の記事">
+            <header>
+              <div><p className="section-label">Semiconductor process series</p><strong>前後の工程を続けて読む</strong></div>
+              <span>{processSeriesIndex + 1} / {semiconductorProcessSeriesSlugs.length}</span>
+            </header>
+            <div className="guide-series-navigation__links">
+              {previousProcessGuide ? (
+                <Link className="guide-series-navigation__link guide-series-navigation__link--previous" href={`/guides/${previousProcessGuide.slug}`}>
+                  <small><span aria-hidden="true">←</span> 前の工程</small>
+                  <strong>{previousProcessGuide.title}</strong>
+                </Link>
+              ) : null}
+              {nextProcessGuide ? (
+                <Link className="guide-series-navigation__link guide-series-navigation__link--next" href={`/guides/${nextProcessGuide.slug}`}>
+                  <small>次の工程 <span aria-hidden="true">→</span></small>
+                  <strong>{nextProcessGuide.title}</strong>
+                </Link>
+              ) : null}
+            </div>
+            <Link className="guide-series-navigation__all" href="/guides#process-series-title">全15記事を工程順に見る <span aria-hidden="true">→</span></Link>
+          </nav>
         ) : null}
 
         {relatedGuides.length > 0 ? (

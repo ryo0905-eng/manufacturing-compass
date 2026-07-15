@@ -9683,6 +9683,7 @@ summary:focus-visible {
 
 .guide-experience-basis,
 .guide-sources,
+.guide-series-navigation,
 .guide-related {
   max-width: 820px;
 }
@@ -9746,6 +9747,109 @@ summary:focus-visible {
 .guide-sources span {
   color: var(--muted);
   font-size: 12px;
+}
+
+.guide-series-navigation {
+  display: grid;
+  gap: 18px;
+  border: 1px solid #cbdde1;
+  border-top: 5px solid var(--primary-dark);
+  background: #f3fafb;
+  padding: 24px;
+}
+
+.guide-series-navigation > header {
+  display: flex;
+  gap: 20px;
+  align-items: end;
+  justify-content: space-between;
+}
+
+.guide-series-navigation > header p {
+  margin: 0 0 5px;
+}
+
+.guide-series-navigation > header strong {
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.guide-series-navigation > header > span {
+  flex: 0 0 auto;
+  color: rgba(0, 107, 128, 0.54);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.guide-series-navigation__links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.guide-series-navigation__link {
+  display: flex;
+  min-width: 0;
+  min-height: 118px;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 17px 18px;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.guide-series-navigation__link:hover {
+  border-color: rgba(0, 107, 128, 0.45);
+  transform: translateY(-1px);
+}
+
+.guide-series-navigation__link--next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.guide-series-navigation__link small {
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.guide-series-navigation__link strong {
+  margin-top: 9px;
+  color: var(--primary-dark);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.guide-series-navigation__all {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #cbdde1;
+  padding-top: 14px;
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+@media (max-width: 600px) {
+  .guide-series-navigation { padding: 20px 16px; }
+
+  .guide-series-navigation > header {
+    align-items: start;
+  }
+
+  .guide-series-navigation > header strong { font-size: 19px; }
+
+  .guide-series-navigation__links {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-series-navigation__link,
+  .guide-series-navigation__link--next {
+    grid-column: auto;
+    min-height: 0;
+  }
 }
 
 .guide-related {
