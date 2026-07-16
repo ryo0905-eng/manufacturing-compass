@@ -22,6 +22,7 @@ import { semiconductorPackagingProcessGuide } from "@/content/guides/semiconduct
 import { semiconductorPackagingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-packaging-equipment-manufacturers";
 import { semiconductorPellicleManufacturersGuide } from "@/content/guides/semiconductor-pellicle-manufacturers";
 import { semiconductorPhotomaskManufacturersGuide } from "@/content/guides/semiconductor-photomask-manufacturers";
+import { semiconductorPhotomaskWriterManufacturersGuide } from "@/content/guides/semiconductor-photomask-writer-manufacturers";
 import { semiconductorProbeCardManufacturersGuide } from "@/content/guides/semiconductor-probe-card-manufacturers";
 import { semiconductorPhotoresistManufacturersGuide } from "@/content/guides/semiconductor-photoresist-manufacturers";
 import { semiconductorWaferTestGuide } from "@/content/guides/semiconductor-wafer-test";
@@ -69,6 +70,7 @@ const guideArticles: GuideArticle[] = [
   photolithographyProcessGuide,
   semiconductorPhotomaskManufacturersGuide,
   semiconductorMaskBlankManufacturersGuide,
+  semiconductorPhotomaskWriterManufacturersGuide,
   semiconductorPellicleManufacturersGuide,
   semiconductorPhotoresistManufacturersGuide,
   semiconductorGasManufacturersGuide,

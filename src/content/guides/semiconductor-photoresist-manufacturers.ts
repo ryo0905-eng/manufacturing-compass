@@ -383,6 +383,7 @@ export const semiconductorPhotoresistManufacturersGuide: GuideArticle = {
           items: [
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "レジストが塗布・露光・現像で変化する仕組みを見る" },
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "露光する回路原版・ブランクス・主要企業を見る" },
+            { label: "フォトマスク描画装置メーカー", href: "/guides/semiconductor-photomask-writer-manufacturers", description: "電子線・レーザーでマスク用レジストへ潜像を描く装置を見る" },
             { label: "マスクブランクスメーカー", href: "/guides/semiconductor-mask-blank-manufacturers", description: "マスク描画用レジストを載せる基板・薄膜材料を見る" },
             { label: "高純度薬液メーカー", href: "/guides/semiconductor-high-purity-chemical-manufacturers", description: "現像・剥離・残渣除去などの液体材料を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "ASML・Nikon・Canonと塗布現像装置を見る" },
@@ -401,6 +402,7 @@ export const semiconductorPhotoresistManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "photolithography-process",
     "semiconductor-photomask-manufacturers",
+    "semiconductor-photomask-writer-manufacturers",
     "semiconductor-mask-blank-manufacturers",
     "semiconductor-high-purity-chemical-manufacturers",
     "semiconductor-lithography-equipment-manufacturers",

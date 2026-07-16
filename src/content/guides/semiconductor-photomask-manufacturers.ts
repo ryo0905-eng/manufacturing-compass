@@ -343,6 +343,7 @@ export const semiconductorPhotomaskManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "マスクブランクスメーカー", href: "/guides/semiconductor-mask-blank-manufacturers", description: "回路を描く前の基板・薄膜材料と主要企業を見る" },
+            { label: "フォトマスク描画装置メーカー", href: "/guides/semiconductor-photomask-writer-manufacturers", description: "設計データをブランクス上のレジストへ描く装置と方式を見る" },
             { label: "ペリクルメーカー", href: "/guides/semiconductor-pellicle-manufacturers", description: "完成マスクを異物から守る薄膜・フレームと主要企業を見る" },
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "マスク像をレジストへ転写する工程の仕組みを見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線装置と主要企業を見る" },
@@ -361,6 +362,7 @@ export const semiconductorPhotomaskManufacturersGuide: GuideArticle = {
   todayQuest: "テクセンドフォトマスク・DNP・Photronicsから1社を選び、公式情報を用途・露光方式・マスク種・製造工程・品質・供給の6項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-mask-blank-manufacturers",
+    "semiconductor-photomask-writer-manufacturers",
     "semiconductor-pellicle-manufacturers",
     "photolithography-process",
     "semiconductor-lithography-equipment-manufacturers",
