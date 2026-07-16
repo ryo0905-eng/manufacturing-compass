@@ -194,6 +194,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
           type: "links",
           items: [
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "レジスト塗布・露光・現像の原理を見る" },
+            { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "設計データを量産用原版へ変える工程と主要企業を見る" },
             { label: "フォトレジストメーカー", href: "/guides/semiconductor-photoresist-manufacturers", description: "露光光で反応する材料と主要企業を見る" },
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "CD・重ね合わせ・欠陥を工程へ返す流れを見る" },
           ],
@@ -382,6 +383,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
   todayQuest: "ASML・Nikon・Canonから1社を選び、公式製品をEUV・ArF・KrF・i線・ナノインプリントのどこへ置けるか確認する",
   relatedGuideSlugs: [
     "photolithography-process",
+    "semiconductor-photomask-manufacturers",
     "semiconductor-photoresist-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",

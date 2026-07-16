@@ -163,6 +163,7 @@ export const semiconductorInspectionEquipmentManufacturersGuide: GuideArticle = 
           type: "links",
           items: [
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "欠陥・CD・膜厚・重ね合わせの原理を見る" },
+            { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "検査対象となる完成マスク・ブランクスと主要企業を見る" },
             { label: "ウェーハテスト", href: "/guides/semiconductor-wafer-test", description: "物理検査と電気試験の違いを見る" },
           ],
         },
@@ -358,6 +359,7 @@ export const semiconductorInspectionEquipmentManufacturersGuide: GuideArticle = 
   todayQuest: "KLA、日立ハイテク、Lasertec、Applied Materialsから1社選び、対象物・測定目的・測定原理・工程位置を4項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-inspection-metrology",
+    "semiconductor-photomask-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-wafer-test",
