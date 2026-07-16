@@ -402,6 +402,7 @@ export const semiconductorOverlayMetrologyManufacturersGuide: GuideArticle = {
     "KLA・ASML・Onto Innovation・Applied Materialsから1社を選び、公式製品を工程時点・測定方式・マーク／製品内・出力マップ・補正先の5項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-inspection-metrology",
+    "semiconductor-wafer-geometry-metrology-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
     "semiconductor-thin-film-optical-metrology-manufacturers",
     "semiconductor-cd-sem-manufacturers",

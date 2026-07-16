@@ -413,6 +413,7 @@ export const semiconductorCleaningEquipmentManufacturersGuide: GuideArticle = {
   todayQuest: "SCREEN・東京エレクトロン・Lam Researchから1社を選び、公式製品を枚葉式・バッチ式・スクラバーのどこへ置けるか確認する",
   relatedGuideSlugs: [
     "semiconductor-cleaning-process",
+    "semiconductor-wafer-handling-efem-manufacturers",
     "semiconductor-cmp-equipment-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-etching-equipment-manufacturers",

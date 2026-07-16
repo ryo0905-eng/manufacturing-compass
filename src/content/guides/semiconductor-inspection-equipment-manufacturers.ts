@@ -371,6 +371,8 @@ export const semiconductorInspectionEquipmentManufacturersGuide: GuideArticle = 
     "semiconductor-cd-sem-manufacturers",
     "semiconductor-thin-film-optical-metrology-manufacturers",
     "semiconductor-overlay-metrology-manufacturers",
+    "semiconductor-wafer-geometry-metrology-manufacturers",
+    "semiconductor-wafer-handling-efem-manufacturers",
     "semiconductor-wafer-defect-inspection-manufacturers",
     "semiconductor-defect-review-sem-manufacturers",
     "semiconductor-photomask-inspection-equipment-manufacturers",

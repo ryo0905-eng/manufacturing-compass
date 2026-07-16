@@ -409,6 +409,7 @@ export const semiconductorSiliconWaferManufacturingGuide: GuideArticle = {
   todayQuest: "身近な鏡や精密な板を例に、『材料内部の品質』『厚さ・平坦度』『表面粗さ』『清浄度』を別々に説明する",
   relatedGuideSlugs: [
     "semiconductor-silicon-wafer-manufacturers",
+    "semiconductor-wafer-geometry-metrology-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-cleaning-process",
     "semiconductor-cmp-process",

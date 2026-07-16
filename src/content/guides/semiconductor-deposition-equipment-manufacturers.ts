@@ -366,6 +366,10 @@ export const semiconductorDepositionEquipmentManufacturersGuide: GuideArticle = 
   relatedGuideSlugs: [
     "applied-materials-semiconductor-equipment",
     "semiconductor-deposition-process",
+    "semiconductor-mass-flow-controller-manufacturers",
+    "semiconductor-vacuum-pump-manufacturers",
+    "semiconductor-exhaust-gas-abatement-manufacturers",
+    "semiconductor-wafer-handling-efem-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-oxidation-thermal-process",

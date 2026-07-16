@@ -36,6 +36,7 @@ import { semiconductorDicingEquipmentManufacturersGuide } from "@/content/guides
 import { semiconductorDefectReviewSemManufacturersGuide } from "@/content/guides/semiconductor-defect-review-sem-manufacturers";
 import { semiconductorDepositionEquipmentManufacturersGuide } from "@/content/guides/semiconductor-deposition-equipment-manufacturers";
 import { semiconductorEquipmentManufacturersGuide } from "@/content/guides/semiconductor-equipment-manufacturers";
+import { semiconductorExhaustGasAbatementManufacturersGuide } from "@/content/guides/semiconductor-exhaust-gas-abatement-manufacturers";
 import { semiconductorEtchingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-etching-equipment-manufacturers";
 import { semiconductorEtchingProcessGuide } from "@/content/guides/semiconductor-etching-process";
 import { semiconductorFinalTestGuide } from "@/content/guides/semiconductor-final-test";
@@ -46,6 +47,7 @@ import { semiconductorInterconnectProcessGuide } from "@/content/guides/semicond
 import { semiconductorIonImplantationEquipmentManufacturersGuide } from "@/content/guides/semiconductor-ion-implantation-equipment-manufacturers";
 import { semiconductorIonImplantationProcessGuide } from "@/content/guides/semiconductor-ion-implantation-process";
 import { semiconductorLithographyEquipmentManufacturersGuide } from "@/content/guides/semiconductor-lithography-equipment-manufacturers";
+import { semiconductorMassFlowControllerManufacturersGuide } from "@/content/guides/semiconductor-mass-flow-controller-manufacturers";
 import { semiconductorMaskBlankManufacturersGuide } from "@/content/guides/semiconductor-mask-blank-manufacturers";
 import { semiconductorOxidationThermalProcessGuide } from "@/content/guides/semiconductor-oxidation-thermal-process";
 import { semiconductorOverlayMetrologyManufacturersGuide } from "@/content/guides/semiconductor-overlay-metrology-manufacturers";
@@ -59,6 +61,9 @@ import { semiconductorTestSocketManufacturersGuide } from "@/content/guides/semi
 import { semiconductorThermalProcessingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-thermal-processing-equipment-manufacturers";
 import { semiconductorThinFilmOpticalMetrologyManufacturersGuide } from "@/content/guides/semiconductor-thin-film-optical-metrology-manufacturers";
 import { semiconductorWaferDefectInspectionManufacturersGuide } from "@/content/guides/semiconductor-wafer-defect-inspection-manufacturers";
+import { semiconductorWaferGeometryMetrologyManufacturersGuide } from "@/content/guides/semiconductor-wafer-geometry-metrology-manufacturers";
+import { semiconductorWaferHandlingEfemManufacturersGuide } from "@/content/guides/semiconductor-wafer-handling-efem-manufacturers";
+import { semiconductorVacuumPumpManufacturersGuide } from "@/content/guides/semiconductor-vacuum-pump-manufacturers";
 import type { GuideArticle } from "@/content/guides/types";
 
 export type { GuideArticle } from "@/content/guides/types";
@@ -83,6 +88,10 @@ const guideArticles: GuideArticle[] = [
   semiconductorPhotoresistManufacturersGuide,
   semiconductorCoaterDeveloperManufacturersGuide,
   semiconductorGasManufacturersGuide,
+  semiconductorMassFlowControllerManufacturersGuide,
+  semiconductorVacuumPumpManufacturersGuide,
+  semiconductorExhaustGasAbatementManufacturersGuide,
+  semiconductorWaferHandlingEfemManufacturersGuide,
   semiconductorHighPurityChemicalManufacturersGuide,
   semiconductorLithographyEquipmentManufacturersGuide,
   semiconductorDepositionEquipmentManufacturersGuide,
@@ -100,6 +109,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCdSemManufacturersGuide,
   semiconductorThinFilmOpticalMetrologyManufacturersGuide,
   semiconductorOverlayMetrologyManufacturersGuide,
+  semiconductorWaferGeometryMetrologyManufacturersGuide,
   semiconductorWaferDefectInspectionManufacturersGuide,
   semiconductorDefectReviewSemManufacturersGuide,
   semiconductorInspectionEquipmentManufacturersGuide,
