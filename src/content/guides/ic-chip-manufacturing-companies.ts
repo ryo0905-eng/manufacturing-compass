@@ -326,6 +326,7 @@ export const icChipManufacturingCompaniesGuide: GuideArticle = {
           items: [
             { label: "半導体企業一覧", href: "/companies", description: "事業モデル、製品、拠点、職種から企業を探す" },
             { label: "半導体業界地図", href: "/industry-map", description: "設計、製造、メモリ、装置のつながりを見る" },
+            { label: "シリコンウェーハメーカー", href: "/guides/semiconductor-silicon-wafer-manufacturers", description: "IC製造前の基板材料と主要企業を見る" },
             { label: "ファウンドリとは", href: "/guides/semiconductor-foundry", description: "設計データから受託製造へつなぐ仕組みを見る" },
             { label: "アナログ半導体企業", href: "/guides/analog-semiconductor-companies", description: "アナログICの製品・用途と代表企業を見る" },
             { label: "半導体製造装置メーカー", href: "/guides/semiconductor-equipment-manufacturers", description: "工程別の装置と主要企業を見る" },
@@ -342,6 +343,7 @@ export const icChipManufacturingCompaniesGuide: GuideArticle = {
   ],
   todayQuest: "気になるICチップ企業を1社選び、ファブレス・ファウンドリ・IDM・メモリ・OSATのどれに近いか確認する",
   relatedGuideSlugs: [
+    "semiconductor-silicon-wafer-manufacturers",
     "semiconductor-foundry",
     "analog-semiconductor-companies",
     "semiconductor-equipment-manufacturers",

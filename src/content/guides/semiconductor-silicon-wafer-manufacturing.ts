@@ -351,6 +351,7 @@ export const semiconductorSiliconWaferManufacturingGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "シリコンウェーハメーカー", href: "/guides/semiconductor-silicon-wafer-manufacturers", description: "ウェーハの製品種類・用途・主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "ウェーハ製造が回路形成より前に入る位置を見る" },
             { label: "洗浄の仕組み", href: "/guides/semiconductor-cleaning-process", description: "粒子・金属・有機物を除去し、乾燥する基本を見る" },
             { label: "CMP・平坦化の仕組み", href: "/guides/semiconductor-cmp-process", description: "化学作用と機械作用を使う平坦化の考え方を比較する" },
@@ -407,6 +408,7 @@ export const semiconductorSiliconWaferManufacturingGuide: GuideArticle = {
   ],
   todayQuest: "身近な鏡や精密な板を例に、『材料内部の品質』『厚さ・平坦度』『表面粗さ』『清浄度』を別々に説明する",
   relatedGuideSlugs: [
+    "semiconductor-silicon-wafer-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-cleaning-process",
     "semiconductor-cmp-process",

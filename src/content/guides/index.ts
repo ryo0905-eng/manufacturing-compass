@@ -39,6 +39,7 @@ import { semiconductorOxidationThermalProcessGuide } from "@/content/guides/semi
 import { semiconductorRecruitmentAgentReviewGuide } from "@/content/guides/semiconductor-recruitment-agent-review";
 import { semiconductorSalaryRankingGuide } from "@/content/guides/semiconductor-salary-ranking";
 import { semiconductorSiliconWaferManufacturingGuide } from "@/content/guides/semiconductor-silicon-wafer-manufacturing";
+import { semiconductorSiliconWaferManufacturersGuide } from "@/content/guides/semiconductor-silicon-wafer-manufacturers";
 import { semiconductorTesterAteGuide } from "@/content/guides/semiconductor-tester-ate";
 import { semiconductorTestHandlerManufacturersGuide } from "@/content/guides/semiconductor-test-handler-manufacturers";
 import { semiconductorTestSocketManufacturersGuide } from "@/content/guides/semiconductor-test-socket-manufacturers";
@@ -83,6 +84,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorFinalTestGuide,
   semiconductorInterconnectProcessGuide,
   semiconductorOxidationThermalProcessGuide,
+  semiconductorSiliconWaferManufacturersGuide,
   semiconductorSiliconWaferManufacturingGuide,
   electronicsToSemiconductorProcessEngineerGuide,
   productionEngineeringToSemiconductorProcessEngineerGuide,

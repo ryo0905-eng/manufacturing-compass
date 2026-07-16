@@ -339,6 +339,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           items: [
             { label: "半導体企業一覧", href: "/companies", description: "事業領域、日本拠点、代表的な職種から企業を調べる" },
             { label: "半導体業界地図", href: "/industry-map", description: "設計、製造、装置などバリューチェーンの位置を確認する" },
+            { label: "シリコンウェーハメーカー", href: "/guides/semiconductor-silicon-wafer-manufacturers", description: "材料企業SUMCOと国内外の主要ウェーハ企業を見る" },
             { label: "生産技術からプロセス職へ", href: "/guides/production-engineering-to-semiconductor-process-engineer", description: "製造現場の経験と半導体プロセス職の接点を整理する" },
             { label: "半導体転職と英語力", href: "/guides/semiconductor-career-english-level", description: "外資系企業を含め、職種ごとの英語使用場面を確認する" },
             { label: "ChatGPTを使った半導体転職", href: "/guides/semiconductor-career-chatgpt", description: "求人票と職務経歴書を照合した実体験を読む" },
@@ -406,6 +407,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   ],
   todayQuest: "ランキングから3社を選び、各社を「設計・製造・装置・後工程・材料」のどこに位置づけるか確認する",
   relatedGuideSlugs: [
+    "semiconductor-silicon-wafer-manufacturers",
     "ic-chip-manufacturing-companies",
     "semiconductor-equipment-manufacturers",
     "analog-semiconductor-companies",

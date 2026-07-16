@@ -338,6 +338,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "シリコンウェーハ製造の仕組み", href: "/guides/semiconductor-silicon-wafer-manufacturing", description: "高純度原料から単結晶を育て、鏡面基板へ仕上げる流れを見る" },
+            { label: "シリコンウェーハメーカー", href: "/guides/semiconductor-silicon-wafer-manufacturers", description: "基板の種類・用途と信越化学・SUMCOなどを見る" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "レジスト塗布、露光、現像で加工場所を決める流れを断面図で見る" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "PVD・CVD・ALDが薄膜を作る原理と使い分けを図で見る" },
             { label: "酸化・熱処理の仕組み", href: "/guides/semiconductor-oxidation-thermal-process", description: "熱酸化の膜内拡散・界面反応と、目的別アニールの違いを見る" },
@@ -362,6 +363,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
   todayQuest: "身近な半導体製品を一つ選び、設計・ウェーハ加工・組立のどこで価値が作られているか考える",
   relatedGuideSlugs: [
     "semiconductor-equipment-manufacturers",
+    "semiconductor-silicon-wafer-manufacturers",
     "semiconductor-silicon-wafer-manufacturing",
     "photolithography-process",
     "semiconductor-deposition-process",
