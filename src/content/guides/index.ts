@@ -33,6 +33,7 @@ import { semiconductorWaferProberManufacturersGuide } from "@/content/guides/sem
 import { semiconductorDepositionProcessGuide } from "@/content/guides/semiconductor-deposition-process";
 import { semiconductorDicingProcessGuide } from "@/content/guides/semiconductor-dicing-process";
 import { semiconductorDicingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-dicing-equipment-manufacturers";
+import { semiconductorDefectReviewSemManufacturersGuide } from "@/content/guides/semiconductor-defect-review-sem-manufacturers";
 import { semiconductorDepositionEquipmentManufacturersGuide } from "@/content/guides/semiconductor-deposition-equipment-manufacturers";
 import { semiconductorEquipmentManufacturersGuide } from "@/content/guides/semiconductor-equipment-manufacturers";
 import { semiconductorEtchingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-etching-equipment-manufacturers";
@@ -100,6 +101,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorThinFilmOpticalMetrologyManufacturersGuide,
   semiconductorOverlayMetrologyManufacturersGuide,
   semiconductorWaferDefectInspectionManufacturersGuide,
+  semiconductorDefectReviewSemManufacturersGuide,
   semiconductorInspectionEquipmentManufacturersGuide,
   semiconductorInspectionMetrologyGuide,
   semiconductorProbeCardManufacturersGuide,
