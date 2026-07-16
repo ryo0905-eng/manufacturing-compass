@@ -19,6 +19,7 @@ import { semiconductorMarketCapRankingGuide } from "@/content/guides/semiconduct
 import { semiconductorManufacturingProcessGuide } from "@/content/guides/semiconductor-manufacturing-process";
 import { semiconductorPackagingProcessGuide } from "@/content/guides/semiconductor-packaging-process";
 import { semiconductorPackagingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-packaging-equipment-manufacturers";
+import { semiconductorProbeCardManufacturersGuide } from "@/content/guides/semiconductor-probe-card-manufacturers";
 import { semiconductorWaferTestGuide } from "@/content/guides/semiconductor-wafer-test";
 import { semiconductorWaferProberManufacturersGuide } from "@/content/guides/semiconductor-wafer-prober-manufacturers";
 import { semiconductorDepositionProcessGuide } from "@/content/guides/semiconductor-deposition-process";
@@ -70,6 +71,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCmpProcessGuide,
   semiconductorInspectionEquipmentManufacturersGuide,
   semiconductorInspectionMetrologyGuide,
+  semiconductorProbeCardManufacturersGuide,
   semiconductorWaferProberManufacturersGuide,
   semiconductorWaferTestGuide,
   semiconductorDicingEquipmentManufacturersGuide,

@@ -365,6 +365,7 @@ export const semiconductorWaferTestGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "ウェーハプローバメーカー", href: "/guides/semiconductor-wafer-prober-manufacturers", description: "位置合わせ・接触・温度を担う装置と主要企業を見る" },
+            { label: "プローブカードメーカー", href: "/guides/semiconductor-probe-card-manufacturers", description: "テスタとダイをつなぐ接触技術・主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "ウェーハテストが回路形成と組立の間に入る位置を見る" },
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "物理欠陥・寸法と電気的不良を結び付ける前工程を見る" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "ウェーハマップの異常につながるパターン形成工程を見る" },
@@ -424,6 +425,7 @@ export const semiconductorWaferTestGuide: GuideArticle = {
   ],
   todayQuest: "身近な電子製品を例に、『何を入力し、何を測り、どの結果で分類し、次工程へ何を渡すか』を説明する",
   relatedGuideSlugs: [
+    "semiconductor-probe-card-manufacturers",
     "semiconductor-wafer-prober-manufacturers",
     "semiconductor-dicing-equipment-manufacturers",
     "semiconductor-tester-ate",

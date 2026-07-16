@@ -161,6 +161,7 @@ export const semiconductorWaferProberManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "ウェーハテストの仕組み", href: "/guides/semiconductor-wafer-test", description: "接触から測定・ビニング・ウェーハマップまでを見る" },
+            { label: "プローブカードメーカー", href: "/guides/semiconductor-probe-card-manufacturers", description: "テスタの信号をダイ電極へ届ける接触技術を見る" },
             { label: "半導体テスタ", href: "/guides/semiconductor-tester-ate", description: "信号を生成・測定するATE本体と主要企業を見る" },
             { label: "テストハンドラメーカー", href: "/guides/semiconductor-test-handler-manufacturers", description: "パッケージ後の製品をソケットへ運ぶ装置との違いを見る" },
           ],
@@ -408,6 +409,7 @@ export const semiconductorWaferProberManufacturersGuide: GuideArticle = {
   ],
   todayQuest: "東京精密・東京エレクトロン・FormFactor・MPIから1社を選び、公式製品を用途・対象物・温度・接触・自動化の5項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-probe-card-manufacturers",
     "semiconductor-wafer-test",
     "semiconductor-tester-ate",
     "semiconductor-test-handler-manufacturers",
