@@ -382,6 +382,7 @@ export const semiconductorPhotoresistManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "レジストが塗布・露光・現像で変化する仕組みを見る" },
+            { label: "高純度薬液メーカー", href: "/guides/semiconductor-high-purity-chemical-manufacturers", description: "現像・剥離・残渣除去などの液体材料を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "ASML・Nikon・Canonと塗布現像装置を見る" },
             { label: "エッチング装置メーカー", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "レジスト像を下地へ転写する装置と主要企業を見る" },
             { label: "半導体製造工程", href: "/guides/semiconductor-manufacturing-process", description: "材料が前工程のどこで使われるかを見る" },
@@ -397,6 +398,7 @@ export const semiconductorPhotoresistManufacturersGuide: GuideArticle = {
   todayQuest: "JSR・東京応化工業・信越化学工業・富士フイルムから1社を選び、公式製品を光源・トーン・材料系・周辺材料・性能・供給の6項目で整理する",
   relatedGuideSlugs: [
     "photolithography-process",
+    "semiconductor-high-purity-chemical-manufacturers",
     "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-etching-process",
     "semiconductor-etching-equipment-manufacturers",

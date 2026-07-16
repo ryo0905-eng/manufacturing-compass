@@ -346,6 +346,7 @@ export const semiconductorEtchingProcessGuide: GuideArticle = {
           items: [
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "エッチングが前工程の反復のどこに入るか確認する" },
             { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "反応性ガス、供給設備、排気・除害と主要企業を見る" },
+            { label: "高純度薬液メーカー", href: "/guides/semiconductor-high-purity-chemical-manufacturers", description: "ウェット加工・残渣除去用薬液と主要企業を見る" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "エッチング前に加工場所を決める工程を断面図で見る" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "加工対象となる薄膜をPVD・CVD・ALDで作る原理を見る" },
             { label: "洗浄の仕組み", href: "/guides/semiconductor-cleaning-process", description: "エッチング後の残留物を除去し、表面を整える工程を見る" },
@@ -403,6 +404,7 @@ export const semiconductorEtchingProcessGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-etching-equipment-manufacturers",
     "semiconductor-gas-manufacturers",
+    "semiconductor-high-purity-chemical-manufacturers",
     "semiconductor-manufacturing-process",
     "photolithography-process",
     "semiconductor-deposition-process",

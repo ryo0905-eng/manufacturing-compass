@@ -33,6 +33,7 @@ import { semiconductorEtchingProcessGuide } from "@/content/guides/semiconductor
 import { semiconductorFinalTestGuide } from "@/content/guides/semiconductor-final-test";
 import { semiconductorFoundryGuide } from "@/content/guides/semiconductor-foundry";
 import { semiconductorGasManufacturersGuide } from "@/content/guides/semiconductor-gas-manufacturers";
+import { semiconductorHighPurityChemicalManufacturersGuide } from "@/content/guides/semiconductor-high-purity-chemical-manufacturers";
 import { semiconductorInterconnectProcessGuide } from "@/content/guides/semiconductor-interconnect-process";
 import { semiconductorIonImplantationEquipmentManufacturersGuide } from "@/content/guides/semiconductor-ion-implantation-equipment-manufacturers";
 import { semiconductorIonImplantationProcessGuide } from "@/content/guides/semiconductor-ion-implantation-process";
@@ -64,6 +65,7 @@ const guideArticles: GuideArticle[] = [
   photolithographyProcessGuide,
   semiconductorPhotoresistManufacturersGuide,
   semiconductorGasManufacturersGuide,
+  semiconductorHighPurityChemicalManufacturersGuide,
   semiconductorLithographyEquipmentManufacturersGuide,
   semiconductorDepositionEquipmentManufacturersGuide,
   semiconductorDepositionProcessGuide,
