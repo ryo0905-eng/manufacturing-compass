@@ -20,6 +20,7 @@ import { semiconductorMarketCapRankingGuide } from "@/content/guides/semiconduct
 import { semiconductorManufacturingProcessGuide } from "@/content/guides/semiconductor-manufacturing-process";
 import { semiconductorPackagingProcessGuide } from "@/content/guides/semiconductor-packaging-process";
 import { semiconductorPackagingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-packaging-equipment-manufacturers";
+import { semiconductorPellicleManufacturersGuide } from "@/content/guides/semiconductor-pellicle-manufacturers";
 import { semiconductorPhotomaskManufacturersGuide } from "@/content/guides/semiconductor-photomask-manufacturers";
 import { semiconductorProbeCardManufacturersGuide } from "@/content/guides/semiconductor-probe-card-manufacturers";
 import { semiconductorPhotoresistManufacturersGuide } from "@/content/guides/semiconductor-photoresist-manufacturers";
@@ -68,6 +69,7 @@ const guideArticles: GuideArticle[] = [
   photolithographyProcessGuide,
   semiconductorPhotomaskManufacturersGuide,
   semiconductorMaskBlankManufacturersGuide,
+  semiconductorPellicleManufacturersGuide,
   semiconductorPhotoresistManufacturersGuide,
   semiconductorGasManufacturersGuide,
   semiconductorHighPurityChemicalManufacturersGuide,
