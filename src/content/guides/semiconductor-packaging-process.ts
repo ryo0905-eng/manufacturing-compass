@@ -399,6 +399,7 @@ export const semiconductorPackagingProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "パッケージング装置メーカー", href: "/guides/semiconductor-packaging-equipment-manufacturers", description: "ボンダ・封止・先端接合装置と主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "パッケージングが前工程・ウェーハテスト・最終検査とどうつながるか見る" },
             { label: "ダイシングの仕組み", href: "/guides/semiconductor-dicing-process", description: "良品ダイを個片化し、ピックアップする直前工程を見る" },
             { label: "ダイシング装置メーカー", href: "/guides/semiconductor-dicing-equipment-manufacturers", description: "ダイを個片化して組立へ渡す装置と主要企業を見る" },
@@ -456,6 +457,7 @@ export const semiconductorPackagingProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な電子部品を例に、『保護』『電気接続』『放熱』『機械支持』をパッケージのどの部分が担うか考える",
   relatedGuideSlugs: [
+    "semiconductor-packaging-equipment-manufacturers",
     "semiconductor-dicing-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-dicing-process",
