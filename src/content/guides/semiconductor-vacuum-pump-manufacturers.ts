@@ -305,6 +305,7 @@ export const semiconductorVacuumPumpManufacturersGuide: GuideArticle = {
     "荏原・Edwards・ULVAC・樫山工業から1社を選び、公式製品を対象工程・ポンプ機構・ガス負荷・副生成物対策・パージ・除害連携の6項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-equipment-components-subfab",
+    "semiconductor-vacuum-gauge-pressure-control-valve-manufacturers",
     "semiconductor-exhaust-gas-abatement-manufacturers",
     "semiconductor-deposition-equipment-manufacturers",
     "semiconductor-deposition-process",

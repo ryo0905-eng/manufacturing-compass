@@ -386,6 +386,10 @@ export const semiconductorEtchingEquipmentManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-equipment-components-subfab",
     "semiconductor-rf-power-matching-manufacturers",
+    "semiconductor-vacuum-gauge-pressure-control-valve-manufacturers",
+    "semiconductor-high-purity-valve-gas-supply-manufacturers",
+    "semiconductor-chiller-temperature-control-manufacturers",
+    "semiconductor-electrostatic-chuck-ceramic-heater-manufacturers",
     "semiconductor-etching-process",
     "semiconductor-mass-flow-controller-manufacturers",
     "semiconductor-vacuum-pump-manufacturers",

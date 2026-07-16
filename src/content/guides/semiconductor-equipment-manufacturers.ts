@@ -382,6 +382,10 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-equipment-components-subfab",
     "semiconductor-rf-power-matching-manufacturers",
+    "semiconductor-vacuum-gauge-pressure-control-valve-manufacturers",
+    "semiconductor-high-purity-valve-gas-supply-manufacturers",
+    "semiconductor-chiller-temperature-control-manufacturers",
+    "semiconductor-electrostatic-chuck-ceramic-heater-manufacturers",
     "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-coater-developer-manufacturers",
     "semiconductor-photoresist-manufacturers",

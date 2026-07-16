@@ -384,6 +384,7 @@ export const semiconductorGasManufacturersGuide: GuideArticle = {
   todayQuest: "日本酸素・Air Liquide・Linde・岩谷産業から1社を選び、公式情報を工程・ガス群・純度・供給方式・安全設備・供給拠点の6項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-equipment-components-subfab",
+    "semiconductor-high-purity-valve-gas-supply-manufacturers",
     "semiconductor-mass-flow-controller-manufacturers",
     "semiconductor-vacuum-pump-manufacturers",
     "semiconductor-exhaust-gas-abatement-manufacturers",

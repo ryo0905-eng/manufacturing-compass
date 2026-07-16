@@ -366,6 +366,10 @@ export const semiconductorDepositionEquipmentManufacturersGuide: GuideArticle = 
   relatedGuideSlugs: [
     "semiconductor-equipment-components-subfab",
     "semiconductor-rf-power-matching-manufacturers",
+    "semiconductor-vacuum-gauge-pressure-control-valve-manufacturers",
+    "semiconductor-high-purity-valve-gas-supply-manufacturers",
+    "semiconductor-chiller-temperature-control-manufacturers",
+    "semiconductor-electrostatic-chuck-ceramic-heater-manufacturers",
     "applied-materials-semiconductor-equipment",
     "semiconductor-deposition-process",
     "semiconductor-mass-flow-controller-manufacturers",

@@ -418,6 +418,8 @@ export const semiconductorThermalProcessingEquipmentManufacturersGuide: GuideArt
   ],
   todayQuest: "KOKUSAI ELECTRIC・東京エレクトロン・Applied Materials・SCREENから1社を選び、公式製品をバッチ炉・RTP・フラッシュ・レーザーのどこへ置けるか確認する",
   relatedGuideSlugs: [
+    "semiconductor-chiller-temperature-control-manufacturers",
+    "semiconductor-electrostatic-chuck-ceramic-heater-manufacturers",
     "semiconductor-oxidation-thermal-process",
     "semiconductor-equipment-manufacturers",
     "semiconductor-ion-implantation-equipment-manufacturers",

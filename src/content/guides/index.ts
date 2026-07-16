@@ -10,6 +10,7 @@ import { semiconductorCareerEnglishLevelGuide } from "@/content/guides/semicondu
 import { semiconductorCareerChatgptGuide } from "@/content/guides/semiconductor-career-chatgpt";
 import { semiconductorCareerStartGuide } from "@/content/guides/semiconductor-career-start";
 import { semiconductorCdSemManufacturersGuide } from "@/content/guides/semiconductor-cd-sem-manufacturers";
+import { semiconductorChillerTemperatureControlManufacturersGuide } from "@/content/guides/semiconductor-chiller-temperature-control-manufacturers";
 import { semiconductorCleaningEquipmentManufacturersGuide } from "@/content/guides/semiconductor-cleaning-equipment-manufacturers";
 import { semiconductorCleaningProcessGuide } from "@/content/guides/semiconductor-cleaning-process";
 import { semiconductorCoaterDeveloperManufacturersGuide } from "@/content/guides/semiconductor-coater-developer-manufacturers";
@@ -38,12 +39,14 @@ import { semiconductorDefectReviewSemManufacturersGuide } from "@/content/guides
 import { semiconductorDepositionEquipmentManufacturersGuide } from "@/content/guides/semiconductor-deposition-equipment-manufacturers";
 import { semiconductorEquipmentComponentsSubfabGuide } from "@/content/guides/semiconductor-equipment-components-subfab";
 import { semiconductorEquipmentManufacturersGuide } from "@/content/guides/semiconductor-equipment-manufacturers";
+import { semiconductorElectrostaticChuckCeramicHeaterManufacturersGuide } from "@/content/guides/semiconductor-electrostatic-chuck-ceramic-heater-manufacturers";
 import { semiconductorExhaustGasAbatementManufacturersGuide } from "@/content/guides/semiconductor-exhaust-gas-abatement-manufacturers";
 import { semiconductorEtchingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-etching-equipment-manufacturers";
 import { semiconductorEtchingProcessGuide } from "@/content/guides/semiconductor-etching-process";
 import { semiconductorFinalTestGuide } from "@/content/guides/semiconductor-final-test";
 import { semiconductorFoundryGuide } from "@/content/guides/semiconductor-foundry";
 import { semiconductorGasManufacturersGuide } from "@/content/guides/semiconductor-gas-manufacturers";
+import { semiconductorHighPurityValveGasSupplyManufacturersGuide } from "@/content/guides/semiconductor-high-purity-valve-gas-supply-manufacturers";
 import { semiconductorHighPurityChemicalManufacturersGuide } from "@/content/guides/semiconductor-high-purity-chemical-manufacturers";
 import { semiconductorInterconnectProcessGuide } from "@/content/guides/semiconductor-interconnect-process";
 import { semiconductorIonImplantationEquipmentManufacturersGuide } from "@/content/guides/semiconductor-ion-implantation-equipment-manufacturers";
@@ -66,6 +69,7 @@ import { semiconductorWaferDefectInspectionManufacturersGuide } from "@/content/
 import { semiconductorWaferGeometryMetrologyManufacturersGuide } from "@/content/guides/semiconductor-wafer-geometry-metrology-manufacturers";
 import { semiconductorWaferHandlingEfemManufacturersGuide } from "@/content/guides/semiconductor-wafer-handling-efem-manufacturers";
 import { semiconductorVacuumPumpManufacturersGuide } from "@/content/guides/semiconductor-vacuum-pump-manufacturers";
+import { semiconductorVacuumGaugePressureControlValveManufacturersGuide } from "@/content/guides/semiconductor-vacuum-gauge-pressure-control-valve-manufacturers";
 import type { GuideArticle } from "@/content/guides/types";
 
 export type { GuideArticle } from "@/content/guides/types";
@@ -78,6 +82,10 @@ const guideArticles: GuideArticle[] = [
   semiconductorEquipmentManufacturersGuide,
   semiconductorEquipmentComponentsSubfabGuide,
   semiconductorRfPowerMatchingManufacturersGuide,
+  semiconductorVacuumGaugePressureControlValveManufacturersGuide,
+  semiconductorHighPurityValveGasSupplyManufacturersGuide,
+  semiconductorChillerTemperatureControlManufacturersGuide,
+  semiconductorElectrostaticChuckCeramicHeaterManufacturersGuide,
   appliedMaterialsSemiconductorEquipmentGuide,
   semiconductorTesterAteGuide,
   semiconductorTestHandlerManufacturersGuide,

@@ -402,6 +402,9 @@ export const semiconductorRfPowerMatchingManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-equipment-components-subfab",
     "semiconductor-equipment-manufacturers",
+    "semiconductor-vacuum-gauge-pressure-control-valve-manufacturers",
+    "semiconductor-chiller-temperature-control-manufacturers",
+    "semiconductor-electrostatic-chuck-ceramic-heater-manufacturers",
     "semiconductor-deposition-equipment-manufacturers",
     "semiconductor-deposition-process",
     "semiconductor-etching-equipment-manufacturers",

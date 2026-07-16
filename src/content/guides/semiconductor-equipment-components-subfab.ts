@@ -213,7 +213,7 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
     {
       id: "next-components",
       heading: "次に押さえたい装置構成部品は、RF・圧力・バルブ・温調・ウェーハ保持",
-      lead: "RF電源から個別記事を追加し、残るカテゴリーも順次接続します。",
+      lead: "主要5カテゴリーの個別記事を、同じ装置断面へ接続します。",
       blocks: [
         {
           type: "mapping",
@@ -231,6 +231,10 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "RF電源・マッチングユニットメーカー", href: "/guides/semiconductor-rf-power-matching-manufacturers", description: "発振、インピーダンス整合、進行波・反射波、パルス、多周波と主要企業を見る" },
+            { label: "真空計・圧力制御バルブメーカー", href: "/guides/semiconductor-vacuum-gauge-pressure-control-valve-manufacturers", description: "圧力測定、排気コンダクタンス、閉ループ制御と主要企業を見る" },
+            { label: "高純度バルブ・ガス供給機器メーカー", href: "/guides/semiconductor-high-purity-valve-gas-supply-manufacturers", description: "遮断・切替・パージ・接続・集積化ガスシステムを見る" },
+            { label: "チラー・温度調節装置メーカー", href: "/guides/semiconductor-chiller-temperature-control-manufacturers", description: "循環流体、熱交換、冷凍・加熱、結露・水質を見る" },
+            { label: "静電チャック・セラミックヒーターメーカー", href: "/guides/semiconductor-electrostatic-chuck-ceramic-heater-manufacturers", description: "ウェーハ吸着、裏面ガス、加熱・冷却、RFと主要企業を見る" },
           ],
         },
         {
@@ -241,7 +245,7 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
       ],
       paragraphs: [
         "MKSは公式製品群で流量、圧力・真空、バルブ、RF・マイクロ波、ガス・蒸気供給を展開しています。部品カテゴリーが装置内で連携する代表例です。",
-        "今後の記事では、各カテゴリーの原理、装置内の位置、メーカー領域、比較条件を同じ型で整理します。",
+        "各個別記事では、原理、装置内の位置、メーカー領域、比較条件を同じ型で整理しています。",
       ],
     },
     {
@@ -357,7 +361,7 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
             { question: "部品メーカーと装置メーカーの違いは？", answer: "部品メーカーは流量、真空、電力、搬送など特定機能を装置へ供給します。装置メーカーは複数部品とプロセス技術を統合し、成膜・エッチングなどの工程装置として提供します。" },
             { question: "代表的な部品・サブファブメーカーは？", answer: "領域により異なります。MFCではHORIBA STECなど、真空では荏原・Edwardsなど、搬送ではローツェ・平田機工などが公式に半導体向け製品を展開しています。" },
             { question: "部品単体の性能が高ければ装置性能も高くなりますか？", answer: "必ずしもそうではありません。配管、チャンバー、制御周期、温度、電源、ソフトなど接続条件との整合が必要です。単品評価と装置システム評価を分けます。" },
-            { question: "今後どの部品記事を追加しますか？", answer: "RF電源・マッチング、真空計・圧力制御バルブ、高純度バルブ・継手、チラー、静電チャック・セラミックヒーターを候補にしています。" },
+            { question: "このハブから読める部品記事は？", answer: "MFC、真空ポンプ、除害、EFEM、ウェーハ形状計測に加え、RF電源、真空計・圧力制御バルブ、高純度ガス供給、チラー、静電チャックの記事へ進めます。" },
           ],
         },
       ],
@@ -402,6 +406,10 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
     "semiconductor-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-rf-power-matching-manufacturers",
+    "semiconductor-vacuum-gauge-pressure-control-valve-manufacturers",
+    "semiconductor-high-purity-valve-gas-supply-manufacturers",
+    "semiconductor-chiller-temperature-control-manufacturers",
+    "semiconductor-electrostatic-chuck-ceramic-heater-manufacturers",
     "semiconductor-gas-manufacturers",
     "semiconductor-mass-flow-controller-manufacturers",
     "semiconductor-vacuum-pump-manufacturers",
