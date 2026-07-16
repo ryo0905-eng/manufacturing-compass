@@ -401,6 +401,7 @@ export const semiconductorPackagingProcessGuide: GuideArticle = {
           items: [
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "パッケージングが前工程・ウェーハテスト・最終検査とどうつながるか見る" },
             { label: "ダイシングの仕組み", href: "/guides/semiconductor-dicing-process", description: "良品ダイを個片化し、ピックアップする直前工程を見る" },
+            { label: "ダイシング装置メーカー", href: "/guides/semiconductor-dicing-equipment-manufacturers", description: "ダイを個片化して組立へ渡す装置と主要企業を見る" },
             { label: "ウェーハテストの仕組み", href: "/guides/semiconductor-wafer-test", description: "組立前に良品ダイと性能ビンを決める工程を見る" },
             { label: "最終検査の仕組み", href: "/guides/semiconductor-final-test", description: "完成パッケージを搬送・温度調整し、電気試験・分類する後続工程を見る" },
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "画像・寸法・欠陥データを工程へ戻す基本を見る" },
@@ -455,6 +456,7 @@ export const semiconductorPackagingProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な電子部品を例に、『保護』『電気接続』『放熱』『機械支持』をパッケージのどの部分が担うか考える",
   relatedGuideSlugs: [
+    "semiconductor-dicing-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-dicing-process",
     "semiconductor-wafer-test",

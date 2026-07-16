@@ -347,6 +347,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "ダイシング装置メーカー", href: "/guides/semiconductor-dicing-equipment-manufacturers", description: "ブレード・レーザー・プラズマ装置と主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "ダイシングがウェーハテストと組立の間に入る位置を見る" },
             { label: "ウェーハテストの仕組み", href: "/guides/semiconductor-wafer-test", description: "個片化前に良品ダイと座標を決める工程を見る" },
             { label: "パッケージングの仕組み", href: "/guides/semiconductor-packaging-process", description: "取り出した良品ダイを基材へ接合し、接続・封止する後続工程を見る" },
@@ -403,6 +404,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な板状材料を小片へ分ける例で、『固定』『切断方法』『切断面』『くず除去』『取出し』を説明する",
   relatedGuideSlugs: [
+    "semiconductor-dicing-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-wafer-test",
     "semiconductor-packaging-process",

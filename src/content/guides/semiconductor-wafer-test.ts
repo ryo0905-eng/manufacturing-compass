@@ -370,6 +370,7 @@ export const semiconductorWaferTestGuide: GuideArticle = {
             { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "配線の断線・短絡などに関係する加工工程を見る" },
             { label: "CMPの仕組み", href: "/guides/semiconductor-cmp-process", description: "平坦度・残膜・傷を管理する工程を見る" },
             { label: "ダイシングの仕組み", href: "/guides/semiconductor-dicing-process", description: "ウェーハマップに基づいて良品ダイを個片化・取出しする後続工程を見る" },
+            { label: "ダイシング装置メーカー", href: "/guides/semiconductor-dicing-equipment-manufacturers", description: "良品ダイを個片化する量産装置と主要企業を見る" },
             { label: "パッケージングの仕組み", href: "/guides/semiconductor-packaging-process", description: "個片化した良品ダイを接合・接続・封止して製品へ組み立てる流れを見る" },
             { label: "最終検査の仕組み", href: "/guides/semiconductor-final-test", description: "パッケージ後にソケット接触し、製品状態で電気試験する工程を見る" },
             { label: "半導体業界地図", href: "/industry-map", description: "デバイス、テスタ、プローバ、検査装置企業の位置を見る" },
@@ -422,6 +423,7 @@ export const semiconductorWaferTestGuide: GuideArticle = {
   ],
   todayQuest: "身近な電子製品を例に、『何を入力し、何を測り、どの結果で分類し、次工程へ何を渡すか』を説明する",
   relatedGuideSlugs: [
+    "semiconductor-dicing-equipment-manufacturers",
     "semiconductor-tester-ate",
     "semiconductor-manufacturing-process",
     "semiconductor-inspection-metrology",
