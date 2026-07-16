@@ -164,6 +164,7 @@ export const semiconductorInspectionEquipmentManufacturersGuide: GuideArticle = 
           items: [
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "欠陥・CD・膜厚・重ね合わせの原理を見る" },
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "検査対象となる完成マスク・ブランクスと主要企業を見る" },
+            { label: "マスクブランクスメーカー", href: "/guides/semiconductor-mask-blank-manufacturers", description: "基板・多層膜・表面欠陥を管理する材料企業を見る" },
             { label: "ウェーハテスト", href: "/guides/semiconductor-wafer-test", description: "物理検査と電気試験の違いを見る" },
           ],
         },
@@ -360,6 +361,7 @@ export const semiconductorInspectionEquipmentManufacturersGuide: GuideArticle = 
   relatedGuideSlugs: [
     "semiconductor-inspection-metrology",
     "semiconductor-photomask-manufacturers",
+    "semiconductor-mask-blank-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-wafer-test",

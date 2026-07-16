@@ -40,6 +40,7 @@ import { semiconductorInterconnectProcessGuide } from "@/content/guides/semicond
 import { semiconductorIonImplantationEquipmentManufacturersGuide } from "@/content/guides/semiconductor-ion-implantation-equipment-manufacturers";
 import { semiconductorIonImplantationProcessGuide } from "@/content/guides/semiconductor-ion-implantation-process";
 import { semiconductorLithographyEquipmentManufacturersGuide } from "@/content/guides/semiconductor-lithography-equipment-manufacturers";
+import { semiconductorMaskBlankManufacturersGuide } from "@/content/guides/semiconductor-mask-blank-manufacturers";
 import { semiconductorOxidationThermalProcessGuide } from "@/content/guides/semiconductor-oxidation-thermal-process";
 import { semiconductorRecruitmentAgentReviewGuide } from "@/content/guides/semiconductor-recruitment-agent-review";
 import { semiconductorSalaryRankingGuide } from "@/content/guides/semiconductor-salary-ranking";
@@ -66,6 +67,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorManufacturingProcessGuide,
   photolithographyProcessGuide,
   semiconductorPhotomaskManufacturersGuide,
+  semiconductorMaskBlankManufacturersGuide,
   semiconductorPhotoresistManufacturersGuide,
   semiconductorGasManufacturersGuide,
   semiconductorHighPurityChemicalManufacturersGuide,

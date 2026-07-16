@@ -195,6 +195,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
           items: [
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "レジスト塗布・露光・現像の原理を見る" },
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "設計データを量産用原版へ変える工程と主要企業を見る" },
+            { label: "マスクブランクスメーカー", href: "/guides/semiconductor-mask-blank-manufacturers", description: "DUV・EUV原版の基板・薄膜材料と主要企業を見る" },
             { label: "フォトレジストメーカー", href: "/guides/semiconductor-photoresist-manufacturers", description: "露光光で反応する材料と主要企業を見る" },
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "CD・重ね合わせ・欠陥を工程へ返す流れを見る" },
           ],
@@ -384,6 +385,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
   relatedGuideSlugs: [
     "photolithography-process",
     "semiconductor-photomask-manufacturers",
+    "semiconductor-mask-blank-manufacturers",
     "semiconductor-photoresist-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
