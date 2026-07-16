@@ -208,6 +208,7 @@ export const semiconductorCmpEquipmentManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "CMPの仕組み", href: "/guides/semiconductor-cmp-process", description: "終点、平坦化、不良のメカニズムを見る" },
+            { label: "CMPスラリーメーカー", href: "/guides/semiconductor-cmp-slurry-manufacturers", description: "対象膜・砥粒・選択性と主要企業を見る" },
             { label: "洗浄装置メーカー", href: "/guides/semiconductor-cleaning-equipment-manufacturers", description: "CMP後洗浄を含む洗浄装置の方式を見る" },
           ],
         },
@@ -398,6 +399,7 @@ export const semiconductorCmpEquipmentManufacturersGuide: GuideArticle = {
   todayQuest: "Applied Materials・荏原製作所から1社を選び、公式製品の研磨・終点・洗浄・乾燥機能を確認する",
   relatedGuideSlugs: [
     "semiconductor-cmp-process",
+    "semiconductor-cmp-slurry-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-cleaning-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
