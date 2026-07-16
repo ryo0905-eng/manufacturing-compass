@@ -345,6 +345,7 @@ export const semiconductorPellicleManufacturersGuide: GuideArticle = {
           items: [
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "ペリクルで保護する完成原版と主要企業を見る" },
             { label: "マスクブランクスメーカー", href: "/guides/semiconductor-mask-blank-manufacturers", description: "完成マスクの母材となる基板・薄膜材料を見る" },
+            { label: "フォトマスク検査装置メーカー", href: "/guides/semiconductor-photomask-inspection-equipment-manufacturers", description: "装着前後・使用中のマスク、裏面・エッジを検査する装置を見る" },
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "マスク像をウェーハへ転写する工程を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "KrF・ArF・EUV装置と主要企業を見る" },
             { label: "検査・計測装置メーカー", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "マスク・膜・粒子を検査する装置企業を見る" },
@@ -361,6 +362,7 @@ export const semiconductorPellicleManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-photomask-manufacturers",
     "semiconductor-mask-blank-manufacturers",
+    "semiconductor-photomask-inspection-equipment-manufacturers",
     "photolithography-process",
     "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",

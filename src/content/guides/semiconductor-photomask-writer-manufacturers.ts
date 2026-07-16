@@ -338,6 +338,7 @@ export const semiconductorPhotomaskWriterManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "描画後の加工・洗浄・検査を含む完成原版と企業を見る" },
+            { label: "フォトマスク検査装置メーカー", href: "/guides/semiconductor-photomask-inspection-equipment-manufacturers", description: "描画・加工結果の欠陥、CD、位置、転写影響を確認する装置を見る" },
             { label: "マスクブランクスメーカー", href: "/guides/semiconductor-mask-blank-manufacturers", description: "描画前の基板・薄膜・レジスト母材と企業を見る" },
             { label: "ペリクルメーカー", href: "/guides/semiconductor-pellicle-manufacturers", description: "完成マスクの回路面を露光中の異物から守る部材を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "完成マスク像をウェーハへ転写するEUV・DUV・i線装置を見る" },
@@ -357,6 +358,7 @@ export const semiconductorPhotomaskWriterManufacturersGuide: GuideArticle = {
     "IMS Nanofabrication・ニューフレアテクノロジー・日本電子・Heidelberg Instrumentsから1社を選び、公式製品を対象マスク・描画方式・データ処理・精度・描画時間・量産支援の6項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-photomask-manufacturers",
+    "semiconductor-photomask-inspection-equipment-manufacturers",
     "semiconductor-mask-blank-manufacturers",
     "semiconductor-pellicle-manufacturers",
     "semiconductor-lithography-equipment-manufacturers",

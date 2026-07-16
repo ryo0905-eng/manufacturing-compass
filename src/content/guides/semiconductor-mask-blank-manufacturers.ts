@@ -332,6 +332,7 @@ export const semiconductorMaskBlankManufacturersGuide: GuideArticle = {
           items: [
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "ブランクスへ回路を描き、完成原版へ仕上げる企業を見る" },
             { label: "フォトマスク描画装置メーカー", href: "/guides/semiconductor-photomask-writer-manufacturers", description: "ブランクス上のレジストへ回路データを描く装置と方式を見る" },
+            { label: "フォトマスク検査装置メーカー", href: "/guides/semiconductor-photomask-inspection-equipment-manufacturers", description: "基板・膜欠陥と描画後パターンを検査する装置を見る" },
             { label: "ペリクルメーカー", href: "/guides/semiconductor-pellicle-manufacturers", description: "完成マスクの回路面を露光中の異物から守る部材を見る" },
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "完成マスクの像をウェーハへ転写する工程を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線装置と主要企業を見る" },
@@ -350,6 +351,7 @@ export const semiconductorMaskBlankManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-photomask-manufacturers",
     "semiconductor-photomask-writer-manufacturers",
+    "semiconductor-photomask-inspection-equipment-manufacturers",
     "semiconductor-pellicle-manufacturers",
     "photolithography-process",
     "semiconductor-lithography-equipment-manufacturers",
