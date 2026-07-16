@@ -164,6 +164,7 @@ export const semiconductorTesterAteGuide: GuideArticle = {
             { label: "ウェーハテストの仕組み", href: "/guides/semiconductor-wafer-test", description: "プローバ・プローブカード・ウェーハマップを詳しく見る" },
             { label: "ウェーハプローバメーカー", href: "/guides/semiconductor-wafer-prober-manufacturers", description: "ウェーハの搬送・位置合わせ・接触を担う装置企業を見る" },
             { label: "プローブカードメーカー", href: "/guides/semiconductor-probe-card-manufacturers", description: "テスタとダイを接続するカード技術・主要企業を見る" },
+            { label: "テストソケットメーカー", href: "/guides/semiconductor-test-socket-manufacturers", description: "パッケージ端子とテスタを接続する部品企業を見る" },
             { label: "最終検査の仕組み", href: "/guides/semiconductor-final-test", description: "ハンドラ・ソケット・温度試験を詳しく見る" },
           ],
         },
@@ -325,6 +326,7 @@ export const semiconductorTesterAteGuide: GuideArticle = {
   ],
   todayQuest: "アドバンテストまたはTeradyneの製品ページを一つ選び、対象デバイス・試験段階・周辺装置・ソフトウェアを4項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-test-socket-manufacturers",
     "semiconductor-probe-card-manufacturers",
     "semiconductor-wafer-prober-manufacturers",
     "semiconductor-test-handler-manufacturers",

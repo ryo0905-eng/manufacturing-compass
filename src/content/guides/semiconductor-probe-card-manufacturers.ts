@@ -337,6 +337,7 @@ export const semiconductorProbeCardManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "半導体製造装置メーカー", href: "/guides/semiconductor-equipment-manufacturers", description: "テスト装置と前後工程企業を工程地図で見る" },
+            { label: "テストソケットメーカー", href: "/guides/semiconductor-test-socket-manufacturers", description: "パッケージ後の製品端子へ接触する部品企業を見る" },
             { label: "検査・計測装置メーカー", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "物理検査・寸法計測との違いを見る" },
             { label: "装置エンジニアへの転職", href: "/guides/equipment-engineer-route", description: "装置保全・立ち上げ経験のつなぎ方を見る" },
           ],
@@ -401,6 +402,7 @@ export const semiconductorProbeCardManufacturersGuide: GuideArticle = {
   ],
   todayQuest: "FormFactor・Technoprobe・日本マイクロニクス・日本電子材料から1社を選び、公式製品を対象デバイス・接触構造・並列・電気性能・保守の5項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-test-socket-manufacturers",
     "semiconductor-wafer-test",
     "semiconductor-wafer-prober-manufacturers",
     "semiconductor-tester-ate",

@@ -374,6 +374,7 @@ export const semiconductorFinalTestGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "テストソケットメーカー", href: "/guides/semiconductor-test-socket-manufacturers", description: "パッケージ端子とATEをつなぐ接触部品・主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "最終検査がウェーハ加工・組立・出荷のどこに入るか見る" },
             { label: "パッケージングの仕組み", href: "/guides/semiconductor-packaging-process", description: "最終検査で確認する接続・封止・外部端子を作る前工程を見る" },
             { label: "パッケージング装置メーカー", href: "/guides/semiconductor-packaging-equipment-manufacturers", description: "最終検査前の接合・封止を量産する装置企業を見る" },
@@ -431,6 +432,7 @@ export const semiconductorFinalTestGuide: GuideArticle = {
   ],
   todayQuest: "身近な電子製品を例に、『搬送』『温度』『接触』『測定』『分類』を最終検査のどの装置が担うか説明する",
   relatedGuideSlugs: [
+    "semiconductor-test-socket-manufacturers",
     "semiconductor-test-handler-manufacturers",
     "semiconductor-packaging-equipment-manufacturers",
     "semiconductor-tester-ate",

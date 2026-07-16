@@ -361,6 +361,7 @@ export const semiconductorTestHandlerManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "半導体テスタ", href: "/guides/semiconductor-tester-ate", description: "電気信号を生成・測定するATE本体と主要企業を見る" },
+            { label: "テストソケットメーカー", href: "/guides/semiconductor-test-socket-manufacturers", description: "製品端子とロードボードをつなぐ接触部品を見る" },
             { label: "ウェーハプローバメーカー", href: "/guides/semiconductor-wafer-prober-manufacturers", description: "個片化前のウェーハをプローブカードへ接触させる装置を見る" },
             { label: "最終検査の仕組み", href: "/guides/semiconductor-final-test", description: "搬送・温度・接触・試験・ビニングの工程を見る" },
             { label: "パッケージング装置メーカー", href: "/guides/semiconductor-packaging-equipment-manufacturers", description: "最終検査前の接合・封止装置を見る" },
@@ -452,6 +453,7 @@ export const semiconductorTestHandlerManufacturersGuide: GuideArticle = {
   ],
   todayQuest: "Cohu・アドバンテスト・Chroma・Techwingから1社を選び、公式製品を搬送方式・対象デバイス・温度・並列・FT／SLTの5項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-test-socket-manufacturers",
     "semiconductor-wafer-prober-manufacturers",
     "semiconductor-tester-ate",
     "semiconductor-final-test",

@@ -41,6 +41,7 @@ import { semiconductorSalaryRankingGuide } from "@/content/guides/semiconductor-
 import { semiconductorSiliconWaferManufacturingGuide } from "@/content/guides/semiconductor-silicon-wafer-manufacturing";
 import { semiconductorTesterAteGuide } from "@/content/guides/semiconductor-tester-ate";
 import { semiconductorTestHandlerManufacturersGuide } from "@/content/guides/semiconductor-test-handler-manufacturers";
+import { semiconductorTestSocketManufacturersGuide } from "@/content/guides/semiconductor-test-socket-manufacturers";
 import { semiconductorThermalProcessingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-thermal-processing-equipment-manufacturers";
 import type { GuideArticle } from "@/content/guides/types";
 
@@ -55,6 +56,7 @@ const guideArticles: GuideArticle[] = [
   appliedMaterialsSemiconductorEquipmentGuide,
   semiconductorTesterAteGuide,
   semiconductorTestHandlerManufacturersGuide,
+  semiconductorTestSocketManufacturersGuide,
   semiconductorManufacturingProcessGuide,
   photolithographyProcessGuide,
   semiconductorLithographyEquipmentManufacturersGuide,
