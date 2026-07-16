@@ -347,6 +347,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
             { label: "成膜装置メーカー", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "CVD・ALD・PVD装置と主要企業を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線・ナノインプリントと主要企業を見る" },
             { label: "フォトレジストメーカー", href: "/guides/semiconductor-photoresist-manufacturers", description: "露光材料・周辺薬液と主要企業を見る" },
+            { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "工程ガス、供給設備、排気・除害と主要企業を見る" },
             { label: "エッチング装置メーカー", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "プラズマ装置・対象材料・主要企業を見る" },
             { label: "洗浄装置メーカー", href: "/guides/semiconductor-cleaning-equipment-manufacturers", description: "枚葉式・バッチ式・スクラバーと主要企業を見る" },
             { label: "CMP装置メーカー", href: "/guides/semiconductor-cmp-equipment-manufacturers", description: "研磨・終点・洗浄を統合する装置と主要企業を見る" },
@@ -378,6 +379,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-photoresist-manufacturers",
+    "semiconductor-gas-manufacturers",
     "semiconductor-etching-equipment-manufacturers",
     "semiconductor-cleaning-equipment-manufacturers",
     "semiconductor-cmp-equipment-manufacturers",

@@ -300,6 +300,7 @@ export const semiconductorCleaningProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "洗浄装置メーカー", href: "/guides/semiconductor-cleaning-equipment-manufacturers", description: "枚葉式・バッチ式・スクラバーと主要企業を見る" },
+            { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "チャンバ洗浄・パージ用ガスと供給・除害を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "洗浄が前工程の反復のどこに入るか確認する" },
             { label: "シリコンウェーハ製造の仕組み", href: "/guides/semiconductor-silicon-wafer-manufacturing", description: "鏡面研磨後の洗浄・検査で清浄な基板を作る前段階を見る" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "洗浄後の表面へPVD・CVD・ALDで膜を作る原理を見る" },
@@ -357,6 +358,7 @@ export const semiconductorCleaningProcessGuide: GuideArticle = {
   todayQuest: "身近な洗浄を例に、『除去対象』『守る材料』『すすぎと乾燥』の三つを分けて説明する",
   relatedGuideSlugs: [
     "semiconductor-cleaning-equipment-manufacturers",
+    "semiconductor-gas-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-silicon-wafer-manufacturing",
     "semiconductor-deposition-process",

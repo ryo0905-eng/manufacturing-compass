@@ -299,6 +299,7 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "成膜がリソグラフィやエッチングとどうつながるか確認する" },
+            { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "CVD・ALD原料、キャリアガス、供給設備と主要企業を見る" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "成膜した材料へ加工場所を決める次の工程を断面図で見る" },
             { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "成膜した層の不要部分を選択して除去する仕組みを見る" },
             { label: "洗浄の仕組み", href: "/guides/semiconductor-cleaning-process", description: "成膜前後の粒子・有機物・金属汚染と表面準備を見る" },
@@ -357,6 +358,7 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
   todayQuest: "PVD・CVD・ALDを『材料の供給源』『反応の進み方』『複雑形状の被覆』の3軸で説明する",
   relatedGuideSlugs: [
     "semiconductor-deposition-equipment-manufacturers",
+    "semiconductor-gas-manufacturers",
     "semiconductor-manufacturing-process",
     "photolithography-process",
     "semiconductor-etching-process",
