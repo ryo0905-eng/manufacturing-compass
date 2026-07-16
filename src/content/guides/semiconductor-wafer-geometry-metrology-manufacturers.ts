@@ -299,6 +299,7 @@ export const semiconductorWaferGeometryMetrologyManufacturersGuide: GuideArticle
   todayQuest:
     "KLAまたはCorning Tropelの公式製品を一つ選び、対象ウェーハ・測定量・基準面・保持方法・測定原理・出力マップの6項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-equipment-components-subfab",
     "semiconductor-silicon-wafer-manufacturing",
     "semiconductor-silicon-wafer-manufacturers",
     "semiconductor-cmp-process",

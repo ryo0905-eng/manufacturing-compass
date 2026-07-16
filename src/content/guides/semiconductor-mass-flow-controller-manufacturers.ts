@@ -329,6 +329,7 @@ export const semiconductorMassFlowControllerManufacturersGuide: GuideArticle = {
   todayQuest:
     "HORIBA STEC・フジキン・Brooks・MKSから1社を選び、公式製品をセンサ方式・流量範囲・制御弁・応答・接ガス部・診断通信の6項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-equipment-components-subfab",
     "semiconductor-gas-manufacturers",
     "semiconductor-deposition-equipment-manufacturers",
     "semiconductor-deposition-process",

@@ -328,6 +328,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
   todayQuest:
     "ローツェ・平田機工・Brooks・川崎重工から1社を選び、公式製品をロードポート・ロボット・ハンド・アライナ・清浄化・装置通信の6項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-equipment-components-subfab",
     "semiconductor-equipment-manufacturers",
     "semiconductor-deposition-equipment-manufacturers",
     "semiconductor-etching-equipment-manufacturers",

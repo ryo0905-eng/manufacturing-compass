@@ -302,6 +302,7 @@ export const semiconductorExhaustGasAbatementManufacturersGuide: GuideArticle = 
   todayQuest:
     "Edwards・荏原・カンケンテクノ・日本酸素から1社を選び、公式製品を対象ガス・処理方式・副生成物・真空ポンプ連携・ユーティリティ・保守の6項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-equipment-components-subfab",
     "semiconductor-vacuum-pump-manufacturers",
     "semiconductor-gas-manufacturers",
     "semiconductor-mass-flow-controller-manufacturers",

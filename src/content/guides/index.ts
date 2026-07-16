@@ -35,6 +35,7 @@ import { semiconductorDicingProcessGuide } from "@/content/guides/semiconductor-
 import { semiconductorDicingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-dicing-equipment-manufacturers";
 import { semiconductorDefectReviewSemManufacturersGuide } from "@/content/guides/semiconductor-defect-review-sem-manufacturers";
 import { semiconductorDepositionEquipmentManufacturersGuide } from "@/content/guides/semiconductor-deposition-equipment-manufacturers";
+import { semiconductorEquipmentComponentsSubfabGuide } from "@/content/guides/semiconductor-equipment-components-subfab";
 import { semiconductorEquipmentManufacturersGuide } from "@/content/guides/semiconductor-equipment-manufacturers";
 import { semiconductorExhaustGasAbatementManufacturersGuide } from "@/content/guides/semiconductor-exhaust-gas-abatement-manufacturers";
 import { semiconductorEtchingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-etching-equipment-manufacturers";
@@ -74,6 +75,7 @@ const guideArticles: GuideArticle[] = [
   analogSemiconductorCompaniesGuide,
   semiconductorFoundryGuide,
   semiconductorEquipmentManufacturersGuide,
+  semiconductorEquipmentComponentsSubfabGuide,
   appliedMaterialsSemiconductorEquipmentGuide,
   semiconductorTesterAteGuide,
   semiconductorTestHandlerManufacturersGuide,
