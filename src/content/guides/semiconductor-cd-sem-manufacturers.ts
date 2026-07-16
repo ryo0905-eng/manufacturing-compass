@@ -343,6 +343,7 @@ export const semiconductorCdSemManufacturersGuide: GuideArticle = {
           items: [
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "CD、膜厚、重ね合わせ、欠陥を工程へ返す全体像を見る" },
             { label: "検査・計測装置メーカー", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "光学・電子線・X線などの装置企業を工程別に見る" },
+            { label: "膜厚・光学計測装置メーカー", href: "/guides/semiconductor-thin-film-optical-metrology-manufacturers", description: "光学OCD・膜厚計測とCD-SEMの役割差を見る" },
             { label: "塗布現像装置メーカー", href: "/guides/semiconductor-coater-developer-manufacturers", description: "現像後CDを作るレジスト塗布・ベーク・現像装置を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "マスク像をレジストへ転写し、CD・EPEの起点を作る装置を見る" },
             { label: "フォトレジストメーカー", href: "/guides/semiconductor-photoresist-manufacturers", description: "電子線で測るレジストパターンと材料特性を見る" },
@@ -362,6 +363,7 @@ export const semiconductorCdSemManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-inspection-metrology",
     "semiconductor-inspection-equipment-manufacturers",
+    "semiconductor-thin-film-optical-metrology-manufacturers",
     "semiconductor-coater-developer-manufacturers",
     "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-photoresist-manufacturers",

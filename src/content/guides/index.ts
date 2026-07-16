@@ -55,6 +55,7 @@ import { semiconductorTesterAteGuide } from "@/content/guides/semiconductor-test
 import { semiconductorTestHandlerManufacturersGuide } from "@/content/guides/semiconductor-test-handler-manufacturers";
 import { semiconductorTestSocketManufacturersGuide } from "@/content/guides/semiconductor-test-socket-manufacturers";
 import { semiconductorThermalProcessingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-thermal-processing-equipment-manufacturers";
+import { semiconductorThinFilmOpticalMetrologyManufacturersGuide } from "@/content/guides/semiconductor-thin-film-optical-metrology-manufacturers";
 import type { GuideArticle } from "@/content/guides/types";
 
 export type { GuideArticle } from "@/content/guides/types";
@@ -94,6 +95,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCmpSlurryManufacturersGuide,
   semiconductorCmpProcessGuide,
   semiconductorCdSemManufacturersGuide,
+  semiconductorThinFilmOpticalMetrologyManufacturersGuide,
   semiconductorInspectionEquipmentManufacturersGuide,
   semiconductorInspectionMetrologyGuide,
   semiconductorProbeCardManufacturersGuide,

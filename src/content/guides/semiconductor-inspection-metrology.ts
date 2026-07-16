@@ -325,6 +325,7 @@ export const semiconductorInspectionMetrologyGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "CD-SEM・電子線計測装置メーカー", href: "/guides/semiconductor-cd-sem-manufacturers", description: "電子線画像からCD・CDU・EPE・形状を測る装置と企業を見る" },
+            { label: "膜厚・光学計測装置メーカー", href: "/guides/semiconductor-thin-film-optical-metrology-manufacturers", description: "反射・偏光・干渉から膜厚・光学定数・OCDを測る装置と企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "検査・計測が前工程の反復と後工程へどう入るか確認する" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "CDと重ね合わせを作り込む露光・現像工程を見る" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "膜厚・均一性・欠陥を管理する対象工程を見る" },
@@ -397,6 +398,7 @@ export const semiconductorInspectionMetrologyGuide: GuideArticle = {
   todayQuest: "身近な製造品を例に、『寸法を測る』『異常を探す』『原因を詳しく見る』『工程へ返す』を分けて説明する",
   relatedGuideSlugs: [
     "semiconductor-cd-sem-manufacturers",
+    "semiconductor-thin-film-optical-metrology-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "photolithography-process",

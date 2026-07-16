@@ -346,6 +346,7 @@ export const semiconductorInspectionEquipmentManufacturersGuide: GuideArticle = 
           items: [
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "欠陥・CD・膜厚・重ね合わせを詳しく見る" },
             { label: "CD-SEM・電子線計測装置メーカー", href: "/guides/semiconductor-cd-sem-manufacturers", description: "測長SEM、電子線欠陥検査、レビュー装置の違いを見る" },
+            { label: "膜厚・光学計測装置メーカー", href: "/guides/semiconductor-thin-film-optical-metrology-manufacturers", description: "分光反射・エリプソメトリ・OCDと主要企業を見る" },
             { label: "フォトマスク検査装置メーカー", href: "/guides/semiconductor-photomask-inspection-equipment-manufacturers", description: "ブランクス・パターン・EUVマスク検査を詳しく見る" },
             { label: "フォトマスク描画装置メーカー", href: "/guides/semiconductor-photomask-writer-manufacturers", description: "検査結果を寸法・位置・描画条件へ返す対象装置を見る" },
             { label: "半導体製造装置メーカー", href: "/guides/semiconductor-equipment-manufacturers", description: "検査以外の装置企業を工程別に見る" },
@@ -365,6 +366,7 @@ export const semiconductorInspectionEquipmentManufacturersGuide: GuideArticle = 
   relatedGuideSlugs: [
     "semiconductor-inspection-metrology",
     "semiconductor-cd-sem-manufacturers",
+    "semiconductor-thin-film-optical-metrology-manufacturers",
     "semiconductor-photomask-inspection-equipment-manufacturers",
     "semiconductor-photomask-writer-manufacturers",
     "semiconductor-photomask-manufacturers",
