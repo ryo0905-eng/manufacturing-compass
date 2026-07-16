@@ -28,6 +28,7 @@ import { semiconductorEtchingProcessGuide } from "@/content/guides/semiconductor
 import { semiconductorFinalTestGuide } from "@/content/guides/semiconductor-final-test";
 import { semiconductorFoundryGuide } from "@/content/guides/semiconductor-foundry";
 import { semiconductorInterconnectProcessGuide } from "@/content/guides/semiconductor-interconnect-process";
+import { semiconductorIonImplantationEquipmentManufacturersGuide } from "@/content/guides/semiconductor-ion-implantation-equipment-manufacturers";
 import { semiconductorIonImplantationProcessGuide } from "@/content/guides/semiconductor-ion-implantation-process";
 import { semiconductorLithographyEquipmentManufacturersGuide } from "@/content/guides/semiconductor-lithography-equipment-manufacturers";
 import { semiconductorOxidationThermalProcessGuide } from "@/content/guides/semiconductor-oxidation-thermal-process";
@@ -56,6 +57,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorEtchingProcessGuide,
   semiconductorCleaningEquipmentManufacturersGuide,
   semiconductorCleaningProcessGuide,
+  semiconductorIonImplantationEquipmentManufacturersGuide,
   semiconductorIonImplantationProcessGuide,
   semiconductorCmpEquipmentManufacturersGuide,
   semiconductorCmpProcessGuide,

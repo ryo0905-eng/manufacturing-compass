@@ -372,6 +372,7 @@ export const semiconductorIonImplantationProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "イオン注入装置メーカー", href: "/guides/semiconductor-ion-implantation-equipment-manufacturers", description: "高電流・中電流・高エネルギー装置と主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "イオン注入が前工程の反復のどこに入るか確認する" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "選択注入する場所をレジストへ描く工程を見る" },
             { label: "エッチングの仕組み", href: "/guides/semiconductor-etching-process", description: "注入前後に薄膜へ開口や構造を作る工程を見る" },
@@ -426,6 +427,7 @@ export const semiconductorIonImplantationProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な材料への添加を例に、『何を』『どれだけ』『どの深さへ』『後でどう整えるか』を説明する",
   relatedGuideSlugs: [
+    "semiconductor-ion-implantation-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "photolithography-process",
     "semiconductor-etching-process",
