@@ -339,6 +339,7 @@ export const photolithographyProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "塗布現像装置メーカー", href: "/guides/semiconductor-coater-developer-manufacturers", description: "表面処理、レジスト塗布、ベーク、現像を連続処理する装置を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線・ナノインプリントと主要企業を見る" },
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "回路原版・マスクブランクス・DUV・EUVと主要企業を見る" },
             { label: "ペリクルメーカー", href: "/guides/semiconductor-pellicle-manufacturers", description: "マスクの異物を焦点外にする防塵部材と主要企業を見る" },
@@ -397,6 +398,7 @@ export const photolithographyProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な模様の型を一つ思い浮かべ、『型を作る工程』と『材料へ形を移す工程』を分けて説明する",
   relatedGuideSlugs: [
+    "semiconductor-coater-developer-manufacturers",
     "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-photomask-manufacturers",
     "semiconductor-pellicle-manufacturers",

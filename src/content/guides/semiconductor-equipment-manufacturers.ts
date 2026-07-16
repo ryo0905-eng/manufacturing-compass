@@ -346,6 +346,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "設計から前工程・後工程までの流れを見る" },
             { label: "成膜装置メーカー", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "CVD・ALD・PVD装置と主要企業を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線・ナノインプリントと主要企業を見る" },
+            { label: "塗布現像装置メーカー", href: "/guides/semiconductor-coater-developer-manufacturers", description: "レジスト塗布・ベーク・現像装置と主要企業を見る" },
             { label: "フォトレジストメーカー", href: "/guides/semiconductor-photoresist-manufacturers", description: "露光材料・周辺薬液と主要企業を見る" },
             { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "工程ガス、供給設備、排気・除害と主要企業を見る" },
             { label: "高純度薬液メーカー", href: "/guides/semiconductor-high-purity-chemical-manufacturers", description: "工程薬液、供給設備、排液管理と主要企業を見る" },
@@ -380,6 +381,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   todayQuest: "気になる装置企業を1社選び、扱う装置を成膜・露光・エッチング・洗浄・検査・テスト・個片化のどこへ置けるか確認する",
   relatedGuideSlugs: [
     "semiconductor-lithography-equipment-manufacturers",
+    "semiconductor-coater-developer-manufacturers",
     "semiconductor-photoresist-manufacturers",
     "semiconductor-gas-manufacturers",
     "semiconductor-high-purity-chemical-manufacturers",

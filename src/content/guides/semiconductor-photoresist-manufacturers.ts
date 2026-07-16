@@ -382,6 +382,7 @@ export const semiconductorPhotoresistManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "レジストが塗布・露光・現像で変化する仕組みを見る" },
+            { label: "塗布現像装置メーカー", href: "/guides/semiconductor-coater-developer-manufacturers", description: "レジストを塗布・加熱し、露光後に現像する装置を見る" },
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "露光する回路原版・ブランクス・主要企業を見る" },
             { label: "フォトマスク描画装置メーカー", href: "/guides/semiconductor-photomask-writer-manufacturers", description: "電子線・レーザーでマスク用レジストへ潜像を描く装置を見る" },
             { label: "マスクブランクスメーカー", href: "/guides/semiconductor-mask-blank-manufacturers", description: "マスク描画用レジストを載せる基板・薄膜材料を見る" },
@@ -401,6 +402,7 @@ export const semiconductorPhotoresistManufacturersGuide: GuideArticle = {
   todayQuest: "JSR・東京応化工業・信越化学工業・富士フイルムから1社を選び、公式製品を光源・トーン・材料系・周辺材料・性能・供給の6項目で整理する",
   relatedGuideSlugs: [
     "photolithography-process",
+    "semiconductor-coater-developer-manufacturers",
     "semiconductor-photomask-manufacturers",
     "semiconductor-photomask-writer-manufacturers",
     "semiconductor-mask-blank-manufacturers",

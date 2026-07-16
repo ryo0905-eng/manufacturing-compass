@@ -393,6 +393,7 @@ export const semiconductorHighPurityChemicalManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "洗浄装置メーカー", href: "/guides/semiconductor-cleaning-equipment-manufacturers", description: "薬液を供給・リンス・乾燥する装置と主要企業を見る" },
+            { label: "塗布現像装置メーカー", href: "/guides/semiconductor-coater-developer-manufacturers", description: "レジスト・現像液・リンス材料を扱う装置と供給系を見る" },
             { label: "フォトレジストメーカー", href: "/guides/semiconductor-photoresist-manufacturers", description: "レジスト、現像、リンスなどの周辺材料を見る" },
             { label: "CMP装置メーカー", href: "/guides/semiconductor-cmp-equipment-manufacturers", description: "スラリー供給、研磨、洗浄を統合する装置を見る" },
             { label: "CMPスラリーメーカー", href: "/guides/semiconductor-cmp-slurry-manufacturers", description: "砥粒と薬液を組み合わせる研磨材料を見る" },
@@ -414,6 +415,7 @@ export const semiconductorHighPurityChemicalManufacturersGuide: GuideArticle = {
     "semiconductor-etching-process",
     "semiconductor-etching-equipment-manufacturers",
     "photolithography-process",
+    "semiconductor-coater-developer-manufacturers",
     "semiconductor-photoresist-manufacturers",
     "semiconductor-cmp-process",
     "semiconductor-cmp-equipment-manufacturers",
