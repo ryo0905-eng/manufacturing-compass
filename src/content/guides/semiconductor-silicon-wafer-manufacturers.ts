@@ -389,6 +389,7 @@ export const semiconductorSiliconWaferManufacturersGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "シリコンウェーハ製造", href: "/guides/semiconductor-silicon-wafer-manufacturing", description: "単結晶から鏡面基板へ仕上げるメカニズムを見る" },
+            { label: "ウェーハ欠陥検査装置メーカー", href: "/guides/semiconductor-wafer-defect-inspection-manufacturers", description: "パターンなしウェーハの粒子・傷・表面欠陥を探す装置を見る" },
             { label: "半導体製造工程", href: "/guides/semiconductor-manufacturing-process", description: "ウェーハが前工程・後工程へ進む全体像を見る" },
             { label: "ICチップ製造会社", href: "/guides/ic-chip-manufacturing-companies", description: "材料・IDM・ファウンドリ・OSATの違いを見る" },
             { label: "ファウンドリとは", href: "/guides/semiconductor-foundry", description: "ウェーハ上へ回路を形成する受託製造企業を見る" },
@@ -404,6 +405,7 @@ export const semiconductorSiliconWaferManufacturersGuide: GuideArticle = {
   todayQuest: "信越化学・SUMCO・GlobalWafers・Siltronicから1社を選び、公式製品を用途・径・結晶方式・製品種類・形状／表面・供給の6項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-silicon-wafer-manufacturing",
+    "semiconductor-wafer-defect-inspection-manufacturers",
     "semiconductor-manufacturing-process",
     "ic-chip-manufacturing-companies",
     "semiconductor-foundry",
