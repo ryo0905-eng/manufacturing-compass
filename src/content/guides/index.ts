@@ -20,6 +20,7 @@ import { semiconductorManufacturingProcessGuide } from "@/content/guides/semicon
 import { semiconductorPackagingProcessGuide } from "@/content/guides/semiconductor-packaging-process";
 import { semiconductorPackagingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-packaging-equipment-manufacturers";
 import { semiconductorWaferTestGuide } from "@/content/guides/semiconductor-wafer-test";
+import { semiconductorWaferProberManufacturersGuide } from "@/content/guides/semiconductor-wafer-prober-manufacturers";
 import { semiconductorDepositionProcessGuide } from "@/content/guides/semiconductor-deposition-process";
 import { semiconductorDicingProcessGuide } from "@/content/guides/semiconductor-dicing-process";
 import { semiconductorDicingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-dicing-equipment-manufacturers";
@@ -69,6 +70,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCmpProcessGuide,
   semiconductorInspectionEquipmentManufacturersGuide,
   semiconductorInspectionMetrologyGuide,
+  semiconductorWaferProberManufacturersGuide,
   semiconductorWaferTestGuide,
   semiconductorDicingEquipmentManufacturersGuide,
   semiconductorDicingProcessGuide,
