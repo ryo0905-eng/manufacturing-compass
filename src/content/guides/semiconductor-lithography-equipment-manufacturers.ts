@@ -300,6 +300,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
           type: "links",
           items: [
             { label: "検査・計測装置メーカー", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "欠陥・CD・重ね合わせを測る装置企業を見る" },
+            { label: "重ね合わせ計測装置メーカー", href: "/guides/semiconductor-overlay-metrology-manufacturers", description: "露光後の層間位置を測り、露光補正へ返す装置を見る" },
             { label: "エッチング装置メーカー", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "露光後のパターンを材料へ移す装置を見る" },
           ],
         },
@@ -397,6 +398,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
     "semiconductor-photoresist-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
+    "semiconductor-overlay-metrology-manufacturers",
     "semiconductor-inspection-metrology",
     "semiconductor-etching-equipment-manufacturers",
     "semiconductor-manufacturing-process",

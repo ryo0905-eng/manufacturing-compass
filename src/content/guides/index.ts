@@ -47,6 +47,7 @@ import { semiconductorIonImplantationProcessGuide } from "@/content/guides/semic
 import { semiconductorLithographyEquipmentManufacturersGuide } from "@/content/guides/semiconductor-lithography-equipment-manufacturers";
 import { semiconductorMaskBlankManufacturersGuide } from "@/content/guides/semiconductor-mask-blank-manufacturers";
 import { semiconductorOxidationThermalProcessGuide } from "@/content/guides/semiconductor-oxidation-thermal-process";
+import { semiconductorOverlayMetrologyManufacturersGuide } from "@/content/guides/semiconductor-overlay-metrology-manufacturers";
 import { semiconductorRecruitmentAgentReviewGuide } from "@/content/guides/semiconductor-recruitment-agent-review";
 import { semiconductorSalaryRankingGuide } from "@/content/guides/semiconductor-salary-ranking";
 import { semiconductorSiliconWaferManufacturingGuide } from "@/content/guides/semiconductor-silicon-wafer-manufacturing";
@@ -96,6 +97,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCmpProcessGuide,
   semiconductorCdSemManufacturersGuide,
   semiconductorThinFilmOpticalMetrologyManufacturersGuide,
+  semiconductorOverlayMetrologyManufacturersGuide,
   semiconductorInspectionEquipmentManufacturersGuide,
   semiconductorInspectionMetrologyGuide,
   semiconductorProbeCardManufacturersGuide,

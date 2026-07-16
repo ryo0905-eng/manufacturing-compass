@@ -373,6 +373,7 @@ export const semiconductorCoaterDeveloperManufacturersGuide: GuideArticle = {
           items: [
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "塗布・露光・現像でレジストパターンを作る仕組みを見る" },
             { label: "CD-SEM・電子線計測装置メーカー", href: "/guides/semiconductor-cd-sem-manufacturers", description: "現像後の膜・ベーク・現像結果をCDとして測る装置を見る" },
+            { label: "重ね合わせ計測装置メーカー", href: "/guides/semiconductor-overlay-metrology-manufacturers", description: "現像後パターンの層間位置を測り、露光へ返す装置を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "トラックと接続してマスク像を転写する装置を見る" },
             { label: "フォトレジストメーカー", href: "/guides/semiconductor-photoresist-manufacturers", description: "塗布・現像する感光材料と周辺材料を見る" },
             { label: "高純度薬液メーカー", href: "/guides/semiconductor-high-purity-chemical-manufacturers", description: "現像・洗浄・剥離などで使う液体材料と供給を見る" },
@@ -393,6 +394,7 @@ export const semiconductorCoaterDeveloperManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "photolithography-process",
     "semiconductor-cd-sem-manufacturers",
+    "semiconductor-overlay-metrology-manufacturers",
     "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-photoresist-manufacturers",
     "semiconductor-high-purity-chemical-manufacturers",
