@@ -347,6 +347,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
             { label: "成膜装置メーカー", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "CVD・ALD・PVD装置と主要企業を見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線・ナノインプリントと主要企業を見る" },
             { label: "エッチング装置メーカー", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "プラズマ装置・対象材料・主要企業を見る" },
+            { label: "洗浄装置メーカー", href: "/guides/semiconductor-cleaning-equipment-manufacturers", description: "枚葉式・バッチ式・スクラバーと主要企業を見る" },
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "塗布・露光・現像と装置のつながりを見る" },
             { label: "成膜工程", href: "/guides/semiconductor-deposition-process", description: "CVD・PVD・ALDの違いと仕組みを見る" },
             { label: "エッチング工程", href: "/guides/semiconductor-etching-process", description: "ウェット・ドライ加工の仕組みを見る" },
@@ -367,6 +368,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-lithography-equipment-manufacturers",
     "semiconductor-etching-equipment-manufacturers",
+    "semiconductor-cleaning-equipment-manufacturers",
     "semiconductor-inspection-equipment-manufacturers",
     "applied-materials-semiconductor-equipment",
     "semiconductor-tester-ate",
