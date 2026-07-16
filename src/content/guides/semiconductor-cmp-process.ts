@@ -300,6 +300,7 @@ export const semiconductorCmpProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "CMP装置メーカー", href: "/guides/semiconductor-cmp-equipment-manufacturers", description: "研磨ヘッド・終点・洗浄と主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "CMPが前工程の反復のどこに入るか確認する" },
             { label: "シリコンウェーハ製造の仕組み", href: "/guides/semiconductor-silicon-wafer-manufacturing", description: "回路形成前の単結晶基板を鏡面・平坦に仕上げる研磨と比較する" },
             { label: "成膜の仕組み", href: "/guides/semiconductor-deposition-process", description: "CMP前に絶縁膜や金属膜を形成する工程を見る" },
@@ -356,6 +357,7 @@ export const semiconductorCmpProcessGuide: GuideArticle = {
   ],
   todayQuest: "身近な凹凸のある面を例に、『高い部分だけを除去する方法』『止める高さ』『研磨後の洗浄』を説明する",
   relatedGuideSlugs: [
+    "semiconductor-cmp-equipment-manufacturers",
     "semiconductor-manufacturing-process",
     "semiconductor-silicon-wafer-manufacturing",
     "semiconductor-deposition-process",

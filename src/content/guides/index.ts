@@ -11,6 +11,7 @@ import { semiconductorCareerChatgptGuide } from "@/content/guides/semiconductor-
 import { semiconductorCareerStartGuide } from "@/content/guides/semiconductor-career-start";
 import { semiconductorCleaningEquipmentManufacturersGuide } from "@/content/guides/semiconductor-cleaning-equipment-manufacturers";
 import { semiconductorCleaningProcessGuide } from "@/content/guides/semiconductor-cleaning-process";
+import { semiconductorCmpEquipmentManufacturersGuide } from "@/content/guides/semiconductor-cmp-equipment-manufacturers";
 import { semiconductorCmpProcessGuide } from "@/content/guides/semiconductor-cmp-process";
 import { semiconductorInspectionMetrologyGuide } from "@/content/guides/semiconductor-inspection-metrology";
 import { semiconductorInspectionEquipmentManufacturersGuide } from "@/content/guides/semiconductor-inspection-equipment-manufacturers";
@@ -56,6 +57,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCleaningEquipmentManufacturersGuide,
   semiconductorCleaningProcessGuide,
   semiconductorIonImplantationProcessGuide,
+  semiconductorCmpEquipmentManufacturersGuide,
   semiconductorCmpProcessGuide,
   semiconductorInspectionEquipmentManufacturersGuide,
   semiconductorInspectionMetrologyGuide,
