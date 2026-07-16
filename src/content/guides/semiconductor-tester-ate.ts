@@ -309,6 +309,7 @@ export const semiconductorTesterAteGuide: GuideArticle = {
             { label: "半導体製造装置メーカー", href: "/guides/semiconductor-equipment-manufacturers", description: "テスタを含む装置企業を工程別に見る" },
             { label: "ウェーハテスト", href: "/guides/semiconductor-wafer-test", description: "テスタ・プローバ・プローブカードの動作を見る" },
             { label: "最終検査", href: "/guides/semiconductor-final-test", description: "テスタ・ハンドラ・ソケットの動作を見る" },
+            { label: "テストハンドラメーカー", href: "/guides/semiconductor-test-handler-manufacturers", description: "搬送方式・温度・並列試験と主要企業を見る" },
             { label: "検査・計測", href: "/guides/semiconductor-inspection-metrology", description: "物理的な欠陥検査と電気試験の違いを見る" },
             { label: "半導体製造工程", href: "/guides/semiconductor-manufacturing-process", description: "ATEが製造フローのどこで使われるか見る" },
             { label: "半導体製造装置の企業一覧", href: "/segments/equipment", description: "装置企業の詳細ページを調べる" },
@@ -322,6 +323,7 @@ export const semiconductorTesterAteGuide: GuideArticle = {
   ],
   todayQuest: "アドバンテストまたはTeradyneの製品ページを一つ選び、対象デバイス・試験段階・周辺装置・ソフトウェアを4項目で整理する",
   relatedGuideSlugs: [
+    "semiconductor-test-handler-manufacturers",
     "semiconductor-equipment-manufacturers",
     "semiconductor-wafer-test",
     "semiconductor-final-test",
