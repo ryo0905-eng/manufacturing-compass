@@ -403,6 +403,7 @@ export const semiconductorEtchingProcessGuide: GuideArticle = {
   todayQuest: "身近な型抜きを例に、『縦横の加工方向』『型と材料の耐え方』『加工後の断面』の三つを説明する",
   relatedGuideSlugs: [
     "semiconductor-etching-equipment-manufacturers",
+    "semiconductor-rf-power-matching-manufacturers",
     "semiconductor-gas-manufacturers",
     "semiconductor-high-purity-chemical-manufacturers",
     "semiconductor-manufacturing-process",

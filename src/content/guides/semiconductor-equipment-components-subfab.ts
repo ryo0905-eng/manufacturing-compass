@@ -213,7 +213,7 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
     {
       id: "next-components",
       heading: "次に押さえたい装置構成部品は、RF・圧力・バルブ・温調・ウェーハ保持",
-      lead: "今後の個別記事を接続する5カテゴリーです。",
+      lead: "RF電源から個別記事を追加し、残るカテゴリーも順次接続します。",
       blocks: [
         {
           type: "mapping",
@@ -225,6 +225,12 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
             { left: "高純度バルブ・継手・ガス供給機器", right: "ガスを漏らさず、汚さず、必要な経路へ切り替え、保守・パージできる流路を作る" },
             { left: "チラー・温度調節装置", right: "チャンバー、電極、チャック、光源、ポンプなどから熱を運び、温度を安定させる" },
             { left: "静電チャック・セラミックヒーター", right: "ウェーハを平らに保持し、加熱・冷却・裏面ガス・電気的条件をプロセスへ合わせる" },
+          ],
+        },
+        {
+          type: "links",
+          items: [
+            { label: "RF電源・マッチングユニットメーカー", href: "/guides/semiconductor-rf-power-matching-manufacturers", description: "発振、インピーダンス整合、進行波・反射波、パルス、多周波と主要企業を見る" },
           ],
         },
         {
@@ -378,6 +384,7 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
             { label: "半導体製造装置メーカー", href: "/guides/semiconductor-equipment-manufacturers", description: "成膜・露光・エッチング・検査・テスト装置の工程地図を見る" },
             { label: "半導体製造工程", href: "/guides/semiconductor-manufacturing-process", description: "部品・装置が使われる製造フロー全体を見る" },
             { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "ガス材料、供給設備、安全・排気の全体を見る" },
+            { label: "RF電源・マッチングユニットメーカー", href: "/guides/semiconductor-rf-power-matching-manufacturers", description: "プラズマへ高周波電力を届ける仕組みと主要企業を見る" },
             { label: "成膜装置メーカー", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "ガス・真空・RF・温調を統合する装置を見る" },
             { label: "エッチング装置メーカー", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "プラズマ・圧力・ガス・搬送を統合する装置を見る" },
             { label: "設備エンジニアへのルート", href: "/guides/equipment-engineer-route", description: "設備保全・装置・部品経験と半導体職種の接続を見る" },
@@ -394,6 +401,7 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-equipment-manufacturers",
     "semiconductor-manufacturing-process",
+    "semiconductor-rf-power-matching-manufacturers",
     "semiconductor-gas-manufacturers",
     "semiconductor-mass-flow-controller-manufacturers",
     "semiconductor-vacuum-pump-manufacturers",

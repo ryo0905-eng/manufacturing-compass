@@ -385,6 +385,7 @@ export const semiconductorEtchingEquipmentManufacturersGuide: GuideArticle = {
   todayQuest: "Lam Research、東京エレクトロン、Applied Materials、日立ハイテクから1社選び、対象材料・必要断面・デバイス用途・量産要件を4項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-equipment-components-subfab",
+    "semiconductor-rf-power-matching-manufacturers",
     "semiconductor-etching-process",
     "semiconductor-mass-flow-controller-manufacturers",
     "semiconductor-vacuum-pump-manufacturers",

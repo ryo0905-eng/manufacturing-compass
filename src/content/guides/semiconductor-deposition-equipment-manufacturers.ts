@@ -365,6 +365,7 @@ export const semiconductorDepositionEquipmentManufacturersGuide: GuideArticle = 
   todayQuest: "気になる成膜装置企業を1社選び、成膜方式・対象膜・装置方式・デバイス用途・職種の5項目で整理する",
   relatedGuideSlugs: [
     "semiconductor-equipment-components-subfab",
+    "semiconductor-rf-power-matching-manufacturers",
     "applied-materials-semiconductor-equipment",
     "semiconductor-deposition-process",
     "semiconductor-mass-flow-controller-manufacturers",

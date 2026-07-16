@@ -28,6 +28,7 @@ import { semiconductorPhotomaskManufacturersGuide } from "@/content/guides/semic
 import { semiconductorPhotomaskWriterManufacturersGuide } from "@/content/guides/semiconductor-photomask-writer-manufacturers";
 import { semiconductorProbeCardManufacturersGuide } from "@/content/guides/semiconductor-probe-card-manufacturers";
 import { semiconductorPhotoresistManufacturersGuide } from "@/content/guides/semiconductor-photoresist-manufacturers";
+import { semiconductorRfPowerMatchingManufacturersGuide } from "@/content/guides/semiconductor-rf-power-matching-manufacturers";
 import { semiconductorWaferTestGuide } from "@/content/guides/semiconductor-wafer-test";
 import { semiconductorWaferProberManufacturersGuide } from "@/content/guides/semiconductor-wafer-prober-manufacturers";
 import { semiconductorDepositionProcessGuide } from "@/content/guides/semiconductor-deposition-process";
@@ -76,6 +77,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorFoundryGuide,
   semiconductorEquipmentManufacturersGuide,
   semiconductorEquipmentComponentsSubfabGuide,
+  semiconductorRfPowerMatchingManufacturersGuide,
   appliedMaterialsSemiconductorEquipmentGuide,
   semiconductorTesterAteGuide,
   semiconductorTestHandlerManufacturersGuide,
