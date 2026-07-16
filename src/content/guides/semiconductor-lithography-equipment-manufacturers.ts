@@ -371,6 +371,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
           items: [
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "塗布・露光・現像のメカニズムを見る" },
             { label: "塗布現像装置メーカー", href: "/guides/semiconductor-coater-developer-manufacturers", description: "露光前後のレジスト塗布・ベーク・現像装置を見る" },
+            { label: "CD-SEM・電子線計測装置メーカー", href: "/guides/semiconductor-cd-sem-manufacturers", description: "露光・現像後のCD・EPEを測り、工程へ返す装置を見る" },
             { label: "フォトマスク描画装置メーカー", href: "/guides/semiconductor-photomask-writer-manufacturers", description: "ウェーハ露光装置と異なる、原版を直接描く装置を見る" },
             { label: "半導体製造装置メーカー", href: "/guides/semiconductor-equipment-manufacturers", description: "工程別の装置企業を一つの地図で見る" },
             { label: "検査・計測装置メーカー", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "リソグラフィを支える計測・検査装置を見る" },
@@ -388,6 +389,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
   relatedGuideSlugs: [
     "photolithography-process",
     "semiconductor-coater-developer-manufacturers",
+    "semiconductor-cd-sem-manufacturers",
     "semiconductor-photomask-writer-manufacturers",
     "semiconductor-photomask-manufacturers",
     "semiconductor-mask-blank-manufacturers",

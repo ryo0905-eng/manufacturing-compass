@@ -9,6 +9,7 @@ import { photolithographyProcessGuide } from "@/content/guides/photolithography-
 import { semiconductorCareerEnglishLevelGuide } from "@/content/guides/semiconductor-career-english-level";
 import { semiconductorCareerChatgptGuide } from "@/content/guides/semiconductor-career-chatgpt";
 import { semiconductorCareerStartGuide } from "@/content/guides/semiconductor-career-start";
+import { semiconductorCdSemManufacturersGuide } from "@/content/guides/semiconductor-cd-sem-manufacturers";
 import { semiconductorCleaningEquipmentManufacturersGuide } from "@/content/guides/semiconductor-cleaning-equipment-manufacturers";
 import { semiconductorCleaningProcessGuide } from "@/content/guides/semiconductor-cleaning-process";
 import { semiconductorCoaterDeveloperManufacturersGuide } from "@/content/guides/semiconductor-coater-developer-manufacturers";
@@ -92,6 +93,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCmpEquipmentManufacturersGuide,
   semiconductorCmpSlurryManufacturersGuide,
   semiconductorCmpProcessGuide,
+  semiconductorCdSemManufacturersGuide,
   semiconductorInspectionEquipmentManufacturersGuide,
   semiconductorInspectionMetrologyGuide,
   semiconductorProbeCardManufacturersGuide,
