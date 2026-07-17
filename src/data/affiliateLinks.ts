@@ -114,11 +114,13 @@ export const affiliateAgents: AffiliateAgent[] = [
     consultationTopics: ["英語を使うメーカー技術職", "外資系・日系グローバル企業の比較", "英文レジュメと面接準備"],
     personalExperience: "外資系メーカー、半導体関連、新規事業、英語を使うポジションの求人紹介を受けました。日系メーカーだけを見ていたときとは異なる職種や要件を知るために利用しました。",
     pointsToConfirm: "求人で求められる英語水準、勤務地、担当領域が現在の経験と合うか",
-    affiliateUrl: undefined,
+    affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=0100ojgk00ova3",
+    affiliateCreativeHtml:
+      '<a href="https://h.accesstrade.net/sp/cc?rk=0100ojgk00ova3" rel="nofollow" referrerpolicy="no-referrer-when-downgrade">ロバート・ウォルターズ<img src="https://h.accesstrade.net/sp/rr?rk=0100ojgk00ova3" width="1" height="1" border="0" alt=""></a>',
     officialUrl: "https://www.robertwalters.co.jp/",
-    linkType: "official",
+    linkType: "affiliate",
     sourceUrl: "https://www.robertwalters.co.jp/expertise/industrial-and-electrical.html",
-    lastUpdated,
+    lastUpdated: "2026-07-17",
   },
   {
     id: "enworld",
@@ -131,11 +133,13 @@ export const affiliateAgents: AffiliateAgent[] = [
     consultationTopics: ["外資系・日系グローバル企業への転職", "英語と専門性を使う職種", "入社後の活躍を含む長期的なキャリア"],
     personalExperience: "外資系・グローバル企業の求人を確認する選択肢として利用しました。海外経験や英語を使う仕事を、どの職種で生かせるかを見るためです。",
     pointsToConfirm: "希望職種の求人状況と、選考で必要になる英語・専門性の水準",
-    affiliateUrl: undefined,
+    affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=0100o60a00ova3",
+    affiliateCreativeHtml:
+      '<a href="https://h.accesstrade.net/sp/cc?rk=0100o60a00ova3" rel="nofollow" referrerpolicy="no-referrer-when-downgrade">外資系転職ならエンワールド・ジャパン<img src="https://h.accesstrade.net/sp/rr?rk=0100o60a00ova3" width="1" height="1" border="0" alt=""></a>',
     officialUrl: "https://www.enworld.com/",
-    linkType: "official",
+    linkType: "affiliate",
     sourceUrl: "https://www.enworld.com/",
-    lastUpdated,
+    lastUpdated: "2026-07-17",
   },
 ];
 
