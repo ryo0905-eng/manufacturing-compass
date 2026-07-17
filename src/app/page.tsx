@@ -11,12 +11,12 @@ import { companies } from "@/data/companies";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: { absolute: "製造業経験を半導体キャリアへ｜市場価値診断 | Manufacturing Compass" },
+  title: { absolute: "製造業経験を半導体キャリアへ｜キャリア現在地チェック | Manufacturing Compass" },
   description:
-    "生産技術、品質保証、設備保全、設計、製造DXなどの経験を、半導体業界の職種に置き換えて整理します。12問・登録不要のキャリア診断で、狙いやすい職種と次に準備することが分かります。",
+    "生産技術、品質保証、設備保全、設計、製造DXなどの経験を、半導体業界の職種に置き換えて整理します。12問・登録不要の現在地チェックで、経験に近い職種と次に準備することが分かります。",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "製造業経験を半導体キャリアへ｜市場価値診断",
+    title: "製造業経験を半導体キャリアへ｜キャリア現在地チェック",
     description: "12問・登録不要。製造業で積んだ経験に近い半導体職種と、次に準備することを整理します。",
     url: siteUrl,
   },
