@@ -46,19 +46,22 @@ export default async function RankingPage({ params }: RankingPageProps) {
         <p>{ranking.description}</p>
       </section>
 
-      <section className="ranking-criteria" aria-label="ランキング基準">
+      <p className="ranking-order-note">
+        掲載順は企業の優劣やおすすめ順位を示すものではありません。各社の事業内容や公開されている職種を確認するための候補リストです。
+      </p>
+
+      <section className="ranking-criteria" aria-label="企業を整理した観点">
         {ranking.criteria.map((criterion) => (
           <div key={criterion}>
-            <span>Check</span>
+            <span>Research point</span>
             <strong>{criterion}</strong>
           </div>
         ))}
       </section>
 
-      <section className="ranking-list" aria-label="企業ランキング">
-        {rankingCompanies.map((company, index) => (
+      <section className="ranking-list" aria-label="企業リスト">
+        {rankingCompanies.map((company) => (
           <article className="ranking-item" key={company.id}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
             <div>
               <p className="eyebrow">{company.businessModel}</p>
               <h2>{company.nameJa}</h2>
@@ -90,7 +93,7 @@ export default async function RankingPage({ params }: RankingPageProps) {
         </div>
       </section>
 
-      <AffiliateCta title={`${ranking.title}をもとに相談する`} />
+      <AffiliateCta title="企業リストをもとに相談する" />
     </main>
   );
 }

@@ -15,24 +15,24 @@ export type Ranking = {
 export const rankings: Ranking[] = [
   {
     slug: "equipment-career-entry",
-    title: "設備・装置経験から狙いやすい半導体企業",
-    description: "設備保全、装置立ち上げ、フィールド対応の経験を活かしやすい企業を整理します。",
+    title: "設備・装置経験との接点を調べやすい半導体企業",
+    description: "設備保全、装置立ち上げ、フィールド対応の経験から仕事内容を調べる候補企業を整理します。",
     companyIds: ["tokyo-electron", "screen", "advantest", "applied-materials", "lam-research", "asml", "kla", "teradyne", "disco", "lasertec", "hitachi-hightech"],
-    criteria: ["装置・設備経験との近さ", "日本拠点の接点", "フィールド職種の見つけやすさ"],
+    criteria: ["装置・設備事業との接点", "日本拠点の有無", "公開採用情報で確認できるフィールド職種"],
   },
   {
     slug: "quality-career-entry",
-    title: "品質保証・不良解析経験を活かしやすい半導体企業",
-    description: "品質、解析、量産改善の経験を半導体キャリアに接続しやすい企業を整理します。",
+    title: "品質保証・不良解析経験との接点を調べやすい半導体企業",
+    description: "品質、解析、量産改善の経験から仕事内容を調べる候補企業を整理します。",
     companyIds: ["tsmc", "micron", "kioxia", "renesas", "rohm", "samsung-electronics", "onsemi", "infineon", "sumco", "hitachi-hightech"],
-    criteria: ["品質・量産改善との近さ", "製造または顧客品質の接点", "職務経歴書で説明しやすい経験"],
+    criteria: ["品質・量産改善業務との接点", "製造または顧客品質業務の有無", "公開採用情報で確認できる関連職種"],
   },
   {
     slug: "english-global-career",
-    title: "英語を伸ばすと選択肢が広がる半導体企業",
-    description: "外資系、海外顧客、グローバル連携の観点で英語が効きやすい企業を整理します。",
+    title: "英語・海外連携との接点を調べやすい半導体企業",
+    description: "英語や海外連携が関わる仕事内容を調べる候補企業を整理します。",
     companyIds: ["nvidia", "amd", "qualcomm", "marvell", "asml", "applied-materials", "lam-research", "micron", "infineon", "nxp"],
-    criteria: ["英語資料・海外連携の多さ", "FAE・営業技術との相性", "将来の年収アップ余地"],
+    criteria: ["英語資料・海外連携の接点", "FAE・営業技術との接点", "日本で確認できる職種・拠点"],
   },
 ];
 
