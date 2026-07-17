@@ -57,6 +57,7 @@ import { semiconductorMaskBlankManufacturersGuide } from "@/content/guides/semic
 import { semiconductorOxidationThermalProcessGuide } from "@/content/guides/semiconductor-oxidation-thermal-process";
 import { semiconductorOverlayMetrologyManufacturersGuide } from "@/content/guides/semiconductor-overlay-metrology-manufacturers";
 import { semiconductorRecruitmentAgentReviewGuide } from "@/content/guides/semiconductor-recruitment-agent-review";
+import { semiconductorResumeImprovementResultsGuide } from "@/content/guides/semiconductor-resume-improvement-results";
 import { semiconductorSalaryRankingGuide } from "@/content/guides/semiconductor-salary-ranking";
 import { semiconductorSiliconWaferManufacturingGuide } from "@/content/guides/semiconductor-silicon-wafer-manufacturing";
 import { semiconductorSiliconWaferManufacturersGuide } from "@/content/guides/semiconductor-silicon-wafer-manufacturers";
@@ -140,6 +141,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorSiliconWaferManufacturingGuide,
   electronicsToSemiconductorProcessEngineerGuide,
   productionEngineeringToSemiconductorProcessEngineerGuide,
+  semiconductorResumeImprovementResultsGuide,
   semiconductorCareerChatgptGuide,
   semiconductorMarketCapRankingGuide,
   semiconductorSalaryRankingGuide,

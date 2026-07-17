@@ -18,7 +18,7 @@ export const productionEngineeringToSemiconductorProcessEngineerGuide: GuideArti
     "外資系半導体メーカーで、複数工程のプロセス改善とデータ活用に関わる職種からオファーを得た選考経験",
   ],
   publishedAt: "2026-07-13",
-  updatedAt: "2026-07-13",
+  updatedAt: "2026-07-17",
   sources: [
     {
       title: "半導体技術者",
@@ -242,10 +242,10 @@ export const productionEngineeringToSemiconductorProcessEngineerGuide: GuideArti
   ],
   todayQuest: "興味のある求人を1件選び、要件を「一致・近い・未経験」の三つに分ける",
   relatedGuideSlugs: [
+    "semiconductor-resume-improvement-results",
     "electronics-to-semiconductor-process-engineer",
     "semiconductor-career-start",
     "quality-engineer-route",
-    "semiconductor-career-english-level",
   ],
   relatedCompanyIds: [],
 };

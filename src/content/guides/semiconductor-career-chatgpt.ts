@@ -19,7 +19,7 @@ export const semiconductorCareerChatgptGuide: GuideArticle = {
     "求人分析から内定承諾までChatGPTを壁打ちに使い、外資系半導体メーカーのSenior Process Engineer職へ転職を決めた経験",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-07-14",
+  updatedAt: "2026-07-17",
   sources: [],
   readTime: "約16分",
   intro: {
@@ -395,9 +395,9 @@ export const semiconductorCareerChatgptGuide: GuideArticle = {
   ],
   todayQuest: "求人票を1件選び、匿名化した職務経歴書と並べて「一致・不足・要確認」を整理する",
   relatedGuideSlugs: [
+    "semiconductor-resume-improvement-results",
     "production-engineering-to-semiconductor-process-engineer",
     "electronics-to-semiconductor-process-engineer",
-    "semiconductor-career-english-level",
     "semiconductor-career-start",
   ],
   relatedCompanyIds: [],

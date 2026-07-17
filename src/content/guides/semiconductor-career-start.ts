@@ -13,7 +13,7 @@ export const semiconductorCareerStartGuide: GuideArticle = {
   reviewedBy: "RYO",
   experienceBasis: ["電子部品メーカーでの製造技術・工程改善・品質経験", "複数回の転職活動で電子部品と半導体求人を比較した経験", "外資系半導体メーカーへの転職を決めた経験"],
   publishedAt: "2026-07-05",
-  updatedAt: "2026-07-12",
+  updatedAt: "2026-07-17",
   sources: [
     { title: "半導体・デジタル産業戦略検討会議", url: "https://www.meti.go.jp/policy/mono_info_service/joho/conference/semicon_digital.html", publisher: "経済産業省", accessedAt: "2026-07-12" },
     { title: "日本の電子工業の生産・輸出・輸入", url: "https://www.jeita.or.jp/japanese/stat/electronic/2026/product_04.html", publisher: "JEITA", accessedAt: "2026-07-12" },
@@ -60,6 +60,6 @@ export const semiconductorCareerStartGuide: GuideArticle = {
     },
   ],
   todayQuest: "担当した改善実績を、課題・行動・数字の3行で書く",
-  relatedGuideSlugs: ["electronics-to-semiconductor-process-engineer", "equipment-engineer-route", "quality-engineer-route"],
+  relatedGuideSlugs: ["semiconductor-resume-improvement-results", "electronics-to-semiconductor-process-engineer", "equipment-engineer-route", "quality-engineer-route"],
   relatedCompanyIds: ["tsmc", "micron", "tokyo-electron"],
 };
