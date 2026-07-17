@@ -2,10 +2,10 @@ import type { GuideArticle } from "@/content/guides/types";
 
 export const productionEngineeringToSemiconductorProcessEngineerGuide: GuideArticle = {
   slug: "production-engineering-to-semiconductor-process-engineer",
-  title: "生産技術から半導体プロセスエンジニアへ転職するルート",
-  description: "電子部品の工程改善経験とPython・データ分析を、半導体のプロセス改善職へつなげた実体験を整理します。",
+  title: "生産技術から半導体企業のプロセスエンジニアへ転職するルート",
+  description: "電子部品の工程改善経験とPython・データ分析を、半導体企業のRFフィルタ事業にあるプロセス改善職へつなげた実体験を整理します。",
   targetQuery: "生産技術 半導体 転職",
-  searchIntent: "生産技術の歩留まり・品質・データ分析経験を、半導体プロセスエンジニアへどうつなげるか知りたい",
+  searchIntent: "生産技術の歩留まり・品質・データ分析経験を、半導体企業のプロセスエンジニア求人へどうつなげるか知りたい",
   status: "published",
   category: "experience",
   featured: true,
@@ -15,7 +15,7 @@ export const productionEngineeringToSemiconductorProcessEngineerGuide: GuideArti
   experienceBasis: [
     "電子部品業界で10年以上、生産性向上・歩留まり改善・品質改善・コスト削減に取り組んだ経験",
     "Python、統計解析、BI、機械学習を製造工程の課題解決へ使った経験",
-    "外資系半導体メーカーで、複数工程のプロセス改善とデータ活用に関わる職種からオファーを得た選考経験",
+    "外資系半導体企業のRFフィルタ事業で、複数工程のプロセス改善とデータ活用に関わる職種からオファーを得た選考経験",
   ],
   publishedAt: "2026-07-13",
   updatedAt: "2026-07-17",
@@ -105,7 +105,7 @@ export const productionEngineeringToSemiconductorProcessEngineerGuide: GuideArti
         },
       ],
       paragraphs: [
-        "私は電子部品メーカーで、複数の製造工程と半導体関連部品の生産技術に携わりました。半導体前工程そのものを経験していたわけではありません。経験していない工程まで、できるとは説明しませんでした。",
+        "応募先は、会社で見れば半導体企業です。ただ、担当製品はRFフィルタでした。私は電子部品メーカーで、複数の製造工程と半導体関連部品の生産技術に携わってきたため、完全な未経験領域への転職とは考えていません。一方で、半導体前工程そのものを経験していたわけではなく、経験していない工程まで、できるとは説明しませんでした。",
         "別の海外工場では、ローカル社員とプロセス不良を改善し、不良率を100ppmから0ppmへ削減しました。工程が変わっても、現象を分解し、データと現場情報から仮説を作る考え方は共通していました。",
       ],
     },

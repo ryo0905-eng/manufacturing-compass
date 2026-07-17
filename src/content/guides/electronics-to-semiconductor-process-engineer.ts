@@ -3,9 +3,9 @@ import type { GuideArticle } from "@/content/guides/types";
 export const electronicsToSemiconductorProcessEngineerGuide: GuideArticle = {
   slug: "electronics-to-semiconductor-process-engineer",
   title: "電子部品の経験は半導体転職で生かせる？",
-  description: "異業種への短期転職を経て、電子部品の経験を外資系半導体のプロセスエンジニア求人へつなげ、オファーを得るまでの記録です。",
+  description: "異業種への短期転職を経て、電子部品の経験を外資系半導体企業のRFフィルタ事業にあるプロセスエンジニア求人へつなげ、オファーを得るまでの記録です。",
   targetQuery: "電子部品 半導体 転職",
-  searchIntent: "電子部品や製造業の経験が半導体のプロセスエンジニア転職で評価されるか、実体験から判断材料を得たい",
+  searchIntent: "電子部品や製造業の経験が半導体関連企業のプロセスエンジニア転職で生かせるか、実体験から判断材料を得たい",
   status: "published",
   category: "experience",
   featured: true,
@@ -15,10 +15,10 @@ export const electronicsToSemiconductorProcessEngineerGuide: GuideArticle = {
   experienceBasis: [
     "電子部品業界での工程改善・不良解析・品質・データ分析経験",
     "異業種メーカーの新設DX組織でテーマ探索とPoCに取り組んだ経験",
-    "外資系半導体メーカーのプロセスエンジニア職からオファーを得た選考経験",
+    "外資系半導体企業のRFフィルタ事業にあるプロセスエンジニア職からオファーを得た選考経験",
   ],
   publishedAt: "2026-07-12",
-  updatedAt: "2026-07-12",
+  updatedAt: "2026-07-17",
   sources: [
     {
       title: "半導体技術者",
@@ -29,9 +29,9 @@ export const electronicsToSemiconductorProcessEngineerGuide: GuideArticle = {
   ],
   readTime: "約10分",
   intro: {
-    problem: "電子部品や製造業の経験を、半導体未経験でも生かせるのか迷っていませんか。",
+    problem: "電子部品や製造業の経験を、半導体企業の求人へどうつなげればよいか迷っていませんか。",
     conclusion: "肩書ではなく仕事内容を分解し、求人要件と一つずつ照合すると接点が見つかります。",
-    learnings: "異業種で感じたミスマッチ、転職条件の決め方、短期離職と未経験の説明方法。",
+    learnings: "異業種で感じたミスマッチ、転職条件の決め方、経験の近い部分と未経験部分の説明方法。",
   },
   overviewBlocks: [
     {
@@ -39,7 +39,7 @@ export const electronicsToSemiconductorProcessEngineerGuide: GuideArticle = {
       items: [
         { label: "01", title: "電子部品", body: "工程改善・不良解析・品質・データ分析を経験" },
         { label: "02", title: "異業種DX", body: "新設組織でテーマ探索とPoCを担当" },
-        { label: "03", title: "外資系半導体", body: "経験をプロセスエンジニア求人へつなぎ、オファー" },
+        { label: "03", title: "外資系RFフィルタ", body: "経験をプロセスエンジニア求人へつなぎ、オファー" },
       ],
     },
   ],
@@ -107,20 +107,20 @@ export const electronicsToSemiconductorProcessEngineerGuide: GuideArticle = {
       ],
       paragraphs: [
         "厚生労働省のjob tagでも、半導体プロセスエンジニアの仕事に、工程の設計・構築、品質向上、歩留まり改善、量産効率化などが挙げられています。",
-        "ただし、電子部品と半導体は同じ製品・工程ではありません。半導体固有の経験が必要な求人もあります。私の場合は、複数の経験が今回の求人要件と同時に重なったことが評価につながりました。",
+        "転職先は、会社で見れば半導体企業です。ただ、応募したのはRFフィルタ事業のプロセス職でした。私自身は、半導体というより電子部品に近い仕事だと考えています。そのため、今回の転職を、まったくの未経験領域への挑戦とは考えていません。もちろん、経験していない製品や技術まで、できるとは説明しませんでした。",
       ],
     },
     {
       id: "interview",
       heading: "面接では、2つの懸念に答えた",
-      lead: "短期離職と半導体未経験。どちらも隠さず、今回の求人との接点まで説明しました。",
+      lead: "短期離職と、経験していない技術。どちらも隠さず、今回の求人との接点まで説明しました。",
       blocks: [
         {
           type: "cards",
           columns: 2,
           items: [
             { label: "短期離職", title: "専門性を深めたい", body: "勤務先への不満だけでなく、電子部品・工程改善・品質の経験をもっと生かしたいと説明した。" },
-            { label: "半導体未経験", title: "共通点と未経験を分ける", body: "経験していない技術をできるとは言わず、共通する経験と業務外の学習姿勢を伝えた。" },
+            { label: "未経験の技術", title: "近い部分と違う部分を分ける", body: "電子部品として近い経験は具体的に示し、経験していない技術をできるとは言わなかった。" },
           ],
         },
       ],
@@ -155,11 +155,11 @@ export const electronicsToSemiconductorProcessEngineerGuide: GuideArticle = {
         {
           type: "note",
           title: "入社後に確かめること",
-          body: "半導体固有の技術を学ぶ速度、電子部品経験を実務で使える範囲、外資系の働き方との相性は、実際に働いてから追記します。",
+          body: "転職先固有のフィルタ技術を学ぶ速度、電子部品経験を実務で使える範囲、外資系の働き方との相性は、実際に働いてから追記します。",
         },
       ],
       paragraphs: [
-        "電子部品経験があれば半導体へ転職できる、外資系へ行けば年収が上がる、とは結論づけません。今回分かったのは、過去の仕事を分解して求人要件と照合すると、異業界だと思っていた求人にも強い接点が見つかる場合がある、ということです。",
+        "電子部品経験があれば半導体企業のどの仕事にも転職できる、外資系へ行けば年収が上がる、とは結論づけません。今回分かったのは、会社の分類だけでは遠く見える求人でも、担当製品と仕事内容まで見れば、自分の経験の延長にある場合がある、ということです。",
       ],
     },
   ],

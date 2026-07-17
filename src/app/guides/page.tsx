@@ -63,7 +63,7 @@ export default function GuidesPage() {
           <p>WRITTEN &amp; REVIEWED BY</p>
           <strong>RYO</strong>
           <span>製造業経験 約10年</span>
-          <p>電子部品の製造技術・品質・海外工場・製造DXを経て、外資系半導体メーカーへ。実体験と公開情報を分けて書きます。</p>
+          <p>電子部品の製造技術・品質・海外工場・製造DXを経て、外資系半導体企業のRFフィルタ事業へ。実体験と公開情報を分けて書きます。</p>
           <Link href="/about">執筆者と編集方針を見る <span aria-hidden="true">→</span></Link>
         </aside>
       </section>
@@ -71,7 +71,7 @@ export default function GuidesPage() {
       <section className="guides-feature" aria-labelledby="featured-guide-title">
         <header className="guides-section-heading">
           <div><p className="section-label">Featured story</p><h2 id="featured-guide-title">まず読んでほしい、転職の実体験</h2></div>
-          <p>成功談だけでなく、異業種でのミスマッチや短期離職、半導体未経験への向き合い方まで記録しました。</p>
+          <p>成功談だけでなく、異業種でのミスマッチや短期離職、経験の近い部分と未経験部分の分け方まで記録しました。</p>
         </header>
         <Link className="guides-feature-card" href={`/guides/${featuredGuide.slug}`}>
           <div className="guides-feature-route" aria-hidden="true">
@@ -79,7 +79,7 @@ export default function GuidesPage() {
             <ol>
               <li><small>01</small><strong>電子部品</strong><p>工程改善・品質</p></li>
               <li><small>02</small><strong>異業種DX</strong><p>ミスマッチ</p></li>
-              <li><small>03</small><strong>外資系半導体</strong><p>プロセス職</p></li>
+              <li><small>03</small><strong>外資系半導体</strong><p>RFフィルタのプロセス職</p></li>
             </ol>
           </div>
           <div className="guides-feature-copy">

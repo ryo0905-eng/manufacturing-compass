@@ -78,7 +78,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["career-translation"],
     suitableRoles: ["研究開発・設計", "生産技術", "品質管理・保証", "製造・保全"],
     consultationTopics: ["製造業経験の職務経歴書への落とし込み", "メーカー技術職の求人比較", "現職に近い職種からのキャリア設計"],
-    personalExperience: "次の外資系半導体メーカーへの転職は、タイズ経由で決まりました。工程改善、品質、海外勤務、データ活用などの経験を伝え、製造業の技術職、電子部品、半導体に関する求人を相談しました。",
+    personalExperience: "次の外資系半導体企業のRFフィルタ事業への転職は、タイズ経由で決まりました。工程改善、品質、海外勤務、データ活用などの経験を伝え、製造業の技術職、電子部品、半導体に関する求人を相談しました。",
     pointsToConfirm: "希望勤務地で、半導体・電子部品・製造装置に近い求人を扱っているか",
     affiliateUrl: undefined,
     officialUrl: "https://www.ee-ties.com/",
