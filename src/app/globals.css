@@ -2547,6 +2547,22 @@ select {
   line-height: 1.6;
 }
 
+.contact-form-card {
+  overflow: hidden;
+}
+
+.contact-form-frame {
+  display: block;
+  width: 100%;
+  min-height: 1120px;
+  border: 0;
+  background: #f7f8f8;
+}
+
+.contact-form-fallback {
+  font-size: 13px !important;
+}
+
 .career-agents-page {
   width: min(1120px, calc(100% - 40px));
   padding-top: 0;

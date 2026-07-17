@@ -44,6 +44,19 @@ export default function PrivacyPage() {
         </article>
 
         <article>
+          <h2>お問い合わせフォームについて</h2>
+          <p>
+            当サイトでは、お問い合わせの受付に Google フォームを利用しています。
+            入力されたメールアドレス、お問い合わせ種別、お名前、お問い合わせ内容は、問い合わせ対応および必要な確認のために利用します。
+          </p>
+          <p>
+            送信された情報は Google のサービスを通じて処理・保存されます。Google における情報の取り扱いは、
+            <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">Google プライバシーポリシー</a>
+            をご確認ください。
+          </p>
+        </article>
+
+        <article>
           <h2>Cookie と広告について</h2>
           <p>
             当サイトでは、アフィリエイト広告やアクセス解析のために Cookie 等の技術が利用される場合があります。

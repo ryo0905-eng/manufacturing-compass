@@ -6,7 +6,8 @@ export const metadata: Metadata = {
     "Manufacturing Compass へのお問い合わせ、掲載情報の修正依頼、広告掲載のご相談はこちらからご連絡ください。",
 };
 
-const contactEmail = "contact@mfg-compass.com";
+const contactFormUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdJZ41z2c2hJbCD8QaWp7yBLCKMTqLFG1hQ3eoVizk4_lFj1g/viewform";
 
 export default function ContactPage() {
   return (
@@ -15,19 +16,31 @@ export default function ContactPage() {
         <p className="eyebrow">運営者への連絡</p>
         <h1>お問い合わせ</h1>
         <p>
-          掲載情報の修正依頼、広告掲載、提携、その他のお問い合わせは、下記メールアドレスまでご連絡ください。
+          掲載情報の修正依頼、広告掲載、提携、その他のお問い合わせは、下記フォームからご連絡ください。
         </p>
       </section>
 
       <section className="legal-layout">
-        <article className="contact-card">
-          <h2>連絡先</h2>
+        <article className="contact-form-card">
+          <h2>お問い合わせフォーム</h2>
           <p>
-            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            内容を確認後、必要に応じて返信します。履歴書、勤務先の機密情報、健康情報など、問い合わせ対応に不要な情報は入力しないでください。
           </p>
-          <small>
-            内容確認後、必要に応じて返信します。営業・広告掲載のご相談は、サービス内容、掲載希望ページ、提携条件を添えてご連絡ください。
-          </small>
+          <iframe
+            className="contact-form-frame"
+            src={`${contactFormUrl}?embedded=true`}
+            title="Manufacturing Compass お問い合わせフォーム"
+            loading="lazy"
+          >
+            読み込んでいます…
+          </iframe>
+          <p className="contact-form-fallback">
+            フォームが表示されない場合は、
+            <a href={contactFormUrl} rel="noopener noreferrer" target="_blank">
+              Googleフォームを別画面で開く
+            </a>
+            からご連絡ください。
+          </p>
         </article>
 
         <article>
