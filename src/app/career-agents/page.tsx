@@ -72,7 +72,10 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
                 <div><dt>登録前に確認すること</dt><dd><p>{agent.pointsToConfirm}</p></dd></div>
               </dl>
               <footer className="agent-link-row">
-                <div><a className="text-link" href={agent.sourceUrl} rel="noopener noreferrer" target="_blank">公式情報 ↗</a><small>確認日 {agent.lastUpdated}</small></div>
+                <div>
+                  {!agent.affiliateCreativeHtml ? <a className="text-link" href={agent.sourceUrl} rel="noopener noreferrer" target="_blank">公式情報 ↗</a> : null}
+                  <small>確認日 {agent.lastUpdated}</small>
+                </div>
                 {agent.affiliateCreativeHtml ? <TrackedAffiliateCreative agentId={agent.id} html={agent.affiliateCreativeHtml} /> : url ? <a className="button secondary" href={url} rel={getAgentRel(agent)} target="_blank">{getAgentCtaLabel(agent)} ↗</a> : null}
               </footer>
             </article>
