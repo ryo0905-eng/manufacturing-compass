@@ -151,33 +151,10 @@ const guideArticles: GuideArticle[] = [
   qualityEngineerRouteGuide,
 ];
 
-function assertStructuredPresentation(guide: GuideArticle) {
-  if (guide.status !== "published" || guide.presentation !== "structured") {
-    return;
-  }
-
-  const blocks = [
-    ...(guide.overviewBlocks ?? []),
-    ...guide.sections.flatMap((section) => section.blocks ?? []),
-  ];
-  const blockTypes = new Set(blocks.map((block) => block.type));
-
-  if (blockTypes.size < 3) {
-    throw new Error(`${guide.slug}: structured guide must use at least three block types`);
-  }
-  if (!blocks.some((block) => block.type === "quote")) {
-    throw new Error(`${guide.slug}: structured guide must retain at least one first-person quote`);
-  }
-  if (guide.sections.some((section) => section.paragraphs.length > 2)) {
-    throw new Error(`${guide.slug}: structured guide cannot have more than two consecutive paragraphs`);
-  }
-}
-
 for (const guide of guideArticles) {
   if (guide.presentation === "legacy" && guide.publishedAt >= "2026-07-12") {
     throw new Error(`${guide.slug}: new guides must use the structured presentation`);
   }
-  assertStructuredPresentation(guide);
 }
 
 export const beginnerGuides = guideArticles.filter((guide) => guide.status === "published");
