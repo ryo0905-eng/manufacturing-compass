@@ -21,7 +21,7 @@ export const semiconductorResumeImprovementResultsGuide: GuideArticle = {
   basisNote:
     "本人の職務経歴書と面接経験をもとに、一般情報は厚生労働省と企業公式求人で確認しています。",
   publishedAt: "2026-07-17",
-  updatedAt: "2026-07-17",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "職務経歴書の作り方",
@@ -73,20 +73,8 @@ export const semiconductorResumeImprovementResultsGuide: GuideArticle = {
       id: "selection-criteria",
       heading: "実績を選んだ基準は、数字と自分の役割",
       lead: "成果の大きさと、面接で説明できる範囲の両方を見ました。",
-      blocks: [
-        {
-          type: "cards",
-          columns: 4,
-          items: [
-            { label: "RESULT", title: "数字で示せる", body: "金額、工数、不良率など、何がどれだけ変わったか" },
-            { label: "ROLE", title: "役割を説明できる", body: "自分が判断し、実行した範囲を話せるか" },
-            { label: "TEAM", title: "周囲を巻き込んだ", body: "他部門とどんな論点を調整したか" },
-            { label: "RECENT", title: "直近の成果である", body: "現在の強みと応募先の仕事に近いか" },
-          ],
-        },
-      ],
       paragraphs: [
-        "職務経歴書には、年間約1.2億円と約1億円のコスト削減、立ち上げ工数90％削減、不良率100ppmから0ppmといった実績を載せました。ただし、数字が大きければ何でも残したわけではありません。",
+        "職務経歴書には、年間約1.2億円と約1億円のコスト削減、立ち上げ工数90％削減、不良率100ppmから0ppmといった実績を載せました。選んだ基準はシンプルで、成果を数字で表せることと、自分の役割をきちんと説明できることです。",
         "チーム全体で成果が出ていても、自分の役割が限定的なら、質問が深くなるほど答えにくくなります。自分が課題を見つけ、関係者へ説明し、改善まで進めた経験を優先しました。",
       ],
     },
@@ -161,17 +149,8 @@ export const semiconductorResumeImprovementResultsGuide: GuideArticle = {
       id: "interview-revision",
       heading: "職務経歴書は、面接を受けながら直した",
       lead: "答えに詰まった箇所を、次の面接へ向けた編集材料にしました。",
-      blocks: [
-        {
-          type: "timeline",
-          items: [
-            { label: "01", title: "質問を受ける", body: "職務経歴書をもとに、役割や工夫を深掘りされる" },
-            { label: "02", title: "明確にする", body: "次は自分の言葉で答えられるよう、役割や経緯を直す" },
-            { label: "03", title: "必要なら削る", body: "詳しく説明するほど重要でなければ、職務経歴書から外す" },
-          ],
-        },
-      ],
       paragraphs: [
+        "面接で聞かれて答えに困ったことは、次に困らないように明確にしました。そこまで重要な実績でなければ、無理に説明を足さず、職務経歴書から削りました。これは実際に面接を受ける中で分かったことです。",
         "具体的に何を削ったかは、正直あまり覚えていません。ただ、成果として大きくないもの、自分一人で完結して周囲を巻き込んでいないもの、自分の役割が限定的で深く質問されると答えられなくなるものは、少しずつ減らしました。",
         "一人で行った改善に価値がないという意味ではありません。限られた紙面の中で、より自分の強みが伝わり、面接でも詳しく話せる経験を残しました。",
       ],
@@ -181,15 +160,6 @@ export const semiconductorResumeImprovementResultsGuide: GuideArticle = {
       heading: "今ゼロから作るなら、生成AIに一問ずつ聞いてもらう",
       lead: "経験と成果の事実は自分で出し、文章を読みやすくする部分を手伝ってもらいます。",
       blocks: [
-        {
-          type: "cards",
-          columns: 3,
-          items: [
-            { label: "WRITE", title: "思いつくまま書く", body: "最初から整った文章にせず、経験の事実を出す" },
-            { label: "EDIT", title: "短く整えてもらう", body: "シンプルで、採用側が理解しやすい表現にする" },
-            { label: "CHECK", title: "自分で読み直す", body: "面接で自分の言葉として説明できる内容だけを残す" },
-          ],
-        },
         {
           type: "note",
           title: "生成AIへ渡す質問文の例",
