@@ -15,15 +15,15 @@ export const appliedMaterialsSemiconductorEquipmentGuide: GuideArticle = {
   reviewedBy: "RYO",
   basisLabel: "この記事の調査・編集方針",
   basisNote:
-    "Search Consoleに表示された『アプライドマテリアルズ 強み』などのクエリを起点に、同社の公式製品情報、日本法人ページ、2025年年次報告書で担当工程と事業範囲を照合しました。市場シェアや転職先としての優劣は評価しません。",
+    "同社の公式製品情報、日本法人ページ、2025年年次報告書で担当工程と事業範囲を照合しました。市場シェアや転職先としての優劣は評価しません。",
   showCareerCtas: false,
   experienceBasis: [
-    "Search Consoleに『アプライドマテリアルズ 強み』『アプライド マテリアルズ ジャパン』などの検索クエリが表示されたことを確認",
+    "装置の強みを一語で評価せず、製造工程と製品ポートフォリオから確認",
     "既存の企業詳細ページとは分け、この記事では半導体製造工程と製品ポートフォリオの理解へ焦点を設定",
     "Applied Materialsの公式製品ページ、日本法人情報、2025年年次報告書で装置・サービス領域を確認",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "Semiconductor Products",
@@ -78,12 +78,6 @@ export const appliedMaterialsSemiconductorEquipmentGuide: GuideArticle = {
       "アプライドマテリアルズが何をする会社か、工程別の製品領域、Semiconductor SystemsとApplied Global Servicesの違い、製品ポートフォリオの見方、日本法人の役割、関連職種。",
   },
   overviewBlocks: [
-    {
-      type: "quote",
-      quote:
-        "Search Consoleに『アプライドマテリアルズ 強み』が出てきました。強みを一言で決めるより、まず公式情報にある装置を製造工程へ並べると、この会社の特徴を自分で判断しやすくなります。",
-      caption: "この記事を作成した理由",
-    },
     {
       type: "process-flow",
       title: "図解｜材料を作る・形を作る・性質を変える・測る",

@@ -15,15 +15,15 @@ export const semiconductorDepositionEquipmentManufacturersGuide: GuideArticle = 
   reviewedBy: "RYO",
   basisLabel: "この記事の調査・編集方針",
   basisNote:
-    "Search Consoleに表示された『ASM 東京エレクトロン』を起点に、各社の公式製品情報で成膜方式と装置領域を照合しました。市場シェアや企業の優劣ではなく、装置を同じ条件で比較するための基礎を説明します。",
+    "各社の公式製品情報で成膜方式と装置領域を照合しました。市場シェアや企業の優劣ではなく、装置を同じ条件で比較するための基礎を説明します。",
   showCareerCtas: false,
   experienceBasis: [
-    "Search Consoleに『ASM 東京エレクトロン』が表示され、成膜装置企業を比較する検索需要を確認",
+    "成膜装置企業を比べる前提として、成膜方式と装置構成を同じ条件で整理",
     "既存の成膜工程記事とは分け、この記事では装置構成、量産方式、企業ポートフォリオ、職種へ焦点を設定",
     "ASM、東京エレクトロン、Applied Materials、Lam Research、Canonの公式技術・製品情報で担当領域を確認",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "Atomic Layer Deposition",
@@ -96,12 +96,6 @@ export const semiconductorDepositionEquipmentManufacturersGuide: GuideArticle = 
       "成膜装置メーカーの役割、装置の基本構成、CVD・ALD・PVD装置、枚葉式・バッチ式・セミバッチ式、主要企業、ASMと東京エレクトロンの比較観点、関連職種。",
   },
   overviewBlocks: [
-    {
-      type: "quote",
-      quote:
-        "Search Consoleに『ASM 東京エレクトロン』が出てきました。会社名を直接比べる前に、両社が扱う成膜方式と装置構成を同じ地図へ置ける記事が必要だと考えました。",
-      caption: "この記事を作成した理由",
-    },
     {
       type: "process-flow",
       title: "図解｜膜の要求を、量産装置へ変換する",

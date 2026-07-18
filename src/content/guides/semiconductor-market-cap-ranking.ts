@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-07-14",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "Largest semiconductor companies by market cap",
@@ -119,13 +119,6 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     conclusion: "2026年7月13日時点ではNVIDIAが首位です。ただし、時価総額だけでなく各社が設計・製造・装置・後工程のどこを担うかを合わせて見ます。",
     learnings: "世界TOP30、日本TOP10、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
   },
-  overviewBlocks: [
-    {
-      type: "quote",
-      quote: "NVIDIA、TSMC、ASML、東京エレクトロンは役割が違います。企業規模と業界内での位置を一つの一覧で確認したいと思い、時価総額ランキングとして整理しました。",
-      caption: "この記事を作成した理由",
-    },
-  ],
   sections: [
     {
       id: "world-ranking",

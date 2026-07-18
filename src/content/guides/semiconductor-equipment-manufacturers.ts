@@ -15,15 +15,15 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   reviewedBy: "RYO",
   basisLabel: "この記事の調査・編集方針",
   basisNote:
-    "Search Consoleに表示された装置企業名の組み合わせを起点に、公的資料と各社の公式製品情報で工程別の担当領域を照合しました。市場シェアや企業の優劣ではなく、装置が製造フローのどこで使われるかを説明します。",
+    "公的資料と各社の公式製品情報で工程別の担当領域を照合しました。市場シェアや企業の優劣ではなく、装置が製造フローのどこで使われるかを説明します。",
   showCareerCtas: false,
   experienceBasis: [
-    "Search Consoleに『ASM 東京エレクトロン』『アドバンテスト テラダイン 比較』『アプライドマテリアルズ 強み』などの検索クエリが表示されたことを確認",
+    "掲載企業は順位づけせず、工程と公式に確認できる製品領域で整理",
     "個別企業の比較記事を増やす前に、工程と装置企業を対応づける基礎ハブが必要だと判断",
     "経済産業省の資料と、国内外の装置メーカー各社が公開する製品情報で担当工程を照合",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "中部地域 半導体人材育成プログラム 2024年7月版",
@@ -108,12 +108,6 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
       "半導体製造装置メーカーの意味、工程別の装置、国内外の代表企業、ASMと東京エレクトロンなどの製品領域、装置企業の比較方法、主な職種。",
   },
   overviewBlocks: [
-    {
-      type: "quote",
-      quote:
-        "Search Consoleには、装置企業どうしを組み合わせた検索語が出てきました。先に工程別の地図があれば、二社が本当に同じ市場で比べられるのか判断しやすいと考え、装置メーカーの基礎ハブを作りました。",
-      caption: "この記事を作成した理由",
-    },
     {
       type: "process-flow",
       title: "設計データが半導体になるまでを、装置がつなぐ",
@@ -237,7 +231,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
         {
           type: "note",
           title: "企業一覧は網羅的な順位表ではない",
-          body: "半導体製造装置には、搬送、真空、ガス供給、温度制御、パッケージ組立など、ここに載せていない多くの企業と部品メーカーも関わります。掲載企業は、Search Consoleで観測した企業とサイト内の主要企業ページを中心にした代表例です。",
+          body: "半導体製造装置には、搬送、真空、ガス供給、温度制御、パッケージ組立など、ここに載せていない多くの企業と部品メーカーも関わります。掲載企業は、各工程の役割を説明しやすく、公式製品情報を確認できる企業を中心にした代表例です。",
         },
       ],
       paragraphs: [
@@ -248,7 +242,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
     {
       id: "query-comparisons",
       heading: "企業名を比較するときは、同じ工程と製品範囲を確認する",
-      lead: "Search Consoleに出てきた企業名の組み合わせも、工程へ置くと違いが見えます。",
+      lead: "企業名を組み合わせて比べるときも、工程へ置くと違いが見えます。",
       blocks: [
         {
           type: "mapping",

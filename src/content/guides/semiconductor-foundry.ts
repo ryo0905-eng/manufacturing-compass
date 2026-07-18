@@ -15,15 +15,15 @@ export const semiconductorFoundryGuide: GuideArticle = {
   reviewedBy: "RYO",
   basisLabel: "この記事の調査・編集方針",
   basisNote:
-    "検索クエリから確認できた疑問を起点に、公的機関と企業の公式資料で分業構造を照合しました。企業の優劣や市場順位ではなく、事業モデルと仕事の違いを説明します。",
+    "公的機関と企業の公式資料で分業構造を照合しました。企業の優劣や市場順位ではなく、事業モデルと仕事の違いを説明します。",
   showCareerCtas: false,
   experienceBasis: [
-    "Search Consoleに『foundry 意味』という検索クエリが表示され、初心者向けの独立した説明が必要だと判断",
+    "ファウンドリの意味を、設計から量産までの分業と受け渡しから整理",
     "経済産業省の半導体人材育成資料で、ファブレス・ファウンドリ・IDM・OSATの水平分業を確認",
     "TSMC、Samsung Foundry、UMC、Intel Foundry、ASEの公式情報で、設計支援・製造・後工程の境界を照合",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "中部地域 半導体人材育成プログラム 2024年7月版",
@@ -81,12 +81,6 @@ export const semiconductorFoundryGuide: GuideArticle = {
     learnings: "ファウンドリの意味、ファブレス・IDM・OSATとの違い、設計から量産までの流れ、企業の分類、関連職種と企業研究の見方。",
   },
   overviewBlocks: [
-    {
-      type: "quote",
-      quote:
-        "Search Consoleに『foundry 意味』という検索語が出てきました。業界地図だけでは分業の仕組みが伝わりにくいと考え、設計から量産までの受け渡しを一つの記事に整理しました。",
-      caption: "この記事を作成した理由",
-    },
     {
       type: "process-flow",
       title: "ファブレスの設計が、ファウンドリで半導体になるまで",

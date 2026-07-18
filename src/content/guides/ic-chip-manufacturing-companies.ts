@@ -15,15 +15,15 @@ export const icChipManufacturingCompaniesGuide: GuideArticle = {
   reviewedBy: "RYO",
   basisLabel: "この記事の調査・編集方針",
   basisNote:
-    "Search Consoleに表示された『icチップ 製造 会社』を起点に、公的資料と企業公式情報で設計・ウェーハ製造・組立テストの分業を照合しました。企業規模の順位ではなく、ICチップが完成するまでの担当範囲で整理しています。",
+    "公的資料と企業公式情報で設計・ウェーハ製造・組立テストの分業を照合しました。企業規模の順位ではなく、ICチップが完成するまでの担当範囲で整理しています。",
   showCareerCtas: false,
   experienceBasis: [
-    "Search Consoleに『icチップ 製造 会社』という検索クエリが表示され、企業分類から説明する記事が必要だと判断",
+    "企業名だけを並べず、ICチップが完成するまでの担当範囲で分類",
     "経済産業省の半導体人材育成資料で、ファブレス・ファウンドリ・IDM・OSATの分業構造を確認",
     "企業公式情報で、設計、ウェーハ製造、メモリ、組立・テスト、製造装置の担当範囲を照合",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "Integrated Circuit",
@@ -96,12 +96,6 @@ export const icChipManufacturingCompaniesGuide: GuideArticle = {
       "ICチップの意味、設計から完成までの会社分担、ファブレス・ファウンドリ・IDM・OSATの違い、国内外の代表企業、日本企業の見方、製品と職種による企業研究。",
   },
   overviewBlocks: [
-    {
-      type: "quote",
-      quote:
-        "Search Consoleに『icチップ 製造 会社』という検索語が出てきました。社名の一覧だけでは、設計する会社と工場で作る会社が混ざってしまうため、『誰がどこを作るか』から整理しました。",
-      caption: "この記事を作成した理由",
-    },
     {
       type: "process-flow",
       title: "ICチップは、複数種類の会社を通って完成する",

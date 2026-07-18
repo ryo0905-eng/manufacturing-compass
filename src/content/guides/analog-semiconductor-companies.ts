@@ -15,15 +15,15 @@ export const analogSemiconductorCompaniesGuide: GuideArticle = {
   reviewedBy: "RYO",
   basisLabel: "この記事の調査・編集方針",
   basisNote:
-    "Search Consoleに表示された検索クエリを起点に、公的資料と各社の公式製品情報を照合しました。企業は売上順位ではなく、公式に確認できる製品領域と用途で整理しています。",
+    "公的資料と各社の公式製品情報を照合しました。企業は売上順位ではなく、公式に確認できる製品領域と用途で整理しています。",
   showCareerCtas: false,
   experienceBasis: [
-    "Search Consoleに『アナログ 半導体 企業』という検索クエリが表示され、定義と企業を一緒に調べる需要があると判断",
+    "企業は売上順位ではなく、公式に確認できる製品領域と用途で整理",
     "経済産業省の半導体・デジタル産業戦略資料で、アナログ半導体の定義、製品例、用途を確認",
     "TI、Analog Devices、ルネサス、Infineon、ST、NXP、onsemi、ロームの公式情報で製品領域を照合",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "半導体・デジタル産業戦略について",
@@ -96,12 +96,6 @@ export const analogSemiconductorCompaniesGuide: GuideArticle = {
       "アナログ半導体の意味、デジタル・ミックスドシグナルとの違い、信号の流れ、代表製品、用途、国内外8社の特徴、企業研究と関連職種の見方。",
   },
   overviewBlocks: [
-    {
-      type: "quote",
-      quote:
-        "Search Consoleに『アナログ 半導体 企業』という検索語が出てきました。企業名だけ並べるより、何を作る会社なのか判断できる基準が先に必要だと考え、信号の流れから整理しました。",
-      caption: "この記事を作成した理由",
-    },
     {
       type: "process-flow",
       title: "現実世界の変化が、デジタル処理と動作へつながるまで",

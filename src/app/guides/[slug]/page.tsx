@@ -70,6 +70,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const nextProcessGuide = processSeriesIndex >= 0 && processSeriesIndex < semiconductorProcessSeriesSlugs.length - 1
     ? getGuideBySlug(semiconductorProcessSeriesSlugs[processSeriesIndex + 1])
     : undefined;
+  const showGuideBasis = guide.basisLabel !== "この記事の調査・編集方針";
 
   return (
     <main className="page guide-page">
@@ -87,15 +88,17 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <div><dt>結論</dt><dd>{guide.intro.conclusion}</dd></div>
             <div><dt>読むと分かること</dt><dd>{guide.intro.learnings}</dd></div>
           </dl>
-          <aside className="guide-experience-basis" aria-label={guide.basisLabel ?? "この記事の実体験の根拠"}>
-            <strong>{guide.basisLabel ?? "この記事の実体験の根拠"}</strong>
-            <ul>{guide.experienceBasis.map((item) => <li key={item}>{item}</li>)}</ul>
-            <small>{guide.basisNote ?? (guide.basisLabel
-              ? "ランキングデータと企業分類の確認方法を明記し、記事末尾に主要な出典を掲載しています。"
-              : guide.sources.length > 0
-              ? "実体験と一般情報を分け、一般情報は記事末尾の公開情報で確認しています。"
-              : "運営者本人の実体験をもとに、事実、判断、AIによる推測を分けて記載しています。")}</small>
-          </aside>
+          {showGuideBasis ? (
+            <aside className="guide-experience-basis" aria-label={guide.basisLabel ?? "この記事の実体験の根拠"}>
+              <strong>{guide.basisLabel ?? "この記事の実体験の根拠"}</strong>
+              <ul>{guide.experienceBasis.map((item) => <li key={item}>{item}</li>)}</ul>
+              <small>{guide.basisNote ?? (guide.basisLabel
+                ? "ランキングデータと企業分類の確認方法を明記し、記事末尾に主要な出典を掲載しています。"
+                : guide.sources.length > 0
+                ? "実体験と一般情報を分け、一般情報は記事末尾の公開情報で確認しています。"
+                : "運営者本人の実体験をもとに、事実、判断、AIによる推測を分けて記載しています。")}</small>
+            </aside>
+          ) : null}
         </header>
 
         {guide.overviewBlocks ? <GuideBlocks blocks={guide.overviewBlocks} /> : null}

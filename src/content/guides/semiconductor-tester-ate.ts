@@ -15,15 +15,15 @@ export const semiconductorTesterAteGuide: GuideArticle = {
   reviewedBy: "RYO",
   basisLabel: "この記事の調査・編集方針",
   basisNote:
-    "Search Consoleに表示された『アドバンテスト テラダイン 比較』を起点に、両社と関連装置メーカーの公式情報を照合しました。市場シェアや企業の優劣ではなく、ATEの役割と企業比較の前提を説明します。",
+    "両社と関連装置メーカーの公式情報を照合しました。市場シェアや企業の優劣ではなく、ATEの役割と企業比較の前提を説明します。",
   showCareerCtas: false,
   experienceBasis: [
-    "Search Consoleに『アドバンテスト テラダイン 比較』が表示され、半導体テスタ企業を調べる需要を確認",
+    "企業名だけを比べず、ATE本体と周辺装置の役割を同じテストセル上で整理",
     "既存のウェーハテスト・最終検査記事とは分け、この記事ではATE本体、対象デバイス、テストセル、メーカー比較へ焦点を設定",
     "アドバンテスト、Teradyne、東京エレクトロン、FormFactorの公式技術・製品情報で役割分担を確認",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-07-19",
   sources: [
     {
       title: "What Is ATE (Automated Test Equipment)? Roles, Systems & Feature Outlook",
@@ -84,12 +84,6 @@ export const semiconductorTesterAteGuide: GuideArticle = {
       "半導体テスタとATEの意味、試験フロー、テストセルの構成、デバイス別の違い、主要メーカー、アドバンテストとTeradyneを比較する観点、関連する職種。",
   },
   overviewBlocks: [
-    {
-      type: "quote",
-      quote:
-        "Search Consoleで『アドバンテスト テラダイン 比較』が掲載順位6位まで出ていました。二社の名前だけを比べる前に、テスタ本体と周辺装置の地図が必要だと考え、この基礎記事を作りました。",
-      caption: "この記事を作成した理由",
-    },
     {
       type: "process-flow",
       title: "図解｜テストプログラムから判定データまで",
@@ -217,7 +211,7 @@ export const semiconductorTesterAteGuide: GuideArticle = {
         {
           type: "note",
           title: "主要メーカーは順位表ではない",
-          body: "ここではSearch Consoleで観測した企業と、テストセルの役割を説明しやすい公式情報を持つ企業を代表例として掲載しています。市場シェア、技術力、採用条件の優劣を示す一覧ではありません。",
+          body: "ここではテストセルの役割を説明しやすく、公式製品情報を確認できる企業を代表例として掲載しています。市場シェア、技術力、採用条件の優劣を示す一覧ではありません。",
         },
       ],
       paragraphs: [
