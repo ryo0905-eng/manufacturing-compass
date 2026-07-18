@@ -1,192 +1,85 @@
-# Database Design
+# Static Data Design
+
+最終更新日: 2026-07-19
 
 ## 方針
 
-Phase 1.5 ではローカル静的データで診断を実装する。
+現在、外部データベースは使用していません。公開情報、Career Compass のルール、記事、アフィリエイト情報はリポジトリ内の TypeScript データとして管理します。
 
-将来 Supabase に移行しやすいように、診断、企業、職種、年収レンジ、アフィリエイト CTA を分けて設計する。
+- データ定義と表示ロジックを分離する
+- 公開情報には出典と更新日を持たせる
+- 参考値と事実を型・表示の両方で区別する
+- `.private/` の個人情報と取材メモを公開データへ混ぜない
+- Supabase 移行のためだけに、現時点で不要な抽象化を増やさない
 
-年収、企業情報、採用情報には情報ソース URL と最終更新日を持たせる。推測値は断定せず、レンジと目安として表示する。
+## 現在のデータ所有者
 
-## Phase 1.5 必須データ
+| データ | 正本 | 主な型・用途 |
+| --- | --- | --- |
+| Career Compass | `src/data/career-compass.ts` | 質問選択肢、結果プロファイル、準備行動 |
+| 企業・セグメント | `src/data/companies.ts` | `Company`, `IndustrySegment` |
+| 企業別キャリア準備 | `src/data/companies.ts` | `CareerInfo` |
+| 共通の企業型 | `src/types/content.ts` | `Source`, `Company`, `CareerInfo` |
+| 参考年収帯の説明 | `src/data/salary-methodology.ts` | 算出手順、注意書き、出典 |
+| 転職エージェント | `src/data/affiliateLinks.ts` | 提携状態、URL、対象、広告表記 |
+| ガイド記事 | `src/content/guides/` | 記事本文、出典、SEO、更新情報 |
+| ガイド集約 | `src/data/editorial.ts` | 公開記事の取得と一覧 |
+| ランキング | `src/data/semiconductor-*.ts` | 数値、対象時点、出典 |
 
-- DiagnosisQuestion
-- DiagnosisOption
-- DiagnosisRule
-- DiagnosisResult
-- MarketValueBand
-- RoleProfile
-- Company
-- CareerInfo
-- AffiliatePartner
-- LearningPartner
+## 共通の出典
 
-## Entity: DiagnosisQuestion
+公開情報は原則として次の形を持ちます。
 
 | Field | Type | Note |
 | --- | --- | --- |
-| id | string | 一意 ID |
-| order | number | 表示順 |
-| title | string | 質問文 |
-| description | string | 補足 |
-| optionIds | string[] | 選択肢 |
-| required | boolean | 必須 |
+| `title` | `string` | 情報源名 |
+| `url` | `string` | 情報源URL |
+| `publisher` | `string` | 発行元 |
+| `accessedAt` | `string` | `YYYY-MM-DD` の確認日 |
 
-## Entity: DiagnosisOption
+対象データ自体にも `lastUpdated` または `updatedAt` を持たせます。変動する数値では、数値の対象年度・基準時点とページの確認日を混同しません。
 
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| questionId | string | 質問 ID |
-| label | string | 表示名 |
-| description | string | 補足 |
-| tags | string[] | 診断用タグ |
-| scoreModifiers | object | スコア補正 |
+## 企業データ
 
-## Entity: DiagnosisRule
+`Company` は会社概要、事業区分、日本拠点、職種カテゴリ、出典を保持します。財務指標は値だけでなく対象年度と通貨を持たせます。
 
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| name | string | ルール名 |
-| conditions | object | 適用条件 |
-| marketValueScoreDelta | number | 市場価値スコア補正 |
-| salaryBandId | string | 年収レンジ |
-| reachableRoleIds | string[] | 今狙える職種 |
-| stretchRoleIds | string[] | 将来狙える職種 |
-| growthLeverIds | string[] | 伸ばすべき要素 |
-| ctaIds | string[] | 表示する CTA |
+`CareerInfo` は、企業公式の採用情報から確認した職種・経験と、Manufacturing Compass が整理した準備提案を扱います。企業が公式に推奨している内容と誤認させない注記を表示します。
 
-## Entity: DiagnosisResult
+個別 `CareerInfo` がない企業は、詳細ページを閲覧可能にしても `noindex, follow` とし、sitemap へ含めません。
 
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| title | string | 結果タイトル |
-| summary | string | 要約 |
-| marketValueScore | number | 市場価値スコア |
-| salaryRangeCurrent | string | 現在の想定年収レンジ |
-| salaryRangePotential | string | 伸ばした後の想定年収レンジ |
-| reachableCompanyIds | string[] | 今狙いやすい会社 |
-| stretchCompanyIds | string[] | 将来狙える会社 |
-| reachableRoleIds | string[] | 今狙いやすい職種 |
-| growthLeverIds | string[] | 伸ばすべき要素 |
-| actionsToday | string[] | 今日やること |
-| roadmap30Days | string[] | 30日ロードマップ |
-| roadmap90Days | string[] | 90日ロードマップ |
-| roadmap6Months | string[] | 6か月ロードマップ |
-| recommendedCtaIds | string[] | 推奨 CTA |
-| disclaimer | string | 注意書き |
+## Career Compass データ
 
-## Entity: MarketValueBand
+Career Compass は次の3層で考えます。
 
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| label | string | 例: Entry, Growth, High Potential |
-| scoreMin | number | 最小スコア |
-| scoreMax | number | 最大スコア |
-| salaryRangeJa | string | 想定年収レンジ |
-| description | string | 説明 |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
+1. 回答選択肢: ユーザーがブラウザ上で選ぶ値
+2. 静的ルール: スコア、職種、準備内容、表示順を合成する条件
+3. 結果プロファイル: 職種領域ごとの説明、参考年収帯、企業ID、行動案
 
-## Entity: RoleProfile
+回答と結果を永続化しません。URL、Analytics、ログへ回答値を送らない前提を崩す変更は、PRD とプライバシーポリシーの更新が必要です。
 
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| slug | string | URL 用識別子 |
-| name | string | 職種名 |
-| segmentIds | string[] | 関連セグメント |
-| typicalSalaryRange | string | 年収レンジ目安 |
-| requiredExperience | string[] | 必要経験 |
-| usefulSkills | string[] | 有用スキル |
-| englishImpact | string | 英語力の影響 |
-| nextActions | string[] | 次の行動 |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
+参考年収帯は個人の査定結果ではありません。出典と算出説明は `src/data/salary-methodology.ts` に一元化し、プロファイル側へ個別の根拠説明を重複させません。
 
-## Entity: Company
+## アフィリエイトデータ
 
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| slug | string | URL 用識別子 |
-| name | string | 英語名 |
-| nameJa | string | 日本語名 |
-| summary | string | 会社概要 |
-| headquartersCountry | string | 本社所在国 |
-| websiteUrl | string | 公式サイト |
-| careerUrl | string | 採用ページ |
-| industrySegments | string[] | 関連セグメント |
-| businessModel | string | IDM、ファブレス、ファウンドリ等 |
-| mainProducts | string[] | 主力製品 |
-| competitors | string[] | 競合企業 ID |
-| revenue | string | 売上 |
-| operatingIncome | string | 営業利益 |
-| marketCap | string | 時価総額 |
-| employees | string | 従業員数 |
-| fiscalYear | string | 数値の対象年度 |
-| currency | string | 通貨 |
-| japanPresence | string | 日本での事業状況 |
-| locationsJapan | string[] | 日本拠点 |
-| englishRequirement | string | 英語必要度 |
-| jobCategories | string[] | 募集職種カテゴリ |
-| careerSummary | string | 転職者向け要約 |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
+提携済み、審査中、公式リンクのみを区別します。少なくとも次を保持します。
 
-## Entity: CareerInfo
+- ID、サービス名、URL
+- 対象ユーザーと相談テーマ
+- 提携・広告リンクかどうか
+- CTA 文言と広告表記
+- 有効状態
 
-| Field | Type | Note |
-| --- | --- | --- |
-| companyId | string | 企業 ID |
-| typicalRoles | string[] | 代表的な職種 |
-| recommendedExperience | string[] | 推奨経験 |
-| usefulSkills | string[] | 有用なスキル |
-| englishLevel | string | 英語目安 |
-| helpfulCertifications | string[] | 役立つ資格 |
-| suitableBackgrounds | string[] | 今狙いやすい経歴 |
-| stretchBackgrounds | string[] | 将来狙える経歴 |
-| preparationActions6Months | string[] | 半年の準備 |
-| preparationActions1Year | string[] | 1年の準備 |
-| steppingStoneCompanies | string[] | ステップになる会社 |
-| sources | Source[] | 情報ソース |
-| lastUpdated | string | 最終更新日 |
+審査中のサービスを提携済みとして表示しません。URL と訴求は ASP の条件変更時に確認します。
 
-## Entity: AffiliatePartner
+## 将来の永続化
 
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| name | string | パートナー名 |
-| url | string | アフィリエイト URL |
-| category | string | 転職エージェント等 |
-| targetUser | string | 対象ユーザー |
-| triggerCondition | string | 表示条件 |
-| ctaText | string | CTA 文言 |
-| disclosureText | string | 広告表記 |
-| isActive | boolean | 有効状態 |
+外部データベースを導入する場合は、先に以下を文書化します。
 
-## Entity: LearningPartner
+- 保存対象と保存しない対象
+- 保存目的、同意、保持期間、削除方法
+- 匿名IDと個人情報の境界
+- 読み書き権限と監査方法
+- 静的データからの移行単位
+- 障害時に公開ページを維持する方法
 
-| Field | Type | Note |
-| --- | --- | --- |
-| id | string | 一意 ID |
-| name | string | サービス名 |
-| category | string | 英語、資格、統計、半導体講座など |
-| url | string | アフィリエイト URL |
-| targetGap | string | 対応する不足要素 |
-| ctaText | string | CTA 文言 |
-| disclosureText | string | 広告表記 |
-| isActive | boolean | 有効状態 |
-
-## Shared Type: Source
-
-| Field | Type | Note |
-| --- | --- | --- |
-| title | string | 情報源名 |
-| url | string | URL |
-| publisher | string | 発行元 |
-| accessedAt | string | 確認日 |
+需要検証前に、診断回答、メール、閲覧履歴、ユーザーアカウントを保存対象へ追加しません。

@@ -1,160 +1,149 @@
 # Manufacturing Compass
 
-Manufacturing Compass は、半導体業界への転職を考える人が、求人を見る前に業界・企業・仕事内容・キャリアパスを理解できる日本語のキャリアプラットフォームです。
+Manufacturing Compass は、製造業で積んだ経験を半導体業界の職種へ置き換え、次の行動まで整理する日本語のキャリアプラットフォームです。
 
-単なる求人サイトではなく、半導体業界地図、企業データベース、企業比較、転職者目線の企業研究、キャリア準備情報を通じて、「今狙える会社」と「将来チャレンジできる会社」への道筋を示します。
+求人の転載や合否判定を目的にせず、Career Compass、半導体業界地図、企業データベース、比較、技術・キャリア記事を通じて「今の経験との接点」「準備すると広がる選択肢」「相談時に確認すること」を示します。
 
-## なぜ作るのか
+本番URL: [https://mfg-compass.com](https://mfg-compass.com)
 
-半導体業界は成長領域でありながら、企業の役割、職種、必要経験、英語力、キャリアパスが外から見えにくい領域です。Manufacturing Compass は、転職希望者が自分の現在地を理解し、半年後・1年後・数年後に向けて具体的な準備を進められる状態を目指します。
+## 現在の中心機能
 
-## 主な機能
+### Career Compass
 
-- 半導体業界地図
-- Career Compass
-- 企業データベース
-- 企業詳細ページ
-- 企業比較ページ
-- 転職者目線の企業研究
-- キャリア準備情報
-- 将来的なキャリア現在地チェック
-- 将来的な AI キャリア診断
-- 転職エージェント相談への自然な CTA
+- 12問、登録不要、個人情報を保存しない静的ルールベース
+- 製造業経験を半導体職種へ翻訳する
+- 転職材料の整理度、参考年収帯、経験と接点のある企業例を示す
+- 今日、30日、3か月、半年、1年の準備を提案する
+- 合否、企業評価、採用可能性、実際の提示年収は判定しない
 
-## 想定ユーザー
+### 情報コンテンツ
 
-- 半導体業界への転職を検討している人
-- 製造業、電子部品、品質保証、生産技術、設備保全などの経験を半導体業界で活かしたい人
-- 今すぐ転職したい人
-- 今はまだ届かない会社に、半年後・1年後・数年後に挑戦したい人
+- 半導体業界地図とセグメント
+- 企業一覧、企業詳細、キャリア準備、企業比較
+- 半導体製造工程、装置、材料、部品の技術解説
+- 運営者の実体験を核にした転職・キャリア記事
+- 公開情報に基づくランキング
+- 転職エージェント比較と相談準備
 
-## 将来の技術スタック
+## 現在の方針
 
-- Next.js App Router
+- 半導体業界に限定する
+- ローカル静的データで小さく運用する
+- ログイン、ユーザー保存、口コミ、求人連携、AI キャリア診断は実装しない
+- SEO と情報構造を重視する
+- 出典、更新日、匿名化、人間による確認を優先する
+- アフィリエイトより信頼性を優先する
+
+詳細は [Product Requirements Document](./docs/PRD.md) を参照してください。文書の役割と優先順位は [Documentation Map](./docs/documentation-map.md) にまとめています。
+
+## 技術スタック
+
+- Next.js 16 App Router
+- React 19
 - TypeScript
-- Tailwind CSS
-- Supabase
+- Tailwind CSS 4
 - Vercel
-- Google Analytics
-- Google Search Console
-- PostHog
+- Vercel Analytics
+- 任意で GA4（本番環境変数がある時だけ有効）
+- Playwright
 
-## 現在のフェーズ
-
-現在は Phase 1 です。Next.js App Router、TypeScript、Tailwind CSS による MVP 実装を開始しています。
-
-Phase 1 の MVP では、まず静的データを使って小さく公開します。Supabase、AI 診断、ログイン、口コミ、求人連携は MVP 後に検討します。
-
-現在の中心導線は Career Compass です。ユーザーが職種、経験年数、英語、転職の狙いを選ぶと、今近い領域、狙いやすい会社、半年後に向けた準備、転職エージェントに相談すべき論点を返します。
+Supabase と OpenAI API は現在使用していません。
 
 ## ローカル開発
+
+Node.js `>=20.9 <24` が必要です。
 
 ```bash
 npm install
 npm run dev
 ```
 
-開発サーバーは通常 `http://localhost:3000` で起動します。
+通常は `http://localhost:3000` で起動します。
 
-検証コマンド:
+主な検証コマンド:
 
 ```bash
 npm run typecheck
 npm run lint
+npm run test:e2e
 npm run build
 ```
 
-Next.js 16 は Turbopack がデフォルトですが、このリポジトリの `npm run build` は Codex 環境でのポート制限を避けるため `next build --webpack` を使います。
+`npm run build` は `next build --webpack` を実行します。AI エージェントが作業する場合の回数制限と実行条件は `AGENTS.md` に従ってください。build は明示的に求められた時だけ実行します。
 
-Codex 内で作業する場合、日常確認は `npm run typecheck` を優先し、フルビルドは必要な時だけ実行してください。
-
-### ブラウザ回帰テスト
-
-主要導線は Playwright で確認します。初回だけ Chromium をインストールしてください。
+Playwright を初めて使う環境では、事前に Chromium をインストールします。
 
 ```bash
 npx playwright install chromium
-npm run test:e2e
 ```
 
-テスト結果の `playwright-report/`、`test-results/`、`blob-report/` は生成物のため Git には含めません。
+`playwright-report/`、`test-results/`、`blob-report/` は生成物であり Git 管理外です。
 
-## Vercel デプロイ手順
+## 主要なディレクトリ
 
-Vercel への初回デプロイは、GitHub リポジトリを Vercel に接続する操作が必要です。基本的にはブラウザで自分の Vercel アカウントから行います。
+```text
+src/app/                 App Router のページとメタデータ
+src/components/          UI とインタラクション
+src/data/                Career Compass、企業、広告などの静的データ
+src/content/guides/      公開ガイド記事
+src/types/               共通の公開データ型
+docs/                    公開してよい設計・編集文書
+.private/                Git 管理外の取材メモ・公開禁止情報
+tests/                   Playwright テスト
+```
 
-1. Vercel にログインする
-2. `Add New...` から `Project` を選ぶ
-3. GitHub 連携を有効にする
-4. `ryo0905-eng/manufacturing-compass` を選ぶ
-5. Framework Preset が `Next.js` になっていることを確認する
-6. Build Command は `npm run build`
-7. Install Command は `npm install`
-8. Output Directory は空欄のままでよい
-9. `Deploy` を押す
+`.private/` には個人情報と公開不可情報が含まれます。公開コードや公開文書へ直接コピーしないでください。
 
-初回接続後は、`main` ブランチへ push すると Vercel が自動で本番デプロイします。Pull Request を使う場合は Preview Deployment も作成されます。
+## デプロイ
 
-公開状態を確認する場合は、Vercel の Deployment Protection が有効になっていない本番URLを使ってください。保護された Preview URL では、外部ユーザーは Vercel ログイン画面にリダイレクトされるため、診断開始率や CTA 導線を確認できません。
+Vercel で `main` を本番、Pull Request を Preview として運用します。
 
-## 独自ドメイン設定
+- Build Command: `npm run build`
+- Install Command: `npm install`
+- Output Directory: 未指定
+- 正規ドメイン: `https://mfg-compass.com`
 
-本番の正規ドメインは `https://mfg-compass.com` です。
+正規URLは `src/lib/format.ts` の `siteUrl` と `src/app/layout.tsx` の `metadataBase` で管理します。ドメイン変更時は両方を更新します。
 
-Vercel での設定:
+確認対象:
 
-1. Vercel の Project Settings を開く
-2. `Domains` を開く
-3. `mfg-compass.com` を追加する
-4. Vercel が表示する DNS レコードを、ドメイン購入先の DNS に設定する
-5. `www.mfg-compass.com` も必要なら追加し、`mfg-compass.com` へリダイレクトする
-6. Vercel 側で Valid になるまで待つ
+- `/`
+- `/career-compass`
+- `/guides`
+- `/companies`
+- `/career-agents`
+- `/sitemap.xml`
+- `/robots.txt`
 
-DNS 接続後に確認するURL:
-
-- `https://mfg-compass.com`
-- `https://mfg-compass.com/career-compass`
-- `https://mfg-compass.com/sitemap.xml`
-- `https://mfg-compass.com/robots.txt`
-
-コード側の正規URLは `src/lib/format.ts` の `siteUrl` と `src/app/layout.tsx` の `metadataBase` で管理します。ドメインを変更する場合は、この2か所を必ず更新してください。
-
-診断本体は静的ルールベースで動作します。Supabase はまだ使っていません。
+保護された Preview URL は外部ユーザーを Vercel ログインへ送るため、公開導線や計測の確認には本番URLを使います。
 
 ## アクセス解析
 
-初期のアクセス解析は Vercel Analytics を使います。
-
-- `@vercel/analytics` を導入済み
-
-## Analytics
-
-Vercel Analytics は常時有効です。GA4 も利用する場合は、Vercel の **Production** 環境に次の環境変数を設定してください。Preview / Development 環境は本番データを混ぜないため、原則として未設定にします。
+Vercel Analytics は常時有効です。GA4 は Vercel の Production 環境に次を設定した時だけ有効になります。Preview / Development には原則設定しません。
 
 ```sh
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 ```
 
-未設定の場合、GA4 のタグとイベント送信は無効のままです。計測イベントは `src/lib/analytics.ts` に集約し、個人を特定できる情報や自由記述を送信しないでください。
-- `src/app/layout.tsx` で `<Analytics />` を読み込み済み
-- Vercel の Project Settings または Analytics 画面で有効化すると計測できます
+イベント定義は `src/lib/analytics.ts` に集約します。氏名、連絡先、自由記述、現年収、12問の回答一式は送信しません。`diagnosis_complete` では集計用に、職種領域、転職目的、結果タイプ、相談テーマの粗いカテゴリを送信します。選択肢を追加する時は、個人を推測できる粒度にならないか確認します。
 
-Career Compass の主要イベント:
+主要イベント:
 
-- `diagnosis_start`: 最初の回答を選択
-- `diagnosis_progress`: 4問・8問・12問の到達時に各1回送信
-- `diagnosis_complete`: 診断結果の表示準備が完了
-- `result_detail_open`: 診断根拠と相談準備を開く
-- `today_quest_copy`: Today Quest をコピー
-- `agent_cta_click`: 診断結果から相談先へ遷移
+- `diagnosis_start`
+- `diagnosis_progress`
+- `diagnosis_complete`
+- `result_detail_open`
+- `today_quest_copy`
+- `agent_cta_click`
+- `affiliate_outbound_click`
 
-`diagnosis_progress` が送るのは完了質問数、総質問数、表示元だけです。選択した回答、職種、年収、自由記述は送信しません。
+## ドキュメント
 
-まず見る指標:
-
-- トップから Career Compass への遷移
-- Career Compass の閲覧数
-- 結果画面から相談CTAへの遷移
-- ガイド、ランキング、企業ページから診断への遷移
-
-GA4 は、広告運用やSearch Consoleとの詳細連携が必要になった段階で追加します。
+- [文書の索引と優先順位](./docs/documentation-map.md)
+- [プロダクト要件](./docs/PRD.md)
+- [アーキテクチャ](./docs/architecture.md)
+- [SEO 方針](./docs/seo.md)
+- [コンテンツ方針](./docs/content-guideline.md)
+- [記事制作フロー](./docs/article-workflow.md)
+- [ロードマップ](./docs/roadmap.md)
+- [作業状況](./TASKS.md)

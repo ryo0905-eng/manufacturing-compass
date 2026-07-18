@@ -1,133 +1,109 @@
 # SEO Strategy
 
-## SEO の役割
+最終更新日: 2026-07-19
 
-SEO は企業一覧へ直接流すためではなく、診断へ流すための集客チャネルとして設計する。
+## 役割
 
-主導線:
+SEO は Career Compass だけへ送客するためのものではありません。検索意図にそのページで答えたうえで、次に必要な理解へ内部リンクします。
 
-```text
-検索流入
-↓
-職種別・悩み別ページ
-↓
-半導体キャリア市場価値診断
-↓
-診断結果
-↓
-転職エージェント / 英語学習 CTA
-```
-
-## Phase 1.5 URL 方針
+代表的な流れ:
 
 ```text
-/
-/diagnosis
-/diagnosis/result
-/industry-map
-/companies
-/companies/tsmc
-/companies/micron
-/compare/tsmc-vs-micron
+技術・業界の検索
+  → ガイド / 業界地図 / 企業ページ
+  → 関連工程・企業・職種
+  → 必要なら Career Compass
+
+転職・経験整理の検索
+  → 実体験ガイド / Career Compass
+  → 企業研究 / 職務経歴の整理
+  → 必要なら相談準備・エージェント比較
 ```
 
-既存の `/career-compass` は、実装上は残してもよいが、最終的な訴求名は「半導体キャリア市場価値診断」に寄せる。
+すべての記事へ同じ CTA を置きません。検索意図を満たすことを優先します。
 
-将来的に追加する URL:
+## 現行URL
 
-```text
-/market-value/process-engineer
-/market-value/quality-assurance
-/market-value/production-engineer
-/market-value/equipment-engineer
-/salary/semiconductor-process-engineer
-/salary/semiconductor-quality
-/career-path/quality-to-semiconductor
-/career-path/equipment-to-field-engineer
-/english/semiconductor-career
-/agents/semiconductor
-```
+- `/career-compass`: 現在地チェック
+- `/industry-map`, `/segments/[slug]`: 業界構造
+- `/companies`, `/companies/[slug]`: 企業研究
+- `/compare`, `/compare/[slug]`: 企業比較
+- `/guides`, `/guides/[slug]`: 技術・業界・キャリア記事
+- `/rankings`, `/rankings/[slug]`: 基準時点のあるランキング
+- `/career-agents`: エージェント比較
+- `/career-consultation`: 相談準備
 
-## 狙うキーワード
+存在しない `/diagnosis`、`/diagnosis/result`、`/agents`、`/english` をリンク設計へ使いません。新規URLを追加する前に、既存ページとの検索意図の境界を決めます。
 
-診断系:
+## コンテンツクラスター
 
-- 半導体 転職 市場価値
-- 半導体 転職 年収
-- 半導体 キャリア診断
-- 半導体 転職 可能性
-- 半導体 転職 未経験
-- 半導体 転職 英語
+### 技術・業界基礎
 
-職種系:
+- 半導体製造工程の全体像と個別工程
+- 製造装置、材料、部品・サブファブ
+- ファウンドリ、IDM、ファブレス、OSATなどの分業構造
+- 企業・職種への接続
 
-- 品質保証 半導体 転職
-- 生産技術 半導体 転職
-- 設備保全 半導体 転職
-- プロセスエンジニア 転職
-- フィールドエンジニア 半導体 転職
-- FAE 半導体 転職
+### 企業研究
 
-企業系:
+- 企業詳細とキャリア準備
+- 同一テーマの比較ページ
+- 根拠の確認できるランキング
 
-- TSMC 転職
-- Micron 年収
-- 東京エレクトロン 転職
-- Skyworks 転職
-- 半導体メーカー 年収
+### キャリア
 
-学習・準備系:
+- 製造業経験を半導体職種へつなげる実体験
+- 職務経歴書、英語、求人票、転職エージェント
+- Career Compass と相談準備
 
-- 半導体 転職 何を勉強
-- 半導体 転職 資格
-- 半導体 転職 英語 必要
-- 半導体 プロセス 勉強
+半導体製造工程シリーズの細かな検索意図の境界は `.private/semiconductor-process-seo-map.md` で管理します。
 
-## メタデータルール
+## ページ要件
 
-診断ページ:
+- 1ページにつき中心検索意図を一つ決める
+- title と description は本文で実際に答える内容に合わせる
+- 著者、確認者、公開日、更新日、出典を表示する
+- 変動情報は対象時点を明示する
+- canonical を一つにする
+- noindex ページを sitemap に含めない
+- 重要な情報を画像だけに閉じ込めない
+- 関連記事のアンカーは遷移先の内容が分かる表現にする
 
-- title に「市場価値」「年収」「診断」を含める
-- description で「今狙える会社」「伸ばすべきスキル」「今日やること」を明示する
+## 内部リンク
 
-職種ページ:
+- ハブから詳細へ、詳細からハブ・前後テーマへ戻れるようにする
+- 技術記事から、扱う装置・材料・企業・職種へつなぐ
+- 企業ページから、事業セグメント、比較、キャリア準備へつなぐ
+- 実体験記事から、読者が次に必要とするガイドや Career Compass へつなぐ
+- Career Compass の結果から、接点のある企業と相談準備へつなぐ
+- CTA のためだけに本文と関係の薄いリンクを置かない
 
-- title に職種名 + 半導体転職 + 年収/市場価値を含める
-- 診断への CTA をファーストビュー近くに置く
+## 構造化データ
 
-企業ページ:
-
-- title に会社名 + 転職 + 年収/仕事内容/英語/日本拠点を含める
-- 診断結果の根拠ページとして内部リンクする
-
-## 内部リンクルール
-
-- トップページから診断へ強く誘導する
-- 診断結果から企業詳細、比較、英語学習、転職エージェント CTA へ誘導する
-- 記事ページから診断へ誘導する
-- 企業ページから診断へ戻れる導線を置く
-- 比較ページから診断へ戻れる導線を置く
-
-## 構造化データ案
+ページ内容に応じて、次を使います。
 
 - WebSite
-- WebApplication
-- FAQPage
+- Organization
 - Article
 - BreadcrumbList
-- Organization
+- FAQPage
 - ItemList
+- WebApplication
 
-診断ページでは WebApplication を検討する。
+画面にない情報を構造化データへだけ追加しません。公開日・更新日・著者は本文表示と一致させます。
 
-## sitemap 方針
+## sitemap と公開品質
 
-- Phase 1.5 では診断ページ、トップ、企業ページ、比較ページ、業界地図を sitemap に含める
-- Phase 2 以降で職種別市場価値ページ、年収ページ、英語学習ページ、転職エージェントページを追加する
+- `src/app/sitemap.ts` を正本とする
+- ガイドは公開状態と `updatedAt` を使う
+- 企業詳細は個別キャリア情報があるページだけ含める
+- 404、noindex、canonical、robots と sitemap を矛盾させない
+- 新しい記事種別を追加した時は静的生成対象と発見経路を確認する
 
-## コンテンツ更新方針
+## 更新判断
 
-- 診断ロジックと結果文言を継続的に改善する
-- 年収レンジの根拠情報を定期更新する
-- 職種別ページを増やす
-- 診断完了率と CTA クリック率を見てページ構成を改善する
+- Search Console のクエリ、表示、クリック、流入ページを確認する
+- 同じクエリに複数記事が出る場合は、順位だけでなく検索意図の一致を確認する
+- 変動情報は定期更新し、技術解説は一次情報の変更時に見直す
+- 短期の順位変動だけを理由に頻繁にタイトルを変えない
+- 追加より、既存記事の正確性、重複解消、内部リンク改善が有効な場合はそちらを優先する

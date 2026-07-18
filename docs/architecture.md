@@ -1,127 +1,134 @@
 # Architecture
 
+最終更新日: 2026-07-19
+
 ## 方針
 
-Manufacturing Compass は、情報サイトではなく「半導体キャリア市場価値診断」を中心にしたキャリア診断プロダクトとして設計する。
+Manufacturing Compass は、Next.js App Router 上で動く静的データ中心のコンテンツ・キャリア支援サービスです。
 
-Phase 1.5 では、ログイン、個人情報保存、AI、求人連携は使わず、ローカル静的データとルールベースで診断体験を作る。
+Career Compass の質問と結果生成だけを Client Component で動かし、企業、ガイド、ランキング、SEO メタデータは Server Components と静的データを基本にします。ログイン、個人情報保存、外部データベース、AI API に依存しません。
 
-## 想定技術
+## 技術構成
 
-- Next.js App Router
+- Next.js 16 App Router
+- React 19
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS 4
 - Vercel
-- Google Analytics
-- Google Search Console
-- 将来的に Supabase
-- 将来的に PostHog
-- 将来的に OpenAI API
+- Vercel Analytics
+- 任意の GA4
+- Playwright
 
-## フロントエンド構成
+## ルート
 
-Server Components を基本にする。
+### 中心導線
 
-Client Components は、診断フォーム、診断結果の状態管理、検索、フィルター、比較選択など、ユーザー操作が必要な箇所に限定する。
+- `/`: サービス概要、Career Compass、記事・企業研究への入口
+- `/career-compass`: 12問の現在地チェックと同一画面内の結果
+- `/career-agents`: 転職エージェント比較
+- `/career-consultation`: 相談論点の整理
 
-重要な体験:
+`/diagnosis` と `/diagnosis/result` は存在しません。Career Compass の結果は URL を分けず、クライアント側の状態として同じページに表示します。
 
-- `/`: 診断開始を主役にしたトップページ
-- `/diagnosis` または `/career-value-check`: 半導体キャリア市場価値診断
-- `/diagnosis/result`: 将来的な結果ページ
-- `/companies`: 企業 DB
-- `/companies/[slug]`: 企業詳細
-- `/compare`: 企業比較
-- `/industry-map`: 業界理解
+### 情報ページ
 
-## Phase 1.5 のデータ構成
+- `/industry-map`
+- `/segments/[slug]`
+- `/companies`
+- `/companies/[slug]`
+- `/companies/[slug]/career-prep`
+- `/compare`
+- `/compare/[slug]`
+- `/guides`
+- `/guides/[slug]`
+- `/rankings`
+- `/rankings/[slug]`
 
-ローカル静的データで開始する。
+### 信頼性・法務
 
-- `src/data/diagnosis`
-- `src/data/companies`
-- `src/data/segments`
-- `src/data/affiliate-partners`
-- `src/types`
+- `/about`
+- `/contact`
+- `/privacy`
+- `/disclaimer`
+- `/advertising-policy`
+- `/sitemap.xml`
+- `/robots.txt`
 
-診断ロジックは、ユーザー入力を以下の出力へ変換する。
+## ディレクトリ責務
 
-- marketValueScore
-- salaryRange
-- reachableRoles
-- reachableCompanies
-- stretchCompanies
-- growthLevers
-- actionsToday
-- roadmap30Days
-- roadmap90Days
-- roadmap6Months
-- recommendedCtas
+```text
+src/app/                    ルート、メタデータ、構造化データ
+src/components/             共通UIとClient Components
+src/components/career-compass/
+                            Career Compass の結果表示部品
+src/data/career-compass.ts  質問選択肢と結果プロファイル
+src/data/companies.ts       セグメント、企業、キャリア準備情報
+src/data/affiliateLinks.ts  エージェント、提携状態、CTA
+src/data/salary-methodology.ts
+                            参考年収帯の算出説明と出典
+src/data/editorial.ts       ガイド記事の集約
+src/content/guides/         記事データ
+src/types/content.ts        企業・セグメント・出典の型
+src/lib/analytics.ts        計測イベント
+src/lib/format.ts           正規URLなどの共通処理
+```
 
-## 将来のデータ構成
+表示ロジックとデータ定義を分けます。新しいコンテンツ種別を追加する時は、まず型と所有ファイルを決め、ページ内へ大きなデータを直書きしません。
 
-Supabase を導入する場合は、以下を保存対象にする。
+## Career Compass のデータフロー
 
-- 診断結果
-- メール登録
-- CTA クリックイベント
-- 診断入力の匿名集計
-- 記事閲覧履歴
-- ユーザーアカウント
+```text
+ブラウザ上の回答
+  → 静的な加点・分岐ルール
+  → 結果プロファイルと回答由来の補足を合成
+  → 同一ページに結果を表示
+  → 必要なイベントだけ匿名計測
+```
 
-ただし、個人情報保存は需要検証後に行う。
+- 回答と生成結果をデータベースへ保存しない
+- URL と Cookie に回答内容を含めない。Analytics には全回答や現年収を送らず、完了時の粗い職種領域・転職目的・結果タイプ・相談テーマだけを送る
+- 現年収帯はブラウザ内の差分表示だけに使う
+- スコアは応募準備の棚卸し指標として表示する
+- 企業例は静的企業データとの接点であり、推薦順位や採用可能性ではない
+- 参考年収帯は `salary-methodology.ts` の方法と出典を併記する
 
-## 診断ロジック
+## コンテンツデータ
 
-Phase 1.5 では静的ルールベース。
+- 企業・採用・財務情報には `Source` と更新日を持たせる
+- 個別キャリア情報がない企業ページは `noindex, follow` とし、sitemap から外す
+- ガイド記事は公開状態、公開日、更新日、著者、確認者、出典、SEO 情報を保持する
+- `.private/` の取材メモはビルド対象にせず、公開データへ反映する前に匿名化する
 
-入力例:
+詳細なデータ設計は [`database.md`](./database.md) を参照してください。
 
-- 現在職種
-- 経験年数
-- 業界経験
-- 英語力
-- 実績
-- 志向
-- 転職時期
+## SEO
 
-出力例:
+- App Router の metadata API を使う
+- canonical は `https://mfg-compass.com` を基準にする
+- ガイド記事に Article、BreadcrumbList、必要なページに FAQPage / ItemList 等を使う
+- `src/app/sitemap.ts` は公開状態と各データの更新日を使う
+- ガイドの Open Graph / X 画像はページ固有データから生成する
 
-- 市場価値スコア
-- 想定年収レンジ
-- 今狙える職種・会社
-- 伸ばすべき経験・スキル・英語
-- 今日やること
-- 相談すべき論点
+## Analytics
 
-## SEO 構成
+- Vercel Analytics を常時利用する
+- GA4 は `NEXT_PUBLIC_GA_MEASUREMENT_ID` がある本番環境だけで有効にする
+- イベントは `src/lib/analytics.ts` に集約する
+- PII、自由記述、現年収、回答一式を送らない。粗いカテゴリを追加する時も個人を推測できない粒度に限定する
 
-診断ページはコンバージョンの中心。
+## デプロイと検証
 
-SEO流入は以下から診断へつなぐ。
+- Vercel の `main` を本番、Pull Request を Preview とする
+- `npm run build` は `next build --webpack`
+- AI エージェントの検証回数、build 条件、ブラウザ確認条件は `AGENTS.md` を正本とする
+- ローカル build が環境由来で止まる場合は、無制限に再試行せず Vercel のビルド結果を優先する
 
-- 半導体 転職 市場価値
-- 半導体 転職 年収
-- 品質保証 半導体 転職
-- 生産技術 半導体 転職
-- 設備保全 半導体 転職
-- 半導体 転職 英語
+## 将来の外部サービス導入条件
 
-## CTA 構成
+Supabase、ユーザーアカウント、メール保存、AI API、求人連携は未採用です。導入する場合は、少なくとも次を先に決めます。
 
-診断結果に応じてCTAを出し分ける。
-
-- 転職エージェント
-- 英語学習
-- 資格・学習教材
-- 将来的な有料ロードマップ
-
-CTA は結果の直後ではなく、ユーザーが「なぜ必要か」を理解した後に出す。
-
-## デプロイ構成
-
-Vercel にデプロイする。
-
-main ブランチを本番、Pull Request を Preview とする。
-
-Vercel 連携後は、Codex ローカルで Next.js build が不安定な場合、Vercel のビルドログを最終確認として扱う。
+- 解くユーザー課題と、静的実装では不足する理由
+- 保存するデータ、保存期間、削除方法、同意
+- プライバシーポリシーとセキュリティ
+- レート制限、費用上限、障害時の挙動
+- 既存の静的ページと SEO を損なわない移行方法
