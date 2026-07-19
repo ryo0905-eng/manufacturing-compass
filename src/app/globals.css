@@ -16391,6 +16391,7 @@ body {
 .doe-anova-table-scroll tbody tr { cursor: pointer; }
 .doe-anova-table-scroll tbody tr:hover, .doe-anova-table-scroll tbody tr[aria-selected="true"] { background: #eef3fa; }
 .doe-anova-table-scroll tbody button { width: 100%; border: 0; background: transparent; padding: 0; color: #30343a; font: inherit; font-weight: 600; text-align: left; cursor: pointer; }
+.doe-anova-table-scroll .is-primary { background-image: linear-gradient(rgba(76,114,176,.07),rgba(76,114,176,.07)); color: #315f98; font-weight: 700; }
 .doe-anova-table-scroll tfoot th, .doe-anova-table-scroll tfoot td { border-bottom: 0; color: #737980; }
 .doe-anova-inspector { display: flex; min-width: 0; flex-direction: column; border-left: 1px solid #e0e3e7; background: #f7f7f8; padding: 14px; }
 .doe-anova-inspector > span { color: #4c72b0; font-size: 8px; font-weight: 650; }
@@ -16399,8 +16400,15 @@ body {
 .doe-anova-ratio i { display: block; height: 100%; border-radius: inherit; background: #4c72b0; transition: width .2s ease; }
 .doe-anova-inspector p { margin: 0; color: #60666d; font-size: 8px; line-height: 1.55; }
 .doe-anova-inspector > b { margin-top: auto; padding-top: 10px; color: #30343a; font-size: 8px; line-height: 1.5; }
-.doe-anova-lesson > footer { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; color: #777b82; font-size: 7px; }
-.doe-anova-lesson > footer b { color: #4c5259; font-weight: 650; }
+.doe-anova-concepts { margin-top: 9px; border: 1px solid #e0e3e7; border-radius: 7px; background: #fff; padding: 4px; }
+.doe-anova-concepts nav { display: grid; grid-template-columns: repeat(5,1fr); gap: 2px; }
+.doe-anova-concepts nav button { min-height: 28px; border: 0; border-radius: 4px; background: transparent; color: #6c7279; font: inherit; font-size: 8px; cursor: pointer; }
+.doe-anova-concepts nav button[aria-pressed="true"] { background: #eef3fa; color: #315f98; font-weight: 650; }
+.doe-anova-concepts > div { display: grid; grid-template-columns: minmax(180px,.75fr) minmax(0,1.25fr) auto; gap: 8px 18px; align-items: center; border-radius: 5px; background: #f7f7f8; padding: 12px; }
+.doe-anova-concepts > div > span { grid-column: 1 / -1; color: #4c72b0; font-size: 7px; font-weight: 650; }
+.doe-anova-concepts > div strong { color: #30343a; font-size: 10px; line-height: 1.4; }
+.doe-anova-concepts > div p { margin: 0; color: #60666d; font-size: 8px; line-height: 1.55; }
+.doe-anova-concepts code { border-radius: 4px; background: #fff; padding: 7px 9px; color: #30343a; font-family: ui-monospace,SFMono-Regular,Menlo,monospace; font-size: 8px; white-space: nowrap; }
 
 @media (max-width: 1100px) { .doe-practice-workspace { grid-template-columns: 1fr; } .doe-practice-results { border-top: 1px solid #e5e7eb; border-left: 0; } }
-@media (max-width: 720px) { .doe-learning-tabs { width: 100%; } .doe-practice-controls,.doe-practice-results { padding: 18px 16px; } .doe-practice-results > header { flex-direction: column; } .doe-practice-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 9px 0; } .doe-practice-plots { grid-template-columns: 1fr; } .doe-residual-plot { grid-column: auto; } .doe-practice-note { grid-template-columns: 1fr; gap: 3px; } .doe-anova-lesson > header { display: block; } .doe-anova-lesson > header > p { margin-top: 5px; } .doe-anova-layout { grid-template-columns: 1fr; } .doe-anova-inspector { min-height: 165px; border-top: 1px solid #e0e3e7; border-left: 0; } }
+@media (max-width: 720px) { .doe-learning-tabs { width: 100%; } .doe-practice-controls,.doe-practice-results { padding: 18px 16px; } .doe-practice-results > header { flex-direction: column; } .doe-practice-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 9px 0; } .doe-practice-plots { grid-template-columns: 1fr; } .doe-residual-plot { grid-column: auto; } .doe-practice-note { grid-template-columns: 1fr; gap: 3px; } .doe-anova-lesson > header { display: block; } .doe-anova-lesson > header > p { margin-top: 5px; } .doe-anova-layout { grid-template-columns: 1fr; } .doe-anova-inspector { min-height: 165px; border-top: 1px solid #e0e3e7; border-left: 0; } .doe-anova-concepts nav { grid-template-columns: repeat(3,1fr); } .doe-anova-concepts > div { grid-template-columns: 1fr; gap: 7px; } .doe-anova-concepts code { width: fit-content; white-space: normal; } }
