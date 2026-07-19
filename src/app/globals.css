@@ -15114,3 +15114,80 @@ body {
     grid-row: 1 / span 2;
   }
 }
+
+/* Home polish: let whitespace separate sections instead of horizontal rules. */
+.home-simple .home-work-tool,
+.home-simple .home-quest-explainer {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.home-simple .home-fact-strip {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.home-simple .career-route-map,
+.home-simple .home-process-entry__panel,
+.home-simple .home-company-spotlight > div:not(.editorial-heading),
+.home-simple .research-routes nav {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.home-simple .career-route-map li,
+.home-simple .research-routes nav a,
+.home-simple .research-routes nav a:nth-child(2),
+.home-simple .research-routes nav a:nth-child(3),
+.home-simple .home-company-spotlight > div > a {
+  border-bottom: 0;
+}
+
+.home-simple .career-route-map ol,
+.home-simple .research-routes nav,
+.home-simple .home-company-spotlight > div:not(.editorial-heading) {
+  display: grid;
+  gap: 2px;
+}
+
+.home-simple .career-route-map li,
+.home-simple .research-routes nav a,
+.home-simple .research-routes nav a:nth-child(2),
+.home-simple .research-routes nav a:nth-child(3),
+.home-simple .home-company-spotlight > div > a {
+  border-radius: 4px;
+  background: #fafafa;
+  padding-inline: 14px;
+}
+
+.home-simple .career-route-map li {
+  padding-block: 11px;
+}
+
+.home-simple .research-routes nav a,
+.home-simple .research-routes nav a:nth-child(2),
+.home-simple .research-routes nav a:nth-child(3) {
+  padding-block: 15px;
+}
+
+.home-simple .home-company-spotlight > div > a {
+  padding-block: 16px;
+}
+
+.home-simple .home-process-entry__panel {
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.home-simple .home-process-entry__copy {
+  background: #fff;
+}
+
+.home-simple .home-process-entry__stages {
+  border-left-color: #eceef1;
+}
+
+.home-simple .home-quest-explainer aside li {
+  border-top: 0;
+  padding-block: 8px;
+}
