@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ControlChartLearningTool } from "@/components/ControlChartLearningTool";
 import { StructuredData } from "@/components/StructuredData";
+import { controlRuleCatalog } from "@/lib/control-chart";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = { title: "管理図学習ツール｜Xbar-R・I-MRと異常ルールを理解", description: "Xbar-RとI-MR管理図で異常を動かし、Western Electric・Nelsonルール、管理限界と規格限界の違いを学べる無料ツールです。", alternates: { canonical: "/tools/control-chart" } };
@@ -11,6 +12,7 @@ export default function ControlChartPage(){return <main className="control-chart
   <nav className="cpk-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><Link href="/tools">実務ツール</Link><span>/</span><span>管理図</span></nav>
   <header className="control-chart-hero"><div><h1>管理図 学習ツール</h1><p>測定方法と判定ルールを選び、異常の見え方を時系列で理解します。</p></div><p><strong>Xbar-R・I-MR</strong><span>Western Electric・Nelson対応</span></p></header>
   <ControlChartLearningTool />
+  <section className="control-rule-reference" aria-labelledby="control-rule-reference-title"><header><p className="section-label">CONTROL RULE REFERENCE</p><h2 id="control-rule-reference-title">3つの判定方法は、感度が違う</h2><p>管理限界外だけを見る基本判定に、連続点やσゾーンの判定を加えると、小さな変化を見つけやすくなる一方、誤警報も増えます。</p></header><div>{(["basic","weco","nelson"] as const).map((id)=><article key={id}><header><span>{id==="basic"?"01":id==="weco"?"02":"03"}</span><div><h3>{controlRuleCatalog[id].name}</h3><p>{controlRuleCatalog[id].summary}</p></div></header><ol>{controlRuleCatalog[id].rules.map((rule)=><li key={rule.id}><span>{rule.id}</span><div><strong>{rule.condition}</strong><small>{rule.meaning}</small></div></li>)}</ol></article>)}</div><aside><strong>すべてONが正解ではありません。</strong><p>工程知識、検出したい変化、誤警報への対応コスト、会社・顧客の基準に合わせて選びます。R・MR管理図では、適用できるルールがXbar・I管理図より限定されます。</p></aside></section>
   <article className="control-chart-document"><header><p className="section-label">PRACTICAL SUMMARY</p><h2>管理図は、データの取り方から選ぶ</h2><p>同じ時点で複数個を測るならXbar-R、1個ずつならI-MRが入口です。Xbar-Rでは、まずR管理図で群内ばらつきを確認してからXbar管理図を読みます。</p></header><div><section><h3>判定ルール</h3><p>基本の3σ、Western Electric、Nelsonでは感度が異なります。ルールを増やすほど小さな変化を検出しやすくなりますが、誤警報も増えます。</p></section><section><h3>管理限界と規格限界</h3><p>管理限界は工程データ、規格限界は製品要求から決まります。管理状態と規格適合は別の判断です。</p></section><section><h3>検出後の行動</h3><p>原因を断定せず、設備、材料、測定器、作業者、環境、変更履歴を検出時刻と照合します。</p></section></div></article>
   <nav className="tool-related-links" aria-label="関連ツール"><span>関連ツール</span><Link href="/tools/cpk">工程能力を確認する →</Link><Link href="/tools/doe">実験計画法を学ぶ →</Link></nav>
 </main>}

@@ -3,6 +3,12 @@ export type ControlRuleSet = "basic" | "weco" | "nelson";
 export type ControlRule = { id: string; label: string; points: number[] };
 export type ChartAnalysis = { center: number; sigma: number; ucl: number; lcl: number; rules: ControlRule[]; flaggedPoints: Set<number> };
 
+export const controlRuleCatalog: Record<ControlRuleSet,{ name:string; summary:string; rules:{ id:string; condition:string; meaning:string }[] }> = {
+  basic:{name:"基本判定（Shewhart）",summary:"最も基本的な3σ管理限界外だけを確認します。",rules:[{id:"1",condition:"1点が中心線から3σを超える",meaning:"単発的な大きな変化"}]},
+  weco:{name:"Western Electricルール",summary:"σゾーンと連続点を使い、3σ外より小さな平均変化も探します。",rules:[{id:"1",condition:"1点が3σを超える",meaning:"大きな単発変化"},{id:"2",condition:"3点中2点が同じ側の2σ外",meaning:"比較的小さな平均シフト"},{id:"3",condition:"5点中4点が同じ側の1σ外",meaning:"小さな平均シフト"},{id:"4",condition:"8点連続で中心線の同じ側",meaning:"中心の持続的な偏り"}]},
+  nelson:{name:"Nelsonルール",summary:"8種類の非ランダムパターンから、シフト、傾向、周期性、層別などを探します。",rules:[{id:"1",condition:"1点が3σを超える",meaning:"大きな単発変化"},{id:"2",condition:"9点連続で中心線の同じ側",meaning:"中心のシフト"},{id:"3",condition:"6点連続で増加または減少",meaning:"継続的な傾向"},{id:"4",condition:"14点連続で交互に上下",meaning:"系統的・周期的な変動"},{id:"5",condition:"3点中2点が同じ側の2σ外",meaning:"比較的小さなシフト"},{id:"6",condition:"5点中4点が同じ側の1σ外",meaning:"小さなシフト"},{id:"7",condition:"15点連続で中心線から1σ以内",meaning:"不自然に小さいばらつき・層別"},{id:"8",condition:"8点連続で1σより外側、中心付近になし",meaning:"混合分布・層別"}]},
+};
+
 const base = [99.4,100.7,99.8,100.4,99.2,100.2,100.8,99.6,100.1,99.5,100.5,99.7,100.3,99.3,100.6,99.9,100.4,99.4,100.2,99.6,100.7,99.8,100.3,99.5];
 const subgroupOffsets = [-.72,-.28,.02,.31,.67];
 
