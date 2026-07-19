@@ -16307,6 +16307,8 @@ body {
 .doe-practice-controls header, .doe-practice-results > header { display: flex; gap: 18px; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
 .doe-practice-controls h2, .doe-practice-results h2 { margin: 2px 0 0; font-size: 18px; font-weight: 600; }
 .doe-practice-controls .section-label, .doe-practice-results .section-label { margin: 0; color: #737980; font-size: 9px; font-weight: 600; }
+.doe-step-description { max-width: 350px; margin: 5px 0 0; color: #6b7178; font-size: 8px; line-height: 1.5; }
+.doe-step-count { flex: 0 0 auto; color: #858b92; font-size: 7px; font-weight: 600; letter-spacing: .03em; }
 .doe-practice-slider { display: grid; gap: 6px; margin-bottom: 14px; }
 .doe-practice-slider > span { display: flex; justify-content: space-between; gap: 12px; }
 .doe-practice-slider b { color: #30343a; font-size: 11px; font-weight: 600; }
@@ -16317,8 +16319,8 @@ body {
 .doe-time-change-scale i { font-style: normal; }
 .doe-time-change-scale i:last-child { text-align: right; }
 .doe-time-change-scale em { color: #4c72b0; font-style: normal; font-weight: 600; }
-.doe-practice-guide { display: grid; grid-template-columns: 24px 1fr; gap: 9px; align-items: start; margin: 4px 0 14px; border-radius: 6px; background: #eef3fa; padding: 10px; }
-.doe-practice-guide > span { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: #4c72b0; color: #fff; font-size: 9px; font-weight: 700; }
+.doe-practice-guide { display: grid; grid-template-columns: auto 1fr; gap: 9px; align-items: start; margin: 4px 0 14px; border-radius: 6px; background: #eef3fa; padding: 10px; }
+.doe-practice-guide > span { display: grid; min-width: 38px; height: 22px; place-items: center; border-radius: 99px; background: #4c72b0; padding: 0 7px; color: #fff; font-size: 7px; font-weight: 700; }
 .doe-practice-guide strong { display: block; color: #30343a; font-size: 10px; }
 .doe-practice-guide p { margin: 2px 0 0; color: #60666d; font-size: 9px; line-height: 1.5; }
 .doe-practice-guide[data-complete="true"] { background: #eef6f0; }
