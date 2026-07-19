@@ -5,8 +5,8 @@ import { StructuredData } from "@/components/StructuredData";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "実験計画法（DoE）学習ツール｜主効果と交互作用を理解",
-  description: "2因子2水準の4つの実験結果を動かし、主効果と交互作用プロットの変化を確認できる学習ツールです。反復なしで判断できること・できないことも解説します。",
+  title: "実験計画法（DoE）学習ツール｜効果・ANOVA・残差を理解",
+  description: "2因子2水準の実験を動かし、主効果、交互作用、反復、ランダム化、ANOVA、p値、残差、確認実験まで順番に学べる無料ツールです。",
   alternates: { canonical: "/tools/doe" },
 };
 
@@ -15,9 +15,9 @@ export default function DoeToolPage() {
     <StructuredData data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "実験計画法（DoE）学習ツール", url: `${siteUrl}/tools/doe`, applicationCategory: "EducationalApplication", operatingSystem: "Web", offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" }, inLanguage: "ja" }} />
     <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "実務ツール", item: `${siteUrl}/tools/cpk` }, { "@type": "ListItem", position: 3, name: "DoE学習ツール", item: `${siteUrl}/tools/doe` }] }} />
     <nav className="cpk-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><span>DoE学習ツール</span></nav>
-    <header className="doe-hero"><div><h1>実験計画法（DoE）学習ツール</h1><p>4つの実験結果を動かして、主効果と交互作用を理解します。</p></div><p><strong>2因子・2水準・反復なし</strong><span>JMPなどを使う前の基本復習に</span></p></header>
+    <header className="doe-hero"><div><h1>実験計画法（DoE）学習ツール</h1><p>効果を見るところから確認実験まで、データを動かして順番に学びます。</p></div><p><strong>2因子・2水準・反復あり</strong><span>JMPなどを使う前の基本復習に</span></p></header>
     <DoeLearningTool />
     <nav className="tool-related-links" aria-label="関連する実務学習ツール"><span>関連ツール</span><Link href="/tools/cpk">Cp・Cpkを計算し、平均とばらつきを動かして学ぶ <span aria-hidden="true">→</span></Link></nav>
-    <article className="doe-document"><header><h2>2因子2水準で何が分かる？</h2><p>4条件を比較し、各因子の平均的な効果と、因子の組み合わせによる効果の変化を整理します。</p></header><section><h3>主効果</h3><p>一方の因子について、低水準の平均と高水準の平均の差を取ったものです。正の効果は高水準で応答が増える方向を示します。</p></section><section><h3>交互作用</h3><p>ある因子の効果が、もう一方の因子の水準によって変わる状態です。交互作用プロットの線が非平行または交差するときは、主効果だけで条件を決めないよう注意します。</p></section><section><h3>反復なしでは判断できないこと</h3><p>同じ条件を繰り返していないため、実験誤差を効果から分離できません。このツールの効果量や線の形だけで統計的有意性を判断することはできません。</p></section><section><h3>実務で追加すること</h3><p>実施順のランダム化、反復、測定システムの確認、安全な因子範囲、残差分析を計画します。実験範囲外への外挿も避けます。</p></section></article>
+    <article className="doe-document"><header><p className="section-label">LEARNING SUMMARY</p><h2>DoEで判断する順番を、実務へ持ち帰る</h2><p>数値を計算して終わりではなく、差を見つけ、誤差と区別し、モデルを疑い、最後に新しい実験で確かめます。</p></header><ol className="doe-learning-summary"><li><span>01</span><div><strong>効果を見る</strong><p>主効果と交互作用から、条件による応答の変化を整理します。</p></div></li><li><span>02</span><div><strong>実験を組む</strong><p>反復で実験誤差を測り、ランダム化で時間変化の偏りを防ぎます。</p></div></li><li><span>03</span><div><strong>結果を判断する</strong><p>ANOVAとp値で差の確かさを確認し、効果量から工程上の重要性を考えます。</p></div></li><li><span>04</span><div><strong>モデルを診断する</strong><p>残差から、外れ値、ばらつきの違い、実験順に沿った変化を探します。</p></div></li><li><span>05</span><div><strong>条件を確かめる</strong><p>候補条件で確認実験を行い、予測の差と再現性を確かめます。</p></div></li></ol><div className="doe-takeaway-grid"><section><p className="section-label">BEFORE THE EXPERIMENT</p><h3>実験を始める前のチェック</h3><ul><li>目的と応答を明確にしたか</li><li>因子範囲は安全で実行可能か</li><li>測定システムを信頼できるか</li><li>必要な反復回数を確保したか</li><li>実施順をランダム化したか</li><li>ロット・日時・実施順を記録するか</li><li>残差と確認実験まで計画したか</li><li>実験範囲外へ外挿していないか</li></ul></section><section><p className="section-label">SCOPE &amp; LIMITS</p><h3>このツールの限界</h3><p>このツールは、2因子2水準の実験を単純化した学習用モデルです。実際の工程では、因子数、水準数、ブロック、ロット差、欠測、非線形性、測定誤差なども考慮します。</p><p>表示されたp値や推奨条件を、そのまま実際の工程条件として使用しないでください。工程知識、安全性、実験記録と合わせて判断します。</p></section></div><section className="doe-next-learning"><div><p className="section-label">KEEP LEARNING</p><h3>次の実務学習へ</h3><p>工程能力や製造業・半導体の技術解説も、実際の判断とつなげて確認できます。</p></div><nav aria-label="次に学ぶ内容"><Link href="/tools/cpk"><span>Cp・Cpk計算ツール</span><strong>平均とばらつきから工程能力を学ぶ</strong></Link><Link href="/guides"><span>技術ガイド</span><strong>製造業・半導体の解説を読む</strong></Link></nav></section></article>
   </main>;
 }
