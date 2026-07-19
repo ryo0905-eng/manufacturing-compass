@@ -79,7 +79,7 @@ export default function Home() {
         <div>
           <p className="section-label">WORK TOOL / QUALITY</p>
           <h2 id="home-work-tool-title">仕事中に、すぐ使える。</h2>
-          <p>測定データを貼り付けて、Cp・Cpk・Cpu・Cplをブラウザ内で計算。工程能力の確認を、Excelを組む前にすばやく行えます。</p>
+          <p>測定データを貼り付けてPp・Ppkと分布を確認。短期標準偏差がある場合はCp・Cpkもブラウザ内で計算できます。</p>
           <Link className="button primary" href="/tools/cpk">Cp・Cpkを計算する <span aria-hidden="true">→</span></Link>
           <small>登録不要・入力データは保存されません</small>
         </div>
