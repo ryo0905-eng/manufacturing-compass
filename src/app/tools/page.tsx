@@ -5,13 +5,13 @@ import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "製造技術の実務・学習ツール",
-  description: "Cp・Cpkの計算と学習、実験計画法の主効果と交互作用など、製造技術の考え方を計算・操作しながら確認できる無料ツールです。",
+  description: "Cp・Cpkの計算と学習、実験計画法の効果、ANOVA、残差、確認実験など、製造技術の考え方を操作しながら確認できる無料ツールです。",
   alternates: { canonical: "/tools" },
 };
 
 const tools = [
   { href: "/tools/cpk", number: "01", label: "PROCESS CAPABILITY", title: "Cp・Cpk計算ツール", description: "測定データからPp・Ppkとヒストグラムを確認できます。平均、標準偏差、規格値を動かしてCp・Cpkの違いを学ぶこともできます。", features: ["生データ計算", "Seaborn風ヒストグラム", "動かして理解"] },
-  { href: "/tools/doe", number: "02", label: "DESIGN OF EXPERIMENTS", title: "実験計画法（DoE）学習ツール", description: "2因子2水準の4つの実験結果を動かし、主効果と交互作用プロットを確認できます。JMPなどを使う前の基本復習に使えます。", features: ["2因子2水準", "主効果", "交互作用プロット"] },
+  { href: "/tools/doe", number: "02", label: "DESIGN OF EXPERIMENTS", title: "実験計画法（DoE）学習ツール", description: "効果を見るところから、反復、ランダム化、ANOVA、残差、確認実験まで、DoEの判断手順を5ステップで学べます。", features: ["2因子2水準", "ANOVA・p値", "残差・確認実験"] },
 ] as const;
 
 export default function ToolsPage() {

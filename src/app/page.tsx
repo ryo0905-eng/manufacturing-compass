@@ -82,7 +82,7 @@ export default function Home() {
         </header>
         <div className="home-tools-grid">
           <Link href="/tools/cpk"><span>01 / PROCESS CAPABILITY</span><h3>Cp・Cpk計算ツール</h3><p>測定データからPp・Ppkと分布を確認。平均とばらつきを動かす学習モードも利用できます。</p><strong>計算・学習を始める <i aria-hidden="true">→</i></strong><dl><div><dt>Cpk</dt><dd>1.42</dd></div><div><dt>Cp</dt><dd>1.58</dd></div></dl></Link>
-          <Link href="/tools/doe"><span>02 / DESIGN OF EXPERIMENTS</span><h3>実験計画法（DoE）学習ツール</h3><p>2因子2水準の4条件を動かし、主効果と交互作用プロットの変化を確認できます。</p><strong>動かして理解する <i aria-hidden="true">→</i></strong><dl><div><dt>因子</dt><dd>2</dd></div><div><dt>実験</dt><dd>4</dd></div></dl></Link>
+          <Link href="/tools/doe"><span>02 / DESIGN OF EXPERIMENTS</span><h3>実験計画法（DoE）学習ツール</h3><p>効果、反復、ANOVA、残差、確認実験まで。DoEの判断手順をデータを動かして学べます。</p><strong>5ステップで学ぶ <i aria-hidden="true">→</i></strong><dl><div><dt>学習</dt><dd>5段階</dd></div><div><dt>反復</dt><dd>12実験</dd></div></dl></Link>
         </div>
         <Link className="text-link home-section-link" href="/tools">実務ツールをすべて見る</Link>
       </section>
