@@ -8,16 +8,16 @@ import { Header } from "@/components/Header";
 export const metadata: Metadata = {
   metadataBase: new URL("https://mfg-compass.com"),
   title: {
-    default: "製造業経験を半導体キャリアへ | Manufacturing Compass",
+    default: "製造技術者の仕事とキャリアを支える | Manufacturing Compass",
     template: "%s | Manufacturing Compass",
   },
-  description: "製造業で積んだ経験を半導体業界の職種に置き換え、次に準備することを見つける専門メディア＋キャリアツールです。",
+  description: "Cp・Cpkなどの実務ツール、半導体技術記事、キャリア現在地チェックで、製造技術者の仕事と次の一歩を支えます。",
   verification: {
     google: "3flJsORA3BERm-KxYL_CVe5fX6yGFtwJYKLpj3d0TxI",
   },
   openGraph: {
     title: "Manufacturing Compass",
-    description: "製造業で積んだ経験に近い半導体職種と、次に準備することを分かりやすく。",
+    description: "製造技術者の仕事に役立つ実務ツールと、半導体キャリアの次の一歩を分かりやすく。",
     type: "website",
     locale: "ja_JP",
   },

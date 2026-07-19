@@ -75,6 +75,22 @@ export default function Home() {
         </dl>
       </section>
 
+      <section className="home-section home-simple-section home-work-tool" aria-labelledby="home-work-tool-title">
+        <div>
+          <p className="section-label">WORK TOOL / QUALITY</p>
+          <h2 id="home-work-tool-title">仕事中に、すぐ使える。</h2>
+          <p>測定データを貼り付けて、Cp・Cpk・Cpu・Cplをブラウザ内で計算。工程能力の確認を、Excelを組む前にすばやく行えます。</p>
+          <Link className="button primary" href="/tools/cpk">Cp・Cpkを計算する <span aria-hidden="true">→</span></Link>
+          <small>登録不要・入力データは保存されません</small>
+        </div>
+        <dl aria-label="Cp・Cpk計算ツールの表示例">
+          <div><dt>Cpk</dt><dd>1.42</dd></div>
+          <div><dt>Cp</dt><dd>1.58</dd></div>
+          <div><dt>標準偏差</dt><dd>0.021</dd></div>
+          <div><dt>データ数</dt><dd>30</dd></div>
+        </dl>
+      </section>
+
       <section className="home-section home-simple-section home-career-routes" aria-labelledby="career-route-title">
         <header className="editorial-heading editorial-heading--split">
           <div>
