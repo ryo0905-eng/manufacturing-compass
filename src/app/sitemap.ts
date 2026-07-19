@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/tools/cpk",
+    "/tools/doe",
     "/career-compass",
     "/career-consultation",
     "/career-agents",

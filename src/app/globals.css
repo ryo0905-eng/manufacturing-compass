@@ -16173,3 +16173,83 @@ body {
   .cpk-learning-result > header { align-items: flex-start; flex-direction: column; }
   .cpk-learning-note { grid-template-columns: 1fr; gap: 3px; }
 }
+
+/* DoE interactive learning tool */
+.doe-page { display: grid; width: min(1180px, calc(100% - 40px)); gap: 12px; margin: 0 auto; padding: 12px 0 72px; color: #1d1d1f; }
+.doe-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 2px 0 10px; }
+.doe-hero h1 { margin: 0 0 2px; font-size: 26px; font-weight: 600; letter-spacing: -.025em; line-height: 1.35; }
+.doe-hero > div > p { margin: 0; color: #60666d; font-size: 13px; }
+.doe-hero > p { display: grid; gap: 0; margin: 0; text-align: right; }
+.doe-hero > p strong { color: #30343a; font-size: 12px; font-weight: 600; }
+.doe-hero > p span { color: #737980; font-size: 10px; }
+
+.doe-workspace { display: grid; grid-template-columns: minmax(390px, .82fr) minmax(0, 1.18fr); overflow: hidden; min-height: 570px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
+.doe-controls, .doe-results { min-width: 0; padding: 20px; }
+.doe-results { border-left: 1px solid #e5e7eb; background: #f7f7f8; }
+.doe-controls > header, .doe-results > header { display: flex; gap: 18px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.doe-controls h2, .doe-results h2 { margin: 2px 0 0; font-size: 18px; font-weight: 600; }
+.doe-controls .section-label, .doe-results .section-label { margin: 0; color: #737980; font-size: 9px; font-weight: 600; }
+.doe-controls > header button { border: 0; background: transparent; color: #1769aa; font: inherit; font-size: 10px; cursor: pointer; }
+.doe-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.doe-presets button { border: 1px solid #d9dde2; border-radius: 999px; background: #fff; padding: 5px 9px; color: #4c5259; font: inherit; font-size: 10px; cursor: pointer; }
+.doe-presets button:hover { border-color: #9aa1a9; }
+
+.doe-run-table { display: grid; gap: 2px; }
+.doe-run-row { display: grid; grid-template-columns: 40px 88px 94px minmax(150px, 1fr); gap: 8px; align-items: center; min-height: 62px; border-radius: 4px; background: #fafafa; padding: 8px 10px; color: #4c5259; font-size: 11px; }
+.doe-run-row--header { min-height: 28px; background: transparent; color: #737980; font-size: 9px; font-weight: 600; }
+.doe-response-control { display: grid; grid-template-columns: minmax(70px, 1fr) 62px; gap: 8px; align-items: center; }
+.doe-response-control input[type="range"] { width: 100%; accent-color: #4c72b0; cursor: pointer; }
+.doe-response-control input[type="number"] { width: 62px; min-height: 34px; border: 1px solid #d9dde2; border-radius: 5px; background: #fff; padding: 5px 7px; color: #1d1d1f; font: inherit; font-size: 12px; font-variant-numeric: tabular-nums; }
+.doe-control-hint { margin: 14px 0 0; color: #686e75; font-size: 10px; line-height: 1.6; }
+
+.doe-results > header { align-items: flex-start; }
+.doe-results > header dl { display: grid; grid-template-columns: repeat(4, minmax(72px, 1fr)); margin: 0; }
+.doe-results > header dl div { border-left: 1px solid #d9dde2; padding-left: 10px; }
+.doe-results dt { color: #737980; font-size: 9px; font-weight: 600; }
+.doe-results dd { margin: 2px 0 0; color: #1d1d1f; font-size: 17px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.doe-explanation { margin: 0 0 12px; border-radius: 5px; background: #fff; padding: 10px 12px; color: #4c5259; font-size: 12px; line-height: 1.65; }
+.doe-plots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.doe-plot { margin: 0; border-radius: 7px; background: #fff; padding: 10px; }
+.doe-plot > strong { display: block; margin: 0 0 4px; color: #30343a; font-size: 11px; font-weight: 600; }
+.doe-plot svg { display: block; width: 100%; height: auto; }
+.doe-plot svg > rect { fill: #eaeaf2; }
+.doe-grid-line { stroke: #fff; stroke-width: 1.5; }
+.doe-series path { fill: none; stroke-width: 2.5; }
+.doe-series circle { stroke: #fff; stroke-width: 1; }
+.doe-series text { fill: #60666d; font-size: 9px; font-weight: 600; }
+.doe-series--1 path, .doe-series--1 circle { stroke: #4c72b0; fill: #4c72b0; }
+.doe-series--2 path, .doe-series--2 circle { stroke: #dd8452; fill: #dd8452; }
+.doe-plot svg > text { fill: #777b82; font-size: 8px; }
+.doe-plot figcaption { margin: 2px 4px 0; color: #777b82; font-size: 9px; line-height: 1.45; }
+.doe-warning { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: baseline; margin-top: 10px; color: #686e75; font-size: 10px; }
+.doe-warning strong { color: #4c5259; font-size: 10px; }
+.doe-warning p { margin: 0; line-height: 1.55; }
+
+.doe-document { display: grid; gap: 0; width: min(820px, 100%); margin: 48px auto 0; }
+.doe-document > header { padding-bottom: 18px; }
+.doe-document > header h2 { margin: 0 0 6px; font-size: 28px; font-weight: 600; }
+.doe-document > header p { margin: 0; color: #60666d; font-size: 15px; line-height: 1.75; }
+.doe-document > section { padding: 24px 0; }
+.doe-document h3 { margin: 0 0 10px; font-size: 20px; font-weight: 600; }
+.doe-document section p { margin: 0; color: #3f454b; font-size: 16px; line-height: 1.85; }
+
+.tool-related-links { display: flex; gap: 14px; align-items: baseline; justify-content: flex-end; margin: 4px 0 0; color: #737980; font-size: 10px; }
+.tool-related-links a { color: #1769aa; font-size: 11px; font-weight: 600; }
+
+@media (max-width: 900px) {
+  .doe-workspace { grid-template-columns: 1fr; }
+  .doe-results { border-top: 1px solid #e5e7eb; border-left: 0; }
+}
+
+@media (max-width: 720px) {
+  .doe-page { width: calc(100% - 28px); gap: 16px; padding-top: 16px; }
+  .doe-hero { grid-template-columns: 1fr; gap: 8px; }
+  .doe-hero > p { text-align: left; }
+  .doe-controls, .doe-results { padding: 18px 16px; }
+  .doe-run-row { grid-template-columns: 30px 70px 76px minmax(120px, 1fr); overflow-x: auto; }
+  .doe-results > header { flex-direction: column; }
+  .doe-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 10px 0; }
+  .doe-plots { grid-template-columns: 1fr; }
+  .doe-warning { grid-template-columns: 1fr; gap: 3px; }
+  .doe-document { margin-top: 34px; }
+}

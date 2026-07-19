@@ -34,6 +34,8 @@ export default function CpkToolPage() {
 
       <CpkToolExperience />
 
+      <nav className="tool-related-links" aria-label="関連する実務学習ツール"><span>関連ツール</span><Link href="/tools/doe">実験計画法の主効果と交互作用を動かして学ぶ <span aria-hidden="true">→</span></Link></nav>
+
       <article className="capability-document">
         <header><h2>指標の見方</h2><p>工程能力指数は、使う標準偏差と規格の種類を確認して読みます。</p></header>
         <section><h3>Cp・CpkとPp・Ppkの違い</h3><p>Cp・Cpkは、合理的なサブグループ内の変動などから求めた短期標準偏差を使用します。Pp・Ppkは、入力した全データの標本標準偏差を使用します。このツールの生データ入力は時系列やサブグループを仮定できないため、Pp・Ppkとして表示します。</p><p>平均・短期標準偏差入力では、利用者が工程に適した方法で求めた短期標準偏差を入力する前提で、Cp・Cpkを表示します。</p></section>
