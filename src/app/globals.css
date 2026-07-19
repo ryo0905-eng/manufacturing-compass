@@ -16282,6 +16282,18 @@ body {
 .doe-takeaway-grid li::before { position: absolute; top: .45em; left: 0; width: 6px; height: 6px; border: 1px solid #9aa1a9; border-radius: 2px; content: ""; }
 .doe-takeaway-grid section > p:not(.section-label) { margin: 0; color: #60666d; font-size: 10px; line-height: 1.7; }
 .doe-takeaway-grid section > p + p { margin-top: 10px !important; }
+.doe-advanced-learning { display: grid; gap: 12px; width: min(980px,100%); margin: 24px auto 0; }
+.doe-advanced-learning > header { display: grid; grid-template-columns: 1fr minmax(300px,.55fr); gap: 28px; align-items: end; }
+.doe-advanced-learning .section-label,.doe-next-learning .section-label { margin: 0; color: #737980; font-size: 9px; font-weight: 600; letter-spacing: .03em; }
+.doe-advanced-learning > header h2 { margin: 6px 0 0; font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
+.doe-advanced-learning > header > p { margin: 0; color: #60666d; font-size: 11px; line-height: 1.65; }
+.doe-advanced-learning > nav { display: grid; grid-template-columns: repeat(4,1fr); overflow: hidden; border: 1px solid #e0e3e7; border-radius: 7px; background: #f7f7f8; }
+.doe-advanced-learning > nav span { position: relative; display: flex; gap: 7px; align-items: center; min-height: 38px; border-right: 1px solid #e0e3e7; padding: 0 11px; color: #999ea4; font-size: 8px; }
+.doe-advanced-learning > nav span:last-child { border-right: 0; }
+.doe-advanced-learning > nav span[aria-current="step"] { background: #fff; color: #30343a; font-weight: 600; }
+.doe-advanced-learning > nav span:not([aria-current])::after { margin-left: auto; border-radius: 99px; background: #eceef1; padding: 2px 5px; color: #858b92; content: "今後"; font-size: 6px; }
+.doe-advanced-learning > nav b { color: #4c72b0; font-size: 7px; }
+.doe-advanced-learning > .doe-design-comparison { margin-top: 0; }
 .doe-next-learning { display: grid; grid-template-columns: 1fr 1.25fr; gap: 28px; align-items: end; border-radius: 7px; background: #f7f7f8; padding: 20px; }
 .doe-next-learning h3 { margin-bottom: 5px; }
 .doe-next-learning > div > p:last-child { margin: 0; color: #686e75; font-size: 10px; line-height: 1.6; }
@@ -16319,6 +16331,10 @@ body {
   .doe-learning-summary li:not(:last-child) { margin-right: 0; }
   .doe-takeaway-grid,.doe-next-learning { grid-template-columns: 1fr; }
   .doe-takeaway-grid ul { grid-template-columns: 1fr; }
+  .doe-advanced-learning { margin-top: 14px; }
+  .doe-advanced-learning > header { grid-template-columns: 1fr; gap: 8px; }
+  .doe-advanced-learning > nav { display: flex; overflow-x: auto; }
+  .doe-advanced-learning > nav span { flex: 0 0 160px; }
   .doe-next-learning nav { grid-template-columns: 1fr; }
 }
 
