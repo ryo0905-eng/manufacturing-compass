@@ -16296,7 +16296,7 @@ body {
 }
 
 /* DoE level 2: replication, randomization, and residuals */
-.doe-learning-tabs { display: grid; grid-template-columns: repeat(4,1fr); width: min(960px, 100%); margin-bottom: 10px; border: 1px solid #d9dde2; border-radius: 7px; background: #f1f2f4; padding: 3px; }
+.doe-learning-tabs { display: grid; grid-template-columns: repeat(5,1fr); width: 100%; margin-bottom: 10px; border: 1px solid #d9dde2; border-radius: 7px; background: #f1f2f4; padding: 3px; }
 .doe-learning-tabs button { display: grid; grid-template-columns: 28px 1fr; gap: 1px 7px; min-height: 48px; align-content: center; border: 0; border-radius: 5px; background: transparent; color: #60666d; font: inherit; text-align: left; cursor: pointer; }
 .doe-learning-tabs button[aria-pressed="true"] { background: #fff; color: #1d1d1f; box-shadow: 0 1px 2px rgba(17,24,28,.08); }
 .doe-learning-tabs small { display: grid; grid-row: 1 / 3; width: 24px; height: 24px; place-items: center; align-self: center; border-radius: 50%; background: #e1e4e8; color: #737980; font-size: 8px; font-weight: 650; }
@@ -16447,6 +16447,44 @@ body {
 .doe-diagnosis-workspace > aside[data-alert="true"] { background: #fbefea; }
 .doe-diagnosis-workspace > aside strong { color: #30343a; font-size: 9px; }
 .doe-diagnosis-workspace > aside p { margin: 3px 0 0; color: #60666d; font-size: 8px; line-height: 1.55; }
+.doe-confirmation-workspace { border: 1px solid #e5e7eb; border-radius: 8px; background: #f7f7f8; padding: 20px; }
+.doe-confirmation-workspace > header { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; }
+.doe-confirmation-workspace .section-label { margin: 0; color: #737980; font-size: 8px; font-weight: 600; }
+.doe-confirmation-workspace > header h2 { margin: 3px 0 0; font-size: 20px; font-weight: 600; }
+.doe-confirmation-workspace > header p { margin: 5px 0 0; color: #737980; font-size: 9px; line-height: 1.5; }
+.doe-confirmation-workspace > header > div:last-child { display: grid; min-width: 130px; border-left: 2px solid #55a868; padding-left: 12px; }
+.doe-confirmation-workspace > header > div:last-child span,.doe-confirmation-workspace > header > div:last-child small { color: #737980; font-size: 7px; }
+.doe-confirmation-workspace > header > div:last-child strong { margin: 2px 0; font-size: 15px; }
+.doe-condition-candidates { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-top: 16px; }
+.doe-condition-candidates button { display: grid; gap: 5px; border: 1px solid #e0e3e7; border-radius: 6px; background: #fff; padding: 11px; color: #30343a; font: inherit; text-align: left; cursor: pointer; }
+.doe-condition-candidates button[aria-pressed="true"] { border-color: #4c72b0; background: #eef3fa; box-shadow: inset 0 0 0 1px #4c72b0; }
+.doe-condition-candidates button > span { color: #60666d; font-size: 8px; }
+.doe-condition-candidates em { margin-left: 5px; border-radius: 99px; background: #eef6f0; padding: 2px 5px; color: #397347; font-size: 6px; font-style: normal; }
+.doe-condition-candidates strong { font-size: 17px; font-variant-numeric: tabular-nums; }
+.doe-condition-candidates strong small { font-size: 7px; font-weight: 500; }
+.doe-condition-candidates i { color: #858b92; font-size: 7px; font-style: normal; }
+.doe-confirmation-panel { display: grid; grid-template-columns: 1fr minmax(240px,.55fr); gap: 20px; margin-top: 10px; border-radius: 7px; background: #fff; padding: 16px; }
+.doe-confirmation-panel h3,.doe-extrapolation-lesson h3 { margin: 3px 0 10px; color: #30343a; font-size: 14px; font-weight: 600; }
+.doe-confirmation-panel dl { display: grid; grid-template-columns: repeat(3,1fr); margin: 0 0 12px; }
+.doe-confirmation-panel dl div { border-left: 1px solid #e0e3e7; padding-left: 9px; }
+.doe-confirmation-panel dt { color: #858b92; font-size: 7px; }
+.doe-confirmation-panel dd { margin: 2px 0 0; font-size: 14px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.doe-confirmation-panel button { min-height: 34px; border: 0; border-radius: 5px; background: #202326; padding: 0 14px; color: #fff; font: inherit; font-size: 9px; font-weight: 600; cursor: pointer; }
+.doe-confirmation-panel button:disabled { background: #d7dadd; color: #737980; cursor: default; }
+.doe-confirmation-panel ol { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.doe-confirmation-panel li { display: grid; grid-template-columns: 24px 1fr auto; gap: 8px; align-items: center; border-radius: 5px; background: #f1f2f4; padding: 8px 10px; color: #858b92; }
+.doe-confirmation-panel li[data-complete="true"] { background: #eef6f0; color: #30343a; }
+.doe-confirmation-panel li span,.doe-confirmation-panel li small { font-size: 7px; }
+.doe-confirmation-panel li b { font-size: 10px; font-variant-numeric: tabular-nums; }
+.doe-extrapolation-lesson { display: grid; grid-template-columns: 1fr minmax(240px,.55fr); gap: 20px; align-items: center; margin-top: 10px; border-radius: 7px; background: #fff; padding: 16px; }
+.doe-extrapolation-lesson p { margin: 0; color: #737980; font-size: 8px; line-height: 1.55; }
+.doe-extrapolation-lesson button { display: grid; gap: 3px; border: 1px solid #d9dde2; border-radius: 6px; background: #f7f7f8; padding: 11px; color: #30343a; font: inherit; text-align: left; cursor: pointer; }
+.doe-extrapolation-lesson button[aria-pressed="true"] { border-color: #c9846b; background: #fbefea; }
+.doe-extrapolation-lesson button span,.doe-extrapolation-lesson button i { color: #737980; font-size: 7px; font-style: normal; }
+.doe-extrapolation-lesson button strong { font-size: 10px; }
+.doe-confirmation-workspace > aside { margin-top: 10px; border-radius: 6px; background: #eef3fa; padding: 10px 12px; }
+.doe-confirmation-workspace > aside strong { color: #315f98; font-size: 9px; }
+.doe-confirmation-workspace > aside p { margin: 3px 0 0; color: #60666d; font-size: 8px; line-height: 1.5; }
 .doe-decision-workspace > aside { display: flex; gap: 12px; margin-top: 10px; color: #686e75; font-size: 8px; }
 .doe-decision-workspace > aside strong { flex: 0 0 auto; color: #4c5259; }
 .doe-decision-workspace > aside p { margin: 0; line-height: 1.5; }
@@ -16491,4 +16529,4 @@ body {
 .doe-ss-example em { border-radius: 4px; background: #eef3fa; padding: 6px 8px; color: #315f98; font-size: 8px; font-style: normal; font-weight: 650; white-space: nowrap; }
 
 @media (max-width: 1100px) { .doe-practice-workspace { grid-template-columns: 1fr; } .doe-practice-results { border-top: 1px solid #e5e7eb; border-left: 0; } }
-@media (max-width: 720px) { .doe-learning-tabs { display: flex; width: 100%; overflow-x: auto; scrollbar-width: thin; } .doe-learning-tabs button { flex: 0 0 190px; } .doe-practice-controls,.doe-practice-results { padding: 18px 16px; } .doe-practice-results > header { flex-direction: column; } .doe-practice-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 9px 0; } .doe-practice-plots { grid-template-columns: 1fr; } .doe-residual-plot { grid-column: auto; } .doe-practice-note { grid-template-columns: 1fr; gap: 3px; } .doe-decision-workspace,.doe-diagnosis-workspace { padding: 16px; } .doe-decision-workspace > header,.doe-diagnosis-workspace > header { grid-template-columns: 1fr; } .doe-decision-workspace > header dl { grid-template-columns: 1fr 1fr; gap: 8px 0; } .doe-decision-workspace > aside { display: block; } .doe-decision-workspace > aside p { margin-top: 3px; } .doe-practical-decision > header { grid-template-columns: 1fr; } .doe-decision-axis { display: none; } .doe-decision-cards { grid-template-columns: 1fr; margin-top: 12px; } .doe-diagnostic-plots,.doe-diagnostic-checks { grid-template-columns: 1fr; } .doe-anova-lesson > header { display: block; } .doe-anova-lesson > header > p { margin-top: 5px; } .doe-anova-layout { grid-template-columns: 1fr; } .doe-anova-inspector { min-height: 165px; border-top: 1px solid #e0e3e7; border-left: 0; } .doe-anova-concepts nav { grid-template-columns: repeat(3,1fr); } .doe-anova-concepts > div { grid-template-columns: 1fr; gap: 7px; } .doe-anova-concepts code { width: fit-content; white-space: normal; } .doe-ss-example { grid-template-columns: 1fr; } .doe-ss-example > i { text-align: center; } .doe-ss-example em { text-align: center; } }
+@media (max-width: 720px) { .doe-learning-tabs { display: flex; width: 100%; overflow-x: auto; scrollbar-width: thin; } .doe-learning-tabs button { flex: 0 0 190px; } .doe-practice-controls,.doe-practice-results { padding: 18px 16px; } .doe-practice-results > header { flex-direction: column; } .doe-practice-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 9px 0; } .doe-practice-plots { grid-template-columns: 1fr; } .doe-residual-plot { grid-column: auto; } .doe-practice-note { grid-template-columns: 1fr; gap: 3px; } .doe-decision-workspace,.doe-diagnosis-workspace,.doe-confirmation-workspace { padding: 16px; } .doe-decision-workspace > header,.doe-diagnosis-workspace > header,.doe-confirmation-workspace > header { grid-template-columns: 1fr; } .doe-decision-workspace > header dl { grid-template-columns: 1fr 1fr; gap: 8px 0; } .doe-decision-workspace > aside { display: block; } .doe-decision-workspace > aside p { margin-top: 3px; } .doe-practical-decision > header { grid-template-columns: 1fr; } .doe-decision-axis { display: none; } .doe-decision-cards,.doe-condition-candidates { grid-template-columns: 1fr; margin-top: 12px; } .doe-confirmation-panel,.doe-extrapolation-lesson { grid-template-columns: 1fr; } .doe-diagnostic-plots,.doe-diagnostic-checks { grid-template-columns: 1fr; } .doe-anova-lesson > header { display: block; } .doe-anova-lesson > header > p { margin-top: 5px; } .doe-anova-layout { grid-template-columns: 1fr; } .doe-anova-inspector { min-height: 165px; border-top: 1px solid #e0e3e7; border-left: 0; } .doe-anova-concepts nav { grid-template-columns: repeat(3,1fr); } .doe-anova-concepts > div { grid-template-columns: 1fr; gap: 7px; } .doe-anova-concepts code { width: fit-content; white-space: normal; } .doe-ss-example { grid-template-columns: 1fr; } .doe-ss-example > i { text-align: center; } .doe-ss-example em { text-align: center; } }

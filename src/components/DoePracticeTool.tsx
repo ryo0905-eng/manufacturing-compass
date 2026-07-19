@@ -31,13 +31,15 @@ function buildExperiment(errorSize: number, driftSize: number, randomized: boole
   return { factors: [{ id: "temperature", name: "温度", unit: "℃", levels: [{ code: -1, label: "低", value: 160 }, { code: 1, label: "高", value: 200 }] }, { id: "pressure", name: "圧力", unit: "kPa", levels: [{ code: -1, label: "低", value: 80 }, { code: 1, label: "高", value: 120 }] }], responses: [{ id: "strength", name: "強度", unit: "MPa" }], runs };
 }
 
-export function DoePracticeTool({ view }: { view: "experiment" | "decision" | "diagnosis" }) {
+export function DoePracticeTool({ view }: { view: "experiment" | "decision" | "diagnosis" | "confirmation" }) {
   const [errorSize, setErrorSize] = useState(2);
   const [driftSize, setDriftSize] = useState(0);
   const [randomized, setRandomized] = useState(false);
   const [selectedAnovaTerm, setSelectedAnovaTerm] = useState<AnovaTermId>("temperature");
   const [practicalThreshold, setPracticalThreshold] = useState(5);
   const [diagnosticIssue, setDiagnosticIssue] = useState<DiagnosticIssue>("none");
+  const [candidateCondition, setCandidateCondition] = useState(3);
+  const [confirmationCount, setConfirmationCount] = useState(0);
   const experiment = useMemo(() => buildExperiment(errorSize, driftSize, randomized, diagnosticIssue), [errorSize, driftSize, randomized, diagnosticIssue]);
   const analysis = useMemo(() => analyzeExperiment(experiment, "strength"), [experiment]);
   const anova = useMemo(() => calculateAnova(experiment, "strength"), [experiment]);
@@ -57,6 +59,7 @@ export function DoePracticeTool({ view }: { view: "experiment" | "decision" | "d
 
   function changeOrder(next: boolean) { setRandomized(next); trackEvent("doe_run_order_changed", { order: next ? "randomized" : "standard" }); }
   if (view === "diagnosis") return <DiagnosisLesson issue={diagnosticIssue} onIssueChange={setDiagnosticIssue} pureError={pureError} residuals={residuals} trend={residualTrend} />;
+  if (view === "confirmation") return <ConfirmationLesson candidate={candidateCondition} confirmationCount={confirmationCount} errorSize={errorSize} experiment={experiment} onCandidateChange={(condition) => { setCandidateCondition(condition); setConfirmationCount(0); }} onConfirm={() => setConfirmationCount((current) => Math.min(3, current + 1))} />;
   if (view === "decision") return <section className="doe-decision-workspace"><header><div><p className="section-label">STEP 3 / DECISION</p><h2>ANOVAで、結果を判断する</h2><p>STEP 2で作った実験データを引き継いでいます。</p></div><dl><div><dt>実験誤差</dt><dd>{errorSize.toFixed(1)}</dd></div><div><dt>時間変化</dt><dd>{driftSize.toFixed(1)}</dd></div><div><dt>実施順</dt><dd>{randomized ? "ランダム" : "標準順"}</dd></div><div><dt>反復</dt><dd>3回</dd></div></dl></header><AnovaLesson anova={anova} selected={selectedAnova} onSelect={setSelectedAnovaTerm} /><PracticalDecisionLesson anova={anova} effects={analysis.effects} threshold={practicalThreshold} onThresholdChange={setPracticalThreshold} /><aside><strong>数値を変えて確かめたい場合</strong><p>STEP 2「実験を組む」に戻ると、実験誤差・時間変化・実施順を変更できます。変更した状態はこの画面へ引き継がれます。</p></aside></section>;
 
   return <section className="doe-practice-workspace">
@@ -84,6 +87,17 @@ function PracticalDecisionLesson({ anova, effects, threshold, onThresholdChange 
     return { id: effect.id, label: effect.id === "temperature" ? "温度 A" : effect.id === "pressure" ? "圧力 B" : "交互作用 A×B", effect: effect.absoluteEstimate, p: row?.p, statisticallyClear, practicallyLarge, interpretation };
   });
   return <section className="doe-practical-decision"><header><div><p className="section-label">INTERPRETATION</p><h3>「有意」と「重要」を分けて考える</h3></div><label><span>工程上意味がある最小差 <b>{threshold.toFixed(1)} MPa</b></span><input min="1" max="15" step="1" type="range" value={threshold} onChange={(event) => onThresholdChange(Number(event.target.value))} /></label></header><div className="doe-decision-axis" aria-hidden="true"><span /><b>p &lt; 0.05</b><b>効果 ≥ {threshold.toFixed(1)} MPa</b></div><div className="doe-decision-cards">{items.map((item) => <article key={item.id}><header><strong>{item.label}</strong><span>効果 {item.effect.toFixed(2)} MPa</span></header><div><p data-active={item.statisticallyClear}><i>{item.statisticallyClear ? "✓" : "—"}</i><span><b>統計的に明確</b><small>{item.p === undefined || item.p === null ? "p値なし" : item.p < .001 ? "p < .001" : `p = ${item.p.toFixed(3)}`}</small></span></p><p data-active={item.practicallyLarge}><i>{item.practicallyLarge ? "✓" : "—"}</i><span><b>工程上重要</b><small>{item.effect.toFixed(2)} ≥ {threshold.toFixed(1)}</small></span></p></div><footer>{item.interpretation}</footer></article>)}</div><p className="doe-decision-takeaway"><strong>判断の順番：</strong> p値で「誤差だけでは説明しにくいか」を確認し、効果量で「現場にとって意味があるか」を判断します。</p></section>;
+}
+
+function ConfirmationLesson({ candidate, confirmationCount, errorSize, experiment, onCandidateChange, onConfirm }: { candidate: number; confirmationCount: number; errorSize: number; experiment: DoeExperiment; onCandidateChange: (condition: number) => void; onConfirm: () => void }) {
+  const [extrapolate, setExtrapolate] = useState(false);
+  const summaries = cells.map((cell, index) => ({ index, cell, predicted: cellMean(experiment, { temperature: cell.temperature, pressure: cell.pressure }, "strength") }));
+  const recommended = summaries.reduce((best, item) => item.predicted > best.predicted ? item : best, summaries[0]);
+  const selected = summaries[candidate];
+  const confirmationOffsets = [-.55, .75, -.2];
+  const confirmations = confirmationOffsets.slice(0, confirmationCount).map((offset) => selected.predicted + offset * Math.max(errorSize, 1));
+  const confirmationMean = confirmations.length ? confirmations.reduce((sum, value) => sum + value, 0) / confirmations.length : null;
+  return <section className="doe-confirmation-workspace"><header><div><p className="section-label">STEP 5 / CONFIRMATION</p><h2>条件を選び、新しい実験で確かめる</h2><p>モデルが示す候補は結論ではありません。実際にその条件を実施し、予測が再現するか確認します。</p></div><div><span>推奨条件</span><strong>条件 {recommended.index + 1}</strong><small>予測 {recommended.predicted.toFixed(1)} MPa</small></div></header><div className="doe-condition-candidates">{summaries.map((item) => <button aria-pressed={candidate === item.index} key={item.index} onClick={() => onCandidateChange(item.index)} type="button"><span>条件 {item.index + 1}{item.index === recommended.index && <em>推奨</em>}</span><strong>{item.predicted.toFixed(1)} <small>MPa</small></strong><i>温度 {item.cell.temperature === -1 ? "160℃" : "200℃"} · 圧力 {item.cell.pressure === -1 ? "80kPa" : "120kPa"}</i></button>)}</div><div className="doe-confirmation-panel"><div><p className="section-label">CONFIRMATION RUN</p><h3>選んだ条件を、もう一度実施する</h3><dl><div><dt>モデルの予測</dt><dd>{selected.predicted.toFixed(1)}</dd></div><div><dt>確認実験の平均</dt><dd>{confirmationMean === null ? "—" : confirmationMean.toFixed(1)}</dd></div><div><dt>予測との差</dt><dd>{confirmationMean === null ? "—" : `${confirmationMean - selected.predicted >= 0 ? "+" : ""}${(confirmationMean - selected.predicted).toFixed(1)}`}</dd></div></dl><button disabled={confirmationCount >= 3} onClick={onConfirm} type="button">{confirmationCount === 0 ? "確認実験を1回実施" : confirmationCount < 3 ? "もう1回反復する" : "3回の確認が完了"}</button></div><ol>{[0, 1, 2].map((index) => <li data-complete={index < confirmationCount} key={index}><span>{index + 1}</span><b>{index < confirmationCount ? confirmations[index].toFixed(1) : "未実施"}</b><small>MPa</small></li>)}</ol></div><div className="doe-extrapolation-lesson"><div><p className="section-label">EXTRAPOLATION</p><h3>実験していない220℃も予測する？</h3><p>今回確認した温度は160℃と200℃だけです。範囲の外では、同じ傾きが続く保証はありません。</p></div><button aria-pressed={extrapolate} onClick={() => setExtrapolate((current) => !current)} type="button"><span>{extrapolate ? "外挿した表示" : "実験範囲内"}</span><strong>{extrapolate ? "220℃の数値は参考外" : "160℃ — 200℃"}</strong><i>{extrapolate ? "追加実験で確認する" : "220℃を表示してみる"}</i></button></div><aside><strong>{confirmationCount >= 2 ? "確認実験を判断に使える状態です" : "推奨条件を選んだだけでは、まだ完了ではありません"}</strong><p>{confirmationCount >= 2 ? "予測との差、測定のばらつき、工程上意味のある差を合わせて、条件を採用するか判断します。" : "少なくとも反復した確認実験を行い、予測との差と再現性を確認してください。"}</p></aside></section>;
 }
 
 function DiagnosisLesson({ issue, onIssueChange, pureError, residuals, trend }: { issue: DiagnosticIssue; onIssueChange: (issue: DiagnosticIssue) => void; pureError: number; residuals: { order: number; value: number; response: number; levels: Record<string, number> }[]; trend: number }) {
