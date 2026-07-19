@@ -5,6 +5,7 @@ import { analyzeExperiment, cellMean, conditionMean } from "@/lib/doe/effects";
 import { doePresets, type DoePreset } from "@/lib/doe/presets";
 import type { DoeExperiment } from "@/lib/doe/types";
 import { trackEvent } from "@/lib/analytics";
+import { DoePracticeTool } from "@/components/DoePracticeTool";
 
 const initialResponses = [72, 81, 76, 94];
 
@@ -35,6 +36,7 @@ function explanation(interaction: number, range: number, linesCross: boolean) {
 }
 
 export function DoeLearningTool() {
+  const [learningMode, setLearningMode] = useState<"basics" | "practice">("basics");
   const [responses, setResponses] = useState(initialResponses);
   const experiment = useMemo(() => experimentWith(responses), [responses]);
   const analysis = useMemo(() => analyzeExperiment(experiment, "strength"), [experiment]);
@@ -55,7 +57,9 @@ export function DoeLearningTool() {
   function applyPreset(preset: DoePreset) { setResponses([...preset.values]); trackEvent("doe_preset_selected", { preset: preset.id }); }
   function reset() { setResponses(initialResponses); trackEvent("doe_reset"); }
 
-  return <section className="doe-workspace" aria-label="2因子2水準の実験計画法学習ツール">
+  return <div className="doe-learning-experience">
+    <nav className="doe-learning-tabs" aria-label="DoEの学習レベル"><button aria-pressed={learningMode === "basics"} onClick={() => setLearningMode("basics")} type="button"><strong>基礎</strong><span>主効果と交互作用</span></button><button aria-pressed={learningMode === "practice"} onClick={() => { setLearningMode("practice"); trackEvent("doe_practice_started"); }} type="button"><strong>実務に近づける</strong><span>反復とランダム化</span></button></nav>
+    {learningMode === "practice" ? <DoePracticeTool /> : <section className="doe-workspace" aria-label="2因子2水準の実験計画法学習ツール">
     <div className="doe-controls">
       <header><div><p className="section-label">2 FACTORS / 2 LEVELS</p><h2>4つの実験結果を動かす</h2></div><button onClick={reset} type="button">初期値に戻す</button></header>
       <div className="doe-presets" aria-label="学習プリセット">{doePresets.map((preset) => <button key={preset.id} onClick={() => applyPreset(preset)} type="button">{preset.label}</button>)}</div>
@@ -72,7 +76,8 @@ export function DoeLearningTool() {
       <div className="doe-plots"><EffectPlot title="主効果プロット" series={[{ label: "温度", values: [aLow, aHigh] }, { label: "圧力", values: [bLow, bHigh] }]} /><EffectPlot interaction title="交互作用プロット" series={interactionLines} /></div>
       <aside className="doe-warning"><strong>反復なしの学習用モデル</strong><p>{analysis.warnings[0]} 実務では実験順のランダム化、反復、残差の確認も必要です。</p></aside>
     </div>
-  </section>;
+  </section>}
+  </div>;
 }
 
 function EffectPlot({ interaction = false, series, title }: { interaction?: boolean; series: { label: string; values: number[] }[]; title: string }) {
