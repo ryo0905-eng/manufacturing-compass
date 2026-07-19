@@ -23,6 +23,8 @@ function change(value: number, index: number, scenario: ControlChartScenario) {
 export function scenarioValues(scenario: ControlChartScenario) { return base.map((value,index) => change(value,index,scenario)); }
 export function scenarioSubgroups(scenario: ControlChartScenario) { return base.slice(0,20).map((value,index) => subgroupOffsets.map((offset,point) => change(value + offset + ((index + point) % 3 - 1) * .08,index,scenario === "outlier" && point !== 4 ? "stable" : scenario))); }
 
+export function stableNormalSequence(length:number){let seed=24681357;const random=()=>{seed=(seed*48271)%2147483647;return seed/2147483647;};const values:number[]=[];while(values.length<length){const radius=Math.sqrt(-2*Math.log(Math.max(random(),1e-12)));const angle=2*Math.PI*random();values.push(100+radius*Math.cos(angle));if(values.length<length)values.push(100+radius*Math.sin(angle));}return values;}
+
 function windows(values: number[], length: number, test: (window: number[]) => boolean) {
   const matches: number[][] = [];
   for (let start=0; start<=values.length-length; start+=1) { const window=values.slice(start,start+length); if (test(window)) matches.push(window.map((_,offset)=>start+offset)); }
