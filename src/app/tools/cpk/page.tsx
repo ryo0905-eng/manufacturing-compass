@@ -34,7 +34,7 @@ export default function CpkToolPage() {
 
       <CpkToolExperience />
 
-      <nav className="tool-related-links" aria-label="関連する実務学習ツール"><span>関連ツール</span><Link href="/tools/doe">実験計画法の主効果と交互作用を動かして学ぶ <span aria-hidden="true">→</span></Link></nav>
+      <nav className="tool-related-links" aria-label="関連する実務学習ツール"><span>関連ツール</span><Link href="/tools/control-chart">管理図で工程の時間変化を学ぶ <span aria-hidden="true">→</span></Link><Link href="/tools/doe">実験計画法を動かして学ぶ <span aria-hidden="true">→</span></Link></nav>
 
       <article className="capability-document">
         <header><h2>指標の見方</h2><p>工程能力指数は、使う標準偏差と規格の種類を確認して読みます。</p></header>

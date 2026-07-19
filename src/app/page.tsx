@@ -83,6 +83,7 @@ export default function Home() {
         <div className="home-tools-grid">
           <Link href="/tools/cpk"><span>01 / PROCESS CAPABILITY</span><h3>Cp・Cpk計算ツール</h3><p>測定データからPp・Ppkと分布を確認。平均とばらつきを動かす学習モードも利用できます。</p><strong>計算・学習を始める <i aria-hidden="true">→</i></strong><dl><div><dt>Cpk</dt><dd>1.42</dd></div><div><dt>Cp</dt><dd>1.58</dd></div></dl></Link>
           <Link href="/tools/doe"><span>02 / DESIGN OF EXPERIMENTS</span><h3>実験計画法（DoE）学習ツール</h3><p>効果、反復、ANOVA、残差、確認実験まで。DoEの判断手順をデータを動かして学べます。</p><strong>5ステップで学ぶ <i aria-hidden="true">→</i></strong><dl><div><dt>学習</dt><dd>5段階</dd></div><div><dt>反復</dt><dd>12実験</dd></div></dl></Link>
+          <Link href="/tools/control-chart"><span>03 / STATISTICAL PROCESS CONTROL</span><h3>管理図 学習ツール</h3><p>平均シフト、外れ値、傾向、周期変動を加え、工程の異常を時系列で見つける判断を学べます。</p><strong>異常を動かして学ぶ <i aria-hidden="true">→</i></strong><dl><div><dt>測定</dt><dd>24点</dd></div><div><dt>状態</dt><dd>5種類</dd></div></dl></Link>
         </div>
         <Link className="text-link home-section-link" href="/tools">実務ツールをすべて見る</Link>
       </section>

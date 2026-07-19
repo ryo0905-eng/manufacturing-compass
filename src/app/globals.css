@@ -16614,3 +16614,41 @@ body {
 
 @media (max-width: 1100px) { .doe-practice-workspace { grid-template-columns: 1fr; } .doe-practice-results { border-top: 1px solid #e5e7eb; border-left: 0; } }
 @media (max-width: 720px) { .doe-learning-tabs { display: flex; width: 100%; overflow-x: auto; scrollbar-width: thin; } .doe-learning-tabs button { flex: 0 0 190px; } .doe-practice-controls,.doe-practice-results { padding: 18px 16px; } .doe-practice-results > header { flex-direction: column; } .doe-practice-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 9px 0; } .doe-practice-plots { grid-template-columns: 1fr; } .doe-residual-plot { grid-column: auto; } .doe-practice-note { grid-template-columns: 1fr; gap: 3px; } .doe-decision-workspace,.doe-diagnosis-workspace,.doe-confirmation-workspace { padding: 16px; } .doe-decision-workspace > header,.doe-diagnosis-workspace > header,.doe-confirmation-workspace > header { grid-template-columns: 1fr; } .doe-decision-workspace > header dl { grid-template-columns: 1fr 1fr; gap: 8px 0; } .doe-decision-workspace > aside { display: block; } .doe-decision-workspace > aside p { margin-top: 3px; } .doe-practical-decision > header { grid-template-columns: 1fr; } .doe-decision-axis { display: none; } .doe-decision-cards,.doe-condition-candidates { grid-template-columns: 1fr; margin-top: 12px; } .doe-confirmation-panel,.doe-extrapolation-lesson { grid-template-columns: 1fr; } .doe-diagnostic-plots,.doe-diagnostic-checks { grid-template-columns: 1fr; } .doe-anova-lesson > header { display: block; } .doe-anova-lesson > header > p { margin-top: 5px; } .doe-anova-layout { grid-template-columns: 1fr; } .doe-anova-inspector { min-height: 165px; border-top: 1px solid #e0e3e7; border-left: 0; } .doe-anova-concepts nav { grid-template-columns: repeat(3,1fr); } .doe-anova-concepts > div { grid-template-columns: 1fr; gap: 7px; } .doe-anova-concepts code { width: fit-content; white-space: normal; } .doe-ss-example { grid-template-columns: 1fr; } .doe-ss-example > i { text-align: center; } .doe-ss-example em { text-align: center; } }
+
+/* Interactive control chart learning */
+.control-chart-page { display: grid; width: min(1180px,calc(100% - 40px)); gap: 12px; margin: 0 auto; padding: 12px 0 72px; color: #1d1d1f; }
+.control-chart-hero { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 2px 0 10px; }
+.control-chart-hero h1 { margin: 0 0 2px; font-size: 26px; font-weight: 600; }
+.control-chart-hero > div p { margin: 0; color: #60666d; font-size: 13px; }
+.control-chart-hero > p { display: grid; margin: 0; text-align: right; }
+.control-chart-hero > p strong { font-size: 12px; }
+.control-chart-hero > p span { color: #737980; font-size: 9px; }
+.control-chart-tool { border: 1px solid #e2e5e8; border-radius: 8px; background: #f7f7f8; padding: 20px; }
+.control-chart-tool > header { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; }
+.control-chart-tool .section-label,.control-chart-document .section-label { margin: 0; color: #737980; font-size: 8px; font-weight: 600; }
+.control-chart-tool h2 { margin: 3px 0; font-size: 20px; font-weight: 600; }
+.control-chart-tool > header p { margin: 0; color: #737980; font-size: 9px; }
+.control-chart-tool > header dl { display: grid; grid-template-columns: repeat(3,80px); margin: 0; }
+.control-chart-tool > header dl div { border-left: 1px solid #d9dde2; padding-left: 10px; }
+.control-chart-tool dt { color: #858b92; font-size: 7px; }
+.control-chart-tool dd { margin: 2px 0 0; font-size: 14px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.control-scenarios { display: grid; grid-template-columns: repeat(5,1fr); gap: 3px; margin: 16px 0 10px; border: 1px solid #d9dde2; border-radius: 7px; background: #eceef1; padding: 3px; }
+.control-scenarios button { display: grid; gap: 1px; min-height: 42px; border: 0; border-radius: 5px; background: transparent; color: #60666d; font: inherit; cursor: pointer; }
+.control-scenarios button[aria-pressed="true"] { background: #fff; color: #202326; box-shadow: 0 1px 2px rgba(17,24,28,.08); }
+.control-scenarios strong { font-size: 9px; }.control-scenarios span { font-size: 7px; }
+.control-chart-figure { margin: 0; border-radius: 7px; background: #fff; padding: 10px; }
+.control-chart-figure svg { display: block; width: 100%; height: auto; }
+.control-chart-figure svg > rect:first-child { fill: #eaeaf2; }
+.control-baseline-area { fill: rgba(76,114,176,.07); }
+.control-chart-figure line { stroke-width: 1.2; }.control-limit-line { stroke: #c44e52; stroke-dasharray: 5 4; }.control-center-line { stroke: #55a868; }.control-spec-line { stroke: #dd8452; stroke-dasharray: 2 4; }
+.control-data-line { fill: none; stroke: #4c72b0; stroke-width: 2; }
+.control-chart-figure circle { fill: #4c72b0; stroke: #fff; stroke-width: 1.5; }.control-chart-figure circle.is-alert { fill: #c44e52; }
+.control-chart-figure text { fill: #737980; font-size: 9px; }.control-point-number { font-size: 7px !important; }.control-period-label { fill: #59616a !important; font-size: 8px !important; }.control-spec-label { fill: #b56242 !important; }
+.control-chart-figure figcaption { margin: 4px 4px 0; color: #737980; font-size: 8px; }
+.control-interpretation { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.control-interpretation section { border-radius: 7px; background: #fff; padding: 14px; }.control-interpretation h3,.control-limits-lesson h3 { margin: 4px 0 8px; font-size: 13px; font-weight: 600; }
+.control-interpretation ul { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }.control-interpretation li { display: flex; gap: 8px; align-items: center; color: #737980; font-size: 8px; }.control-interpretation li span { min-width: 30px; border-radius: 99px; background: #eceef1; padding: 3px 5px; font-size: 6px; text-align: center; }.control-interpretation li[data-found="true"] { color: #30343a; }.control-interpretation li[data-found="true"] span { background: #fbefea; color: #a04d35; }
+.control-interpretation section > p:last-child { margin: 0; color: #60666d; font-size: 9px; line-height: 1.6; }
+.control-limits-lesson { display: grid; grid-template-columns: 1fr minmax(250px,.45fr); gap: 20px; align-items: center; margin-top: 10px; border-radius: 7px; background: #fff; padding: 14px; }.control-limits-lesson p { margin: 0; color: #60666d; font-size: 8px; line-height: 1.55; }.control-limits-lesson button { display: grid; gap: 3px; border: 1px solid #d9dde2; border-radius: 6px; background: #f7f7f8; padding: 11px; color: #30343a; font: inherit; text-align: left; cursor: pointer; }.control-limits-lesson button[aria-pressed="true"] { border-color: #dd8452; background: #fff7f1; }.control-limits-lesson button span { color: #737980; font-size: 7px; }.control-limits-lesson button strong { font-size: 9px; }
+.control-chart-document { display: grid; gap: 16px; width: min(900px,100%); margin: 40px auto 0; }.control-chart-document h2 { margin: 5px 0; font-size: 24px; }.control-chart-document > header > p:last-child { margin: 0; color: #60666d; font-size: 12px; line-height: 1.7; }.control-chart-document > div { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }.control-chart-document section { border-top: 1px solid #d9dde2; padding-top: 14px; }.control-chart-document h3 { margin: 0 0 6px; font-size: 14px; }.control-chart-document section p { margin: 0; color: #60666d; font-size: 10px; line-height: 1.65; }
+@media (max-width:720px) { .control-chart-page { width: calc(100% - 28px); }.control-chart-hero,.control-chart-tool > header,.control-limits-lesson { grid-template-columns: 1fr; }.control-chart-hero > p { text-align:left; }.control-chart-tool { padding:16px; }.control-chart-tool > header dl { grid-template-columns:repeat(3,1fr); }.control-scenarios { display:flex; overflow-x:auto; }.control-scenarios button { flex:0 0 130px; }.control-chart-figure { overflow-x:auto; }.control-chart-figure svg { min-width:720px; }.control-interpretation,.control-chart-document > div { grid-template-columns:1fr; } }
