@@ -14861,3 +14861,236 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Home polish: shared grid, restrained accents, and consistent rhythm. */
+.home-simple {
+  --home-content-width: 1080px;
+  --home-reading-width: 680px;
+  --home-line: #e5e7eb;
+  --home-line-strong: #c9cdd2;
+  --home-section-gap: 64px;
+}
+
+.home-simple .home-hero,
+.home-simple .home-section {
+  width: min(var(--home-content-width), calc(100% - 40px));
+}
+
+.home-simple .home-section {
+  margin-top: var(--home-section-gap);
+}
+
+.home-simple .editorial-heading,
+.home-simple .editorial-heading--split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
+  gap: 32px;
+  align-items: end;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--home-line-strong);
+}
+
+.home-simple .editorial-heading:not(.editorial-heading--split) > .section-label,
+.home-simple .editorial-heading:not(.editorial-heading--split) > h2 {
+  grid-column: 1;
+}
+
+.home-simple .editorial-heading:not(.editorial-heading--split) > .section-label {
+  margin-bottom: -26px;
+}
+
+.home-simple .editorial-heading h2 {
+  margin-bottom: 0;
+}
+
+.home-simple .editorial-heading--split > p,
+.home-simple .editorial-heading > p:last-child:not(.section-label) {
+  max-width: 390px;
+  margin: 0 0 3px;
+  color: #6b7178;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.home-simple .section-label,
+.home-simple .home-work-tool dt,
+.home-simple .career-route-map__labels,
+.home-simple .home-process-entry__copy > span,
+.home-simple .home-process-entry__stages small {
+  font-weight: 500;
+}
+
+.home-simple .diagnosis-feature-list article,
+.home-simple .research-routes nav a,
+.home-simple .home-guide-preview__grid > a,
+.home-simple .operator-summary,
+.home-simple .home-agent-path .cta-panel,
+.home-simple .career-result-preview,
+.home-simple .home-quest-explainer aside {
+  border-color: var(--home-line);
+}
+
+.home-simple .research-routes nav {
+  display: block;
+  border-top: 1px solid var(--home-line-strong);
+}
+
+.home-simple .research-routes nav a,
+.home-simple .research-routes nav a:nth-child(2),
+.home-simple .research-routes nav a:nth-child(3) {
+  display: grid;
+  grid-template-columns: 42px minmax(190px, 0.55fr) minmax(0, 1fr) 20px;
+  min-height: 0;
+  gap: 18px;
+  align-items: center;
+  border: 0;
+  border-bottom: 1px solid var(--home-line);
+  border-radius: 0;
+  background: #fff;
+  padding: 17px 0;
+}
+
+.home-simple .research-routes nav span,
+.home-simple .research-routes nav a:nth-child(2) span,
+.home-simple .research-routes nav a:nth-child(3) span {
+  margin: 0;
+  color: #858b92;
+}
+
+.home-simple .research-routes nav strong {
+  font-size: 15px;
+}
+
+.home-simple .research-routes nav small {
+  font-size: 13px;
+}
+
+.home-simple .research-routes nav i {
+  position: static;
+  justify-self: end;
+  color: #1769aa;
+}
+
+.home-simple .research-routes nav a:hover {
+  color: #1d1d1f;
+  transform: none;
+}
+
+.home-simple .home-company-spotlight > div:not(.editorial-heading),
+.home-simple .home-process-entry__panel,
+.home-simple .career-route-map {
+  border-top-color: var(--home-line-strong);
+}
+
+.home-simple .guide-thumbnail,
+.home-simple .guide-thumbnail--experience,
+.home-simple .guide-thumbnail--knowhow,
+.home-simple .guide-thumbnail--data,
+.home-simple .guide-thumbnail--route,
+.home-simple .guide-thumbnail--global,
+.home-simple .guide-thumbnail--process {
+  --guide-accent: #7ba7c4;
+  background-color: #25282c;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+.home-simple .guide-thumbnail::after {
+  border-color: rgba(123, 167, 196, 0.26);
+  box-shadow: 0 0 0 26px rgba(123, 167, 196, 0.045);
+}
+
+.home-simple .guide-thumbnail__topline {
+  color: rgba(255, 255, 255, 0.52);
+  font-weight: 600;
+}
+
+.home-simple .guide-thumbnail__copy small {
+  color: #9abbd0;
+  font-weight: 600;
+}
+
+.home-simple .guide-thumbnail__copy strong {
+  font-weight: 600;
+}
+
+.home-simple .guide-thumbnail__plot i {
+  background: #7ba7c4;
+}
+
+.home-simple .home-guide-preview__grid h3,
+.home-simple .home-company-spotlight a strong,
+.home-simple .diagnosis-feature-list h3,
+.home-simple .research-routes nav strong,
+.home-simple .home-process-entry__copy h3,
+.home-simple .home-process-entry__stages strong {
+  font-weight: 600;
+}
+
+.footer {
+  border-top-color: var(--home-line, #e5e7eb);
+  background: #f7f7f8;
+  padding-block: 24px;
+}
+
+.footer > div {
+  width: min(1080px, 100%);
+  margin-inline: auto;
+}
+
+.footer p,
+.footer a {
+  color: #686e75;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.footer a {
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .home-simple {
+    --home-section-gap: 48px;
+  }
+
+  .home-simple .home-hero,
+  .home-simple .home-section {
+    width: min(var(--home-content-width), calc(100% - 28px));
+  }
+
+  .home-simple .editorial-heading,
+  .home-simple .editorial-heading--split {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding-bottom: 15px;
+  }
+
+  .home-simple .editorial-heading:not(.editorial-heading--split) > .section-label {
+    margin-bottom: -4px;
+  }
+
+  .home-simple .editorial-heading--split > p,
+  .home-simple .editorial-heading > p:last-child:not(.section-label) {
+    max-width: var(--home-reading-width);
+    font-size: 13px;
+  }
+
+  .home-simple .research-routes nav a,
+  .home-simple .research-routes nav a:nth-child(2),
+  .home-simple .research-routes nav a:nth-child(3) {
+    grid-template-columns: 30px minmax(0, 1fr) 18px;
+    gap: 12px;
+  }
+
+  .home-simple .research-routes nav small {
+    grid-column: 2;
+  }
+
+  .home-simple .research-routes nav i {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+}
