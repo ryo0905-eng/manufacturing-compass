@@ -27,7 +27,7 @@ function buildExperiment(errorSize: number, driftSize: number, randomized: boole
   return { factors: [{ id: "temperature", name: "温度", unit: "℃", levels: [{ code: -1, label: "低", value: 160 }, { code: 1, label: "高", value: 200 }] }, { id: "pressure", name: "圧力", unit: "kPa", levels: [{ code: -1, label: "低", value: 80 }, { code: 1, label: "高", value: 120 }] }], responses: [{ id: "strength", name: "強度", unit: "MPa" }], runs };
 }
 
-export function DoePracticeTool() {
+export function DoePracticeTool({ view }: { view: "experiment" | "decision" }) {
   const [errorSize, setErrorSize] = useState(2);
   const [driftSize, setDriftSize] = useState(0);
   const [randomized, setRandomized] = useState(false);
@@ -50,19 +50,20 @@ export function DoePracticeTool() {
   const selectedAnova = anova.rows.find((row) => row.id === selectedAnovaTerm) ?? anova.rows[0];
 
   function changeOrder(next: boolean) { setRandomized(next); trackEvent("doe_run_order_changed", { order: next ? "randomized" : "standard" }); }
+  if (view === "decision") return <section className="doe-decision-workspace"><header><div><p className="section-label">STEP 3 / DECISION</p><h2>ANOVAで、結果を判断する</h2><p>STEP 2で作った実験データを引き継いでいます。</p></div><dl><div><dt>実験誤差</dt><dd>{errorSize.toFixed(1)}</dd></div><div><dt>時間変化</dt><dd>{driftSize.toFixed(1)}</dd></div><div><dt>実施順</dt><dd>{randomized ? "ランダム" : "標準順"}</dd></div><div><dt>反復</dt><dd>3回</dd></div></dl></header><AnovaLesson anova={anova} selected={selectedAnova} onSelect={setSelectedAnovaTerm} /><aside><strong>数値を変えて確かめたい場合</strong><p>STEP 2「実験を組む」に戻ると、実験誤差・時間変化・実施順を変更できます。変更した状態はこの画面へ引き継がれます。</p></aside></section>;
+
   return <section className="doe-practice-workspace">
-    <div className="doe-practice-controls"><header><div><p className="section-label">STEP 1 / REPLICATION</p><h2>反復で、実験誤差を測る</h2><p className="doe-step-description">同じ4条件を3回ずつ測り、条件の差と測定ごとのばらつきを分けます。</p></div><span className="doe-step-count">12 RUNS / 3 REPLICATES</span></header>
+    <div className="doe-practice-controls"><header><div><p className="section-label">PART A / REPLICATION</p><h2>反復で、実験誤差を測る</h2><p className="doe-step-description">同じ4条件を3回ずつ測り、条件の差と測定ごとのばらつきを分けます。</p></div><span className="doe-step-count">12 RUNS / 3 REPLICATES</span></header>
       <label className="doe-practice-slider"><span><b>実験誤差</b><output>{errorSize.toFixed(1)}</output></span><input min="0" max="8" step=".5" type="range" value={errorSize} onChange={(event) => setErrorSize(Number(event.target.value))} /></label>
       <label className="doe-practice-slider doe-time-change"><span><b>時間による変化 <small>装置の暖機・工具摩耗など</small></b><output>{driftSize.toFixed(1)}</output></span><input min="0" max="16" step="1" type="range" value={driftSize} onChange={(event) => setDriftSize(Number(event.target.value))} /><span className="doe-time-change-scale"><i>実験1 {driftSize === 0 ? "±0" : `−${(driftSize / 2).toFixed(1)}`}</i><em aria-hidden="true">時間 →</em><i>実験12 {driftSize === 0 ? "±0" : `＋${(driftSize / 2).toFixed(1)}`}</i></span></label>
       <div className="doe-practice-guide" data-complete={randomized && driftSize >= 4 ? "true" : "false"}><span>{guide.step}</span><div><strong>{guide.title}</strong><p>{guide.body}</p></div></div>
       <fieldset className={`doe-order-toggle${driftSize >= 4 && !randomized ? " is-next" : ""}`}><legend>実施順</legend><div><button aria-pressed={!randomized} onClick={() => changeOrder(false)} type="button">標準順</button><button aria-pressed={randomized} onClick={() => changeOrder(true)} type="button">ランダム化</button></div></fieldset>
       <div className="doe-run-sequence"><strong>実験データ <small>実施順に、反復と時間による変化を確認</small></strong><div className="doe-run-table-scroll"><table><thead><tr><th>実施順</th><th>条件</th><th>反復</th><th>温度</th><th>圧力</th><th>時間変化</th><th>強度 MPa</th></tr></thead><tbody>{experiment.runs.map((run) => { const timeChange = ((run.runOrder - 1) / 11 - .5) * driftSize; const condition = Math.floor((run.standardOrder - 1) / 3) + 1; const replicate = ((run.standardOrder - 1) % 3) + 1; return <tr key={run.id}><td>{run.runOrder}</td><td><i className={`doe-condition-mark doe-condition-mark--${condition}`} />{condition}</td><td>{replicate}</td><td>{run.levels.temperature === -1 ? "低 160℃" : "高 200℃"}</td><td>{run.levels.pressure === -1 ? "低 80kPa" : "高 120kPa"}</td><td className="doe-time-cell">{timeChange === 0 ? "±0.0" : `${timeChange > 0 ? "+" : ""}${timeChange.toFixed(1)}`}</td><td className="doe-response-cell">{run.responses.strength?.toFixed(1)}</td></tr>; })}</tbody></table></div></div>
     </div>
-    <div className="doe-practice-results"><header><div><p className="section-label">STEP 2 / RANDOMIZATION &amp; RESIDUALS</p><h2>実験順と残差から、変化を見つける</h2></div><dl><div><dt>温度 A</dt><dd>{effects.temperature.toFixed(2)}</dd></div><div><dt>圧力 B</dt><dd>{effects.pressure.toFixed(2)}</dd></div><div><dt>交互作用</dt><dd>{effects["temperature:pressure"].toFixed(2)}</dd></div><div><dt>条件内σ</dt><dd>{pureError.toFixed(2)}</dd></div></dl></header>
+    <div className="doe-practice-results"><header><div><p className="section-label">PART B / RANDOMIZATION &amp; RESIDUALS</p><h2>実験順と残差から、変化を見つける</h2></div><dl><div><dt>温度 A</dt><dd>{effects.temperature.toFixed(2)}</dd></div><div><dt>圧力 B</dt><dd>{effects.pressure.toFixed(2)}</dd></div><div><dt>交互作用</dt><dd>{effects["temperature:pressure"].toFixed(2)}</dd></div><div><dt>条件内σ</dt><dd>{pureError.toFixed(2)}</dd></div></dl></header>
       <p className="doe-practice-message"><strong>{driftSize >= 4 ? "時間による変化が結果へ加わっています。" : "時間による変化はほとんどありません。"}</strong>{message}</p>
       <div className="doe-practice-plots"><ReplicatePlot experiment={experiment} /><EffectErrorPlot effects={analysis.effects.map((effect) => ({ label: effect.id === "temperature" ? "温度" : effect.id === "pressure" ? "圧力" : "AB", value: effect.absoluteEstimate }))} error={pureError} max={Math.max(maxEffect, pureError, 1)} /><ResidualOrderPlot residuals={residuals} trend={residualTrend} /></div>
       <aside className="doe-practice-note"><strong>ランダム化の役割</strong><p>未知の時間変化を消す操作ではありません。特定の因子水準へ偏らせにくくし、残差や実験記録から変化を見つけやすくします。</p></aside>
-      <AnovaLesson anova={anova} selected={selectedAnova} onSelect={setSelectedAnovaTerm} />
     </div>
   </section>;
 }
