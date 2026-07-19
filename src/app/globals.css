@@ -16392,6 +16392,33 @@ body {
 .doe-decision-workspace > header dt { color: #858b92; font-size: 7px; }
 .doe-decision-workspace > header dd { margin: 2px 0 0; color: #30343a; font-size: 10px; font-weight: 650; }
 .doe-decision-workspace .doe-anova-lesson { margin-top: 0; border-top: 0; border-radius: 7px; background: #fff; padding: 16px; }
+.doe-practical-decision { margin-top: 12px; border-radius: 7px; background: #fff; padding: 16px; }
+.doe-practical-decision > header { display: grid; grid-template-columns: 1fr minmax(250px,.55fr); gap: 24px; align-items: end; }
+.doe-practical-decision > header .section-label { margin: 0; color: #737980; font-size: 8px; font-weight: 600; }
+.doe-practical-decision > header h3 { margin: 3px 0 0; color: #25282c; font-size: 15px; font-weight: 600; }
+.doe-practical-decision > header label { display: grid; gap: 6px; color: #60666d; font-size: 8px; }
+.doe-practical-decision > header label span { display: flex; justify-content: space-between; }
+.doe-practical-decision > header label b { color: #30343a; font-size: 9px; }
+.doe-practical-decision > header input { width: 100%; accent-color: #4c72b0; cursor: pointer; }
+.doe-decision-axis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 14px 0 5px; color: #858b92; font-size: 7px; text-align: center; }
+.doe-decision-axis b { font-weight: 600; }
+.doe-decision-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+.doe-decision-cards article { overflow: hidden; border: 1px solid #e2e5e8; border-radius: 6px; }
+.doe-decision-cards article > header { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid #eceef1; padding: 9px 10px; }
+.doe-decision-cards article > header strong { color: #30343a; font-size: 9px; }
+.doe-decision-cards article > header span { color: #737980; font-size: 7px; font-variant-numeric: tabular-nums; }
+.doe-decision-cards article > div { display: grid; grid-template-columns: 1fr 1fr; }
+.doe-decision-cards article p { display: grid; grid-template-columns: 18px 1fr; gap: 5px; align-items: center; margin: 0; padding: 10px; color: #858b92; }
+.doe-decision-cards article p + p { border-left: 1px solid #eceef1; }
+.doe-decision-cards article p[data-active="true"] { background: #eef6f0; color: #397347; }
+.doe-decision-cards article p i { display: grid; width: 16px; height: 16px; place-items: center; border-radius: 50%; background: #eceef1; font-size: 7px; font-style: normal; }
+.doe-decision-cards article p[data-active="true"] i { background: #55a868; color: #fff; }
+.doe-decision-cards article p span { display: grid; gap: 1px; }
+.doe-decision-cards article p b { color: #4c5259; font-size: 7px; }
+.doe-decision-cards article p small { font-size: 7px; font-variant-numeric: tabular-nums; }
+.doe-decision-cards article footer { min-height: 42px; border-top: 1px solid #eceef1; background: #f7f7f8; padding: 8px 10px; color: #60666d; font-size: 7px; line-height: 1.5; }
+.doe-decision-takeaway { margin: 9px 0 0; border-radius: 5px; background: #eef3fa; padding: 9px 11px; color: #4f5964; font-size: 8px; line-height: 1.5; }
+.doe-decision-takeaway strong { color: #315f98; }
 .doe-decision-workspace > aside { display: flex; gap: 12px; margin-top: 10px; color: #686e75; font-size: 8px; }
 .doe-decision-workspace > aside strong { flex: 0 0 auto; color: #4c5259; }
 .doe-decision-workspace > aside p { margin: 0; line-height: 1.5; }
@@ -16436,4 +16463,4 @@ body {
 .doe-ss-example em { border-radius: 4px; background: #eef3fa; padding: 6px 8px; color: #315f98; font-size: 8px; font-style: normal; font-weight: 650; white-space: nowrap; }
 
 @media (max-width: 1100px) { .doe-practice-workspace { grid-template-columns: 1fr; } .doe-practice-results { border-top: 1px solid #e5e7eb; border-left: 0; } }
-@media (max-width: 720px) { .doe-learning-tabs { display: flex; width: 100%; overflow-x: auto; scrollbar-width: thin; } .doe-learning-tabs button { flex: 0 0 190px; } .doe-practice-controls,.doe-practice-results { padding: 18px 16px; } .doe-practice-results > header { flex-direction: column; } .doe-practice-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 9px 0; } .doe-practice-plots { grid-template-columns: 1fr; } .doe-residual-plot { grid-column: auto; } .doe-practice-note { grid-template-columns: 1fr; gap: 3px; } .doe-decision-workspace { padding: 16px; } .doe-decision-workspace > header { grid-template-columns: 1fr; } .doe-decision-workspace > header dl { grid-template-columns: 1fr 1fr; gap: 8px 0; } .doe-decision-workspace > aside { display: block; } .doe-decision-workspace > aside p { margin-top: 3px; } .doe-anova-lesson > header { display: block; } .doe-anova-lesson > header > p { margin-top: 5px; } .doe-anova-layout { grid-template-columns: 1fr; } .doe-anova-inspector { min-height: 165px; border-top: 1px solid #e0e3e7; border-left: 0; } .doe-anova-concepts nav { grid-template-columns: repeat(3,1fr); } .doe-anova-concepts > div { grid-template-columns: 1fr; gap: 7px; } .doe-anova-concepts code { width: fit-content; white-space: normal; } .doe-ss-example { grid-template-columns: 1fr; } .doe-ss-example > i { text-align: center; } .doe-ss-example em { text-align: center; } }
+@media (max-width: 720px) { .doe-learning-tabs { display: flex; width: 100%; overflow-x: auto; scrollbar-width: thin; } .doe-learning-tabs button { flex: 0 0 190px; } .doe-practice-controls,.doe-practice-results { padding: 18px 16px; } .doe-practice-results > header { flex-direction: column; } .doe-practice-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 9px 0; } .doe-practice-plots { grid-template-columns: 1fr; } .doe-residual-plot { grid-column: auto; } .doe-practice-note { grid-template-columns: 1fr; gap: 3px; } .doe-decision-workspace { padding: 16px; } .doe-decision-workspace > header { grid-template-columns: 1fr; } .doe-decision-workspace > header dl { grid-template-columns: 1fr 1fr; gap: 8px 0; } .doe-decision-workspace > aside { display: block; } .doe-decision-workspace > aside p { margin-top: 3px; } .doe-practical-decision > header { grid-template-columns: 1fr; } .doe-decision-axis { display: none; } .doe-decision-cards { grid-template-columns: 1fr; margin-top: 12px; } .doe-anova-lesson > header { display: block; } .doe-anova-lesson > header > p { margin-top: 5px; } .doe-anova-layout { grid-template-columns: 1fr; } .doe-anova-inspector { min-height: 165px; border-top: 1px solid #e0e3e7; border-left: 0; } .doe-anova-concepts nav { grid-template-columns: repeat(3,1fr); } .doe-anova-concepts > div { grid-template-columns: 1fr; gap: 7px; } .doe-anova-concepts code { width: fit-content; white-space: normal; } .doe-ss-example { grid-template-columns: 1fr; } .doe-ss-example > i { text-align: center; } .doe-ss-example em { text-align: center; } }

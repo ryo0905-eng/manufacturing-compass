@@ -32,6 +32,7 @@ export function DoePracticeTool({ view }: { view: "experiment" | "decision" }) {
   const [driftSize, setDriftSize] = useState(0);
   const [randomized, setRandomized] = useState(false);
   const [selectedAnovaTerm, setSelectedAnovaTerm] = useState<AnovaTermId>("temperature");
+  const [practicalThreshold, setPracticalThreshold] = useState(5);
   const experiment = useMemo(() => buildExperiment(errorSize, driftSize, randomized), [errorSize, driftSize, randomized]);
   const analysis = useMemo(() => analyzeExperiment(experiment, "strength"), [experiment]);
   const anova = useMemo(() => calculateAnova(experiment, "strength"), [experiment]);
@@ -50,7 +51,7 @@ export function DoePracticeTool({ view }: { view: "experiment" | "decision" }) {
   const selectedAnova = anova.rows.find((row) => row.id === selectedAnovaTerm) ?? anova.rows[0];
 
   function changeOrder(next: boolean) { setRandomized(next); trackEvent("doe_run_order_changed", { order: next ? "randomized" : "standard" }); }
-  if (view === "decision") return <section className="doe-decision-workspace"><header><div><p className="section-label">STEP 3 / DECISION</p><h2>ANOVAで、結果を判断する</h2><p>STEP 2で作った実験データを引き継いでいます。</p></div><dl><div><dt>実験誤差</dt><dd>{errorSize.toFixed(1)}</dd></div><div><dt>時間変化</dt><dd>{driftSize.toFixed(1)}</dd></div><div><dt>実施順</dt><dd>{randomized ? "ランダム" : "標準順"}</dd></div><div><dt>反復</dt><dd>3回</dd></div></dl></header><AnovaLesson anova={anova} selected={selectedAnova} onSelect={setSelectedAnovaTerm} /><aside><strong>数値を変えて確かめたい場合</strong><p>STEP 2「実験を組む」に戻ると、実験誤差・時間変化・実施順を変更できます。変更した状態はこの画面へ引き継がれます。</p></aside></section>;
+  if (view === "decision") return <section className="doe-decision-workspace"><header><div><p className="section-label">STEP 3 / DECISION</p><h2>ANOVAで、結果を判断する</h2><p>STEP 2で作った実験データを引き継いでいます。</p></div><dl><div><dt>実験誤差</dt><dd>{errorSize.toFixed(1)}</dd></div><div><dt>時間変化</dt><dd>{driftSize.toFixed(1)}</dd></div><div><dt>実施順</dt><dd>{randomized ? "ランダム" : "標準順"}</dd></div><div><dt>反復</dt><dd>3回</dd></div></dl></header><AnovaLesson anova={anova} selected={selectedAnova} onSelect={setSelectedAnovaTerm} /><PracticalDecisionLesson anova={anova} effects={analysis.effects} threshold={practicalThreshold} onThresholdChange={setPracticalThreshold} /><aside><strong>数値を変えて確かめたい場合</strong><p>STEP 2「実験を組む」に戻ると、実験誤差・時間変化・実施順を変更できます。変更した状態はこの画面へ引き継がれます。</p></aside></section>;
 
   return <section className="doe-practice-workspace">
     <div className="doe-practice-controls"><header><div><p className="section-label">PART A / REPLICATION</p><h2>反復で、実験誤差を測る</h2><p className="doe-step-description">同じ4条件を3回ずつ測り、条件の差と測定ごとのばらつきを分けます。</p></div><span className="doe-step-count">12 RUNS / 3 REPLICATES</span></header>
@@ -66,6 +67,17 @@ export function DoePracticeTool({ view }: { view: "experiment" | "decision" }) {
       <aside className="doe-practice-note"><strong>ランダム化の役割</strong><p>未知の時間変化を消す操作ではありません。特定の因子水準へ偏らせにくくし、残差や実験記録から変化を見つけやすくします。</p></aside>
     </div>
   </section>;
+}
+
+function PracticalDecisionLesson({ anova, effects, threshold, onThresholdChange }: { anova: ReturnType<typeof calculateAnova>; effects: ReturnType<typeof analyzeExperiment>["effects"]; threshold: number; onThresholdChange: (value: number) => void }) {
+  const items = effects.map((effect) => {
+    const row = anova.rows.find((candidate) => candidate.id === effect.id);
+    const statisticallyClear = row?.p !== null && row?.p !== undefined && row.p < .05;
+    const practicallyLarge = effect.absoluteEstimate >= threshold;
+    const interpretation = statisticallyClear && practicallyLarge ? "統計的にも、工程上の大きさとしても注目" : statisticallyClear ? "差は明確だが、工程上意味のある大きさか再検討" : practicallyLarge ? "差は大きいが、誤差が大きく確信を持てない" : "現時点では優先度が低い";
+    return { id: effect.id, label: effect.id === "temperature" ? "温度 A" : effect.id === "pressure" ? "圧力 B" : "交互作用 A×B", effect: effect.absoluteEstimate, p: row?.p, statisticallyClear, practicallyLarge, interpretation };
+  });
+  return <section className="doe-practical-decision"><header><div><p className="section-label">INTERPRETATION</p><h3>「有意」と「重要」を分けて考える</h3></div><label><span>工程上意味がある最小差 <b>{threshold.toFixed(1)} MPa</b></span><input min="1" max="15" step="1" type="range" value={threshold} onChange={(event) => onThresholdChange(Number(event.target.value))} /></label></header><div className="doe-decision-axis" aria-hidden="true"><span /><b>p &lt; 0.05</b><b>効果 ≥ {threshold.toFixed(1)} MPa</b></div><div className="doe-decision-cards">{items.map((item) => <article key={item.id}><header><strong>{item.label}</strong><span>効果 {item.effect.toFixed(2)} MPa</span></header><div><p data-active={item.statisticallyClear}><i>{item.statisticallyClear ? "✓" : "—"}</i><span><b>統計的に明確</b><small>{item.p === undefined || item.p === null ? "p値なし" : item.p < .001 ? "p < .001" : `p = ${item.p.toFixed(3)}`}</small></span></p><p data-active={item.practicallyLarge}><i>{item.practicallyLarge ? "✓" : "—"}</i><span><b>工程上重要</b><small>{item.effect.toFixed(2)} ≥ {threshold.toFixed(1)}</small></span></p></div><footer>{item.interpretation}</footer></article>)}</div><p className="doe-decision-takeaway"><strong>判断の順番：</strong> p値で「誤差だけでは説明しにくいか」を確認し、効果量で「現場にとって意味があるか」を判断します。</p></section>;
 }
 
 function AnovaLesson({ anova, selected, onSelect }: { anova: ReturnType<typeof calculateAnova>; selected: ReturnType<typeof calculateAnova>["rows"][number]; onSelect: (id: AnovaTermId) => void }) {
