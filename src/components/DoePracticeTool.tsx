@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { analyzeExperiment, cellMean } from "@/lib/doe/effects";
+import { calculateAnova, type AnovaTermId } from "@/lib/doe/anova";
 import type { DoeExperiment, DoeRun } from "@/lib/doe/types";
 import { trackEvent } from "@/lib/analytics";
 
@@ -30,8 +31,10 @@ export function DoePracticeTool() {
   const [errorSize, setErrorSize] = useState(2);
   const [driftSize, setDriftSize] = useState(0);
   const [randomized, setRandomized] = useState(false);
+  const [selectedAnovaTerm, setSelectedAnovaTerm] = useState<AnovaTermId>("temperature");
   const experiment = useMemo(() => buildExperiment(errorSize, driftSize, randomized), [errorSize, driftSize, randomized]);
   const analysis = useMemo(() => analyzeExperiment(experiment, "strength"), [experiment]);
+  const anova = useMemo(() => calculateAnova(experiment, "strength"), [experiment]);
   const effects = Object.fromEntries(analysis.effects.map((effect) => [effect.id, effect.estimate]));
   const residuals = experiment.runs.map((run) => { const fitted = cellMean(experiment, run.levels, "strength"); return { order: run.runOrder, value: (run.responses.strength ?? 0) - fitted, response: run.responses.strength ?? 0, levels: run.levels }; });
   const sse = residuals.reduce((sum, residual) => sum + residual.value ** 2, 0);
@@ -44,6 +47,7 @@ export function DoePracticeTool() {
       ? { step: "2", title: "次に、実験順をランダム化する", body: "時間変化を残したまま順番だけを変え、因子効果と残差を比べてください。" }
       : { step: "✓", title: "時間変化は消えず、条件への偏り方が変わった", body: "ランダム化は変化を消すのではなく、特定の条件だけへ重なることを避ける操作です。" };
   const message = driftSize >= 4 && !randomized ? "標準順では、後半ほど大きくなる時間変化が特定の条件と重なっています。因子効果と時間ドリフトを混同する可能性があります。" : driftSize >= 4 && randomized ? "実験順を分散したことで、時間ドリフトが特定の条件へ偏りにくくなりました。残差には実験順に沿った傾向が残るため、原因の確認は必要です。" : errorSize >= 5 ? "同じ条件内のばらつきが大きく、条件平均の差だけでは効果が明確か判断しにくい状態です。反復によって誤差の大きさを確認できます。" : "条件内のばらつきは比較的小さく、観測された効果との差を確認しやすい状態です。";
+  const selectedAnova = anova.rows.find((row) => row.id === selectedAnovaTerm) ?? anova.rows[0];
 
   function changeOrder(next: boolean) { setRandomized(next); trackEvent("doe_run_order_changed", { order: next ? "randomized" : "standard" }); }
   return <section className="doe-practice-workspace">
@@ -58,8 +62,16 @@ export function DoePracticeTool() {
       <p className="doe-practice-message"><strong>{driftSize >= 4 ? "時間による変化が結果へ加わっています。" : "時間による変化はほとんどありません。"}</strong>{message}</p>
       <div className="doe-practice-plots"><ReplicatePlot experiment={experiment} /><EffectErrorPlot effects={analysis.effects.map((effect) => ({ label: effect.id === "temperature" ? "温度" : effect.id === "pressure" ? "圧力" : "AB", value: effect.absoluteEstimate }))} error={pureError} max={Math.max(maxEffect, pureError, 1)} /><ResidualOrderPlot residuals={residuals} trend={residualTrend} /></div>
       <aside className="doe-practice-note"><strong>ランダム化の役割</strong><p>未知の時間変化を消す操作ではありません。特定の因子水準へ偏らせにくくし、残差や実験記録から変化を見つけやすくします。</p></aside>
+      <AnovaLesson anova={anova} selected={selectedAnova} onSelect={setSelectedAnovaTerm} />
     </div>
   </section>;
+}
+
+function AnovaLesson({ anova, selected, onSelect }: { anova: ReturnType<typeof calculateAnova>; selected: ReturnType<typeof calculateAnova>["rows"][number]; onSelect: (id: AnovaTermId) => void }) {
+  const isError = selected.id === "error";
+  const ratio = selected.f ?? 1;
+  const verdict = isError ? "このばらつきが、効果を判断する物差しになります。" : selected.p !== null && selected.p < .05 ? "この例では、誤差だけでは説明しにくい大きさです。" : "この例では、誤差に対して十分大きいとは言い切れません。";
+  return <section className="doe-anova-lesson" aria-label="分散分析を触って理解する"><header><div><p className="section-label">STEP 3 / ANOVA</p><h3>効果を、実験誤差と比べる</h3></div><p>行を選ぶと、ANOVAが何を比べているか確認できます。</p></header><div className="doe-anova-layout"><div className="doe-anova-table-scroll"><table><thead><tr><th>変動要因</th><th>平方和 SS</th><th>自由度 df</th><th>平均平方 MS</th><th>F値</th><th>p値</th></tr></thead><tbody>{anova.rows.map((row) => <tr aria-selected={row.id === selected.id} key={row.id} onClick={() => onSelect(row.id)}><th scope="row"><button type="button" onClick={() => onSelect(row.id)}>{row.label}</button></th><td>{row.ss.toFixed(2)}</td><td>{row.df}</td><td>{row.ms.toFixed(2)}</td><td>{row.f === null ? "—" : Number.isFinite(row.f) ? row.f.toFixed(2) : "∞"}</td><td>{row.p === null ? "—" : row.p < .001 ? "< .001" : row.p.toFixed(3)}</td></tr>)}</tbody><tfoot><tr><th>全体</th><td>{anova.total.ss.toFixed(2)}</td><td>{anova.total.df}</td><td colSpan={3}>—</td></tr></tfoot></table></div><div className="doe-anova-inspector" aria-live="polite"><span>{selected.label}</span><strong>{isError ? "条件内のばらつき" : `誤差の ${Number.isFinite(ratio) ? ratio.toFixed(1) : "∞"} 倍`}</strong><div className="doe-anova-ratio"><i style={{ width: `${isError ? 12 : Math.min(100, Math.max(3, ratio * 8))}%` }} /></div><p>{isError ? `同じ条件を繰り返した差から、誤差の平均平方 ${anova.errorMs.toFixed(2)} を求めます。` : `「${selected.label}の平均平方 ${selected.ms.toFixed(2)}」を「誤差の平均平方 ${anova.errorMs.toFixed(2)}」で割った値がF値です。`}</p><b>{verdict}</b></div></div><footer><span><b>SS</b> 変動の大きさ</span><span><b>df</b> 独立に動ける情報量</span><span><b>MS</b> SS ÷ df</span><span><b>F</b> 効果のMS ÷ 誤差のMS</span></footer></section>;
 }
 
 function ReplicatePlot({ experiment }: { experiment: DoeExperiment }) { const groups = cells.map((cell) => experiment.runs.filter((run) => run.levels.temperature === cell.temperature && run.levels.pressure === cell.pressure).map((run) => run.responses.strength ?? 0)); const all = groups.flat(); const min = Math.min(...all) - 3; const max = Math.max(...all) + 3; const y = (value: number) => 170 - ((value - min) / Math.max(max - min, 1)) * 130; return <figure className="doe-practice-plot doe-replicate-plot"><strong>反復値と条件平均</strong><svg viewBox="0 0 360 210" role="img" aria-label="4条件の反復値"><rect x="42" y="28" width="290" height="145" rx="5" />{groups.map((values, index) => { const x = 78 + index * 70; const mean = values.reduce((sum, value) => sum + value, 0) / values.length; return <g key={index}>{values.map((value, point) => <circle key={point} cx={x + (point - 1) * 7} cy={y(value)} r="4" />)}<line x1={x - 16} x2={x + 16} y1={y(mean)} y2={y(mean)} /><text x={x} y="195" textAnchor="middle">{["低・低", "高・低", "低・高", "高・高"][index]}</text></g>; })}</svg><figcaption>点は反復値、横線は条件平均です。</figcaption></figure>; }
