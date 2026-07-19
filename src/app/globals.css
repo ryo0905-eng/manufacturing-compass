@@ -15900,3 +15900,110 @@ body {
     border-top-color: #e5e7eb;
   }
 }
+
+/* Capability histogram: a calm Seaborn-inspired whitegrid palette. */
+.cpk-page--analysis .capability-chart {
+  border-radius: 7px;
+  background: #fff;
+  padding: 8px 10px 10px;
+}
+
+.cpk-page--analysis .chart-plot-background {
+  fill: #eaeaf2;
+}
+
+.cpk-page--analysis .chart-grid line {
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.cpk-page--analysis .chart-grid text {
+  fill: #777b82;
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cpk-page--analysis .capability-chart .axis {
+  stroke: #b8bbc2;
+  stroke-width: 1;
+}
+
+.cpk-page--analysis .histogram-bar rect {
+  fill: #4c72b0;
+  stroke: rgba(255, 255, 255, 0.72);
+  stroke-width: 1;
+}
+
+.cpk-page--analysis .histogram-bar:hover rect,
+.cpk-page--analysis .histogram-bar:focus rect {
+  fill: #3b5f9a;
+  opacity: 1;
+}
+
+.cpk-page--analysis .histogram-bar:focus rect {
+  stroke: #1d355d;
+  stroke-width: 2;
+}
+
+.cpk-page--analysis .chart-reference text {
+  fill: #4c5057;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.cpk-page--analysis .chart-reference--spec line {
+  stroke: #c44e52;
+  stroke-width: 2;
+}
+
+.cpk-page--analysis .chart-reference--mean line {
+  stroke: #55a868;
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+
+.cpk-page--analysis .chart-reference--center line {
+  stroke: #8172b2;
+  stroke-width: 2;
+  stroke-dasharray: 2 4;
+}
+
+.cpk-page--analysis .axis-label {
+  fill: #777b82;
+  font-size: 9px;
+}
+
+.capability-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: -2px 0 5px 34px;
+  color: #60666d;
+  font-size: 9px;
+}
+
+.capability-chart-legend span {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.capability-chart-legend span::before {
+  width: 12px;
+  height: 3px;
+  border-radius: 2px;
+  background: currentColor;
+  content: "";
+}
+
+.capability-chart-legend__bar { color: #4c72b0; }
+.capability-chart-legend__spec { color: #c44e52; }
+.capability-chart-legend__mean { color: #55a868; }
+.capability-chart-legend__center { color: #8172b2; }
+
+.cpk-page--analysis .capability-chart figcaption {
+  margin: 0 0 0 34px;
+  color: #777b82;
+  font-size: 9px;
+  line-height: 1.5;
+}

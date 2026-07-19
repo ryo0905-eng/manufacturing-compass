@@ -41,6 +41,7 @@ export function CapabilityHistogram({ result, values }: { result: CapabilityResu
   const bins = createBins(values, domainMin, domainMax);
   const maxCount = Math.max(...bins.map((bin) => bin.count), 1);
   const plot = { x: 44, y: 26, width: 632, height: 220 };
+  const gridTicks = [0, 0.25, 0.5, 0.75, 1];
   const x = (value: number) => plot.x + ((value - domainMin) / (domainMax - domainMin)) * plot.width;
   const center = result.specificationCenter;
   const lines = [
@@ -55,6 +56,11 @@ export function CapabilityHistogram({ result, values }: { result: CapabilityResu
       <svg viewBox="0 0 720 290" role="img" aria-labelledby="capability-chart-title capability-chart-desc">
         <title id="capability-chart-title">測定値のヒストグラム</title>
         <desc id="capability-chart-desc">{values.length}件の測定値の分布。平均は{number(result.mean)}、標準偏差は{number(result.standardDeviation)}です。</desc>
+        <rect className="chart-plot-background" x={plot.x} y={plot.y} width={plot.width} height={plot.height} rx="5" />
+        {gridTicks.map((tick) => {
+          const y = plot.y + plot.height - tick * plot.height;
+          return <g className="chart-grid" key={tick}><line x1={plot.x} x2={plot.x + plot.width} y1={y} y2={y} /><text x={plot.x - 10} y={y + 3} textAnchor="end">{Math.round(maxCount * tick)}</text></g>;
+        })}
         <line className="axis" x1={plot.x} x2={plot.x + plot.width} y1={plot.y + plot.height} y2={plot.y + plot.height} />
         {bins.map((bin, index) => {
           const barWidth = plot.width / bins.length - 3;
@@ -76,6 +82,12 @@ export function CapabilityHistogram({ result, values }: { result: CapabilityResu
         <text className="axis-label" x={plot.x} y="275">{number(domainMin)}</text>
         <text className="axis-label" x={plot.x + plot.width} y="275" textAnchor="end">{number(domainMax)}</text>
       </svg>
+      <div className="capability-chart-legend" aria-label="グラフの凡例">
+        <span className="capability-chart-legend__bar">測定値</span>
+        <span className="capability-chart-legend__spec">規格限界</span>
+        <span className="capability-chart-legend__mean">平均</span>
+        {center === undefined ? null : <span className="capability-chart-legend__center">規格中心</span>}
+      </div>
       <figcaption>棒を選択すると区間と件数を確認できます。実線は規格限界、破線は平均、点線は規格中心です。</figcaption>
     </figure>
   );
