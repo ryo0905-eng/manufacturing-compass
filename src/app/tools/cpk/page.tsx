@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CpkCalculator } from "@/components/CpkCalculator";
+import { CpkToolExperience } from "@/components/CpkToolExperience";
 import { StructuredData } from "@/components/StructuredData";
 import { siteUrl } from "@/lib/format";
 
@@ -32,7 +32,7 @@ export default function CpkToolPage() {
         <p className="privacy-note"><strong>登録不要・ブラウザ内で計算</strong><span>入力データはサーバー、Analytics、外部APIへ送信しません。</span></p>
       </header>
 
-      <CpkCalculator />
+      <CpkToolExperience />
 
       <article className="capability-document">
         <header><h2>指標の見方</h2><p>工程能力指数は、使う標準偏差と規格の種類を確認して読みます。</p></header>
