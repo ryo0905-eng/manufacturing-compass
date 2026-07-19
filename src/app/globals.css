@@ -15191,3 +15191,160 @@ body {
   border-top: 0;
   padding-block: 8px;
 }
+
+/* Shared design system: compact neutral defaults for non-home pages. */
+:root {
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-soft: #f7f7f8;
+  --text: #1d1d1f;
+  --muted: #60666d;
+  --line: #e5e7eb;
+  --primary: #1769aa;
+  --primary-dark: #1d1d1f;
+  --accent: #1769aa;
+  --shadow: none;
+}
+
+.page {
+  width: min(1080px, calc(100% - 40px));
+  padding: 42px 0 72px;
+}
+
+.page-hero {
+  max-width: 760px;
+  padding: 34px 0 28px;
+  border-bottom: 0;
+}
+
+.page-hero h1,
+.editorial-page-hero h1 {
+  margin: 6px 0 0;
+  color: #1d1d1f;
+  font-size: clamp(32px, 4vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.page-hero > p:not(.section-label),
+.editorial-page-hero > p:not(.section-label) {
+  max-width: 680px;
+  margin-top: 14px;
+  color: #60666d;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.page .section-label,
+.editorial-page .section-label {
+  color: #6b7178;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.page > .section,
+.page > section + .section {
+  margin-top: 64px;
+}
+
+.page .section > h2,
+.page .section-heading h2,
+.page .industry-map-directory-heading h2,
+.page .editorial-heading h2 {
+  color: #1d1d1f;
+  font-size: clamp(24px, 2.8vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.45;
+}
+
+.page .info-card,
+.page .company-card,
+.page .segment-card,
+.page .article-card,
+.page .cta-panel,
+.page .agent-cta,
+.page .prep-card,
+.page .ranking-item,
+.page .ranking-criteria > div {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.page .button,
+.page .button.primary {
+  min-height: 38px;
+  border-color: #1d1d1f;
+  border-radius: 6px;
+  background: #1d1d1f;
+  padding: 7px 13px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.page .button:hover,
+.page .button.primary:hover {
+  border-color: #3a3a3c;
+  background: #3a3a3c;
+  color: #fff;
+  box-shadow: none;
+  transform: none;
+}
+
+.page .button.secondary,
+.page .button.ghost {
+  border-color: #d9dde2;
+  background: #fff;
+  color: #30343a;
+}
+
+.page .text-link {
+  color: #1769aa;
+  font-size: 13px;
+  text-decoration-color: #a9bfd2;
+}
+
+.page .tag-list li {
+  border-color: #e5e7eb;
+  border-radius: 4px;
+  background: #f7f7f8;
+  color: #4c5259;
+}
+
+.page .segment-card {
+  border-top-color: #e5e7eb;
+  padding: 22px;
+}
+
+.page .segment-card h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .page {
+    width: min(100% - 28px, 1080px);
+    padding-top: 28px;
+  }
+
+  .page-hero {
+    padding: 26px 0 22px;
+  }
+
+  .page-hero h1,
+  .editorial-page-hero h1 {
+    font-size: 30px;
+  }
+
+  .page > .section,
+  .page > section + .section {
+    margin-top: 48px;
+  }
+}
