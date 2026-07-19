@@ -38,18 +38,24 @@ export function DoePracticeTool() {
   const pureError = Math.sqrt(sse / Math.max(experiment.runs.length - 4, 1));
   const maxEffect = Math.max(...analysis.effects.map((effect) => effect.absoluteEstimate));
   const residualTrend = residuals[residuals.length - 1].value - residuals[0].value;
+  const guide = driftSize < 4
+    ? { step: "1", title: "時間による変化を上げてみる", body: "スライダーを4以上へ動かし、標準順の結果がどう変わるか見てください。" }
+    : !randomized
+      ? { step: "2", title: "次に、実験順をランダム化する", body: "時間変化を残したまま順番だけを変え、因子効果と残差を比べてください。" }
+      : { step: "✓", title: "時間変化は消えず、条件への偏り方が変わった", body: "ランダム化は変化を消すのではなく、特定の条件だけへ重なることを避ける操作です。" };
   const message = driftSize >= 4 && !randomized ? "標準順では、後半ほど大きくなる時間変化が特定の条件と重なっています。因子効果と時間ドリフトを混同する可能性があります。" : driftSize >= 4 && randomized ? "実験順を分散したことで、時間ドリフトが特定の条件へ偏りにくくなりました。残差には実験順に沿った傾向が残るため、原因の確認は必要です。" : errorSize >= 5 ? "同じ条件内のばらつきが大きく、条件平均の差だけでは効果が明確か判断しにくい状態です。反復によって誤差の大きさを確認できます。" : "条件内のばらつきは比較的小さく、観測された効果との差を確認しやすい状態です。";
 
   function changeOrder(next: boolean) { setRandomized(next); trackEvent("doe_run_order_changed", { order: next ? "randomized" : "standard" }); }
   return <section className="doe-practice-workspace">
     <div className="doe-practice-controls"><header><div><p className="section-label">12 RUNS / 3 REPLICATES</p><h2>誤差と実験順を動かす</h2></div></header>
       <label className="doe-practice-slider"><span><b>実験誤差</b><output>{errorSize.toFixed(1)}</output></span><input min="0" max="8" step=".5" type="range" value={errorSize} onChange={(event) => setErrorSize(Number(event.target.value))} /></label>
-      <label className="doe-practice-slider"><span><b>時間ドリフト</b><output>{driftSize.toFixed(1)}</output></span><input min="0" max="16" step="1" type="range" value={driftSize} onChange={(event) => setDriftSize(Number(event.target.value))} /></label>
-      <fieldset className="doe-order-toggle"><legend>実施順</legend><div><button aria-pressed={!randomized} onClick={() => changeOrder(false)} type="button">標準順</button><button aria-pressed={randomized} onClick={() => changeOrder(true)} type="button">ランダム化</button></div></fieldset>
-      <div className="doe-run-sequence"><strong>実験順</strong><ol>{experiment.runs.map((run) => <li key={run.id}><span>{run.runOrder}</span><small>{run.levels.temperature === -1 ? "温度低" : "温度高"}・{run.levels.pressure === -1 ? "圧力低" : "圧力高"}</small><b>{run.responses.strength?.toFixed(1)}</b></li>)}</ol></div>
+      <label className="doe-practice-slider doe-time-change"><span><b>時間による変化 <small>装置の暖機・工具摩耗など</small></b><output>{driftSize.toFixed(1)}</output></span><input min="0" max="16" step="1" type="range" value={driftSize} onChange={(event) => setDriftSize(Number(event.target.value))} /><span className="doe-time-change-scale"><i>実験1 {driftSize === 0 ? "±0" : `−${(driftSize / 2).toFixed(1)}`}</i><em aria-hidden="true">時間 →</em><i>実験12 {driftSize === 0 ? "±0" : `＋${(driftSize / 2).toFixed(1)}`}</i></span></label>
+      <div className="doe-practice-guide" data-complete={randomized && driftSize >= 4 ? "true" : "false"}><span>{guide.step}</span><div><strong>{guide.title}</strong><p>{guide.body}</p></div></div>
+      <fieldset className={`doe-order-toggle${driftSize >= 4 && !randomized ? " is-next" : ""}`}><legend>実施順</legend><div><button aria-pressed={!randomized} onClick={() => changeOrder(false)} type="button">標準順</button><button aria-pressed={randomized} onClick={() => changeOrder(true)} type="button">ランダム化</button></div></fieldset>
+      <div className="doe-run-sequence"><strong>実験順 <small>時間列は、条件とは別に結果へ加わる変化</small></strong><ol>{experiment.runs.map((run) => { const timeChange = ((run.runOrder - 1) / 11 - .5) * driftSize; return <li key={run.id}><span>{run.runOrder}</span><small>{run.levels.temperature === -1 ? "温度低" : "温度高"}・{run.levels.pressure === -1 ? "圧力低" : "圧力高"}</small><em>{timeChange === 0 ? "時間 ±0" : `時間 ${timeChange > 0 ? "+" : ""}${timeChange.toFixed(1)}`}</em><b>{run.responses.strength?.toFixed(1)}</b></li>; })}</ol></div>
     </div>
     <div className="doe-practice-results"><header><div><p className="section-label">EFFECTS VS ERROR</p><h2>効果をどこまで信頼できるか</h2></div><dl><div><dt>温度 A</dt><dd>{effects.temperature.toFixed(2)}</dd></div><div><dt>圧力 B</dt><dd>{effects.pressure.toFixed(2)}</dd></div><div><dt>交互作用</dt><dd>{effects["temperature:pressure"].toFixed(2)}</dd></div><div><dt>条件内σ</dt><dd>{pureError.toFixed(2)}</dd></div></dl></header>
-      <p className="doe-practice-message">{message}</p>
+      <p className="doe-practice-message"><strong>{driftSize >= 4 ? "時間による変化が結果へ加わっています。" : "時間による変化はほとんどありません。"}</strong>{message}</p>
       <div className="doe-practice-plots"><ReplicatePlot experiment={experiment} /><EffectErrorPlot effects={analysis.effects.map((effect) => ({ label: effect.id === "temperature" ? "温度" : effect.id === "pressure" ? "圧力" : "AB", value: effect.absoluteEstimate }))} error={pureError} max={Math.max(maxEffect, pureError, 1)} /><ResidualOrderPlot residuals={residuals} trend={residualTrend} /></div>
       <aside className="doe-practice-note"><strong>ランダム化の役割</strong><p>未知の時間変化を消す操作ではありません。特定の因子水準へ偏らせにくくし、残差や実験記録から変化を見つけやすくします。</p></aside>
     </div>
