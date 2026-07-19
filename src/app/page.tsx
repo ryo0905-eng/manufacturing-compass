@@ -75,20 +75,16 @@ export default function Home() {
         </dl>
       </section>
 
-      <section className="home-section home-simple-section home-work-tool" aria-labelledby="home-work-tool-title">
-        <div>
-          <p className="section-label">WORK TOOL / QUALITY</p>
-          <h2 id="home-work-tool-title">仕事中に、すぐ使える。</h2>
-          <p>測定データを貼り付けてPp・Ppkと分布を確認。短期標準偏差がある場合はCp・Cpkもブラウザ内で計算できます。</p>
-          <Link className="button primary" href="/tools/cpk">Cp・Cpkを計算する <span aria-hidden="true">→</span></Link>
-          <small>登録不要・入力データは保存されません</small>
+      <section className="home-section home-simple-section home-tools-overview" aria-labelledby="home-tools-title">
+        <header className="editorial-heading editorial-heading--split">
+          <div><p className="section-label">WORK &amp; LEARNING TOOLS</p><h2 id="home-tools-title">仕事で使う。動かして理解する。</h2></div>
+          <p>製造技術の計算と学び直しを、登録不要・ブラウザ内で使える小さなツールにしました。</p>
+        </header>
+        <div className="home-tools-grid">
+          <Link href="/tools/cpk"><span>01 / PROCESS CAPABILITY</span><h3>Cp・Cpk計算ツール</h3><p>測定データからPp・Ppkと分布を確認。平均とばらつきを動かす学習モードも利用できます。</p><strong>計算・学習を始める <i aria-hidden="true">→</i></strong><dl><div><dt>Cpk</dt><dd>1.42</dd></div><div><dt>Cp</dt><dd>1.58</dd></div></dl></Link>
+          <Link href="/tools/doe"><span>02 / DESIGN OF EXPERIMENTS</span><h3>実験計画法（DoE）学習ツール</h3><p>2因子2水準の4条件を動かし、主効果と交互作用プロットの変化を確認できます。</p><strong>動かして理解する <i aria-hidden="true">→</i></strong><dl><div><dt>因子</dt><dd>2</dd></div><div><dt>実験</dt><dd>4</dd></div></dl></Link>
         </div>
-        <dl aria-label="Cp・Cpk計算ツールの表示例">
-          <div><dt>Cpk</dt><dd>1.42</dd></div>
-          <div><dt>Cp</dt><dd>1.58</dd></div>
-          <div><dt>標準偏差</dt><dd>0.021</dd></div>
-          <div><dt>データ数</dt><dd>30</dd></div>
-        </dl>
+        <Link className="text-link home-section-link" href="/tools">実務ツールをすべて見る</Link>
       </section>
 
       <section className="home-section home-simple-section home-career-routes" aria-labelledby="career-route-title">

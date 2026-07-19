@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 
 const navItems = [
-  { href: "/tools/cpk", label: "実務ツール" },
+  { href: "/tools", label: "実務ツール" },
   { href: "/industry-map", label: "業界地図" },
   { href: "/companies", label: "企業を探す" },
   { href: "/guides", label: "ガイド" },

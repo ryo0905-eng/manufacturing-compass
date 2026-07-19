@@ -16253,3 +16253,44 @@ body {
   .doe-warning { grid-template-columns: 1fr; gap: 3px; }
   .doe-document { margin-top: 34px; }
 }
+
+/* Tools directory and homepage tool overview */
+.home-tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.home-tools-grid > a { position: relative; display: grid; min-height: 250px; align-content: start; overflow: hidden; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; padding: 22px; }
+.home-tools-grid > a > span { color: #737980; font-size: 9px; font-weight: 600; letter-spacing: .04em; }
+.home-tools-grid h3 { margin: 10px 0 8px; font-size: 20px; font-weight: 600; }
+.home-tools-grid p { max-width: 440px; margin: 0; color: #60666d; font-size: 13px; line-height: 1.7; }
+.home-tools-grid strong { margin-top: 18px; color: #1769aa; font-size: 12px; font-weight: 600; }
+.home-tools-grid strong i { font-style: normal; }
+.home-tools-grid dl { position: absolute; right: 20px; bottom: 18px; display: grid; grid-template-columns: 1fr 1fr; width: 150px; margin: 0; border-radius: 6px; background: #f7f7f8; }
+.home-tools-grid dl div { padding: 9px 11px; }
+.home-tools-grid dt { color: #737980; font-size: 8px; }
+.home-tools-grid dd { margin: 2px 0 0; color: #1d1d1f; font-size: 17px; font-weight: 650; }
+.home-tools-grid > a:hover { border-color: #c9cdd2; }
+
+.tools-page { display: grid; width: min(1080px, calc(100% - 40px)); gap: 64px; margin: 0 auto; padding: 64px 0 80px; }
+.tools-page-hero { max-width: 760px; }
+.tools-page-hero .section-label { margin: 0; color: #737980; font-size: 10px; font-weight: 600; }
+.tools-page-hero h1 { margin: 8px 0 14px; font-size: clamp(32px, 4vw, 38px); font-weight: 600; letter-spacing: -.035em; line-height: 1.4; text-wrap: balance; }
+.tools-page-hero > p:last-child { max-width: 660px; margin: 0; color: #60666d; font-size: 16px; line-height: 1.75; }
+.tools-directory > header { display: grid; grid-template-columns: 1fr minmax(280px, .55fr); gap: 32px; align-items: end; margin-bottom: 24px; }
+.tools-directory > header h2 { margin: 0; font-size: 26px; font-weight: 600; }
+.tools-directory > header p { margin: 0; color: #60666d; font-size: 14px; line-height: 1.7; }
+.tools-directory > div { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.tools-directory > div > a { display: flex; min-height: 300px; flex-direction: column; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; padding: 26px; }
+.tools-directory a > span { color: #737980; font-size: 9px; font-weight: 600; letter-spacing: .04em; }
+.tools-directory h3 { margin: 12px 0 10px; font-size: 22px; font-weight: 600; }
+.tools-directory a > p { margin: 0; color: #60666d; font-size: 14px; line-height: 1.75; }
+.tools-directory ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 20px 0 0; padding: 0; list-style: none; }
+.tools-directory li { border-radius: 999px; background: #f1f2f4; padding: 5px 9px; color: #555b62; font-size: 10px; }
+.tools-directory a > strong { margin-top: auto; padding-top: 24px; color: #1769aa; font-size: 12px; font-weight: 600; }
+.tools-directory a > strong i { font-style: normal; }
+.tools-directory > div > a:hover { border-color: #c9cdd2; }
+
+@media (max-width: 720px) {
+  .home-tools-grid, .tools-directory > div { grid-template-columns: 1fr; }
+  .home-tools-grid > a { min-height: 235px; }
+  .tools-page { width: calc(100% - 28px); gap: 48px; padding: 42px 0 64px; }
+  .tools-directory > header { grid-template-columns: 1fr; gap: 10px; }
+  .tools-directory > div > a { min-height: 270px; padding: 22px; }
+}

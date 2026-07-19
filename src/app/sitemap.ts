@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const guidesLastModified = contentDate(latestGuideUpdatedAt);
   const staticRoutes = [
     "",
+    "/tools",
     "/tools/cpk",
     "/tools/doe",
     "/career-compass",
