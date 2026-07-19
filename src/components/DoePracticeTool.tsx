@@ -15,25 +15,30 @@ const cells = [
 const errorPattern = [-1.05, .2, .85, -.45, 1.15, -.7, .55, -1.2, .65, 1.05, -.25, -.8];
 const randomizedOrder = [7, 0, 10, 5, 2, 9, 4, 11, 1, 6, 8, 3];
 
-function buildExperiment(errorSize: number, driftSize: number, randomized: boolean): DoeExperiment {
+type DiagnosticIssue = "none" | "outlier" | "variance";
+
+function buildExperiment(errorSize: number, driftSize: number, randomized: boolean, diagnosticIssue: DiagnosticIssue): DoeExperiment {
   const planned = cells.flatMap((cell, cellIndex) => Array.from({ length: 3 }, (_, replicate) => ({ cell, cellIndex, replicate, standardIndex: cellIndex * 3 + replicate })));
   const order = randomized ? randomizedOrder : planned.map((_, index) => index);
   const runs: DoeRun[] = order.map((plannedIndex, runIndex) => {
     const item = planned[plannedIndex];
     const centeredPosition = runIndex / 11 - .5;
-    const observed = item.cell.mean + errorPattern[plannedIndex] * errorSize + centeredPosition * driftSize;
+    const varianceMultiplier = diagnosticIssue === "variance" && item.cell.temperature === 1 ? 2.6 : 1;
+    const outlierShift = diagnosticIssue === "outlier" && plannedIndex === 10 ? 14 : 0;
+    const observed = item.cell.mean + errorPattern[plannedIndex] * errorSize * varianceMultiplier + centeredPosition * driftSize + outlierShift;
     return { id: `practice-${plannedIndex}`, standardOrder: item.standardIndex + 1, runOrder: runIndex + 1, levels: { temperature: item.cell.temperature, pressure: item.cell.pressure }, responses: { strength: observed } };
   });
   return { factors: [{ id: "temperature", name: "温度", unit: "℃", levels: [{ code: -1, label: "低", value: 160 }, { code: 1, label: "高", value: 200 }] }, { id: "pressure", name: "圧力", unit: "kPa", levels: [{ code: -1, label: "低", value: 80 }, { code: 1, label: "高", value: 120 }] }], responses: [{ id: "strength", name: "強度", unit: "MPa" }], runs };
 }
 
-export function DoePracticeTool({ view }: { view: "experiment" | "decision" }) {
+export function DoePracticeTool({ view }: { view: "experiment" | "decision" | "diagnosis" }) {
   const [errorSize, setErrorSize] = useState(2);
   const [driftSize, setDriftSize] = useState(0);
   const [randomized, setRandomized] = useState(false);
   const [selectedAnovaTerm, setSelectedAnovaTerm] = useState<AnovaTermId>("temperature");
   const [practicalThreshold, setPracticalThreshold] = useState(5);
-  const experiment = useMemo(() => buildExperiment(errorSize, driftSize, randomized), [errorSize, driftSize, randomized]);
+  const [diagnosticIssue, setDiagnosticIssue] = useState<DiagnosticIssue>("none");
+  const experiment = useMemo(() => buildExperiment(errorSize, driftSize, randomized, diagnosticIssue), [errorSize, driftSize, randomized, diagnosticIssue]);
   const analysis = useMemo(() => analyzeExperiment(experiment, "strength"), [experiment]);
   const anova = useMemo(() => calculateAnova(experiment, "strength"), [experiment]);
   const effects = Object.fromEntries(analysis.effects.map((effect) => [effect.id, effect.estimate]));
@@ -51,6 +56,7 @@ export function DoePracticeTool({ view }: { view: "experiment" | "decision" }) {
   const selectedAnova = anova.rows.find((row) => row.id === selectedAnovaTerm) ?? anova.rows[0];
 
   function changeOrder(next: boolean) { setRandomized(next); trackEvent("doe_run_order_changed", { order: next ? "randomized" : "standard" }); }
+  if (view === "diagnosis") return <DiagnosisLesson issue={diagnosticIssue} onIssueChange={setDiagnosticIssue} pureError={pureError} residuals={residuals} trend={residualTrend} />;
   if (view === "decision") return <section className="doe-decision-workspace"><header><div><p className="section-label">STEP 3 / DECISION</p><h2>ANOVAで、結果を判断する</h2><p>STEP 2で作った実験データを引き継いでいます。</p></div><dl><div><dt>実験誤差</dt><dd>{errorSize.toFixed(1)}</dd></div><div><dt>時間変化</dt><dd>{driftSize.toFixed(1)}</dd></div><div><dt>実施順</dt><dd>{randomized ? "ランダム" : "標準順"}</dd></div><div><dt>反復</dt><dd>3回</dd></div></dl></header><AnovaLesson anova={anova} selected={selectedAnova} onSelect={setSelectedAnovaTerm} /><PracticalDecisionLesson anova={anova} effects={analysis.effects} threshold={practicalThreshold} onThresholdChange={setPracticalThreshold} /><aside><strong>数値を変えて確かめたい場合</strong><p>STEP 2「実験を組む」に戻ると、実験誤差・時間変化・実施順を変更できます。変更した状態はこの画面へ引き継がれます。</p></aside></section>;
 
   return <section className="doe-practice-workspace">
@@ -78,6 +84,31 @@ function PracticalDecisionLesson({ anova, effects, threshold, onThresholdChange 
     return { id: effect.id, label: effect.id === "temperature" ? "温度 A" : effect.id === "pressure" ? "圧力 B" : "交互作用 A×B", effect: effect.absoluteEstimate, p: row?.p, statisticallyClear, practicallyLarge, interpretation };
   });
   return <section className="doe-practical-decision"><header><div><p className="section-label">INTERPRETATION</p><h3>「有意」と「重要」を分けて考える</h3></div><label><span>工程上意味がある最小差 <b>{threshold.toFixed(1)} MPa</b></span><input min="1" max="15" step="1" type="range" value={threshold} onChange={(event) => onThresholdChange(Number(event.target.value))} /></label></header><div className="doe-decision-axis" aria-hidden="true"><span /><b>p &lt; 0.05</b><b>効果 ≥ {threshold.toFixed(1)} MPa</b></div><div className="doe-decision-cards">{items.map((item) => <article key={item.id}><header><strong>{item.label}</strong><span>効果 {item.effect.toFixed(2)} MPa</span></header><div><p data-active={item.statisticallyClear}><i>{item.statisticallyClear ? "✓" : "—"}</i><span><b>統計的に明確</b><small>{item.p === undefined || item.p === null ? "p値なし" : item.p < .001 ? "p < .001" : `p = ${item.p.toFixed(3)}`}</small></span></p><p data-active={item.practicallyLarge}><i>{item.practicallyLarge ? "✓" : "—"}</i><span><b>工程上重要</b><small>{item.effect.toFixed(2)} ≥ {threshold.toFixed(1)}</small></span></p></div><footer>{item.interpretation}</footer></article>)}</div><p className="doe-decision-takeaway"><strong>判断の順番：</strong> p値で「誤差だけでは説明しにくいか」を確認し、効果量で「現場にとって意味があるか」を判断します。</p></section>;
+}
+
+function DiagnosisLesson({ issue, onIssueChange, pureError, residuals, trend }: { issue: DiagnosticIssue; onIssueChange: (issue: DiagnosticIssue) => void; pureError: number; residuals: { order: number; value: number; response: number; levels: Record<string, number> }[]; trend: number }) {
+  const largestResidual = Math.max(...residuals.map((item) => Math.abs(item.value)));
+  const spread = (level: number) => { const values = residuals.filter((item) => item.levels.temperature === level).map((item) => item.value); return Math.sqrt(values.reduce((sum, value) => sum + value ** 2, 0) / Math.max(values.length, 1)); };
+  const lowSpread = spread(-1);
+  const highSpread = spread(1);
+  const varianceRatio = Math.max(lowSpread, highSpread) / Math.max(Math.min(lowSpread, highSpread), .01);
+  const checks = [
+    { label: "外れ値", value: largestResidual / Math.max(pureError, .01), alert: largestResidual > pureError * 2, detail: `最大残差は誤差σの ${(largestResidual / Math.max(pureError, .01)).toFixed(1)} 倍` },
+    { label: "等分散性", value: varianceRatio, alert: varianceRatio > 1.8, detail: `水準間のばらつき比 ${varianceRatio.toFixed(1)}` },
+    { label: "実験順", value: Math.abs(trend) / Math.max(pureError, .01), alert: Math.abs(trend) > pureError, detail: `最初と最後の残差差 ${Math.abs(trend).toFixed(1)}` },
+  ];
+  const finding = checks.find((check) => check.alert);
+  return <section className="doe-diagnosis-workspace"><header><div><p className="section-label">STEP 4 / MODEL DIAGNOSTICS</p><h2>残差の形から、モデルの違和感を探す</h2><p>残差は「測定値 − モデルの予測値」。0の周りへランダムに、同じ幅で散るかを確認します。</p></div><dl><div><dt>誤差σ</dt><dd>{pureError.toFixed(2)}</dd></div><div><dt>最大残差</dt><dd>{largestResidual.toFixed(2)}</dd></div></dl></header><fieldset><legend>データへ異常を混ぜて、残差の変化を見る</legend><div>{([{ id: "none", label: "異常なし", note: "基準の形" }, { id: "outlier", label: "外れ値", note: "測定1点がずれる" }, { id: "variance", label: "ばらつき増加", note: "高温側だけ不安定" }] as const).map((option) => <button aria-pressed={issue === option.id} key={option.id} onClick={() => onIssueChange(option.id)} type="button"><strong>{option.label}</strong><span>{option.note}</span></button>)}</div></fieldset><div className="doe-diagnostic-plots"><ResidualFittedPlot residuals={residuals} /><ResidualOrderPlot residuals={residuals} trend={trend} /></div><div className="doe-diagnostic-checks">{checks.map((check) => <article data-alert={check.alert} key={check.label}><span>{check.alert ? "確認" : "良好"}</span><strong>{check.label}</strong><p>{check.detail}</p></article>)}</div><aside data-alert={finding ? "true" : "false"}><strong>{finding ? `${finding.label}に気になる形があります` : "大きな違和感は見つかりません"}</strong><p>{issue === "outlier" ? "外れ値をすぐ削除せず、入力ミス、測定器、材料、実施記録を確認します。原因が説明できない除外は避けます。" : issue === "variance" ? "高温側ほど散らばっています。測定方法、工程安定性、変換、条件別モデルを検討します。" : "残差診断で問題が見えなくても、モデルが正しい証明にはなりません。実験記録と工程知識も合わせて判断します。"}</p></aside></section>;
+}
+
+function ResidualFittedPlot({ residuals }: { residuals: { value: number; response: number }[] }) {
+  const points = residuals.map((item) => ({ x: item.response - item.value, y: item.value }));
+  const minX = Math.min(...points.map((point) => point.x)) - 2;
+  const maxX = Math.max(...points.map((point) => point.x)) + 2;
+  const bound = Math.max(...points.map((point) => Math.abs(point.y)), 1);
+  const x = (value: number) => 48 + ((value - minX) / Math.max(maxX - minX, 1)) * 270;
+  const y = (value: number) => 101 - (value / bound) * 62;
+  return <figure className="doe-practice-plot doe-diagnostic-plot"><strong>予測値 対 残差</strong><svg viewBox="0 0 360 210" role="img" aria-label="予測値に対する残差"><rect x="42" y="28" width="290" height="145" rx="5" /><line className="doe-residual-zero" x1="42" x2="332" y1="101" y2="101" />{points.map((point, index) => <circle key={index} cx={x(point.x)} cy={y(point.y)} r="4" />)}<text x="42" y="194">予測値 小</text><text x="332" y="194" textAnchor="end">予測値 大</text></svg><figcaption>予測値が変わっても、残差の散らばる幅が同じかを見ます。</figcaption></figure>;
 }
 
 function AnovaLesson({ anova, selected, onSelect }: { anova: ReturnType<typeof calculateAnova>; selected: ReturnType<typeof calculateAnova>["rows"][number]; onSelect: (id: AnovaTermId) => void }) {

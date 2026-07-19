@@ -36,7 +36,7 @@ function explanation(interaction: number, range: number, linesCross: boolean) {
 }
 
 export function DoeLearningTool() {
-  const [learningMode, setLearningMode] = useState<"effects" | "experiment" | "decision">("effects");
+  const [learningMode, setLearningMode] = useState<"effects" | "experiment" | "decision" | "diagnosis">("effects");
   const [responses, setResponses] = useState(initialResponses);
   const experiment = useMemo(() => experimentWith(responses), [responses]);
   const analysis = useMemo(() => analyzeExperiment(experiment, "strength"), [experiment]);
@@ -59,7 +59,7 @@ export function DoeLearningTool() {
   function changeLearningMode(mode: typeof learningMode) { setLearningMode(mode); trackEvent("doe_learning_step_changed", { step: mode }); }
 
   return <div className="doe-learning-experience">
-    <nav className="doe-learning-tabs" aria-label="DoEの学習ステップ"><button aria-pressed={learningMode === "effects"} onClick={() => changeLearningMode("effects")} type="button"><small>01</small><strong>効果を見る</strong><span>主効果・交互作用</span></button><button aria-pressed={learningMode === "experiment"} onClick={() => changeLearningMode("experiment")} type="button"><small>02</small><strong>実験を組む</strong><span>反復・実験順・残差</span></button><button aria-pressed={learningMode === "decision"} onClick={() => changeLearningMode("decision")} type="button"><small>03</small><strong>結果を判断する</strong><span>ANOVA・p値</span></button></nav>
+    <nav className="doe-learning-tabs" aria-label="DoEの学習ステップ"><button aria-pressed={learningMode === "effects"} onClick={() => changeLearningMode("effects")} type="button"><small>01</small><strong>効果を見る</strong><span>主効果・交互作用</span></button><button aria-pressed={learningMode === "experiment"} onClick={() => changeLearningMode("experiment")} type="button"><small>02</small><strong>実験を組む</strong><span>反復・実験順・残差</span></button><button aria-pressed={learningMode === "decision"} onClick={() => changeLearningMode("decision")} type="button"><small>03</small><strong>結果を判断する</strong><span>ANOVA・p値</span></button><button aria-pressed={learningMode === "diagnosis"} onClick={() => changeLearningMode("diagnosis")} type="button"><small>04</small><strong>モデルを診断する</strong><span>外れ値・等分散性</span></button></nav>
     {learningMode !== "effects" ? <DoePracticeTool view={learningMode} /> : <section className="doe-workspace" aria-label="2因子2水準の実験計画法学習ツール">
     <div className="doe-controls">
       <header><div><p className="section-label">2 FACTORS / 2 LEVELS</p><h2>4つの実験結果を動かす</h2></div><button onClick={reset} type="button">初期値に戻す</button></header>
