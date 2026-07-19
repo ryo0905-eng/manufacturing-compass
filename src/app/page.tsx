@@ -60,12 +60,12 @@ export default function Home() {
         <div className="hero-copy">
           <p className="section-label">製造業の経験から、半導体の仕事を考える</p>
           <h1>
-            <span>製造業で積んだ経験は、</span>
-            <span>半導体でどこまで通用する？</span>
+            <span>製造業の経験を、</span>
+            <span>半導体の仕事につなげる。</span>
           </h1>
-          <p>生産技術、品質、設備、設計、製造DXの経験から、近い職種と次に準備することを12問で整理します。</p>
-          <div className="actions"><Link className="button primary home-primary-action" href="/career-compass">12問の診断を始める <span aria-hidden="true">→</span></Link></div>
-          <p className="hero-assurance">約3分・登録不要</p>
+          <p>生産技術、品質、設備、設計、製造DXなどの経験から、接点のある半導体職種と、次に準備したいことを整理できます。</p>
+          <div className="actions"><Link className="button primary home-primary-action" href="/career-compass">現在地を確認する <span aria-hidden="true">→</span></Link></div>
+          <p className="hero-assurance">12問・約3分・入力内容は保存されません</p>
         </div>
         <CareerResultPreview />
         <dl className="home-fact-strip" aria-label="診断の概要">
