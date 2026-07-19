@@ -28,6 +28,7 @@
 | [`docs/content-guideline.md`](./content-guideline.md) | 公開コンテンツ共通の編集原則 | 出典・表現・CTA 基準を変えた時 |
 | [`docs/article-workflow.md`](./article-workflow.md) | 記事種別ごとの公開制作フロー | 記事制作工程を変えた時 |
 | [`docs/design-system.md`](./design-system.md) | UI の共通原則 | UI 言語、色、コンポーネント方針を変えた時 |
+| [`docs/control-chart-learning-spec.md`](./control-chart-learning-spec.md) | 管理図学習ツールの目的、計算、初期スコープ | 管理図の学習体験や対象図を変えた時 |
 | [`docs/conversion-architecture.md`](./conversion-architecture.md) | 現行導線と CTA の役割 | 主要導線や計測イベントを変えた時 |
 | [`docs/monetization.md`](./monetization.md) | 広告・アフィリエイト運用原則 | 提携状態や広告運用方針を変えた時 |
 | [`docs/roadmap.md`](./roadmap.md) | フェーズ単位の方向性 | 優先順位やフェーズを見直した時 |
