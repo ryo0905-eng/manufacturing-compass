@@ -193,13 +193,16 @@ export function CpkCalculator() {
           <p className="benchmark-note">1.33は一般的に用いられる目安の一つです。実際の判定では、顧客要求や社内基準を優先してください。</p>
           <section className="analysis-summary"><h3>{analysis.heading}</h3><p>{analysis.summary}</p></section>
           {state.resultValues.length > 0 ? <section className="result-section"><h3>分布</h3><CapabilityHistogram result={result} values={state.resultValues} /></section> : <section className="result-section"><h3>分布</h3><p className="capability-chart-empty">要約値入力では、測定データの分布を表示できません。</p></section>}
-          <section className="result-section"><h3>補助指標</h3><dl className="capability-metrics">
-            <div><dt>{labels.potential}</dt><dd>{format(result.potential)}</dd></div><div><dt>{labels.upper}</dt><dd>{format(result.upper)}</dd></div><div><dt>{labels.lower}</dt><dd>{format(result.lower)}</dd></div>
-            <div><dt>平均</dt><dd>{format(result.mean)}</dd></div><div><dt>標準偏差</dt><dd>{format(result.standardDeviation)}</dd></div><div><dt>データ件数</dt><dd>{result.sampleCount ?? "—"}</dd></div>
-            <div><dt>LSL</dt><dd>{format(result.lowerSpecificationLimit)}</dd></div><div><dt>USL</dt><dd>{format(result.upperSpecificationLimit)}</dd></div><div><dt>規格中心</dt><dd>{format(result.specificationCenter)}</dd></div><div><dt>中心からのずれ</dt><dd>{format(result.centerOffset)}</dd></div>
-          </dl></section>
-          <section className="result-section result-checks"><h3>確認候補</h3><ul>{analysis.checks.map((check) => <li key={check}>{check}</li>)}</ul></section>
-          <div className="result-footer"><p>{result.method === "overall" ? "入力した全データの標本標準偏差（n−1）を使うため、結果はPp・Ppkです。" : "入力された短期標準偏差を使うため、結果はCp・Cpkです。"}</p><button className={copied ? "is-success" : ""} onClick={copyResult} type="button">{copied ? "コピーしました" : "結果をコピー"}</button></div>
+          <details className="capability-result-details">
+            <summary>補助指標と確認候補</summary>
+            <section className="result-section"><h3>補助指標</h3><dl className="capability-metrics">
+              <div><dt>{labels.potential}</dt><dd>{format(result.potential)}</dd></div><div><dt>{labels.upper}</dt><dd>{format(result.upper)}</dd></div><div><dt>{labels.lower}</dt><dd>{format(result.lower)}</dd></div>
+              <div><dt>平均</dt><dd>{format(result.mean)}</dd></div><div><dt>標準偏差</dt><dd>{format(result.standardDeviation)}</dd></div><div><dt>データ件数</dt><dd>{result.sampleCount ?? "—"}</dd></div>
+              <div><dt>LSL</dt><dd>{format(result.lowerSpecificationLimit)}</dd></div><div><dt>USL</dt><dd>{format(result.upperSpecificationLimit)}</dd></div><div><dt>規格中心</dt><dd>{format(result.specificationCenter)}</dd></div><div><dt>中心からのずれ</dt><dd>{format(result.centerOffset)}</dd></div>
+            </dl></section>
+            <section className="result-section result-checks"><h3>確認候補</h3><ul>{analysis.checks.map((check) => <li key={check}>{check}</li>)}</ul></section>
+            <div className="result-footer"><p>{result.method === "overall" ? "入力した全データの標本標準偏差（n−1）を使うため、結果はPp・Ppkです。" : "入力された短期標準偏差を使うため、結果はCp・Cpkです。"}</p><button className={copied ? "is-success" : ""} onClick={copyResult} type="button">{copied ? "コピーしました" : "結果をコピー"}</button></div>
+          </details>
         </div> : <div className="empty-result"><p>測定データと規格値を入力すると、ここに計算結果が表示されます。</p><small>入力値や計算結果が外部へ送信されることはありません。</small></div>}
       </section>
     </div>

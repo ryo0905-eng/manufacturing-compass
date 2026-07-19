@@ -15620,3 +15620,283 @@ body {
     font-size: 30px;
   }
 }
+
+/* Cp/Cpk workspace: keep the working controls within the first desktop view. */
+.cpk-page.cpk-page--analysis {
+  width: min(1180px, calc(100% - 40px));
+  gap: 12px;
+  padding: 12px 0 72px;
+  color: #1d1d1f;
+}
+
+.cpk-page--analysis .cpk-breadcrumb {
+  font-size: 11px;
+}
+
+.cpk-page--analysis .cpk-compact-hero {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  border-bottom: 0;
+  padding: 2px 0 10px;
+}
+
+.cpk-page--analysis .cpk-compact-hero h1 {
+  margin-bottom: 2px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+}
+
+.cpk-page--analysis .cpk-compact-hero > div > p {
+  color: #60666d;
+  font-size: 13px;
+}
+
+.cpk-page--analysis .privacy-note {
+  max-width: 340px;
+  grid-template-columns: auto;
+  gap: 0;
+  border-left: 0;
+  padding-left: 0;
+  text-align: right;
+}
+
+.cpk-page--analysis .privacy-note strong {
+  color: #30343a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cpk-page--analysis .privacy-note span {
+  color: #737980;
+  font-size: 10px;
+}
+
+.cpk-page--analysis .capability-workspace {
+  grid-template-columns: minmax(350px, 0.82fr) minmax(0, 1.18fr);
+  min-height: 540px;
+  border-color: #e5e7eb;
+  border-radius: 8px;
+}
+
+.cpk-page--analysis .capability-input,
+.cpk-page--analysis .capability-results {
+  padding: 18px 20px;
+}
+
+.cpk-page--analysis .capability-results {
+  border-left-color: #e5e7eb;
+  background: #f7f7f8;
+}
+
+.cpk-page--analysis .tool-section-heading {
+  min-height: 26px;
+  margin-bottom: 10px;
+}
+
+.cpk-page--analysis .tool-section-heading h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cpk-page--analysis .tool-section-heading span {
+  color: #737980;
+  font-size: 10px;
+}
+
+.cpk-page--analysis .tool-segmented {
+  margin-bottom: 10px;
+}
+
+.cpk-page--analysis .tool-segmented legend,
+.cpk-page--analysis .sample-selector > label,
+.cpk-page--analysis .tool-field > label {
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cpk-page--analysis .tool-segmented > div {
+  border-color: #d9dde2;
+  background: #f1f2f4;
+}
+
+.cpk-page--analysis .tool-segmented button {
+  min-height: 32px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cpk-page--analysis .sample-selector {
+  margin-bottom: 10px;
+}
+
+.cpk-page--analysis .sample-selector select {
+  min-height: 36px;
+  border-color: #d9dde2;
+  padding-block: 5px;
+  font-size: 13px;
+}
+
+.cpk-page--analysis .sample-selector p,
+.cpk-page--analysis .field-status {
+  margin-top: 3px;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.cpk-page--analysis .tool-field textarea {
+  min-height: 132px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.cpk-page--analysis .tool-field input {
+  min-height: 36px;
+  padding: 6px 9px;
+  font-size: 14px;
+}
+
+.cpk-page--analysis .specification-fields,
+.cpk-page--analysis .summary-fields {
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cpk-page--analysis .specification-fields > p,
+.cpk-page--analysis .summary-fields > p {
+  margin-top: -4px;
+}
+
+.cpk-page--analysis .tool-primary-button {
+  min-height: 38px;
+  margin-top: 10px;
+  border-color: #1d1d1f;
+  background: #1d1d1f;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cpk-page--analysis .tool-primary-button:hover {
+  border-color: #3a3a3c;
+  background: #3a3a3c;
+}
+
+.cpk-page--analysis .tool-secondary-actions {
+  gap: 4px 14px;
+  margin-top: 5px;
+}
+
+.cpk-page--analysis .tool-secondary-actions button {
+  min-height: 28px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.cpk-page--analysis .primary-capability {
+  gap: 18px;
+  padding-bottom: 12px;
+  border-bottom-color: #e5e7eb;
+}
+
+.cpk-page--analysis .primary-capability strong {
+  font-size: 38px;
+}
+
+.cpk-page--analysis .primary-capability p {
+  font-size: 13px;
+}
+
+.cpk-page--analysis .benchmark-note {
+  margin-top: 6px;
+  font-size: 10px;
+}
+
+.cpk-page--analysis .analysis-summary {
+  margin: 12px 0;
+  border-left: 0;
+  border-radius: 5px;
+  background: #fff;
+  padding: 10px 12px;
+}
+
+.cpk-page--analysis .analysis-summary h3 {
+  font-size: 14px;
+}
+
+.cpk-page--analysis .analysis-summary p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.cpk-page--analysis .result-section {
+  padding: 12px 0;
+  border-top-color: #e5e7eb;
+}
+
+.cpk-page--analysis .result-section > h3 {
+  margin-bottom: 7px;
+  font-size: 14px;
+}
+
+.cpk-page--analysis .capability-chart {
+  min-height: 180px;
+}
+
+.cpk-page--analysis .capability-chart svg {
+  min-height: 160px;
+  max-height: 190px;
+}
+
+.capability-result-details {
+  margin-top: 8px;
+  border-top: 1px solid #d9dde2;
+}
+
+.capability-result-details > summary {
+  padding: 11px 2px;
+  color: #30343a;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cpk-page--analysis .empty-result {
+  min-height: 460px;
+}
+
+.cpk-page--analysis .capability-document {
+  margin-top: 42px;
+}
+
+@media (max-width: 720px) {
+  .cpk-page.cpk-page--analysis {
+    width: calc(100% - 28px);
+    gap: 16px;
+    padding-top: 16px;
+  }
+
+  .cpk-page--analysis .cpk-compact-hero {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .cpk-page--analysis .privacy-note {
+    text-align: left;
+  }
+
+  .cpk-page--analysis .capability-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .cpk-page--analysis .tool-field textarea {
+    min-height: 190px;
+  }
+
+  .cpk-page--analysis .capability-results {
+    border-top-color: #e5e7eb;
+  }
+}
