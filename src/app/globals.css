@@ -16660,24 +16660,24 @@ body {
 .control-rule-reference { display: grid; gap: 14px; margin-top: 16px; border: 1px solid #e2e5e8; border-radius: 8px; background: #fff; padding: 20px; }.control-rule-reference .section-label { margin: 0; color: #737980; font-size: 8px; font-weight: 600; }.control-rule-reference > header h2 { margin: 4px 0; font-size: 19px; font-weight: 600; }.control-rule-reference > header > p:last-child { margin: 0; color: #60666d; font-size: 9px; line-height: 1.55; }.control-rule-reference > div { display: grid; grid-template-columns: .65fr 1fr 1.5fr; gap: 8px; align-items: start; }.control-rule-reference article { border: 1px solid #e2e5e8; border-radius: 7px; overflow: hidden; }.control-rule-reference article > header { display: grid; grid-template-columns: 24px 1fr; gap: 8px; background: #f7f7f8; padding: 11px; }.control-rule-reference article > header > span { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: #e1e4e8; color: #60666d; font-size: 7px; font-weight: 650; }.control-rule-reference h3 { margin: 0; color: #30343a; font-size: 10px; }.control-rule-reference article header p { margin: 2px 0 0; color: #737980; font-size: 7px; line-height: 1.45; }.control-rule-reference ol { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }.control-rule-reference li { display: grid; grid-template-columns: 20px 1fr; gap: 7px; align-items: center; border-top: 1px solid #eceef1; padding: 7px 10px; }.control-rule-reference li > span { color: #4c72b0; font-size: 7px; font-weight: 650; }.control-rule-reference li div { display: grid; gap: 1px; }.control-rule-reference li strong { color: #4c5259; font-size: 7px; }.control-rule-reference li small { color: #858b92; font-size: 6px; }.control-rule-reference > aside { display: flex; gap: 12px; border-radius: 6px; background: #eef3fa; padding: 9px 11px; color: #59616a; font-size: 8px; }.control-rule-reference > aside strong { flex: 0 0 auto; color: #315f98; }.control-rule-reference > aside p { margin: 0; line-height: 1.5; }
 
 /* Management-chart pages stay compact, but instructional text must remain readable. */
-.control-chart-hero > p span { color: #60666d; font-size: 12px; }
+.control-chart-hero > p span { font-size: 11px; }
 .control-chart-setup legend { font-size: 12px; }
 .control-chart-setup button { min-height: 48px; }
 .control-chart-setup button strong { font-size: 13px; }
 .control-chart-setup button span { font-size: 11px; }
 .control-chart-tool .section-label,
 .control-chart-document .section-label,
-.control-rule-reference .section-label { color: #60666d; font-size: 11px; letter-spacing: .02em; }
-.control-chart-tool > header p { color: #59616a; font-size: 13px; line-height: 1.6; }
+.control-rule-reference .section-label { font-size: 11px; letter-spacing: .02em; }
+.control-chart-tool > header p { font-size: 12px; }
 .control-chart-tool dt { font-size: 11px; }
 .control-chart-tool dd { font-size: 16px; }
 .control-scenarios button { min-height: 52px; }
 .control-scenarios strong { font-size: 13px; }
-.control-scenarios span { color: #59616a; font-size: 12px; }
+.control-scenarios span { font-size: 11px; }
 .control-rule-comparison h3,
 .control-false-alarm h3 { font-size: 16px; }
 .control-rule-comparison > header > p,
-.control-false-alarm header p { color: #59616a; font-size: 12px; line-height: 1.6; }
+.control-false-alarm header p { font-size: 11px; }
 .control-rule-comparison button,
 .control-false-alarm article { padding: 12px; }
 .control-rule-comparison button > span,
@@ -16688,42 +16688,42 @@ body {
 .control-false-alarm article > strong small { font-size: 10px; }
 .control-rule-comparison button > i,
 .control-false-alarm article > i,
-.control-rule-comparison > footer { color: #59616a; font-size: 12px; line-height: 1.6; }
+.control-rule-comparison > footer { font-size: 11px; }
 .control-false-alarm label span { font-size: 12px; }
 .control-false-alarm > footer strong { font-size: 11px; }
-.control-false-alarm > footer p { font-size: 12px; line-height: 1.6; }
+.control-false-alarm > footer p { font-size: 11px; }
 .control-chart-figure > strong { font-size: 14px; }
 .control-chart-figure text { font-size: 11px; }
 .control-point-number { font-size: 9px !important; }
 .control-period-label { font-size: 10px !important; }
-.control-chart-figure figcaption { color: #59616a; font-size: 12px; line-height: 1.55; }
+.control-chart-figure figcaption { font-size: 11px; }
 .control-interpretation h3,
 .control-investigation h3,
 .control-limits-lesson h3 { font-size: 16px; }
-.control-interpretation li { color: #59616a; font-size: 13px; }
+.control-interpretation li { font-size: 12px; }
 .control-interpretation li span { min-width: 38px; font-size: 10px; }
-.control-interpretation section > p:last-child { color: #4f565d; font-size: 14px; }
-.control-interpretation section > small { color: #60666d; font-size: 12px; line-height: 1.6; }
-.control-investigation > header > p { color: #59616a; font-size: 12px; }
+.control-interpretation section > p:last-child { font-size: 13px; }
+.control-interpretation section > small { font-size: 11px; }
+.control-investigation > header > p { font-size: 11px; }
 .control-investigation-options button { min-height: 38px; font-size: 12px; }
 .control-investigation-result { grid-template-columns: 110px 1fr; }
 .control-investigation-result > span { font-size: 10px; }
 .control-investigation-result strong { font-size: 13px; }
 .control-investigation-result p,
-.control-investigation-empty { color: #4f565d; font-size: 13px; line-height: 1.6; }
-.control-investigation > footer { color: #60666d; font-size: 12px; line-height: 1.6; }
-.control-limits-lesson p { color: #4f565d; font-size: 13px; line-height: 1.6; }
+.control-investigation-empty { font-size: 12px; }
+.control-investigation > footer { font-size: 11px; }
+.control-limits-lesson p { font-size: 12px; }
 .control-limits-lesson button span { font-size: 11px; }
 .control-limits-lesson button strong { font-size: 13px; }
-.control-rule-reference > header > p:last-child { color: #4f565d; font-size: 14px; line-height: 1.7; }
+.control-rule-reference > header > p:last-child { font-size: 13px; }
 .control-rule-reference article > header { grid-template-columns: 30px 1fr; }
 .control-rule-reference article > header > span { width: 28px; height: 28px; font-size: 10px; }
 .control-rule-reference h3 { font-size: 13px; }
-.control-rule-reference article header p { color: #59616a; font-size: 12px; line-height: 1.6; }
+.control-rule-reference article header p { font-size: 11px; }
 .control-rule-reference li { grid-template-columns: 24px 1fr; padding: 10px 12px; }
 .control-rule-reference li > span,
-.control-rule-reference li strong { font-size: 12px; }
-.control-rule-reference li small { color: #60666d; font-size: 11px; line-height: 1.55; }
-.control-rule-reference > aside { font-size: 13px; line-height: 1.6; padding: 12px 14px; }
-.control-chart-document section p { color: #4f565d; font-size: 14px; line-height: 1.7; }
+.control-rule-reference li strong { font-size: 11px; }
+.control-rule-reference li small { font-size: 10px; }
+.control-rule-reference > aside { font-size: 12px; padding: 12px 14px; }
+.control-chart-document section p { font-size: 13px; }
 @media (max-width:720px) { .control-chart-page { width: calc(100% - 28px); }.control-chart-hero,.control-chart-tool > header,.control-limits-lesson,.control-chart-setup,.control-chart-pair { grid-template-columns: 1fr; }.control-chart-hero > p { text-align:left; }.control-chart-tool { padding:16px; }.control-chart-tool > header dl { grid-template-columns:repeat(3,1fr); }.control-scenarios { display:flex; overflow-x:auto; }.control-scenarios button { flex:0 0 130px; }.control-rule-comparison > header,.control-investigation > header { display:block; }.control-rule-comparison > header > p,.control-investigation > header > p { margin-top:4px; }.control-rule-comparison > div,.control-false-alarm > header,.control-false-alarm > div { grid-template-columns:1fr; }.control-false-alarm > footer { display:grid; gap:3px; }.control-investigation-options { grid-template-columns:repeat(2,1fr); }.control-investigation-result { grid-template-columns:1fr; gap:6px; }.control-chart-figure { overflow-x:auto; }.control-chart-figure svg { min-width:650px; }.control-interpretation,.control-chart-document > div,.control-rule-reference > div { grid-template-columns:1fr; }.control-rule-reference > aside { display:grid; gap:3px; } }
