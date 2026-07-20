@@ -1,6 +1,6 @@
 # Conversion Architecture
 
-最終更新日: 2026-07-19
+最終更新日: 2026-07-21
 
 ## 目的
 
@@ -33,7 +33,7 @@ Career Compass
 - `/`: サービスの価値と主要な入口を示す
 - `/career-compass`: 現在地と準備を同一ページ内で整理する
 - `/guides/[slug]`: 検索意図へ答え、関連する理解へつなぐ
-- `/industry-map`, `/segments/[slug]`: 企業・職種の位置関係を示す
+- `/industry-map`, `/segments/[slug]`: 工程を背骨に企業・職種の位置関係を探索し、選んだ対象の詳細へつなぐ
 - `/companies/[slug]`: 公開事実とキャリア視点を示す
 - `/compare/[slug]`: 同じ基準で企業を比較する
 - `/career-consultation`: 相談前に職種、実績、条件、質問を整理する
@@ -69,5 +69,8 @@ Career Compass
 - `today_quest_copy`
 - `agent_cta_click`
 - `affiliate_outbound_click`
+- `industry_map_mode_change`
+- `industry_map_node_open`
+- `industry_map_content_click`
 
 評価する時は単一イベントだけでなく、流入ページ、Career Compass 完了、内部遷移、外部クリックを一連で見ます。氏名、連絡先、自由記述、現年収、回答一式は送信せず、完了時の職種領域・転職目的・結果タイプ・相談テーマは集計可能な粗いカテゴリに限定します。

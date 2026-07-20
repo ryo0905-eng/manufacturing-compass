@@ -1,6 +1,6 @@
 # Static Data Design
 
-最終更新日: 2026-07-19
+最終更新日: 2026-07-21
 
 ## 方針
 
@@ -18,6 +18,7 @@
 | --- | --- | --- |
 | Career Compass | `src/data/career-compass.ts` | 質問選択肢、結果プロファイル、準備行動 |
 | 企業・セグメント | `src/data/companies.ts` | `Company`, `IndustrySegment` |
+| 業界地図 | `src/data/industry-map.ts` | 工程、事業の役割、代表企業、職種との一般的な接点 |
 | 企業別キャリア準備 | `src/data/companies.ts` | `CareerInfo` |
 | 共通の企業型 | `src/types/content.ts` | `Source`, `Company`, `CareerInfo` |
 | 参考年収帯の説明 | `src/data/salary-methodology.ts` | 算出手順、注意書き、出典 |
@@ -46,6 +47,8 @@
 `CareerInfo` は、企業公式の採用情報から確認した職種・経験と、Manufacturing Compass が整理した準備提案を扱います。企業が公式に推奨している内容と誤認させない注記を表示します。
 
 個別 `CareerInfo` がない企業は、詳細ページを閲覧可能にしても `noindex, follow` とし、sitemap へ含めません。
+
+業界地図の企業ノードは `Company` を重複定義せず、`companyId` で企業データを参照します。工程との線は一般的な役割上の接点として扱い、直接の顧客・供給・資本関係へ転用しません。企業固有の関係を追加する場合は、関係単位で出典と確認日を持たせます。
 
 ## Career Compass データ
 
