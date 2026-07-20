@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { CompanyComparisonSummary } from "@/components/CompanyComparisonSummary";
+import { getCompanyComparisonProfile } from "@/data/company-comparisons";
 import { companies, getCareerInfo } from "@/data/companies";
 import { comparePairs } from "@/data/editorial";
 import { companyCompareSlug, getCompaniesFromCompareSlug } from "@/lib/format";
@@ -19,9 +20,26 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: CompareDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const comparedCompanies = getCompaniesFromCompareSlug(slug);
+  const comparisonProfile = getCompanyComparisonProfile(slug);
 
   if (comparedCompanies.length < 2) {
     return {};
+  }
+
+  if (comparisonProfile) {
+    return {
+      title: comparisonProfile.title,
+      description: comparisonProfile.description,
+      alternates: {
+        canonical: `/compare/${slug}`,
+      },
+      openGraph: {
+        title: comparisonProfile.title,
+        description: comparisonProfile.description,
+        type: "article",
+        url: `/compare/${slug}`,
+      },
+    };
   }
 
   return {
@@ -33,6 +51,7 @@ export async function generateMetadata({ params }: CompareDetailPageProps): Prom
 export default async function CompareDetailPage({ params }: CompareDetailPageProps) {
   const { slug } = await params;
   const comparedCompanies = getCompaniesFromCompareSlug(slug);
+  const comparisonProfile = getCompanyComparisonProfile(slug);
 
   if (comparedCompanies.length < 2) {
     notFound();
@@ -44,14 +63,35 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
     <main className="page">
       <section className="page-hero">
         <p className="eyebrow">企業比較</p>
-        <h1>{comparedCompanies.map((company) => company.nameJa).join(" と ")} の比較</h1>
-        <p>勝ち負けではなく、事業領域、向いている経験、準備ポイントの違いを整理します。</p>
+        <h1>{comparisonProfile?.heading ?? `${comparedCompanies.map((company) => company.nameJa).join(" と ")} の比較`}</h1>
+        <p>{comparisonProfile?.lead ?? "勝ち負けではなく、事業領域、向いている経験、準備ポイントの違いを整理します。"}</p>
         <div className="actions">
           <Link className="button ghost" href="/compare">
             比較を選び直す
           </Link>
         </div>
       </section>
+
+      {comparisonProfile ? (
+        <section className="section" aria-labelledby="featured-comparison-title">
+          <div className="section-header">
+            <div>
+              <p className="section-label">最初に結論</p>
+              <h2 id="featured-comparison-title">{comparisonProfile.summaryHeading}</h2>
+            </div>
+          </div>
+          <p>{comparisonProfile.summary}</p>
+          <div className="grid-3">
+            {comparisonProfile.highlights.map((highlight) => (
+              <article className="info-card" key={highlight.label}>
+                <p className="section-label">{highlight.label}</p>
+                <h3>{highlight.title}</h3>
+                <p>{highlight.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <CompanyComparisonSummary entries={comparisonEntries} />
 
@@ -128,6 +168,36 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
           ))}
         </div>
       </section>
+
+      {comparisonProfile ? (
+        <section className="section" aria-labelledby="comparison-sources-title">
+          <div className="section-header">
+            <div>
+              <p className="section-label">公式情報</p>
+              <h2 id="comparison-sources-title">比較に使った情報ソース</h2>
+            </div>
+          </div>
+          <div className="company-grid">
+            {comparedCompanies.map((company) => (
+              <article className="company-card" key={company.id}>
+                <h3>{company.nameJa}</h3>
+                <ul className="source-list">
+                  {company.sources.map((source) => (
+                    <li key={source.url}>
+                      <a className="text-link" href={source.url} target="_blank" rel="noreferrer">
+                        {source.title}
+                      </a>
+                      <br />
+                      {source.publisher} / 確認日: {source.accessedAt}
+                    </li>
+                  ))}
+                </ul>
+                <p className="disclosure">最終更新日: {company.lastUpdated}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <AffiliateCta title="比較した企業に近いキャリアを相談する" />
     </main>

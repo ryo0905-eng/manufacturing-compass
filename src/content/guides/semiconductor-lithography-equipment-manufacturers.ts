@@ -370,6 +370,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
         {
           type: "links",
           items: [
+            { label: "ASMLと東京エレクトロンの違い", href: "/compare/asml-vs-tokyo-electron", description: "露光装置と複数工程の装置、職種・キャリア準備を比較する" },
             { label: "フォトリソグラフィ", href: "/guides/photolithography-process", description: "塗布・露光・現像のメカニズムを見る" },
             { label: "塗布現像装置メーカー", href: "/guides/semiconductor-coater-developer-manufacturers", description: "露光前後のレジスト塗布・ベーク・現像装置を見る" },
             { label: "CD-SEM・電子線計測装置メーカー", href: "/guides/semiconductor-cd-sem-manufacturers", description: "露光・現像後のCD・EPEを測り、工程へ返す装置を見る" },

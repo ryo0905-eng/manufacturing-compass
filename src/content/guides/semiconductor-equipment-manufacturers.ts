@@ -335,6 +335,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "ASMLと東京エレクトロンの違い", href: "/compare/asml-vs-tokyo-electron", description: "主力製品・職種・英語・キャリア準備を比較する" },
             { label: "半導体製造装置の企業一覧", href: "/segments/equipment", description: "国内外の装置企業と企業詳細ページを見る" },
             { label: "アプライドマテリアルズ", href: "/guides/applied-materials-semiconductor-equipment", description: "成膜・除去・改質・分析の製品領域を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "設計から前工程・後工程までの流れを見る" },

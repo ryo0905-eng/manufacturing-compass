@@ -37,6 +37,7 @@ export const rankings: Ranking[] = [
 ];
 
 export const comparePairs = [
+  ["asml", "tokyo-electron"],
   ["tsmc", "micron"],
   ["tsmc", "tokyo-electron"],
   ["tokyo-electron", "screen"],
