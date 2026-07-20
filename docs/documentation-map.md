@@ -2,7 +2,7 @@
 
 このファイルは、Manufacturing Compass の文書をどこから読むか、同じ内容が食い違った場合に何を正とするかを示す索引です。
 
-最終更新日: 2026-07-20
+最終更新日: 2026-07-21
 
 ## 優先順位
 
@@ -28,6 +28,7 @@
 | [`docs/content-guideline.md`](./content-guideline.md) | 公開コンテンツ共通の編集原則 | 出典・表現・CTA 基準を変えた時 |
 | [`docs/article-workflow.md`](./article-workflow.md) | 記事種別ごとの公開制作フロー | 記事制作工程を変えた時 |
 | [`docs/design-system.md`](./design-system.md) | UI の共通原則 | UI 言語、色、コンポーネント方針を変えた時 |
+| [`docs/ui-consistency-audit.md`](./ui-consistency-audit.md) | 公開ページへのUIルール適用状況と移行順 | 共通UIまたは監査対象ページを変更した時 |
 | [`docs/control-chart-learning-spec.md`](./control-chart-learning-spec.md) | 管理図学習ツールの目的、計算、初期スコープ | 管理図の学習体験や対象図を変えた時 |
 | [`docs/gage-rr-learning-spec.md`](./gage-rr-learning-spec.md) | Gage R&R学習ツールの目的、計算、初期スコープ | Gage R&Rの学習体験や対象調査を変えた時 |
 | [`docs/yield-learning-spec.md`](./yield-learning-spec.md) | 歩留まり・FPY・RTY学習ツールの目的、計算、初期スコープ | 歩留まりの学習体験や対象工程を変えた時 |
