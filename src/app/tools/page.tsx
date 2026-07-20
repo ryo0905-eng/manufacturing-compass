@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 const tools = [
   { href: "/tools/cpk", number: "01", label: "PROCESS CAPABILITY", title: "Cp・Cpk計算ツール", description: "測定データからPp・Ppkとヒストグラムを確認できます。平均、標準偏差、規格値を動かしてCp・Cpkの違いを学ぶこともできます。", features: ["生データ計算", "Seaborn風ヒストグラム", "動かして理解"] },
-  { href: "/tools/doe", number: "02", label: "DESIGN OF EXPERIMENTS", title: "実験計画法（DoE）学習ツール", description: "効果を見るところから、反復、ランダム化、ANOVA、残差、確認実験まで、DoEの判断手順を5ステップで学べます。", features: ["2因子2水準", "ANOVA・p値", "残差・確認実験"] },
-  { href: "/tools/control-chart", number: "03", label: "STATISTICAL PROCESS CONTROL", title: "管理図 学習ツール", description: "正常工程へ平均シフト、外れ値、傾向、周期変動を加え、管理限界と非ランダムな並びを学べます。", features: ["I管理図", "異常パターン", "管理限界と規格限界"] },
-  { href: "/tools/gage-rr", number: "04", label: "MEASUREMENT SYSTEM ANALYSIS", title: "Gage R&R 学習ツール", description: "部品差、繰返し性、再現性を動かし、%GRRとndcが何を表すかを測定データから学べます。", features: ["交差型ANOVA", "%GRR・ndc", "改善を試す"] },
+  { href: "/tools/control-chart", number: "02", label: "STATISTICAL PROCESS CONTROL", title: "管理図 学習ツール", description: "正常工程へ平均シフト、外れ値、傾向、周期変動を加え、管理限界と非ランダムな並びを学べます。", features: ["I管理図", "異常パターン", "管理限界と規格限界"] },
+  { href: "/tools/gage-rr", number: "03", label: "MEASUREMENT SYSTEM ANALYSIS", title: "Gage R&R 学習ツール", description: "部品差、繰返し性、再現性を動かし、%GRRとndcが何を表すかを測定データから学べます。", features: ["交差型ANOVA", "%GRR・ndc", "改善を試す"] },
+  { href: "/tools/doe", number: "04", label: "DESIGN OF EXPERIMENTS", title: "実験計画法（DoE）学習ツール", description: "効果を見るところから、反復、ランダム化、ANOVA、残差、確認実験まで、DoEの判断手順を5ステップで学べます。", features: ["2因子2水準", "ANOVA・p値", "残差・確認実験"] },
 ] as const;
 
 export default function ToolsPage() {

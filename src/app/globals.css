@@ -16615,6 +16615,72 @@ body {
 @media (max-width: 1100px) { .doe-practice-workspace { grid-template-columns: 1fr; } .doe-practice-results { border-top: 1px solid #e5e7eb; border-left: 0; } }
 @media (max-width: 720px) { .doe-learning-tabs { display: flex; width: 100%; overflow-x: auto; scrollbar-width: thin; } .doe-learning-tabs button { flex: 0 0 190px; } .doe-practice-controls,.doe-practice-results { padding: 18px 16px; } .doe-practice-results > header { flex-direction: column; } .doe-practice-results > header dl { width: 100%; grid-template-columns: 1fr 1fr; gap: 9px 0; } .doe-practice-plots { grid-template-columns: 1fr; } .doe-residual-plot { grid-column: auto; } .doe-practice-note { grid-template-columns: 1fr; gap: 3px; } .doe-decision-workspace,.doe-diagnosis-workspace,.doe-confirmation-workspace { padding: 16px; } .doe-decision-workspace > header,.doe-diagnosis-workspace > header,.doe-confirmation-workspace > header { grid-template-columns: 1fr; } .doe-decision-workspace > header dl { grid-template-columns: 1fr 1fr; gap: 8px 0; } .doe-decision-workspace > aside { display: block; } .doe-decision-workspace > aside p { margin-top: 3px; } .doe-practical-decision > header { grid-template-columns: 1fr; } .doe-decision-axis { display: none; } .doe-decision-cards,.doe-condition-candidates { grid-template-columns: 1fr; margin-top: 12px; } .doe-confirmation-panel,.doe-extrapolation-lesson { grid-template-columns: 1fr; } .doe-diagnostic-plots,.doe-diagnostic-checks { grid-template-columns: 1fr; } .doe-anova-lesson > header { display: block; } .doe-anova-lesson > header > p { margin-top: 5px; } .doe-anova-layout { grid-template-columns: 1fr; } .doe-anova-inspector { min-height: 165px; border-top: 1px solid #e0e3e7; border-left: 0; } .doe-anova-concepts nav { grid-template-columns: repeat(3,1fr); } .doe-anova-concepts > div { grid-template-columns: 1fr; gap: 7px; } .doe-anova-concepts code { width: fit-content; white-space: normal; } .doe-ss-example { grid-template-columns: 1fr; } .doe-ss-example > i { text-align: center; } .doe-ss-example em { text-align: center; } }
 
+/* 2026 product navigation: technical learning, career, and industry research. */
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.home-primary-routes {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.home-primary-routes a {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 18px;
+  gap: 4px 10px;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  background: #fff;
+  padding: 16px;
+  color: #1d1d1f;
+}
+
+.home-primary-routes a:hover {
+  border-color: #c9cdd2;
+}
+
+.home-primary-routes span {
+  grid-row: 1 / span 2;
+  color: #858b92;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.home-primary-routes strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.home-primary-routes small {
+  color: #6b7178;
+  font-size: 11px;
+}
+
+.home-primary-routes i {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  color: #1769aa;
+  font-style: normal;
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .home-primary-routes {
+    grid-template-columns: 1fr;
+  }
+
+  .home-primary-routes a {
+    padding: 14px;
+  }
+}
+
 /* Interactive control chart learning */
 .control-chart-page { display: grid; width: min(1180px,calc(100% - 40px)); gap: 12px; margin: 0 auto; padding: 12px 0 72px; color: #1d1d1f; }
 .control-chart-hero { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 2px 0 10px; }

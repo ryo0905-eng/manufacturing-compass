@@ -11,13 +11,13 @@ import { companies } from "@/data/companies";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: { absolute: "製造業経験を半導体キャリアへ｜キャリア現在地チェック | Manufacturing Compass" },
+  title: { absolute: "製造技術と半導体キャリアの実務学習プラットフォーム | Manufacturing Compass" },
   description:
-    "生産技術、品質保証、設備保全、設計、製造DXなどの経験を、半導体業界の職種に置き換えて整理します。12問・登録不要の現在地チェックで、経験に近い職種と次に準備することが分かります。",
+    "Cp・Cpk、管理図、Gage R&R、実験計画法を操作しながら学べる無料ツールと、製造業経験を半導体の仕事につなげるキャリア現在地チェックを提供します。",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "製造業経験を半導体キャリアへ｜キャリア現在地チェック",
-    description: "12問・登録不要。製造業で積んだ経験に近い半導体職種と、次に準備することを整理します。",
+    title: "製造技術と半導体キャリアの実務学習プラットフォーム",
+    description: "製造技術を動かして学ぶツールと、半導体キャリアの次の一歩を整理する現在地チェック。",
     url: siteUrl,
   },
 };
@@ -58,21 +58,24 @@ export default function Home() {
 
       <section className="home-hero home-hero-editorial home-simple-hero">
         <div className="hero-copy">
-          <p className="section-label">製造業の経験から、半導体の仕事を考える</p>
+          <p className="section-label">製造業エンジニアの、技術とキャリアを前へ</p>
           <h1>
-            <span>製造業の経験を、</span>
-            <span>半導体の仕事につなげる。</span>
+            <span>技術とキャリアの、</span>
+            <span>次の判断を支える。</span>
           </h1>
-          <p>生産技術、品質、設備、設計、製造DXなどの経験から、接点のある半導体職種と、次に準備したいことを整理できます。</p>
-          <div className="actions"><Link className="button primary home-primary-action" href="/career-compass">現在地を確認する <span aria-hidden="true">→</span></Link></div>
-          <p className="hero-assurance">12問・約3分・入力内容は保存されません</p>
+          <p>製造技術の考え方を操作しながら学び、今の経験と半導体の仕事との接点、次に準備したいことまで整理できます。</p>
+          <div className="actions home-hero-actions">
+            <Link className="button primary home-primary-action" href="/tools">学習ツールを見る <span aria-hidden="true">→</span></Link>
+            <Link className="button ghost" href="/career-compass">キャリア現在地を確認</Link>
+          </div>
+          <p className="hero-assurance">登録不要・入力内容は保存されません</p>
         </div>
         <CareerResultPreview />
-        <dl className="home-fact-strip" aria-label="診断の概要">
-          <div><dt>12問</dt><dd>経験を確認する質問</dd></div>
-          <div><dt>約3分</dt><dd>すき間時間で完了</dd></div>
-          <div><dt>登録不要</dt><dd>連絡先の入力なし</dd></div>
-        </dl>
+        <nav className="home-primary-routes" aria-label="目的から選ぶ">
+          <Link href="/tools"><span>01</span><strong>技術を学ぶ</strong><small>計算し、動かして理解する</small><i aria-hidden="true">→</i></Link>
+          <Link href="/career-compass"><span>02</span><strong>キャリアを整理する</strong><small>経験との接点と次の行動を見る</small><i aria-hidden="true">→</i></Link>
+          <Link href="/industry-map"><span>03</span><strong>業界・企業を調べる</strong><small>工程、役割、企業から理解する</small><i aria-hidden="true">→</i></Link>
+        </nav>
       </section>
 
       <section className="home-section home-simple-section home-tools-overview" aria-labelledby="home-tools-title">
@@ -82,11 +85,11 @@ export default function Home() {
         </header>
         <div className="home-tools-grid">
           <Link href="/tools/cpk"><span>01 / PROCESS CAPABILITY</span><h3>Cp・Cpk計算ツール</h3><p>測定データからPp・Ppkと分布を確認。平均とばらつきを動かす学習モードも利用できます。</p><strong>計算・学習を始める <i aria-hidden="true">→</i></strong><dl><div><dt>Cpk</dt><dd>1.42</dd></div><div><dt>Cp</dt><dd>1.58</dd></div></dl></Link>
-          <Link href="/tools/doe"><span>02 / DESIGN OF EXPERIMENTS</span><h3>実験計画法（DoE）学習ツール</h3><p>効果、反復、ANOVA、残差、確認実験まで。DoEの判断手順をデータを動かして学べます。</p><strong>5ステップで学ぶ <i aria-hidden="true">→</i></strong><dl><div><dt>学習</dt><dd>5段階</dd></div><div><dt>反復</dt><dd>12実験</dd></div></dl></Link>
-          <Link href="/tools/control-chart"><span>03 / STATISTICAL PROCESS CONTROL</span><h3>管理図 学習ツール</h3><p>平均シフト、外れ値、傾向、周期変動を加え、工程の異常を時系列で見つける判断を学べます。</p><strong>異常を動かして学ぶ <i aria-hidden="true">→</i></strong><dl><div><dt>測定</dt><dd>24点</dd></div><div><dt>状態</dt><dd>5種類</dd></div></dl></Link>
-          <Link href="/tools/gage-rr"><span>04 / MEASUREMENT SYSTEM ANALYSIS</span><h3>Gage R&amp;R 学習ツール</h3><p>部品差と測定誤差を分け、%GRRとndcの意味をデータを動かしながら学べます。</p><strong>測定の誤差を分ける <i aria-hidden="true">→</i></strong><dl><div><dt>部品</dt><dd>10</dd></div><div><dt>測定</dt><dd>60回</dd></div></dl></Link>
+          <Link href="/tools/control-chart"><span>02 / STATISTICAL PROCESS CONTROL</span><h3>管理図 学習ツール</h3><p>平均シフト、外れ値、傾向、周期変動を加え、工程の異常を時系列で見つける判断を学べます。</p><strong>異常を動かして学ぶ <i aria-hidden="true">→</i></strong><dl><div><dt>測定</dt><dd>24点</dd></div><div><dt>状態</dt><dd>5種類</dd></div></dl></Link>
+          <Link href="/tools/gage-rr"><span>03 / MEASUREMENT SYSTEM ANALYSIS</span><h3>Gage R&amp;R 学習ツール</h3><p>部品差と測定誤差を分け、%GRRとndcの意味をデータを動かしながら学べます。</p><strong>測定の誤差を分ける <i aria-hidden="true">→</i></strong><dl><div><dt>部品</dt><dd>10</dd></div><div><dt>測定</dt><dd>60回</dd></div></dl></Link>
+          <Link href="/tools/doe"><span>04 / DESIGN OF EXPERIMENTS</span><h3>実験計画法（DoE）学習ツール</h3><p>効果、反復、ANOVA、残差、確認実験まで。DoEの判断手順をデータを動かして学べます。</p><strong>5ステップで学ぶ <i aria-hidden="true">→</i></strong><dl><div><dt>学習</dt><dd>5段階</dd></div><div><dt>反復</dt><dd>12実験</dd></div></dl></Link>
         </div>
-        <Link className="text-link home-section-link" href="/tools">実務ツールをすべて見る</Link>
+        <Link className="text-link home-section-link" href="/tools">学習ツールをすべて見る</Link>
       </section>
 
       <section className="home-section home-simple-section home-career-routes" aria-labelledby="career-route-title">
