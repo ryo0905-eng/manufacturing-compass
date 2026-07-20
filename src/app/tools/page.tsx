@@ -1,25 +1,34 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { StructuredData } from "@/components/StructuredData";
+import { ToolsLearningLab } from "@/components/ToolsLearningLab";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "製造技術の実務・学習ツール",
-  description: "Cp・Cpk、実験計画法、管理図、Gage R&Rなど、製造技術の判断を操作しながら学べる無料ツールです。",
+  title: "製造業の品質管理・統計学習ツール｜無料で動かして学ぶ",
+  description: "Gage R&R、管理図、Cp・Cpk、実験計画法（DoE）を、数値とグラフを動かして学べる無料の学習ラボです。測定から工程改善まで4ステップで理解できます。",
   alternates: { canonical: "/tools" },
+  openGraph: {
+    title: "製造業の品質管理・統計学習ラボ｜Manufacturing Compass",
+    description: "測定・工程管理・能力評価・条件最適化を、無料のインタラクティブツールで体験できます。",
+    url: `${siteUrl}/tools`,
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
-const tools = [
-  { href: "/tools/cpk", number: "01", label: "PROCESS CAPABILITY", title: "Cp・Cpk計算ツール", description: "測定データからPp・Ppkとヒストグラムを確認できます。平均、標準偏差、規格値を動かしてCp・Cpkの違いを学ぶこともできます。", features: ["生データ計算", "Seaborn風ヒストグラム", "動かして理解"] },
-  { href: "/tools/control-chart", number: "02", label: "STATISTICAL PROCESS CONTROL", title: "管理図 学習ツール", description: "正常工程へ平均シフト、外れ値、傾向、周期変動を加え、管理限界と非ランダムな並びを学べます。", features: ["I管理図", "異常パターン", "管理限界と規格限界"] },
-  { href: "/tools/gage-rr", number: "03", label: "MEASUREMENT SYSTEM ANALYSIS", title: "Gage R&R 学習ツール", description: "部品差、繰返し性、再現性を動かし、%GRRとndcが何を表すかを測定データから学べます。", features: ["交差型ANOVA", "%GRR・ndc", "改善を試す"] },
-  { href: "/tools/doe", number: "04", label: "DESIGN OF EXPERIMENTS", title: "実験計画法（DoE）学習ツール", description: "効果を見るところから、反復、ランダム化、ANOVA、残差、確認実験まで、DoEの判断手順を5ステップで学べます。", features: ["2因子2水準", "ANOVA・p値", "残差・確認実験"] },
+const toolItems = [
+  ["Gage R&R 学習ツール", "/tools/gage-rr"],
+  ["管理図 学習ツール", "/tools/control-chart"],
+  ["Cp・Cpk計算・学習ツール", "/tools/cpk"],
+  ["実験計画法（DoE）学習ツール", "/tools/doe"],
 ] as const;
 
 export default function ToolsPage() {
-  return <main className="tools-page">
-    <StructuredData data={{ "@context": "https://schema.org", "@type": "ItemList", name: "製造技術の実務・学習ツール", numberOfItems: tools.length, itemListElement: tools.map((tool, index) => ({ "@type": "ListItem", position: index + 1, name: tool.title, url: `${siteUrl}${tool.href}` })) }} />
-    <section className="tools-page-hero"><p className="section-label">MANUFACTURING TOOLS</p><h1>製造技術を、計算して、動かして理解する。</h1><p>実務の確認と学び直しに使える、登録不要のブラウザツールです。入力内容は保存・外部送信しません。</p></section>
-    <section className="tools-directory" aria-labelledby="tools-directory-title"><header><h2 id="tools-directory-title">利用できるツール</h2><p>解析ソフトを置き換えるのではなく、すぐ確認したい計算と、考え方を思い出すための学習を支えます。</p></header><div>{tools.map((tool) => <Link href={tool.href} key={tool.href}><span>{tool.number} / {tool.label}</span><h3>{tool.title}</h3><p>{tool.description}</p><ul>{tool.features.map((feature) => <li key={feature}>{feature}</li>)}</ul><strong>ツールを開く <i aria-hidden="true">→</i></strong></Link>)}</div></section>
-  </main>;
+  return (
+    <main className="tools-page tools-lab-page">
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "製造業の品質管理・統計学習ラボ", description: "製造データの判断を4ステップで学べる無料ツール集", url: `${siteUrl}/tools`, mainEntity: { "@type": "ItemList", numberOfItems: toolItems.length, itemListElement: toolItems.map(([name, href], index) => ({ "@type": "ListItem", position: index + 1, name, url: `${siteUrl}${href}` })) } }} />
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "学習ツール", item: `${siteUrl}/tools` }] }} />
+      <ToolsLearningLab />
+    </main>
+  );
 }
