@@ -23,16 +23,17 @@ export default function IndustryMapPage() {
 
   return (
     <main className="page industry-map-page">
-      <section className="page-hero industry-map-hero">
-        <p className="section-label">Semiconductor ecosystem explorer</p>
-        <h1>半導体業界地図</h1>
-        <p>設計から製造、テストまで。工程をたどりながら、企業、装置、職種がどこでつながるかを一枚の地図で探索します。</p>
-        <div className="industry-map-hero__guide">
-          <span aria-hidden="true">01</span>
-          <p><strong>全体を眺め、気になる場所を選ぶ。</strong><small>地図はドラッグ、ズーム、クリックで動かせます。</small></p>
-          <Link className="text-link" href="#industry-explorer-title">地図を操作する ↓</Link>
+      <nav className="cpk-breadcrumb" aria-label="パンくず">
+        <Link href="/">ホーム</Link><span>/</span><span>半導体業界地図</span>
+      </nav>
+      <header className="industry-map-hero">
+        <div>
+          <p className="section-label">SEMICONDUCTOR ECOSYSTEM</p>
+          <h1>半導体業界地図</h1>
+          <p>設計から製造、テストまで。工程をたどりながら、企業、装置、職種がどこでつながるかを探索します。</p>
         </div>
-      </section>
+        <p><strong>6工程 × 3つの視点</strong><span>ドラッグ・ズーム・クリックで確認</span></p>
+      </header>
 
       <IndustryMapExplorer companies={companySummaries} totalCompanyCount={companies.length} />
 
