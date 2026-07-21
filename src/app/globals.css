@@ -216,11 +216,11 @@
 }
 
 .industry-explorer__viewport::before {
-  top: 41%;
+  top: calc(var(--industry-flow-y, 255px) - 34px);
 }
 
 .industry-explorer__viewport::after {
-  top: 69%;
+  top: calc(var(--industry-flow-y, 255px) + 118px);
 }
 
 .industry-explorer__viewport.is-panning {
@@ -248,7 +248,7 @@
 }
 
 .industry-explorer__canvas-label--top { top: 15px; }
-.industry-explorer__canvas-label--middle { top: 42.5%; }
+.industry-explorer__canvas-label--middle { top: calc(var(--industry-flow-y, 255px) - 27px); }
 .industry-explorer__canvas-label--bottom { bottom: 13px; }
 
 .industry-explorer__edges {

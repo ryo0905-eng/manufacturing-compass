@@ -1,6 +1,6 @@
 "use client";
 
-import type { PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Route } from "next";
 import Link from "next/link";
@@ -47,10 +47,28 @@ type Point = {
   y: number;
 };
 
+type MapNodeType = "process" | "group" | "company" | "career";
+
+type MapBounds = {
+  bottom: number;
+  height: number;
+  left: number;
+  right: number;
+  top: number;
+  width: number;
+};
+
 const CANVAS_WIDTH = 1280;
 const CANVAS_HEIGHT = 730;
 const MIN_SCALE = 0.55;
 const MAX_SCALE = 1.35;
+const FIT_PADDING = 24;
+const NODE_HALF_SIZE: Record<MapNodeType, Point> = {
+  process: { x: 86, y: 35 },
+  group: { x: 86, y: 29 },
+  company: { x: 69, y: 26 },
+  career: { x: 86, y: 29 },
+};
 
 const modeOptions: Array<{ id: ExplorerMode; label: string; note: string }> = [
   { id: "overview", label: "全体像", note: "事業の役割" },
@@ -70,6 +88,43 @@ function associationPath(from: Point, to: Point) {
   const direction = from.y < to.y ? 1 : -1;
   const bend = Math.min(120, Math.abs(to.y - from.y) * 0.42) * direction;
   return `M ${from.x} ${from.y} C ${from.x} ${from.y + bend}, ${to.x} ${to.y - bend}, ${to.x} ${to.y}`;
+}
+
+function getMapBounds(mode: ExplorerMode, companies: IndustryMapCompany[]): MapBounds {
+  const relationNodes: Array<Point & { type: MapNodeType }> = mode === "overview"
+    ? industryMapGroups.map((item) => ({ type: "group", x: item.x, y: item.y }))
+    : mode === "companies"
+      ? companies.map((item) => ({ type: "company", x: item.x, y: item.y }))
+      : industryMapCareers.map((item) => ({ type: "career", x: item.x, y: item.y }));
+  const nodes: Array<Point & { type: MapNodeType }> = [
+    ...industryMapProcesses.map((item) => ({ type: "process" as const, x: item.x, y: item.y })),
+    ...relationNodes,
+  ];
+  const edges = nodes.reduce(
+    (bounds, node) => {
+      const halfSize = NODE_HALF_SIZE[node.type];
+      return {
+        bottom: Math.max(bounds.bottom, node.y + halfSize.y),
+        left: Math.min(bounds.left, node.x - halfSize.x),
+        right: Math.max(bounds.right, node.x + halfSize.x),
+        top: Math.min(bounds.top, node.y - halfSize.y),
+      };
+    },
+    { bottom: -Infinity, left: Infinity, right: -Infinity, top: Infinity },
+  );
+  const left = Math.max(0, edges.left);
+  const top = Math.max(0, edges.top);
+  const right = Math.min(CANVAS_WIDTH, edges.right);
+  const bottom = Math.min(CANVAS_HEIGHT, edges.bottom);
+
+  return {
+    bottom,
+    height: bottom - top,
+    left,
+    right,
+    top,
+    width: right - left,
+  };
 }
 
 export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMapExplorerProps) {
@@ -179,13 +234,36 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
       return;
     }
     const width = viewport.clientWidth;
-    const scale = width < 640 ? 0.82 : clampScale((width - 28) / CANVAS_WIDTH);
-    const x = width < 640 ? 16 : Math.max(14, (width - CANVAS_WIDTH * scale) / 2);
-    setTransform({ x, y: width < 640 ? 20 : 26, scale });
-  }, []);
+    const height = viewport.clientHeight;
+    const bounds = getMapBounds(mode, mapCompanies);
+
+    if (width < 640) {
+      const scale = 0.82;
+      const centeredY = (height - bounds.height * scale) / 2 - bounds.top * scale;
+      setTransform({ x: 16, y: mode === "overview" ? centeredY : 20, scale });
+      return;
+    }
+
+    const scale = clampScale(Math.min(
+      (width - FIT_PADDING * 2) / bounds.width,
+      (height - FIT_PADDING * 2) / bounds.height,
+    ));
+    setTransform({
+      scale,
+      x: (width - bounds.width * scale) / 2 - bounds.left * scale,
+      y: (height - bounds.height * scale) / 2 - bounds.top * scale,
+    });
+  }, [mapCompanies, mode]);
 
   useEffect(() => {
     fitMap();
+    const viewport = viewportRef.current;
+    if (!viewport || typeof ResizeObserver === "undefined") {
+      return;
+    }
+    const observer = new ResizeObserver(() => fitMap());
+    observer.observe(viewport);
+    return () => observer.disconnect();
   }, [fitMap]);
 
   function changeMode(nextMode: ExplorerMode) {
@@ -405,6 +483,9 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           onWheel={handleWheel}
           ref={viewportRef}
           role="region"
+          style={{
+            "--industry-flow-y": `${transform.y + industryMapProcesses[0].y * transform.scale}px`,
+          } as CSSProperties}
         >
           <div className="industry-explorer__canvas-label industry-explorer__canvas-label--top">
             {mode === "overview" ? "WHO PLAYS WHICH ROLE" : mode === "companies" ? "REPRESENTATIVE COMPANIES" : "CAREER ENTRY POINTS"}
