@@ -467,11 +467,11 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
             {query ? <small>{visibleCompanies.length}件</small> : null}
           </label>
         ) : (
-          <p className="industry-explorer__toolbar-note">ノードを選ぶと、関係する工程だけが残ります。</p>
+          <p className="industry-explorer__toolbar-note">ノードを選択。ドラッグで移動、ホイール・ピンチで拡大できます。</p>
         )}
       </div>
 
-      <div className="industry-explorer__workspace">
+      <div className={`industry-explorer__workspace${selected ? " has-detail" : ""}`}>
         <div
           aria-label="半導体産業つながりマップ。ドラッグで移動、ホイールまたは操作ボタンで拡大縮小できます。"
           className={`industry-explorer__viewport${isPanning ? " is-panning" : ""}`}
@@ -616,12 +616,14 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           ) : null}
         </div>
 
-        <MapDetailPanel
-          companiesById={companiesById}
-          mapCompanies={mapCompanies}
-          mode={mode}
-          selected={selected}
-        />
+        {selected ? (
+          <MapDetailPanel
+            companiesById={companiesById}
+            mapCompanies={mapCompanies}
+            mode={mode}
+            selected={selected}
+          />
+        ) : null}
       </div>
 
       <footer className="industry-explorer__footer">
