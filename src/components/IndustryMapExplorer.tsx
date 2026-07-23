@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties, PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent, ReactNode, WheelEvent as ReactWheelEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Route } from "next";
 import Link from "next/link";
@@ -19,6 +19,7 @@ import {
 import { trackEvent } from "@/lib/analytics";
 
 type ExplorerMode = "overview" | "companies" | "careers";
+type ExplorerView = "map" | "list";
 
 type CompanySummary = {
   id: string;
@@ -74,6 +75,18 @@ const modeOptions: Array<{ id: ExplorerMode; label: string; note: string }> = [
   { id: "overview", label: "全体像", note: "事業の役割" },
   { id: "companies", label: "企業", note: "代表企業" },
   { id: "careers", label: "職種", note: "経験との接点" },
+];
+
+const guideOptions: Array<{
+  id: ExplorerMode;
+  label: string;
+  note: string;
+  nodeId: string;
+  nodeType: MapNodeType;
+}> = [
+  { id: "overview", label: "業界全体を知る", note: "事業の役割から眺める", nodeId: "fabless", nodeType: "group" },
+  { id: "companies", label: "会社から調べる", note: "代表企業から工程を見る", nodeId: "tsmc", nodeType: "company" },
+  { id: "careers", label: "自分の仕事から探す", note: "職種と工程の接点を見る", nodeId: "process-engineer", nodeType: "career" },
 ];
 
 function clampScale(scale: number) {
@@ -135,6 +148,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     startPointers: Point[];
   } | null>(null);
   const [mode, setMode] = useState<ExplorerMode>("overview");
+  const [view, setView] = useState<ExplorerView>("map");
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [isPanning, setIsPanning] = useState(false);
@@ -256,6 +270,9 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
   }, [mapCompanies, mode]);
 
   useEffect(() => {
+    if (view !== "map") {
+      return;
+    }
     fitMap();
     const viewport = viewportRef.current;
     if (!viewport || typeof ResizeObserver === "undefined") {
@@ -264,7 +281,22 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     const observer = new ResizeObserver(() => fitMap());
     observer.observe(viewport);
     return () => observer.disconnect();
-  }, [fitMap]);
+  }, [fitMap, view]);
+
+  useEffect(() => {
+    if (!selectedKey) {
+      return;
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setSelectedKey(null);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [selectedKey]);
 
   function changeMode(nextMode: ExplorerMode) {
     setMode(nextMode);
@@ -273,6 +305,21 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
       setQuery("");
     }
     trackEvent("industry_map_mode_change", { mode: nextMode });
+  }
+
+  function startGuide(nextMode: ExplorerMode, type: MapNodeType, id: string) {
+    setMode(nextMode);
+    setView("map");
+    setSelectedKey(nodeKey(type, id));
+    if (nextMode !== "companies") {
+      setQuery("");
+    }
+    trackEvent("industry_map_guide_start", { mode: nextMode, node_id: id, node_type: type });
+  }
+
+  function changeView(nextView: ExplorerView) {
+    setView(nextView);
+    trackEvent("industry_map_view_change", { mode, view: nextView });
   }
 
   function selectNode(type: "process" | "group" | "company" | "career", id: string) {
@@ -436,9 +483,25 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
         <dl aria-label="地図の収録内容">
           <div><dt>工程</dt><dd>6</dd></div>
           <div><dt>視点</dt><dd>3</dd></div>
+          <div><dt>代表表示</dt><dd>{mapCompanies.length}</dd></div>
           <div><dt>企業記事</dt><dd>{totalCompanyCount}</dd></div>
         </dl>
       </header>
+
+      <div className="industry-explorer__starter" aria-label="探索の入口" role="group">
+        {guideOptions.map((option, index) => (
+          <button
+            key={option.id}
+            onClick={() => startGuide(option.id, option.nodeType, option.nodeId)}
+            type="button"
+          >
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <strong>{option.label}</strong>
+            <small>{option.note}</small>
+            <i aria-hidden="true">→</i>
+          </button>
+        ))}
+      </div>
 
       <div className="industry-explorer__toolbar">
         <div className="industry-explorer__modes" aria-label="地図の見方" role="group">
@@ -453,6 +516,10 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
               <small>{option.note}</small>
             </button>
           ))}
+        </div>
+        <div className="industry-explorer__view-toggle" aria-label="表示方法" role="group">
+          <button aria-pressed={view === "map"} onClick={() => changeView("map")} type="button">地図</button>
+          <button aria-pressed={view === "list"} onClick={() => changeView("list")} type="button">リスト</button>
         </div>
         {mode === "companies" ? (
           <label className="industry-explorer__search">
@@ -471,7 +538,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
         )}
       </div>
 
-      <div className={`industry-explorer__workspace${selected ? " has-detail" : ""}`}>
+      <div className={`industry-explorer__workspace${selected ? " has-detail" : ""}${view === "list" ? " is-list-view" : ""}`}>
         <div
           aria-label="半導体産業つながりマップ。ドラッグで移動、ホイールまたは操作ボタンで拡大縮小できます。"
           className={`industry-explorer__viewport${isPanning ? " is-panning" : ""}`}
@@ -488,11 +555,11 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           } as CSSProperties}
         >
           <div className="industry-explorer__canvas-label industry-explorer__canvas-label--top">
-            {mode === "overview" ? "WHO PLAYS WHICH ROLE" : mode === "companies" ? "REPRESENTATIVE COMPANIES" : "CAREER ENTRY POINTS"}
+            {mode === "overview" ? "事業の役割" : mode === "companies" ? "代表企業" : "職種・経験の接点"}
           </div>
-          <div className="industry-explorer__canvas-label industry-explorer__canvas-label--middle">VALUE CREATION FLOW</div>
+          <div className="industry-explorer__canvas-label industry-explorer__canvas-label--middle">製造工程</div>
           <div className="industry-explorer__canvas-label industry-explorer__canvas-label--bottom">
-            {mode === "overview" ? "SELECT A ROLE TO TRACE CONNECTIONS" : mode === "companies" ? "EQUIPMENT & TEST ECOSYSTEM" : "SKILLS SUPPORT MULTIPLE STAGES"}
+            {mode === "overview" ? "役割を選ぶと接点を強調" : mode === "companies" ? "企業を選ぶと関わる工程を強調" : "職種を選ぶと関わる工程を強調"}
           </div>
 
           <div
@@ -616,11 +683,19 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           ) : null}
         </div>
 
+        <IndustryMapMobileList
+          companiesById={companiesById}
+          mode={mode}
+          onSelect={selectNode}
+          selectedKey={selectedKey}
+          visibleCompanies={visibleCompanies}
+        />
+
         {selected ? (
           <MapDetailPanel
             companiesById={companiesById}
             mapCompanies={mapCompanies}
-            mode={mode}
+            onClose={() => setSelectedKey(null)}
             selected={selected}
           />
         ) : null}
@@ -669,12 +744,12 @@ function MapRelationNode({
 function MapDetailPanel({
   companiesById,
   mapCompanies,
-  mode,
+  onClose,
   selected,
 }: {
   companiesById: Map<string, CompanySummary>;
   mapCompanies: IndustryMapCompany[];
-  mode: ExplorerMode;
+  onClose: () => void;
   selected:
     | { type: "process"; value: IndustryMapProcess | undefined }
     | { type: "group"; value: IndustryMapGroup | undefined }
@@ -683,23 +758,7 @@ function MapDetailPanel({
     | null;
 }) {
   if (!selected || !selected.value) {
-    return (
-      <aside className="industry-explorer__detail" aria-live="polite">
-        <p className="section-label">How to explore</p>
-        <h3>{mode === "overview" ? "まず全体像を眺める" : mode === "companies" ? "企業から工程を逆引きする" : "経験が活きる場所を探す"}</h3>
-        <p>
-          {mode === "overview"
-            ? "中央の工程、または上側の事業領域を選んでください。関係する線と要素だけを強調します。"
-            : mode === "companies"
-              ? "代表企業を選ぶと、主に関わる工程が残ります。検索では製品名や職種でも絞り込めます。"
-              : "職種を選ぶと、仕事の接点がある工程を横断して確認できます。"}
-        </p>
-        <div className="industry-explorer__gesture-hint">
-          <span aria-hidden="true">↔</span>
-          <div><strong>Drag to explore</strong><small>ドラッグで移動、ホイール・ピンチで拡大</small></div>
-        </div>
-      </aside>
-    );
+    return null;
   }
 
   if (selected.type === "process") {
@@ -710,7 +769,7 @@ function MapDetailPanel({
       .filter((company): company is CompanySummary => company !== undefined)
       .slice(0, 4);
     return (
-      <aside className="industry-explorer__detail" aria-live="polite">
+      <DetailPanelShell onClose={onClose}>
         <p className="section-label">{process.labelEn} / Process</p>
         <h3>{process.label}</h3>
         <p>{process.description}</p>
@@ -727,14 +786,14 @@ function MapDetailPanel({
         >
           工程を記事で理解する <span aria-hidden="true">→</span>
         </Link>
-      </aside>
+      </DetailPanelShell>
     );
   }
 
   if (selected.type === "group") {
     const group = selected.value;
     return (
-      <aside className="industry-explorer__detail" aria-live="polite">
+      <DetailPanelShell onClose={onClose}>
         <p className="section-label">{group.labelEn} / Industry role</p>
         <h3>{group.label}</h3>
         <p>{group.description}</p>
@@ -752,14 +811,14 @@ function MapDetailPanel({
             製造工程の全体像を見る <span aria-hidden="true">→</span>
           </Link>
         )}
-      </aside>
+      </DetailPanelShell>
     );
   }
 
   if (selected.type === "company" && selected.company) {
     const company = selected.company;
     return (
-      <aside className="industry-explorer__detail" aria-live="polite">
+      <DetailPanelShell onClose={onClose}>
         <p className="section-label">{company.name} / Company</p>
         <h3>{company.nameJa}</h3>
         <strong className="industry-explorer__detail-subtitle">{company.businessModel}</strong>
@@ -776,13 +835,13 @@ function MapDetailPanel({
         >
           企業情報を詳しく見る <span aria-hidden="true">→</span>
         </Link>
-      </aside>
+      </DetailPanelShell>
     );
   }
 
   const career = selected.value as IndustryMapCareer;
   return (
-    <aside className="industry-explorer__detail" aria-live="polite">
+    <DetailPanelShell onClose={onClose}>
       <p className="section-label">{career.labelEn} / Career</p>
       <h3>{career.label}</h3>
       <p>{career.description}</p>
@@ -803,7 +862,101 @@ function MapDetailPanel({
           経験の接点を整理する
         </Link>
       </div>
+    </DetailPanelShell>
+  );
+}
+
+function DetailPanelShell({ children, onClose }: { children: ReactNode; onClose: () => void }) {
+  return (
+    <aside className="industry-explorer__detail" aria-label="選択した要素の詳細" aria-live="polite">
+      <button className="industry-explorer__detail-close" onClick={onClose} type="button">
+        <span aria-hidden="true">×</span> 閉じる
+      </button>
+      {children}
     </aside>
+  );
+}
+
+function IndustryMapMobileList({
+  companiesById,
+  mode,
+  onSelect,
+  selectedKey,
+  visibleCompanies,
+}: {
+  companiesById: Map<string, CompanySummary>;
+  mode: ExplorerMode;
+  onSelect: (type: MapNodeType, id: string) => void;
+  selectedKey: string | null;
+  visibleCompanies: IndustryMapCompany[];
+}) {
+  const relationTitle = mode === "overview" ? "事業の役割" : mode === "companies" ? "代表企業" : "関連職種";
+
+  return (
+    <div className="industry-explorer__mobile-list">
+      <section>
+        <p className="section-label">Manufacturing flow</p>
+        <h3>製造工程</h3>
+        <ul>
+          {industryMapProcesses.map((process, index) => {
+            const key = nodeKey("process", process.id);
+            return (
+              <li key={process.id}>
+                <button aria-pressed={selectedKey === key} onClick={() => onSelect("process", process.id)} type="button">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{process.label}</strong>
+                  <i aria-hidden="true">→</i>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section>
+        <p className="section-label">Explore by perspective</p>
+        <h3>{relationTitle}</h3>
+        <ul>
+          {mode === "overview" ? industryMapGroups.map((group) => {
+            const key = nodeKey("group", group.id);
+            return (
+              <li key={group.id}>
+                <button aria-pressed={selectedKey === key} onClick={() => onSelect("group", group.id)} type="button">
+                  <strong>{group.label}</strong>
+                  <small>{group.description}</small>
+                  <i aria-hidden="true">→</i>
+                </button>
+              </li>
+            );
+          }) : null}
+          {mode === "companies" ? visibleCompanies.map((item) => {
+            const company = companiesById.get(item.companyId);
+            const key = nodeKey("company", item.companyId);
+            return company ? (
+              <li key={item.companyId}>
+                <button aria-pressed={selectedKey === key} onClick={() => onSelect("company", item.companyId)} type="button">
+                  <strong>{company.nameJa}</strong>
+                  <small>{company.businessModel}</small>
+                  <i aria-hidden="true">→</i>
+                </button>
+              </li>
+            ) : null;
+          }) : null}
+          {mode === "careers" ? industryMapCareers.map((career) => {
+            const key = nodeKey("career", career.id);
+            return (
+              <li key={career.id}>
+                <button aria-pressed={selectedKey === key} onClick={() => onSelect("career", career.id)} type="button">
+                  <strong>{career.label}</strong>
+                  <small>{career.description}</small>
+                  <i aria-hidden="true">→</i>
+                </button>
+              </li>
+            );
+          }) : null}
+        </ul>
+      </section>
+    </div>
   );
 }
 
