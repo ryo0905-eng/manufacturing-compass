@@ -9,21 +9,19 @@ const careerRoutes = [
 
 export function CareerRouteMap() {
   return (
-    <div className="career-route-map" role="img" aria-label="製造業の経験からつながる半導体職種の例">
-      <div className="career-route-map__labels" aria-hidden="true">
-        <span>現在の製造業経験</span>
-        <span>接続できる半導体職種</span>
+    <div className="career-route-map">
+      <div className="career-route-map__labels">
+        <span>今の経験</span>
+        <span>半導体で近い仕事</span>
       </div>
       <ol>
-        {careerRoutes.map((route, index) => (
+        {careerRoutes.map((route) => (
           <li key={route.source}>
             <div className="career-route-map__source">
-              <span>{String(index + 1).padStart(2, "0")}</span>
               <div><strong>{route.source}</strong><small>{route.detail}</small></div>
             </div>
-            <span className="career-route-map__connector" aria-hidden="true"><i /><b>→</b></span>
+            <span className="career-route-map__connector" aria-hidden="true">→</span>
             <div className="career-route-map__target">
-              <span aria-hidden="true">MC</span>
               <strong>{route.target}</strong>
             </div>
           </li>

@@ -2,10 +2,10 @@ import Link from "next/link";
 import type { Route } from "next";
 
 const navItems = [
-  { href: "/tools", label: "学習ツール" },
-  { href: "/guides", label: "技術ガイド" },
   { href: "/industry-map", label: "業界地図" },
   { href: "/companies", label: "企業を探す" },
+  { href: "/guides", label: "ガイド" },
+  { href: "/tools", label: "技術を学ぶ" },
 ] satisfies Array<{ href: Route; label: string }>;
 
 export function Header() {
@@ -22,7 +22,7 @@ export function Header() {
           </Link>
         ))}
       </nav>
-      <Link className="header-cta" href="/career-compass">キャリア現在地</Link>
+      <Link className="header-cta" href="/career-compass">経験を整理</Link>
     </header>
   );
 }
