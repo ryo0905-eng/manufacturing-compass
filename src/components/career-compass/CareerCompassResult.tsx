@@ -4,7 +4,6 @@ import type { MarketValueProfile } from "@/data/career-compass";
 import { officialLinkDisclosureText, type AgentFocus } from "@/data/affiliateLinks";
 import { salaryMethodology } from "@/data/salary-methodology";
 import type { Company } from "@/types/content";
-import { CareerResultSnapshot } from "@/components/career-compass/CareerResultSnapshot";
 import { ResultCareerRoute, type ResultCareerRouteStage } from "@/components/career-compass/ResultCareerRoute";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
 import { trackEvent } from "@/lib/analytics";
@@ -47,7 +46,11 @@ function MarketValueSummary({ profile, rewardGap, showRewardGap }: Pick<CareerCo
   if (metrics.length === 0) return null;
 
   return (
-    <div className="market-value-summary" aria-label="参考年収サマリー">
+    <section className="market-value-summary" aria-labelledby="market-value-summary-title">
+      <div className="result-reference-heading">
+        <h3 id="market-value-summary-title">職種別の参考年収</h3>
+        <p>応募先を考えるときの参考情報です。今回の整理結果や提示年収ではありません。</p>
+      </div>
       <div className="market-value-metrics">
         {metrics.map((metric) => (
           <div key={metric.label}>
@@ -76,33 +79,49 @@ function MarketValueSummary({ profile, rewardGap, showRewardGap }: Pick<CareerCo
           <small>最終更新日: {salaryMethodology.updatedAt.replaceAll("-", ".")}</small>
         </div>
       </details>
-    </div>
+    </section>
   );
 }
 
-function ResultHero({ agentFocus, currentRole, onAgentCtaClick, profile, rewardGap, showRewardGap }: Pick<CareerCompassResultProps, "agentFocus" | "currentRole" | "onAgentCtaClick" | "profile" | "rewardGap" | "showRewardGap">) {
+function ResultHero({ currentRole, profile }: Pick<CareerCompassResultProps, "currentRole" | "profile">) {
   const targetRole = profile.reachableRoles[0];
+  const resultHeading = currentRole && targetRole
+    ? currentRole === targetRole
+      ? `これまでの${currentRole}の経験は、半導体企業の${targetRole}でも整理しやすそうです。`
+      : `${currentRole}の経験は、${targetRole}の仕事と比べやすそうです。`
+    : "今の経験と、半導体の仕事との接点を整理しました。";
 
   return (
     <header className="result-story-hero">
       <div className="result-story-copy">
-        <p className="result-kicker">ルールベースの参考結果</p>
-        <p className="result-type-label">{profile.typeName}</p>
-        <h1>{profile.title}</h1>
+        <p className="result-kicker">今回の整理結果</p>
+        <h1>{resultHeading}</h1>
+        {profile.summary ? <p className="result-lead">{profile.summary}</p> : null}
         {currentRole && targetRole ? (
-          <div className="result-route-line" aria-label="現在地から目標職種へのルート">
-            <span>{currentRole}</span>
+          <div className="result-at-a-glance">
+            <div>
+              <span>今の経験</span>
+              <strong>{currentRole}</strong>
+            </div>
             <i aria-hidden="true">→</i>
-            <strong>{targetRole}</strong>
+            <div>
+              <span>近い仕事</span>
+              <strong>{targetRole}</strong>
+            </div>
+            <div>
+              <span>次に補うなら</span>
+              <strong>{profile.growthLevers[0] ?? profile.bottlenecks[0]}</strong>
+            </div>
           </div>
         ) : null}
-        {profile.summary ? <p className="result-lead">{profile.summary}</p> : null}
         <div className="result-hero-actions">
-          <a className="button primary" href="#today-quest">今日の一手を見る</a>
-          <Link className="result-inline-link" href={`/career-agents?focus=${agentFocus}`} onClick={onAgentCtaClick}>相談先を先に見る</Link>
+          <a className="button primary" href="#today-quest">今日やることを見る</a>
+          <a className="result-inline-link" href="#result-reasoning">そう整理した理由を見る</a>
         </div>
+        <small className="result-rule-note">
+          回答と静的ルールによる参考整理です。企業評価や選考結果を示すものではありません。
+        </small>
       </div>
-      <MarketValueSummary profile={profile} rewardGap={rewardGap} showRewardGap={showRewardGap} />
     </header>
   );
 }
@@ -111,46 +130,40 @@ function ResultInformationGuide() {
   return (
     <aside className="result-information-guide" aria-labelledby="result-information-title">
       <div className="result-information-heading">
-        <p className="result-kicker">情報の見方</p>
-        <h2 id="result-information-title">参考結果と公開情報を分けて掲載しています</h2>
+        <h3 id="result-information-title">この結果の見方</h3>
       </div>
       <div className="result-information-grid">
         <section>
-          <span>診断による参考整理</span>
-          <p>タイプ、スコア、年収レンジ、強み、ロードマップ、企業との接点は、回答と静的ルールから整理した目安です。企業による評価や選考結果を示すものではありません。</p>
+          <span>回答からの参考整理</span>
+          <p>職種、転職材料の整理度、準備案は、回答と静的ルールから整理した目安です。</p>
         </section>
         <section>
-          <span>公開情報</span>
-          <p>企業名や事業内容の確認には、各企業ページに記載した公開情報と出典を使っています。事業領域・職種カテゴリは公開情報をもとにした編集上の整理で、最新の募集職種や採用条件は各社の公式採用ページでご確認ください。</p>
+          <span>企業・業界の公開情報</span>
+          <p>企業名や事業内容は公開情報と出典を確認しています。最新の求人条件は各社の公式採用ページをご確認ください。</p>
         </section>
       </div>
     </aside>
   );
 }
 
-function CareerStory({ profile }: { profile: MarketValueProfile }) {
+function ResultReasoning({ profile }: { profile: MarketValueProfile }) {
   const sections = [
-    { title: "強みとして整理した理由", items: profile.marketValueReasons.slice(0, 2) },
-    { title: "半導体でも使いやすい経験", items: profile.semiconductorTranslation.slice(0, 2) },
-    { title: "そのままでは伝わりにくい部分", items: profile.bottlenecks.slice(0, 2) },
+    { title: "そう整理した理由", items: profile.marketValueReasons.slice(0, 3) },
+    { title: "応募前に補足したいこと", items: profile.bottlenecks.slice(0, 3) },
   ].filter((section) => section.items.length > 0);
 
   if (sections.length === 0) return null;
 
   return (
-    <section className="result-section career-story" aria-labelledby="career-story-title">
+    <section className="result-section result-reasoning" id="result-reasoning" aria-labelledby="result-reasoning-title">
       <div className="result-section-heading">
-        <p className="result-kicker">経験の読み解き</p>
-        <h2 id="career-story-title">強みとして整理できる経験と、先に整えること</h2>
+        <h2 id="result-reasoning-title">先に伝えたい経験と、補足したいこと。</h2>
       </div>
-      <div className="career-story-sections">
-        {sections.map((section, index) => (
+      <div className="result-reasoning-grid">
+        {sections.map((section) => (
           <article key={section.title}>
-            <span>0{index + 1}</span>
-            <div>
-              <h3>{section.title}</h3>
-              <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>
-            </div>
+            <h3>{section.title}</h3>
+            <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>
           </article>
         ))}
       </div>
@@ -164,9 +177,8 @@ function ExperienceTranslation({ items }: { items: string[] }) {
   return (
     <section className="result-section experience-translation" aria-labelledby="translation-title">
       <div className="result-section-heading">
-        <p className="result-kicker">半導体職種への置き換え</p>
-        <h2 id="translation-title">今の経験を、半導体業界の言葉へ</h2>
-        <p>仕事内容を変えるのではなく、採用側に伝わる見せ方へ翻訳します。</p>
+        <h2 id="translation-title">半導体求人での言い換え例。</h2>
+        <p>仕事内容を変えるのではなく、求人票と比べやすい言葉に置き換えます。</p>
       </div>
       <div className="translation-list">
         {items.slice(0, 5).map((item) => {
@@ -181,33 +193,6 @@ function ExperienceTranslation({ items }: { items: string[] }) {
             </div>
           );
         })}
-      </div>
-    </section>
-  );
-}
-
-function StrengthsSection({ profile }: { profile: MarketValueProfile }) {
-  if (profile.strengths.length === 0 && profile.bottlenecks.length === 0) return null;
-
-  return (
-    <section className="result-section strengths-watchouts" aria-labelledby="strengths-title">
-      <div className="result-section-heading">
-        <p className="result-kicker">強みと準備ポイント</p>
-        <h2 id="strengths-title">武器にすること、先に整えること</h2>
-      </div>
-      <div className="strengths-watchouts-grid">
-        {profile.strengths.length > 0 ? (
-          <div className="strengths-column">
-            <h3>強みとして整理できる経験</h3>
-            <ul>{profile.strengths.map((item) => <li key={item}>{item}</li>)}</ul>
-          </div>
-        ) : null}
-        {profile.bottlenecks.length > 0 ? (
-          <div className="watchouts-column">
-            <h3>転職時に注意するポイント</h3>
-            <ul>{profile.bottlenecks.map((item) => <li key={item}>{item}</li>)}</ul>
-          </div>
-        ) : null}
       </div>
     </section>
   );
@@ -242,13 +227,12 @@ function ConsultationCTA({ agentFocus, onAgentCtaClick, onRestart, profile }: Pi
   return (
     <section className="consultation-cta-result" aria-labelledby="consultation-title">
       <div>
-        <p className="result-kicker">相談前のメモ</p>
-        <h2 id="consultation-title">経験の見せ方を相談すると、選択肢がもっと具体的になります</h2>
+        <h2 id="consultation-title">相談する前に、確認したいことを整理する。</h2>
         {profile.agentTalkTrack ? <p>{profile.agentTalkTrack}</p> : null}
       </div>
       <div className="consultation-cta-actions">
-        <Link className="button primary" href={`/career-agents?focus=${agentFocus}`} onClick={onAgentCtaClick}>この経歴に合うエージェントを見る</Link>
-        <button className="button ghost" onClick={onRestart} type="button">もう一度診断する</button>
+        <Link className="button primary" href={`/career-agents?focus=${agentFocus}`} onClick={onAgentCtaClick}>相談先の特徴を見る</Link>
+        <button className="button ghost" onClick={onRestart} type="button">回答をやり直す</button>
       </div>
       <small className="result-disclosure">{officialLinkDisclosureText}</small>
     </section>
@@ -302,21 +286,25 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
       }}
     >
       <summary>
-        <span>Diagnosis Evidence &amp; Consultation Prep</span>
-        <strong>診断の根拠と相談準備を見る</strong>
+        <strong>詳しい根拠と準備計画を見る</strong>
       </summary>
       <div className="detailed-report-body">
         <div className="detailed-report-intro">
-          <p>このレポートは回答と静的ルールによる参考整理であり、合否や企業評価を判定するものではありません。</p>
+          <p>回答と静的ルールによる参考整理です。合否や企業評価を判定するものではありません。</p>
           <strong>今ある転職材料と、次に整理すると選択肢が広がるポイントを確認できます。</strong>
         </div>
+
+        <section className="detail-report-chapter detail-reference-information">
+          <MarketValueSummary profile={profile} rewardGap={rewardGap} showRewardGap={props.showRewardGap} />
+          <ResultInformationGuide />
+        </section>
 
         <section className="detail-report-chapter">
           <header className="detail-chapter-heading">
             <span>01</span>
             <div>
-              <p>Diagnosis Evidence</p>
-              <h3>なぜ、この診断結果になったのか</h3>
+              <p>整理の根拠</p>
+              <h3>回答のどこを見て整理したか</h3>
             </div>
           </header>
 
@@ -364,7 +352,7 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
           <header className="detail-chapter-heading">
             <span>02</span>
             <div>
-              <p>Application Preparation</p>
+              <p>応募前の準備</p>
               <h3>応募に向けて、何を準備するか</h3>
             </div>
           </header>
@@ -372,7 +360,7 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
           {companyExamples.length > 0 ? (
             <div className="detail-subsection">
               <h4>経験と接点のある企業例</h4>
-              <p>公開情報にある職種・事業領域と、診断結果との接点をルールベースで整理しています。優劣や難易度の順ではありません。</p>
+              <p>公開情報にある職種・事業領域と、今回の整理結果との接点をルールベースで確認しています。優劣や難易度の順ではありません。</p>
               <div className="detail-company-grid">
                 {companyExamples.map(({ company, matchedRoles }) => (
                   <article key={company.id}>
@@ -422,7 +410,7 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
           <header className="detail-chapter-heading">
             <span>03</span>
             <div>
-              <p>Consultation Brief</p>
+              <p>相談前のメモ</p>
               <h3>エージェントへ相談すること</h3>
             </div>
           </header>
@@ -454,22 +442,11 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
   return (
     <div className="quiz-result-shell">
       <article className="career-result-experience">
-        <div className="result-overview">
-          <ResultHero {...props} />
-          <CareerResultSnapshot
-            currentRole={props.currentRole}
-            recommendedSkill={props.profile.growthLevers[0] ?? props.profile.bottlenecks[0]}
-            score={props.displayedScore}
-            targetRole={props.profile.reachableRoles[0]}
-            todayQuest={props.profile.todayQuest}
-          />
-          <ResultInformationGuide />
-        </div>
-        <CareerStory profile={props.profile} />
-        <ExperienceTranslation items={props.profile.semiconductorTranslation} />
-        <StrengthsSection profile={props.profile} />
-        <CareerRoadmap currentRole={props.currentRole} profile={props.profile} roadmap={props.roadmap} />
+        <ResultHero currentRole={props.currentRole} profile={props.profile} />
         <TodayQuest action={props.profile.todayQuest} reason={props.profile.bottlenecks[0]} resultType={props.profile.id} />
+        <ResultReasoning profile={props.profile} />
+        <ExperienceTranslation items={props.profile.semiconductorTranslation} />
+        <CareerRoadmap currentRole={props.currentRole} profile={props.profile} roadmap={props.roadmap} />
         <DetailedReportAccordion {...props} />
         <ConsultationCTA {...props} />
       </article>
