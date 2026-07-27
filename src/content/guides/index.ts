@@ -71,6 +71,7 @@ import { semiconductorWaferGeometryMetrologyManufacturersGuide } from "@/content
 import { semiconductorWaferHandlingEfemManufacturersGuide } from "@/content/guides/semiconductor-wafer-handling-efem-manufacturers";
 import { semiconductorVacuumPumpManufacturersGuide } from "@/content/guides/semiconductor-vacuum-pump-manufacturers";
 import { semiconductorVacuumGaugePressureControlValveManufacturersGuide } from "@/content/guides/semiconductor-vacuum-gauge-pressure-control-valve-manufacturers";
+import { sixSigmaGuide } from "@/content/guides/six-sigma";
 import { threeJobChangesCompensationNegotiationGuide } from "@/content/guides/three-job-changes-compensation-negotiation";
 import type { GuideArticle } from "@/content/guides/types";
 
@@ -151,6 +152,7 @@ const guideArticles: GuideArticle[] = [
   threeJobChangesCompensationNegotiationGuide,
   equipmentEngineerRouteGuide,
   qualityEngineerRouteGuide,
+  sixSigmaGuide,
 ];
 
 for (const guide of guideArticles) {

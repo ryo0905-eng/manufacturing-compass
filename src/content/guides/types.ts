@@ -141,6 +141,18 @@ export type GuideBlock =
       }>;
     }
   | {
+      type: "sigma-distribution-comparison";
+      title: string;
+      description: string;
+      scenarios: Array<{
+        kind: "wide" | "shifted" | "capable";
+        label: string;
+        title: string;
+        body: string;
+        insight: string;
+      }>;
+    }
+  | {
       type: "wafer-test-flow";
       title: string;
       description: string;

@@ -8,6 +8,12 @@ type GuideBlocksProps = {
   blocks: GuideBlock[];
 };
 
+const sigmaDistributionPaths = {
+  wide: "M16 126 C38 124 53 113 70 91 C88 65 99 39 120 32 C141 39 152 65 170 91 C187 113 202 124 224 126",
+  shifted: "M16 126 C70 126 101 124 126 108 C148 94 158 53 176 28 C194 49 202 94 224 126",
+  capable: "M16 126 C73 126 94 119 105 88 C111 70 114 35 120 20 C126 35 129 70 135 88 C146 119 167 126 224 126",
+} as const;
+
 export function GuideBlocks({ blocks }: GuideBlocksProps) {
   return (
     <div className="guide-blocks">
@@ -354,6 +360,37 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
                 ))}
               </ol>
               <p className="guide-control-loop__return"><span aria-hidden="true">↶</span> フィードバック後は、調整した工程をもう一度測って効果を確認する</p>
+            </figure>
+          );
+        }
+
+        if (block.type === "sigma-distribution-comparison") {
+          return (
+            <figure className="guide-sigma-comparison" key={`sigma-distribution-comparison-${index}`}>
+              <figcaption>
+                <strong>{block.title}</strong>
+                <span>{block.description}</span>
+              </figcaption>
+              <ol>
+                {block.scenarios.map((scenario) => (
+                  <li className={`guide-sigma-comparison__scenario guide-sigma-comparison__scenario--${scenario.kind}`} key={scenario.kind}>
+                    <span>{scenario.label}</span>
+                    <strong>{scenario.title}</strong>
+                    <svg viewBox="0 0 240 158" aria-hidden="true">
+                      <line className="guide-sigma-comparison__baseline" x1="16" y1="126" x2="224" y2="126" />
+                      <line className="guide-sigma-comparison__spec" x1="46" y1="24" x2="46" y2="132" />
+                      <line className="guide-sigma-comparison__target" x1="120" y1="24" x2="120" y2="132" />
+                      <line className="guide-sigma-comparison__spec" x1="194" y1="24" x2="194" y2="132" />
+                      <path d={`${sigmaDistributionPaths[scenario.kind]} L224 126 L16 126 Z`} />
+                      <text x="46" y="148" textAnchor="middle">LSL</text>
+                      <text x="120" y="148" textAnchor="middle">目標</text>
+                      <text x="194" y="148" textAnchor="middle">USL</text>
+                    </svg>
+                    <p>{scenario.body}</p>
+                    <small>{scenario.insight}</small>
+                  </li>
+                ))}
+              </ol>
             </figure>
           );
         }

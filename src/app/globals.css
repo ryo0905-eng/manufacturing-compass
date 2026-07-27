@@ -8202,6 +8202,127 @@ summary:focus-visible {
   line-height: 1.7 !important;
 }
 
+.guide-sigma-comparison {
+  margin: 0;
+  border: 1px solid rgba(36, 91, 120, 0.2);
+  background:
+    linear-gradient(rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36, 91, 120, 0.035) 1px, transparent 1px),
+    #f8faf9;
+  background-size: 22px 22px;
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.guide-sigma-comparison > figcaption {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.guide-sigma-comparison > figcaption strong {
+  font-size: clamp(21px, 3vw, 29px);
+  line-height: 1.3;
+}
+
+.guide-sigma-comparison > figcaption span {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-sigma-comparison > ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-sigma-comparison__scenario {
+  min-width: 0;
+  border: 1px solid rgba(36, 91, 120, 0.18);
+  border-top: 4px solid #9b7a3f;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 18px;
+}
+
+.guide-sigma-comparison__scenario--shifted { border-top-color: #8b5f45; }
+.guide-sigma-comparison__scenario--capable { border-top-color: #4d7960; }
+
+.guide-sigma-comparison__scenario > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.guide-sigma-comparison__scenario > strong {
+  display: block;
+  min-height: 50px;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.guide-sigma-comparison__scenario svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 10px 0 8px;
+  overflow: visible;
+}
+
+.guide-sigma-comparison__scenario path {
+  fill: rgba(36, 91, 120, 0.15);
+  stroke: var(--primary);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.guide-sigma-comparison__baseline {
+  stroke: #8c979d;
+  stroke-width: 1.2;
+}
+
+.guide-sigma-comparison__spec {
+  stroke: #9b4f46;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.guide-sigma-comparison__target {
+  stroke: #69767c;
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+.guide-sigma-comparison__scenario text {
+  fill: #68757b;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.guide-sigma-comparison__scenario > p {
+  margin: 0 !important;
+  color: #455158 !important;
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+}
+
+.guide-sigma-comparison__scenario > small {
+  display: block;
+  margin-top: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 9px;
+  color: var(--primary-dark);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
 .guide-layer-process {
   margin: 0;
   border: 1px solid rgba(36, 91, 120, 0.2);
@@ -10869,6 +10990,7 @@ summary:focus-visible {
   .guide-dopant-profile > ol,
   .guide-cmp-flow > ol,
   .guide-control-loop > ol,
+  .guide-sigma-comparison > ol,
   .guide-wafer-test > ol,
   .guide-dicing-flow > ol,
   .guide-package-flow > ol,
@@ -10883,6 +11005,7 @@ summary:focus-visible {
   .guide-cmp-flow__stage > strong,
   .guide-control-loop__stage > strong,
   .guide-control-loop__stage > p,
+  .guide-sigma-comparison__scenario > strong,
   .guide-wafer-test__stage > strong,
   .guide-dicing-flow__stage > strong,
   .guide-package-flow__stage > strong,
