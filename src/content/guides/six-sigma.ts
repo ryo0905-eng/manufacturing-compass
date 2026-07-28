@@ -8,7 +8,7 @@ export const sixSigmaGuide: GuideArticle = {
   targetQuery: "シックスシグマ とは",
   searchIntent:
     "シックスシグマとは何か、6σと3.4 DPMOの意味、DMAICの進め方、各段階で使う品質管理・統計手法を初心者向けに理解したい",
-  status: "draft",
+  status: "published",
   category: "technology",
   featured: false,
   presentation: "structured",
@@ -23,8 +23,8 @@ export const sixSigmaGuide: GuideArticle = {
     "NISTの工程能力解説で、規格幅、平均、標準偏差、Cp・Cpkの関係を確認",
     "既存のGage R&R、管理図、Cp・Cpk、DoE学習ツールをDMAICの判断順序へ接続",
   ],
-  publishedAt: "2026-07-27",
-  updatedAt: "2026-07-27",
+  publishedAt: "2026-07-28",
+  updatedAt: "2026-07-28",
   sources: [
     {
       title: "ISO 13053-1:2011 Quantitative methods in process improvement — Six Sigma — Part 1: DMAIC methodology",
