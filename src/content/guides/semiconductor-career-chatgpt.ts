@@ -9,7 +9,7 @@ export const semiconductorCareerChatgptGuide: GuideArticle = {
   searchIntent:
     "半導体・製造業の転職活動でChatGPTを求人分析、職務経歴書、面接対策、オファー比較へどう使えるか、実体験と注意点から知りたい",
   status: "published",
-  category: "experience",
+  category: "dx-ai",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

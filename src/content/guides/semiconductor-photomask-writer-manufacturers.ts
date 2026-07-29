@@ -9,7 +9,7 @@ export const semiconductorPhotomaskWriterManufacturersGuide: GuideArticle = {
   searchIntent:
     "フォトマスク描画装置の役割と工程、電子ビーム・レーザー方式、可変成形ビーム・マルチビームの違い、IMS・ニューフレアテクノロジー・日本電子・Heidelberg Instrumentsなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

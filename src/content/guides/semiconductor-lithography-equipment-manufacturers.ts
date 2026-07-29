@@ -9,7 +9,7 @@ export const semiconductorLithographyEquipmentManufacturersGuide: GuideArticle =
   searchIntent:
     "半導体露光装置の仕組みと構成、EUV・DUV・i線・ナノインプリントの違い、ASML・Nikon・Canonなど主要メーカーと塗布現像装置メーカーの役割を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

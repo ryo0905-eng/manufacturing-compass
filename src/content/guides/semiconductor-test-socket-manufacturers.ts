@@ -9,7 +9,7 @@ export const semiconductorTestSocketManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体テストソケットの役割と構造、バーンインソケットやプローブカードとの違い、山一電機・エンプラス・Cohu・WinWayなど主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

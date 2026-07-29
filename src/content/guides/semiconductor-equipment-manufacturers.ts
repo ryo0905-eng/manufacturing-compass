@@ -9,7 +9,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体製造装置メーカーが何を作る会社か、製造工程ごとの装置と国内外の主要企業、各社の製品領域、仕事内容を初心者向けに理解したい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

@@ -4,7 +4,7 @@ import type { Route } from "next";
 const navItems = [
   { href: "/industry-map", label: "業界地図" },
   { href: "/companies", label: "企業を探す" },
-  { href: "/guides", label: "ガイド" },
+  { href: "/guides", label: "記事" },
   { href: "/tools", label: "技術を学ぶ" },
 ] satisfies Array<{ href: Route; label: string }>;
 

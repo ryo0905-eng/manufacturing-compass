@@ -9,7 +9,7 @@ export const semiconductorInspectionEquipmentManufacturersGuide: GuideArticle = 
   searchIntent:
     "半導体の検査・計測装置にはどのような種類があり、主要メーカーが何を測る装置を提供し、各社をどの観点で比較すればよいか知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

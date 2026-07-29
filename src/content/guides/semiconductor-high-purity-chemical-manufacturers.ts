@@ -9,7 +9,7 @@ export const semiconductorHighPurityChemicalManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体製造で使う高純度薬液の種類と役割、洗浄液・エッチング液・溶剤などの違い、ステラケミファ・関東化学・富士フイルム・BASFなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

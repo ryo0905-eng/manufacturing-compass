@@ -9,7 +9,7 @@ export const semiconductorExhaustGasAbatementManufacturersGuide: GuideArticle = 
   searchIntent:
     "半導体の排ガス除害装置とは何か、燃焼・プラズマ・湿式・乾式・触媒方式の違い、真空ポンプとの接続、副生成物・安全・環境・保守、主要メーカーと比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

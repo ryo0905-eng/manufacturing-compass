@@ -9,7 +9,7 @@ export const semiconductorCleaningEquipmentManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体洗浄装置の構成と方式、枚葉式・バッチ式・スクラバーの違い、SCREEN・東京エレクトロン・Lam Researchなど主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

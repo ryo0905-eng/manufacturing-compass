@@ -9,7 +9,7 @@ export const semiconductorTestHandlerManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体テストハンドラの構成、ピック＆プレース・重力・タレット・ストリップ方式の違い、Cohu・アドバンテスト・Chroma・Techwingなど主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

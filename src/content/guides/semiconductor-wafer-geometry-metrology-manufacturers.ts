@@ -9,7 +9,7 @@ export const semiconductorWaferGeometryMetrologyManufacturersGuide: GuideArticle
   searchIntent:
     "ウェーハ形状・平坦度測定装置が何を測るのか、TTV・Bow・Warp・サイト平坦度・エッジ形状の違い、干渉計などの原理、KLA・Corning Tropelなどの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

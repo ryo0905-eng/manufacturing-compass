@@ -9,7 +9,7 @@ export const semiconductorPellicleManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体ペリクルの構造と異物を焦点外にする仕組み、DUV・EUV用の膜材料と品質要求、三井化学・信越化学・FSTなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

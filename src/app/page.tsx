@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CareerResultPreview } from "@/components/CareerResultPreview";
 import { CareerRouteMap } from "@/components/CareerRouteMap";
+import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
+import { guideCategoryDetails, guideCategoryOrder } from "@/content/guides/categories";
+import { beginnerGuides } from "@/data/editorial";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -29,11 +32,22 @@ const researchLinks = [
     body: "事業領域や職種を見ながら、気になる企業を比較します。",
   },
   {
-    href: "/guides",
-    title: "技術・キャリアガイドを読む",
-    body: "半導体の技術解説と、転職活動で実際に迷ったことを分けて掲載しています。",
+    href: "/compare",
+    title: "企業を比較する",
+    body: "事業領域や仕事との接点を、同じ比較軸で並べて確認します。",
   },
 ] as const;
+
+const homeArticleSlugs = [
+  "manufacturing-dx-ai-coding",
+  "semiconductor-manufacturing-process",
+  "semiconductor-market-cap-ranking",
+  "electronics-to-semiconductor-process-engineer",
+] as const;
+
+const homeArticles = homeArticleSlugs
+  .map((slug) => beginnerGuides.find((guide) => guide.slug === slug))
+  .filter((guide) => guide !== undefined);
 
 const learningTools = [
   {
@@ -116,6 +130,37 @@ export default function Home() {
             </Link>
           ))}
         </nav>
+      </section>
+
+      <section className="home-focused__section home-focused__articles" aria-labelledby="home-articles-title">
+        <header className="home-focused__heading">
+          <div>
+            <p className="home-focused__label">ARTICLES</p>
+            <h2 id="home-articles-title">製造業・半導体を深く知る。</h2>
+          </div>
+          <p>AI活用、技術解説、企業研究、キャリアの実体験を、関心のあるテーマから読めます。</p>
+        </header>
+        <nav className="home-focused__article-categories" aria-label="記事のカテゴリ">
+          {guideCategoryOrder.map((category) => (
+            <Link href={`/guides#guide-category-${category}`} key={category}>
+              {guideCategoryDetails[category].label}
+            </Link>
+          ))}
+        </nav>
+        <div className="home-focused__article-grid">
+          {homeArticles.map((article) => (
+            <Link className="home-focused__article-card" href={`/guides/${article.slug}`} key={article.slug}>
+              <GuideThumbnail category={article.category} compact slug={article.slug} title={article.title} />
+              <span>{guideCategoryDetails[article.category].label}</span>
+              <strong>{article.title}</strong>
+              <p>{article.description}</p>
+              <i aria-hidden="true">→</i>
+            </Link>
+          ))}
+        </div>
+        <Link className="home-focused__text-link" href="/guides">
+          すべての記事を見る
+        </Link>
       </section>
 
       <section className="home-focused__section home-focused__learning" aria-labelledby="home-learning-title">

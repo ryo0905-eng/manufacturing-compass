@@ -9,7 +9,7 @@ export const semiconductorTesterAteGuide: GuideArticle = {
   searchIntent:
     "半導体テスタとATEの意味、試験の仕組み、プローバ・ハンドラなど周辺装置との違い、主要メーカー、アドバンテストとTeradyneを比較する観点を知りたい",
   status: "published",
-  category: "foundation",
+  category: "technology",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

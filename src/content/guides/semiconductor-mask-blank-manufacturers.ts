@@ -9,7 +9,7 @@ export const semiconductorMaskBlankManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体マスクブランクスの構造と製造工程、フォトマスクとの違い、DUV・EUV用の材料と品質要求、HOYA・AGC・信越化学工業・S&S TECHなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

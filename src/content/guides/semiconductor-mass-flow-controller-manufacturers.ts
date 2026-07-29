@@ -9,7 +9,7 @@ export const semiconductorMassFlowControllerManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体製造用マスフローコントローラーの仕組み、熱式・圧力式の違い、精度・応答・実ガス・高純度・通信の見方、主要メーカーと比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

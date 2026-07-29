@@ -1,7 +1,7 @@
 import type { Source } from "@/types/content";
 
 export type GuideStatus = "draft" | "published";
-export type GuideCategory = "experience" | "foundation" | "role" | "technology";
+export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
   | {

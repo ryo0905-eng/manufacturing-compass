@@ -9,7 +9,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
   searchIntent:
     "EFEMとは何か、FOUP・ロードポート・大気ロボット・アライナ・真空ロボットの役割、ウェーハ搬送フロー、清浄度・位置精度・スループット・規格、主要メーカーと比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

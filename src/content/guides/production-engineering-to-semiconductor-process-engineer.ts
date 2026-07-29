@@ -7,7 +7,7 @@ export const productionEngineeringToSemiconductorProcessEngineerGuide: GuideArti
   targetQuery: "生産技術 半導体 転職",
   searchIntent: "生産技術の歩留まり・品質・データ分析経験を、半導体企業のプロセスエンジニア求人へどうつなげるか知りたい",
   status: "published",
-  category: "experience",
+  category: "career",
   featured: true,
   presentation: "structured",
   author: "RYO",

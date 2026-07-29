@@ -9,7 +9,7 @@ export const semiconductorPhotoresistManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体用フォトレジストの役割と種類、g線・i線・KrF・ArF・EUVの違い、JSR・東京応化工業・信越化学工業・富士フイルムなど主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

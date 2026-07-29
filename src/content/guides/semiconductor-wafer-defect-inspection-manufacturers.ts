@@ -9,7 +9,7 @@ export const semiconductorWaferDefectInspectionManufacturersGuide: GuideArticle 
   searchIntent:
     "半導体ウェーハ欠陥検査装置とは何か、パターンなし・パターン付き、明視野・暗視野、光学検査・電子線レビューの違い、KLA・日立ハイテク・Applied Materialsなど主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

@@ -9,7 +9,7 @@ export const semiconductorGasManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体工場で使うガスの種類と役割、バルクガス・特殊ガス・前駆体の違い、日本酸素・Air Liquide・Linde・岩谷産業など主要企業の事業領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

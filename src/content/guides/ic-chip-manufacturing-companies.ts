@@ -9,7 +9,7 @@ export const icChipManufacturingCompaniesGuide: GuideArticle = {
   searchIntent:
     "ICチップを製造する会社にはどのような種類があり、実際に工場で製造する国内外の主要企業と、設計・後工程・装置企業の違いを初心者向けに知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

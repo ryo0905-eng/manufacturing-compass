@@ -9,7 +9,7 @@ export const semiconductorIonImplantationEquipmentManufacturersGuide: GuideArtic
   searchIntent:
     "イオン注入装置の構成、高電流・中電流・高エネルギー装置の違い、Applied Materials・Axcelis・住友重機械・日新イオン機器など主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

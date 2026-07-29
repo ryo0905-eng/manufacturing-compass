@@ -9,7 +9,7 @@ export const semiconductorDepositionEquipmentManufacturersGuide: GuideArticle = 
   searchIntent:
     "半導体の成膜装置メーカーが何を作る会社か、CVD・ALD・PVD装置の違い、主要企業の製品領域、ASMと東京エレクトロンを比較する観点を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

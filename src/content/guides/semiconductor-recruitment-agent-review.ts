@@ -9,7 +9,7 @@ export const semiconductorRecruitmentAgentReviewGuide: GuideArticle = {
   searchIntent:
     "半導体・製造業の転職で、転職エージェント各社の違いと複数社をどう使い分ければよいかを、実際の利用体験から知りたい",
   status: "published",
-  category: "experience",
+  category: "career",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

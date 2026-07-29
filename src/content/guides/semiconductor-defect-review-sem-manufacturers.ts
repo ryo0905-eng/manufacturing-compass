@@ -9,7 +9,7 @@ export const semiconductorDefectReviewSemManufacturersGuide: GuideArticle = {
   searchIntent:
     "欠陥レビューSEMとは何か、光学検査・電子線欠陥検査・CD-SEMとの違い、座標連携・再検出、ADR・ADC、欠陥パレート、日立ハイテク・Applied Materials・KLAなど主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

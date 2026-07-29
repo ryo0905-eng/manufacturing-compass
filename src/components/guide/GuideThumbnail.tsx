@@ -1,15 +1,10 @@
-import type { GuideArticle, GuideCategory } from "@/content/guides/types";
+import { guideCategoryDetails } from "@/content/guides/categories";
+import type { GuideArticle } from "@/content/guides/types";
 
-type GuideVisualTheme = "experience" | "knowhow" | "data" | "route" | "global" | "process";
-
-const categoryLabels: Record<GuideCategory, string> = {
-  experience: "RYOの実体験",
-  foundation: "転職ノウハウ",
-  role: "職種別ルート",
-  technology: "半導体の技術",
-};
+type GuideVisualTheme = "ai" | "experience" | "knowhow" | "data" | "route" | "global" | "process";
 
 const themeLabels: Record<GuideVisualTheme, string> = {
+  ai: "AI & MANUFACTURING DX",
   experience: "REAL CAREER STORY",
   knowhow: "CAREER PLAYBOOK",
   data: "COMPANY & SALARY DATA",
@@ -22,8 +17,9 @@ function getTheme(guide: Pick<GuideArticle, "category" | "slug">): GuideVisualTh
   if (guide.slug.includes("english")) return "global";
   if (guide.slug.includes("salary") || guide.slug.includes("market-cap")) return "data";
   if (guide.category === "technology") return "process";
-  if (guide.category === "role" || guide.slug.includes("-to-semiconductor-")) return "route";
-  if (guide.category === "experience") return "experience";
+  if (guide.slug.includes("-route") || guide.slug.includes("-to-semiconductor-")) return "route";
+  if (guide.category === "dx-ai") return "ai";
+  if (guide.category === "career") return "experience";
   return "knowhow";
 }
 
@@ -37,7 +33,7 @@ export function GuideThumbnail({ category, compact = false, slug, title }: Guide
   return (
     <div className={`guide-thumbnail guide-thumbnail--${theme}${compact ? " guide-thumbnail--compact" : ""}`} aria-hidden="true">
       <div className="guide-thumbnail__topline">
-        <span>{categoryLabels[category]}</span>
+        <span>{guideCategoryDetails[category].label}</span>
         <i>MC / GUIDE</i>
       </div>
       <div className="guide-thumbnail__visual">

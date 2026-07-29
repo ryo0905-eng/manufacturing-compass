@@ -9,7 +9,7 @@ export const semiconductorEquipmentComponentsSubfabGuide: GuideArticle = {
   searchIntent:
     "半導体製造装置を構成する部品・周辺機器とサブファブ設備には何があり、ガス供給、ウェーハ搬送、プロセスチャンバー、真空排気、除害、温調、計測がどう接続されるか、代表的なメーカーと仕事を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

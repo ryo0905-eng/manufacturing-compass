@@ -9,7 +9,7 @@ export const semiconductorEtchingEquipmentManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体のエッチング装置がどのような構成で、材料・デバイスごとに何が異なり、Lam Research・東京エレクトロンなど主要メーカーをどう比較すればよいか知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

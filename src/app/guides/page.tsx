@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
-import type { GuideCategory } from "@/content/guides/types";
+import { guideCategoryDetails, guideCategoryOrder } from "@/content/guides/categories";
 import { beginnerGuides } from "@/data/editorial";
 import {
   semiconductorProcessSeriesDetailSlugs as processSeriesDetailSlugs,
@@ -14,16 +14,9 @@ import {
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "半導体業界・転職のガイドと実体験",
-  description: "半導体の製造工程、企業、職種、求人の見方を、公開情報と製造業経験約10年のRYOの実体験を分けて解説します。",
+  title: "半導体・製造業DXの記事と実体験",
+  description: "製造業DX・AI、半導体・製造技術、企業・業界研究、キャリアの実体験を、公開情報と運営者の経験を分けて解説します。",
   alternates: { canonical: "/guides" },
-};
-
-const categoryLabels: Record<GuideCategory, string> = {
-  experience: "RYOの実体験",
-  foundation: "半導体転職の基本",
-  role: "職種別ルート",
-  technology: "半導体の技術",
 };
 
 function formatDate(date: string) {
@@ -49,15 +42,19 @@ export default function GuidesPage() {
   const otherGuides = beginnerGuides.filter(
     (guide) => guide.slug !== featuredGuide.slug && !processSeriesSlugSet.has(guide.slug),
   );
+  const categorizedGuides = guideCategoryOrder.map((category) => ({
+    category,
+    guides: otherGuides.filter((guide) => guide.category === category),
+  }));
 
   return (
     <main className="page guides-hub-page">
       <StructuredData data={{ "@context": "https://schema.org", "@type": "ItemList", name: "半導体製造工程シリーズ", numberOfItems: processSeriesGuides.length, itemListElement: processSeriesGuides.map((guide, index) => ({ "@type": "ListItem", position: index + 1, name: guide.title, url: `${siteUrl}/guides/${guide.slug}` })) }} />
       <section className="guides-hub-hero">
         <div className="guides-hub-hero__copy">
-          <p className="section-label">製造業から半導体を考える</p>
-          <h1><span>半導体業界と転職の</span><span>ガイド</span></h1>
-          <p>製造工程や仕事の中身を理解し、会社名や年収だけに頼らず次のキャリアを考えるための記事をまとめています。</p>
+          <p className="section-label">製造業・半導体を深く知る</p>
+          <h1>記事・読みもの</h1>
+          <p>AI活用、技術解説、企業研究、キャリアの実体験を、公開情報と運営者の経験を分けてまとめています。</p>
         </div>
         <aside className="guides-author-card" aria-label="執筆者について">
           <p>WRITTEN &amp; REVIEWED BY</p>
@@ -67,6 +64,16 @@ export default function GuidesPage() {
           <Link href="/about">執筆者と編集方針を見る <span aria-hidden="true">→</span></Link>
         </aside>
       </section>
+
+      <nav className="guides-category-nav" aria-label="記事のカテゴリ">
+        {guideCategoryOrder.map((category) => (
+          <Link href={`#guide-category-${category}`} key={category}>
+            <strong>{guideCategoryDetails[category].label}</strong>
+            <span>{guideCategoryDetails[category].description}</span>
+            <i aria-hidden="true">↓</i>
+          </Link>
+        ))}
+      </nav>
 
       <section className="guides-feature" aria-labelledby="featured-guide-title">
         <header className="guides-section-heading">
@@ -83,7 +90,7 @@ export default function GuidesPage() {
             </ol>
           </div>
           <div className="guides-feature-copy">
-            <span className="guides-category guides-category--experience">{categoryLabels[featuredGuide.category]}</span>
+            <span className={`guides-category guides-category--${featuredGuide.category}`}>{guideCategoryDetails[featuredGuide.category].label}</span>
             <h3>{featuredGuide.title}</h3>
             <p>{featuredGuide.description}</p>
             <dl>
@@ -144,34 +151,49 @@ export default function GuidesPage() {
 
       <section className="guides-library" aria-labelledby="guide-library-title">
         <header className="guides-section-heading">
-          <div><p className="section-label">Career guides</p><h2 id="guide-library-title">悩みと経験から読む</h2></div>
-          <p>半導体転職の基本から、設備・品質など今の仕事に近い入口を選べます。</p>
+          <div><p className="section-label">Article library</p><h2 id="guide-library-title">テーマから読む</h2></div>
+          <p>関心のあるテーマから、AI活用、技術、企業、キャリアの記事へ進めます。</p>
         </header>
-        <div className="guides-card-grid" aria-label="半導体転職の記事">
-          {otherGuides.map((guide) => (
-            <Link className={`guides-article-card guides-article-card--${guide.category}`} href={`/guides/${guide.slug}`} key={guide.slug}>
-              <GuideThumbnail category={guide.category} slug={guide.slug} title={guide.title} />
-              <div className="guides-article-card__meta">
-                <span className={`guides-category guides-category--${guide.category}`}>{categoryLabels[guide.category]}</span>
-                <span>{guide.readTime}</span>
-              </div>
-              <h3>{guide.title}</h3>
-              <p>{guide.description}</p>
-              <div className="guides-article-card__quest">
-                <small>Today Quest</small>
-                <strong>{guide.todayQuest}</strong>
-              </div>
-              <footer>
-                <span>RYO</span>
-                <time dateTime={guide.updatedAt}>更新 {formatDate(guide.updatedAt)}</time>
-                <i aria-hidden="true">→</i>
-              </footer>
-            </Link>
+        <div className="guides-library__groups">
+          {categorizedGuides.map(({ category, guides }) => (
+            guides.length > 0 ? (
+              <section className="guides-category-section" id={`guide-category-${category}`} key={category} aria-labelledby={`guide-category-${category}-title`}>
+                <header className="guides-category-section__heading">
+                  <div>
+                    <h3 id={`guide-category-${category}-title`}>{guideCategoryDetails[category].label}</h3>
+                    <p>{guideCategoryDetails[category].description}</p>
+                  </div>
+                  <span>{guides.length}記事</span>
+                </header>
+                <div className="guides-card-grid">
+                  {guides.map((guide) => (
+                    <Link className={`guides-article-card guides-article-card--${guide.category}`} href={`/guides/${guide.slug}`} key={guide.slug}>
+                      <GuideThumbnail category={guide.category} slug={guide.slug} title={guide.title} />
+                      <div className="guides-article-card__meta">
+                        <span className={`guides-category guides-category--${guide.category}`}>{guideCategoryDetails[guide.category].label}</span>
+                        <span>{guide.readTime}</span>
+                      </div>
+                      <h3>{guide.title}</h3>
+                      <p>{guide.description}</p>
+                      <div className="guides-article-card__quest">
+                        <small>Today Quest</small>
+                        <strong>{guide.todayQuest}</strong>
+                      </div>
+                      <footer>
+                        <span>RYO</span>
+                        <time dateTime={guide.updatedAt}>更新 {formatDate(guide.updatedAt)}</time>
+                        <i aria-hidden="true">→</i>
+                      </footer>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ) : null
           ))}
         </div>
       </section>
 
-      <AffiliateCta title="ガイドを読んだ後、転職ルートを相談する" />
+      <AffiliateCta title="記事を読んだ後、転職ルートを相談する" />
     </main>
   );
 }

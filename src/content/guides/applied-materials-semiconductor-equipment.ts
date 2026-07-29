@@ -9,7 +9,7 @@ export const appliedMaterialsSemiconductorEquipmentGuide: GuideArticle = {
   searchIntent:
     "アプライドマテリアルズが何を作る会社か、半導体製造工程のどこへ装置を提供するか、製品ポートフォリオの特徴、日本法人の役割を理解したい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

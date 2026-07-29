@@ -9,7 +9,7 @@ export const semiconductorCmpEquipmentManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体CMP装置の構成、研磨ヘッド・定盤・スラリー供給・洗浄・終点検出の役割、Applied Materials・荏原製作所など主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

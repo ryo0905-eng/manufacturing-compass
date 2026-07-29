@@ -1,12 +1,6 @@
 import { ImageResponse } from "next/og";
+import { guideCategoryDetails } from "@/content/guides/categories";
 import { getGuideBySlug } from "@/data/editorial";
-
-const categoryLabels = {
-  experience: "RYOの実体験",
-  foundation: "半導体転職の基本",
-  role: "職種別ルート",
-  technology: "半導体製造工程シリーズ",
-} as const;
 
 const processSteps = [
   ["01", "材料・基板", "シリコンウェーハ"],
@@ -26,8 +20,8 @@ export function createGuideSocialImage(slug: string) {
   const isProcessGuide = guide?.category === "technology";
   const steps: ReadonlyArray<readonly [string, string, string]> = isProcessGuide ? processSteps : careerSteps;
   const title = guide?.title ?? "製造業経験を半導体キャリアへ";
-  const category = guide ? categoryLabels[guide.category] : "Manufacturing Compass ガイド";
-  const query = guide?.targetQuery ?? "半導体業界・キャリアガイド";
+  const category = guide ? guideCategoryDetails[guide.category].label : "Manufacturing Compass 記事";
+  const query = guide?.targetQuery ?? "半導体業界・キャリア記事";
 
   return new ImageResponse(
     (

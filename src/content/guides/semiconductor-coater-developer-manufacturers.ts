@@ -9,7 +9,7 @@ export const semiconductorCoaterDeveloperManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体の塗布現像装置・コータ／デベロッパの役割と構成、スピン塗布・ベーク・現像の仕組み、露光装置との違い、東京エレクトロン・SCREEN・SEMES・SUSSなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

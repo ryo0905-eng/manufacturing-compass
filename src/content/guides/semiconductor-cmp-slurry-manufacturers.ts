@@ -9,7 +9,7 @@ export const semiconductorCmpSlurryManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体CMPスラリーの構成と役割、酸化膜・タングステン・銅・バリア膜・SiCなど用途別の違い、フジミインコーポレーテッド・レゾナック・Entegris・BASFなど主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

@@ -9,7 +9,7 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
   searchIntent:
     "日本の半導体メーカー、製造装置、検査・計測、材料企業の平均年収を同じ公開資料で比較し、転職先選びで数字をどう読むべきか知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

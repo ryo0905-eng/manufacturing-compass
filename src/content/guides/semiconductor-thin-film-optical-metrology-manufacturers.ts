@@ -9,7 +9,7 @@ export const semiconductorThinFilmOpticalMetrologyManufacturersGuide: GuideArtic
   searchIntent:
     "半導体の膜厚測定装置と光学計測の仕組み、分光反射・エリプソメトリ・OCDの違い、透明膜・金属膜・積層膜の測り方、KLA・Onto Innovation・SCREEN・Novaなど主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

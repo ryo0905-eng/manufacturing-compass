@@ -9,7 +9,7 @@ export const semiconductorSiliconWaferManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体用シリコンウェーハの種類と仕様、信越化学・SUMCO・GlobalWafers・Siltronicなど主要メーカーの製品領域、デバイス用途、企業比較の方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

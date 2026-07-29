@@ -9,7 +9,7 @@ export const analogSemiconductorCompaniesGuide: GuideArticle = {
   searchIntent:
     "アナログ半導体の意味とデジタル半導体との違い、代表的な製品・用途、国内外の主要企業と各社の得意領域を初心者向けに理解したい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

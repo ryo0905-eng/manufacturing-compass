@@ -9,7 +9,7 @@ export const threeJobChangesCompensationNegotiationGuide: GuideArticle = {
   searchIntent:
     "転職3回が選考でどう見られるか、転職理由と短い在籍期間をどう説明し、希望年収をどう考えればよいかを実体験から知りたい",
   status: "published",
-  category: "experience",
+  category: "career",
   featured: true,
   presentation: "structured",
   author: "RYO",

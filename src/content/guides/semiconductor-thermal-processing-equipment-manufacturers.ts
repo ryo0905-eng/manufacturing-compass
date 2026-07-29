@@ -9,7 +9,7 @@ export const semiconductorThermalProcessingEquipmentManufacturersGuide: GuideArt
   searchIntent:
     "半導体熱処理装置の構成、バッチ炉・RTP・フラッシュランプ・レーザーアニールの違い、KOKUSAI ELECTRIC・東京エレクトロン・Applied Materials・SCREENの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

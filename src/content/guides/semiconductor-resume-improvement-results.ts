@@ -9,7 +9,7 @@ export const semiconductorResumeImprovementResultsGuide: GuideArticle = {
   searchIntent:
     "製造業・生産技術の改善経験を、半導体求人向けの職務経歴書へどう選び、どこまで具体的に書くか知りたい",
   status: "published",
-  category: "experience",
+  category: "career",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

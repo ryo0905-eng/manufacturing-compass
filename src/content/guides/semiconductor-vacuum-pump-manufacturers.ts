@@ -9,7 +9,7 @@ export const semiconductorVacuumPumpManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体製造で真空ポンプが必要な理由、ドライポンプ・ターボ分子ポンプの役割、ルーツ・スクリューなどの機構、副生成物・腐食・省エネ・保守、主要メーカーと比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

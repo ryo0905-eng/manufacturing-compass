@@ -9,7 +9,7 @@ export const semiconductorWaferProberManufacturersGuide: GuideArticle = {
   searchIntent:
     "ウェーハプローバの役割、テスタ・プローブカードとの違い、量産機と開発用システムの違い、東京精密・東京エレクトロン・FormFactor・MPIなどの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

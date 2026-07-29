@@ -9,7 +9,7 @@ export const semiconductorOverlayMetrologyManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体の重ね合わせ計測とは何か、露光装置の位置合わせとの違い、画像式・回折式・電子線式、現像後・加工後、KLA・ASML・Onto Innovation・Applied Materialsなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

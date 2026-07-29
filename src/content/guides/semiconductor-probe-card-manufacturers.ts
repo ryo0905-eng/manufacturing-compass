@@ -9,7 +9,7 @@ export const semiconductorProbeCardManufacturersGuide: GuideArticle = {
   searchIntent:
     "プローブカードの役割と構造、カンチレバー・垂直・MEMS方式の違い、FormFactor・Technoprobe・日本マイクロニクス・日本電子材料など主要メーカーの製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

@@ -9,7 +9,7 @@ export const semiconductorCdSemManufacturersGuide: GuideArticle = {
   searchIntent:
     "CD-SEM・測長SEMの仕組みと用途、線幅・穴径・CDU・EPEの測定、電子線欠陥検査・レビューSEMとの違い、日立ハイテク・Applied Materials・ASML HMI・KLAなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

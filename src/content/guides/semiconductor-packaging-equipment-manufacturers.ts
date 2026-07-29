@@ -9,7 +9,7 @@ export const semiconductorPackagingEquipmentManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体パッケージング装置の構成、ダイボンダ・ワイヤボンダ・フリップチップ・TCB・モールディング装置の違い、ASMPT・Besi・Kulicke & Soffa・TOWAなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

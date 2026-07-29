@@ -75,11 +75,11 @@ export default async function GuidePage({ params }: GuidePageProps) {
   return (
     <main className="page guide-page">
       <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": "Person", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja", isPartOf: processSeriesIndex >= 0 ? { "@type": "CreativeWorkSeries", name: "半導体製造工程シリーズ", url: `${siteUrl}/guides#process-series-title` } : undefined, position: processSeriesIndex >= 0 ? processSeriesIndex + 1 : undefined }} />
-      <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "初心者ガイド", item: `${siteUrl}/guides` }, { "@type": "ListItem", position: 3, name: guide.title, item: `${siteUrl}/guides/${guide.slug}` }] }} />
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "記事・読みもの", item: `${siteUrl}/guides` }, { "@type": "ListItem", position: 3, name: guide.title, item: `${siteUrl}/guides/${guide.slug}` }] }} />
       {faqItems.length > 0 ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }} /> : null}
       <article className="article-layout">
         <header className="article-hero">
-          <p className="section-label">製造業から半導体を考えるガイド・{guide.readTime}</p>
+          <p className="section-label">製造業・半導体の記事・{guide.readTime}</p>
           <h1>{guide.title}</h1>
           <p>{guide.description}</p>
           <small>執筆・確認：{guide.reviewedBy}（製造業経験 約10年）・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
@@ -167,7 +167,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
 
         {relatedGuides.length > 0 ? (
           <nav className="guide-related" aria-label="関連記事">
-            <strong>次に読むガイド</strong>
+            <strong>次に読む記事</strong>
             {relatedGuides.map((relatedGuide) => <Link href={`/guides/${relatedGuide.slug}`} key={relatedGuide.slug}>{relatedGuide.title}<span aria-hidden="true">→</span></Link>)}
           </nav>
         ) : null}
@@ -183,7 +183,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <DiagnosisCta title="自分の経験に近い半導体職種を確かめる" body="記事で書き出した経験をもとに、強み、足りない経験、次の準備を12問で確認できます。" />
           </>
         )}
-        <p className="back-link"><Link className="text-link" href="/guides">ガイド一覧へ戻る</Link></p>
+        <p className="back-link"><Link className="text-link" href="/guides">記事一覧へ戻る</Link></p>
       </article>
     </main>
   );

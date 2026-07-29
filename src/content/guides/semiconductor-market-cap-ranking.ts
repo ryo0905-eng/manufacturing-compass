@@ -9,7 +9,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   searchIntent:
     "世界と日本の半導体関連企業を最新の時価総額で比較し、各社の業界内での役割、企業分類、売上高との違い、転職時の見方を理解したい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

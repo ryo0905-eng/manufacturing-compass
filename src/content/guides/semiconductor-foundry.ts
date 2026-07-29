@@ -9,7 +9,7 @@ export const semiconductorFoundryGuide: GuideArticle = {
   searchIntent:
     "半導体業界のファウンドリが何をする会社か、ファブレス・IDM・OSATとの違い、代表企業、設計から量産までの分業を初心者向けに理解したい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

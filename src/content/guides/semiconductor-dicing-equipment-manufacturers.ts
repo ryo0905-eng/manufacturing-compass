@@ -9,7 +9,7 @@ export const semiconductorDicingEquipmentManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体ダイシング装置の構成、ブレード・レーザー・プラズマ方式の違い、DISCO・東京精密・Plasma-Thermなど主要企業の製品領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

@@ -7,7 +7,7 @@ export const semiconductorCareerEnglishLevelGuide: GuideArticle = {
   targetQuery: "半導体 転職 英語力",
   searchIntent: "英語力に自信がなく外資系半導体メーカーへの応募を迷っている人が、職種ごとの英語要件と実際の選考例から判断材料を得たい",
   status: "published",
-  category: "experience",
+  category: "career",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

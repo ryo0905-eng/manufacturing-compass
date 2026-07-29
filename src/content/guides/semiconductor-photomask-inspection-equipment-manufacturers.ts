@@ -9,7 +9,7 @@ export const semiconductorPhotomaskInspectionEquipmentManufacturersGuide: GuideA
   searchIntent:
     "フォトマスク検査装置の役割と検査工程、ブランクス・パターン・エッジ検査、Die-to-Die・Die-to-Database、DUV・EUVの違い、レーザーテック・KLA・ニューフレアテクノロジー・ZEISSなど主要企業の領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

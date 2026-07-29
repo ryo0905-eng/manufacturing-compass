@@ -9,7 +9,7 @@ export const manufacturingDxAiCodingGuide: GuideArticle = {
   searchIntent:
     "製造業のデータ可視化や業務アプリ開発で、AIコーディングがPower BIやローコードとどう違い、どの用途に向くのかを知りたい",
   status: "published",
-  category: "experience",
+  category: "dx-ai",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",

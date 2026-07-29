@@ -9,7 +9,7 @@ export const semiconductorPhotomaskManufacturersGuide: GuideArticle = {
   searchIntent:
     "半導体フォトマスクの役割と製造工程、マスクブランクス・レチクルとの違い、DUV・EUV向けの構造、テクセンドフォトマスク・DNP・Photronicsなど主要企業の領域と比較方法を知りたい",
   status: "published",
-  category: "foundation",
+  category: "industry",
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",
