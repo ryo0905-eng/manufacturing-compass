@@ -8,7 +8,6 @@ function contentDate(date: string) {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
   const searchReadyCompanies = companies.filter((company) => getCareerInfo(company.id));
   const latestGuideUpdatedAt = beginnerGuides.reduce(
     (latest, guide) => guide.updatedAt > latest ? guide.updatedAt : latest,
@@ -37,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
-    lastModified: path === "/guides" ? guidesLastModified : now,
+    ...(path === "/guides" ? { lastModified: guidesLastModified } : {}),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/career-agents" ? 0.85 : 0.8,
   }));
@@ -58,14 +57,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const segmentRoutes = segments.map((segment) => ({
     url: `${siteUrl}/segments/${segment.slug}`,
-    lastModified: now,
     changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 
   const compareRoutes = comparePairs.map((ids) => ({
     url: `${siteUrl}/compare/${companyCompareSlug(ids)}`,
-    lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.65,
   }));
@@ -79,7 +76,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const rankingRoutes = rankings.map((ranking) => ({
     url: `${siteUrl}/rankings/${ranking.slug}`,
-    lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.66,
   }));
