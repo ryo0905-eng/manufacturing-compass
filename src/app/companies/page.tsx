@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { FilterableCompanies } from "@/components/FilterableCompanies";
 import { companies, segments } from "@/data/companies";
 
@@ -20,6 +21,11 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
         <p className="section-label">公開情報から調べる</p>
         <h1>半導体企業一覧</h1>
         <p>会社名だけでなく、業界での役割、主な職種、英語必要度、キャリア準備ポイントまでまとめて確認できます。</p>
+        <div className="actions">
+          <Link className="button ghost" href="/compare">
+            2社を比較する
+          </Link>
+        </div>
       </section>
       <FilterableCompanies companies={companies} initialQuery={query} segments={segments} />
     </main>

@@ -45,7 +45,19 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
   const career = getCareerInfo(company.id);
   const companySegments = company.industrySegments.map((segmentId) => getSegmentById(segmentId)).filter(Boolean);
   const compareTarget = companies.find((item) => item.id !== company.id && item.industrySegments.some((segment) => company.industrySegments.includes(segment)));
-  const compareHref = (compareTarget ? `/compare/${company.id}-vs-${compareTarget.id}` : "/compare") as Route;
+  const featuredComparisonTarget = company.id === "asml"
+    ? "東京エレクトロン"
+    : company.id === "tokyo-electron"
+      ? "ASML"
+      : null;
+  const compareHref = (featuredComparisonTarget
+    ? "/compare/asml-vs-tokyo-electron"
+    : compareTarget
+      ? `/compare/${company.id}-vs-${compareTarget.id}`
+      : "/compare") as Route;
+  const compareLabel = featuredComparisonTarget
+    ? `${featuredComparisonTarget}との違いを見る`
+    : "近い会社と比較する";
 
   return (
     <main className="page company-detail-page">
@@ -65,7 +77,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
         <p>{company.careerSummary}</p>
         <div className="actions">
           <Link className="button primary" href={compareHref}>
-            近い会社と比較する
+            {compareLabel}
           </Link>
           <Link className="button ghost" href={`/companies/${company.slug}/career-prep` as Route}>
             準備を見る
