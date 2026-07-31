@@ -1,4 +1,5 @@
 import type { Route } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
 import { SalaryRankingTable } from "@/components/SalaryRankingTable";
@@ -18,6 +19,21 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
+        if (block.type === "image") {
+          return (
+            <figure className="guide-actual-image" key={`image-${block.src}`}>
+              <Image
+                alt={block.alt}
+                height={block.height}
+                sizes="(max-width: 780px) calc(100vw - 40px), 740px"
+                src={block.src}
+                width={block.width}
+              />
+              <figcaption>{block.caption}</figcaption>
+            </figure>
+          );
+        }
+
         if (block.type === "timeline") {
           return (
             <ol className="guide-storyline" key={`timeline-${index}`}>

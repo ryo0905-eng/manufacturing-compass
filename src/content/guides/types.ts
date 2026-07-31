@@ -5,6 +5,14 @@ export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
   | {
+      type: "image";
+      src: string;
+      alt: string;
+      caption: string;
+      width: number;
+      height: number;
+    }
+  | {
       type: "timeline";
       items: Array<{ label: string; title: string; body: string }>;
     }

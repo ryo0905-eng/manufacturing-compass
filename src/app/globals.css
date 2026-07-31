@@ -8060,6 +8060,28 @@ summary:focus-visible {
   font-style: normal;
 }
 
+.guide-actual-image {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f7f7f8;
+}
+
+.guide-actual-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.guide-actual-image figcaption {
+  border-top: 1px solid var(--line);
+  padding: 11px 14px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
 .guide-note {
   border-top: 3px solid #9b7a3f;
   background: rgba(155, 122, 63, 0.08);

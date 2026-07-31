@@ -81,6 +81,15 @@ export const aiPrototypingRequirementsGuide: GuideArticle = {
           caption: "最初のプロトタイプを操作したときのフィードバック",
         },
         {
+          type: "image",
+          src: "/images/guides/ai-prototyping/cpk-tool-workspace.png",
+          alt: "Cpkツールで測定データと規格を入力し、同じ画面で分布グラフを確認している実画面",
+          caption:
+            "現在のCpkツール。入力欄と分布グラフを横に並べ、画面を行き来せず確認できるようにした。",
+          width: 1600,
+          height: 593,
+        },
+        {
           type: "links",
           items: [
             {
@@ -172,6 +181,15 @@ export const aiPrototypingRequirementsGuide: GuideArticle = {
           quote:
             "今の説明を、聞かなくても画面上で分かるようにしてほしい。ただ説明を並べるだけではなく、動かしたら自然と理解できるようにしたい。",
           caption: "DOEツールの説明方法を見直したときのフィードバック",
+        },
+        {
+          type: "image",
+          src: "/images/guides/ai-prototyping/doe-learning-workspace.png",
+          alt: "DOE学習ツールで実験誤差と時間による変化をスライダーで操作している実画面",
+          caption:
+            "現在のDOE学習ツール。時間による変化を動かし、標準順とランダム化で結果がどう変わるか確かめられる。",
+          width: 1600,
+          height: 926,
         },
         {
           type: "links",
