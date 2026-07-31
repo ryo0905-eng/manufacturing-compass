@@ -38,16 +38,9 @@ const researchLinks = [
   },
 ] as const;
 
-const homeArticleSlugs = [
-  "ai-prototyping-requirements",
-  "semiconductor-manufacturing-process",
-  "semiconductor-market-cap-ranking",
-  "electronics-to-semiconductor-process-engineer",
-] as const;
-
-const homeArticles = homeArticleSlugs
-  .map((slug) => beginnerGuides.find((guide) => guide.slug === slug))
-  .filter((guide) => guide !== undefined);
+const homeArticles = [...beginnerGuides]
+  .sort((left, right) => right.publishedAt.localeCompare(left.publishedAt))
+  .slice(0, 4);
 
 const learningTools = [
   {
@@ -135,10 +128,10 @@ export default function Home() {
       <section className="home-focused__section home-focused__articles" aria-labelledby="home-articles-title">
         <header className="home-focused__heading">
           <div>
-            <p className="home-focused__label">ARTICLES</p>
-            <h2 id="home-articles-title">製造業・半導体を深く知る。</h2>
+            <p className="home-focused__label">NEW ARTICLES</p>
+            <h2 id="home-articles-title">最新記事</h2>
           </div>
-          <p>AI活用、技術解説、企業研究、キャリアの実体験を、関心のあるテーマから読めます。</p>
+          <p>キャリアの実体験、AI活用、技術解説、企業研究から、最近公開した記事を紹介します。</p>
         </header>
         <nav className="home-focused__article-categories" aria-label="記事のカテゴリ">
           {guideCategoryOrder.map((category) => (
@@ -151,7 +144,10 @@ export default function Home() {
           {homeArticles.map((article) => (
             <Link className="home-focused__article-card" href={`/guides/${article.slug}`} key={article.slug}>
               <GuideThumbnail category={article.category} compact slug={article.slug} title={article.title} />
-              <span>{guideCategoryDetails[article.category].label}</span>
+              <span>
+                {guideCategoryDetails[article.category].label}
+                <time dateTime={article.publishedAt}>{article.publishedAt.replaceAll("-", ".")}</time>
+              </span>
               <strong>{article.title}</strong>
               <p>{article.description}</p>
               <i aria-hidden="true">→</i>
