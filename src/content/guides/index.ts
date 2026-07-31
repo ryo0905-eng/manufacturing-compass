@@ -3,6 +3,7 @@ import { aiPrototypingRequirementsGuide } from "@/content/guides/ai-prototyping-
 import { analogSemiconductorCompaniesGuide } from "@/content/guides/analog-semiconductor-companies";
 import { equipmentEngineerRouteGuide } from "@/content/guides/equipment-engineer-route";
 import { electronicsToSemiconductorProcessEngineerGuide } from "@/content/guides/electronics-to-semiconductor-process-engineer";
+import { firstCareerChangeAnxietyGuide } from "@/content/guides/first-career-change-anxiety";
 import { icChipManufacturingCompaniesGuide } from "@/content/guides/ic-chip-manufacturing-companies";
 import { manufacturingDxAiCodingGuide } from "@/content/guides/manufacturing-dx-ai-coding";
 import { qualityEngineerRouteGuide } from "@/content/guides/quality-engineer-route";
@@ -81,6 +82,7 @@ export type { GuideArticle } from "@/content/guides/types";
 
 const guideArticles: GuideArticle[] = [
   semiconductorCareerStartGuide,
+  firstCareerChangeAnxietyGuide,
   icChipManufacturingCompaniesGuide,
   analogSemiconductorCompaniesGuide,
   semiconductorFoundryGuide,

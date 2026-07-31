@@ -23,7 +23,7 @@ export const threeJobChangesCompensationNegotiationGuide: GuideArticle = {
     "本文の待遇計算は、考え方を説明するための架空例です。RYO本人の年収、手当、住居費、オファー条件ではありません。",
   showCareerCtas: true,
   publishedAt: "2026-07-23",
-  updatedAt: "2026-07-23",
+  updatedAt: "2026-08-01",
   sources: [
     {
       title: "令和6年 雇用動向調査結果の概要",
@@ -270,6 +270,7 @@ export const threeJobChangesCompensationNegotiationGuide: GuideArticle = {
   todayQuest:
     "各転職を「辞めた理由」と「次に積みたかった経験」に分け、現在の待遇は公式書類の年収と補足の待遇価値に分けて書き出す",
   relatedGuideSlugs: [
+    "first-career-change-anxiety",
     "semiconductor-recruitment-agent-review",
     "electronics-to-semiconductor-process-engineer",
     "semiconductor-career-start",

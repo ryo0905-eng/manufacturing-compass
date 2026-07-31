@@ -19,7 +19,7 @@ export const semiconductorRecruitmentAgentReviewGuide: GuideArticle = {
     "エンワールドとロバート・ウォルターズで求人紹介を受け、応募前まで比較した経験",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-07-19",
+  updatedAt: "2026-08-01",
   sources: [
     {
       title: "JAC Recruitmentの転職支援サービス",
@@ -269,6 +269,7 @@ export const semiconductorRecruitmentAgentReviewGuide: GuideArticle = {
   ],
   todayQuest: "総合型、製造業・半導体特化型、外資特化型の役割を一つずつ決め、各社へ同じ希望条件を伝える",
   relatedGuideSlugs: [
+    "first-career-change-anxiety",
     "semiconductor-career-start",
     "semiconductor-career-chatgpt",
     "semiconductor-career-english-level",

@@ -21,7 +21,7 @@ export const semiconductorResumeImprovementResultsGuide: GuideArticle = {
   basisNote:
     "本人の職務経歴書と面接経験をもとに、一般情報は厚生労働省と企業公式求人で確認しています。",
   publishedAt: "2026-07-17",
-  updatedAt: "2026-07-19",
+  updatedAt: "2026-08-01",
   sources: [
     {
       title: "職務経歴書の作り方",
@@ -206,6 +206,7 @@ export const semiconductorResumeImprovementResultsGuide: GuideArticle = {
   ],
   todayQuest: "最も新しい改善実績を一つ選び、「目的・役割・実績」の3項目を箇条書きにする",
   relatedGuideSlugs: [
+    "first-career-change-anxiety",
     "production-engineering-to-semiconductor-process-engineer",
     "semiconductor-career-chatgpt",
     "semiconductor-career-start",
