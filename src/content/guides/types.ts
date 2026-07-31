@@ -291,7 +291,7 @@ export type GuideArticle = {
   };
   overviewBlocks?: GuideBlock[];
   sections: GuideSection[];
-  todayQuest: string;
+  todayQuest?: string;
   relatedGuideSlugs: string[];
   relatedCompanyIds: string[];
 };

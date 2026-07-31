@@ -176,7 +176,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </nav>
         ) : null}
 
-        <TodayAction action={guide.todayQuest} />
+        {guide.todayQuest ? <TodayAction action={guide.todayQuest} /> : null}
 
         {guide.showCareerCtas === false ? null : (
           <>
