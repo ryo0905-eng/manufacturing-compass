@@ -1,4 +1,5 @@
 import { appliedMaterialsSemiconductorEquipmentGuide } from "@/content/guides/applied-materials-semiconductor-equipment";
+import { aiPrototypingRequirementsGuide } from "@/content/guides/ai-prototyping-requirements";
 import { analogSemiconductorCompaniesGuide } from "@/content/guides/analog-semiconductor-companies";
 import { equipmentEngineerRouteGuide } from "@/content/guides/equipment-engineer-route";
 import { electronicsToSemiconductorProcessEngineerGuide } from "@/content/guides/electronics-to-semiconductor-process-engineer";
@@ -144,6 +145,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorSiliconWaferManufacturingGuide,
   electronicsToSemiconductorProcessEngineerGuide,
   productionEngineeringToSemiconductorProcessEngineerGuide,
+  aiPrototypingRequirementsGuide,
   manufacturingDxAiCodingGuide,
   semiconductorResumeImprovementResultsGuide,
   semiconductorCareerChatgptGuide,

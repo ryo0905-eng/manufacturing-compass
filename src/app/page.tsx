@@ -39,7 +39,7 @@ const researchLinks = [
 ] as const;
 
 const homeArticleSlugs = [
-  "manufacturing-dx-ai-coding",
+  "ai-prototyping-requirements",
   "semiconductor-manufacturing-process",
   "semiconductor-market-cap-ranking",
   "electronics-to-semiconductor-process-engineer",
