@@ -16625,6 +16625,7 @@ body {
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.5;
+  text-wrap: balance;
 }
 
 .guide-page .article-body h3,

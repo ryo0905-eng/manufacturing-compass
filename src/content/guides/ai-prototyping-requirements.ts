@@ -2,9 +2,9 @@ import type { GuideArticle } from "@/content/guides/types";
 
 export const aiPrototypingRequirementsGuide: GuideArticle = {
   slug: "ai-prototyping-requirements",
-  title: "AIでプロトタイピングが爆速化した理由｜要件定義は「言葉で説明」から「動くものを見せる」へ",
+  title: "AIプロトタイプが変えた要件定義｜言葉より、まず動くものを見せる",
   description:
-    "AIで速くなったのはコードを書く作業だけではありません。Cpk・DOE学習ツールを実際に作った経験から、動くプロトタイプが利用者と開発者の共通言語になり、要件を見つける過程まで変えたことを紹介します。",
+    "詳細な仕様を書いても、Cpkツールは「気持ちよく」ありませんでした。Cpk・DOE学習ツールを実際に作り直した過程から、AIで本当に速くなったものを考えます。",
   targetQuery: "AI プロトタイピング",
   searchIntent:
     "生成AIでプロトタイプを作ると、利用者へのヒアリングや要件定義の進め方がどう変わるのか、実際の開発例から知りたい",
@@ -18,6 +18,8 @@ export const aiPrototypingRequirementsGuide: GuideArticle = {
     "DOE学習ツールを、用語説明中心の画面から、操作しながらANOVAまで学べる構成へ改善した経験",
     "2026年7月19日の制作チャットとGit履歴を確認し、同じ日に複数回の試作と修正を行った事実",
   ],
+  showIntroSummary: false,
+  showExperienceBasis: false,
   basisNote:
     "本記事は、RYO本人が公開を承認したManufacturing Compassの開発経験をもとにしています。効果を定量的に一般化せず、試作品と本番システムの違いは公的機関の資料で補足しています。",
   showCareerCtas: false,
@@ -58,45 +60,10 @@ export const aiPrototypingRequirementsGuide: GuideArticle = {
     learnings:
       "詳細な仕様でも拾えなかった使いづらさ、Cpk・DOEツールで目的まで変わった過程、利用者と開発者の会話の変化、本番品質と分ける理由。",
   },
-  overviewBlocks: [
-    {
-      type: "process-flow",
-      title: "AIプロトタイピングで変わる、要件を見つける流れ",
-      description:
-        "最初から完璧な要件を決めるのではなく、粗い試作品を間に置き、操作して気づいたことを次の要件へ変えていきます。",
-      stages: [
-        {
-          label: "01",
-          title: "要望を伝える",
-          body: "利用者または開発者が、目的と最低限の条件をAIへ伝える",
-        },
-        {
-          label: "02",
-          title: "動く形にする",
-          body: "入力、操作、結果が分かる粗いプロトタイプを作る",
-        },
-        {
-          label: "03",
-          title: "触って気づく",
-          body: "見づらさ、面倒さ、足りない説明や本当の利用目的を見つける",
-        },
-        {
-          label: "04",
-          title: "要件へ変える",
-          body: "感覚的な違和感を、配置、操作、表示、機能として修正する",
-        },
-      ],
-      cycle: {
-        title: "試作と確認を小さく繰り返す",
-        items: ["作る", "触る", "言葉にする", "直す"],
-        note: "プロトタイプは完成品ではなく、認識を合わせ、本当に必要なものを見つけるための道具です。",
-      },
-    },
-  ],
   sections: [
     {
       id: "cpk-first-prototype",
-      heading: "詳細な依頼を書いても、Cpkツールは「気持ちよくなかった」",
+      heading: "Cpkツールは、最初から気持ちよく使えなかった",
       lead:
         "Cpkの計算・学習ツールを作ったとき、最初の依頼はかなり具体的に書いていました。",
       paragraphs: [
@@ -128,7 +95,7 @@ export const aiPrototypingRequirementsGuide: GuideArticle = {
     },
     {
       id: "requirements-after-screen",
-      heading: "要件定義書を書いても、画面を見るまで分からないことがある",
+      heading: "画面を見るまで、分からなかったこと",
       lead:
         "これまでは、業務を改善したい利用者が、コードを書ける人へ要望を伝えていました。",
       paragraphs: [

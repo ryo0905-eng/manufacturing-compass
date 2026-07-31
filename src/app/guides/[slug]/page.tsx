@@ -70,7 +70,9 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const nextProcessGuide = processSeriesIndex >= 0 && processSeriesIndex < semiconductorProcessSeriesSlugs.length - 1
     ? getGuideBySlug(semiconductorProcessSeriesSlugs[processSeriesIndex + 1])
     : undefined;
-  const showGuideBasis = guide.basisLabel !== "この記事の調査・編集方針";
+  const showGuideBasis =
+    guide.showExperienceBasis !== false &&
+    guide.basisLabel !== "この記事の調査・編集方針";
 
   return (
     <main className="page guide-page">
@@ -83,11 +85,13 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <h1>{guide.title}</h1>
           <p>{guide.description}</p>
           <small>執筆・確認：{guide.reviewedBy}（製造業経験 約10年）・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
-          <dl className="guide-intro-summary">
-            <div><dt>悩み</dt><dd>{guide.intro.problem}</dd></div>
-            <div><dt>結論</dt><dd>{guide.intro.conclusion}</dd></div>
-            <div><dt>読むと分かること</dt><dd>{guide.intro.learnings}</dd></div>
-          </dl>
+          {guide.showIntroSummary !== false ? (
+            <dl className="guide-intro-summary">
+              <div><dt>悩み</dt><dd>{guide.intro.problem}</dd></div>
+              <div><dt>結論</dt><dd>{guide.intro.conclusion}</dd></div>
+              <div><dt>読むと分かること</dt><dd>{guide.intro.learnings}</dd></div>
+            </dl>
+          ) : null}
           {showGuideBasis ? (
             <aside className="guide-experience-basis" aria-label={guide.basisLabel ?? "この記事の実体験の根拠"}>
               <strong>{guide.basisLabel ?? "この記事の実体験の根拠"}</strong>

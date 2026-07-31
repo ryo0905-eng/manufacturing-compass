@@ -267,6 +267,8 @@ export type GuideArticle = {
   author: "RYO";
   reviewedBy: "RYO";
   experienceBasis: string[];
+  showIntroSummary?: boolean;
+  showExperienceBasis?: boolean;
   basisLabel?: string;
   basisNote?: string;
   showCareerCtas?: boolean;
