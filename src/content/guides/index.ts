@@ -1,6 +1,7 @@
 import { appliedMaterialsSemiconductorEquipmentGuide } from "@/content/guides/applied-materials-semiconductor-equipment";
 import { aiPrototypingRequirementsGuide } from "@/content/guides/ai-prototyping-requirements";
 import { analogSemiconductorCompaniesGuide } from "@/content/guides/analog-semiconductor-companies";
+import { companySelectionAfterThreeJobChangesGuide } from "@/content/guides/company-selection-after-three-job-changes";
 import { equipmentEngineerRouteGuide } from "@/content/guides/equipment-engineer-route";
 import { electronicsToSemiconductorProcessEngineerGuide } from "@/content/guides/electronics-to-semiconductor-process-engineer";
 import { firstCareerChangeAnxietyGuide } from "@/content/guides/first-career-change-anxiety";
@@ -83,6 +84,7 @@ export type { GuideArticle } from "@/content/guides/types";
 const guideArticles: GuideArticle[] = [
   semiconductorCareerStartGuide,
   firstCareerChangeAnxietyGuide,
+  companySelectionAfterThreeJobChangesGuide,
   icChipManufacturingCompaniesGuide,
   analogSemiconductorCompaniesGuide,
   semiconductorFoundryGuide,

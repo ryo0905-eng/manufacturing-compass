@@ -191,6 +191,7 @@ export const firstCareerChangeAnxietyGuide: GuideArticle = {
     },
   ],
   relatedGuideSlugs: [
+    "company-selection-after-three-job-changes",
     "semiconductor-career-start",
     "semiconductor-resume-improvement-results",
     "semiconductor-recruitment-agent-review",

@@ -60,6 +60,6 @@ export const semiconductorCareerStartGuide: GuideArticle = {
     },
   ],
   todayQuest: "担当した改善実績を、課題・行動・数字の3行で書く",
-  relatedGuideSlugs: ["first-career-change-anxiety", "semiconductor-resume-improvement-results", "electronics-to-semiconductor-process-engineer", "equipment-engineer-route", "quality-engineer-route"],
+  relatedGuideSlugs: ["company-selection-after-three-job-changes", "first-career-change-anxiety", "semiconductor-resume-improvement-results", "electronics-to-semiconductor-process-engineer", "equipment-engineer-route", "quality-engineer-route"],
   relatedCompanyIds: ["tsmc", "micron", "tokyo-electron"],
 };
