@@ -3,8 +3,14 @@ import Link from "next/link";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
-import { guideCategoryDetails, guideCategoryOrder } from "@/content/guides/categories";
+import { guideCategoryDetails } from "@/content/guides/categories";
+import type { GuideCategory } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
+import {
+  industryGuideCollections,
+  industryGuideCount,
+  industryGuideSlugs,
+} from "@/data/guide-collections";
 import {
   semiconductorProcessSeriesDetailSlugs as processSeriesDetailSlugs,
   semiconductorProcessSeriesHubSlug as processSeriesHubSlug,
@@ -39,10 +45,14 @@ export default function GuidesPage() {
       .filter((guide) => guide !== undefined),
   }));
   const processSeriesSlugSet = new Set(processSeriesSlugs);
+  const industryGuideSlugSet = new Set(industryGuideSlugs);
   const otherGuides = beginnerGuides.filter(
-    (guide) => guide.slug !== featuredGuide.slug && !processSeriesSlugSet.has(guide.slug),
+    (guide) => guide.slug !== featuredGuide.slug
+      && !processSeriesSlugSet.has(guide.slug)
+      && !industryGuideSlugSet.has(guide.slug),
   );
-  const categorizedGuides = guideCategoryOrder.map((category) => ({
+  const libraryCategoryOrder: GuideCategory[] = ["career", "dx-ai", "technology"];
+  const categorizedGuides = libraryCategoryOrder.map((category) => ({
     category,
     guides: otherGuides.filter((guide) => guide.category === category),
   }));
@@ -65,14 +75,27 @@ export default function GuidesPage() {
         </aside>
       </section>
 
-      <nav className="guides-category-nav" aria-label="記事のカテゴリ">
-        {guideCategoryOrder.map((category) => (
-          <Link href={`#guide-category-${category}`} key={category}>
-            <strong>{guideCategoryDetails[category].label}</strong>
-            <span>{guideCategoryDetails[category].description}</span>
-            <i aria-hidden="true">↓</i>
-          </Link>
-        ))}
+      <nav className="guides-category-nav" aria-label="記事を探す入口">
+        <Link href="#guide-category-technology">
+          <strong>工程から学ぶ</strong>
+          <span>半導体ができるまでを、全体像と工程順にたどる</span>
+          <i aria-hidden="true">↓</i>
+        </Link>
+        <Link href="/guides/industry">
+          <strong>企業・装置を調べる</strong>
+          <span>メーカー記事を、役割と工程別の一覧から探す</span>
+          <i aria-hidden="true">→</i>
+        </Link>
+        <Link href="#guide-category-career">
+          <strong>転職準備・実体験</strong>
+          <span>今の経験に近い入口と、転職時の迷いから読む</span>
+          <i aria-hidden="true">↓</i>
+        </Link>
+        <Link href="#guide-category-dx-ai">
+          <strong>製造業DX・AI</strong>
+          <span>AIを要件整理、改善、転職準備へ生かす</span>
+          <i aria-hidden="true">↓</i>
+        </Link>
       </nav>
 
       <section className="guides-feature" aria-labelledby="featured-guide-title">
@@ -103,7 +126,7 @@ export default function GuidesPage() {
         </Link>
       </section>
 
-      <section className="guides-process-series" aria-labelledby="process-series-title">
+      <section className="guides-process-series" id="guide-category-technology" aria-labelledby="process-series-title">
         <header className="guides-section-heading">
           <div><p className="section-label">Semiconductor process</p><h2 id="process-series-title">半導体ができるまでを、工程順に読む</h2></div>
           <p>まず全体像をつかみ、気になった工程へ進める全15記事のシリーズです。図解とやさしい言葉で、工程前後の変化と仕組みを整理します。</p>
@@ -149,15 +172,39 @@ export default function GuidesPage() {
         </div>
       </section>
 
+      <section className="guides-industry-entry" id="guide-category-industry" aria-labelledby="industry-entry-title">
+        <header className="guides-section-heading">
+          <div><p className="section-label">Company &amp; equipment research</p><h2 id="industry-entry-title">企業・装置・材料を、役割から調べる</h2></div>
+          <p>{industryGuideCount}記事を一列に並べず、前工程、検査・計測、サブファブ、後工程などに分けました。</p>
+        </header>
+        <div className="guides-industry-collections">
+          {industryGuideCollections.map((collection) => (
+            <Link href={`/guides/industry#collection-${collection.id}`} key={collection.id}>
+              <header><span>{String(collection.guides.length).padStart(2, "0")}</span><i>記事</i></header>
+              <h3>{collection.label}</h3>
+              <p>{collection.description}</p>
+              <ul aria-label="記事例">
+                {collection.guides.slice(0, 2).map((guide) => <li key={guide.slug}>{guide.shortTitle}</li>)}
+              </ul>
+              <strong>このテーマから探す <span aria-hidden="true">→</span></strong>
+            </Link>
+          ))}
+        </div>
+        <Link className="guides-industry-all-link" href="/guides/industry">
+          <span><strong>企業・装置・材料の記事をすべて見る</strong><small>企業名・装置名・材料名でも検索できます</small></span>
+          <i aria-hidden="true">→</i>
+        </Link>
+      </section>
+
       <section className="guides-library" aria-labelledby="guide-library-title">
         <header className="guides-section-heading">
-          <div><p className="section-label">Article library</p><h2 id="guide-library-title">テーマから読む</h2></div>
-          <p>関心のあるテーマから、AI活用、技術、企業、キャリアの記事へ進めます。</p>
+          <div><p className="section-label">Career &amp; practice</p><h2 id="guide-library-title">悩みと経験から読む</h2></div>
+          <p>転職準備、製造業DX・AI、品質改善など、今の仕事や悩みに近い記事をまとめています。</p>
         </header>
         <div className="guides-library__groups">
           {categorizedGuides.map(({ category, guides }) => (
             guides.length > 0 ? (
-              <section className="guides-category-section" id={`guide-category-${category}`} key={category} aria-labelledby={`guide-category-${category}-title`}>
+              <section className="guides-category-section" id={`guide-category-${category === "technology" ? "technology-extra" : category}`} key={category} aria-labelledby={`guide-category-${category}-title`}>
                 <header className="guides-category-section__heading">
                   <div>
                     <h3 id={`guide-category-${category}-title`}>{guideCategoryDetails[category].label}</h3>

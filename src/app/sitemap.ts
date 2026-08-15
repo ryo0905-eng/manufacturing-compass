@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/companies",
     "/compare",
     "/guides",
+    "/guides/industry",
     "/rankings",
     "/about",
     "/privacy",
@@ -36,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
-    ...(path === "/guides" ? { lastModified: guidesLastModified } : {}),
+    ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/career-agents" ? 0.85 : 0.8,
   }));
