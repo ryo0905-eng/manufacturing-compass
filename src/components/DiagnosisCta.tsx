@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 
 type DiagnosisCtaProps = {
   title?: string;
@@ -16,7 +16,9 @@ export function DiagnosisCta({
         <p>{body}</p>
         <small>約3分・登録不要。氏名や連絡先は入力しません。</small>
       </div>
-      <Link className="button primary" href="/career-compass">12問の診断を始める</Link>
+      <CareerCompassLink className="button primary" ctaLocation="guide_footer" ctaVariant="generic_diagnosis">
+        12問の診断を始める
+      </CareerCompassLink>
     </aside>
   );
 }

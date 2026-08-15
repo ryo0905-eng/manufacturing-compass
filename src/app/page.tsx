@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CareerResultPreview } from "@/components/CareerResultPreview";
 import { CareerRouteMap } from "@/components/CareerRouteMap";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
 import { guideCategoryDetails, guideCategoryOrder } from "@/content/guides/categories";
@@ -78,9 +79,9 @@ export default function Home() {
           <h1>自分の経験が、半導体のどの仕事で生かせるのか。</h1>
           <p>求人票を比べながら、仕事の接点と次に準備したいことを整理するサイトです。</p>
           <div className="home-focused__actions">
-            <Link className="home-focused__button" href="/career-compass">
+            <CareerCompassLink className="home-focused__button" ctaLocation="home_hero" ctaVariant="experience_to_role" sourcePage="/">
               自分の経験を整理する
-            </Link>
+            </CareerCompassLink>
             <Link className="home-focused__text-link" href="/industry-map">
               半導体業界地図を見る
             </Link>
@@ -101,9 +102,9 @@ export default function Home() {
         <CareerRouteMap />
         <div className="home-focused__career-note">
           <p>Career Compassでは、12問の回答から、経験に近い職種と次に整理したいことを確認できます。</p>
-          <Link className="home-focused__text-link" href="/career-compass">
+          <CareerCompassLink className="home-focused__text-link" ctaLocation="home_career_route" ctaVariant="check_with_experience" sourcePage="/">
             自分の経験で確認する
-          </Link>
+          </CareerCompassLink>
         </div>
       </section>
 
@@ -206,9 +207,9 @@ export default function Home() {
           <p>現在の仕事内容と実績を12問で整理し、近い職種と次に準備したいことを確認できます。</p>
         </div>
         <div>
-          <Link className="home-focused__button" href="/career-compass">
+          <CareerCompassLink className="home-focused__button" ctaLocation="home_final" ctaVariant="experience_to_role" sourcePage="/">
             自分の経験を整理する
-          </Link>
+          </CareerCompassLink>
           <small>約3分・登録不要</small>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 
 type DiagnosisLaunchPanelProps = {
   className?: string;
@@ -41,7 +42,9 @@ export function DiagnosisLaunchPanel({
             </div>
           ))}
         </dl>
-        <Link className="button" href="/career-compass">12問の診断を始める <span aria-hidden="true">→</span></Link>
+        <CareerCompassLink className="button" ctaLocation="diagnosis_launch_panel" ctaVariant="result_preview">
+          12問の診断を始める <span aria-hidden="true">→</span>
+        </CareerCompassLink>
         <Link className="diagnosis-launch-panel__secondary" href="/industry-map">先に半導体業界地図を見る</Link>
       </div>
     </section>

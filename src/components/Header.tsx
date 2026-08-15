@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 
 const navItems = [
   { href: "/industry-map", label: "業界地図" },
@@ -22,7 +23,9 @@ export function Header() {
           </Link>
         ))}
       </nav>
-      <Link className="header-cta" href="/career-compass">経験を整理</Link>
+      <CareerCompassLink className="header-cta" ctaLocation="global_header" ctaVariant="experience_to_role">
+        経験から職種を探す
+      </CareerCompassLink>
     </header>
   );
 }

@@ -22,6 +22,10 @@
   ├─ 企業・比較 → キャリア準備・関連ガイド
   └─ キャリア記事 → Career Compass / 関連記事
 
+企業一覧 / 業界地図 / 企業比較
+  → ページの文脈に合う Career Compass 導線
+  → 経験に近い職種と次の準備を整理
+
 Career Compass
   → 経験の翻訳・参考年収・企業例・準備
   → 今日の行動
@@ -48,6 +52,8 @@ Career Compass
 - 経験整理が目的なら、Career Compass や職務経歴書記事を優先する
 - 第三者確認が必要な時だけ、相談準備とエージェント比較を出す
 - 同じページに複数の主CTAを競合させない
+- Career Compass へのリンクは「診断する」だけでなく、遷移後に分かる職種・強み・準備を文脈に合わせて示す
+- 企業比較から相談先へ進む場合は、必要に応じて Career Compass による経験整理を先に置く
 
 ## エージェント CTA の前提
 
@@ -62,6 +68,7 @@ Career Compass
 
 ## 計測
 
+- `career_compass_cta_click`
 - `diagnosis_start`
 - `diagnosis_progress`
 - `diagnosis_complete`
@@ -72,5 +79,7 @@ Career Compass
 - `industry_map_mode_change`
 - `industry_map_node_open`
 - `industry_map_content_click`
+
+`career_compass_cta_click` には `source_page`、`cta_location`、`cta_variant` の有限値だけを付与します。検索語や入力内容は送信しません。GA4 のページ表示からCTAクリック、1問目回答、4・8・12問到達、完了までを流入元別に確認します。
 
 評価する時は単一イベントだけでなく、流入ページ、Career Compass 完了、内部遷移、外部クリックを一連で見ます。氏名、連絡先、自由記述、現年収、回答一式は送信せず、完了時の職種領域・転職目的・結果タイプ・相談テーマは集計可能な粗いカテゴリに限定します。

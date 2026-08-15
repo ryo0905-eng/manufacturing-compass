@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
+import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { IndustryMapExplorer } from "@/components/IndustryMapExplorer";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
@@ -170,6 +171,14 @@ export default function IndustryMapPage() {
           <p>このページは業界構造と関係を理解するための地図です。条件を指定して企業を探す場合は、<Link href="/companies">半導体メーカー・企業一覧</Link>を使ってください。</p>
         </aside>
       </section>
+
+      <CareerCompassCta
+        body="工程改善、設備、品質、生産技術などの経験を12問で整理し、接点のある半導体工程・職種と次の準備を確認できます。"
+        ctaLocation="industry_map_after_supply_chain"
+        ctaVariant="process_to_role"
+        sourcePage="/industry-map"
+        title="業界の流れが分かったら、自分の経験がつながる場所を確認する"
+      />
 
       <section className="section">
         <div className="industry-map-directory-heading">

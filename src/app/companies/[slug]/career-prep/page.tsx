@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { companies, getCareerInfo, getCompanyBySlug } from "@/data/companies";
 
 type CareerPrepPageProps = {
@@ -58,9 +59,14 @@ export default async function CareerPrepPage({ params }: CareerPrepPageProps) {
         <h1>{company.nameJa}を目指す準備</h1>
         <p>{company.careerSummary}</p>
         <div className="actions">
-          <Link className="button primary" href="/career-compass">
-            Questで現在地を見る
-          </Link>
+          <CareerCompassLink
+            className="button primary"
+            ctaLocation="company_career_prep_hero"
+            ctaVariant="company_prep_to_role"
+            sourcePage={`/companies/${company.slug}/career-prep`}
+          >
+            経験から近い職種を確認する
+          </CareerCompassLink>
           <Link className="button ghost" href={`/companies/${company.slug}`}>
             企業詳細へ
           </Link>

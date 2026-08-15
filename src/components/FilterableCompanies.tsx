@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { Company, IndustrySegment } from "@/types/content";
+import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { CompanyCard } from "@/components/CompanyCard";
 import { trackEvent } from "@/lib/analytics";
 
@@ -94,6 +95,14 @@ export function FilterableCompanies({ companies, initialQuery = "", segments }: 
           </Link>
         ))}
       </div>
+      <CareerCompassCta
+        body="企業の分野を調べたあと、現在の仕事内容と実績から、接点のある半導体職種と次に準備したいことを整理できます。"
+        ctaLocation="companies_after_filters"
+        ctaVariant="company_research_to_role"
+        headingLevel="h3"
+        sourcePage="/companies"
+        title="気になる企業の分野が見えてきたら、自分の経験も同じ軸で見る"
+      />
       <div className="company-grid">
         {filteredCompanies.map((company) => (
           <CompanyCard key={company.id} company={company} />

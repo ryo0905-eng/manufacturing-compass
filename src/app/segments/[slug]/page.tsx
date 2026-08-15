@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { CompanyCard } from "@/components/CompanyCard";
 import { companies, segments } from "@/data/companies";
 
@@ -97,9 +98,14 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
             <p className="eyebrow">キャリアのキーワード</p>
             <h2>求人で見かけやすい職種</h2>
           </div>
-          <Link className="text-link" href="/career-compass">
-            診断する
-          </Link>
+          <CareerCompassLink
+            className="text-link"
+            ctaLocation="segment_job_categories"
+            ctaVariant="segment_to_role"
+            sourcePage={`/segments/${segment.slug}`}
+          >
+            経験から近い職種を確認する
+          </CareerCompassLink>
         </div>
         <div className="keyword-grid">
           {jobCategories.map((category) => (

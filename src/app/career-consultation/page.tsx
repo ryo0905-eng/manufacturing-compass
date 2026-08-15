@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 
 export const metadata: Metadata = {
   title: "半導体転職の相談準備",
@@ -39,9 +40,9 @@ export default function CareerConsultationPage() {
           診断結果をそのまま持ち込むより、職種、実績、年収、準備期間に分けると話が早くなります。
         </p>
         <div className="actions">
-          <Link className="button primary" href="/career-compass">
+          <CareerCompassLink className="button primary" ctaLocation="career_consultation_hero" ctaVariant="consultation_prep" sourcePage="/career-consultation">
             診断から始める
-          </Link>
+          </CareerCompassLink>
           <Link className="button ghost" href="/companies">
             企業を見直す
           </Link>

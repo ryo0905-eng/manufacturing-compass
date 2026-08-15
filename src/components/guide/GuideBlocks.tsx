@@ -630,21 +630,32 @@ export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
         if (block.type === "links") {
           return (
             <nav className="guide-link-list" aria-label="関連ページ" key={`links-${index}`}>
-              {block.items.map((item) => (
-                <TrackedInternalLink
-                  eventName={item.href.startsWith("/tools/")
-                    ? "article_tool_click"
-                    : item.href.startsWith("/companies/")
-                      ? "article_company_click"
-                      : "article_internal_click"}
-                  eventProperties={{ destination_path: item.href, source_slug: sourceSlug }}
-                  href={item.href as Route}
-                  key={item.href}
-                >
-                  <strong>{item.label}<span aria-hidden="true">→</span></strong>
-                  <small>{item.description}</small>
-                </TrackedInternalLink>
-              ))}
+              {block.items.map((item) => {
+                const isCareerCompassLink = item.href === "/career-compass";
+                return (
+                  <TrackedInternalLink
+                    eventName={isCareerCompassLink
+                      ? "career_compass_cta_click"
+                      : item.href.startsWith("/tools/")
+                        ? "article_tool_click"
+                        : item.href.startsWith("/companies/")
+                          ? "article_company_click"
+                          : "article_internal_click"}
+                    eventProperties={isCareerCompassLink
+                      ? {
+                          cta_location: "guide_link_list",
+                          cta_variant: "contextual_article_link",
+                          source_page: sourceSlug ? `/guides/${sourceSlug}` : "/guides",
+                        }
+                      : { destination_path: item.href, source_slug: sourceSlug }}
+                    href={item.href as Route}
+                    key={item.href}
+                  >
+                    <strong>{item.label}<span aria-hidden="true">→</span></strong>
+                    <small>{item.description}</small>
+                  </TrackedInternalLink>
+                );
+              })}
             </nav>
           );
         }

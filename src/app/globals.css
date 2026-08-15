@@ -6626,6 +6626,82 @@ select {
   }
 }
 
+/* Contextual bridge from research pages to Career Compass. */
+.career-compass-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+  margin-top: clamp(34px, 5vw, 52px);
+  border-block: 1px solid #d9e1e4;
+  background: #f4f7f7;
+  padding: clamp(24px, 4vw, 34px);
+}
+
+.career-compass-entry .section-label {
+  margin: 0 0 5px;
+  color: #52656c;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.career-compass-entry h2,
+.career-compass-entry h3 {
+  margin: 0;
+  color: #1d1d1f;
+  font-size: clamp(21px, 2.5vw, 27px);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.45;
+}
+
+.career-compass-entry div > p:not(.section-label) {
+  max-width: 720px;
+  margin: 9px 0 0;
+  color: #4f595e;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.career-compass-entry small {
+  display: block;
+  margin-top: 9px;
+  color: #70787d;
+  font-size: 11px;
+}
+
+.career-compass-entry > .button {
+  display: inline-flex;
+  min-width: 220px;
+  gap: 18px;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+.companies-page .interactive-panel .career-compass-entry {
+  margin: 26px 0 30px;
+}
+
+.industry-map-page > .career-compass-entry {
+  width: min(950px, 100%);
+  margin-inline: auto;
+}
+
+@media (max-width: 720px) {
+  .career-compass-entry {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px 18px;
+  }
+
+  .career-compass-entry > .button {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-hero *,
   .home-section *,

@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
+import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { CompanyComparisonSummary } from "@/components/CompanyComparisonSummary";
 import { StructuredData } from "@/components/StructuredData";
 import { getCompanyComparisonProfile } from "@/data/company-comparisons";
@@ -184,6 +185,14 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
           ))}
         </div>
       </section>
+
+      <CareerCompassCta
+        body="会社の違いだけでなく、現在の仕事内容と実績から、接点のある職種と準備ポイントを12問で整理できます。"
+        ctaLocation="comparison_before_consultation"
+        ctaVariant="company_comparison_to_role"
+        sourcePage={`/compare/${slug}`}
+        title="2社を比べたあと、自分に近い職種を整理する"
+      />
 
       {comparisonProfile ? (
         <section className="section" aria-labelledby="comparison-sources-title">
