@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
@@ -6,7 +7,9 @@ import { DiagnosisCta } from "@/components/DiagnosisCta";
 import { StructuredData } from "@/components/StructuredData";
 import { TodayAction } from "@/components/TodayAction";
 import { GuideBlocks } from "@/components/guide/GuideBlocks";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
+import { companies } from "@/data/companies";
 import { semiconductorProcessSeriesSlugs } from "@/data/guide-series";
 import { siteUrl } from "@/lib/format";
 
@@ -59,6 +62,9 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const relatedGuides = guide.relatedGuideSlugs
     .map((relatedSlug) => getGuideBySlug(relatedSlug))
     .filter((relatedGuide) => relatedGuide !== undefined);
+  const relatedCompanies = guide.relatedCompanyIds
+    .map((companyId) => companies.find((company) => company.id === companyId))
+    .filter((company) => company !== undefined);
   const faqItems = [
     ...(guide.overviewBlocks ?? []),
     ...guide.sections.flatMap((section) => section.blocks ?? []),
@@ -105,7 +111,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           ) : null}
         </header>
 
-        {guide.overviewBlocks ? <GuideBlocks blocks={guide.overviewBlocks} /> : null}
+        {guide.overviewBlocks ? <GuideBlocks blocks={guide.overviewBlocks} sourceSlug={guide.slug} /> : null}
 
         {guide.sections.length >= 4 ? (
           <nav className="guide-toc" aria-label="記事の目次">
@@ -123,7 +129,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <section id={section.id ?? `section-${index + 1}`} key={section.heading}>
               <h2>{section.heading}</h2>
               {section.lead ? <p className="guide-section-lead">{section.lead}</p> : null}
-              {section.blocks ? <GuideBlocks blocks={section.blocks} /> : null}
+              {section.blocks ? <GuideBlocks blocks={section.blocks} sourceSlug={guide.slug} /> : null}
               {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
               {section.points ? <ul>{section.points.map((point) => <li key={point}>{point}</li>)}</ul> : null}
             </section>
@@ -173,6 +179,22 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <nav className="guide-related" aria-label="関連記事">
             <strong>次に読む記事</strong>
             {relatedGuides.map((relatedGuide) => <Link href={`/guides/${relatedGuide.slug}`} key={relatedGuide.slug}>{relatedGuide.title}<span aria-hidden="true">→</span></Link>)}
+          </nav>
+        ) : null}
+
+        {relatedCompanies.length > 0 ? (
+          <nav className="guide-related" aria-label="記事に関連する企業">
+            <strong>本文に関連する企業情報</strong>
+            {relatedCompanies.map((company) => (
+              <TrackedInternalLink
+                eventName="article_company_click"
+                eventProperties={{ company_id: company.id, source_slug: guide.slug }}
+                href={`/companies/${company.slug}` as Route}
+                key={company.id}
+              >
+                {company.nameJa}の事業・職種を見る<span aria-hidden="true">→</span>
+              </TrackedInternalLink>
+            ))}
           </nav>
         ) : null}
 

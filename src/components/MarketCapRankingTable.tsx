@@ -1,6 +1,6 @@
 import type { Route } from "next";
-import Link from "next/link";
 import { MetricBarChart } from "@/components/MetricBarChart";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import {
   japanSemiconductorMarketCapRanking,
   semiconductorMarketCapMeta,
@@ -9,9 +9,10 @@ import {
 
 type MarketCapRankingTableProps = {
   scope: "world" | "japan";
+  sourceSlug?: string;
 };
 
-export function MarketCapRankingTable({ scope }: MarketCapRankingTableProps) {
+export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTableProps) {
   const isWorld = scope === "world";
   const companies = isWorld ? worldSemiconductorMarketCapRanking : japanSemiconductorMarketCapRanking;
   const title = isWorld ? "世界TOP30" : "日本企業TOP10";
@@ -65,7 +66,13 @@ export function MarketCapRankingTable({ scope }: MarketCapRankingTableProps) {
                   {!isWorld ? <td>{company.rank}位</td> : null}
                   <th scope="row">
                     {company.companySlug ? (
-                      <Link href={`/companies/${company.companySlug}` as Route}>{company.name}</Link>
+                      <TrackedInternalLink
+                        eventName="article_company_click"
+                        eventProperties={{ company_id: company.companySlug, source_slug: sourceSlug }}
+                        href={`/companies/${company.companySlug}` as Route}
+                      >
+                        {company.name}
+                      </TrackedInternalLink>
                     ) : company.name}
                     {company.englishName !== company.name ? <small>{company.englishName}</small> : null}
                   </th>

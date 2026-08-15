@@ -2,9 +2,9 @@ import type { GuideArticle } from "@/content/guides/types";
 
 export const semiconductorManufacturingProcessGuide: GuideArticle = {
   slug: "semiconductor-manufacturing-process",
-  title: "半導体の製造工程とは？設計から前工程・後工程まで初心者向けに図解",
+  title: "半導体の製造工程を図解｜前工程・後工程と検査・搬送の流れ",
   description:
-    "半導体が設計、シリコンウェーハ製造、前工程、ウェーハテスト、ダイシング、パッケージング、最終検査を経て完成する流れを図解。前工程・後工程とFEOL・MOL・BEOLの違いも初心者向けに整理します。",
+    "半導体が設計、ウェーハ製造、前工程、検査・搬送、後工程、最終検査を経て完成する流れを図解。前工程・後工程とFEOL・MOL・BEOLの違い、関連企業、品質管理ツールまで整理します。",
   targetQuery: "半導体 製造工程",
   searchIntent:
     "半導体が設計から完成品になるまでの全体像、前工程と後工程の違い、成膜・フォトリソグラフィ・エッチングなど各工程の役割を初心者向けに理解したい",
@@ -23,7 +23,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
     "ロジック、メモリ、パワー半導体などで工程や順序が異なるため、共通する全体像へ単純化",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-19",
+  updatedAt: "2026-08-16",
   sources: [
     {
       title: "Production Processes",
@@ -287,6 +287,9 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
           items: [
             { label: "半導体業界地図", href: "/industry-map", description: "設計、材料、製造装置、デバイス、後工程のつながりを見る" },
             { label: "半導体企業一覧", href: "/companies", description: "各社の主力領域と業界内での役割から企業を調べる" },
+            { label: "管理図を動かして学ぶ", href: "/tools/control-chart", description: "時系列の変化から偶然原因と異常原因を見分ける" },
+            { label: "Cp・Cpkを計算する", href: "/tools/cpk", description: "安定性を確認した工程のばらつきと中心ずれを規格幅に対して見る" },
+            { label: "実験計画法（DoE）を学ぶ", href: "/tools/doe", description: "複数条件の主効果と交互作用を動かし、改善実験の考え方を理解する" },
             { label: "プロセスエンジニアへのルート", href: "/guides/production-engineering-to-semiconductor-process-engineer", description: "生産技術の経験とウェーハ加工の仕事の接点を整理する" },
             { label: "装置エンジニアへのルート", href: "/guides/equipment-engineer-route", description: "設備保全や装置経験を半導体装置職へつなげる" },
           ],

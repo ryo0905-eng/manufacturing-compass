@@ -6327,6 +6327,305 @@ select {
   }
 }
 
+/* SEO discovery hubs: companies and industry map */
+.company-grid .company-card--materials {
+  --company-accent: #737b43;
+}
+
+.companies-page {
+  --directory-border: #dfe4e7;
+}
+
+.companies-page > section,
+.companies-page > nav.companies-next-links {
+  margin-top: clamp(44px, 7vw, 72px);
+}
+
+.companies-hero__facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 30px 0 0;
+  border-block: 1px solid var(--directory-border);
+}
+
+.companies-hero__facts > div {
+  padding: 18px 16px;
+  border-left: 1px solid var(--directory-border);
+}
+
+.companies-hero__facts > div:first-child {
+  border-left: 0;
+}
+
+.companies-hero__facts dt {
+  color: #697176;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.companies-hero__facts dd {
+  margin: 5px 0 0;
+  color: #1d1d1f;
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.companies-role {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
+  gap: clamp(28px, 5vw, 56px);
+  align-items: start;
+  padding-block: 30px;
+  border-block: 1px solid var(--directory-border);
+}
+
+.companies-role h2,
+.companies-taxonomy h2,
+.companies-adjacent h2 {
+  margin: 6px 0 10px;
+  font-size: clamp(24px, 3vw, 32px);
+  letter-spacing: -0.025em;
+}
+
+.companies-role p,
+.companies-taxonomy header > p:last-child,
+.companies-adjacent header > p:last-child {
+  margin: 0;
+  color: #535c61;
+  line-height: 1.8;
+}
+
+.companies-role aside {
+  border-left: 3px solid #247d91;
+  background: #f3f7f8;
+  padding: 18px 20px;
+}
+
+.companies-role aside p {
+  margin-top: 7px;
+  font-size: 14px;
+}
+
+.companies-taxonomy > div,
+.companies-adjacent > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.companies-taxonomy article,
+.companies-adjacent article {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid var(--directory-border);
+  border-radius: 8px;
+  background: #fff;
+  padding: 20px;
+}
+
+.companies-taxonomy article > span,
+.companies-taxonomy article small {
+  color: #697176;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.companies-taxonomy article h3,
+.companies-adjacent article h3 {
+  margin: 7px 0;
+  font-size: 18px;
+}
+
+.companies-taxonomy article p,
+.companies-adjacent article p {
+  flex: 1;
+  margin: 0 0 12px;
+  color: #535c61;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.companies-taxonomy article a,
+.companies-adjacent article a {
+  margin-top: 12px;
+  color: #1769aa;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.companies-page .filters {
+  grid-template-columns: minmax(0, 1.3fr) repeat(2, minmax(180px, 0.7fr));
+}
+
+.companies-empty {
+  margin: 18px 0 0;
+  border: 1px solid var(--directory-border);
+  border-radius: 8px;
+  background: #f7f7f8;
+  padding: 24px;
+  text-align: center;
+}
+
+.companies-next-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 28px;
+  border-top: 1px solid var(--directory-border);
+}
+
+.companies-next-links a {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--directory-border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.companies-next-links a:hover {
+  border-color: #8daab3;
+}
+
+.companies-next-links strong {
+  color: #1769aa;
+}
+
+.companies-next-links span {
+  color: #5b6469;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.industry-supply-chain > ol {
+  display: grid;
+  gap: 0;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #dfe4e7;
+}
+
+.industry-supply-chain > ol > li {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 18px;
+  padding: 24px 0;
+  border-bottom: 1px solid #dfe4e7;
+}
+
+.industry-supply-chain > ol > li > span {
+  color: #247d91;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.industry-supply-chain h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.industry-supply-chain > ol > li > div > p {
+  margin: 0;
+  color: #535c61;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.industry-supply-chain ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 14px 0 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.industry-supply-chain ul a {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  border: 1px solid #dfe4e7;
+  border-radius: 999px;
+  background: #fff;
+  padding: 6px 10px;
+  color: #30383c;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.industry-supply-chain ul small {
+  color: #737b80;
+  font-size: 9px;
+}
+
+.industry-supply-chain > aside {
+  margin-top: 20px;
+  border-left: 3px solid #247d91;
+  background: #f3f7f8;
+  padding: 18px 20px;
+}
+
+.industry-supply-chain > aside p {
+  margin: 5px 0 0;
+  color: #535c61;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+@media (max-width: 800px) {
+  .companies-taxonomy > div,
+  .companies-adjacent > div,
+  .companies-next-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .companies-page .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .companies-page .filters > label:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .companies-hero__facts,
+  .companies-role,
+  .companies-taxonomy > div,
+  .companies-adjacent > div,
+  .companies-next-links,
+  .companies-page .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .companies-hero__facts > div,
+  .companies-hero__facts > div:first-child {
+    border-top: 1px solid var(--directory-border);
+    border-left: 0;
+    padding-inline: 0;
+  }
+
+  .companies-hero__facts > div:first-child {
+    border-top: 0;
+  }
+
+  .companies-page .filters > label:first-child {
+    grid-column: auto;
+  }
+
+  .industry-supply-chain > ol > li {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-hero *,
   .home-section *,

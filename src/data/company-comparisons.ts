@@ -16,10 +16,10 @@ export type CompanyComparisonProfile = {
 const companyComparisonProfiles: CompanyComparisonProfile[] = [
   {
     slug: "asml-vs-tokyo-electron",
-    title: "ASMLと東京エレクトロンの違い｜製品・職種を比較",
+    title: "ASMLと東京エレクトロンの違い【2026年版】装置・職種を比較",
     description:
-      "ASMLと東京エレクトロンの違いを、主力製品、職種、英語、キャリア準備の観点で比較。ASMLはEUV・DUV露光装置、東京エレクトロンは成膜・エッチング・洗浄装置などを扱います。",
-    heading: "ASMLと東京エレクトロンの違い｜製品・職種を比較",
+      "半導体製造装置メーカーを調べる人向けに、ASMLと東京エレクトロンの違いを比較表で整理。露光、成膜・エッチング・洗浄などの装置領域、職種、日本拠点、英語、準備ポイントが分かります。",
+    heading: "ASMLと東京エレクトロンの違い｜装置・職種を比較",
     lead:
       "同じ半導体製造装置メーカーでも、中心となる装置領域は異なります。製品、職種、英語、キャリア準備の順に違いを整理します。",
     summaryHeading: "ASMLと東京エレクトロンの違いを先に整理",

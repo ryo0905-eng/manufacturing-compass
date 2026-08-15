@@ -1,12 +1,13 @@
 import type { Route } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
 import { SalaryRankingTable } from "@/components/SalaryRankingTable";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import type { GuideBlock } from "@/content/guides/types";
 
 type GuideBlocksProps = {
   blocks: GuideBlock[];
+  sourceSlug?: string;
 };
 
 const sigmaDistributionPaths = {
@@ -15,7 +16,7 @@ const sigmaDistributionPaths = {
   capable: "M16 126 C73 126 94 119 105 88 C111 70 114 35 120 20 C126 35 129 70 135 88 C146 119 167 126 224 126",
 } as const;
 
-export function GuideBlocks({ blocks }: GuideBlocksProps) {
+export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
@@ -606,7 +607,7 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
         }
 
         if (block.type === "market-cap-ranking") {
-          return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} />;
+          return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} sourceSlug={sourceSlug} />;
         }
 
         if (block.type === "salary-ranking") {
@@ -630,10 +631,19 @@ export function GuideBlocks({ blocks }: GuideBlocksProps) {
           return (
             <nav className="guide-link-list" aria-label="関連ページ" key={`links-${index}`}>
               {block.items.map((item) => (
-                <Link href={item.href as Route} key={item.href}>
+                <TrackedInternalLink
+                  eventName={item.href.startsWith("/tools/")
+                    ? "article_tool_click"
+                    : item.href.startsWith("/companies/")
+                      ? "article_company_click"
+                      : "article_internal_click"}
+                  eventProperties={{ destination_path: item.href, source_slug: sourceSlug }}
+                  href={item.href as Route}
+                  key={item.href}
+                >
                   <strong>{item.label}<span aria-hidden="true">→</span></strong>
                   <small>{item.description}</small>
-                </Link>
+                </TrackedInternalLink>
               ))}
             </nav>
           );

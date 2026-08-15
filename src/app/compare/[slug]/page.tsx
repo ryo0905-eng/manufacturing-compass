@@ -4,10 +4,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { CompanyComparisonSummary } from "@/components/CompanyComparisonSummary";
+import { StructuredData } from "@/components/StructuredData";
 import { getCompanyComparisonProfile } from "@/data/company-comparisons";
 import { companies, getCareerInfo } from "@/data/companies";
 import { comparePairs } from "@/data/editorial";
-import { companyCompareSlug, getCompaniesFromCompareSlug } from "@/lib/format";
+import { companyCompareSlug, getCompaniesFromCompareSlug, siteUrl } from "@/lib/format";
 
 type CompareDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -45,6 +46,13 @@ export async function generateMetadata({ params }: CompareDetailPageProps): Prom
   return {
     title: `${comparedCompanies.map((company) => company.nameJa).join(" vs ")} 比較`,
     description: `${comparedCompanies.map((company) => company.nameJa).join(" と ")}を、事業領域、職種、英語必要度、キャリア準備ポイントで比較します。`,
+    alternates: { canonical: `/compare/${slug}` },
+    openGraph: {
+      title: `${comparedCompanies.map((company) => company.nameJa).join(" vs ")} 比較`,
+      description: `${comparedCompanies.map((company) => company.nameJa).join(" と ")}の事業領域、職種、日本拠点、準備ポイントを比較します。`,
+      type: "article",
+      url: `/compare/${slug}`,
+    },
   };
 }
 
@@ -61,6 +69,14 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
 
   return (
     <main className="page">
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+        { "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl },
+        { "@type": "ListItem", position: 2, name: "半導体企業比較", item: `${siteUrl}/compare` },
+        { "@type": "ListItem", position: 3, name: comparisonProfile?.heading ?? "企業比較", item: `${siteUrl}/compare/${slug}` },
+      ] }} />
+      <nav className="cpk-breadcrumb" aria-label="パンくず">
+        <Link href="/">ホーム</Link><span>/</span><Link href="/compare">企業比較</Link><span>/</span><span>{comparisonProfile?.heading ?? "2社比較"}</span>
+      </nav>
       <section className="page-hero">
         <p className="eyebrow">企業比較</p>
         <h1>{comparisonProfile?.heading ?? `${comparedCompanies.map((company) => company.nameJa).join(" と ")} の比較`}</h1>

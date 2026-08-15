@@ -2,9 +2,9 @@ import type { GuideArticle } from "@/content/guides/types";
 
 export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
   slug: "semiconductor-wafer-handling-efem-manufacturers",
-  title: "半導体ウェーハ搬送ロボット・EFEMメーカーとは？ローツェ・平田機工・Brooks・川崎重工を図解",
+  title: "EFEMとは？FOUP・ロードポートの構成とウェーハ搬送メーカーを図解",
   description:
-    "EFEM、FOUP、ロードポート、大気・真空ウェーハ搬送ロボット、アライナの役割と搬送フロー、清浄度・位置精度・スループット・規格、主要メーカーと比較軸を初心者向けに図解します。",
+    "EFEMとは何かを最初に回答し、FOUP、ロードポート、大気搬送ロボット、アライナ、真空搬送との関係を図解。粒子・位置ずれ・搬送エラー、主要4社、選定ポイントまで整理します。",
   targetQuery: "半導体 ウェーハ 搬送ロボット EFEM メーカー",
   searchIntent:
     "EFEMとは何か、FOUP・ロードポート・大気ロボット・アライナ・真空ロボットの役割、ウェーハ搬送フロー、清浄度・位置精度・スループット・規格、主要メーカーと比較方法を知りたい",
@@ -23,7 +23,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
     "Brooksで大気・真空環境をまたぐ自動化プラットフォーム、川崎重工でEFEM向けウェーハ搬送ロボットとSEMI規格対応の領域を確認",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-08-16",
   sources: [
     {
       title: "Wafer Handling System",
@@ -73,10 +73,9 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
   },
   overviewBlocks: [
     {
-      type: "quote",
-      quote:
-        "私はEFEMを、『装置前のロボット箱』ではなく、工場搬送のFOUPとプロセス装置の清浄な受け渡し境界として見ます。",
-      caption: "この記事の見方",
+      type: "note",
+      title: "EFEMとは何かを一文で",
+      body: "EFEM（Equipment Front End Module）は、プロセス装置の前面でFOUPを受け取り、清浄な大気環境のままウェーハを一枚ずつ装置内部へ受け渡す統合モジュールです。",
     },
     {
       type: "process-flow",
@@ -132,7 +131,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
     },
     {
       id: "handling",
-      heading: "薄い円板を、汚さず・傷付けず・落とさず・ずらさず運ぶ",
+      heading: "パーティクル、位置ずれ、搬送エラーを分けて確認する",
       lead: "速度を上げるほど、振動・滑り・粒子・整定との両立が難しくなります。",
       blocks: [
         {
@@ -154,6 +153,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
       paragraphs: [
         "ローツェはEFEM・ソーターで真空吸着とエッジクランプ、アライナ、ID読取、N2・清浄乾燥空気パージなどの選択肢を示しています。",
         "対象が変わると最適ハンドも変わります。裸ウェーハ、パターン付き、薄化・接合、反った基板、リングフレームを同じ搬送条件で比較しません。",
+        "異常を切り分けるときは、粒子なら気流・接触面・駆動部・FOUP開閉、位置ずれなら教示・アライナ・ハンド・受渡し高さ、搬送エラーならマッピング・センサ・吸着圧・シーケンス・復旧ログを順に確認します。特定装置の故障原因を断定するものではなく、公開情報から整理した一般的な確認観点です。",
       ],
     },
     {
@@ -317,6 +317,8 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
             { label: "洗浄装置メーカー", href: "/guides/semiconductor-cleaning-equipment-manufacturers", description: "大気搬送を使う枚葉洗浄装置を見る" },
             { label: "検査・計測装置メーカー", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "ウェーハを自動搬送して検査する装置を見る" },
             { label: "真空ポンプメーカー", href: "/guides/semiconductor-vacuum-pump-manufacturers", description: "ロードロック・真空搬送を支える排気系を見る" },
+            { label: "半導体業界地図", href: "/industry-map", description: "搬送・装置が材料、前工程、検査、後工程をどう支えるか見る" },
+            { label: "半導体企業一覧", href: "/companies", description: "製造装置企業を日本・海外、本社地域、職種から検索する" },
           ],
         },
       ],

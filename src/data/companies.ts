@@ -59,6 +59,17 @@ export const segments: IndustrySegment[] = [
     sources: [{ title: "Tokyo Electron corporate profile", url: "https://www.tel.com/about/corporateinfo/", publisher: "Tokyo Electron", accessedAt }],
     lastUpdated: accessedAt,
   },
+  {
+    id: "materials",
+    slug: "materials",
+    name: "材料・シリコンウェーハ",
+    shortName: "Materials",
+    description: "半導体製造の土台となるシリコンウェーハや各種材料を供給する企業群です。",
+    roleInValueChain: "基板・材料の製造、品質保証、安定供給、顧客技術対応",
+    relatedCompanyIds: ["sumco"],
+    sources: [{ title: "SUMCO products", url: "https://www.sumcosi.com/english/products/", publisher: "SUMCO", accessedAt }],
+    lastUpdated: accessedAt,
+  },
 ];
 
 export const companies: Company[] = [
@@ -1267,7 +1278,7 @@ export const companies: Company[] = [
     headquartersCountry: "日本",
     websiteUrl: "https://www.sumcosi.com/",
     careerUrl: "https://www.sumcosi.com/recruit/",
-    industrySegments: ["idm"],
+    industrySegments: ["materials"],
     businessModel: "半導体材料 / シリコンウェーハ",
     mainProducts: ["シリコンウェーハ", "半導体基板材料", "ウェーハ関連技術"],
     competitors: ["shin-etsu-chemical", "globalwafers", "siltronic"],

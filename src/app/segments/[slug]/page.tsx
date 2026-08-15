@@ -25,6 +25,13 @@ export async function generateMetadata({ params }: SegmentPageProps): Promise<Me
   return {
     title: `${segment.name}の半導体企業`,
     description: `${segment.name}領域の役割、代表企業、転職で見られやすい経験を整理します。`,
+    alternates: { canonical: `/segments/${segment.slug}` },
+    openGraph: {
+      title: `${segment.name}の半導体企業`,
+      description: `${segment.name}領域の役割、代表企業、転職で見られやすい経験を整理します。`,
+      type: "website",
+      url: `/segments/${segment.slug}`,
+    },
   };
 }
 
@@ -49,6 +56,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         {segment.id === "foundry" ? <Link className="text-link" href="/guides/semiconductor-foundry">ファウンドリの意味と分業の仕組みを図解で見る</Link> : null}
         {segment.id === "idm" ? <Link className="text-link" href="/guides/analog-semiconductor-companies">アナログ半導体の意味・用途・主要企業を図解で見る</Link> : null}
         {segment.id === "equipment" ? <Link className="text-link" href="/guides/semiconductor-equipment-manufacturers">製造工程別の装置と主要メーカーを図解で見る</Link> : null}
+        {segment.id === "materials" ? <Link className="text-link" href="/guides/semiconductor-silicon-wafer-manufacturers">シリコンウェーハの製造工程と主要メーカーを図解で見る</Link> : null}
       </section>
 
       <section className="segment-detail-grid" aria-label={`${segment.name}の概要`}>

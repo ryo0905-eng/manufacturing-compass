@@ -8,6 +8,13 @@ import { companyCompareSlug, getDefaultComparePairs } from "@/lib/format";
 export const metadata: Metadata = {
   title: "半導体企業比較",
   description: "半導体企業を事業領域、職種、英語必要度、日本拠点、キャリア準備ポイントで比較できます。",
+  alternates: { canonical: "/compare" },
+  openGraph: {
+    title: "半導体企業比較",
+    description: "半導体企業を事業領域、職種、英語必要度、日本拠点、キャリア準備ポイントで比較できます。",
+    type: "website",
+    url: "/compare",
+  },
 };
 
 export default function ComparePage() {
