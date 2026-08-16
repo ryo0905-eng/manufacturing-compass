@@ -19,7 +19,7 @@ export const Chrome = ({children}: {children: ReactNode}) => {
 
       <div style={{position: "absolute", top: 56, left: 72, right: 72, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
         <div style={{fontSize: 25, fontWeight: 700, letterSpacing: "0.04em"}}>Manufacturing Compass</div>
-        <div style={{fontSize: 22, color: theme.muted, letterSpacing: "0.08em"}}>40秒でわかる半導体製造</div>
+        <div style={{fontSize: 22, color: theme.muted, letterSpacing: "0.08em"}}>1分でわかる半導体製造</div>
       </div>
 
       {children}

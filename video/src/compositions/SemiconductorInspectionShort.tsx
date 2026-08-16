@@ -1,4 +1,4 @@
-import {AbsoluteFill, Easing, interpolate, useCurrentFrame} from "remotion";
+import {AbsoluteFill, Easing, Html5Audio, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig} from "remotion";
 import {semiconductorInspectionManifest as manifest} from "../../manifests/semiconductor-inspection";
 import {Checkpoint} from "../components/Checkpoint";
 import {Chrome} from "../components/Chrome";
@@ -8,6 +8,32 @@ import {theme} from "../theme";
 const BigTitle = ({children}: {children: React.ReactNode}) => (
   <div style={{fontSize: 76, lineHeight: 1.24, fontWeight: 780, letterSpacing: "-0.045em"}}>{children}</div>
 );
+
+const AudioTracks = () => {
+  const {durationInFrames} = useVideoConfig();
+
+  return (
+    <>
+      <Sequence from={12} layout="none">
+        <Html5Audio
+          name="Narration"
+          src={staticFile(manifest.audio.narrationFile)}
+          volume={1}
+        />
+      </Sequence>
+      <Html5Audio
+        name="Background music"
+        src={staticFile(manifest.audio.bgmFile)}
+        volume={(frame) => interpolate(
+          frame,
+          [0, 30, durationInFrames - 75, durationInFrames],
+          [0, 0.28, 0.28, 0],
+          {extrapolateLeft: "clamp", extrapolateRight: "clamp"},
+        )}
+      />
+    </>
+  );
+};
 
 const Wafer = ({scan = false}: {scan?: boolean}) => {
   const frame = useCurrentFrame();
@@ -37,7 +63,7 @@ const Wafer = ({scan = false}: {scan?: boolean}) => {
 
 const ProcessRail = () => {
   const frame = useCurrentFrame();
-  const fill = interpolate(frame, [125, 225], [0, 100], {extrapolateLeft: "clamp", extrapolateRight: "clamp"});
+  const fill = interpolate(frame, [210, 330], [0, 100], {extrapolateLeft: "clamp", extrapolateRight: "clamp"});
   const steps = ["成膜", "パターン形成", "加工", "計測・検査", "次工程"];
 
   return (
@@ -76,8 +102,9 @@ const FeedbackLoop = () => {
 
 export const SemiconductorInspectionShort = () => (
   <Chrome>
+    <AudioTracks />
     <AbsoluteFill>
-      <Scene start={0} end={120} style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+      <Scene start={0} end={204} style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
         <div style={{fontSize: 25, color: theme.action, fontWeight: 750, letterSpacing: "0.12em", marginBottom: 34}}>QUESTION</div>
         <BigTitle>
           {manifest.hook[0]}<br />
@@ -89,7 +116,7 @@ export const SemiconductorInspectionShort = () => (
         </div>
       </Scene>
 
-      <Scene start={108} end={252} style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+      <Scene start={192} end={366} style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
         <div style={{fontSize: 25, color: theme.action, fontWeight: 750, letterSpacing: "0.12em", marginBottom: 28}}>ANSWER</div>
         <BigTitle>
           工程の途中に<br />
@@ -98,7 +125,7 @@ export const SemiconductorInspectionShort = () => (
         <ProcessRail />
       </Scene>
 
-      <Scene start={240} end={462}>
+      <Scene start={348} end={606}>
         <div style={{fontSize: 25, color: theme.action, fontWeight: 750, letterSpacing: "0.12em", marginTop: 54, marginBottom: 28}}>01 / METROLOGY</div>
         <BigTitle>狙った値になったか測る</BigTitle>
         <div style={{marginTop: 70, display: "grid", gap: 28}}>
@@ -108,7 +135,7 @@ export const SemiconductorInspectionShort = () => (
         </div>
       </Scene>
 
-      <Scene start={450} end={672}>
+      <Scene start={588} end={774}>
         <div style={{fontSize: 25, color: theme.warning, fontWeight: 750, letterSpacing: "0.12em", marginTop: 36, marginBottom: 28}}>02 / INSPECTION</div>
         <BigTitle>欠陥の候補を見つける</BigTitle>
         <div style={{marginTop: 55, display: "grid", justifyItems: "center"}}>
@@ -121,14 +148,14 @@ export const SemiconductorInspectionShort = () => (
         </div>
       </Scene>
 
-      <Scene start={660} end={882}>
+      <Scene start={756} end={1032}>
         <div style={{fontSize: 25, color: theme.action, fontWeight: 750, letterSpacing: "0.12em", marginTop: 56, marginBottom: 28}}>03 / FEEDBACK</div>
         <BigTitle>結果を工程へ戻す</BigTitle>
         <div style={{fontSize: 31, lineHeight: 1.6, color: theme.muted, marginTop: 32}}>測定・検査データを装置条件や工程管理へ返し、変動を追います。</div>
         <FeedbackLoop />
       </Scene>
 
-      <Scene start={870} end={1032} style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+      <Scene start={1008} end={1212} style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
         <div style={{fontSize: 25, color: theme.warning, fontWeight: 750, letterSpacing: "0.12em", marginBottom: 34}}>WHY IT MATTERS</div>
         <BigTitle>
           完成後に分けるだけでは、<br />
@@ -138,7 +165,7 @@ export const SemiconductorInspectionShort = () => (
         <div style={{marginTop: 78, height: 6, width: 180, backgroundColor: theme.warning}} />
       </Scene>
 
-      <Scene start={1020} end={1170} style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center"}}>
+      <Scene start={1188} end={1395} style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center"}}>
         <div style={{fontSize: 25, color: theme.action, fontWeight: 750, letterSpacing: "0.12em", marginBottom: 34}}>CONTINUE LEARNING</div>
         <BigTitle>
           {manifest.cta[0]}<br />

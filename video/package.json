@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "studio": "remotion studio src/index.ts",
-    "render": "remotion render src/index.ts SemiconductorInspectionShort output/semiconductor-inspection-short.mp4 --codec=h264 --crf=18",
-    "still": "remotion still src/index.ts SemiconductorInspectionShort output/semiconductor-inspection-preview.png --frame=570",
+    "render": "remotion render src/index.ts SemiconductorInspectionShort output/semiconductor-inspection-short-with-audio-v4.mp4 --codec=h264 --crf=18",
+    "still": "remotion still src/index.ts SemiconductorInspectionShort output/semiconductor-inspection-preview.png --frame=690",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
