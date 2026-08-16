@@ -1,5 +1,6 @@
-import {AbsoluteFill, Easing, Html5Audio, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig} from "remotion";
+import {AbsoluteFill, Easing, interpolate, useCurrentFrame} from "remotion";
 import {semiconductorInspectionManifest as manifest} from "../../manifests/semiconductor-inspection";
+import {AudioTracks} from "../components/AudioTracks";
 import {Checkpoint} from "../components/Checkpoint";
 import {Chrome} from "../components/Chrome";
 import {Scene} from "../components/Scene";
@@ -8,32 +9,6 @@ import {theme} from "../theme";
 const BigTitle = ({children}: {children: React.ReactNode}) => (
   <div style={{fontSize: 76, lineHeight: 1.24, fontWeight: 780, letterSpacing: "-0.045em"}}>{children}</div>
 );
-
-const AudioTracks = () => {
-  const {durationInFrames} = useVideoConfig();
-
-  return (
-    <>
-      <Sequence from={12} layout="none">
-        <Html5Audio
-          name="Narration"
-          src={staticFile(manifest.audio.narrationFile)}
-          volume={1}
-        />
-      </Sequence>
-      <Html5Audio
-        name="Background music"
-        src={staticFile(manifest.audio.bgmFile)}
-        volume={(frame) => interpolate(
-          frame,
-          [0, 30, durationInFrames - 75, durationInFrames],
-          [0, 0.28, 0.28, 0],
-          {extrapolateLeft: "clamp", extrapolateRight: "clamp"},
-        )}
-      />
-    </>
-  );
-};
 
 const Wafer = ({scan = false}: {scan?: boolean}) => {
   const frame = useCurrentFrame();
@@ -101,8 +76,12 @@ const FeedbackLoop = () => {
 };
 
 export const SemiconductorInspectionShort = () => (
-  <Chrome>
-    <AudioTracks />
+  <Chrome
+    reviewedAt={manifest.reviewedAt}
+    seriesLabel={manifest.seriesLabel}
+    sourceLabel={manifest.sourceLabel}
+  >
+    <AudioTracks audio={manifest.audio} />
     <AbsoluteFill>
       <Scene start={0} end={204} style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
         <div style={{fontSize: 25, color: theme.action, fontWeight: 750, letterSpacing: "0.12em", marginBottom: 34}}>QUESTION</div>

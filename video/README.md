@@ -15,6 +15,8 @@ npm run render
 
 ナレーションとBGMは `public/audio/` に公開用の短いファイル名で置きます。音声素材と生成物はGit管理へ含めず、元の録音名や個人を特定し得るメタデータを公開コードへ残しません。
 
+次の動画は [`docs/short-video-workflow.md`](./docs/short-video-workflow.md) と [`manifests/_template.ts`](./manifests/_template.ts) を起点に作ります。制作ごとの設定、公開日、学び、計測値は [`docs/production-log.md`](./docs/production-log.md) に残します。
+
 ## Editorial boundary
 
 - 動画は必ず `sourceSlug` で公開記事と結びつける

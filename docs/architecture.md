@@ -79,11 +79,15 @@ src/lib/format.ts           正規URLなどの共通処理
 src/lib/doe/                DoEの効果・ANOVAなど、UIから独立した計算
 src/lib/gage-rr/            Gage R&Rの疑似測定データ、ANOVA、分散成分計算
 video/                      Web本体と依存関係を分けたショート動画生成パッケージ
+video/manifests/            元記事、画面文言、音声設定、確認日、公開状態
+video/src/components/       音声ミックス、共通枠、場面などの再利用部品
+video/src/compositions/     動画ごとの図解と場面構成
+video/docs/                 制作フロー、公開記録、計測ログ
 ```
 
 表示ロジックとデータ定義を分けます。新しいコンテンツ種別を追加する時は、まず型と所有ファイルを決め、ページ内へ大きなデータを直書きしません。
 
-`video/` は独立した `package.json` と lockfile を持ち、Vercel のWebビルドから実行しません。動画は公開記事の `sourceSlug`、確認日、公開状態を持つマニフェストからローカル生成し、MP4、確認画像、収録音声、レンダーキャッシュはGit管理へ含めません。記事本文を動画側へ複製せず、動画公開前に内容と匿名化を人が確認します。
+`video/` は独立した `package.json` と lockfile を持ち、Vercel のWebビルドから実行しません。動画は公開記事の `sourceSlug`、確認日、音声ミックス、公開状態を持つマニフェストからローカル生成し、MP4、確認画像、収録音声、レンダーキャッシュはGit管理へ含めません。記事本文を動画側へ複製せず、動画公開前に内容、匿名化、BGMライセンスを人が確認します。標準手順は `video/docs/short-video-workflow.md`、制作結果は `video/docs/production-log.md` に記録します。
 
 実務学習ツールは、ページをServer Component、操作部分を専用Client Component、統計計算を可能な限り`src/lib`へ分離します。同じ計算結果を複数の表示で独自計算せず、一つの解析結果から数値、グラフ、解釈を派生させます。
 
