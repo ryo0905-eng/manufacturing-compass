@@ -285,6 +285,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "製造経験から近い半導体職種を整理する", href: "/career-compass", description: "工程の全体像を、自分の生産技術・品質・設備・設計経験と結び付ける" },
             { label: "半導体業界地図", href: "/industry-map", description: "設計、材料、製造装置、デバイス、後工程のつながりを見る" },
             { label: "半導体企業一覧", href: "/companies", description: "各社の主力領域と業界内での役割から企業を調べる" },
             { label: "管理図を動かして学ぶ", href: "/tools/control-chart", description: "時系列の変化から偶然原因と異常原因を見分ける" },

@@ -6,7 +6,7 @@ import { salaryMethodology } from "@/data/salary-methodology";
 import type { Company } from "@/types/content";
 import { ResultCareerRoute, type ResultCareerRouteStage } from "@/components/career-compass/ResultCareerRoute";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
-import { trackEvent } from "@/lib/analytics";
+import { trackCareerCompassEvent, trackEvent } from "@/lib/analytics";
 
 type ScoreModule = { label: string; value: string; score: number };
 type PowerQuest = { id: string; label: string };
@@ -95,7 +95,7 @@ function ResultHero({ currentRole, profile }: Pick<CareerCompassResultProps, "cu
     <header className="result-story-hero">
       <div className="result-story-copy">
         <p className="result-kicker">今回の整理結果</p>
-        <h1>{resultHeading}</h1>
+        <h2>{resultHeading}</h2>
         {profile.summary ? <p className="result-lead">{profile.summary}</p> : null}
         {currentRole && targetRole ? (
           <div className="result-at-a-glance">
@@ -365,7 +365,13 @@ function DetailedReportAccordion(props: CareerCompassResultProps) {
                 {companyExamples.map(({ company, matchedRoles }) => (
                   <article key={company.id}>
                     <span>{company.businessModel}</span>
-                    <Link href={`/companies/${company.slug}` as Route}>{company.nameJa}</Link>
+                    <Link
+                      href={`/companies/${company.slug}` as Route}
+                      onClick={() => trackCareerCompassEvent("career_compass_related_click", {
+                        destination_group: company.industrySegments[0] ?? "semiconductor_company",
+                        destination_type: "company",
+                      })}
+                    >{company.nameJa}</Link>
                     {matchedRoles.length > 0 ? (
                       <p><b>接点のある職種</b>{matchedRoles.join("・")}</p>
                     ) : (
@@ -448,6 +454,18 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
         <ExperienceTranslation items={props.profile.semiconductorTranslation} />
         <CareerRoadmap currentRole={props.currentRole} profile={props.profile} roadmap={props.roadmap} />
         <DetailedReportAccordion {...props} />
+        <section className="result-section result-related-links" aria-labelledby="result-related-title">
+          <div className="result-section-heading">
+            <h2 id="result-related-title">次の企業研究と学びへ進む。</h2>
+            <p>今回の職種候補を、業界構造・企業・実務スキルの順で確かめられます。</p>
+          </div>
+          <div className="result-related-grid">
+            <Link href="/industry-map" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: "semiconductor_structure", destination_type: "industry_map" })}>半導体業界地図を見る</Link>
+            <Link href="/companies" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: props.profile.primarySegmentIds[0] ?? "semiconductor", destination_type: "company" })}>企業を職種・分野から探す</Link>
+            <Link href="/guides/semiconductor-manufacturing-process" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: "manufacturing_process", destination_type: "article" })}>半導体製造工程を理解する</Link>
+            <Link href={props.profile.id === "quality" || props.profile.id === "production" ? "/tools/cpk" : "/tools/doe"} onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: props.profile.id === "quality" || props.profile.id === "production" ? "cpk" : "doe", destination_type: "tool" })}>関連する実務ツールで学ぶ</Link>
+          </div>
+        </section>
         <ConsultationCTA {...props} />
       </article>
     </div>

@@ -3,7 +3,7 @@
 import type { ComponentProps } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { trackEvent } from "@/lib/analytics";
+import { trackCareerCompassEvent } from "@/lib/analytics";
 
 type CareerCompassLinkProps = Omit<ComponentProps<typeof Link>, "href"> & {
   ctaLocation: string;
@@ -25,7 +25,7 @@ export function CareerCompassLink({
       {...props}
       href="/career-compass"
       onClick={(event) => {
-        trackEvent("career_compass_cta_click", {
+        trackCareerCompassEvent("career_compass_cta_click", {
           cta_location: ctaLocation,
           cta_variant: ctaVariant,
           source_page: sourcePage ?? pathname,

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { CareerCompassResult } from "@/components/career-compass/CareerCompassResult";
 import { DiagnosisStepNavigation } from "@/components/career-compass/DiagnosisStepNavigation";
-import { trackEvent } from "@/lib/analytics";
+import { trackCareerCompassEvent, trackEvent } from "@/lib/analytics";
 import {
   achievementOptions,
   backgroundOptions,
@@ -111,8 +111,6 @@ const englishBonus: Record<string, number> = {
   high: 8,
 };
 
-const diagnosisProgressMilestones = [4, 8, 12] as const;
-
 const currentSalaryRanges: Record<string, { high: number | null; low: number | null }> = {
   skip: { high: null, low: null },
   under400: { high: 400, low: null },
@@ -182,7 +180,9 @@ export function CareerCompassTool() {
   const analysisTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasTrackedStartRef = useRef(false);
-  const trackedProgressMilestonesRef = useRef<Set<number>>(new Set());
+  const trackedStepsRef = useRef<Set<number>>(new Set());
+  const hasTrackedCompleteRef = useRef(false);
+  const hasTrackedResultViewRef = useRef(false);
   const questionSteps = useMemo(() => getQuestionSteps(answers.background), [answers.background]);
   const isResult = step >= questionSteps.length;
   const currentStep = questionSteps[Math.min(step, questionSteps.length - 1)];
@@ -392,15 +392,34 @@ export function CareerCompassTool() {
     };
   }, []);
 
+  useEffect(() => {
+    const reachedStep = step + 1;
+    if (hasTrackedStartRef.current && !isResult && !trackedStepsRef.current.has(reachedStep)) {
+      trackedStepsRef.current.add(reachedStep);
+      trackCareerCompassEvent("career_compass_step", {
+        step_number: reachedStep,
+        total_steps: questionSteps.length,
+      });
+    }
+  }, [isResult, questionSteps.length, step]);
+
   function showAnalysisThenResult() {
     setIsAnalyzing(true);
     analysisTimerRef.current = setTimeout(() => {
-      trackEvent("diagnosis_complete", {
-        agent_focus: result.agentFocus,
-        background: answers.background ?? "beginner",
-        goal: answers.goal ?? "entry",
-        result_type: result.profile.id,
-      });
+      if (!hasTrackedCompleteRef.current) {
+        hasTrackedCompleteRef.current = true;
+        trackCareerCompassEvent("career_compass_complete", {
+          recommended_role_group: result.profile.id,
+          result_type: result.band.toLowerCase(),
+        });
+      }
+      if (!hasTrackedResultViewRef.current) {
+        hasTrackedResultViewRef.current = true;
+        trackCareerCompassEvent("career_compass_result_view", {
+          recommended_role_group: result.profile.id,
+          result_type: result.band.toLowerCase(),
+        });
+      }
       setIsAnalyzing(false);
       setStep(questionSteps.length);
     }, 1600);
@@ -409,21 +428,12 @@ export function CareerCompassTool() {
   function chooseAnswer(key: AnswerKey, value: string) {
     if (!hasTrackedStartRef.current) {
       hasTrackedStartRef.current = true;
-      trackEvent("diagnosis_start", { source_page: "career_compass" });
-    }
-
-    const completedQuestions = step + 1;
-    const isProgressMilestone = diagnosisProgressMilestones.some(
-      (milestone) => milestone === completedQuestions,
-    );
-
-    if (isProgressMilestone && !trackedProgressMilestonesRef.current.has(completedQuestions)) {
-      trackedProgressMilestonesRef.current.add(completedQuestions);
-      trackEvent("diagnosis_progress", {
-        completed_questions: completedQuestions,
-        source_page: "career_compass",
-        total_questions: questionSteps.length,
+      trackCareerCompassEvent("career_compass_start", { source_page: "career_compass" });
+      trackCareerCompassEvent("career_compass_step", {
+        step_number: 1,
+        total_steps: questionSteps.length,
       });
+      trackedStepsRef.current.add(1);
     }
 
     setAnswers((current) => key === "background" && current.background !== value
@@ -513,7 +523,9 @@ export function CareerCompassTool() {
     setCompletedQuestIds([]);
     setCopyStatus("idle");
     hasTrackedStartRef.current = false;
-    trackedProgressMilestonesRef.current.clear();
+    trackedStepsRef.current.clear();
+    hasTrackedCompleteRef.current = false;
+    hasTrackedResultViewRef.current = false;
     if (nextTimerRef.current) {
       clearTimeout(nextTimerRef.current);
     }
@@ -537,7 +549,7 @@ export function CareerCompassTool() {
           <div className="analysis-screen">
             <span>MC</span>
             <p className="eyebrow">回答から経験を読み替えています</p>
-            <h1>診断結果を整理中</h1>
+            <h2>診断結果を整理中</h2>
             <div className="analysis-bar" aria-hidden="true">
               <i />
             </div>
@@ -564,10 +576,9 @@ export function CareerCompassTool() {
       modules={result.modules}
       onCopyConsultMemo={copyConsultMemo}
       onAgentCtaClick={() => {
-        trackEvent("agent_cta_click", {
-          agent_focus: result.agentFocus,
-          cta_location: "diagnosis_result",
-          source_page: "diagnosis_result",
+        trackCareerCompassEvent("career_compass_agent_click", {
+          cta_location: "career_compass_result",
+          destination_group: result.agentFocus,
         });
       }}
       onRestart={restart}
@@ -593,7 +604,7 @@ export function CareerCompassTool() {
 
         <div className="quiz-question-head">
           <p className="eyebrow">12問のキャリア診断</p>
-          <h1>{currentStep.question}</h1>
+          <h2>{currentStep.question}</h2>
           <small>迷ったら、最も実態に近いものを1つ。選択すると次へ進みます。</small>
         </div>
 

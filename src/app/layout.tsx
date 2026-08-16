@@ -24,7 +24,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const gaMeasurementId = process.env.VERCEL_ENV === "production"
+    ? process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+    : undefined;
 
   return (
     <html lang="ja">
