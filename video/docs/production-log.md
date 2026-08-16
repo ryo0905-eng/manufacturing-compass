@@ -14,6 +14,7 @@
 | ナレーション | 1.0、0.4秒後に開始 |
 | BGM | Shining / Leon Albertson feat. Adryon de León |
 | BGM入手元 | YouTube Audio Library |
+| BGM利用条件 | 帰属表示不要（2026-08-16確認） |
 | BGM設定 | 0.28、1秒フェードイン、2.5秒フェードアウト |
 | 公開版 | `semiconductor-inspection-short-with-audio-v4.mp4` |
 | 技術確認 | H.264 + AAC 48kHz stereo、最大ピーク -0.95 dB |
@@ -37,6 +38,5 @@
 ### 未記録事項
 
 - 公開URL
-- BGMのライセンス欄と帰属表示の要否
 
-確認できた時点でマニフェストとこのログを更新します。
+公開URLを記録する場合は、マニフェストとこのログを更新します。

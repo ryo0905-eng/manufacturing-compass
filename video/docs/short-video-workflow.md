@@ -45,10 +45,10 @@ BGM 0.28は1本目で採用した初期値です。曲の密度やボーカル�
 ```text
 video/manifests/short-002-example.ts
 video/public/audio/narration-short-002.m4a
-video/public/audio/bgm-short-002.mp3
+video/public/audio/common/shining-leon-albertson.mp3
 ```
 
-元の録音名や個人を特定し得る名前は使いません。`public/audio/` はGit管理外です。
+元の録音名や個人を特定し得る名前は使いません。作品固有のナレーションは `public/audio/`、今後も使うBGMは `public/audio/common/` に置きます。どちらもGit管理外です。
 
 ## 4. 音声を整える
 
@@ -58,6 +58,8 @@ video/public/audio/bgm-short-002.mp3
 - 曲名、制作者、入手元、ライセンス、帰属表示の要否を確認する
 
 YouTubeオーディオライブラリで「帰属表示が必要」と示された曲は、生成したクレジット文を動画説明欄へそのまま掲載します。確認前はマニフェストを `confirmation-required` のままにします。
+
+標準BGMの `Shining / Leon Albertson feat. Adryon de León` は、YouTubeオーディオライブラリの帰属表示不要曲として2026-08-16に確認済みです。別の曲へ変更した場合は、曲ごとに利用条件を確認し直します。
 
 ## 5. 映像を同期する
 

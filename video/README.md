@@ -13,7 +13,7 @@ npm run render
 
 生成した画像・動画は `output/` に保存され、Git管理には含めません。
 
-ナレーションとBGMは `public/audio/` に公開用の短いファイル名で置きます。音声素材と生成物はGit管理へ含めず、元の録音名や個人を特定し得るメタデータを公開コードへ残しません。
+ナレーションは `public/audio/`、複数動画で使うBGMは `public/audio/common/` に公開用の短いファイル名で置きます。音声素材と生成物はGit管理へ含めず、元の録音名や個人を特定し得るメタデータを公開コードへ残しません。
 
 次の動画は [`docs/short-video-workflow.md`](./docs/short-video-workflow.md) と [`manifests/_template.ts`](./manifests/_template.ts) を起点に作ります。制作ごとの設定、公開日、学び、計測値は [`docs/production-log.md`](./docs/production-log.md) に残します。
 
