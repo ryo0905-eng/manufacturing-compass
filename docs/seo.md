@@ -31,12 +31,14 @@ SEO は Career Compass だけへ送客するためのものではありません
 
 - `/career-compass`: 現在地チェック
 - `/industry-map`, `/segments/[slug]`: 業界構造
-- `/companies`, `/companies/[slug]`: 企業研究
+- `/companies`, `/companies/[slug]`: 企業研究と企業別キャリア準備
 - `/compare`, `/compare/[slug]`: 企業比較
 - `/guides`, `/guides/[slug]`: 技術・業界・キャリア記事
 - `/rankings`, `/rankings/[slug]`: 基準時点のあるランキング
 - `/career-agents`: エージェント比較
 - `/career-consultation`: 相談準備
+
+旧 `/companies/[slug]/career-prep` は、重複を避けるため `/companies/[slug]#career-prep` へ恒久リダイレクトします。canonical と sitemap の対象は親の企業詳細URLだけです。
 
 存在しない `/diagnosis`、`/diagnosis/result`、`/agents`、`/english` をリンク設計へ使いません。新規URLを追加する前に、既存ページとの検索意図の境界を決めます。
 
@@ -105,7 +107,7 @@ SEO は Career Compass だけへ送客するためのものではありません
 
 - ハブから詳細へ、詳細からハブ・前後テーマへ戻れるようにする
 - 技術記事から、扱う装置・材料・企業・職種へつなぐ
-- 企業ページから、事業セグメント、比較、キャリア準備へつなぐ
+- 企業ページから、事業セグメント、比較、同一ページ内のキャリア準備へつなぐ
 - 実体験記事から、読者が次に必要とするガイドや Career Compass へつなぐ
 - Career Compass の結果から、接点のある企業と相談準備へつなぐ
 - CTA のためだけに本文と関係の薄いリンクを置かない

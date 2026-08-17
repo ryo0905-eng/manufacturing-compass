@@ -70,7 +70,7 @@ export default async function RankingPage({ params }: RankingPageProps) {
                 <Link className="text-link" href={`/companies/${company.slug}` as Route}>
                   企業詳細
                 </Link>
-                <Link className="text-link" href={`/companies/${company.slug}/career-prep` as Route}>
+                <Link className="text-link" href={`/companies/${company.slug}#career-prep` as Route}>
                   準備を見る
                 </Link>
               </div>

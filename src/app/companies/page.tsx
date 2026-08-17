@@ -118,13 +118,20 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
         </header>
         <div>
           {segments.map((segment) => {
-            const count = companies.filter((company) => company.industrySegments.includes(segment.id)).length;
+            const segmentCompanies = companies.filter((company) => company.industrySegments.includes(segment.id));
             return (
               <article key={segment.id}>
                 <span>{segment.shortName}</span>
                 <h3>{segment.name}</h3>
                 <p>{segment.description}</p>
-                <small>{count}社を掲載</small>
+                <small>{segmentCompanies.length}社を掲載</small>
+                <ul className="companies-taxonomy__companies" aria-label={`${segment.name}の掲載企業`}>
+                  {segmentCompanies.map((company) => (
+                    <li key={company.id}>
+                      <Link href={`/companies/${company.slug}` as Route}>{company.nameJa}</Link>
+                    </li>
+                  ))}
+                </ul>
                 <Link href={`/segments/${segment.slug}` as Route}>{segment.name}の企業を見る <span aria-hidden="true">→</span></Link>
               </article>
             );

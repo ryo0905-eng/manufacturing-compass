@@ -6486,6 +6486,26 @@ select {
   line-height: 1.7;
 }
 
+.companies-taxonomy__companies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 14px 0 2px;
+  padding: 0;
+  list-style: none;
+}
+
+.companies-taxonomy article .companies-taxonomy__companies a {
+  margin: 0;
+  color: #30383c;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-decoration-color: #c8d3d7;
+  text-underline-offset: 3px;
+}
+
 .companies-taxonomy article a,
 .companies-adjacent article a {
   margin-top: 12px;
@@ -15528,6 +15548,37 @@ body {
 .company-detail-page .readiness-block h3 {
   font-size: 16px;
   font-weight: 600;
+}
+
+.company-detail-page .company-industry-map-link {
+  margin-top: 18px;
+}
+
+.company-detail-page .company-today-action {
+  display: grid;
+  gap: 5px;
+  margin-top: 16px;
+  border-left: 3px solid #1769aa;
+  background: #f7f7f8;
+  padding: 16px 18px;
+}
+
+.company-detail-page .company-today-action span,
+.company-detail-page .company-today-action small {
+  color: #60666d;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.company-detail-page .company-today-action strong {
+  color: #1d1d1f;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.company-detail-page .detail-panel .career-compass-entry {
+  margin-top: 24px;
 }
 
 .company-detail-page .tag-list li {

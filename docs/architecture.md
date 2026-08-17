@@ -40,7 +40,6 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/segments/[slug]`
 - `/companies`
 - `/companies/[slug]`
-- `/companies/[slug]/career-prep`
 - `/compare`
 - `/compare/[slug]`
 - `/guides`
@@ -57,6 +56,8 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/advertising-policy`
 - `/sitemap.xml`
 - `/robots.txt`
+
+旧 `/companies/[slug]/career-prep` は独立コンテンツを持たず、`/companies/[slug]#career-prep` へ恒久リダイレクトします。キャリア準備情報は企業詳細の初期HTMLへ統合し、旧URLは sitemap に含めません。
 
 ## ディレクトリ責務
 
@@ -126,7 +127,7 @@ video/docs/                 制作フロー、公開記録、計測ログ
 ## コンテンツデータ
 
 - 企業・採用・財務情報には `Source` と更新日を持たせる
-- 個別キャリア情報がない企業ページは `noindex, follow` とし、sitemap から外す
+- `src/data/companies.ts` の明示的な企業コンテンツ状態が `draft` の企業ページは `noindex, follow` とし、sitemap から外す
 - ガイド記事は公開状態、公開日、更新日、著者、確認者、出典、SEO 情報を保持する
 - ガイド記事のカテゴリは `src/content/guides/categories.ts` を正本とし、記事URLとは分離する
 - `.private/` の取材メモはビルド対象にせず、公開データへ反映する前に匿名化する

@@ -124,6 +124,7 @@ Cp・Cpk、DoE、管理図、Gage R&Rを基礎資産として改善し、ツー�
 
 ### Analytics・SEO
 
+- [x] 2026-08-17 に企業別career-prep 10ページの固有情報を親企業詳細へ統合し、旧URLを恒久リダイレクト化してsitemapから除外
 - [x] Vercel Analytics を導入
 - [x] `diagnosis_start`、`diagnosis_progress`、`diagnosis_complete` を実装
 - [x] `result_detail_open`、`today_quest_copy`、`agent_cta_click`、`affiliate_outbound_click` を実装

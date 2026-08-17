@@ -14,6 +14,8 @@ export type CompanyMetric = {
   currency: string;
 };
 
+export type CompanyContentStatus = "complete" | "draft";
+
 export type Company = {
   id: string;
   slug: string;

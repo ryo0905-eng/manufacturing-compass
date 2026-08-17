@@ -1,4 +1,4 @@
-import type { CareerInfo, Company, IndustrySegment } from "@/types/content";
+import type { CareerInfo, Company, CompanyContentStatus, IndustrySegment } from "@/types/content";
 
 const accessedAt = "2026-07-05";
 const careerReviewedAt = "2026-07-13";
@@ -1304,6 +1304,52 @@ export const companies: Company[] = [
   },
 ];
 
+/**
+ * Search eligibility is editorial data, not a guess based on rendered copy.
+ * `complete` means the company has reviewed, company-specific career content
+ * and may be indexed. Draft pages remain useful for navigation but stay
+ * noindex and out of the sitemap until their content is reviewed.
+ */
+export const companyContentStatusById: Record<string, CompanyContentStatus> = {
+  tsmc: "complete",
+  micron: "complete",
+  "tokyo-electron": "complete",
+  skyworks: "complete",
+  renesas: "complete",
+  kioxia: "complete",
+  screen: "complete",
+  advantest: "complete",
+  socionext: "complete",
+  rohm: "complete",
+  nvidia: "draft",
+  amd: "draft",
+  broadcom: "draft",
+  "samsung-electronics": "draft",
+  "sk-hynix": "draft",
+  intel: "draft",
+  globalfoundries: "draft",
+  "applied-materials": "draft",
+  "lam-research": "draft",
+  asml: "draft",
+  kla: "draft",
+  teradyne: "draft",
+  infineon: "draft",
+  stmicroelectronics: "draft",
+  nxp: "draft",
+  onsemi: "draft",
+  qualcomm: "draft",
+  marvell: "draft",
+  qorvo: "draft",
+  "analog-devices": "draft",
+  "texas-instruments": "draft",
+  disco: "draft",
+  lasertec: "draft",
+  "hitachi-hightech": "draft",
+  nikon: "draft",
+  canon: "draft",
+  sumco: "draft",
+};
+
 export const careerInfo: CareerInfo[] = [
   {
     companyId: "tsmc",
@@ -1483,6 +1529,14 @@ export function getCompanyBySlug(slug: string) {
 
 export function getCareerInfo(companyId: string) {
   return careerInfo.find((info) => info.companyId === companyId);
+}
+
+export function getCompanyContentStatus(companyId: string): CompanyContentStatus {
+  return companyContentStatusById[companyId] ?? "draft";
+}
+
+export function isCompanyIndexable(company: Company) {
+  return getCompanyContentStatus(company.id) === "complete";
 }
 
 export function getSegmentById(id: string) {

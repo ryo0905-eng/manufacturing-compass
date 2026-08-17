@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { companies, getCareerInfo, segments } from "@/data/companies";
+import { companies, isCompanyIndexable, segments } from "@/data/companies";
 import { beginnerGuides, comparePairs, rankings } from "@/data/editorial";
 import { companyCompareSlug, siteUrl } from "@/lib/format";
 
@@ -8,7 +8,7 @@ function contentDate(date: string) {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const searchReadyCompanies = companies.filter((company) => getCareerInfo(company.id));
+  const searchReadyCompanies = companies.filter(isCompanyIndexable);
   const latestGuideUpdatedAt = beginnerGuides.reduce(
     (latest, guide) => guide.updatedAt > latest ? guide.updatedAt : latest,
     "1970-01-01",
@@ -49,13 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  const companyPrepRoutes = searchReadyCompanies.map((company) => ({
-    url: `${siteUrl}/companies/${company.slug}/career-prep`,
-    lastModified: new Date(company.lastUpdated),
-    changeFrequency: "monthly" as const,
-    priority: 0.68,
-  }));
-
   const segmentRoutes = segments.map((segment) => ({
     url: `${siteUrl}/segments/${segment.slug}`,
     changeFrequency: "weekly" as const,
@@ -81,5 +74,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.66,
   }));
 
-  return [...staticRoutes, ...segmentRoutes, ...companyRoutes, ...companyPrepRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes];
+  return [...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes];
 }

@@ -3,9 +3,10 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
+import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { CompanyQuickSummary } from "@/components/CompanyQuickSummary";
 import { StructuredData } from "@/components/StructuredData";
-import { companies, getCareerInfo, getCompanyBySlug, getSegmentById } from "@/data/companies";
+import { companies, getCareerInfo, getCompanyBySlug, getSegmentById, isCompanyIndexable } from "@/data/companies";
 import { siteUrl } from "@/lib/format";
 
 type CompanyPageProps = {
@@ -24,13 +25,11 @@ export async function generateMetadata({ params }: CompanyPageProps): Promise<Me
     return {};
   }
 
-  const isSearchReady = Boolean(getCareerInfo(company.id));
-
   return {
     title: `${company.nameJa}の転職・仕事内容・キャリア準備`,
     description: `${company.nameJa}の事業領域、主力製品、日本拠点、英語必要度、転職時に見たいポイントを整理します。`,
     alternates: { canonical: `/companies/${company.slug}` },
-    robots: isSearchReady ? undefined : { index: false, follow: true },
+    robots: isCompanyIndexable(company) ? undefined : { index: false, follow: true },
   };
 }
 
@@ -79,7 +78,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
           <Link className="button primary" href={compareHref}>
             {compareLabel}
           </Link>
-          <Link className="button ghost" href={`/companies/${company.slug}/career-prep` as Route}>
+          <Link className="button ghost" href={`/companies/${company.slug}#career-prep` as Route}>
             準備を見る
           </Link>
           <Link className="button ghost" href="/companies">
@@ -105,6 +104,9 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
                 <li key={segment?.id}>{segment?.name}</li>
               ))}
             </ul>
+            <p className="company-industry-map-link">
+              <Link className="text-link" href="/industry-map">半導体業界地図</Link>で、設計・材料・製造・装置・後工程のどこを担う企業か確認できます。
+            </p>
           </section>
 
           <section className="detail-panel">
@@ -117,44 +119,75 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
             </ul>
           </section>
 
-          <section className="detail-panel">
+          <section className="detail-panel" id="career-prep">
             <p className="eyebrow">キャリア準備</p>
-            <h2>近づくための準備</h2>
+            <h2>{company.nameJa}へ近づくためのキャリア準備</h2>
             {career ? (
-              <div className="readiness-grid">
-                <div className="readiness-block">
-                  <h3>今近い経験</h3>
-                  <ul>
-                    {career.suitableBackgrounds.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+              <>
+                <div className="readiness-grid">
+                  <div className="readiness-block">
+                    <h3>向いている経験</h3>
+                    <ul>
+                      {career.suitableBackgrounds.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="readiness-block">
+                    <h3>関連する職種</h3>
+                    <ul>
+                      {career.typicalRoles.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="readiness-block">
+                    <h3>伸ばすスキル</h3>
+                    <ul>
+                      {career.usefulSkills.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="readiness-block">
+                    <h3>次に近づく経験</h3>
+                    <ul>
+                      {career.stretchBackgrounds.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="readiness-block">
+                    <h3>半年の準備</h3>
+                    <ul>
+                      {career.preparationActions6Months.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="readiness-block">
+                    <h3>1年の準備</h3>
+                    <ul>
+                      {career.preparationActions1Year.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div className="readiness-block">
-                  <h3>次に近づく経験</h3>
-                  <ul>
-                    {career.stretchBackgrounds.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="readiness-block">
-                  <h3>半年の準備</h3>
-                  <ul>
-                    {career.preparationActions6Months.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="readiness-block">
-                  <h3>1年の準備</h3>
-                  <ul>
-                    {career.preparationActions1Year.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+                <aside className="company-today-action">
+                  <span>今日からできること</span>
+                  <strong>{career.preparationActions6Months[0]}</strong>
+                  <small>{career.notes}</small>
+                </aside>
+                <CareerCompassCta
+                  body={`${company.nameJa}の企業研究と合わせて、現在の仕事内容や実績から接点のある半導体職種と次の準備を整理できます。`}
+                  ctaLocation="company_career_prep"
+                  ctaVariant="company_prep_to_role"
+                  headingLevel="h3"
+                  sourcePage={`/companies/${company.slug}`}
+                  title="自分の経験がどの半導体職種に近いか整理する"
+                />
+              </>
             ) : (
               <p>公開情報を確認しながら準備ポイントを整理中です。</p>
             )}
