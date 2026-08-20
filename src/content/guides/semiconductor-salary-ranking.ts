@@ -256,6 +256,6 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
     },
   ],
   todayQuest: "気になる3社について、平均年収ではなく応募したい職種の給与レンジと賞与条件を書き出す。",
-  relatedGuideSlugs: ["semiconductor-market-cap-ranking", "semiconductor-career-start", "semiconductor-career-chatgpt"],
+  relatedGuideSlugs: ["job-posting-salary-range", "semiconductor-market-cap-ranking", "semiconductor-career-start", "semiconductor-career-chatgpt"],
   relatedCompanyIds: ["disco", "lasertec", "tokyo-electron", "advantest", "screen", "socionext", "renesas", "kioxia"],
 };

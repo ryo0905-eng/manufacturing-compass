@@ -269,6 +269,7 @@ export const semiconductorRecruitmentAgentReviewGuide: GuideArticle = {
   ],
   todayQuest: "総合型、製造業・半導体特化型、外資特化型の役割を一つずつ決め、各社へ同じ希望条件を伝える",
   relatedGuideSlugs: [
+    "job-posting-salary-range",
     "company-selection-after-three-job-changes",
     "first-career-change-anxiety",
     "semiconductor-career-start",

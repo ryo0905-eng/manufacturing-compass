@@ -270,6 +270,7 @@ export const threeJobChangesCompensationNegotiationGuide: GuideArticle = {
   todayQuest:
     "各転職を「辞めた理由」と「次に積みたかった経験」に分け、現在の待遇は公式書類の年収と補足の待遇価値に分けて書き出す",
   relatedGuideSlugs: [
+    "job-posting-salary-range",
     "company-selection-after-three-job-changes",
     "first-career-change-anxiety",
     "semiconductor-recruitment-agent-review",

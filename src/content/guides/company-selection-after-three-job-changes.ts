@@ -265,6 +265,7 @@ export const companySelectionAfterThreeJobChangesGuide: GuideArticle = {
     },
   ],
   relatedGuideSlugs: [
+    "job-posting-salary-range",
     "first-career-change-anxiety",
     "three-job-changes-compensation-negotiation",
     "semiconductor-recruitment-agent-review",

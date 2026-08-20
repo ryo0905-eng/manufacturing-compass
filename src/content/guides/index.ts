@@ -6,6 +6,7 @@ import { equipmentEngineerRouteGuide } from "@/content/guides/equipment-engineer
 import { electronicsToSemiconductorProcessEngineerGuide } from "@/content/guides/electronics-to-semiconductor-process-engineer";
 import { firstCareerChangeAnxietyGuide } from "@/content/guides/first-career-change-anxiety";
 import { icChipManufacturingCompaniesGuide } from "@/content/guides/ic-chip-manufacturing-companies";
+import { jobPostingSalaryRangeGuide } from "@/content/guides/job-posting-salary-range";
 import { manufacturingDxAiCodingGuide } from "@/content/guides/manufacturing-dx-ai-coding";
 import { qualityEngineerRouteGuide } from "@/content/guides/quality-engineer-route";
 import { productionEngineeringToSemiconductorProcessEngineerGuide } from "@/content/guides/production-engineering-to-semiconductor-process-engineer";
@@ -155,6 +156,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCareerChatgptGuide,
   semiconductorMarketCapRankingGuide,
   semiconductorSalaryRankingGuide,
+  jobPostingSalaryRangeGuide,
   semiconductorRecruitmentAgentReviewGuide,
   semiconductorCareerEnglishLevelGuide,
   threeJobChangesCompensationNegotiationGuide,
