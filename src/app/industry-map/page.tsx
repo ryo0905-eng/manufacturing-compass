@@ -172,6 +172,14 @@ export default function IndustryMapPage() {
         </aside>
       </section>
 
+      <nav className="companies-next-links" aria-label="半導体業界の主要な企業研究ページ">
+        <Link href="/segments/fabless"><strong>ファブレス企業一覧</strong><span>日本・海外の設計企業と主力分野を見る</span></Link>
+        <Link href="/guides/semiconductor-foundry"><strong>ファウンドリとは</strong><span>ファブレス・IDM・OSATとの違いを見る</span></Link>
+        <Link href="/companies"><strong>半導体メーカー・企業一覧</strong><span>分野、地域、職種から企業を探す</span></Link>
+        <Link href="/guides/semiconductor-market-cap-ranking"><strong>2026年の世界・日本ランキング</strong><span>時価総額と売上高の違いを踏まえて比較する</span></Link>
+        <Link href="/guides/semiconductor-manufacturing-process"><strong>半導体製造工程</strong><span>設計から前工程・後工程・最終検査までをたどる</span></Link>
+      </nav>
+
       <CareerCompassCta
         body="工程改善、設備、品質、生産技術などの経験を12問で整理し、接点のある半導体工程・職種と次の準備を確認できます。"
         ctaLocation="industry_map_after_supply_chain"

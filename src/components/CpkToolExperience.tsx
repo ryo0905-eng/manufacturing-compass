@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CpkCalculator } from "@/components/CpkCalculator";
 import { CpkLearningSimulator } from "@/components/CpkLearningSimulator";
 import { trackEvent } from "@/lib/analytics";
@@ -9,6 +9,13 @@ type ToolView = "calculate" | "learn";
 
 export function CpkToolExperience() {
   const [view, setView] = useState<ToolView>("calculate");
+  const hasTrackedView = useRef(false);
+
+  useEffect(() => {
+    if (hasTrackedView.current) return;
+    hasTrackedView.current = true;
+    trackEvent("cpk_tool_viewed", { default_view: "calculate" });
+  }, []);
 
   function selectView(nextView: ToolView) {
     setView(nextView);

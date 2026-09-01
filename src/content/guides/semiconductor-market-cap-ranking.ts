@@ -343,6 +343,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "半導体企業一覧", href: "/companies", description: "事業領域、日本拠点、代表的な職種から企業を調べる" },
+            { label: "ファブレス企業一覧", href: "/segments/fabless", description: "日本・海外の設計企業と主力分野を確認する" },
             { label: "半導体業界地図", href: "/industry-map", description: "設計、製造、装置などバリューチェーンの位置を確認する" },
             { label: "シリコンウェーハメーカー", href: "/guides/semiconductor-silicon-wafer-manufacturers", description: "材料企業SUMCOと国内外の主要ウェーハ企業を見る" },
             { label: "生産技術からプロセス職へ", href: "/guides/production-engineering-to-semiconductor-process-engineer", description: "製造現場の経験と半導体プロセス職の接点を整理する" },

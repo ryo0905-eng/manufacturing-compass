@@ -9,7 +9,7 @@ export const segments: IndustrySegment[] = [
     slug: "fabless",
     name: "ファブレス",
     shortName: "Fabless",
-    description: "自社工場を持たず、半導体の設計や製品企画に集中する企業群です。",
+    description: "半導体の企画・設計を中心とし、ウェーハ製造を主にファウンドリなどの外部企業へ委託する企業群です。",
     roleInValueChain: "設計、製品企画、顧客仕様の取り込み",
     relatedCompanyIds: ["nvidia", "amd", "qualcomm", "broadcom", "marvell", "skyworks", "qorvo", "socionext"],
     sources: [{ title: "Semiconductor Industry Association", url: "https://www.semiconductors.org/", publisher: "SIA", accessedAt }],

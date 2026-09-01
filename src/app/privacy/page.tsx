@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "プライバシーポリシー",
   description:
     "Manufacturing Compass における個人情報、アクセス解析、Cookie、広告配信、外部リンクの取り扱いについて説明します。",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

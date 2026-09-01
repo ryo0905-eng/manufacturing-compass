@@ -5,6 +5,7 @@ import { CareerCompassLink } from "@/components/CareerCompassLink";
 export const metadata: Metadata = {
   title: "半導体転職の相談準備",
   description: "半導体業界への転職相談前に、職務経歴書で強調する実績、狙う職種、年収レンジ、次の準備論点を整理します。",
+  alternates: { canonical: "/career-consultation" },
 };
 
 const consultationTopics = [

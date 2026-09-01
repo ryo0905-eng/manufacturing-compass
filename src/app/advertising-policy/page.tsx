@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "広告掲載ポリシー",
   description:
     "Manufacturing Compass のアフィリエイト広告、広告表記、掲載基準、編集方針について説明します。",
+  alternates: { canonical: "/advertising-policy" },
 };
 
 export default function AdvertisingPolicyPage() {

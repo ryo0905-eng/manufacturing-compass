@@ -2,10 +2,10 @@ import type { GuideArticle } from "@/content/guides/types";
 
 export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
   slug: "semiconductor-wafer-handling-efem-manufacturers",
-  title: "EFEMとは？FOUP・ロードポートの構成とウェーハ搬送メーカーを図解",
+  title: "EFEMとは｜構成・仕組み・主要メーカーを図解",
   description:
-    "EFEMとは何かを最初に回答し、FOUP、ロードポート、大気搬送ロボット、アライナ、真空搬送との関係を図解。粒子・位置ずれ・搬送エラー、主要4社、選定ポイントまで整理します。",
-  targetQuery: "半導体 ウェーハ 搬送ロボット EFEM メーカー",
+    "EFEMは、FOUPと半導体製造装置をつなぐ清浄な大気搬送モジュールです。ロードポート、搬送ロボット、アライナの構成・仕組みと主要メーカー4社を図解します。",
+  targetQuery: "EFEMとは",
   searchIntent:
     "EFEMとは何か、FOUP・ロードポート・大気ロボット・アライナ・真空ロボットの役割、ウェーハ搬送フロー、清浄度・位置精度・スループット・規格、主要メーカーと比較方法を知りたい",
   status: "published",
@@ -23,7 +23,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
     "Brooksで大気・真空環境をまたぐ自動化プラットフォーム、川崎重工でEFEM向けウェーハ搬送ロボットとSEMI規格対応の領域を確認",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-08-16",
+  updatedAt: "2026-09-01",
   sources: [
     {
       title: "Wafer Handling System",

@@ -5,7 +5,8 @@ import { rankings } from "@/data/editorial";
 
 export const metadata: Metadata = {
   title: "経験別に探す半導体企業",
-  description: "設備、品質、英語など、これまでの経験との接点から半導体企業を調べるための企業リストです。",
+  description: "設備、品質、英語など、これまでの経験との接点から半導体企業を調べる候補リストです。売上高や時価総額の順位ではありません。",
+  alternates: { canonical: "/rankings" },
 };
 
 export default function RankingsPage() {

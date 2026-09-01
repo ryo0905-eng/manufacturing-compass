@@ -79,6 +79,11 @@ Career Compass
 - `industry_map_mode_change`
 - `industry_map_node_open`
 - `industry_map_content_click`
+- `cpk_tool_viewed`
+- `cpk_sample_changed`
+- `cpk_input_mode_changed`
+- `cpk_calculation_completed`
+- `cpk_related_content_click`
 
 `career_compass_cta_click` には `source_page`、`cta_location`、`cta_variant` の有限値だけを付与します。検索語や入力内容は送信しません。GA4 のページ表示からCTAクリック、1問目回答、4・8・12問到達、完了までを流入元別に確認します。
 

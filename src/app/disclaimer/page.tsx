@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "免責事項",
   description:
     "Manufacturing Compass の掲載情報、診断結果、外部リンク、アフィリエイト広告に関する免責事項です。",
+  alternates: { canonical: "/disclaimer" },
 };
 
 export default function DisclaimerPage() {

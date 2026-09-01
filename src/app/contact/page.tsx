@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "お問い合わせ",
   description:
     "Manufacturing Compass へのお問い合わせ、掲載情報の修正依頼、広告掲載のご相談はこちらからご連絡ください。",
+  alternates: { canonical: "/contact" },
 };
 
 const contactFormUrl =

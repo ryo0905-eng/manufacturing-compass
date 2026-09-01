@@ -8,6 +8,17 @@ const nextConfig: NextConfig = {
         has: [
           {
             type: "host",
+            value: "www\\.mfg-compass\\.com",
+          },
+        ],
+        destination: "https://mfg-compass.com/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
             value: ".*\\.vercel\\.app",
           },
         ],

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CpkToolExperience } from "@/components/CpkToolExperience";
 import { StructuredData } from "@/components/StructuredData";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -34,7 +35,7 @@ export default function CpkToolPage() {
 
       <CpkToolExperience />
 
-      <nav className="tool-related-links" aria-label="関連する実務学習ツール"><span>関連ツール</span><Link href="/guides/ai-prototyping-requirements">このツールをAIで試作・改善した記録 <span aria-hidden="true">→</span></Link><Link href="/guides/six-sigma">シックスシグマとDMAICの全体像 <span aria-hidden="true">→</span></Link><Link href="/tools/control-chart">管理図で工程の時間変化を学ぶ <span aria-hidden="true">→</span></Link><Link href="/tools/doe">実験計画法を動かして学ぶ <span aria-hidden="true">→</span></Link></nav>
+      <nav className="tool-related-links" aria-label="関連する実務学習ツール"><span>関連ツール</span><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "prototype_guide" }} href="/guides/ai-prototyping-requirements">このツールをAIで試作・改善した記録 <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "six_sigma" }} href="/guides/six-sigma">シックスシグマとDMAICの全体像 <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "control_chart" }} href="/tools/control-chart">管理図で工程の時間変化を学ぶ <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "doe" }} href="/tools/doe">実験計画法を動かして学ぶ <span aria-hidden="true">→</span></TrackedInternalLink></nav>
 
       <article className="capability-document">
         <header><h2>指標の見方</h2><p>工程能力指数は、使う標準偏差と規格の種類を確認して読みます。</p></header>

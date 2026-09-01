@@ -271,6 +271,7 @@ export const semiconductorFoundryGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "ファブレス企業一覧", href: "/segments/fabless", description: "日本・海外の設計企業と主力分野を見る" },
             { label: "ファウンドリの企業一覧", href: "/segments/foundry", description: "TSMC、Samsung Electronics、Intel、GlobalFoundriesなどの企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "設計、ウェーハ加工、テスト、組立の流れを見る" },
             { label: "パッケージングの仕組み", href: "/guides/semiconductor-packaging-process", description: "ファウンドリ後の組立・接続・封止工程を見る" },

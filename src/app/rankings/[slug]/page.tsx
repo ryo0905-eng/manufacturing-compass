@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: RankingPageProps): Promise<Me
   return {
     title: ranking.title,
     description: ranking.description,
+    alternates: { canonical: `/rankings/${ranking.slug}` },
   };
 }
 

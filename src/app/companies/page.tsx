@@ -91,6 +91,7 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
         </dl>
         <div className="actions">
           <Link className="button ghost" href="/industry-map">業界構造を地図で見る</Link>
+          <Link className="button ghost" href="/segments/fabless">ファブレス企業一覧を見る</Link>
           <Link className="button ghost" href="/compare">2社を比較する</Link>
         </div>
       </header>
@@ -158,6 +159,7 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
       <FilterableCompanies companies={companies} initialQuery={query} segments={segments} />
 
       <nav className="companies-next-links" aria-label="企業研究を深めるページ">
+        <Link href="/segments/fabless"><strong>日本・海外のファブレス企業一覧</strong><span>主力分野と、ファウンドリ・IDMとの違いを見る</span></Link>
         <Link href="/guides/semiconductor-manufacturing-process"><strong>半導体製造工程を図解で理解</strong><span>前工程・後工程と、装置・材料のつながりを見る</span></Link>
         <Link href="/guides/semiconductor-market-cap-ranking"><strong>2026年の時価総額ランキング</strong><span>基準日付きで企業規模と業界分類を確認する</span></Link>
         <Link href="/compare/asml-vs-tokyo-electron"><strong>ASMLと東京エレクトロンを比較</strong><span>装置領域、職種、英語の違いを同じ軸で比べる</span></Link>
