@@ -33,6 +33,8 @@
 | [`docs/control-chart-learning-spec.md`](./control-chart-learning-spec.md) | 管理図学習ツールの目的、計算、初期スコープ | 管理図の学習体験や対象図を変えた時 |
 | [`docs/gage-rr-learning-spec.md`](./gage-rr-learning-spec.md) | Gage R&R学習ツールの目的、計算、初期スコープ | Gage R&Rの学習体験や対象調査を変えた時 |
 | [`docs/yield-learning-spec.md`](./yield-learning-spec.md) | 歩留まり・FPY・RTY学習ツールの目的、計算、初期スコープ | 歩留まりの学習体験や対象工程を変えた時 |
+| [`docs/semiconductor-location-map-spec.md`](./semiconductor-location-map-spec.md) | 日本の半導体企業・拠点マップの対象、MVP、データ、公開基準 | 地理マップの対象、データ構造、公開条件を変えた時 |
+| [`docs/semiconductor-location-map-pilot.md`](./semiconductor-location-map-pilot.md) | 拠点データパイロットの調査対象、記録項目、完了条件 | パイロット対象、調査結果、工数、公開判断を更新する時 |
 | [`docs/conversion-architecture.md`](./conversion-architecture.md) | 現行導線と CTA の役割 | 主要導線や計測イベントを変えた時 |
 | [`docs/monetization.md`](./monetization.md) | 広告・アフィリエイト運用原則 | 提携状態や広告運用方針を変えた時 |
 | [`docs/roadmap.md`](./roadmap.md) | フェーズ単位の方向性 | 優先順位やフェーズを見直した時 |

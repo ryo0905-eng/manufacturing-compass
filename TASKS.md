@@ -38,6 +38,16 @@
 - [ ] 個別情報を追加した企業だけ、noindex と sitemap 除外を解除する
 - [ ] `docs/company-content-audit.md` の件数と確認日を更新する
 
+### P1: 日本の半導体企業・拠点マップ パイロット
+
+- [x] 2026-09-03 に対象ユーザー、既存ページとの境界、MVP、データ、公開基準を `docs/semiconductor-location-map-spec.md` へ定義
+- [x] 2026-09-03 にSearch Console CSVを確認。全国の半導体工場マップ・一覧は33表示・2クリック、熊本・JASM関連は3表示。初期地域ページを1〜2件へ絞り、全国ハブを優先
+- [x] 2026-09-03 に既存の個別キャリア情報がある企業を優先し、10社・最大24拠点の調査候補を `docs/semiconductor-location-map-pilot.md` へ定義
+- [ ] 公式拠点情報、拠点種別、半導体との関係、職種根拠、確認日をパイロットデータへ記録する
+- [ ] 1拠点あたりの調査時間と、拠点別の採用情報を確認できる割合を記録する
+- [ ] パイロット完了後、20〜25社・50〜70拠点の公開MVPへ進むか判断する
+- [ ] 公開MVPへ進む場合だけ、PRD、architecture、database、seo、conversion-architectureを実装と同時に更新する
+
 ### P2: UI一貫性
 
 - [x] 学習ツールを基準に、文字密度、色、余白、例外条件を `docs/design-system.md` へ明文化する
