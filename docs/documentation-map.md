@@ -2,7 +2,7 @@
 
 このファイルは、Manufacturing Compass の文書をどこから読むか、同じ内容が食い違った場合に何を正とするかを示す索引です。
 
-最終更新日: 2026-07-21
+最終更新日: 2026-09-03
 
 ## 優先順位
 
@@ -35,6 +35,7 @@
 | [`docs/yield-learning-spec.md`](./yield-learning-spec.md) | 歩留まり・FPY・RTY学習ツールの目的、計算、初期スコープ | 歩留まりの学習体験や対象工程を変えた時 |
 | [`docs/semiconductor-location-map-spec.md`](./semiconductor-location-map-spec.md) | 日本の半導体企業・拠点マップの対象、MVP、データ、公開基準 | 地理マップの対象、データ構造、公開条件を変えた時 |
 | [`docs/semiconductor-location-map-pilot.md`](./semiconductor-location-map-pilot.md) | 拠点データパイロットの調査対象、記録項目、完了条件 | パイロット対象、調査結果、工数、公開判断を更新する時 |
+| [`docs/semiconductor-location-map-review.md`](./semiconductor-location-map-review.md) | 代表拠点の座標レビュー手順、確認表、Go / No-Go基準 | 座標確認、工数計測、公開可否判断を行う時 |
 | [`docs/conversion-architecture.md`](./conversion-architecture.md) | 現行導線と CTA の役割 | 主要導線や計測イベントを変えた時 |
 | [`docs/monetization.md`](./monetization.md) | 広告・アフィリエイト運用原則 | 提携状態や広告運用方針を変えた時 |
 | [`docs/roadmap.md`](./roadmap.md) | フェーズ単位の方向性 | 優先順位やフェーズを見直した時 |
