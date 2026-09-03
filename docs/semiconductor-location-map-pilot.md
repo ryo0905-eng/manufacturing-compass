@@ -62,36 +62,186 @@
 
 Batch Aで確定した型を使い、ファブレス、IDM、材料、本社・設計拠点でも同じデータ構造が使えるかを確認します。
 
-## Batch A 一次調査
+## Batch A 検証結果
 
-確認日: 2026-09-03
+- 確認日: 2026-09-03
+- 拠点基本情報の次回確認日: 2027-03-03
 
-この段階では候補の存在と、データ構造で分離すべき項目だけを確認しています。公開可否、座標、拠点別職種、採用状態は未確定です。
+5社・13物理拠点を企業公式情報で確認しました。座標はまだ付与していないため公開基準上は `draft` ですが、正式拠点名、住所、関係法人、半導体との関係、拠点種別、稼働状態の根拠は確認できています。
 
-| 企業・グループ | 企業公式で確認できた範囲 | 次に確認すること | 状態 |
+### 確認済み物理拠点
+
+職種欄は、その拠点または公式採用ページで勤務地との対応を確認できたものだけを記載します。「保留」は会社全体の職種を拠点へ推測で割り当てないという意味です。
+
+| 拠点ID | 関係法人 | 正式拠点名・所在地 | 拠点種別 | 公式情報で確認できた役割・職種 | 稼働状態 | 出典 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `tsmc-jasm-kumamoto` | Japan Advanced Semiconductor Manufacturing株式会社 | JASM熊本サイト／熊本県菊池郡菊陽町大字原水4106-1 | 工場 | 第1工場は12/16nm、22/28nmを含む半導体受託製造。プロセス、製造、品質、CIMなどの公式求人を確認 | サイト稼働中。第1工場は稼働中、第2工場は建設中 | T1、T2、T3 |
+| `tsmc-design-yokohama` | TSMC Design Technology Japan, Inc. | TSMC Japan Design Center／神奈川県横浜市西区みなとみらい4-6-2 | 設計、研究開発、オフィス | 先端ノード向け設計ソリューション。メモリ設計、カスタム・デジタルレイアウト、スタンダードセルなど | 稼働中 | T2、T4、T5 |
+| `micron-hiroshima` | マイクロンメモリ ジャパン株式会社、同ファシリティーズ株式会社 | 広島工場／技術開発／広島県東広島市吉川工業団地7-10 | 工場、研究開発 | DRAMの開発・製造。プロセス・設備、品質、施設、スマート製造などの公式求人を確認 | 稼働中。新クリーンルームは建設中 | M1、M2、M3、M4 |
+| `micron-hashimoto` | マイクロンメモリ ジャパン株式会社 | 橋本エンジニアリングセンター／神奈川県相模原市中央区南橋本3-1-35 | 研究開発、オフィス | 公式拠点名からエンジニアリング機能を確認。具体的な職種・製品との対応は保留 | 稼働中 | M1 |
+| `tel-miyagi-taiwa` | 東京エレクトロン宮城株式会社 | 本社・大和事業所／宮城県黒川郡大和町テクノヒルズ1番 | 工場、研究開発 | プラズマエッチング装置の開発・製造。プロセス、メカ、エレキ、ソフト、AI、製造など | 稼働中 | E1、E5 |
+| `tel-yamanashi-fujii` | 東京エレクトロン テクノロジーソリューションズ株式会社 | 藤井事業所・本社／山梨県韮崎市藤井町北下条2381-1 | 工場、研究開発 | 山梨2拠点で熱処理・成膜、ガスケミカルエッチングなどの開発・製造。藤井単独の製品分担は保留 | 稼働中 | E2、E5 |
+| `tel-kumamoto-koshi` | 東京エレクトロン九州株式会社 | 本社・合志事業所／熊本県合志市福原1-1 | 工場、研究開発 | コータ／デベロッパ、洗浄装置、3次元実装装置の開発・製造。プロセス、メカ、ソフト、製造など | 稼働中 | E3、E5 |
+| `tel-tokyo-fuchu` | 東京エレクトロンFE株式会社、東京エレクトロンBP株式会社、東京エレクトロン テクノロジーソリューションズ株式会社ほか | 府中テクノロジーセンター／東京都府中市住吉町2-30-7 | オフィス、研究開発、フィールドサービス、施設・物流 | 装置の立ち上げ・保守、施設管理・物流、メカ・エレキ・ソフト・製造など | 稼働中 | E4、E5、E6 |
+| `kioxia-yokkaichi` | キオクシア株式会社 | 四日市工場／三重県四日市市山之一色町800 | 工場、研究開発 | NAND型フラッシュメモリの研究・技術開発・生産。プロセス、設備、品質、製造DXなど | 稼働中 | K1、K2、K3、K5 |
+| `kioxia-yokohama` | キオクシア株式会社 | 横浜テクノロジーキャンパス／神奈川県横浜市栄区笠間2-5-1 | 研究開発、設計 | 研究開発部門を中心に、メモリ、SSD、コントローラー、ソフトウェアなどの技術開発 | 稼働中 | K1、K3、K4 |
+| `kioxia-tokyo-hq` | キオクシア株式会社 | 本社／東京都港区芝浦3-1-21 田町ステーションタワーS | 本社、オフィス | 総務・人事、財務、広報、企画、戦略、営業。技術職を本社固有とは扱わない | 稼働中 | K1、K4 |
+| `screen-rakusai` | 株式会社SCREENホールディングス、株式会社SCREENセミコンダクターソリューションズ | 洛西事業所／京都府京都市伏見区羽束師古川町322 | 研究開発、工場 | 半導体製造装置の設計・開発。要素・製品・プロセス・ソフトウェア開発など | 稼働中 | S1、S2、S3 |
+| `screen-hikone` | 株式会社SCREENセミコンダクターソリューションズ、株式会社SCREENファインテックソリューションズほか | 彦根事業所／滋賀県彦根市高宮町480-1 | 工場、研究開発 | 半導体製造装置の中心的な生産拠点。設計・開発、生産技術、品質、技術サービスなど | 稼働中 | S1、S2、S3 |
+
+### 施設単位で分ける情報
+
+物理拠点を重複表示せず、同じピンの詳細内で施設ごとの状態を分けます。
+
+| 物理拠点 | 施設 | 状態 | 確認できた内容 |
 | --- | --- | --- | --- |
-| TSMC / JASM | JASMが熊本県に設立されたTSMCの子会社であり、第一・第二工場を通じた製造計画がある | 工場ごとの正式所在地、第一工場の稼働状態、第二工場の計画状態、横浜拠点との法人境界 | 一部確認 |
-| Micron Technology | 橋本エンジニアリングセンター、広島工場／技術開発、西条オフィス、東京オフィスを公式拠点一覧で区別できる | 拠点別の職種、公式求人、同一敷地の工場と技術開発を一件にするか | 拠点候補確認 |
-| 東京エレクトロングループ | 2026年4月1日時点で国内6社・30拠点。東京本社、府中、山梨2拠点、大阪、札幌、みなとみらい、熊本などの支社・事業所を確認できる | グループ会社ページから宮城・九州などの運営法人と、開発・製造・サービス機能を拠点別に確認する | 一部確認 |
-| キオクシアグループ | 本社、関西分室、四日市工場、横浜テクノロジーキャンパス、小向分室、新子安テクノロジーフロントを公式拠点一覧で区別できる | 北上工場を運営する法人、各技術拠点の機能、拠点別採用情報を確認する | 拠点候補確認 |
-| SCREENグループ | 京都・滋賀を中心に、本社、洛西、野洲、彦根、多賀、東京などを採用情報で確認。彦根は半導体製造装置の中心的な生産拠点と説明されている | SCREEN SPE、SCREEN SPE ワークス、SCREEN SPE サービスの法人・拠点関係を分け、製造・開発・サービス職を対応付ける | 一部確認 |
+| `tsmc-jasm-kumamoto` | 第1工場（Fab 23） | `operating` | 2024年末に量産開始。2026年時点でCMOSイメージセンサー用途を含む生産能力を拡大 |
+| `tsmc-jasm-kumamoto` | 第2工場 | `under-construction` | 2025年10月に建設開始。TSMCの2025年年次報告では3nmを計画 |
+| `micron-hiroshima` | 既存工場・技術開発 | `operating` | DRAMの開発・製造拠点 |
+| `micron-hiroshima` | 新クリーンルーム | `under-construction` | 2026年7月着工。製造装置搬入は2028年後半予定 |
 
-### 一次情報
+### 採用情報の確認結果
 
-- [JASMを知る](https://www.tsmc.com/static/japanese/careers/jasm/discover_jasm.html) — Japan Advanced Semiconductor Manufacturing / 確認日 2026-09-03
-- [Micronの拠点一覧](https://jp.micron.com/about/locations?city=Hiroshima&country=Japan) — Micron Technology / 確認日 2026-09-03
-- [東京エレクトロン Company Info](https://www.tel.com/about/summary/) — Tokyo Electron / 確認日 2026-09-03
-- [キオクシア株式会社 拠点一覧](https://www.kioxia.com/ja-jp/about/location.html) — KIOXIA / 確認日 2026-09-03
-- [SCREEN キャリア採用 事業所](https://www.screen.co.jp/recruit_info/recruit_career/location) — SCREEN Holdings / 確認日 2026-09-03
-- [SCREEN 職種を知る](https://www.screen.co.jp/recruit/fresh/people/job.html) — SCREEN Holdings / 確認日 2026-09-03
+`official-opening-confirmed` は確認日から30日で期限切れにし、企業・拠点の存在情報とは分離します。
+
+| 対象拠点 | 状態 | 確認できた職種例 | 確認日 | 期限 | 出典 |
+| --- | --- | --- | --- | --- | --- |
+| `tsmc-jasm-kumamoto` | `official-opening-confirmed` | 製造、プロセス、品質、CIM | 2026-09-03 | 2026-10-03 | T3 |
+| `tsmc-design-yokohama` | `official-opening-confirmed` | 半導体設計エンジニア／マネージャー | 2026-09-03 | 2026-10-03 | T5 |
+| `micron-hiroshima` | `official-opening-confirmed` | プロセス・設備、品質、施設、製造DX | 2026-09-03 | 2026-10-03 | M4 |
+| `micron-hashimoto` | `career-page-available` | 拠点固有の募集中職種は未確認 | 2026-09-03 | 2026-12-03 | M5 |
+| 東京エレクトロン4拠点 | `career-page-available` | グループ各社のキャリア採用ページあり。求人単位の勤務地確認は次回 | 2026-09-03 | 2026-12-03 | E6 |
+| `kioxia-yokkaichi` | `official-opening-confirmed` | 量産前工程ユニットプロセス | 2026-09-03 | 2026-10-03 | K5 |
+| `kioxia-yokohama`、`kioxia-tokyo-hq` | `career-page-available` | 募集職種一覧はあるが、この確認では個別求人との対応を未完了 | 2026-09-03 | 2026-12-03 | K6 |
+| SCREEN 2拠点 | `career-page-available` | グループのキャリア応募窓口あり。拠点別の募集中職種は未確認 | 2026-09-03 | 2026-12-03 | S4 |
+
+13拠点中、所在地と仕事の両方を示す有効な個別求人まで確認できたのは4拠点、約31%です。会社単位の「中途採用あり」を各拠点へ複製すると誤認を招くため、MVPでは「募集中」より「公式キャリアページあり」を基本表示にする方が現実的です。
+
+### 公式情報源
+
+すべて確認日は2026-09-03です。
+
+- T1: [TSMC 2025 Annual Report](https://investor.tsmc.com/static/annualReports/2025/english/index.html)
+- T2: [TSMC Contact Information](https://investor.tsmc.com/sites/ir/annual-report/2024/2024%20Annual%20Report-E.pdf)
+- T3: [JASM採用情報](https://www.tsmc.com/static/japanese/careers/jasm/index.html)／[TSMC公式求人一覧](https://ro.careers.tsmc.com/go/CorporateJobs/4716710/125/)
+- T4: [TSMC Design Center in Japan](https://www.tsmc.com/static/japanese/careers/designCenter_Japan.htm)
+- T5: [半導体設計エンジニア／マネージャー](https://ro.careers.tsmc.com/job/Yokohama-%E3%82%AD%E3%83%A3%E3%83%AA%E3%82%A2%E6%8E%A1%E7%94%A8%E3%80%80%E5%8D%8A%E5%B0%8E%E4%BD%93%E8%A8%AD%E8%A8%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%EF%BC%8F%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%A3%E3%83%BC-14/776378910/)
+- M1: [Micron 拠点一覧](https://jp.micron.com/about/locations)
+- M2: [Micron 日本法人会社概要](https://jp.micron.com/about/company)
+- M3: [広島工場の新クリーンルーム着工](https://jp.micron.com/about/press/news/micron-breaks-ground-on-hiroshima-cleanroom-to-support-advanced-memory-for-ai)
+- M4: [Fab15 WET Process & Equipment Engineer](https://careers.micron.com/careers/job/38677515)／[Advanced CMOS Device & Process Integration Engineer](https://careers.micron.com/careers/job/39637894)／[Fab15 Quality Engineering](https://careers.micron.com/careers/job/40831566-fab15-quality-engineering-qe-%E2%80%93-deviation-management-dm-engineer-hiroshima-japan?domain=micron.com)／[Global Facilities Engineer](https://careers.micron.com/careers/job/40350272?skill=Software)／[Smart Manufacturing & AI](https://careers.micron.com/careers/job/41215043?domain=micron.com)
+- M5: [Micron Careers](https://careers.micron.com/careers)
+- E1: [東京エレクトロン宮城](https://www.tel.co.jp/about/locations/tml.html)
+- E2: [東京エレクトロン テクノロジーソリューションズ](https://www.tel.co.jp/about/locations/tyl.html)
+- E3: [東京エレクトロン九州](https://www.tel.co.jp/about/locations/tkl.html)
+- E4: [東京エレクトロンFE](https://www.tel.co.jp/about/locations/tfe.html)
+- E5: [TEL 事業所紹介](https://tel-special.com/environment/locations/)
+- E6: [TEL キャリア採用募集要項](https://careers-tel.jp/description/)
+- K1: [キオクシア 拠点一覧](https://www.kioxia.com/ja-jp/about/location.html)
+- K2: [キオクシア 四日市工場](https://www.kioxia.com/ja-jp/about/yokkaichi.html)
+- K3: [研究・技術開発体制と拠点](https://www.kioxia.com/ja-jp/rd/organization.html)
+- K4: [キオクシア キャリア採用 オフィス風景](https://www.rs-information.com/kioxia/environment/workstyle.html)
+- K5: [量産前工程のユニットプロセスエンジニア](https://kioxia.jposting.net/u/job.phtml?job_code=722)
+- K6: [キオクシア 採用情報](https://www.kioxia.com/ja-jp/job.html)
+- S1: [SCREEN 国内事業所一覧](https://www.screen.co.jp/about/base)
+- S2: [SCREEN キャリア採用 事業所](https://www.screen.co.jp/recruit_info/recruit_career/location)
+- S3: [SCREEN 募集要項・勤務地](https://www.screen.co.jp/recruit/fresh/recruit/guidelines.html)
+- S4: [SCREEN キャリア採用](https://www.screen.co.jp/recruit_info/recruit_career)
 
 ### データ設計へ反映したこと
 
-- 親企業の `companyId` と、運営法人の `legalEntityName` を分ける
-- 同一敷地内の複数法人・機能をまとめられる `campusId` を持てるようにする
-- 稼働中、建設中、計画中、確認不能を `operationalStatus` で区別する
+- 一つの物理拠点に複数の運営・利用法人を持てる `legalEntities` を採用する
+- 一つのキャンパス内にある工場・新棟を `facilities` として分け、施設ごとの稼働状態を保持する
+- 物理拠点のピンを法人別・建屋別に重複表示しない
+- 求人は `locationId` に加えて、確認できる場合だけ `locationFacilityId` まで対応付ける
 - 公式拠点一覧に存在しても、半導体との関係と拠点機能が未確認なら公開しない
 - 会社全体の採用職種を、根拠なく各拠点へ複製しない
+
+## Batch B 検証結果
+
+- 確認日: 2026-09-03
+- 拠点基本情報の次回確認日: 2027-03-03
+
+5社・11物理拠点を企業公式情報で確認しました。Batch Aと合わせて10社・24物理拠点です。全拠点に正式名、所在地、関係法人、半導体との関係、拠点種別、確認日、次回確認日を設定できました。座標と座標精度は未入力のため、公開基準上は引き続き `draft` です。
+
+### 確認済み物理拠点
+
+| 拠点ID | 関係法人 | 正式拠点名・所在地 | 拠点種別 | 公式情報で確認できた役割・職種 | 稼働状態 | 出典 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `advantest-tokyo-hq` | 株式会社アドバンテスト | 本社／東京都千代田区丸の内1-6-2 | 本社、オフィス | 本社機能。技術職を本社固有とは扱わない | 稼働中 | A1、A2 |
+| `advantest-gunma-rd` | 株式会社アドバンテスト | 群馬R&Dセンタ／群馬県邑楽郡明和町大輪336-1 | 研究開発 | 半導体・部品テストシステム、メカトロニクス関連の研究・開発・設計。職種別採用情報ではハード、メカ、ソフト、アプリケーション、品質などを確認 | 稼働中 | A1、A3、A4 |
+| `renesas-tokyo-toyosu` | ルネサス エレクトロニクス株式会社 | 本社／東京都江東区豊洲3-2-24 | 本社、オフィス | 本社機能。個別求人で勤務地を確認していない職種は紐づけない | 稼働中 | R1 |
+| `renesas-takasaki` | ルネサス エレクトロニクス株式会社、ルネサス セミコンダクタ マニュファクチュアリング株式会社 | 高崎事業所・高崎工場／群馬県高崎市西横手町111 | 工場、研究開発 | 6インチ前工程工場と、アナログIC・ディスクリートパワー半導体の研究開発。パッケージ開発の公式求人を確認 | 稼働中。工場は生産終了・閉鎖方針を発表済み、研究開発は維持・強化方針 | R1、R2、R3、R4 |
+| `rohm-kyoto-hq-factory` | ローム株式会社、ローム・デバイス マニュファクチャリング株式会社、ローム・アッセンブリ マニュファクチャリング株式会社 | 本社工場・京都テクノロジーセンター／京都府京都市右京区西院溝崎町21 | 本社、工場、研究開発 | IC、センサ、トランジスタ、SiC、LED、半導体レーザーの製造。技術系職種は商品・技術開発、生産技術、品質保証・管理など | 稼働中 | H1、H2、H3 |
+| `rohm-hamamatsu` | ローム・デバイス マニュファクチャリング株式会社 | 浜松工場／静岡県浜松市中央区三和町10 | 工場 | IC、LED、GaNの製造。拠点固有の中途採用職種は未確認 | 稼働中 | H1 |
+| `socionext-shin-yokohama` | 株式会社ソシオネクスト | 本社／神奈川県横浜市港北区新横浜2-10-23 | 本社、オフィス、設計・開発 | SoC・IP開発、テスト技術、デバイス評価、管理系事務のキャリア募集を確認 | 稼働中 | N1、N2、N3 |
+| `socionext-kyoto` | 株式会社ソシオネクスト | 京都事業所／京都府京都市下京区中堂寺粟田町91 KRP 10号館 | オフィス、設計・開発 | SoC・IP開発、テスト技術、デバイス評価のキャリア募集対象勤務地 | 稼働中 | N1、N2 |
+| `sumco-tokyo-hq` | 株式会社SUMCO | 本社／東京都港区芝浦1-2-1 | 本社、オフィス | 本社機能と半導体用単結晶シリコン製品の販売。製造技術職を本社固有とは扱わない | 稼働中 | U1、U2 |
+| `sumco-imari-nagahama` | 株式会社SUMCO | 九州事業所（伊万里・長浜）／佐賀県伊万里市東山代町長浜826-1 | 工場、研究開発 | 半導体素子用単結晶シリコン製品の設計、開発、製造。採用サイトでプロセス、設備、検査計測、システムなどの職種例を確認 | 稼働中 | U1、U2、U3、U4 |
+| `sumco-yonezawa` | 株式会社SUMCO | 米沢工場／山形県米沢市八幡原4-3146-12 | 工場、研究開発 | 半導体素子・電極材用単結晶シリコン製品の設計、開発、製造。中途の拠点固有求人は未確認 | 稼働中 | U1、U2、U3 |
+
+### 状態変更を持つ拠点
+
+| 物理拠点 | 対象施設 | 現在状態 | 発表済みの変更 | データ上の扱い |
+| --- | --- | --- | --- | --- |
+| `renesas-takasaki` | 高崎工場 | `operating` | 2026年7月31日に、今後2〜3年を目途とする段階的な生産終了と工場閉鎖の方針を発表。具体的な時期は未定 | 工場facilityへ `production-end` と `closure` の `statusEvents` を付け、現在状態は稼働中のままにする |
+| `renesas-takasaki` | 高崎事業所の研究開発機能 | `operating` | 現所在地または近隣を候補に維持・強化する方針 | 工場閉鎖を物理拠点全体の閉鎖として表示しない。追加発表まで3か月ごとに確認する |
+
+### 採用情報の確認結果
+
+| 対象拠点 | 状態 | 確認できた内容 | 確認日 | 期限 | 出典 |
+| --- | --- | --- | --- | --- | --- |
+| アドバンテスト2拠点 | `career-page-available` | 国内キャリア採用窓口あり。今回の確認では拠点別の有効な個別求人まで紐づけていない | 2026-09-03 | 2026-12-03 | A5 |
+| `renesas-takasaki` | `official-opening-confirmed` | パワーMOSFET向けパッケージ開発・信頼性・解析 | 2026-09-03 | 2026-10-03 | R4 |
+| `renesas-tokyo-toyosu` | `career-page-available` | 公式求人サイトあり。勤務地が高崎と明記された求人を豊洲へ複製しない | 2026-09-03 | 2026-12-03 | R5 |
+| ローム2拠点 | `career-page-available` | キャリア採用募集要項あり。拠点固有の有効な個別求人は未確認 | 2026-09-03 | 2026-12-03 | H3 |
+| ソシオネクスト2拠点 | `official-opening-confirmed` | SoC・IP開発、テスト技術、デバイス評価。募集ページで新横浜・京都を勤務地として確認 | 2026-09-03 | 2026-10-03 | N2 |
+| SUMCO 3拠点 | `no-current-opening-confirmed` | 公式サイト上で新卒採用情報は確認できたが、中途の有効な拠点別求人は今回確認できず | 2026-09-03 | 2026-10-03 | U3、U4 |
+
+Batch Bの11拠点中、所在地と中途の仕事内容を同じ公式募集情報で確認できたのは3拠点、約27%です。Batch Aと合わせると24拠点中7拠点、約29%でした。これは「中途採用あり」を常設の会社属性として扱わず、期限付きの別データにする必要性を裏付けます。
+
+### 公式情報源
+
+すべて確認日は2026-09-03です。
+
+- A1: [アドバンテスト 国内拠点一覧](https://www.advantest.com/ja/about/offices/japan-offices/)
+- A2: [アドバンテスト 会社概要](https://www.advantest.com/ja/about/overview/)
+- A3: [アドバンテスト 群馬R&Dセンタ](https://www.advantest.com/ja/about/offices/gunma-rd-center/)
+- A4: [アドバンテスト ISO 9001](https://www.advantest.com/ja/about/iso-9001/)／[新卒採用 募集要項](https://www2.advantest.com/external/careers/recruit/)
+- A5: [アドバンテスト キャリア採用](https://www.advantest.com/ja/about/career-jp/career/)
+- R1: [ルネサス 拠点・主要関係会社一覧](https://www.renesas.com/ja/about/profile/global)
+- R2: [ルネサス セミコンダクタ マニュファクチュアリング](https://www.renesas.com/ja/about/profile/global/rsmc)
+- R3: [高崎工場の段階的な生産終了と研究開発機能の維持・強化](https://www.renesas.com/ja/about/newsroom/renesas-takasaki-factory-073126)
+- R4: [高崎 Package Engineer](https://jobs.renesas.com/job/takasaki-toyosu-principle-package-engineer-in-takasaki-japan-jid-6348)
+- R5: [Renesas Careers](https://jobs.renesas.com/)
+- H1: [ロームグループ・拠点](https://www.rohm.co.jp/company/about/branch)
+- H2: [ローム 会社概要](https://www.rohm.co.jp/company/about/profile)
+- H3: [ローム キャリア採用募集要項](https://job.axol.jp/hy/uf/c/rohm/contents/%E3%83%AD%E3%83%BC%E3%83%A0%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%82%AD%E3%83%A3%E3%83%AA%E3%82%A2%E6%8E%A1%E7%94%A8%E5%8B%9F%E9%9B%86%E8%A6%81%E9%A0%85.pdf)／[ROHM Careers](https://www.rohm.com/careers)
+- N1: [ソシオネクスト 国内・海外拠点](https://www.socionext.com/jp/recruit/corporate/m-global-network.html)
+- N2: [ソシオネクスト キャリア採用](https://www.socionext.com/jp/recruit/career/index.html)
+- N3: [ソシオネクスト 会社概要](https://www.socionext.com/jp/recruit/corporate/m-overview.html)
+- U1: [SUMCO 会社概要・製造拠点](https://www.sumcosi.com/corporate/profile.html)
+- U2: [SUMCO ISO / IATF マネジメント登録証](https://www.sumcosi.com/corporate/certification.html)／[ISO 9001 国内サイト一覧](https://www.sumcosi.com/pdf/corporate/ISO9001-JPN-SUMCO.pdf)
+- U3: [SUMCO 採用 募集要項](https://www.sumcosi.com/recruit/information/guideline/)
+- U4: [SUMCO 採用サイト](https://www.sumcosi.com/recruit/)／[職種紹介](https://www.sumcosi.com/recruit/about/job/)
+
+### Batch Bでデータ設計へ反映したこと
+
+- 現在の稼働状態と、発表済みの将来変更を分離する `statusEvents` が必要
+- 工場の閉鎖予定と同一敷地の研究開発継続を、物理拠点全体の一つの状態へ潰さない
+- 公式発表が「今後2〜3年を目途」の場合、推定日を作らず原文の時期表現を保持する
+- 会社の採用ページがあっても、勤務地が明示されない求人を各拠点へ複製しない
+- ファブレス企業では工場がなくても、勤務地とSoC設計・製品技術を公式採用情報から結び付けられる
+- 材料メーカーでは、ISOの適用サイト一覧が住所、製品、設計・開発・製造機能を同時に確認する有力な一次情報になる
+
+## パイロット中間判断
+
+- 10社・24拠点まで同じ基本構造で整理でき、IDM、装置、ファブレス、材料メーカーを一つのマップで扱える見通しは立った
+- 24拠点すべて座標未入力のため、公開可能な完成データはまだ0件。次工程は新しい企業を増やすより座標と二者レビューを埋める
+- 中途の拠点別求人を確認できた割合は約29%で、MVPの主表示をリアルタイム求人検索にするのは運用負荷が高い
+- 基本表示は「拠点の役割」と「関連職種」にし、採用情報は確認日・期限付きの補助情報にする
+- 熊本のパイロット対象はJASMと東京エレクトロン九州の2拠点に留まり、都道府県ページ公開目安の5拠点・複数企業を満たさない。現時点で `/semiconductor-map/kumamoto` をindex公開しない
+- 全国ハブと既存 `/companies` への拠点情報再利用は有望だが、公開実装の前に座標付与、出典の到達確認、表記レビューを完了する
 
 ## 1拠点ごとの調査項目
 
@@ -115,6 +265,12 @@ Batch Aで確定した型を使い、ファブレス、IDM、材料、本社・�
 
 ## 調査時間
 
+Batch Aは事前の候補調査、Search Console確認、データ型の修正を分けて行ったため、1拠点あたりの連続した調査時間を正確に計測できていません。この13拠点を工数見積もりの母数には使いません。
+
+Batch Bの公式情報探索は2026-09-03 22:27:16〜22:31:01 JST、システム時計上3分45秒でした。ただし、これは検索・抽出を自動化したエージェント実行時間であり、人間による内容確認、入力、二者レビューの所要時間を表しません。拠点ごとの作業も並行・一括検索を含むため、1拠点あたりの中央値へ換算しません。
+
+公開運用の工数見積もりには、次工程で人が10拠点を確認する時間を別途計測します。今回の自動化時間を50〜70拠点へ外挿しないことを明記します。
+
 各拠点について次を分けて記録します。
 
 - 拠点の存在・所在地確認
@@ -122,7 +278,7 @@ Batch Aで確定した型を使い、ファブレス、IDM、材料、本社・�
 - 職種・採用状態確認
 - データ入力とレビュー
 
-初回10拠点の中央値を、50〜70拠点へ拡張した場合の運用工数見積もりに使います。
+人による初回10拠点の確認時間の中央値を、50〜70拠点へ拡張した場合の運用工数見積もりに使います。
 
 ## 完了条件
 

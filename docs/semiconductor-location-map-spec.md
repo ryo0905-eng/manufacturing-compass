@@ -132,10 +132,49 @@ Search Console の初期データでは全国の「半導体 工場 マップ／
 ### CompanyLocation
 
 ```ts
+type LocationEntity = {
+  legalEntityName: string;
+  relationship:
+    | "operator"
+    | "co-located"
+    | "facility-management"
+    | "field-service";
+  sourceIds: string[];
+};
+
+type LocationStatusEvent = {
+  type:
+    | "opening"
+    | "expansion"
+    | "production-end"
+    | "closure"
+    | "relocation";
+  announcedAt: string;
+  effectiveAt?: string;
+  expectedTimingText?: string;
+  note: string;
+  sourceId: string;
+};
+
+type LocationFacility = {
+  id: string;
+  name: string;
+  locationTypes: LocationType[];
+  mainProducts: string[];
+  jobFamilies: JobFamily[];
+  operationalStatus:
+    | "operating"
+    | "under-construction"
+    | "planned"
+    | "status-unconfirmed";
+  statusEvents?: LocationStatusEvent[];
+  sourceIds: string[];
+};
+
 type CompanyLocation = {
   id: string;
   companyId: string;
-  legalEntityName: string;
+  legalEntities: LocationEntity[];
   slug: string;
   name: string;
   campusId?: string;
@@ -153,6 +192,8 @@ type CompanyLocation = {
   processIds: string[];
   mainProducts: string[];
   jobFamilies: JobFamily[];
+  facilities?: LocationFacility[];
+  statusEvents?: LocationStatusEvent[];
   sourceIds: string[];
   lastVerifiedAt: string;
   operationalStatus:
@@ -164,7 +205,11 @@ type CompanyLocation = {
 };
 ```
 
-`companyId` は企業詳細へつなぐ親企業、`legalEntityName` は実際に拠点を運営する国内法人・事業会社を示します。同じ所在地に複数の法人・機能がある場合は `campusId` でまとめられるようにします。
+`companyId` は企業詳細へつなぐ親企業、`legalEntities` は実際に拠点を運営・利用する国内法人や事業会社を示します。Micron広島やTEL府中のように同じ住所へ複数法人が入る場合も、一つの物理拠点として表示できます。
+
+JASM熊本のように同じキャンパス内で稼働中の工場と建設中の工場が混在する場合は、`facilities` で施設ごとの稼働状態を分けます。近接する別住所の拠点を一つの地区としてまとめる必要がある場合だけ `campusId` を使います。
+
+ルネサス高崎のように、現在は稼働中でも生産終了や閉鎖が発表済みの場合は、現在状態を `operationalStatus`、将来変更を `statusEvents` に分けます。時期が公式に確定していない場合は日付へ丸めず、公式発表の表現を `expectedTimingText` に保持します。工場だけが対象で研究開発機能は継続する場合は、物理拠点全体ではなく該当する `facility` に履歴を付けます。
 
 ### HiringSignal
 
@@ -175,6 +220,7 @@ type HiringSignal = {
   id: string;
   companyId: string;
   locationId?: string;
+  locationFacilityId?: string;
   status:
     | "official-opening-confirmed"
     | "career-page-available"
@@ -230,6 +276,7 @@ type HiringSignal = {
 - 公式採用ページの有無: 1〜3か月
 - `official-opening-confirmed`: 2〜4週間
 - 新設、閉鎖、増設などの公式発表: 発見時に反映し、稼働中と計画段階を区別する
+- 将来変更が発表済みの拠点: 3か月ごと、または追加の公式発表時
 
 期限を過ぎた採用情報は削除せず `review-expired` とし、募集中フィルターから外します。
 
@@ -244,6 +291,7 @@ type HiringSignal = {
 - 出典URL、発行元、確認日がある
 - 座標精度を説明できる
 - 稼働中、建設中、計画中、確認不能を区別している
+- 生産終了、閉鎖、移転などの発表済み変更を現在状態と分けている
 - 拠点の存在と現在の求人を混同していない
 
 職種を拠点へ紐づける場合は、公式求人、拠点別採用情報、公式な職種紹介のいずれかを根拠にします。会社全体の職種しか確認できない場合は、拠点固有の職種として表示しません。
