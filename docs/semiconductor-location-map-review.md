@@ -42,12 +42,12 @@
 | `kioxia-yokkaichi` | [キオクシア四日市工場](https://www.kioxia.com/ja-jp/about/yokkaichi.html) | [35.019584, 136.612247](https://www.openstreetmap.org/relation/8866755) | `facility` | `未確認` | `施設中心` |  | `照合専用` |  |  |  |  |  |
 | `screen-hikone` | [SCREEN国内事業所](https://www.screen.co.jp/about/base) | [35.232462, 136.265452](https://www.openstreetmap.org/way/641965677) | `facility` | `未確認` | `施設中心` |  | `照合専用` |  |  |  |  |  |
 | `advantest-gunma-rd` | [群馬R&Dセンタ](https://www.advantest.com/ja/about/offices/gunma-rd-center/) | [36.208072, 139.491423](https://qchizu.jp/maps/#17/36.208072/139.491423/) | `parcel` | `未確認` | `不明` |  | `照合専用` |  |  |  |  |  |
-| `renesas-takasaki` | [ルネサス国内拠点](https://www.renesas.com/ja/about/profile/global) | [36.331604, 139.070079](https://goo.gl/maps/98pi4oEyaX5KGuaEA) | `facility` | `未確認` | `不明` |  | `本番候補` |  |  |  |  |  |
+| `renesas-takasaki` | [ルネサス国内拠点](https://www.renesas.com/ja/about/profile/global) | [36.331604, 139.070079](https://goo.gl/maps/98pi4oEyaX5KGuaEA) | `facility` | `未確認` | `不明` |  | `照合専用` |  |  |  |  |  |
 | `rohm-kyoto-hq-factory` | [ロームグループ拠点](https://www.rohm.co.jp/company/about/branch) | [34.994812, 135.728840](https://www.openstreetmap.org/node/12162125058) | `facility` | `未確認` | `本社建屋` |  | `照合専用` |  |  |  |  |  |
-| `socionext-shin-yokohama` | [ソシオネクスト国内拠点](https://www.socionext.com/jp/recruit/corporate/m-global-network.html) | [35.507306, 139.611503](https://maps.app.goo.gl/cZf492Mjk6K2feaz9) | `facility` | `未確認` | `本社建屋` |  | `本番候補` |  |  |  |  |  |
+| `socionext-shin-yokohama` | [ソシオネクスト国内拠点](https://www.socionext.com/jp/recruit/corporate/m-global-network.html) | [35.507306, 139.611503](https://maps.app.goo.gl/cZf492Mjk6K2feaz9) | `facility` | `未確認` | `本社建屋` |  | `照合専用` |  |  |  |  |  |
 | `sumco-imari-nagahama` | [SUMCO会社概要・製造拠点](https://www.sumcosi.com/corporate/profile.html) | [33.282370, 129.850366](https://qchizu.jp/maps/#17/33.282370/129.850366/) | `parcel` | `未確認` | `不明` |  | `照合専用` |  |  |  |  |  |
 
-`本番候補` は座標ソースの利用許諾確認が不要という意味ではありません。企業公式ページから到達できる座標を優先候補にしているだけで、本番の地図基盤と利用条件を決めてから最終判断します。
+代表10拠点の暫定座標はすべて `照合専用` です。目視レビューで位置精度を確認した後、利用条件を確定したABR由来座標などへ置き換えてから `本番候補` とします。
 
 ## 集計
 
@@ -59,7 +59,7 @@
 | `OK` | 0 |
 | `要修正` | 0 |
 | `判断不能` | 0 |
-| `本番候補` | 2 |
+| `本番候補` | 0 |
 | レビュー時間中央値 | 未計測 |
 | 最長レビュー時間 | 未計測 |
 | 10拠点の合計時間 | 未計測 |
@@ -82,9 +82,11 @@
 - `/companies` と `/industry-map` から自然に接続できる
 - 求人連携やリアルタイム求人数をMVPへ含めない
 
-現時点の判定は `条件付きGo` です。検索需要と24拠点のデータ構造は確認できていますが、座標レビュー、座標利用条件、20拠点以上の公開品質が未完了です。
+現時点の判定は `条件付きGo` です。検索需要、24拠点のデータ構造、座標の利用方法は確認できていますが、座標レビューと20拠点以上の公開品質が未完了です。
 
 地図表示と座標生成方法は、2026-09-04時点で「Leaflet 1.9系、地理院淡色タイル、編集時に自前実行するABR Geocoder」を暫定採用案としました。根拠と実装前の確認事項は [`semiconductor-location-map-technical-decision.md`](./semiconductor-location-map-technical-decision.md) に記録しています。
+
+パイロット表のQ地図、OpenStreetMap、Google Mapsの座標確認リンクは目視照合用です。リンク先から得た座標を本番へ流用せず、公開時は利用条件を確定したABR由来座標などへ置き換えます。
 
 ## レビュー後の反映
 
