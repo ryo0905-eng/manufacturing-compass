@@ -84,6 +84,8 @@
 
 現時点の判定は `条件付きGo` です。検索需要と24拠点のデータ構造は確認できていますが、座標レビュー、座標利用条件、20拠点以上の公開品質が未完了です。
 
+地図表示と座標生成方法は、2026-09-04時点で「Leaflet 1.9系、地理院淡色タイル、編集時に自前実行するABR Geocoder」を暫定採用案としました。根拠と実装前の確認事項は [`semiconductor-location-map-technical-decision.md`](./semiconductor-location-map-technical-decision.md) に記録しています。
+
 ## レビュー後の反映
 
 1. 修正座標と根拠をパイロット台帳へ反映する
