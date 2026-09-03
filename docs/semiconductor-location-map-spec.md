@@ -185,7 +185,17 @@ type CompanyLocation = {
   coordinates?: {
     latitude: number;
     longitude: number;
-    precision: "address" | "municipality" | "prefecture";
+    precision:
+      | "facility"
+      | "parcel"
+      | "residential-detail"
+      | "machiaza"
+      | "municipality"
+      | "prefecture";
+    method: "official-map" | "address-geocode" | "named-facility";
+    sourceId: string;
+    verifiedAt: string;
+    reviewStatus: "automated-check" | "human-reviewed";
   };
   locationTypes: LocationType[];
   industryCategories: LocationIndustryCategory[];
@@ -280,6 +290,18 @@ type HiringSignal = {
 
 期限を過ぎた採用情報は削除せず `review-expired` とし、募集中フィルターから外します。
 
+### 座標
+
+- 企業公式住所を入力元とし、ジオコーダの正規化結果と一致レベルを保存する
+- 「住所精度」の一語へまとめず、施設、地番、住居番号、町字、市区町村、都道府県を区別する
+- 市区町村代表点を工場・研究所のピンとして公開しない
+- 住所検索結果と、公式地図または施設名検索結果を照合する
+- 自動照合だけでは `human-reviewed` にしない
+- 座標の生成元、確認日、利用条件を追跡できるようにする
+- API結果の保存・再配布・別地図への表示条件を確認し、本番利用できるデータだけを公開データへ移す
+
+パイロットではデジタル庁アドレス・ベース・レジストリを使う住所検索と施設名検索を精度検証に利用します。本番候補は、自前で実行するABRジオコーダ、利用条件を満たす地図サービス、または企業公式の地図情報です。第三者APIの結果を、利用条件の確認なしに別の地図ライブラリへ表示しません。
+
 ### 公開基準
 
 拠点を `complete` にするには、少なくとも次を満たします。
@@ -290,6 +312,7 @@ type HiringSignal = {
 - 拠点種別を確認できる
 - 出典URL、発行元、確認日がある
 - 座標精度を説明できる
+- 座標の生成元と利用条件を確認できる
 - 稼働中、建設中、計画中、確認不能を区別している
 - 生産終了、閉鎖、移転などの発表済み変更を現在状態と分けている
 - 拠点の存在と現在の求人を混同していない
