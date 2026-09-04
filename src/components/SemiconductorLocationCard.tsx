@@ -2,7 +2,6 @@ import type { Route } from "next";
 import Link from "next/link";
 import styles from "@/components/semiconductor-location-map.module.css";
 import type { CompanyLocation, EffectiveHiringSignal, JobFamily, LocationSource, LocationType } from "@/types/company-location";
-import type { Company } from "@/types/content";
 
 const locationTypeLabels: Record<LocationType, string> = {
   headquarters: "本社",
@@ -45,7 +44,10 @@ function hiringLabel(signal: EffectiveHiringSignal) {
 }
 
 type SemiconductorLocationCardProps = {
-  company: Company;
+  company: {
+    nameJa: string;
+    slug: string;
+  };
   location: CompanyLocation;
   hiringSignal?: EffectiveHiringSignal;
   sources: LocationSource[];

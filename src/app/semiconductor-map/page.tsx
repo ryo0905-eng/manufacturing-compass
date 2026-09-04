@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SemiconductorLocationCard } from "@/components/SemiconductorLocationCard";
+import { SemiconductorLocationExplorer } from "@/components/SemiconductorLocationExplorer";
 import { StructuredData } from "@/components/StructuredData";
 import styles from "@/components/semiconductor-location-map.module.css";
 import { companies } from "@/data/companies";
 import { locationSources } from "@/data/company-locations";
 import {
-  getHiringSignalsByLocationId,
+  filterCompanyLocations,
+  getHiringSignals,
   getPublicCompanyLocations,
   validateCompanyLocationData,
 } from "@/lib/company-locations";
 import { siteUrl } from "@/lib/format";
+import type { JobFamily, LocationType } from "@/types/company-location";
 
 export const metadata: Metadata = {
   title: "日本の半導体企業・工場・研究拠点一覧【2026年版】",
@@ -26,9 +28,28 @@ export const metadata: Metadata = {
 };
 
 const companyById = new Map(companies.map((company) => [company.id, company]));
-const sourceById = new Map(locationSources.map((source) => [source.id, source]));
 
-export default function SemiconductorMapPage() {
+const allowedLocationTypes = new Set<LocationType>([
+  "headquarters", "office", "factory", "research-development", "design-center", "field-service", "logistics",
+]);
+const allowedJobFamilies = new Set<JobFamily>([
+  "process-production", "equipment-facility", "quality-reliability", "equipment-development",
+  "circuit-software-design", "field-application-service", "supply-chain-corporate",
+]);
+
+type SemiconductorMapPageProps = {
+  searchParams: Promise<{
+    prefecture?: string | string[];
+    type?: string | string[];
+    job?: string | string[];
+  }>;
+};
+
+function firstValue(value?: string | string[]) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export default async function SemiconductorMapPage({ searchParams }: SemiconductorMapPageProps) {
   const validationErrors = validateCompanyLocationData();
   if (validationErrors.length > 0) {
     throw new Error(`半導体拠点データの整合性エラー: ${validationErrors.join(" / ")}`);
@@ -43,12 +64,20 @@ export default function SemiconductorMapPage() {
   const researchCount = locations.filter((location) =>
     location.locationTypes.some((type) => type === "research-development" || type === "design-center"),
   ).length;
-  const prefectureGroups = locations.reduce((groups, location) => {
-    const group = groups.get(location.prefectureCode) ?? [];
-    group.push(location);
-    groups.set(location.prefectureCode, group);
-    return groups;
-  }, new Map<string, typeof locations>());
+  const params = await searchParams;
+  const prefectureParam = firstValue(params.prefecture);
+  const locationTypeParam = firstValue(params.type) as LocationType | undefined;
+  const jobFamilyParam = firstValue(params.job) as JobFamily | undefined;
+  const validPrefectureCodes = new Set(locations.map((location) => location.prefectureCode));
+  const initialFilters = {
+    prefectureCode: prefectureParam && validPrefectureCodes.has(prefectureParam) ? prefectureParam : undefined,
+    locationType: locationTypeParam && allowedLocationTypes.has(locationTypeParam) ? locationTypeParam : undefined,
+    jobFamily: jobFamilyParam && allowedJobFamilies.has(jobFamilyParam) ? jobFamilyParam : undefined,
+  };
+  const initiallyVisibleLocations = filterCompanyLocations(initialFilters);
+  const locationCompanies = companies
+    .filter((company) => locations.some((location) => location.companyId === company.id))
+    .map(({ id, name, nameJa, slug }) => ({ id, name, nameJa, slug }));
 
   return (
     <main className={`page ${styles.page}`}>
@@ -64,8 +93,8 @@ export default function SemiconductorMapPage() {
         "@context": "https://schema.org",
         "@type": "ItemList",
         name: "日本の半導体企業・工場・研究拠点一覧",
-        numberOfItems: locations.length,
-        itemListElement: locations.map((location, index) => ({
+        numberOfItems: initiallyVisibleLocations.length,
+        itemListElement: initiallyVisibleLocations.map((location, index) => ({
           "@type": "ListItem",
           position: index + 1,
           name: `${companyById.get(location.companyId)?.nameJa ?? location.companyId} ${location.name}`,
@@ -117,54 +146,13 @@ export default function SemiconductorMapPage() {
         </p>
       </aside>
 
-      <section className={styles.directory} aria-labelledby="location-directory-title">
-        <header className={styles.directoryHeader}>
-          <p className="section-label">全国の確認済み拠点</p>
-          <h2 id="location-directory-title">都道府県別の半導体関連拠点一覧</h2>
-          <p>現在は{locations.length}拠点を掲載しています。各カードから企業詳細と公式情報を確認できます。</p>
-        </header>
-
-        <nav className={styles.prefectureNav} aria-label="掲載都道府県">
-          {[...prefectureGroups.values()].map((group) => {
-            const prefecture = group[0];
-            return (
-              <a href={`#prefecture-${prefecture.prefectureCode}`} key={prefecture.prefectureCode}>
-                {prefecture.prefectureName}<span>{group.length}</span>
-              </a>
-            );
-          })}
-        </nav>
-
-        {[...prefectureGroups.entries()].map(([prefectureCode, group]) => {
-          const prefecture = group[0];
-          return (
-            <section className={styles.prefectureSection} id={`prefecture-${prefectureCode}`} key={prefectureCode}>
-              <header>
-                <h3>{prefecture.prefectureName}</h3>
-                <span>{group.length}拠点</span>
-              </header>
-              <div className={styles.cardGrid}>
-                {group.map((location) => {
-                  const company = companyById.get(location.companyId);
-                  if (!company) return null;
-                  const sources = location.sourceIds
-                    .map((sourceId) => sourceById.get(sourceId))
-                    .filter((source) => source !== undefined);
-                  return (
-                    <SemiconductorLocationCard
-                      company={company}
-                      hiringSignal={getHiringSignalsByLocationId(location.id)[0]}
-                      key={location.id}
-                      location={location}
-                      sources={sources}
-                    />
-                  );
-                })}
-              </div>
-            </section>
-          );
-        })}
-      </section>
+      <SemiconductorLocationExplorer
+        companies={locationCompanies}
+        hiringSignals={getHiringSignals()}
+        initialFilters={initialFilters}
+        locations={locations}
+        sources={locationSources}
+      />
 
       <section className={styles.methodology} aria-labelledby="location-methodology-title">
         <div>
