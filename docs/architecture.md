@@ -37,6 +37,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 ### 情報ページ
 
 - `/industry-map`: 工程を背骨に、事業の役割、代表企業、職種との接点をズーム、パン、選択で探索する。静的なセグメント一覧も同じページに残す
+- `/semiconductor-map`: 国内の半導体関連拠点を勤務地単位で探す。V0完成までは静的一覧を `noindex, follow` でPreview確認する
 - `/segments/[slug]`
 - `/companies`
 - `/companies/[slug]`
