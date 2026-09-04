@@ -42,6 +42,7 @@ type SemiconductorMapPageProps = {
     prefecture?: string | string[];
     type?: string | string[];
     job?: string | string[];
+    view?: string | string[];
   }>;
 };
 
@@ -68,6 +69,7 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
   const prefectureParam = firstValue(params.prefecture);
   const locationTypeParam = firstValue(params.type) as LocationType | undefined;
   const jobFamilyParam = firstValue(params.job) as JobFamily | undefined;
+  const initialView = firstValue(params.view) === "regions" ? "regions" as const : "list" as const;
   const validPrefectureCodes = new Set(locations.map((location) => location.prefectureCode));
   const initialFilters = {
     prefectureCode: prefectureParam && validPrefectureCodes.has(prefectureParam) ? prefectureParam : undefined,
@@ -150,6 +152,7 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
         companies={locationCompanies}
         hiringSignals={getHiringSignals()}
         initialFilters={initialFilters}
+        initialView={initialView}
         locations={locations}
         sources={locationSources}
       />

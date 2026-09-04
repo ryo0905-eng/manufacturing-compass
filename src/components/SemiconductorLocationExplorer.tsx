@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { SemiconductorLocationCard } from "@/components/SemiconductorLocationCard";
+import { SemiconductorPrefectureSelector } from "@/components/SemiconductorPrefectureSelector";
 import styles from "@/components/semiconductor-location-map.module.css";
 import type {
   CompanyLocation,
@@ -28,6 +29,7 @@ type SemiconductorLocationExplorerProps = {
   companies: CompanySummary[];
   hiringSignals: EffectiveHiringSignal[];
   initialFilters?: LocationExplorerInitialFilters;
+  initialView?: "list" | "regions";
   locations: CompanyLocation[];
   sources: LocationSource[];
 };
@@ -59,16 +61,19 @@ function normalize(value: string) {
   return value.normalize("NFKC").toLocaleLowerCase("ja-JP").trim();
 }
 
-function readFiltersFromUrl(validPrefectures: Set<string>): LocationExplorerInitialFilters {
+function readStateFromUrl(validPrefectures: Set<string>) {
   const params = new URLSearchParams(window.location.search);
   const prefectureCode = params.get("prefecture") ?? undefined;
   const locationType = params.get("type") as LocationType | null;
   const jobFamily = params.get("job") as JobFamily | null;
 
   return {
-    prefectureCode: prefectureCode && validPrefectures.has(prefectureCode) ? prefectureCode : undefined,
-    locationType: locationType && locationTypeValues.has(locationType) ? locationType : undefined,
-    jobFamily: jobFamily && jobFamilyValues.has(jobFamily) ? jobFamily : undefined,
+    filters: {
+      prefectureCode: prefectureCode && validPrefectures.has(prefectureCode) ? prefectureCode : undefined,
+      locationType: locationType && locationTypeValues.has(locationType) ? locationType : undefined,
+      jobFamily: jobFamily && jobFamilyValues.has(jobFamily) ? jobFamily : undefined,
+    } satisfies LocationExplorerInitialFilters,
+    view: params.get("view") === "regions" ? "regions" as const : "list" as const,
   };
 }
 
@@ -76,6 +81,7 @@ export function SemiconductorLocationExplorer({
   companies,
   hiringSignals,
   initialFilters = {},
+  initialView = "list",
   locations,
   sources,
 }: SemiconductorLocationExplorerProps) {
@@ -83,6 +89,7 @@ export function SemiconductorLocationExplorer({
   const [prefectureCode, setPrefectureCode] = useState(initialFilters.prefectureCode ?? "all");
   const [locationType, setLocationType] = useState<LocationType | "all">(initialFilters.locationType ?? "all");
   const [jobFamily, setJobFamily] = useState<JobFamily | "all">(initialFilters.jobFamily ?? "all");
+  const [view, setView] = useState<"list" | "regions">(initialView);
 
   const companyById = useMemo(() => new Map(companies.map((company) => [company.id, company])), [companies]);
   const sourceById = useMemo(() => new Map(sources.map((source) => [source.id, source])), [sources]);
@@ -102,22 +109,24 @@ export function SemiconductorLocationExplorer({
     if (prefectureCode !== "all") params.set("prefecture", prefectureCode);
     if (locationType !== "all") params.set("type", locationType);
     if (jobFamily !== "all") params.set("job", jobFamily);
+    if (view === "regions") params.set("view", "regions");
     const nextUrl = `${window.location.pathname}${params.size > 0 ? `?${params.toString()}` : ""}${window.location.hash}`;
     window.history.replaceState(null, "", nextUrl);
-  }, [jobFamily, locationType, prefectureCode]);
+  }, [jobFamily, locationType, prefectureCode, view]);
 
   useEffect(() => {
     const handlePopState = () => {
-      const filters = readFiltersFromUrl(validPrefectures);
-      setPrefectureCode(filters.prefectureCode ?? "all");
-      setLocationType(filters.locationType ?? "all");
-      setJobFamily(filters.jobFamily ?? "all");
+      const state = readStateFromUrl(validPrefectures);
+      setPrefectureCode(state.filters.prefectureCode ?? "all");
+      setLocationType(state.filters.locationType ?? "all");
+      setJobFamily(state.filters.jobFamily ?? "all");
+      setView(state.view);
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, [validPrefectures]);
 
-  const filteredLocations = useMemo(() => {
+  const locationsBeforePrefecture = useMemo(() => {
     const normalizedQuery = normalize(query);
     return locations.filter((location) => {
       const company = companyById.get(location.companyId);
@@ -131,11 +140,22 @@ export function SemiconductorLocationExplorer({
         ...location.mainProducts,
       ].filter(Boolean).join(" ")).includes(normalizedQuery);
       return matchesQuery
-        && (prefectureCode === "all" || location.prefectureCode === prefectureCode)
         && (locationType === "all" || location.locationTypes.includes(locationType))
         && (jobFamily === "all" || location.jobFamilies.includes(jobFamily));
     });
-  }, [companyById, jobFamily, locationType, locations, prefectureCode, query]);
+  }, [companyById, jobFamily, locationType, locations, query]);
+
+  const filteredLocations = useMemo(
+    () => locationsBeforePrefecture.filter(
+      (location) => prefectureCode === "all" || location.prefectureCode === prefectureCode,
+    ),
+    [locationsBeforePrefecture, prefectureCode],
+  );
+
+  const prefectureCounts = useMemo(() => locationsBeforePrefecture.reduce((counts, location) => {
+    counts.set(location.prefectureCode, (counts.get(location.prefectureCode) ?? 0) + 1);
+    return counts;
+  }, new Map<string, number>()), [locationsBeforePrefecture]);
 
   const prefectureGroups = useMemo(() => filteredLocations.reduce((groups, location) => {
     const group = groups.get(location.prefectureCode) ?? [];
@@ -154,6 +174,11 @@ export function SemiconductorLocationExplorer({
     setPrefectureCode("all");
     setLocationType("all");
     setJobFamily("all");
+  }
+
+  function selectPrefecture(code: string) {
+    setPrefectureCode(code);
+    setView("list");
   }
 
   return (
@@ -210,53 +235,70 @@ export function SemiconductorLocationExplorer({
         {hasFilters ? <button className={styles.clearButton} onClick={clearAll} type="button">すべて解除</button> : null}
       </div>
 
-      {filteredLocations.length > 0 ? (
-        <>
-          <nav className={styles.prefectureNav} aria-label="検索結果の都道府県">
-            {[...prefectureGroups.values()].map((group) => {
-              const prefecture = group[0];
-              return (
-                <button onClick={() => setPrefectureCode(prefecture.prefectureCode)} key={prefecture.prefectureCode} type="button">
-                  {prefecture.prefectureName}<span>{group.length}</span>
-                </button>
-              );
-            })}
-          </nav>
+      <div className={styles.viewSwitch} aria-label="表示方法">
+        <button aria-pressed={view === "list"} onClick={() => setView("list")} type="button">一覧</button>
+        <button aria-pressed={view === "regions"} onClick={() => setView("regions")} type="button">地域から選ぶ</button>
+      </div>
 
-          {[...prefectureGroups.entries()].map(([code, group]) => {
-            const prefecture = group[0];
-            return (
-              <section className={styles.prefectureSection} id={`prefecture-${code}`} key={code}>
-                <header><h3>{prefecture.prefectureName}</h3><span>{group.length}拠点</span></header>
-                <div className={styles.cardGrid}>
-                  {group.map((location) => {
-                    const company = companyById.get(location.companyId);
-                    if (!company) return null;
-                    const locationSources = location.sourceIds
-                      .map((sourceId) => sourceById.get(sourceId))
-                      .filter((source) => source !== undefined);
-                    return (
-                      <SemiconductorLocationCard
-                        company={company}
-                        hiringSignal={hiringByLocationId.get(location.id)}
-                        key={location.id}
-                        location={location}
-                        sources={locationSources}
-                      />
-                    );
-                  })}
-                </div>
-              </section>
-            );
-          })}
-        </>
-      ) : (
-        <div className={styles.emptyState}>
-          <h3>条件に一致する拠点はありません</h3>
-          <p>検索語を短くするか、都道府県・拠点種別・職種の条件を外して確認してください。</p>
-          <button onClick={clearAll} type="button">すべての条件を解除</button>
+      <div className={styles.explorerBody} data-view={view}>
+        <aside className={styles.selectorPanel} aria-label="都道府県選択図">
+          <SemiconductorPrefectureSelector
+            counts={prefectureCounts}
+            onSelect={selectPrefecture}
+            selectedPrefectureCode={prefectureCode === "all" ? undefined : prefectureCode}
+          />
+        </aside>
+
+        <div className={styles.resultsPanel}>
+          {filteredLocations.length > 0 ? (
+            <>
+              <nav className={styles.prefectureNav} aria-label="検索結果の都道府県">
+                {[...prefectureGroups.values()].map((group) => {
+                  const prefecture = group[0];
+                  return (
+                    <button onClick={() => selectPrefecture(prefecture.prefectureCode)} key={prefecture.prefectureCode} type="button">
+                      {prefecture.prefectureName}<span>{group.length}</span>
+                    </button>
+                  );
+                })}
+              </nav>
+
+              {[...prefectureGroups.entries()].map(([code, group]) => {
+                const prefecture = group[0];
+                return (
+                  <section className={styles.prefectureSection} id={`prefecture-${code}`} key={code}>
+                    <header><h3>{prefecture.prefectureName}</h3><span>{group.length}拠点</span></header>
+                    <div className={styles.cardGrid}>
+                      {group.map((location) => {
+                        const company = companyById.get(location.companyId);
+                        if (!company) return null;
+                        const locationSources = location.sourceIds
+                          .map((sourceId) => sourceById.get(sourceId))
+                          .filter((source) => source !== undefined);
+                        return (
+                          <SemiconductorLocationCard
+                            company={company}
+                            hiringSignal={hiringByLocationId.get(location.id)}
+                            key={location.id}
+                            location={location}
+                            sources={locationSources}
+                          />
+                        );
+                      })}
+                    </div>
+                  </section>
+                );
+              })}
+            </>
+          ) : (
+            <div className={styles.emptyState}>
+              <h3>条件に一致する拠点はありません</h3>
+              <p>検索語を短くするか、都道府県・拠点種別・職種の条件を外して確認してください。</p>
+              <button onClick={clearAll} type="button">すべての条件を解除</button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </section>
   );
 }

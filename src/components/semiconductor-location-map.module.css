@@ -230,7 +230,7 @@
 }
 
 .activeFilters button {
-  min-height: 32px;
+  min-height: 44px;
   border-radius: 999px;
   background: #edf5f6;
   padding: 6px 10px;
@@ -243,8 +243,167 @@
 }
 
 .clearButton {
-  min-height: 38px;
+  min-height: 44px;
   padding: 5px 0 5px 10px;
+  white-space: nowrap;
+}
+
+.viewSwitch {
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 16px;
+  border-radius: 11px;
+  background: var(--surface-soft);
+  padding: 4px;
+}
+
+.viewSwitch button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.viewSwitch button[aria-pressed="true"] {
+  background: var(--surface);
+  box-shadow: 0 1px 5px rgba(17, 24, 28, 0.08);
+  color: var(--text);
+}
+
+.explorerBody {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.42fr) minmax(0, 1fr);
+  gap: clamp(26px, 4vw, 48px);
+  align-items: start;
+  margin-top: 28px;
+}
+
+.selectorPanel,
+.resultsPanel {
+  min-width: 0;
+}
+
+.regionSelector {
+  border: 1px solid #d7e0e3;
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 22px;
+}
+
+.regionSelector > header {
+  margin-bottom: 20px;
+}
+
+.regionSelector > header h3 {
+  margin: 5px 0 8px;
+  font-size: 21px;
+  letter-spacing: -0.025em;
+}
+
+.regionSelector > header p:last-child {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.regionGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.regionBlock {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.regionBlock h4 {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.regionBlock > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.regionBlock button {
+  position: relative;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #cbd7da;
+  border-radius: 7px;
+  background: #fff;
+  padding: 6px 8px;
+  color: var(--text);
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.regionBlock button:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: #f3f8f9;
+}
+
+.regionBlock button:focus-visible,
+.viewSwitch button:focus-visible,
+.prefectureNav button:focus-visible {
+  outline: 3px solid rgba(0, 107, 128, 0.22);
+  outline-offset: 2px;
+}
+
+.regionBlock button:disabled {
+  border-color: #eef1f2;
+  background: #fafbfb;
+  color: #a6b0b4;
+  cursor: not-allowed;
+}
+
+.regionBlock button[aria-pressed="true"] {
+  border-color: var(--primary-dark);
+  background: var(--primary-dark);
+  color: #fff;
+}
+
+.regionBlock small {
+  display: grid;
+  min-width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--primary-dark);
+  font-size: 9px;
+}
+
+.regionBlock button[aria-pressed="true"] small {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.regionBlock em {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
@@ -259,7 +418,7 @@
 .prefectureNav a,
 .prefectureNav button {
   display: inline-flex;
-  min-height: 42px;
+  min-height: 44px;
   align-items: center;
   gap: 8px;
   border: 1px solid #cfd8db;
@@ -649,6 +808,25 @@
     grid-template-columns: 1fr;
   }
 
+  .viewSwitch {
+    display: grid;
+  }
+
+  .explorerBody {
+    grid-template-columns: 1fr;
+    margin-top: 18px;
+  }
+
+  .explorerBody[data-view="list"] .selectorPanel,
+  .explorerBody[data-view="regions"] .resultsPanel {
+    display: none;
+  }
+
+  .explorerBody[data-view="regions"] .selectorPanel,
+  .explorerBody[data-view="list"] .resultsPanel {
+    display: block;
+  }
+
   .notice {
     grid-template-columns: 1fr;
     gap: 7px;
@@ -709,6 +887,15 @@
 
   .filterGrid {
     grid-template-columns: 1fr;
+  }
+
+  .regionSelector {
+    border-radius: 14px;
+    padding: 18px;
+  }
+
+  .regionBlock {
+    grid-template-columns: 62px minmax(0, 1fr);
   }
 
   .resultsBar {
