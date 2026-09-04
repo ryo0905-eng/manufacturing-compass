@@ -1,6 +1,6 @@
 # Architecture
 
-最終更新日: 2026-08-16
+最終更新日: 2026-09-04
 
 ## 方針
 
@@ -69,13 +69,20 @@ src/components/career-compass/
 src/data/career-compass.ts  質問選択肢と結果プロファイル
 src/data/companies.ts       セグメント、企業、キャリア準備情報
 src/data/industry-map.ts    業界地図の工程、役割、代表企業、職種との接点
+src/data/company-locations.ts
+                            公式確認済みの半導体企業・物理拠点・出典
+src/data/hiring-signals.ts  期限付きの拠点別採用確認状態
 src/data/affiliateLinks.ts  エージェント、提携状態、CTA
 src/data/salary-methodology.ts
                             参考年収帯の算出説明と出典
 src/data/editorial.ts       ガイド記事の集約
 src/content/guides/         記事データ
 src/types/content.ts        企業・セグメント・出典の型
+src/types/company-location.ts
+                            拠点、施設、状態変更、採用シグナルの型
 src/lib/analytics.ts        計測イベント
+src/lib/company-locations.ts
+                            公開拠点の取得、絞り込み、期限判定、データ検査
 src/lib/format.ts           正規URLなどの共通処理
 src/lib/doe/                DoEの効果・ANOVAなど、UIから独立した計算
 src/lib/gage-rr/            Gage R&Rの疑似測定データ、ANOVA、分散成分計算
@@ -106,6 +113,22 @@ video/docs/                 制作フロー、公開記録、計測ログ
 - 線は一般的な役割上の接点であり、資本・取引関係や採用可能性を表さない
 - 自動配置ではなく固定座標を使い、同じ要素が毎回同じ位置に現れるようにする
 - SVGの線だけへ情報を閉じ込めず、ノード、詳細パネル、ページ下部の一覧でも説明する
+
+## 半導体企業・拠点マップのデータフロー
+
+```text
+企業公式情報から確認した物理拠点と出典
+  → contentStatus が complete の拠点だけを取得
+  → 期限付き採用シグナルを表示時点で判定
+  → Server Componentで全国一覧と構造化データを出力
+  → Client Componentで検索、絞り込み、都道府県選択を管理
+```
+
+- `CompanyLocation.companyId` で既存企業詳細へ接続し、国内法人は `legalEntities` に保持する
+- 拠点の存在・役割と採用シグナルを別ファイル・別更新周期で管理する
+- V0データへ座標を入れず、正確な施設ピンはV1の人手確認後に限定する
+- 実行時ジオコーディング、求人API、外部データベースを使わない
+- 自由入力の検索語をAnalyticsへ送らない
 
 ## Career Compass のデータフロー
 

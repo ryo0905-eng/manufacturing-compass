@@ -1,6 +1,6 @@
 # Static Data Design
 
-最終更新日: 2026-07-21
+最終更新日: 2026-09-04
 
 ## 方針
 
@@ -19,8 +19,11 @@
 | Career Compass | `src/data/career-compass.ts` | 質問選択肢、結果プロファイル、準備行動 |
 | 企業・セグメント | `src/data/companies.ts` | `Company`, `IndustrySegment` |
 | 業界地図 | `src/data/industry-map.ts` | 工程、事業の役割、代表企業、職種との一般的な接点 |
+| 半導体企業・物理拠点 | `src/data/company-locations.ts` | `CompanyLocation`, `LocationSource`, 施設、状態変更 |
+| 拠点別採用確認 | `src/data/hiring-signals.ts` | `HiringSignal`, 確認日、期限、公式URL |
 | 企業別キャリア準備 | `src/data/companies.ts` | `CareerInfo` |
 | 共通の企業型 | `src/types/content.ts` | `Source`, `Company`, `CareerInfo` |
+| 拠点・採用型 | `src/types/company-location.ts` | 拠点分類、職種分類、稼働状態、採用状態 |
 | 参考年収帯の説明 | `src/data/salary-methodology.ts` | 算出手順、注意書き、出典 |
 | 転職エージェント | `src/data/affiliateLinks.ts` | 提携状態、URL、対象、広告表記 |
 | ガイド記事 | `src/content/guides/` | 記事本文、出典、SEO、更新情報 |
@@ -61,6 +64,20 @@ Career Compass は次の3層で考えます。
 回答と結果を永続化しません。URL、Analytics、ログへ回答値を送らない前提を崩す変更は、PRD とプライバシーポリシーの更新が必要です。
 
 参考年収帯は個人の査定結果ではありません。出典と算出説明は `src/data/salary-methodology.ts` に一元化し、プロファイル側へ個別の根拠説明を重複させません。
+
+## 半導体企業・拠点データ
+
+`CompanyLocation` は会社ではなく物理拠点を一件として扱います。同じ敷地を複数法人が利用する場合は `legalEntities`、同じ敷地内で工場や新棟の状態が異なる場合は `facilities` で分けます。
+
+- 親企業は既存 `Company.id` を `companyId` で参照する
+- 正式名称、都道府県、市区町村、住所、拠点種別、製品・役割、出典、確認日、次回確認日を持つ
+- 現在の稼働状態と、生産終了・閉鎖などの発表済み変更を分ける
+- `contentStatus: "complete"` の拠点だけを公開対象にする
+- V0では座標を保持せず、都道府県選択と一覧に使う
+
+`HiringSignal` は拠点の存在情報から分離します。保存した状態を永久に信頼せず、`expiresAt` を過ぎた場合は取得時に `review-expired` として扱います。`no-current-opening-confirmed` は募集が存在しないことの断定ではなく、確認時点で対象の公式求人を確認できなかったことを示します。
+
+2026-09-04時点の初期データは10社・24拠点です。全拠点に企業公式情報の出典と2026-09-03の確認日を持ち、座標は含みません。
 
 ## アフィリエイトデータ
 
