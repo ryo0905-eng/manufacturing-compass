@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CareerCompassLink } from "@/components/CareerCompassLink";
-import { TrackedInternalLink } from "@/components/TrackedInternalLink";
+import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 
 export const metadata: Metadata = {
   title: "半導体転職の相談準備",
@@ -66,14 +66,12 @@ export default function CareerConsultationPage() {
         <h2 id="career-priorities-title">勤務地・仕事内容・待遇。今回、大切にしたいことは？</h2>
         <p>転職の軸ノートで、変えたいこと・残したいことから仮の優先順位を整理し、求人票や面接で確認したい質問をメモにできます。「まだ迷う」のままでも大丈夫です。</p>
         <div className="cta-actions">
-          <TrackedInternalLink
+          <CareerPrioritiesLink
             className="button primary"
-            href="/career-priorities"
-            eventName="career_priorities_cta_click"
-            eventProperties={{ source_page: "/career-consultation", cta_location: "consultation_after_topics" }}
+            ctaLocation="consultation_after_topics"
           >
             転職の軸ノートで整理する
-          </TrackedInternalLink>
+          </CareerPrioritiesLink>
         </div>
         <p className="disclosure">目安3〜5分・ログイン不要。回答は保存されません。完成したノートをコピーして、相談に使えます。</p>
       </section>

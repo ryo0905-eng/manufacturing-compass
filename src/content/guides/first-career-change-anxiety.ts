@@ -24,7 +24,7 @@ export const firstCareerChangeAnxietyGuide: GuideArticle = {
     "本記事はRYO本人の初めての転職経験をもとにしています。転職結果やエージェント利用の効果を一般化せず、家族相談に関する補足だけ外部調査で確認しています。",
   showCareerCtas: false,
   publishedAt: "2026-08-01",
-  updatedAt: "2026-08-01",
+  updatedAt: "2026-09-06",
   sources: [
     {
       title: "『転職活動の不安』実態調査",
@@ -171,9 +171,9 @@ export const firstCareerChangeAnxietyGuide: GuideArticle = {
           type: "links",
           items: [
             {
-              label: "Career Compass",
-              href: "/career-compass",
-              description: "経験、目標、相談したい論点と次の準備を整理する",
+              label: "転職の軸ノートで、自分の優先順位を整理する",
+              href: "/career-priorities",
+              description: "勤務地・仕事内容・待遇など、変えたいことと残したいことから、相談で確認する質問をまとめる",
             },
             {
               label: "半導体転職の始め方",

@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
+import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { DiagnosisCta } from "@/components/DiagnosisCta";
 import { StructuredData } from "@/components/StructuredData";
 import { TodayAction } from "@/components/TodayAction";
@@ -206,7 +207,13 @@ export default async function GuidePage({ params }: GuidePageProps) {
               title="整理した経験を、どの相談先に伝えるか決める"
               body="記事で整理した経験や希望条件をもとに、製造業・半導体、外資系、専門職など、相談したい内容に合う転職エージェントを比較できます。"
             />
-            <DiagnosisCta title="自分の経験に近い半導体職種を確かめる" body="記事で書き出した経験をもとに、強み、足りない経験、次の準備を12問で確認できます。" />
+            {guide.slug === "job-posting-salary-range" ? (
+              <section className="cta-panel" aria-labelledby="guide-priorities-title">
+                <h2 id="guide-priorities-title">自分なら何を重視するか、整理してみる</h2>
+                <p>勤務地・仕事内容・待遇など、変えたいことと残したいことから、仮の優先順位と相談で聞きたい質問をメモにできます。まだ迷う項目があっても大丈夫です。</p>
+                <CareerPrioritiesLink className="button primary" ctaLocation="guide_after_article">転職の軸ノートを使う</CareerPrioritiesLink>
+              </section>
+            ) : <DiagnosisCta title="自分の経験に近い半導体職種を確かめる" body="記事で書き出した経験をもとに、強み、足りない経験、次の準備を12問で確認できます。" />}
           </>
         )}
         <p className="back-link"><Link className="text-link" href="/guides">記事一覧へ戻る</Link></p>

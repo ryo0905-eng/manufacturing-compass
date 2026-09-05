@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
+import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CompareSelector } from "@/components/CompareSelector";
 import { companies } from "@/data/companies";
 import { companyCompareSlug, getDefaultComparePairs } from "@/lib/format";
@@ -26,6 +27,7 @@ export default function ComparePage() {
         <p className="section-label">役割と仕事内容を比べる</p>
         <h1>半導体企業比較</h1>
         <p>会社の優劣ではなく、役割とキャリアの距離感だけを比べます。</p>
+        <p>何を重視して比べるか迷ったら、<CareerPrioritiesLink ctaLocation="compare_hero">転職の優先順位を整理する</CareerPrioritiesLink>ことから始められます。</p>
       </section>
 
       <CompareSelector companies={companies} />

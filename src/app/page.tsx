@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CareerResultPreview } from "@/components/CareerResultPreview";
 import { CareerRouteMap } from "@/components/CareerRouteMap";
+import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
@@ -101,10 +102,10 @@ export default function Home() {
         </header>
         <CareerRouteMap />
         <div className="home-focused__career-note">
-          <p>Career Compassでは、12問の回答から、経験に近い職種と次に整理したいことを確認できます。</p>
-          <CareerCompassLink className="home-focused__text-link" ctaLocation="home_career_route" ctaVariant="check_with_experience" sourcePage="/">
-            自分の経験で確認する
-          </CareerCompassLink>
+          <p>経験と職種の接点はCareer Compassで。勤務地・仕事内容・待遇など、転職で大切にしたい条件は「転職の軸ノート」で整理できます。</p>
+          <CareerPrioritiesLink className="home-focused__text-link" ctaLocation="home_career_route">
+            転職の優先順位を整理する
+          </CareerPrioritiesLink>
         </div>
       </section>
 

@@ -1,3 +1,4 @@
+import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import type { Route } from "next";
 import Image from "next/image";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
@@ -631,6 +632,12 @@ export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
           return (
             <nav className="guide-link-list" aria-label="関連ページ" key={`links-${index}`}>
               {block.items.map((item) => {
+                if (item.href === "/career-priorities") {
+                  return <CareerPrioritiesLink ctaLocation="guide_link_list" key={item.href}>
+                    <strong>{item.label}<span aria-hidden="true">→</span></strong>
+                    <small>{item.description}</small>
+                  </CareerPrioritiesLink>;
+                }
                 const isCareerCompassLink = item.href === "/career-compass";
                 return (
                   <TrackedInternalLink

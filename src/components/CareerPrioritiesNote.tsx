@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { TrackedInternalLink } from '@/components/TrackedInternalLink';
 import { priorityGroups, priorityItems, flexibilityLabels, type PriorityId, type Flexibility, type Intent } from '@/data/career-priorities';
 import { buildPriorityNote, emptyPriorityNote, setChoice, type PriorityNote } from '@/lib/career-priorities';
 import { trackEvent } from '@/lib/analytics';
@@ -119,6 +120,14 @@ export function CareerPrioritiesNote() {
         <p role="status">{copyStatus === 'success' ? 'コピーしました。手元のメモに貼り付けて使えます。' : copyStatus === 'error' ? '自動コピーができませんでした。下の文章を選択してコピーしてください。' : ''}</p>
         {copyStatus === 'error' && <label className={styles.manual}>コピー用テキスト<textarea readOnly value={output} onFocus={event => event.currentTarget.select()} rows={12} /></label>}
         <p className={styles.hint}>選択肢になかった希望は、コピー後に手元で追記できます。</p>
+        <section className={styles.question} aria-labelledby="note-next-title">
+          <h3 id="note-next-title">整理した軸を、次の確認に使う</h3>
+          <p className={styles.hint}>移動する前にノートをコピーしてください。回答やノートは、移動先には引き継がれません。</p>
+          <ul>
+            <li><TrackedInternalLink href="/compare" eventName="career_priorities_next_click" eventProperties={{ destination_type: "compare" }}>この軸で企業を比較する</TrackedInternalLink></li>
+            <li><TrackedInternalLink href="/career-agents" eventName="career_priorities_next_click" eventProperties={{ destination_type: "career_agents" }}>希望条件を相談する相手を探す</TrackedInternalLink></li>
+          </ul>
+        </section>
       </>}
       <nav className={styles.navigation} aria-label="画面の移動">
         {step > 0 ? <button onClick={() => navigate(step - 1)}>{step === 3 ? '戻って見直す' : '戻る'}</button> : <span />}

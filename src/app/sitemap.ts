@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/control-chart",
     "/tools/gage-rr",
     "/career-compass",
+    "/career-priorities",
     "/career-consultation",
     "/career-agents",
     "/industry-map",
@@ -42,6 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === "/career-priorities" ? { lastModified: contentDate("2026-09-06") } : {}),
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
     changeFrequency: "weekly" as const,

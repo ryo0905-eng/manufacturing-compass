@@ -122,12 +122,17 @@ Career Compass
 
 ## 転職の軸ノートの計測
 
-相談準備ページの論点整理後に入口を1つ設ける。ノート内には広告CTAを設けない。入口の本番反映日から4週間、入口クリック→開始→完成→コピーを観察し、少数なら期間を延長する。
+トップ、企業比較、関連3記事、相談準備ページに入口を設ける。ノート完成後はコピーを優先し、企業比較・相談先一覧への内部リンクを示す。回答は引き継がず、移動前のコピーを案内する。入口の本番反映日から4週間、入口クリック→開始→完成→コピーを観察し、少数なら期間を延長する。
 
-- `career_priorities_cta_click`: 相談準備ページからのクリック。`source_page=/career-consultation`、`cta_location=consultation_after_topics` を付与。
+- `career_priorities_cta_view`: リンクの50%以上が画面内に入った時に、リンクのマウント・遷移元ごとに1回送る。画面に入ったことの指標であり、読了や理解を意味しない。
+- `career_priorities_cta_click`: 共通リンクのクリック。viewと同じ `source_page`（クエリ・ハッシュなし）と `cta_location` を付与。既存の相談準備入口もイベント名・位置値を維持する。
+- 導線位置は `home_career_route`、`compare_hero`、`comparison_after_companies`、`guide_link_list`、`guide_after_article`、`consultation_after_topics`。記事ごとはsource_pageで分ける。既存記事のリンクから別イベントを重ねて送らない。
+- `career_priorities_next_click`: 完成後の内部リンク。`destination_type` は `compare` または `career_agents` のみ。
 - `career_priorities_start`: 初めて希望または「まだ具体的に分からない」を選択したとき。
 - `career_priorities_step`: 4画面それぞれの初回到達。`step_number`（1〜4）のみ付与。
 - `career_priorities_complete`: ノート画面の初回到達。
 - `career_priorities_copy`: クリップボード書込み成功時。
 
 開始・画面到達・完成はマウント中に重複送信しない。再読込は新しい利用として扱う。回答、順位、条件区分、選択質問、ノート本文は送信しない。GAオプトアウト中の確認操作でGA受信は検証できないため、実送信検証は別途テスト環境で行う。
+
+2026-09-06の検索公開・導線拡大後は、本番反映日を起点に4週間、入口別のview・clickと開始・完成・コピーを観察する。入口イベントと開始後のイベントはGAのセッション内の順序で確認し、回答や流入情報を保存しない。新しい表示イベントには変更前の基準値がない。

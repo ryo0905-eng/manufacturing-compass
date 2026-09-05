@@ -3,7 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
-import { CareerCompassCta } from "@/components/CareerCompassCta";
+import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CompanyComparisonSummary } from "@/components/CompanyComparisonSummary";
 import { StructuredData } from "@/components/StructuredData";
 import { getCompanyComparisonProfile } from "@/data/company-comparisons";
@@ -186,13 +186,11 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
         </div>
       </section>
 
-      <CareerCompassCta
-        body="会社の違いだけでなく、現在の仕事内容と実績から、接点のある職種と準備ポイントを12問で整理できます。"
-        ctaLocation="comparison_before_consultation"
-        ctaVariant="company_comparison_to_role"
-        sourcePage={`/compare/${slug}`}
-        title="2社を比べたあと、自分に近い職種を整理する"
-      />
+      <section className="cta-panel" aria-labelledby="comparison-priorities-title">
+        <h2 id="comparison-priorities-title">2社の違いを、自分が大切にしたい条件で見る</h2>
+        <p>勤務地・仕事内容・待遇のうち、今回は何を重視するか。仮の優先順位と、求人票や面接で確かめたい質問を整理できます。</p>
+        <CareerPrioritiesLink className="button primary" ctaLocation="comparison_after_companies">転職の軸ノートで整理する</CareerPrioritiesLink>
+      </section>
 
       {comparisonProfile ? (
         <section className="section" aria-labelledby="comparison-sources-title">

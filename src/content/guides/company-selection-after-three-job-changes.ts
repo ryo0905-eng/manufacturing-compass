@@ -24,7 +24,7 @@ export const companySelectionAfterThreeJobChangesGuide: GuideArticle = {
     "本記事はRYO本人の3回の転職経験をもとにしています。会社の評価条件や外資系企業の報酬を一般化せず、面接時の判断と入社後の受け止めを分けて記載しています。",
   showCareerCtas: false,
   publishedAt: "2026-08-01",
-  updatedAt: "2026-08-01",
+  updatedAt: "2026-09-06",
   sources: [
     {
       title: "しっかり学ぼう！働くときの基礎知識",
@@ -208,9 +208,9 @@ export const companySelectionAfterThreeJobChangesGuide: GuideArticle = {
           type: "links",
           items: [
             {
-              label: "初めての転職が不安な方へ",
-              href: "/guides/first-career-change-anxiety",
-              description: "転職活動を始め、社外でも経験が通用すると分かるまでの実体験",
+              label: "転職の軸ノートで、自分の優先順位を整理する",
+              href: "/career-priorities",
+              description: "勤務地・仕事内容・待遇など、変えたいことと残したいことから、相談で確認する質問をまとめる",
             },
             {
               label: "転職3回と待遇交渉",
