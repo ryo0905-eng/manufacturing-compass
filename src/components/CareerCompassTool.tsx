@@ -584,6 +584,7 @@ export function CareerCompassTool() {
       onRestart={restart}
       onToggleQuest={toggleQuest}
       powerQuests={result.powerQuests}
+      prioritizeLocation={answers.workStyle === "location"}
       profile={result.profile}
       resumeSignal={result.resumeSignal}
       rewardGap={result.rewardGap}

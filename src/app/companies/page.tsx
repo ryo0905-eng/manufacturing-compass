@@ -90,6 +90,7 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
           <div><dt>企業分類</dt><dd>{segments.length}分野</dd></div>
         </dl>
         <div className="actions">
+          <Link className="button ghost" href="/semiconductor-map">日本の拠点から探す</Link>
           <Link className="button ghost" href="/industry-map">業界構造を地図で見る</Link>
           <Link className="button ghost" href="/segments/fabless">ファブレス企業一覧を見る</Link>
           <Link className="button ghost" href="/compare">2社を比較する</Link>
@@ -159,6 +160,7 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
       <FilterableCompanies companies={companies} initialQuery={query} segments={segments} />
 
       <nav className="companies-next-links" aria-label="企業研究を深めるページ">
+        <Link href="/semiconductor-map"><strong>日本の半導体企業・工場マップ</strong><span>都道府県、拠点種別、職種から働く場所を探す</span></Link>
         <Link href="/segments/fabless"><strong>日本・海外のファブレス企業一覧</strong><span>主力分野と、ファウンドリ・IDMとの違いを見る</span></Link>
         <Link href="/guides/semiconductor-manufacturing-process"><strong>半導体製造工程を図解で理解</strong><span>前工程・後工程と、装置・材料のつながりを見る</span></Link>
         <Link href="/guides/semiconductor-market-cap-ranking"><strong>2026年の時価総額ランキング</strong><span>基準日付きで企業規模と業界分類を確認する</span></Link>

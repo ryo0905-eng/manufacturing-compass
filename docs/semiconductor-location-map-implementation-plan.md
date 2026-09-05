@@ -166,7 +166,7 @@ V0では `/semiconductor-map` だけをindexし、sitemapへ追加します。�
 
 ### 6. 既存ページとの接続
 
-状態: 未着手
+状態: 2026-09-05 完了。企業一覧、業界地図、確認済み企業詳細、勤務地優先のCareer Compass結果から接続
 
 変更候補:
 
@@ -189,6 +189,8 @@ V0では `/semiconductor-map` だけをindexし、sitemapへ追加します。�
 企業詳細では、現在の自由文字列 `locationsJapan` を直ちに削除しません。確認済み `CompanyLocation` がある企業だけ、構造化された拠点一覧へ置き換えます。
 
 ### 7. 計測と公開確認
+
+状態: 未着手
 
 変更候補:
 

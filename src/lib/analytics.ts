@@ -11,7 +11,7 @@ export type AnalyticsEventMap = {
   career_compass_step: { step_number: number; total_steps: number };
   career_compass_complete: { result_type: string; recommended_role_group: string };
   career_compass_result_view: { result_type: string; recommended_role_group: string };
-  career_compass_related_click: { destination_type: "article" | "company" | "tool" | "industry_map" | "career_content"; destination_group: string };
+  career_compass_related_click: { destination_type: "article" | "company" | "tool" | "industry_map" | "location_map" | "career_content"; destination_group: string };
   career_compass_agent_click: { cta_location: "career_compass_result"; destination_group: string };
   career_compass_cta_click: { source_page: string; cta_location: string; cta_variant: string };
 };

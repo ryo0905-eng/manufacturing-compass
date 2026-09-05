@@ -28,6 +28,7 @@ type CareerCompassResultProps = {
   onRestart: () => void;
   onToggleQuest: (id: string) => void;
   powerQuests: PowerQuest[];
+  prioritizeLocation: boolean;
   profile: MarketValueProfile;
   resumeSignal: string;
   rewardGap: RewardGap;
@@ -460,6 +461,9 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
             <p>今回の職種候補を、業界構造・企業・実務スキルの順で確かめられます。</p>
           </div>
           <div className="result-related-grid">
+            {props.prioritizeLocation ? (
+              <Link href="/semiconductor-map" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: "japan_locations", destination_type: "location_map" })}>勤務地から半導体企業を探す</Link>
+            ) : null}
             <Link href="/industry-map" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: "semiconductor_structure", destination_type: "industry_map" })}>半導体業界地図を見る</Link>
             <Link href="/companies" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: props.profile.primarySegmentIds[0] ?? "semiconductor", destination_type: "company" })}>企業を職種・分野から探す</Link>
             <Link href="/guides/semiconductor-manufacturing-process" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: "manufacturing_process", destination_type: "article" })}>半導体製造工程を理解する</Link>

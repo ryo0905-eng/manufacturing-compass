@@ -168,11 +168,12 @@ export default function IndustryMapPage() {
         </ol>
         <aside>
           <strong>企業名や職種から探す場合</strong>
-          <p>このページは業界構造と関係を理解するための地図です。条件を指定して企業を探す場合は、<Link href="/companies">半導体メーカー・企業一覧</Link>を使ってください。</p>
+          <p>このページは業界構造と関係を理解するための地図です。会社単位なら<Link href="/companies">半導体メーカー・企業一覧</Link>、勤務地単位なら<Link href="/semiconductor-map">日本の半導体企業・工場マップ</Link>を使ってください。</p>
         </aside>
       </section>
 
       <nav className="companies-next-links" aria-label="半導体業界の主要な企業研究ページ">
+        <Link href="/semiconductor-map"><strong>日本の半導体企業・工場マップ</strong><span>都道府県と職種から国内拠点を探す</span></Link>
         <Link href="/segments/fabless"><strong>ファブレス企業一覧</strong><span>日本・海外の設計企業と主力分野を見る</span></Link>
         <Link href="/guides/semiconductor-foundry"><strong>ファウンドリとは</strong><span>ファブレス・IDM・OSATとの違いを見る</span></Link>
         <Link href="/companies"><strong>半導体メーカー・企業一覧</strong><span>分野、地域、職種から企業を探す</span></Link>

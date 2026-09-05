@@ -7,10 +7,22 @@ import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { CompanyQuickSummary } from "@/components/CompanyQuickSummary";
 import { StructuredData } from "@/components/StructuredData";
 import { companies, getCareerInfo, getCompanyBySlug, getSegmentById, isCompanyIndexable } from "@/data/companies";
+import { filterCompanyLocations } from "@/lib/company-locations";
 import { siteUrl } from "@/lib/format";
+import type { LocationType } from "@/types/company-location";
 
 type CompanyPageProps = {
   params: Promise<{ slug: string }>;
+};
+
+const locationTypeLabels: Record<LocationType, string> = {
+  headquarters: "本社",
+  office: "オフィス",
+  factory: "工場",
+  "research-development": "研究開発",
+  "design-center": "設計・開発",
+  "field-service": "フィールドサービス",
+  logistics: "物流・施設",
 };
 
 export function generateStaticParams() {
@@ -42,6 +54,8 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
   }
 
   const career = getCareerInfo(company.id);
+  const confirmedLocations = filterCompanyLocations({ companyId: company.id });
+  const confirmedPrefectureNames = [...new Set(confirmedLocations.map((location) => location.prefectureName))];
   const companySegments = company.industrySegments.map((segmentId) => getSegmentById(segmentId)).filter(Boolean);
   const compareTarget = companies.find((item) => item.id !== company.id && item.industrySegments.some((segment) => company.industrySegments.includes(segment)));
   const featuredComparisonTarget = company.id === "asml"
@@ -118,6 +132,31 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
               ))}
             </ul>
           </section>
+
+          {confirmedLocations.length > 0 ? (
+            <section className="detail-panel company-location-panel" id="japan-locations">
+              <p className="eyebrow">日本の確認済み拠点</p>
+              <h2>{company.nameJa}の国内拠点</h2>
+              <p>企業公式情報で、所在地と半導体関連の役割を確認できた拠点です。現在の求人有無とは分けて掲載しています。</p>
+              <ul className="company-location-list">
+                {confirmedLocations.map((location) => (
+                  <li key={location.id}>
+                    <div>
+                      <strong>{location.name}</strong>
+                      <span>{location.prefectureName}{location.municipality}</span>
+                      <small>{location.locationTypes.map((type) => locationTypeLabels[type]).join(" / ")}</small>
+                    </div>
+                    <Link href={`/semiconductor-map?prefecture=${location.prefectureCode}#${location.id}` as Route}>
+                      拠点情報を見る <span aria-hidden="true">→</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link className="text-link company-location-map-link" href="/semiconductor-map">
+                全国の半導体企業・工場マップを見る
+              </Link>
+            </section>
+          ) : null}
 
           <section className="detail-panel" id="career-prep">
             <p className="eyebrow">キャリア準備</p>
@@ -205,7 +244,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
               </div>
               <div>
                 <dt>日本拠点</dt>
-                <dd>{company.locationsJapan.join(" / ")}</dd>
+                <dd>{confirmedPrefectureNames.length > 0 ? confirmedPrefectureNames.join(" / ") : company.locationsJapan.join(" / ")}</dd>
               </div>
               <div>
                 <dt>職種</dt>
