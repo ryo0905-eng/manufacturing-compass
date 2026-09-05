@@ -50,6 +50,7 @@
 - `.private/content-redaction-dictionary.md`: 公開禁止語・禁止情報の正本
 - `.private/ryo-editorial-voice.md`: RYO の文体と確信の強さを守る基準
 - `.private/article-index.md`: 記事 ID、状態、次回確認日の管理表
+- `.private/growth-operations.md`: 初成果までの12週間の週次計測・ASP照合・本番反映・取材計画
 - `.private/affiliate-operations.md`: ASP の提携状態、成果条件、禁止事項の非公開運用台帳
 - `.private/article-notes/`: 記事ごとの取材・調査メモ
 - `.private/article-drafts/`: 公開前の下書き

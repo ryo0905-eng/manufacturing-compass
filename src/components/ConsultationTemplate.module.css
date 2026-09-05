@@ -1,0 +1,46 @@
+.template {
+  max-width: 680px;
+  display: grid;
+  gap: 12px;
+}
+
+.template p {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.template label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.template textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid #c9cdd2;
+  border-radius: 4px;
+  background: #fafafa;
+  color: #1d1d1f;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.8;
+  resize: vertical;
+}
+
+.template textarea:focus-visible {
+  outline: 2px solid #1769aa;
+  outline-offset: 3px;
+}
+
+.template button {
+  justify-self: start;
+  white-space: normal;
+}
+
+.status {
+  color: #60666d;
+  font-size: 13px;
+}

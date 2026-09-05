@@ -2,9 +2,9 @@ import type { GuideArticle } from "@/content/guides/types";
 
 export const semiconductorSalaryRankingGuide: GuideArticle = {
   slug: "semiconductor-salary-ranking",
-  title: "【2026年最新】半導体企業の平均年収ランキング｜日本の主要20社を比較",
+  title: "半導体企業の平均年収ランキング｜日本の主要20社・2026年7月確認",
   description:
-    "2026年最新の有価証券報告書をもとに、日本の主要半導体関連企業20社の平均年収を比較。対象人数、平均年齢、決算期、持株会社か事業会社かも掲載し、平均年収の注意点や海外企業の給与を調べる方法、転職時の見方まで解説します。",
+    "2026年7月14日までに確認した有価証券報告書をもとに、日本の主要半導体関連企業20社の平均年間給与を比較。対象人数・平均年齢・決算期・持株会社と事業会社の違いを併記し、求人票の提示年収との違いを解説します。",
   targetQuery: "半導体企業 年収ランキング",
   searchIntent:
     "日本の半導体メーカー、製造装置、検査・計測、材料企業の平均年収を同じ公開資料で比較し、転職先選びで数字をどう読むべきか知りたい",
@@ -20,7 +20,8 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
     "平均年間給与は1万円単位の概数で表示し、持株会社と事業会社、決算期の違いを表内に明記",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-07-14",
+  updatedAt: "2026-09-06",
+  basisNote: "給与データの確認日は2026年7月14日です。2026年9月6日は対象範囲・確認時点を明確にした文章の更新日で、給与数値は再調査していません。",
   sources: [
     { title: "EDINET", url: "https://disclosure2.edinet-fsa.go.jp/", publisher: "金融庁", accessedAt: "2026-07-14" },
     { title: "有価証券報告書等", url: "https://www.disco.co.jp/jp/ir/ugc/", publisher: "ディスコ", accessedAt: "2026-07-14" },
@@ -38,7 +39,7 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
   readTime: "約16分",
   intro: {
     problem: "半導体企業は年収が高いと聞いても、会社ごとの違いや、その数字が自分にも当てはまるのか分かりにくくありませんか。",
-    conclusion: "主要20社では装置・検査関連企業が上位に並びました。ただし、平均年間給与は提出会社単体の平均であり、職種別の想定年収ではありません。",
+    conclusion: "日本の主要な半導体関連20社について、有価証券報告書の提出会社単体の平均年間給与を比べます。2026年7月14日までの確認では装置・検査関連企業が上位ですが、応募職種の提示年収とは異なります。",
     learnings: "主要20社の順位、平均年収が高くなる背景、持株会社の注意点、海外企業の調べ方、転職時の給与比較の手順。",
   },
   overviewBlocks: [
@@ -51,7 +52,7 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
   sections: [
     {
       id: "ranking",
-      heading: "【2026年最新】半導体企業の平均年収ランキング｜主要20社",
+      heading: "日本の半導体関連20社の平均年間給与｜2026年7月確認",
       lead: "今回選定した20社では、ディスコ、レーザーテック、東京エレクトロンが上位3社です。",
       blocks: [{ type: "salary-ranking" }],
       paragraphs: [

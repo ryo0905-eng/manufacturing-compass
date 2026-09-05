@@ -204,3 +204,10 @@ Supabase、ユーザーアカウント、メール保存、AI API、求人連携
 ## Cpk学習比較の構成
 
 `src/data/cpk-learning.ts` に操作範囲・プリセット・条件型、`src/lib/cpk-learning.ts` に比較状態の更新・説明・正規確率密度を分離。工程能力は既存calculateCapabilityを再利用する。曲線は横軸92〜108、縦軸は標準偏差0.25の最大密度を基準とする共通固定スケール。CpkToolExperienceは両モードをマウントしたままhiddenとinertで非表示側の操作・読み上げを除外する。再読込で状態は消える。
+
+## 相談準備の固定ひな形と比較データ（2026-09-06）
+
+- `src/data/career-consultation.ts` に固定ひな形、`ConsultationTemplate` にコピー状態と読取専用表示を分離。コピー操作時だけクリップボードへ書き込み、失敗時は手動コピーを案内する。個人情報入力・永続化・APIは追加しない。
+- 共通 `CareerAgentsLink` は任意の既存 `AgentFocus` と有限の `ctaLocation` を受け取る。省略時の共通CTAの遷移先と計測位置は従来通り。source_pageはusePathnameによるパスだけを送る。
+- `CompanyComparisonProfile.research` は任意の企業別事実・Source・質問・更新日を持つ。既存比較のデータとは確認日を分け、対象2ページだけにServer Componentで表示する。
+- 検証は `node tests/unit/career-consultation.cjs` で通信しないハンドラー単体確認を行う。ブラウザ・本番GA受信確認の代替とはしない。

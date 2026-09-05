@@ -140,3 +140,13 @@ Career Compass
 ## Cpk学習比較の計測（2026-09-06）
 
 既存のcpk_tool_view_changedは実際のモード変更時だけ送信。cpk_learning_preset_selectedは維持する。cpk_learning_control_usedは値が変わったスライダー項目をページ利用中に各1回、control（mean / standardDeviation / lsl / usl）のみ送る。cpk_learning_baseline_set、cpk_learning_resetは該当ボタン操作を記録する。切替・リセットでも操作済み項目の記録は維持し、再読込でリセットする。学習操作からcpk_calculation_completedを送らず、数値・測定データも送信しない。公開後4週間の学習モード切替・操作・基準設定を観察するが、理解度そのものとは扱わない。
+
+## 相談準備から相談先への出口（2026-09-06）
+
+4つの論点 → 固定ひな形コピー → 相談先比較。コピーやCompass完了を遷移の必須条件にはしない。希望条件をまだ整理したい人には既存の軸ノート入口を維持する。
+
+- `consultation_template_copy`: Clipboard APIの成功後だけ送る。プロパティ・本文・回答を送信しない。失敗・手動コピー・押下直後では送らない。同時実行中の連打を無視する。
+- `career_agents_cta_click`: source_page=/career-consultation、cta_location=consultation_after_templateまたはconsultation_theme、destination_path=/career-agents。テーマリンクだけdestination_groupに既存focusの有限値を付ける。
+- `career_agents_cta_click` の従来のshared_affiliate_ctaは維持。新しい外部クリックイベントは追加しない。
+- 相談先の閲覧セッションと広告クリック、ASP成果は別集計。計測日付・分母・欠測・反映日は非公開運用台帳で記録し、欠測を0で埋めない。
+- 比較2ページは公式事実・求人確認質問・企業詳細・既存の軸ノートの順で理解を支える。ランキングと軸ノートの最近の入口は本番反映から28日観察して評価する。

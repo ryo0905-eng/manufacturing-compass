@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
+import { CareerAgentsLink } from "@/components/CareerAgentsLink";
+import { ConsultationTemplate } from "@/components/ConsultationTemplate";
+import { agentFocusOptions } from "@/data/affiliateLinks";
 
 export const metadata: Metadata = {
   title: "半導体転職の相談準備",
@@ -23,7 +26,7 @@ const consultationTopics = [
   {
     label: "Reward",
     title: "年収レンジ",
-    body: "現年収と市場レンジの差分をどう埋めるか。",
+    body: "求人票の給与内訳と、希望条件をどう確認するか。",
   },
   {
     label: "Next",
@@ -39,11 +42,11 @@ export default function CareerConsultationPage() {
         <p className="eyebrow">転職を考える前の次の一歩</p>
         <h1>相談する前に、論点を4つだけ揃える。</h1>
         <p>
-          診断結果をそのまま持ち込むより、職種、実績、年収、準備期間に分けると話が早くなります。
+          職種、実績、希望条件、準備期間を箇条書きにすると、相談したいことを伝えやすくなります。
         </p>
         <div className="actions">
           <CareerCompassLink className="button primary" ctaLocation="career_consultation_hero" ctaVariant="consultation_prep" sourcePage="/career-consultation">
-            診断から始める
+            経験と近い職種を整理する
           </CareerCompassLink>
           <Link className="button ghost" href="/companies">
             企業を見直す
@@ -59,6 +62,24 @@ export default function CareerConsultationPage() {
             <p>{topic.body}</p>
           </div>
         ))}
+      </section>
+
+      <section className="section" aria-labelledby="consultation-template-title">
+        <h2 id="consultation-template-title">相談に持っていくメモを作る</h2>
+        <ConsultationTemplate />
+      </section>
+
+      <section className="section" aria-labelledby="consultation-agents-title">
+        <h2 id="consultation-agents-title">メモができたら、相談したい内容で相手を探す</h2>
+        <p>経験の伝え方、英語を使う仕事、専門性や待遇。確認したい論点に合わせて、相談先の特徴と利用経験を比較できます。</p>
+        <CareerAgentsLink className="button secondary" ctaLocation="consultation_after_template">相談先を比較する</CareerAgentsLink>
+        <ul className="source-list">
+          {agentFocusOptions.map((option) => (
+            <li key={option.id}>
+              <CareerAgentsLink className="text-link" focus={option.id} ctaLocation="consultation_theme">{option.label}</CareerAgentsLink>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="cta-panel" aria-labelledby="career-priorities-title">

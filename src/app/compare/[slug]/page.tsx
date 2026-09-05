@@ -112,6 +112,37 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
 
       <CompanyComparisonSummary entries={comparisonEntries} />
 
+      {comparisonProfile?.research ? (
+        <section className="section" aria-labelledby="comparison-research-title">
+          <h2 id="comparison-research-title">公式情報と、求人ごとに確かめること</h2>
+          <p>拠点の存在や職種紹介は、現在の募集や配属を保証しません。下の質問は当サイトが整理した企業研究の観点です。</p>
+          {comparisonProfile.research.companies.map((entry) => {
+            const company = comparedCompanies.find((item) => item.id === entry.companyId);
+            if (!company) return null;
+            return (
+              <article key={entry.companyId}>
+                <h3>{company.nameJa}：公式情報で確認できること</h3>
+                <p>{entry.facts}</p>
+                <ul className="source-list">
+                  {entry.sources.map((source) => (
+                    <li key={source.url}><a className="text-link" href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> — {source.publisher}／確認日 {source.accessedAt}</li>
+                  ))}
+                </ul>
+                <Link className="text-link" href={`/companies/${company.slug}` as Route}>{company.nameJa}の企業情報を見る</Link>
+              </article>
+            );
+          })}
+          <h3>求人票・面接で使う確認リスト（編集上の提案）</h3>
+          <dl>
+            {comparisonProfile.research.questions.map((question) => (
+              <div key={question.label}><dt><strong>{question.label}</strong></dt><dd>{question.body}</dd></div>
+            ))}
+          </dl>
+          <p>確認した条件の優先順位は、このページ下部の「転職の軸ノート」で整理できます。</p>
+          <p className="disclosure">この確認リストの最終更新日：{comparisonProfile.research.updatedAt}。既存の企業比較表の出典・確認日はページ下部に別記しています。</p>
+        </section>
+      ) : null}
+
       <section className="comparison-table-wrap" aria-label="企業比較表">
         <table className="comparison-table">
           <thead>
