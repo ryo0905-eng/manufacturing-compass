@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SemiconductorLocationExplorer } from "@/components/SemiconductorLocationExplorer";
 import { StructuredData } from "@/components/StructuredData";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import styles from "@/components/semiconductor-location-map.module.css";
 import { companies } from "@/data/companies";
 import { locationSources } from "@/data/company-locations";
@@ -185,7 +186,11 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
       <nav className={styles.nextLinks} aria-label="次に確認するページ">
         <Link href="/industry-map"><strong>半導体業界地図</strong><span>工程と企業の役割を理解する</span></Link>
         <Link href="/companies"><strong>半導体企業一覧</strong><span>会社単位で事業と職種を比較する</span></Link>
-        <Link href="/career-compass"><strong>Career Compass</strong><span>経験と半導体職種の接点を整理する</span></Link>
+        <TrackedInternalLink
+          eventName="location_map_career_compass_click"
+          eventProperties={{ source_page: "semiconductor_map", cta_location: "related_links" }}
+          href="/career-compass"
+        ><strong>Career Compass</strong><span>経験と半導体職種の接点を整理する</span></TrackedInternalLink>
       </nav>
     </main>
   );

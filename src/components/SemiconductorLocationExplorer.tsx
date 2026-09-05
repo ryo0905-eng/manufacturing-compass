@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { SemiconductorLocationCard } from "@/components/SemiconductorLocationCard";
 import { SemiconductorPrefectureSelector } from "@/components/SemiconductorPrefectureSelector";
 import styles from "@/components/semiconductor-location-map.module.css";
+import { trackLocationMapEvent } from "@/lib/analytics";
 import type {
   CompanyLocation,
   EffectiveHiringSignal,
@@ -90,6 +91,7 @@ export function SemiconductorLocationExplorer({
   const [locationType, setLocationType] = useState<LocationType | "all">(initialFilters.locationType ?? "all");
   const [jobFamily, setJobFamily] = useState<JobFamily | "all">(initialFilters.jobFamily ?? "all");
   const [view, setView] = useState<"list" | "regions">(initialView);
+  const lastTrackedQuery = useRef("");
 
   const companyById = useMemo(() => new Map(companies.map((company) => [company.id, company])), [companies]);
   const sourceById = useMemo(() => new Map(sources.map((source) => [source.id, source])), [sources]);
@@ -176,9 +178,30 @@ export function SemiconductorLocationExplorer({
     setJobFamily("all");
   }
 
-  function selectPrefecture(code: string) {
+  function trackKeywordUse() {
+    const normalizedQuery = normalize(query);
+    if (!normalizedQuery || normalizedQuery === lastTrackedQuery.current) return;
+    lastTrackedQuery.current = normalizedQuery;
+    trackLocationMapEvent("location_map_filter_use", {
+      filter_type: "keyword",
+      result_count: filteredLocations.length,
+    });
+  }
+
+  function selectPrefecture(code: string, source: "result_nav" | "selector") {
     setPrefectureCode(code);
     setView("list");
+    trackLocationMapEvent("location_map_prefecture_select", {
+      prefecture_code: code,
+      selection_source: source,
+    });
+  }
+
+  function changeView(nextView: "list" | "regions") {
+    setView(nextView);
+    if (nextView !== view) {
+      trackLocationMapEvent("location_map_view_change", { view: nextView });
+    }
   }
 
   return (
@@ -194,6 +217,10 @@ export function SemiconductorLocationExplorer({
           <span>企業名・拠点名・技術</span>
           <input
             onChange={(event) => setQuery(event.target.value)}
+            onBlur={trackKeywordUse}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") trackKeywordUse();
+            }}
             placeholder="例：熊本、製造装置、SiC"
             type="search"
             value={query}
@@ -202,21 +229,48 @@ export function SemiconductorLocationExplorer({
         <div className={styles.filterGrid}>
           <label>
             <span>都道府県</span>
-            <select onChange={(event) => setPrefectureCode(event.target.value)} value={prefectureCode}>
+            <select onChange={(event) => {
+              const code = event.target.value;
+              setPrefectureCode(code);
+              if (code !== "all") {
+                trackLocationMapEvent("location_map_prefecture_select", {
+                  prefecture_code: code,
+                  selection_source: "filter",
+                });
+              }
+            }} value={prefectureCode}>
               <option value="all">すべて</option>
               {prefectures.map(([code, name]) => <option key={code} value={code}>{name}</option>)}
             </select>
           </label>
           <label>
             <span>拠点種別</span>
-            <select onChange={(event) => setLocationType(event.target.value as LocationType | "all")} value={locationType}>
+            <select onChange={(event) => {
+              const value = event.target.value as LocationType | "all";
+              setLocationType(value);
+              if (value !== "all") {
+                trackLocationMapEvent("location_map_filter_use", {
+                  filter_type: "location_type",
+                  filter_value: value,
+                });
+              }
+            }} value={locationType}>
               <option value="all">すべて</option>
               {locationTypeOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
             </select>
           </label>
           <label>
             <span>職種</span>
-            <select onChange={(event) => setJobFamily(event.target.value as JobFamily | "all")} value={jobFamily}>
+            <select onChange={(event) => {
+              const value = event.target.value as JobFamily | "all";
+              setJobFamily(value);
+              if (value !== "all") {
+                trackLocationMapEvent("location_map_filter_use", {
+                  filter_type: "job_family",
+                  filter_value: value,
+                });
+              }
+            }} value={jobFamily}>
               <option value="all">すべて</option>
               {jobFamilyOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
             </select>
@@ -236,15 +290,15 @@ export function SemiconductorLocationExplorer({
       </div>
 
       <div className={styles.viewSwitch} aria-label="表示方法">
-        <button aria-pressed={view === "list"} onClick={() => setView("list")} type="button">一覧</button>
-        <button aria-pressed={view === "regions"} onClick={() => setView("regions")} type="button">地域から選ぶ</button>
+        <button aria-pressed={view === "list"} onClick={() => changeView("list")} type="button">一覧</button>
+        <button aria-pressed={view === "regions"} onClick={() => changeView("regions")} type="button">地域から選ぶ</button>
       </div>
 
       <div className={styles.explorerBody} data-view={view}>
         <aside className={styles.selectorPanel} aria-label="都道府県選択図">
           <SemiconductorPrefectureSelector
             counts={prefectureCounts}
-            onSelect={selectPrefecture}
+            onSelect={(code) => selectPrefecture(code, "selector")}
             selectedPrefectureCode={prefectureCode === "all" ? undefined : prefectureCode}
           />
         </aside>
@@ -256,7 +310,7 @@ export function SemiconductorLocationExplorer({
                 {[...prefectureGroups.values()].map((group) => {
                   const prefecture = group[0];
                   return (
-                    <button onClick={() => selectPrefecture(prefecture.prefectureCode)} key={prefecture.prefectureCode} type="button">
+                    <button onClick={() => selectPrefecture(prefecture.prefectureCode, "result_nav")} key={prefecture.prefectureCode} type="button">
                       {prefecture.prefectureName}<span>{group.length}</span>
                     </button>
                   );

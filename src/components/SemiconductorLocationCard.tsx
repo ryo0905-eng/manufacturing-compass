@@ -1,6 +1,9 @@
+"use client";
+
 import type { Route } from "next";
 import Link from "next/link";
 import styles from "@/components/semiconductor-location-map.module.css";
+import { trackLocationMapEvent } from "@/lib/analytics";
 import type { CompanyLocation, EffectiveHiringSignal, JobFamily, LocationSource, LocationType } from "@/types/company-location";
 
 const locationTypeLabels: Record<LocationType, string> = {
@@ -45,6 +48,7 @@ function hiringLabel(signal: EffectiveHiringSignal) {
 
 type SemiconductorLocationCardProps = {
   company: {
+    id: string;
     nameJa: string;
     slug: string;
   };
@@ -116,13 +120,34 @@ export function SemiconductorLocationCard({
             <strong>{hiringLabel(hiringSignal)}</strong>
             {hiringSignal.roleLabels.length > 0 ? <p>{hiringSignal.roleLabels.join(" / ")}</p> : null}
           </div>
-          <a href={hiringSignal.careerUrl} rel="noreferrer">公式採用情報を見る</a>
+          <a
+            href={hiringSignal.careerUrl}
+            onClick={() => trackLocationMapEvent("location_map_official_career_click", {
+              company_id: company.id,
+              hiring_status: hiringSignal.status,
+              location_id: location.id,
+            })}
+            rel="noreferrer"
+          >公式採用情報を見る</a>
         </div>
       ) : null}
 
       <footer className={styles.cardFooter}>
-        <Link href={`/companies/${company.slug}` as Route}>企業詳細を見る <span aria-hidden="true">→</span></Link>
-        <details>
+        <Link
+          href={`/companies/${company.slug}` as Route}
+          onClick={() => trackLocationMapEvent("location_map_company_click", {
+            company_id: company.id,
+            location_id: location.id,
+          })}
+        >企業詳細を見る <span aria-hidden="true">→</span></Link>
+        <details onToggle={(event) => {
+          if (event.currentTarget.open) {
+            trackLocationMapEvent("location_map_location_open", {
+              company_id: company.id,
+              location_id: location.id,
+            });
+          }
+        }}>
           <summary>情報源と確認日</summary>
           <ul>
             {sources.map((source) => (

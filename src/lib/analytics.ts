@@ -16,6 +16,30 @@ export type AnalyticsEventMap = {
   career_compass_cta_click: { source_page: string; cta_location: string; cta_variant: string };
 };
 
+export type LocationMapAnalyticsEventMap = {
+  location_map_prefecture_select: {
+    prefecture_code: string;
+    selection_source: "filter" | "result_nav" | "selector";
+  };
+  location_map_filter_use: {
+    filter_type: "job_family" | "keyword" | "location_type";
+    filter_value?: string;
+    result_count?: number;
+  };
+  location_map_view_change: { view: "list" | "regions" };
+  location_map_location_open: { company_id: string; location_id: string };
+  location_map_company_click: { company_id: string; location_id: string };
+  location_map_official_career_click: {
+    company_id: string;
+    hiring_status: string;
+    location_id: string;
+  };
+  location_map_career_compass_click: {
+    cta_location: "related_links";
+    source_page: "semiconductor_map";
+  };
+};
+
 function isProductionGaHost() {
   return process.env.NODE_ENV === "production"
     && typeof window !== "undefined"
@@ -43,6 +67,13 @@ export function trackEvent(eventName: string, properties: AnalyticsProperties = 
 export function trackCareerCompassEvent<EventName extends keyof AnalyticsEventMap>(
   eventName: EventName,
   properties: AnalyticsEventMap[EventName],
+) {
+  trackEvent(eventName, properties);
+}
+
+export function trackLocationMapEvent<EventName extends keyof LocationMapAnalyticsEventMap>(
+  eventName: EventName,
+  properties: LocationMapAnalyticsEventMap[EventName],
 ) {
   trackEvent(eventName, properties);
 }
