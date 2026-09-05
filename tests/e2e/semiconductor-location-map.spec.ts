@@ -30,15 +30,16 @@ test.describe("日本の半導体企業・拠点マップ", () => {
     await expect(page).not.toHaveURL(/query=/);
 
     await page.getByRole("button", { name: "すべて解除" }).click();
-    await page.getByLabel("都道府県", { exact: true }).selectOption("43");
+    const directory = page.getByRole("region", { name: "都道府県別の半導体関連拠点一覧" });
+    await directory.locator("select").nth(0).selectOption("43");
     await expect(page).toHaveURL(/prefecture=43/);
     await expect(count).toHaveText("2");
 
-    await page.getByLabel("拠点種別", { exact: true }).selectOption("factory");
+    await directory.locator("select").nth(1).selectOption("factory");
     await expect(page).toHaveURL(/type=factory/);
     await expect(count).toHaveText("2");
 
-    await page.getByLabel("職種", { exact: true }).selectOption("quality-reliability");
+    await directory.locator("select").nth(2).selectOption("quality-reliability");
     await expect(page).toHaveURL(/job=quality-reliability/);
     await expect(count).toHaveText("1");
     await expect(page.locator("article#tsmc-jasm-kumamoto")).toBeVisible();
@@ -83,7 +84,7 @@ test.describe("日本の半導体企業・拠点マップ", () => {
 
     await card.getByRole("link", { name: /企業詳細を見る/ }).click();
     await expect(page).toHaveURL(/\/companies\/tsmc$/);
-    await expect(page.getByRole("heading", { level: 2, name: "国内の確認済み拠点" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: /の国内拠点$/ })).toBeVisible();
   });
 
   test("絞り込みURLをnoindexにして全国URLへcanonicalを統一する", async ({ page }) => {

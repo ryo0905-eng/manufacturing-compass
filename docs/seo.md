@@ -52,7 +52,7 @@ SEO は Career Compass だけへ送客するためのものではありません
 - 画面に表示しない求人状態を構造化データへ追加しない
 - `/industry-map` の業界構造、`/companies` の会社単位一覧と検索意図を分ける
 - 熊本を含む都道府県ページは、5拠点以上、複数企業、地域固有情報、検索需要を満たすまで作らない
-- Desktop Chrome・Pixel 7向けE2Eで初期一覧、絞り込み、0件復帰、地域選択、canonical、noindex、JavaScriptなし表示を確認対象にする。2026-09-05のローカル実行は開発サーバー起動待ちで完了しなかったため、Previewで再確認する
+- 2026-09-05に公開URLを対象としたDesktop Chrome・Pixel 7向けE2Eで、初期一覧、絞り込み、0件復帰、地域選択、canonical、noindex、JavaScriptなし表示を確認した
 
 ### 記事カテゴリ
 

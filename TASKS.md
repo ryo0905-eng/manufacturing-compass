@@ -61,8 +61,8 @@
 - [x] 2026-09-05 に全国ページだけをindex対象としてsitemapへ追加し、パラメータURLのnoindex、canonical、BreadcrumbList、ItemListを確認する
 - [x] 2026-09-05 に企業一覧、業界地図、確認済み10社の企業詳細、勤務地優先のCareer Compass結果から全国拠点マップへの導線を追加する
 - [x] 2026-09-05 に拠点マップの有限イベント計測とDesktop Chrome・Pixel 7向けE2Eを追加し、型・静的公開基準を確認する
-- [ ] PreviewでDesktop Chrome・Pixel 7のE2Eを完走し、実ブラウザの公開基準を最終確認する（ローカルは開発サーバー起動待ちで停止）
-- [ ] 座標を使わない全国V0を完成させ、各実装単位でPRD、architecture、database、seo、conversion-architectureを同期する
+- [x] 2026-09-05 に公開URLでDesktop Chrome・Pixel 7のE2Eを合計14件完走し、実ブラウザの公開基準を最終確認する
+- [x] 2026-09-05 に座標を使わない全国V0を完成させ、各実装単位でPRD、architecture、database、seo、conversion-architectureを同期する
 - [ ] V0公開後、利用された都道府県と拠点から代表10拠点の座標を人が確認し、V1の詳細ピンへ進むか判断する
 
 ### P2: UI一貫性
