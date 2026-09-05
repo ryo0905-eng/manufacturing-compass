@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-08-16",
+  updatedAt: "2026-09-05",
   sources: [
     {
       title: "Largest semiconductor companies by market cap",
@@ -328,7 +328,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "research-flow",
       heading: "ランキングを企業研究へつなげる4ステップ",
-      lead: "順位を眺めて終わらず、役割と求人を順番に確認します。",
+      lead: "転職先として気になる企業が見つかったら、日本の勤務地、自分の経験に近い職種、求人票の条件を順番に確認します。業界の理解を深めたい場合は、企業一覧や業界地図から調べられます。",
       blocks: [
         {
           type: "timeline",
@@ -342,14 +342,12 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         {
           type: "links",
           items: [
-            { label: "半導体企業一覧", href: "/companies", description: "事業領域、日本拠点、代表的な職種から企業を調べる" },
-            { label: "ファブレス企業一覧", href: "/segments/fabless", description: "日本・海外の設計企業と主力分野を確認する" },
-            { label: "半導体業界地図", href: "/industry-map", description: "設計、製造、装置などバリューチェーンの位置を確認する" },
-            { label: "シリコンウェーハメーカー", href: "/guides/semiconductor-silicon-wafer-manufacturers", description: "材料企業SUMCOと国内外の主要ウェーハ企業を見る" },
-            { label: "生産技術からプロセス職へ", href: "/guides/production-engineering-to-semiconductor-process-engineer", description: "製造現場の経験と半導体プロセス職の接点を整理する" },
-            { label: "半導体転職と英語力", href: "/guides/semiconductor-career-english-level", description: "外資系企業を含め、職種ごとの英語使用場面を確認する" },
-            { label: "ChatGPTを使った半導体転職", href: "/guides/semiconductor-career-chatgpt", description: "求人票と職務経歴書を照合した実体験を読む" },
-            { label: "転職エージェント比較", href: "/career-agents", description: "相談したい業界、職種、求人タイプから相談先を比較する" },
+            { label: "日本の勤務地から企業を探す", href: "/semiconductor-map", description: "都道府県・職種から国内拠点を確認。拠点の存在と現在の募集は分けて見ます" },
+            { label: "生産技術の経験とプロセス職を照合する", href: "/guides/production-engineering-to-semiconductor-process-engineer", description: "工程改善や量産対応の経験を、半導体の仕事でどう伝えるか整理する" },
+            { label: "求人票の年収・待遇を読み比べる", href: "/guides/job-posting-salary-range", description: "年収レンジの上限だけで判断せず、固定給・変動報酬・働き方の確認項目をそろえる" },
+            { label: "確認したいことが残ったら、相談先を比較する", href: "/career-agents", description: "希望勤務地での求人、担当業務、経験の伝え方など、相談内容に合うサービスの特徴を見る" },
+            { label: "企業の事業・職種を調べる", href: "/companies", description: "気になる企業の事業領域と職種を確認し、企業詳細や2社比較へ進む" },
+            { label: "半導体業界地図で役割を確認する", href: "/industry-map", description: "設計、製造、装置など、業界全体のつながりを調べる" },
           ],
         },
       ],

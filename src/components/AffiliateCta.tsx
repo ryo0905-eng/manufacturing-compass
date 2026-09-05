@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CareerAgentsLink } from "@/components/CareerAgentsLink";
 import { officialLinkDisclosureText } from "@/data/affiliateLinks";
 
 type AffiliateCtaProps = {
@@ -16,9 +17,9 @@ export function AffiliateCta({
       <h2 id="career-cta-title">{title}</h2>
       <p>{body}</p>
       <div className="cta-actions">
-        <Link className="button primary" href="/career-agents">
+        <CareerAgentsLink className="button primary">
           相談の選択肢を見る
-        </Link>
+        </CareerAgentsLink>
         <Link className="button ghost" href="/companies">
           企業研究を続ける
         </Link>

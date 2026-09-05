@@ -1,6 +1,6 @@
 # Monetization
 
-最終更新日: 2026-07-19
+最終更新日: 2026-09-05
 
 ## 基本方針
 
@@ -59,7 +59,9 @@
 
 ## 計測
 
-- `agent_cta_click`: Career Compass などから比較ページへ進む
+- `career_compass_agent_click`: Career Compass 結果から比較ページへ進む
+- `career_agents_cta_click`: 記事・企業詳細などの共通CTAから比較ページへ進む（遷移元ページ付き）
+- `article_internal_click`: 記事本文の関連リンクから比較ページへ進む場合は `destination_path=/career-agents` で抽出する
 - `affiliate_outbound_click`: 承認済み広告から外部へ進む
 - ASP 成果: 有効登録など、案件ごとの成果地点
 

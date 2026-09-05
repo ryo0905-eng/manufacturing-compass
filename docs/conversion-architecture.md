@@ -79,12 +79,15 @@ Career Compass
 ## 計測
 
 - `career_compass_cta_click`
-- `diagnosis_start`
-- `diagnosis_progress`
-- `diagnosis_complete`
+- `career_compass_start`
+- `career_compass_step`
+- `career_compass_complete`
+- `career_compass_result_view`
+- `career_compass_related_click`
 - `result_detail_open`
 - `today_quest_copy`
-- `agent_cta_click`
+- `career_compass_agent_click`
+- `career_agents_cta_click`
 - `affiliate_outbound_click`
 - `industry_map_mode_change`
 - `industry_map_node_open`
@@ -103,6 +106,15 @@ Career Compass
 - `location_map_career_compass_click`
 
 `career_compass_cta_click` には `source_page`、`cta_location`、`cta_variant` の有限値だけを付与します。検索語や入力内容は送信しません。GA4 のページ表示からCTAクリック、1問目回答、4・8・12問到達、完了までを流入元別に確認します。
+
+### 相談先への到達と変更前後の比較
+
+- `career_agents_cta_click`: 記事・企業詳細などの共通CTAから `/career-agents` へ進むクリック。`source_page` はクエリ・ハッシュを含まないページパス、`cta_location` は `shared_affiliate_cta`、`destination_path` は `/career-agents`。広告の外部クリックとは分ける。
+- 記事本文の関連リンクは既存の `article_internal_click` を維持し、`source_slug` と `destination_path` で集計する。ランキングの企業研究案内から勤務地・職種記事・待遇記事・相談先への遷移もここに含む。同じクリックで新イベントを重ねて送らない。
+- Compass結果から相談先へ進む行動は `career_compass_agent_click`、実際の広告クリエイティブのクリックは `affiliate_outbound_click`。相談先ページの閲覧・広告クリック・ASPの発生／確定成果を別々に観察する。
+- 2026-08-16の変更で `diagnosis_start` / `diagnosis_progress` / `diagnosis_complete` / `agent_cta_click` は現行名へ移行。旧progressは4・8・12問目の回答操作、現stepは各質問への初回到達なので件数を単純比較しない。現completeとresult_viewは結果表示へ切り替える同じ処理から送信するため、結果の読了率には使わない。
+- 2026-09-05に共通CTAの計測を追加。観察の起点はコード変更日ではなく本番反映日を記録し、4週間の件数とセッション単位の到達率を確認する。母数が少なければ観察を延長する。GAのキーイベント登録、フィルタ、カスタムディメンションは管理画面で別途確認する。
+- 検証で本番GA・Vercel Analyticsへの送信やASP広告へのアクセスを発生させない。実送信確認が必要なら別のテスト用GAプロパティと環境を用意する。GAオプトアウト有効のブラウザでは受信確認できず、DebugViewだけでは本番データの除外にならない。`*.vercel.app` は本番へ転送する構成なので、Previewをそのまま計測テスト先にしない。
 
 拠点マップでは、都道府県コード、有限の拠点種別・職種、管理済みの企業・拠点ID、導線位置だけを送ります。自由入力の検索語は送らず、検索利用時は検索を使った事実と結果件数だけを記録します。
 
