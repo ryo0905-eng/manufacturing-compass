@@ -14,18 +14,8 @@ import {
 import { siteUrl } from "@/lib/format";
 import type { JobFamily, LocationType } from "@/types/company-location";
 
-export const metadata: Metadata = {
-  title: "日本の半導体企業・工場・研究拠点一覧【2026年版】",
-  description: "日本国内の半導体メーカー、製造装置、材料、設計企業の工場・研究開発・設計拠点を、都道府県、役割、関連職種、公式採用情報とともに整理します。",
-  alternates: { canonical: "/semiconductor-map" },
-  robots: { index: false, follow: true },
-  openGraph: {
-    title: "日本の半導体企業・工場・研究拠点一覧【2026年版】",
-    description: "日本国内の半導体関連拠点を、勤務地と仕事の接点から探すための全国一覧です。",
-    type: "website",
-    url: "/semiconductor-map",
-  },
-};
+const pageTitle = "日本の半導体企業・工場マップ【2026年版】製造・研究拠点一覧";
+const pageDescription = "日本で働ける半導体メーカー、製造装置、材料、設計企業の工場・研究開発・設計拠点を、都道府県、役割、関連職種、公式採用情報とともに整理します。";
 
 const companyById = new Map(companies.map((company) => [company.id, company]));
 
@@ -37,14 +27,35 @@ const allowedJobFamilies = new Set<JobFamily>([
   "circuit-software-design", "field-application-service", "supply-chain-corporate",
 ]);
 
-type SemiconductorMapPageProps = {
-  searchParams: Promise<{
-    prefecture?: string | string[];
-    type?: string | string[];
-    job?: string | string[];
-    view?: string | string[];
-  }>;
+type SemiconductorMapSearchParams = {
+  [key: string]: string | string[] | undefined;
+  prefecture?: string | string[];
+  type?: string | string[];
+  job?: string | string[];
+  view?: string | string[];
 };
+
+type SemiconductorMapPageProps = {
+  searchParams: Promise<SemiconductorMapSearchParams>;
+};
+
+export async function generateMetadata({ searchParams }: SemiconductorMapPageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const hasParameters = Object.values(params).some((value) => value !== undefined);
+
+  return {
+    title: pageTitle,
+    description: pageDescription,
+    alternates: { canonical: "/semiconductor-map" },
+    robots: { index: !hasParameters, follow: true },
+    openGraph: {
+      title: pageTitle,
+      description: "日本国内の半導体関連拠点を、勤務地と仕事の接点から探すための全国マップ・一覧です。",
+      type: "website",
+      url: "/semiconductor-map",
+    },
+  };
+}
 
 function firstValue(value?: string | string[]) {
   return Array.isArray(value) ? value[0] : value;
@@ -88,13 +99,13 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl },
-          { "@type": "ListItem", position: 2, name: "日本の半導体企業・拠点", item: `${siteUrl}/semiconductor-map` },
+          { "@type": "ListItem", position: 2, name: "日本の半導体企業・工場マップ", item: `${siteUrl}/semiconductor-map` },
         ],
       }} />
       <StructuredData data={{
         "@context": "https://schema.org",
         "@type": "ItemList",
-        name: "日本の半導体企業・工場・研究拠点一覧",
+        name: "日本の半導体企業・工場マップ・研究拠点一覧",
         numberOfItems: initiallyVisibleLocations.length,
         itemListElement: initiallyVisibleLocations.map((location, index) => ({
           "@type": "ListItem",
@@ -105,13 +116,13 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
       }} />
 
       <nav className="cpk-breadcrumb" aria-label="パンくず">
-        <Link href="/">ホーム</Link><span>/</span><span>日本の半導体企業・拠点</span>
+        <Link href="/">ホーム</Link><span>/</span><span>日本の半導体企業・工場マップ</span>
       </nav>
 
       <header className={styles.hero}>
         <div>
           <p className="section-label">SEMICONDUCTOR LOCATIONS IN JAPAN</p>
-          <h1>日本の半導体企業・工場・研究拠点</h1>
+          <h1>日本の半導体企業・工場・研究拠点マップ</h1>
           <p className={styles.lead}>
             日本のどこに、どのような半導体関連の仕事につながる拠点があるか。
             企業公式情報をもとに、工場、研究開発、設計、本社・事業所を勤務地単位で整理しています。

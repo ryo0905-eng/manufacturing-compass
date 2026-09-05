@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { companies, isCompanyIndexable, segments } from "@/data/companies";
+import { companyLocations } from "@/data/company-locations";
 import { beginnerGuides, comparePairs, rankings } from "@/data/editorial";
 import { companyCompareSlug, siteUrl } from "@/lib/format";
 
@@ -14,6 +15,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "1970-01-01",
   );
   const guidesLastModified = contentDate(latestGuideUpdatedAt);
+  const latestLocationVerifiedAt = companyLocations
+    .filter((location) => location.contentStatus === "complete")
+    .reduce((latest, location) => location.lastVerifiedAt > latest ? location.lastVerifiedAt : latest, "1970-01-01");
   const staticRoutes = [
     "",
     "/tools",
@@ -25,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/career-consultation",
     "/career-agents",
     "/industry-map",
+    "/semiconductor-map",
     "/companies",
     "/compare",
     "/guides",
@@ -38,8 +43,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((path) => ({
     url: `${siteUrl}${path}`,
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
+    ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
     changeFrequency: "weekly" as const,
-    priority: path === "" ? 1 : path === "/career-agents" ? 0.85 : 0.8,
+    priority: path === "" ? 1 : path === "/career-agents" || path === "/semiconductor-map" ? 0.85 : 0.8,
   }));
 
   const companyRoutes = searchReadyCompanies.map((company) => ({
