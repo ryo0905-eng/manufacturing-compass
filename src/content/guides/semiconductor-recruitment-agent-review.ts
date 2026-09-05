@@ -19,8 +19,14 @@ export const semiconductorRecruitmentAgentReviewGuide: GuideArticle = {
     "エンワールドとロバート・ウォルターズで求人紹介を受け、応募前まで比較した経験",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-08-01",
+  updatedAt: "2026-09-06",
   sources: [
+    {
+      title: "職務経歴書における自己PR欄の必要性と書き方について",
+      url: "https://www.job-card.mhlw.go.jp/column/employed/self-pr",
+      publisher: "厚生労働省 マイジョブ・カード",
+      accessedAt: "2026-09-06",
+    },
     {
       title: "JAC Recruitmentの転職支援サービス",
       url: "https://www.jac-recruitment.jp/service/profile/brand/recruitment/",
@@ -64,7 +70,7 @@ export const semiconductorRecruitmentAgentReviewGuide: GuideArticle = {
       accessedAt: "2026-07-14",
     },
   ],
-  readTime: "約11分",
+  readTime: "約12分",
   intro: {
     problem: "半導体転職ではどの転職エージェントを選ぶべきか、口コミだけでは違いが分かりにくくありませんか。",
     conclusion: "私には総合1位を決められませんでした。情報収集では複数社を使い、応募段階で信頼できる窓口へ絞りました。",
@@ -174,6 +180,28 @@ export const semiconductorRecruitmentAgentReviewGuide: GuideArticle = {
       paragraphs: [
         "私なら最初は、求人を広く見るエージェント、製造業を深く見るエージェント、外資系も見るなら外資特化型の三つを組み合わせます。外資系を考えていなければ、三つ目は必要ありません。",
         "3社は正解というより、私が管理できた目安です。実際に求人を紹介してもらい、会社情報の深さ、連絡のしやすさ、面接対策の具体性を見て、残すエージェントを決めます。",
+      ],
+    },
+    {
+      id: "separate-research-and-applications",
+      heading: "紹介求人は幅広く見て、応募する候補は自分で絞った",
+      paragraphs: [
+        "転職エージェントから、業界も職種も変わる求人を紹介されたことがありました。製造業というくくりでは同じですが、これまでの仕事とは違います。私は、その求人を候補から外しました。業界か職種のどちらかは固定しないと、未経験の部分が多くなってしまうと考えたためです。",
+        "その後、エージェントへ条件を伝え直したわけではありません。自分で候補から外しました。自分が応募するかどうかとは別に、どんな仕事があるかを知るために、紹介の幅は残しておきました。",
+        "求人を見る範囲と、実際に応募する範囲は、自分の中で分けていました。幅広い求人は情報収集として見ておきたかったので。",
+      ],
+      blocks: [
+        {
+          type: "note",
+          title: "編集上の補足：経験と応募先の接点",
+          body: "厚生労働省のマイジョブ・カードは、自分の経験や強みと応募先のニーズを結びつけて考える方法を紹介しています。「業界か職種の一方は固定する」は運営者個人の判断であり、転職に共通する必須条件ではありません。",
+        },
+        {
+          type: "links",
+          items: [
+            { label: "転職の軸ノート", href: "/career-priorities", description: "応募先を選ぶときに大切にしたい条件と、確認する質問を整理する" },
+          ],
+        },
       ],
     },
     {
