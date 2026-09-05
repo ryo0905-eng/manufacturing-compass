@@ -1,0 +1,46 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const ts = require('typescript');
+// Compile pure TypeScript modules in memory; no generated files or analytics calls.
+function load(file) {
+  const exports = {};
+  const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2017 } }).outputText;
+  vm.runInNewContext(code, { exports, require: name => load(path.resolve(path.dirname(file), name + '.ts')) }, { filename: file });
+  return exports;
+}
+const { comparisonMessage, learningCapability, learningReducer, normalDensity, densityDomain } = load(path.resolve(__dirname, '../../src/lib/cpk-learning.ts'));
+const initial = { mean: 100, standardDeviation: .75, lsl: 97, usl: 103 };
+const shifted = { ...initial, mean: 101 };
+assert.equal(learningCapability(initial).potential, learningCapability(shifted).potential);
+assert.ok(learningCapability(shifted).performance < learningCapability(initial).performance);
+assert.match(comparisonMessage(initial, shifted), /離れた/);
+assert.match(comparisonMessage(shifted, initial), /近づいた/);
+assert.match(comparisonMessage(shifted, { ...initial, mean: 99 }), /距離は同じ/);
+const half = { ...initial, standardDeviation: .375 };
+assert.equal(learningCapability(half).potential, 2 * learningCapability(initial).potential);
+assert.equal(learningCapability(half).performance, 2 * learningCapability(initial).performance);
+assert.match(comparisonMessage(initial, { ...initial, lsl: 98, usl: 102 }), /工程分布は変わっていません/);
+assert.equal(learningCapability({ ...initial, mean: 103 }).performance, 0);
+assert.match(comparisonMessage(initial, { ...initial, mean: 103 }), /Cpkは0/);
+const outside = { ...initial, mean: 104 };
+assert.ok(learningCapability(outside).performance < 0);
+assert.match(comparisonMessage(outside, { ...outside, standardDeviation: .5 }), /さらに負/);
+assert.match(comparisonMessage(initial, { ...shifted, standardDeviation: 1 }), /複数の条件/);
+assert.match(comparisonMessage(initial, initial), /同じ状態/);
+let state = { current: initial, baseline: initial };
+state = learningReducer(state, { type: 'preset', state: shifted });
+assert.equal(state.baseline.mean, 100);
+state = learningReducer(state, { type: 'baseline' });
+state = learningReducer(state, { type: 'update', key: 'mean', value: 102 });
+assert.equal(state.baseline.mean, 101);
+state = learningReducer(state, { type: 'reset' });
+assert.equal(state.current.mean, 100);
+assert.equal(state.baseline.mean, 100);
+assert.equal(normalDensity(100, { ...initial, standardDeviation: .25 }), densityDomain.maxDensity);
+assert.equal(normalDensity(100, half), 2 * normalDensity(100, initial));
+let area = 0;
+for (let x = 92; x < 108; x += .001) area += normalDensity(x, initial) * .001;
+assert.ok(Math.abs(area - 1) < 1e-6);
+console.log('PASS: capability changes, boundary/outside, explanation branches, baseline/reset, density scale and integral');

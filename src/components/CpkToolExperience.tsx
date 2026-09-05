@@ -18,6 +18,7 @@ export function CpkToolExperience() {
   }, []);
 
   function selectView(nextView: ToolView) {
+    if (nextView === view) return;
     setView(nextView);
     trackEvent("cpk_tool_view_changed", { view: nextView });
   }
@@ -32,7 +33,8 @@ export function CpkToolExperience() {
           <strong>動かして理解</strong><span>平均とばらつきを学ぶ</span>
         </button>
       </nav>
-      {view === "calculate" ? <CpkCalculator /> : <CpkLearningSimulator />}
+      <div hidden={view !== "calculate"} inert={view !== "calculate"}><CpkCalculator /></div>
+      <div hidden={view !== "learn"} inert={view !== "learn"}><CpkLearningSimulator /></div>
     </section>
   );
 }
