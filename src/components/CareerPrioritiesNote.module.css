@@ -1,0 +1,51 @@
+.workspace { max-width: 720px; margin: 0 auto; color: #1d1d1f; line-height: 1.8; }
+.workspace button { font: inherit; cursor: pointer; border: 1px solid #c9cdd2; border-radius: 10px; background: white; color: #1d1d1f; padding: 10px 16px; min-height: 44px; transition: background .18s, border-color .18s; }
+.workspace button:hover:not(:disabled) { background: #f0f4f8; }
+.workspace button[aria-pressed=true] { background: #eef3fa; border-color: #1769aa; color: #125588; box-shadow: inset 0 0 0 1px #1769aa; }
+.workspace button:disabled { opacity: .45; cursor: default; }
+.workspace :is(button, input, summary, textarea):focus-visible { outline: 3px solid #1769aa; outline-offset: 4px; }
+.workspace .primary { background: #1d1d1f; color: white; border-color: #1d1d1f; }
+.workspace .primary:hover:not(:disabled) { background: #34383c; }
+.welcome { padding: 24px 0 40px; }
+.intro { font-size: clamp(21px, 4vw, 28px); font-weight: 500; line-height: 1.6; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; padding: 0; margin: 24px 0; color: #60666d; font-size: 14px; }
+.progress { display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; padding: 0; margin: 8px 0 36px; gap: 6px; }
+.progress li { border-bottom: 2px solid #e5e7eb; padding: 12px 0; font-size: 13px; color: #60666d; }
+.progress li[aria-current=step] { border-color: #1769aa; color: #125588; font-weight: 600; }
+.progress span { display: block; font-size: 12px; }
+.heading { font-size: clamp(23px, 4vw, 28px); line-height: 1.5; margin: 0 0 16px; scroll-margin-top: 100px; }
+.heading:focus { outline: none; }
+.group { border: 1px solid #e5e7eb; border-radius: 12px; margin: 12px 0; padding: 0 18px; }
+.group summary { padding: 18px 0; cursor: pointer; font-weight: 600; }
+.group summary small { float: right; color: #60666d; font-weight: 400; }
+.choice { border: 0; padding: 12px 0 20px; margin: 0; min-width: 0; }
+.choice legend { padding: 0; }
+.options { display: flex; flex-wrap: wrap; gap: 8px; }
+.options button { font-size: 14px; }
+.unknown { margin-top: 12px; }
+.selection { background: #f7f7f8; border-radius: 12px; padding: 20px; margin: 24px 0; }
+.selection ul { padding-left: 20px; }
+.selection li { margin: 8px 0; }
+.selection small { display: inline-block; margin-left: 12px; color: #60666d; }
+.picks { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+.check { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; cursor: pointer; }
+.check input { flex: 0 0 auto; width: 20px; height: 20px; margin-top: 5px; accent-color: #1769aa; }
+.hint { color: #60666d; font-size: 14px; }
+.ranking { list-style: none; padding: 0; }
+.rankCard { padding: 20px; border: 1px solid #c9cdd2; border-radius: 12px; margin: 12px 0; animation: arrive .2s ease-out; }
+.rankTitle { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.arrows { display: flex; gap: 6px; flex-shrink: 0; }
+.flexibility { border: 0; margin: 18px 0 0; padding: 0; min-width: 0; }
+.flexibility legend { font-size: 13px; color: #60666d; margin-bottom: 8px; }
+.question { padding: 22px 0; border-bottom: 1px solid #e5e7eb; }
+.question h3 { font-size: 18px; margin: 0; }
+.paper { border: 1px solid #e5e7eb; border-radius: 12px; background: #fafafa; padding: clamp(20px, 5vw, 36px); margin: 24px 0; overflow-wrap: anywhere; }
+.paper p { white-space: pre-wrap; margin: 0 0 28px; }
+.paper p:first-child { font-size: 20px; font-weight: 600; }
+.paper p:last-child { margin: 0; color: #60666d; font-size: 14px; }
+.navigation { display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid #e5e7eb; margin-top: 32px; padding: 20px 0; }
+.privacy { font-size: 13px; color: #60666d; border-top: 1px solid #e5e7eb; padding-top: 24px; margin-top: 24px; }
+.manual textarea { display: block; width: 100%; box-sizing: border-box; font: inherit; padding: 12px; border: 1px solid #c9cdd2; border-radius: 8px; }
+@keyframes arrive { from { opacity: .7; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .workspace button { transition: none; } .rankCard { animation: none; } }
+@media (max-width: 420px) { .rankTitle { align-items: flex-start; } .rankCard { padding: 14px; } .options button { padding: 10px 12px; } }

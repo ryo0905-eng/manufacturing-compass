@@ -192,3 +192,11 @@ Supabase、ユーザーアカウント、メール保存、AI API、求人連携
 - プライバシーポリシーとセキュリティ
 - レート制限、費用上限、障害時の挙動
 - 既存の静的ページと SEO を損なわない移行方法
+
+## 転職の軸ノート
+
+- `/career-priorities`: Server Componentの説明・noindexメタデータと、専用Client Componentの4画面UI。sitemap・ナビゲーションから除外した確認用ページ。
+- `src/data/career-priorities.ts`: 5分野15項目と質問の固定対応、選択肢の型。
+- `src/lib/career-priorities.ts`: 選択解除に伴う状態整理と、相談メモを生成する純粋関数。
+- 回答はReactのメモリ内だけで保持。再読み込みで消去され、URL・Cookie・localStorage・外部APIには保存／送信しない。クリップボード書込みは本人のボタン操作時だけ行う。
+- 開始・画面到達・完成・コピーのみ既存Analytics経路で計測。選択内容、順位、質問、ノート本文を送信しない。
