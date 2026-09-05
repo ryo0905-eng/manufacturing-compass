@@ -120,10 +120,11 @@ Career Compass
 
 評価する時は単一イベントだけでなく、流入ページ、Career Compass 完了、内部遷移、外部クリックを一連で見ます。氏名、連絡先、自由記述、現年収、回答一式は送信せず、完了時の職種領域・転職目的・結果タイプ・相談テーマは集計可能な粗いカテゴリに限定します。
 
-## 転職の軸ノートの確認用計測
+## 転職の軸ノートの計測
 
-初版は広告CTAや既存ページからの入口を設けず、本人が使用感を確認する。公開判断後の最初の4週間は開始→完成→コピーを観察し、少数なら期間を延長する。
+相談準備ページの論点整理後に入口を1つ設ける。ノート内には広告CTAを設けない。入口の本番反映日から4週間、入口クリック→開始→完成→コピーを観察し、少数なら期間を延長する。
 
+- `career_priorities_cta_click`: 相談準備ページからのクリック。`source_page=/career-consultation`、`cta_location=consultation_after_topics` を付与。
 - `career_priorities_start`: 初めて希望または「まだ具体的に分からない」を選択したとき。
 - `career_priorities_step`: 4画面それぞれの初回到達。`step_number`（1〜4）のみ付与。
 - `career_priorities_complete`: ノート画面の初回到達。

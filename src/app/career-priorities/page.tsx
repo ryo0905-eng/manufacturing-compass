@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function CareerPrioritiesPage() {
   return <main className="page">
     <header style={{ maxWidth: 720, margin: '0 auto 24px' }}>
-      <p className="section-label">確認用 · CAREER NOTE</p>
+      <p className="section-label">CAREER NOTE</p>
       <h1>転職の軸ノート</h1>
     </header>
     <CareerPrioritiesNote />
