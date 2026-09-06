@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CareerPrioritiesNote } from '@/components/CareerPrioritiesNote';
+import { CareerPrioritiesWorkspace } from '@/components/CareerPrioritiesWorkspace';
 
 export const metadata: Metadata = {
   title: '転職の優先順位・譲れない条件を整理する｜転職の軸ノート',
@@ -15,7 +15,8 @@ export default function CareerPrioritiesPage() {
       <h1>転職の軸ノート</h1>
       <p>転職の優先順位・譲れない条件を整理する</p>
       <p>勤務地、仕事内容、給与・待遇、働き方、職場文化。変えたいことと残したいことから、求人票を読む軸と面接で確認する質問をまとめます。優先順位がまだ決まっていなくても使えます。</p>
+      <p>半導体の仕事を検討中なら、職種と夜勤・呼び出し・転勤・出張・クリーンルーム勤務の気になる条件から、確認する質問を比較できます。職種だけで勤務条件を断定せず、現職に残る・応募を見送る判断にも使えるメモを作ります。</p>
     </header>
-    <CareerPrioritiesNote />
+    <CareerPrioritiesWorkspace />
   </main>;
 }

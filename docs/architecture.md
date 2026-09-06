@@ -211,3 +211,11 @@ Supabase、ユーザーアカウント、メール保存、AI API、求人連携
 - 共通 `CareerAgentsLink` は任意の既存 `AgentFocus` と有限の `ctaLocation` を受け取る。省略時の共通CTAの遷移先と計測位置は従来通り。source_pageはusePathnameによるパスだけを送る。
 - `CompanyComparisonProfile.research` は任意の企業別事実・Source・質問・更新日を持つ。既存比較のデータとは確認日を分け、対象2ページだけにServer Componentで表示する。
 - 検証は `node tests/unit/career-consultation.cjs` で通信しないハンドラー単体確認を行う。ブラウザ・本番GA受信確認の代替とはしない。
+
+## 働き方チェックの追加モード（2026-09-06）
+
+- `/career-priorities#workstyle` で既存ページの追加モードへ直接接続。hashはモードのみで回答を含まない。既存ノートと追加モードはマウントを維持しhiddenで表示を切り替える。
+- `src/data/workstyle-check.ts` は3職種・5条件の編集上の質問、参考資料の適用範囲・確認日・次回確認日を所有する。企業別の勤務条件を推論しない。
+- `src/lib/workstyle-check.ts` は質問抽出、選択解除時の確認状態の除去、コピー文面を生成する純粋関数。職種変更で対象外となった確認状態は破棄し、条件の重要度変更では維持する。
+- 専用Client Componentで比較、質問選択、本人の確認状況、コピーを実装。回答はReactメモリのみ。コピー失敗時は常設の読取専用テキストから手動コピー。
+- 共通trackEventへ有限の操作種別・導線位置だけを送る。回答・質問本文・本人確認状況は送らない。既存ノートのイベントと分け、本番設定は別途確認する。

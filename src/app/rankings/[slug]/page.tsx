@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { CompanyCard } from "@/components/CompanyCard";
 import { getRankingBySlug, getRankingCompanies, rankings } from "@/data/editorial";
@@ -94,6 +95,10 @@ export default async function RankingPage({ params }: RankingPageProps) {
         </div>
       </section>
 
+      <section className="section">
+        <p>気になる企業が見つかったら、仕事と勤務条件の確認へ。</p>
+        <TrackedInternalLink href="/career-priorities#workstyle" eventName="workstyle_check_entry" eventProperties={{ cta_location: "ranking", source_page: `/rankings/${ranking.slug}` }}>半導体の仕事・働き方から質問を作る</TrackedInternalLink>
+      </section>
       <AffiliateCta title="企業リストをもとに相談する" />
     </main>
   );

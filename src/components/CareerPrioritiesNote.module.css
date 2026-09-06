@@ -49,3 +49,8 @@
 @keyframes arrive { from { opacity: .7; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .workspace button { transition: none; } .rankCard { animation: none; } }
 @media (max-width: 420px) { .rankTitle { align-items: flex-start; } .rankCard { padding: 14px; } .options button { padding: 10px 12px; } }
+.roleDescription { display: block; font-size: 13px; font-weight: 400; color: #60666d; margin-top: 6px; }
+.workstyleComparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; }
+.workstyleComparison .rankCard { margin: 0; min-width: 0; }
+.picks a { padding: 12px 16px; border: 1px solid #c9cdd2; border-radius: 10px; text-decoration: none; }
+.picks a[aria-current=true] { border-color: #1769aa; background: #eef3fa; }

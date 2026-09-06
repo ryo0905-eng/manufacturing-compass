@@ -216,6 +216,10 @@ export default async function GuidePage({ params }: GuidePageProps) {
             ) : <DiagnosisCta title="自分の経験に近い半導体職種を確かめる" body="記事で書き出した経験をもとに、強み、足りない経験、次の準備を12問で確認できます。" />}
           </>
         )}
+        {guide.sections.some(section => section.blocks?.some(block => block.type === "market-cap-ranking" || block.type === "salary-ranking")) && <aside className="section">
+          <p>企業の規模や年収を知った次は、仕事内容と勤務条件を確かめてみませんか。</p>
+          <TrackedInternalLink href="/career-priorities#workstyle" eventName="workstyle_check_entry" eventProperties={{ cta_location: "ranking_guide", source_page: `/guides/${guide.slug}` }}>半導体の仕事・働き方から、確認したい質問を作る</TrackedInternalLink>
+        </aside>}
         <p className="back-link"><Link className="text-link" href="/guides">記事一覧へ戻る</Link></p>
       </article>
     </main>
