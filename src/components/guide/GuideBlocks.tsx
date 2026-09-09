@@ -628,6 +628,29 @@ export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
           );
         }
 
+        if (block.type === "link-callout") {
+          return (
+            <aside className="guide-note" aria-label={block.title} key={`link-callout-${index}`}>
+              <strong>{block.title}</strong>
+              <p>{block.description}</p>
+              <div className="actions">
+                <TrackedInternalLink
+                  className="button ghost"
+                  eventName="article_internal_click"
+                  eventProperties={{
+                    destination_path: block.href,
+                    source_slug: sourceSlug,
+                    cta_location: block.ctaLocation,
+                  }}
+                  href={block.href as Route}
+                >
+                  {block.label}
+                </TrackedInternalLink>
+              </div>
+            </aside>
+          );
+        }
+
         if (block.type === "links") {
           return (
             <nav className="guide-link-list" aria-label="関連ページ" key={`links-${index}`}>

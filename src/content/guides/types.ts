@@ -52,6 +52,14 @@ export type GuideBlock =
       body: string;
     }
   | {
+      type: "link-callout";
+      title: string;
+      description: string;
+      label: string;
+      href: string;
+      ctaLocation: string;
+    }
+  | {
       type: "process-flow";
       title: string;
       description: string;

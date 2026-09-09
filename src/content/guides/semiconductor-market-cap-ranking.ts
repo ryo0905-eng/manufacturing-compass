@@ -136,7 +136,17 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       id: "world-ranking",
       heading: "半導体メーカー・関連企業の世界時価総額ランキングTOP30",
       lead: "2026年9月6日確認時点の上位3社は、NVIDIA、TSMC、Broadcomです。",
-      blocks: [{ type: "market-cap-ranking", scope: "world" }],
+      blocks: [
+        { type: "market-cap-ranking", scope: "world" },
+        {
+          type: "link-callout",
+          title: "ランキングに出てくる企業は、どんな役割？",
+          description: "設計・製造・装置・材料など、代表企業の役割と工程のつながりを業界マップで確認できます。",
+          label: "半導体業界マップを見る",
+          href: "/industry-map",
+          ctaLocation: "world_ranking_after_table",
+        },
+      ],
       paragraphs: [
         "本記事では、半導体そのものを設計・製造する企業だけでなく、製造装置、検査・計測装置、EDA、半導体IP、OSATなども含めています。同じ『半導体企業』でも、顧客、設備、収益構造、技術職の役割は異なります。",
         "サムスン電子のような総合電機メーカーの時価総額は、半導体部門だけの企業価値を示すものではありません。企業全体の時価総額で比較しているため、専業企業との違いを理解したうえで順位を見てください。",
@@ -347,7 +357,6 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
             { label: "求人票の年収・待遇を読み比べる", href: "/guides/job-posting-salary-range", description: "年収レンジの上限だけで判断せず、固定給・変動報酬・働き方の確認項目をそろえる" },
             { label: "確認したいことが残ったら、相談先を比較する", href: "/career-agents", description: "希望勤務地での求人、担当業務、経験の伝え方など、相談内容に合うサービスの特徴を見る" },
             { label: "企業の事業・職種を調べる", href: "/companies", description: "気になる企業の事業領域と職種を確認し、企業詳細や2社比較へ進む" },
-            { label: "半導体業界地図で役割を確認する", href: "/industry-map", description: "設計、製造、装置など、業界全体のつながりを調べる" },
           ],
         },
       ],
