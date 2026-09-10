@@ -6557,7 +6557,7 @@ select {
   line-height: 1.6;
 }
 
-.industry-supply-chain > ol {
+.industry-supply-chain > ul {
   display: grid;
   gap: 0;
   margin: 24px 0 0;
@@ -6566,19 +6566,11 @@ select {
   border-top: 1px solid #dfe4e7;
 }
 
-.industry-supply-chain > ol > li {
+.industry-supply-chain > ul > li {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr);
   padding: 24px 0;
   border-bottom: 1px solid #dfe4e7;
-}
-
-.industry-supply-chain > ol > li > span {
-  color: #247d91;
-  font-size: 13px;
-  font-weight: 750;
-  letter-spacing: 0.08em;
 }
 
 .industry-supply-chain h3 {
@@ -6586,11 +6578,17 @@ select {
   font-size: 20px;
 }
 
-.industry-supply-chain > ol > li > div > p {
+.industry-supply-chain > ul > li > div > p {
   margin: 0;
   color: #535c61;
   font-size: 14px;
   line-height: 1.75;
+}
+
+.industry-supply-chain > ul > li > div > .industry-supply-chain__company-label {
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .industry-supply-chain ul {
@@ -6673,11 +6671,6 @@ select {
 
   .companies-page .filters > label:first-child {
     grid-column: auto;
-  }
-
-  .industry-supply-chain > ol > li {
-    grid-template-columns: 36px minmax(0, 1fr);
-    gap: 10px;
   }
 }
 

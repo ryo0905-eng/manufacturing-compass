@@ -6,6 +6,7 @@ import { IndustryMapExplorer } from "@/components/IndustryMapExplorer";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { companies, getCareerInfo, segments } from "@/data/companies";
+import { industryMapFields } from "@/data/industry-map";
 import { getPublicCompanyLocations } from "@/lib/company-locations";
 import { siteUrl } from "@/lib/format";
 
@@ -20,72 +21,6 @@ export const metadata: Metadata = {
     url: "/industry-map",
   },
 };
-
-const supplyChain = [
-  {
-    id: "design",
-    label: "01",
-    title: "設計・EDA・IP",
-    description: "製品仕様を回路へ落とし込み、設計ソフトやIPを使って製造へ渡すデータを作ります。",
-    companyIds: ["nvidia", "amd", "socionext"],
-    guideHref: "/guides/ic-chip-manufacturing-companies",
-    guideLabel: "設計企業と製造企業の分業を見る",
-  },
-  {
-    id: "materials",
-    label: "02",
-    title: "材料・ウェーハ",
-    description: "シリコンウェーハ、フォトレジスト、ガス、薬液など、回路形成に必要な基板と材料を供給します。",
-    companyIds: ["sumco"],
-    guideHref: "/guides/semiconductor-silicon-wafer-manufacturers",
-    guideLabel: "シリコンウェーハメーカーを見る",
-  },
-  {
-    id: "front-end",
-    label: "03",
-    title: "前工程・ウェーハ加工",
-    description: "成膜、露光、エッチング、注入、CMPなどを繰り返し、ウェーハ上へ素子と配線を形成します。",
-    companyIds: ["tsmc", "samsung-electronics", "intel", "micron", "kioxia"],
-    guideHref: "/guides/semiconductor-manufacturing-process",
-    guideLabel: "前工程・後工程を図解で見る",
-  },
-  {
-    id: "equipment",
-    label: "04",
-    title: "製造装置・搬送",
-    description: "露光、成膜、加工、洗浄、搬送などの装置で前工程・後工程を横断して支えます。",
-    companyIds: ["asml", "tokyo-electron", "applied-materials", "screen"],
-    guideHref: "/guides/semiconductor-equipment-manufacturers",
-    guideLabel: "工程別の製造装置メーカーを見る",
-  },
-  {
-    id: "back-end",
-    label: "05",
-    title: "後工程・パッケージ",
-    description: "ウェーハテスト後のダイを切り分け、接続・封止・放熱構造を加えて製品形態へ仕上げます。",
-    companyIds: ["disco"],
-    guideHref: "/guides/semiconductor-packaging-process",
-    guideLabel: "パッケージングとOSATの役割を見る",
-  },
-  {
-    id: "inspection",
-    label: "06",
-    title: "検査・計測・テスト",
-    description: "欠陥、寸法、膜厚、電気特性を確認し、工程改善と出荷判定へ情報を戻します。",
-    companyIds: ["kla", "lasertec", "advantest", "teradyne"],
-    guideHref: "/guides/semiconductor-inspection-metrology",
-    guideLabel: "検査・計測の違いを見る",
-  },
-  {
-    id: "applications",
-    label: "07",
-    title: "最終製品・用途",
-    description: "完成した半導体は、AIサーバー、自動車、産業機器、通信機器、スマートフォンなどの機能を支えます。",
-    companyIds: ["nvidia", "qualcomm", "renesas", "infineon"],
-    guideHref: "/guides/analog-semiconductor-companies",
-    guideLabel: "用途から半導体企業を見る",
-  },
-] as const;
 
 export default function IndustryMapPage() {
   const companiesWithPublicLocations = new Set(getPublicCompanyLocations().map((location) => location.companyId));
@@ -128,23 +63,23 @@ export default function IndustryMapPage() {
 
       <section className="section industry-supply-chain" aria-labelledby="industry-supply-chain-title">
         <div className="industry-map-directory-heading">
-          <p className="section-label">Searchable supply chain</p>
-          <h2 id="industry-supply-chain-title">半導体サプライチェーンを7段階で理解する</h2>
-          <p>操作地図の内容を、検索エンジンやキーボード操作でも読めるテキストとして整理しています。装置・材料は一つの工程だけでなく複数工程を支えます。</p>
+          <p className="section-label">Supply chain fields</p>
+          <h2 id="industry-supply-chain-title">半導体サプライチェーンを7つの領域から理解する</h2>
+          <p>地図の工程に関わる企業と、その役割を領域ごとに整理しています。材料・装置は複数工程を支え、検査・計測も工程の途中で行われます。以下は作業順ではなく、気になる領域から読むための一覧です。</p>
         </div>
-        <ol>
-          {supplyChain.map((stage) => {
+        <ul>
+          {industryMapFields.map((stage) => {
             const stageCompanies = stage.companyIds
               .map((id) => companies.find((company) => company.id === id))
               .filter((company) => company !== undefined);
 
             return (
               <li id={`supply-chain-${stage.id}`} key={stage.id}>
-                <span>{stage.label}</span>
                 <div>
                   <h3>{stage.title}</h3>
                   <p>{stage.description}</p>
-                  <ul aria-label={`${stage.title}の代表企業`}>
+                  <p className="industry-supply-chain__company-label">{stage.companyLabel}</p>
+                  <ul aria-label={stage.companyLabel}>
                     {stageCompanies.map((company) => (
                       <li key={company.id}>
                         <TrackedInternalLink
@@ -169,7 +104,7 @@ export default function IndustryMapPage() {
               </li>
             );
           })}
-        </ol>
+        </ul>
         <aside>
           <strong>企業名や職種から探す場合</strong>
           <p>このページは業界構造と関係を理解するための地図です。会社単位なら<Link href="/companies">半導体メーカー・企業一覧</Link>、勤務地単位なら<Link href="/semiconductor-map">日本の半導体企業・工場マップ</Link>を使ってください。</p>
@@ -195,21 +130,23 @@ export default function IndustryMapPage() {
 
       <section className="section">
         <div className="industry-map-directory-heading">
-          <p className="section-label">Explore without interaction</p>
-          <h2>一覧から各領域を確認する</h2>
-          <p>操作が難しい場合や、特定領域を詳しく読みたい場合は、こちらから企業情報へ進めます。</p>
+          <p className="section-label">Explore by role and product</p>
+          <h2>事業の役割・製品分野から企業を探す</h2>
+          <p>ファブレス・ファウンドリ・IDMは、設計や製造をどう担うかという事業モデルです。メモリ・アナログ・パワーは製品分野です。一社が複数の役割や製品分野を持つことがあります。</p>
         </div>
         <div className="segment-map">
           {segments.map((segment) => {
             const relatedCompanies = companies.filter((company) => segment.relatedCompanyIds.includes(company.id));
 
+            const displayName = segment.id === "idm" ? "IDM（設計・製造）" : segment.name;
+
             return (
               <article className="segment-card" key={segment.id}>
                 <p className="section-label">{segment.shortName}</p>
-                <h2>{segment.name}</h2>
-                <p>{segment.description}</p>
+                <h2>{displayName}</h2>
+                <p>{segment.description}{segment.id === "idm" ? " ここでは主にアナログ・パワー分野の企業を掲載しています。" : ""}</p>
                 <Link className="text-link" href={`/segments/${segment.slug}` as Route}>
-                  {segment.name}を詳しく見る
+                  {displayName}を詳しく見る
                 </Link>
                 <strong>代表企業</strong>
                 <ul className="tag-list">

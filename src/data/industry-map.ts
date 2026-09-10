@@ -48,7 +48,7 @@ export type IndustryMapCareer = {
 };
 
 export const industryMapMetadata = {
-  lastUpdated: "2026-07-21",
+  lastUpdated: "2026-09-10",
   basis: "公開済みの製造工程記事と企業データをもとにした、一般的な役割上の接点",
 };
 
@@ -142,7 +142,7 @@ export const industryMapGroups: IndustryMapGroup[] = [
   },
   {
     id: "idm-memory",
-    label: "IDM・メモリ",
+    label: "IDM（設計・製造）",
     labelEn: "Integrated maker",
     description: "設計から製造まで複数の役割を持ち、製品開発と量産をつなぐ企業群です。",
     processIds: ["design", "fabrication", "wafer-test", "final-test"],
@@ -257,3 +257,69 @@ export const industryMapCareers: IndustryMapCareer[] = [
     y: 615,
   },
 ];
+
+export const industryMapFields = [
+  {
+    id: "design",
+    companyLabel: "製品設計の企業例",
+    title: "設計・EDA・IP",
+    description: "製品仕様を回路へ落とし込み、設計ソフトやIPを使って製造へ渡すデータを作ります。",
+    companyIds: ["nvidia", "amd", "socionext"],
+    guideHref: "/guides/ic-chip-manufacturing-companies",
+    guideLabel: "設計企業と製造企業の分業を見る",
+  },
+  {
+    id: "materials",
+    companyLabel: "材料を供給する企業例",
+    title: "材料・ウェーハ",
+    description: "シリコンウェーハ、フォトレジスト、ガス、薬液など、回路形成に必要な基板と材料を供給します。",
+    companyIds: ["sumco"],
+    guideHref: "/guides/semiconductor-silicon-wafer-manufacturers",
+    guideLabel: "シリコンウェーハメーカーを見る",
+  },
+  {
+    id: "front-end",
+    companyLabel: "前工程を担う企業例",
+    title: "前工程・ウェーハ加工",
+    description: "成膜、露光、エッチング、注入、CMPなどを繰り返し、ウェーハ上へ素子と配線を形成します。",
+    companyIds: ["tsmc", "samsung-electronics", "intel", "micron", "kioxia"],
+    guideHref: "/guides/semiconductor-manufacturing-process",
+    guideLabel: "前工程・後工程を図解で見る",
+  },
+  {
+    id: "equipment",
+    companyLabel: "装置を供給する企業例",
+    title: "製造装置・搬送",
+    description: "露光、成膜、加工、洗浄、搬送などの装置で前工程・後工程を横断して支えます。",
+    companyIds: ["asml", "tokyo-electron", "applied-materials", "screen"],
+    guideHref: "/guides/semiconductor-equipment-manufacturers",
+    guideLabel: "工程別の製造装置メーカーを見る",
+  },
+  {
+    id: "back-end",
+    companyLabel: "後工程を支える装置の企業例",
+    title: "後工程・パッケージ",
+    description: "ウェーハテスト後のダイを切り分け、接続・封止・放熱構造を加えて製品形態へ仕上げます。",
+    companyIds: ["disco"],
+    guideHref: "/guides/semiconductor-packaging-process",
+    guideLabel: "パッケージングとOSATの役割を見る",
+  },
+  {
+    id: "inspection",
+    companyLabel: "検査・計測・テスト装置の企業例",
+    title: "検査・計測・テスト",
+    description: "欠陥、寸法、膜厚、電気特性を確認し、工程改善と出荷判定へ情報を戻します。",
+    companyIds: ["kla", "lasertec", "advantest", "teradyne"],
+    guideHref: "/guides/semiconductor-inspection-metrology",
+    guideLabel: "検査・計測の違いを見る",
+  },
+  {
+    id: "applications",
+    companyLabel: "用途に関連する半導体企業の例",
+    title: "最終製品・用途",
+    description: "完成した半導体は、AIサーバー、自動車、産業機器、通信機器、スマートフォンなどの機能を支えます。",
+    companyIds: ["nvidia", "qualcomm", "renesas", "infineon"],
+    guideHref: "/guides/analog-semiconductor-companies",
+    guideLabel: "用途から半導体企業を見る",
+  },
+] as const;

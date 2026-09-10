@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "readability-v3" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "classification-v4" });
 }
 
 type CompanySummary = {
@@ -494,7 +494,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
         <div>
           <p className="section-label">Interactive ecosystem map</p>
           <h2 id="industry-explorer-title">工程をたどって、企業の役割をつかむ</h2>
-          <p>横に流れる製造工程を背骨に、事業モデル、代表企業、職種との接点を切り替えて探索できます。</p>
+          <p>横軸の6項目は設計・製造の流れです。「全体像」は事業の役割、「企業」は代表企業、「職種」は仕事との接点を表示します。材料や装置は複数の工程を支えます。</p>
         </div>
         <dl aria-label="地図の収録内容">
           <div><dt>工程</dt><dd>6</dd></div>
