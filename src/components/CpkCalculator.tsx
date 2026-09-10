@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { CapabilityHistogram } from "@/components/CapabilityHistogram";
+import { CpkResultCopy } from "@/components/CpkResultCopy";
 import { capabilitySamples, initialCapabilitySample, sampleAsText, type CapabilitySample } from "@/data/cpk-samples";
 import {
   analyzeCapability,
@@ -88,12 +89,12 @@ function copyText(result: CapabilityResult) {
 
 export function CpkCalculator() {
   const [state, setState] = useState<ToolState>(() => sampleState(initialCapabilitySample));
-  const [copied, setCopied] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const parsed = parseMeasurements(state.rawData);
   const result = state.result;
   const labels = result ? metricLabels(result.method) : metricLabels(state.mode === "raw" ? "overall" : "short-term");
   const analysis = result ? analyzeCapability(result) : undefined;
+  const resultText = result ? copyText(result) : "";
 
   function update(patch: Partial<ToolState>) {
     setState((current) => ({ ...current, ...patch, activeSampleId: undefined, errors: {} }));
@@ -101,20 +102,17 @@ export function CpkCalculator() {
 
   function loadSample(sample: CapabilitySample) {
     setState(sampleState(sample));
-    setCopied(false);
     trackEvent("cpk_sample_changed", { sample: sample.id });
   }
 
   function startCustomData() {
     setState({ mode: "raw", rawData: "", mean: "", standardDeviation: "", lsl: "", usl: "", resultValues: [], errors: {} });
-    setCopied(false);
     trackEvent("cpk_custom_data_started");
     requestAnimationFrame(() => textareaRef.current?.focus());
   }
 
   function switchMode(mode: InputMode) {
     setState((current) => ({ ...current, mode, activeSampleId: undefined, result: undefined, resultValues: [], errors: {} }));
-    setCopied(false);
     trackEvent("cpk_input_mode_changed", { input_mode: mode });
   }
 
@@ -150,20 +148,11 @@ export function CpkCalculator() {
         return;
       }
       setState((current) => ({ ...current, errors: {}, result: nextResult, resultValues: values }));
-      setCopied(false);
       trackEvent("cpk_calculation_completed", { input_mode: state.mode, specification_type: lower !== undefined && upper !== undefined ? "two_sided" : "one_sided" });
     } catch (cause) {
       const message = cause instanceof Error ? cause.message : "入力内容を確認してください。";
       setState((current) => ({ ...current, errors: state.mode === "raw" ? { data: message } : { summary: message }, result: undefined, resultValues: [] }));
     }
-  }
-
-  async function copyResult() {
-    if (!result) return;
-    await navigator.clipboard.writeText(copyText(result));
-    setCopied(true);
-    trackEvent("cpk_result_copied", { method: result.method });
-    window.setTimeout(() => setCopied(false), 1800);
   }
 
   return (
@@ -193,6 +182,10 @@ export function CpkCalculator() {
           <div className="primary-capability"><div><span>{labels.performance}</span><strong>{format(result.performance)}</strong></div><p>{benchmarkText(result.performance)}</p></div>
           <p className="benchmark-note">1.33は一般的に用いられる目安の一つです。実際の判定では、顧客要求や社内基準を優先してください。</p>
           <section className="analysis-summary"><h3>{analysis.heading}</h3><p>{analysis.summary}</p></section>
+          <div className="cpk-result-export">
+            <p>{result.method === "overall" ? "入力した全データの標本標準偏差（n−1）を使うため、結果はPp・Ppkです。" : "入力された短期標準偏差を使うため、結果はCp・Cpkです。"}</p>
+            <CpkResultCopy key={resultText} text={resultText} method={result.method} />
+          </div>
           {state.resultValues.length > 0 ? <section className="result-section"><h3>分布</h3><CapabilityHistogram result={result} values={state.resultValues} /></section> : <section className="result-section"><h3>分布</h3><p className="capability-chart-empty">要約値入力では、測定データの分布を表示できません。</p></section>}
           <details className="capability-result-details">
             <summary>補助指標と確認候補</summary>
@@ -202,7 +195,6 @@ export function CpkCalculator() {
               <div><dt>LSL</dt><dd>{format(result.lowerSpecificationLimit)}</dd></div><div><dt>USL</dt><dd>{format(result.upperSpecificationLimit)}</dd></div><div><dt>規格中心</dt><dd>{format(result.specificationCenter)}</dd></div><div><dt>中心からのずれ</dt><dd>{format(result.centerOffset)}</dd></div>
             </dl></section>
             <section className="result-section result-checks"><h3>確認候補</h3><ul>{analysis.checks.map((check) => <li key={check}>{check}</li>)}</ul></section>
-            <div className="result-footer"><p>{result.method === "overall" ? "入力した全データの標本標準偏差（n−1）を使うため、結果はPp・Ppkです。" : "入力された短期標準偏差を使うため、結果はCp・Cpkです。"}</p><button className={copied ? "is-success" : ""} onClick={copyResult} type="button">{copied ? "コピーしました" : "結果をコピー"}</button></div>
           </details>
         </div> : <div className="empty-result"><p>測定データと規格値を入力すると、ここに計算結果が表示されます。</p><small>入力値や計算結果が外部へ送信されることはありません。</small></div>}
       </section>

@@ -17953,6 +17953,18 @@ body {
   border-top: 1px solid #d9dde2;
 }
 
+.cpk-result-export { margin-block: 16px; }
+.cpk-result-export > p,
+.cpk-result-copy > p { margin: 8px 0; color: #52666e; font-size: 13px; line-height: 1.6; }
+.cpk-result-copy > p:empty { margin: 0; }
+.cpk-result-copy > button { min-height: 44px; padding: 10px 16px; border: 1px solid #b8c7ce; border-radius: 10px; background: #f5f8fa; color: #243e4b; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.cpk-result-copy > button:hover { background: #eaf1f5; }
+.cpk-result-copy > button:disabled { cursor: wait; opacity: 0.65; }
+.cpk-result-copy > label { display: grid; gap: 8px; margin-top: 12px; font-size: 13px; }
+.cpk-result-copy textarea { box-sizing: border-box; width: 100%; min-width: 0; padding: 12px; border: 1px solid #b8c7ce; border-radius: 8px; font: inherit; font-size: 16px; line-height: 1.6; resize: vertical; }
+.cpk-result-copy > button:focus-visible,
+.cpk-result-copy textarea:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+
 .capability-result-details > summary {
   padding: 11px 2px;
   color: #30343a;
