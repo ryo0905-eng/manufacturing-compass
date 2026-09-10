@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "search-help-v6" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "focused-lines-v7" });
 }
 
 type CompanySummary = {
@@ -471,13 +471,14 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     if (!selectedKey) {
       return "";
     }
-    return fromKey === selectedKey || toKey === selectedKey ? "is-active" : "is-muted";
+    return fromKey === selectedKey || toKey === selectedKey ? "is-active" : "";
   }
 
   function renderAssociationEdges(
     items: Array<IndustryMapGroup | IndustryMapCompany | IndustryMapCareer>,
     type: "group" | "company" | "career",
   ) {
+    if (!selectedKey) return [];
     return items.flatMap((item) => {
       const id = "companyId" in item ? item.companyId : item.id;
       const fromKey = nodeKey(type, id);
@@ -487,6 +488,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           return null;
         }
         const toKey = nodeKey("process", processId);
+        if (fromKey !== selectedKey && toKey !== selectedKey) return null;
         return (
           <path
             className={edgeClass(fromKey, toKey)}
@@ -504,7 +506,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
         <div>
           <p className="section-label">Interactive ecosystem map</p>
           <h2 id="industry-explorer-title">工程をたどって、企業の役割をつかむ</h2>
-          <p>横軸の6項目は設計・製造の流れです。「全体像」は事業の役割、「企業」は代表企業、「職種」は仕事との接点を表示します。材料や装置は複数の工程を支えます。</p>
+          <p>横軸の6項目は設計・製造の流れです。「全体像」は事業の役割、「企業」は代表企業、「職種」は仕事との接点を表示します。項目を選ぶと関係する線が現れます。</p>
         </div>
         <dl aria-label="地図の収録内容">
           <div><dt>工程</dt><dd>6</dd></div>
@@ -775,7 +777,8 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
         <ul aria-label="地図の凡例">
           <li><i className="is-process" />製造工程</li>
           <li><i className="is-relation" />{mode === "overview" ? "事業の役割" : mode === "companies" ? "代表企業" : "関連職種"}</li>
-          <li><span aria-hidden="true">—</span>一般的な役割上の接点</li>
+          <li><span aria-hidden="true">→</span>設計・製造の流れ</li>
+          <li><span aria-hidden="true">┄</span>選択した項目と工程の接点</li>
         </ul>
         <p>線は資本・取引関係や工程の厳密な順番を示すものではありません。{industryMapMetadata.basis}です。企業固有の事業は企業詳細と公式情報で確認してください。最終更新: {industryMapMetadata.lastUpdated}</p>
       </footer>
