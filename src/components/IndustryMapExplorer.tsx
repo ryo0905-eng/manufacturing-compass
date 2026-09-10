@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "focused-lines-v7" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "list-view-v8" });
 }
 
 type CompanySummary = {
@@ -569,7 +569,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
             {query ? <small>{visibleCompanies.length}件</small> : null}
           </label>
         ) : (
-          <p className="industry-explorer__toolbar-note">ノードを選択。ドラッグで移動、ホイール・ピンチで拡大できます。</p>
+          <p className="industry-explorer__toolbar-note">{view === "map" ? "ノードを選択。ドラッグで移動、ホイール・ピンチで拡大できます。" : "一覧の項目を選ぶと、詳しい説明と関連ページが開きます。"}</p>
         )}
       </div>
 
