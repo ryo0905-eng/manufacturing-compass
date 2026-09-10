@@ -23,6 +23,8 @@ export type IndustryMapGroup = {
   description: string;
   processIds: IndustryMapProcessId[];
   segmentId?: string;
+  guideHref?: string;
+  guideLabel?: string;
   x: number;
   y: number;
 };
@@ -124,6 +126,7 @@ export const industryMapGroups: IndustryMapGroup[] = [
     labelEn: "Materials",
     description: "シリコンウェーハ、薬液、ガス、レジストなど、製造の土台となる材料を供給します。",
     processIds: ["wafer", "fabrication", "assembly"],
+    segmentId: "materials",
     x: 340,
     y: 145,
   },
@@ -163,6 +166,8 @@ export const industryMapGroups: IndustryMapGroup[] = [
     labelEn: "Assembly & test",
     description: "ダイシング、パッケージング、電気検査など、後工程を専門的に支える領域です。",
     processIds: ["wafer-test", "assembly", "final-test"],
+    guideHref: "/guides/semiconductor-packaging-process",
+    guideLabel: "後工程とOSATの役割を見る",
     x: 1170,
     y: 175,
   },

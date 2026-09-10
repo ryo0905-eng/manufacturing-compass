@@ -21,6 +21,10 @@ import { trackEvent } from "@/lib/analytics";
 type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
+function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "detail-links-v1" });
+}
+
 type CompanySummary = {
   id: string;
   slug: string;
@@ -304,7 +308,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     if (nextMode !== "companies") {
       setQuery("");
     }
-    trackEvent("industry_map_mode_change", { mode: nextMode });
+    trackIndustryMapEvent("industry_map_mode_change", { mode: nextMode });
   }
 
   function startGuide(nextMode: ExplorerMode, type: MapNodeType, id: string) {
@@ -314,18 +318,29 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     if (nextMode !== "companies") {
       setQuery("");
     }
-    trackEvent("industry_map_guide_start", { mode: nextMode, node_id: id, node_type: type });
+    trackIndustryMapEvent("industry_map_guide_start", { mode: nextMode, node_id: id, node_type: type });
+    if (selectedKey !== nodeKey(type, id) || mode !== nextMode) {
+      trackIndustryMapEvent("industry_map_detail_view", {
+        mode: nextMode, view: "map", node_id: id, node_type: type, entry_point: "guide",
+      });
+    }
   }
 
   function changeView(nextView: ExplorerView) {
     setView(nextView);
-    trackEvent("industry_map_view_change", { mode, view: nextView });
+    trackIndustryMapEvent("industry_map_view_change", { mode, view: nextView });
   }
 
   function selectNode(type: "process" | "group" | "company" | "career", id: string) {
     const key = nodeKey(type, id);
-    setSelectedKey((current) => (current === key ? null : key));
-    trackEvent("industry_map_node_open", { node_type: type, node_id: id, mode });
+    if (selectedKey === key) {
+      setSelectedKey(null);
+      return;
+    }
+    setSelectedKey(key);
+    const properties = { node_type: type, node_id: id, mode, view, entry_point: view };
+    trackIndustryMapEvent("industry_map_node_open", properties);
+    trackIndustryMapEvent("industry_map_detail_view", properties);
   }
 
   function zoomBy(factor: number) {
@@ -695,6 +710,8 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           <MapDetailPanel
             companiesById={companiesById}
             mapCompanies={mapCompanies}
+            mode={mode}
+            view={view}
             onClose={() => setSelectedKey(null)}
             selected={selected}
           />
@@ -744,11 +761,15 @@ function MapRelationNode({
 function MapDetailPanel({
   companiesById,
   mapCompanies,
+  mode,
+  view,
   onClose,
   selected,
 }: {
   companiesById: Map<string, CompanySummary>;
   mapCompanies: IndustryMapCompany[];
+  mode: ExplorerMode;
+  view: ExplorerView;
   onClose: () => void;
   selected:
     | { type: "process"; value: IndustryMapProcess | undefined }
@@ -759,6 +780,14 @@ function MapDetailPanel({
 }) {
   if (!selected || !selected.value) {
     return null;
+  }
+
+  const nodeId = "companyId" in selected.value ? selected.value.companyId : selected.value.id;
+  const nodeType = selected.type;
+  function trackContentClick(properties: Parameters<typeof trackEvent>[1]) {
+    trackIndustryMapEvent("industry_map_content_click", {
+      ...properties, node_id: nodeId, node_type: nodeType, mode, view, link_location: "detail_panel",
+    });
   }
 
   if (selected.type === "process") {
@@ -776,13 +805,22 @@ function MapDetailPanel({
         {relatedCompanies.length > 0 ? (
           <div className="industry-explorer__detail-list">
             <span>この工程と接点のある代表企業</span>
-            {relatedCompanies.map((company) => <small key={company.id}>{company.nameJa}</small>)}
+            {relatedCompanies.map((company) => (
+              <Link
+                className="industry-explorer__detail-company-link"
+                href={`/companies/${company.slug}` as Route}
+                key={company.id}
+                onClick={() => trackContentClick({ destination: "company", company_id: company.id, process: process.id })}
+              >
+                {company.nameJa}<span aria-hidden="true"> →</span>
+              </Link>
+            ))}
           </div>
         ) : null}
         <Link
           className="industry-explorer__detail-link"
           href={process.guideHref as Route}
-          onClick={() => trackEvent("industry_map_content_click", { destination: "guide", process: process.id })}
+          onClick={() => trackContentClick({ destination: "guide", process: process.id })}
         >
           工程を記事で理解する <span aria-hidden="true">→</span>
         </Link>
@@ -802,13 +840,17 @@ function MapDetailPanel({
           <Link
             className="industry-explorer__detail-link"
             href={`/segments/${group.segmentId}` as Route}
-            onClick={() => trackEvent("industry_map_content_click", { destination: "segment", segment: group.segmentId })}
+            onClick={() => trackContentClick({ destination: "segment", segment: group.segmentId })}
           >
             この領域の企業を見る <span aria-hidden="true">→</span>
           </Link>
         ) : (
-          <Link className="industry-explorer__detail-link" href="/guides/semiconductor-manufacturing-process">
-            製造工程の全体像を見る <span aria-hidden="true">→</span>
+          <Link
+            className="industry-explorer__detail-link"
+            href={(group.guideHref ?? "/guides/semiconductor-manufacturing-process") as Route}
+            onClick={() => trackContentClick({ destination: "guide" })}
+          >
+            {group.guideLabel ?? "製造工程の全体像を見る"} <span aria-hidden="true">→</span>
           </Link>
         )}
       </DetailPanelShell>
@@ -831,7 +873,7 @@ function MapDetailPanel({
         <Link
           className="industry-explorer__detail-link"
           href={`/companies/${company.slug}` as Route}
-          onClick={() => trackEvent("industry_map_content_click", { company_id: company.id, destination: "company" })}
+          onClick={() => trackContentClick({ company_id: company.id, destination: "company" })}
         >
           企業情報を詳しく見る <span aria-hidden="true">→</span>
         </Link>
@@ -850,14 +892,14 @@ function MapDetailPanel({
         <Link
           className="industry-explorer__detail-link"
           href={`/companies?query=${encodeURIComponent(career.query)}` as Route}
-          onClick={() => trackEvent("industry_map_content_click", { career_id: career.id, destination: "companies" })}
+          onClick={() => trackContentClick({ career_id: career.id, destination: "companies" })}
         >
           関連企業を探す <span aria-hidden="true">→</span>
         </Link>
         <Link
           className="industry-explorer__detail-secondary"
           href="/career-compass"
-          onClick={() => trackEvent("industry_map_content_click", { career_id: career.id, destination: "career_compass" })}
+          onClick={() => trackContentClick({ career_id: career.id, destination: "career_compass" })}
         >
           経験の接点を整理する
         </Link>

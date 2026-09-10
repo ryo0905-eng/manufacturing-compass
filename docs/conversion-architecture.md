@@ -91,6 +91,7 @@ Career Compass
 - `affiliate_outbound_click`
 - `industry_map_mode_change`
 - `industry_map_node_open`
+- `industry_map_detail_view`
 - `industry_map_content_click`
 - `cpk_tool_viewed`
 - `cpk_sample_changed`
@@ -106,6 +107,17 @@ Career Compass
 - `location_map_career_compass_click`
 
 `career_compass_cta_click` には `source_page`、`cta_location`、`cta_variant` の有限値だけを付与します。検索語や入力内容は送信しません。GA4 のページ表示からCTAクリック、1問目回答、4・8・12問到達、完了までを流入元別に確認します。
+
+### 業界地図の詳細導線（2026-09-10・ローカル実装）
+
+- 工程パネルの代表企業名から企業詳細へ進める。材料は材料セグメント、組立・テストは後工程・OSATの解説へ接続する。
+- `industry_map_node_open` は地図・リストで新しい対象を開いた時だけ送る。同じ対象の再クリックによる閉じる操作は送らない。
+- `industry_map_detail_view` はノード選択と初見向け入口の両方で、詳細を新しく開いた時・別対象へ切り替えた時に送る。同じ詳細を開いたまま入口を再押下した場合や地図／リスト切替では送らない。画面内露出時間を測るイベントではない。
+- 詳細閲覧に `node_id`、`node_type`、`mode`、`view`、`entry_point`（`map` / `list` / `guide`）を付ける。
+- パネル内の全遷移を `industry_map_content_click` に揃え、既存の `destination`、`company_id`、`process`、`segment`、`career_id` を維持する。選択元の `node_id`、`node_type`、`mode`、`view` と `link_location: detail_panel` を追加する。
+- Explorer内のイベントには `source_page: /industry-map`、`ui_version: detail-links-v1` を付ける。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
+- 旧版の `node_open` には閉じる操作が含まれるため、新旧の件数比を改善率として比較しない。`node_open` と `detail_view` も合算しない。本文・パネル両方の遷移を同一セッションで重複排除して評価する。
+- 本番反映日・GA4受信・利用するイベントパラメータのレポート設定は公開後に確認する。ローカル実装日は本番反映日ではない。
 
 ### 相談先への到達と変更前後の比較
 
