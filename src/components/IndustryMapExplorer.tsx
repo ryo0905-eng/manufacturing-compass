@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "classification-v4" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "overview-examples-v5" });
 }
 
 type CompanySummary = {
@@ -37,6 +37,12 @@ type CompanySummary = {
   hasPublicLocations: boolean;
   hasCareerPreparation: boolean;
 };
+
+function getGroupExamples(group: IndustryMapGroup, companiesById: Map<string, CompanySummary>) {
+  return group.exampleCompanyIds
+    .map((id) => companiesById.get(id))
+    .filter((company): company is CompanySummary => company !== undefined);
+}
 
 type IndustryMapExplorerProps = {
   companies: CompanySummary[];
@@ -72,7 +78,7 @@ const MAX_SCALE = 1.35;
 const FIT_PADDING = 24;
 const NODE_HALF_SIZE: Record<MapNodeType, Point> = {
   process: { x: 86, y: 35 },
-  group: { x: 86, y: 29 },
+  group: { x: 86, y: 66 },
   company: { x: 69, y: 26 },
   career: { x: 86, y: 29 },
 };
@@ -646,6 +652,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
                 <MapRelationNode
                   active={selectedKey === key}
                   item={group}
+                  examples={getGroupExamples(group, companiesById)}
                   key={group.id}
                   muted={isNodeMuted(key)}
                   onSelect={() => selectNode("group", group.id)}
@@ -740,12 +747,14 @@ function MapRelationNode({
   muted,
   onSelect,
   type,
+  examples = [],
 }: {
   active: boolean;
   item: IndustryMapGroup | IndustryMapCareer;
   muted: boolean;
   onSelect: () => void;
   type: "group" | "career";
+  examples?: CompanySummary[];
 }) {
   return (
     <button
@@ -757,6 +766,12 @@ function MapRelationNode({
     >
       <span>{item.labelEn}</span>
       <strong>{item.label}</strong>
+      {"exampleLabel" in item && examples.length > 0 ? (
+        <small className="industry-explorer__node-examples">
+          <span>{item.exampleLabel}</span>
+          {examples.map((company) => <span key={company.id}>{company.nameJa}</span>)}
+        </small>
+      ) : null}
       <i aria-hidden="true">↘</i>
     </button>
   );
@@ -840,6 +855,19 @@ function MapDetailPanel({
         <h3>{group.label}</h3>
         <p>{group.description}</p>
         <ProcessTags processIds={group.processIds} />
+        <div className="industry-explorer__detail-list">
+          <span>{group.exampleLabel}</span>
+          {getGroupExamples(group, companiesById).map((company) => (
+            <Link
+              className="industry-explorer__detail-company-link"
+              href={`/companies/${company.slug}` as Route}
+              key={company.id}
+              onClick={() => trackContentClick({ company_id: company.id, destination: "company" })}
+            >
+              {company.nameJa}<span aria-hidden="true"> →</span>
+            </Link>
+          ))}
+        </div>
         {group.segmentId ? (
           <Link
             className="industry-explorer__detail-link"
@@ -991,6 +1019,7 @@ function IndustryMapMobileList({
                 <button aria-pressed={selectedKey === key} onClick={() => onSelect("group", group.id)} type="button">
                   <strong>{group.label}</strong>
                   <small>{group.description}</small>
+                  <small>{group.exampleLabel}：{getGroupExamples(group, companiesById).map((company) => company.nameJa).join("、")}</small>
                   <i aria-hidden="true">→</i>
                 </button>
               </li>

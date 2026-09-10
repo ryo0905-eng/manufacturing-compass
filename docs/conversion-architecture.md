@@ -117,7 +117,8 @@ Career Compass
 - `industry_map_detail_view` はノード選択と初見向け入口の両方で、詳細を新しく開いた時・別対象へ切り替えた時に送る。同じ詳細を開いたまま入口を再押下した場合や地図／リスト切替では送らない。画面内露出時間を測るイベントではない。
 - 詳細閲覧に `node_id`、`node_type`、`mode`、`view`、`entry_point`（`map` / `list` / `guide`）を付ける。
 - パネル内の全遷移を `industry_map_content_click` に揃え、既存の `destination`、`company_id`、`process`、`segment`、`career_id` を維持する。選択元の `node_id`、`node_type`、`mode`、`view` と `link_location: detail_panel` を追加する。
-- Explorer内のイベントには `source_page: /industry-map`、`ui_version: classification-v4` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加、`readability-v3` はスマホの一覧・詳細の可読性改善、`classification-v4` は工程・役割・製品分野の説明整理を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
+- Explorer内のイベントには `source_page: /industry-map`、`ui_version: overview-examples-v5` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加、`readability-v3` はスマホの一覧・詳細の可読性改善、`classification-v4` は工程・役割・製品分野の説明整理、`overview-examples-v5` は全体像への企業例追加を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
+- 全体像の役割ノードと一覧に、掲載済みデータから選んだ1〜2社の企業例を表示する。組立・テストは装置供給企業の例と明示する。役割パネル内の企業リンクは既存の `industry_map_content_click`（`destination: company`、選択元の `node_type: group`）へ接続する。企業ノードや工程接点の追加は含めない。
 - 操作地図の6項目は設計・製造の流れ、本文の7項目は工程順ではない領域一覧として案内する。本文の企業例には設計企業・装置供給などの役割を添える。IDMは事業モデル、メモリ・アナログ・パワーは製品分野として説明する。地図内ID `idm-memory` と既存の本文アンカー・カテゴリイベント値は保持する。共有セグメントデータの分類変更は含めない。
 - スマホの表示切替は「地図で見る／一覧で読む」と案内する。一覧には工程の説明も表示し、説明を省略せず折り返す。初見向け入口でも選択済みの表示方法を保持し、詳細閲覧イベントの `view` に反映する。
 - 「表示を戻す」は従来の初期位置・倍率へ戻す操作。スマホで全ノードを画面内に収める機能ではなく、初期の地図表示と倍率は維持する。

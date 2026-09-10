@@ -17,6 +17,8 @@ export type IndustryMapProcess = {
 };
 
 export type IndustryMapGroup = {
+  exampleCompanyIds: string[];
+  exampleLabel: string;
   id: string;
   label: string;
   labelEn: string;
@@ -112,6 +114,8 @@ export const industryMapProcesses: IndustryMapProcess[] = [
 export const industryMapGroups: IndustryMapGroup[] = [
   {
     id: "fabless",
+    exampleCompanyIds: ["nvidia", "socionext"],
+    exampleLabel: "企業例",
     label: "ファブレス",
     labelEn: "Design company",
     description: "自社工場を持たず、製品企画と半導体設計を中心に担う企業群です。",
@@ -122,6 +126,8 @@ export const industryMapGroups: IndustryMapGroup[] = [
   },
   {
     id: "wafer-materials",
+    exampleCompanyIds: ["sumco"],
+    exampleLabel: "企業例",
     label: "ウェーハ・材料",
     labelEn: "Materials",
     description: "シリコンウェーハ、薬液、ガス、レジストなど、製造の土台となる材料を供給します。",
@@ -132,6 +138,8 @@ export const industryMapGroups: IndustryMapGroup[] = [
   },
   {
     id: "foundry",
+    exampleCompanyIds: ["tsmc"],
+    exampleLabel: "企業例",
     label: "ファウンドリ",
     labelEn: "Manufacturing service",
     description: "顧客が設計した半導体のウェーハ製造を受託する企業群です。",
@@ -142,6 +150,8 @@ export const industryMapGroups: IndustryMapGroup[] = [
   },
   {
     id: "idm-memory",
+    exampleCompanyIds: ["intel", "kioxia"],
+    exampleLabel: "企業例",
     label: "IDM（設計・製造）",
     labelEn: "Integrated maker",
     description: "設計から製造まで複数の役割を持ち、製品開発と量産をつなぐ企業群です。",
@@ -152,6 +162,8 @@ export const industryMapGroups: IndustryMapGroup[] = [
   },
   {
     id: "equipment",
+    exampleCompanyIds: ["asml", "tokyo-electron"],
+    exampleLabel: "企業例",
     label: "製造装置・計測",
     labelEn: "Equipment",
     description: "加工、搬送、検査、計測、テストなどの装置で複数工程を横断して支えます。",
@@ -162,6 +174,8 @@ export const industryMapGroups: IndustryMapGroup[] = [
   },
   {
     id: "assembly-test-service",
+    exampleCompanyIds: ["disco", "advantest"],
+    exampleLabel: "装置の企業例",
     label: "組立・テスト",
     labelEn: "Assembly & test",
     description: "ダイシング、パッケージング、電気検査など、後工程を専門的に支える領域です。",
