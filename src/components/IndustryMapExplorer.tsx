@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "overview-examples-v5" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "search-help-v6" });
 }
 
 type CompanySummary = {
@@ -42,6 +42,11 @@ function getGroupExamples(group: IndustryMapGroup, companiesById: Map<string, Co
   return group.exampleCompanyIds
     .map((id) => companiesById.get(id))
     .filter((company): company is CompanySummary => company !== undefined);
+}
+
+function matchesCompanyQuery(company: CompanySummary, query: string) {
+  return [company.name, company.nameJa, company.businessModel, ...company.mainProducts, ...company.jobCategories]
+    .some((value) => value.toLocaleLowerCase("ja").includes(query));
 }
 
 type IndustryMapExplorerProps = {
@@ -182,15 +187,14 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
       if (!company) {
         return false;
       }
-      return [
-        company.name,
-        company.nameJa,
-        company.businessModel,
-        ...company.mainProducts,
-        ...company.jobCategories,
-      ].some((value) => value.toLocaleLowerCase("ja").includes(normalizedQuery));
+      return matchesCompanyQuery(company, normalizedQuery);
     });
   }, [companiesById, mapCompanies, normalizedQuery]);
+
+  const additionalCompanies = useMemo(() => {
+    if (mode !== "companies" || !normalizedQuery || visibleCompanies.length > 0) return [];
+    return companies.filter((company) => matchesCompanyQuery(company, normalizedQuery));
+  }, [companies, mode, normalizedQuery, visibleCompanies.length]);
 
   const connectedKeys = useMemo(() => {
     if (!selectedKey) {
@@ -551,7 +555,11 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
             <span className="sr-only">代表企業を検索</span>
             <i aria-hidden="true">⌕</i>
             <input
-              onChange={(event) => setQuery(event.target.value)}
+              aria-describedby="industry-map-search-help"
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setSelectedKey(null);
+              }}
               placeholder="企業名・製品・職種で検索"
               type="search"
               value={query}
@@ -562,6 +570,44 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           <p className="industry-explorer__toolbar-note">ノードを選択。ドラッグで移動、ホイール・ピンチで拡大できます。</p>
         )}
       </div>
+
+      {mode === "companies" ? (
+        <div className="industry-explorer__search-help" id="industry-map-search-help">
+          <p>地図の検索対象は代表{mapCompanies.length}社です。掲載企業全{totalCompanyCount}社は企業一覧で確認できます。</p>
+          <p role="status">
+            {normalizedQuery && visibleCompanies.length === 0
+              ? additionalCompanies.length > 0
+                ? `地図の代表企業には一致しませんでした。掲載済みの企業データに${additionalCompanies.length}社見つかりました。`
+                : "地図の代表企業・掲載済みの企業データには一致しませんでした。検索語を短くするか、企業一覧から探せます。"
+              : `地図の代表企業：${visibleCompanies.length}社`}
+          </p>
+          {additionalCompanies.length > 0 ? (
+            <ul aria-label="地図以外で見つかった企業（最大3社）">
+              {additionalCompanies.slice(0, 3).map((company) => (
+                <li key={company.id}>
+                  <Link
+                    href={`/companies/${company.slug}` as Route}
+                    onClick={() => trackIndustryMapEvent("industry_map_content_click", {
+                      destination: "company", company_id: company.id, mode, view, link_location: "search_help",
+                    })}
+                  >{company.nameJa}の企業情報を見る</Link>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <div>
+            <Link
+              href="/companies#company-search-title"
+              onClick={() => trackIndustryMapEvent("industry_map_content_click", {
+                destination: "companies", mode, view, link_location: "search_help",
+              })}
+            >掲載企業の一覧から探す</Link>
+            {query ? (
+              <button type="button" onClick={() => { setQuery(""); setSelectedKey(null); }}>検索をクリア</button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
 
       <div className={`industry-explorer__workspace${selected ? " has-detail" : ""}${view === "list" ? " is-list-view" : ""}`}>
         <div
@@ -703,10 +749,6 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
             <button aria-label="拡大" onClick={() => zoomBy(1.12)} type="button">＋</button>
             <button className="industry-explorer__fit" onClick={fitMap} type="button">表示を戻す</button>
           </div>
-
-          {mode === "companies" && visibleCompanies.length === 0 ? (
-            <div className="industry-explorer__empty">代表表示の企業には一致しませんでした。下の企業一覧も確認できます。</div>
-          ) : null}
         </div>
 
         <IndustryMapMobileList

@@ -117,7 +117,7 @@ Career Compass
 - `industry_map_detail_view` はノード選択と初見向け入口の両方で、詳細を新しく開いた時・別対象へ切り替えた時に送る。同じ詳細を開いたまま入口を再押下した場合や地図／リスト切替では送らない。画面内露出時間を測るイベントではない。
 - 詳細閲覧に `node_id`、`node_type`、`mode`、`view`、`entry_point`（`map` / `list` / `guide`）を付ける。
 - パネル内の全遷移を `industry_map_content_click` に揃え、既存の `destination`、`company_id`、`process`、`segment`、`career_id` を維持する。選択元の `node_id`、`node_type`、`mode`、`view` と `link_location: detail_panel` を追加する。
-- Explorer内のイベントには `source_page: /industry-map`、`ui_version: overview-examples-v5` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加、`readability-v3` はスマホの一覧・詳細の可読性改善、`classification-v4` は工程・役割・製品分野の説明整理、`overview-examples-v5` は全体像への企業例追加を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
+- Explorer内のイベントには `source_page: /industry-map`、`ui_version: search-help-v6` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加、`readability-v3` はスマホの一覧・詳細の可読性改善、`classification-v4` は工程・役割・製品分野の説明整理、`overview-examples-v5` は全体像への企業例追加、`search-help-v6` は検索対象の案内と検索0件の導線改善を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
 - 全体像の役割ノードと一覧に、掲載済みデータから選んだ1〜2社の企業例を表示する。組立・テストは装置供給企業の例と明示する。役割パネル内の企業リンクは既存の `industry_map_content_click`（`destination: company`、選択元の `node_type: group`）へ接続する。企業ノードや工程接点の追加は含めない。
 - 操作地図の6項目は設計・製造の流れ、本文の7項目は工程順ではない領域一覧として案内する。本文の企業例には設計企業・装置供給などの役割を添える。IDMは事業モデル、メモリ・アナログ・パワーは製品分野として説明する。地図内ID `idm-memory` と既存の本文アンカー・カテゴリイベント値は保持する。共有セグメントデータの分類変更は含めない。
 - スマホの表示切替は「地図で見る／一覧で読む」と案内する。一覧には工程の説明も表示し、説明を省略せず折り返す。初見向け入口でも選択済みの表示方法を保持し、詳細閲覧イベントの `view` に反映する。
@@ -176,3 +176,10 @@ Career Compass
 イベントは `workstyle_check_entry`（cta_location、ランキングのみsource_page）、`workstyle_check_start`（最初の入力）、`workstyle_check_complete`（最初の結果到達）、`workstyle_check_compare`（結果表示後のrole/condition操作）、`workstyle_check_copy`（成功時）、`workstyle_check_related_click`（destination_type）。開始・結果到達はマウント中に1回。本人の確認状況・回答値は送らない。entryはクリックであり表示回数ではない。検索直入の流入元は既存ページビューと照合し、hashだけでSEO流入を分離できるとは扱わない。
 
 本番で受信確認後、4週間の実数・入口別遷移・開始/完了・コピーを観察する。コピーは活用の代理指標で成果保証ではない。少数アクセスでは率の優劣を断定せず、対象者5人程度で質問の有用性と勤務条件の誤認がないかを確認する。企業別求人条件DBは導入せず、質問・参照資料は四半期ごとに見直す。
+
+### 業界地図の検索補助（2026-09-11・ローカル実装）
+
+- 企業モードでは代表企業の検索範囲・結果件数・全企業一覧へのリンクを、地図と一覧に共通の位置へ表示する。
+- 代表企業が0件の場合だけ、渡された全企業概要を同じ検索条件で照合し、最大3社の企業詳細リンクを表示する。地図ノードの追加ではない。
+- 検索語を変更・クリアした場合は選択中の詳細を閉じる。企業一覧へは検索語を引き継がず、検索欄のアンカーへ進む。自由入力をURL・保存領域・計測へ送らない。
+- 補助リンクは `industry_map_content_click` に `link_location: search_help`、`mode`、`view` を付ける。企業詳細は `destination: company` と `company_id`、全企業一覧は `destination: companies`。本文・詳細パネルの遷移と合わせて集計する。
