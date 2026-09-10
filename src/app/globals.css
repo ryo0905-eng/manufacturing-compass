@@ -19180,6 +19180,10 @@ body {
   display: none;
 }
 
+.industry-explorer__mobile-view-hint {
+  display: none;
+}
+
 .industry-explorer__search {
   min-height: 40px;
   border-color: #d9dde2;
@@ -19629,7 +19633,8 @@ body {
     padding: 7px 10px;
     color: #737980;
     font: inherit;
-    font-size: 11px;
+    min-height: 44px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
   }
@@ -19638,6 +19643,23 @@ body {
     background: #fff;
     color: #30343a;
     box-shadow: 0 1px 2px rgba(17, 24, 28, 0.08);
+  }
+
+  .industry-explorer__mobile-view-hint {
+    display: block;
+    margin: 0;
+    padding: 0 6px;
+    color: #59616a;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .industry-explorer__toolbar-note {
+    display: none;
+  }
+
+  .industry-explorer__search input {
+    font-size: 16px;
   }
 
   .industry-explorer__workspace {
@@ -19723,25 +19745,30 @@ body {
   }
 
   .industry-explorer__mobile-list button > span {
-    grid-row: 1 / 3;
+    grid-row: 1;
     color: #4c72b0;
     font-size: 9px;
     font-weight: 700;
   }
 
   .industry-explorer__mobile-list button strong {
-    font-size: 12px;
+    min-width: 0;
+    font-size: 14px;
     font-weight: 650;
+  }
+
+  .industry-explorer__mobile-list button > strong:first-child {
+    grid-column: 1 / 3;
   }
 
   .industry-explorer__mobile-list button small {
     grid-column: 1 / 3;
-    overflow: hidden;
+    min-width: 0;
     color: #737980;
-    font-size: 10px;
-    line-height: 1.5;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .industry-explorer__mobile-list button > span + strong + i,
@@ -19764,8 +19791,23 @@ body {
     min-height: 0;
     border: 1px solid #d9dde2;
     border-radius: 10px;
-    padding: 50px 18px 18px;
+    padding: 68px 18px 18px;
     box-shadow: 0 16px 48px rgba(17, 24, 28, 0.2);
+  }
+
+  .industry-explorer__detail > p:not(.section-label) {
+    font-size: 14px;
+  }
+
+  .industry-explorer__detail-link,
+  .industry-explorer__detail-secondary {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .industry-explorer__detail-close {
+    min-height: 44px;
+    font-size: 13px;
   }
 
   .industry-map-page .segment-map {

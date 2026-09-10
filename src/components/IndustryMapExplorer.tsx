@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "detail-links-v2" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "readability-v3" });
 }
 
 type CompanySummary = {
@@ -315,7 +315,6 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
 
   function startGuide(nextMode: ExplorerMode, type: MapNodeType, id: string) {
     setMode(nextMode);
-    setView("map");
     setSelectedKey(nodeKey(type, id));
     if (nextMode !== "companies") {
       setQuery("");
@@ -323,7 +322,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     trackIndustryMapEvent("industry_map_guide_start", { mode: nextMode, node_id: id, node_type: type });
     if (selectedKey !== nodeKey(type, id) || mode !== nextMode) {
       trackIndustryMapEvent("industry_map_detail_view", {
-        mode: nextMode, view: "map", node_id: id, node_type: type, entry_point: "guide",
+        mode: nextMode, view, node_id: id, node_type: type, entry_point: "guide",
       });
     }
   }
@@ -535,9 +534,12 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           ))}
         </div>
         <div className="industry-explorer__view-toggle" aria-label="表示方法" role="group">
-          <button aria-pressed={view === "map"} onClick={() => changeView("map")} type="button">地図</button>
-          <button aria-pressed={view === "list"} onClick={() => changeView("list")} type="button">リスト</button>
+          <button aria-pressed={view === "map"} onClick={() => changeView("map")} type="button">地図で見る</button>
+          <button aria-pressed={view === "list"} onClick={() => changeView("list")} type="button">一覧で読む</button>
         </div>
+        <p className="industry-explorer__mobile-view-hint">
+          {view === "map" ? "地図は指で動かせます。文字を大きく読むには「一覧で読む」を選んでください。" : "項目を選ぶと詳しい説明と関連ページが開きます。"}
+        </p>
         {mode === "companies" ? (
           <label className="industry-explorer__search">
             <span className="sr-only">代表企業を検索</span>
@@ -692,7 +694,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
             <button aria-label="縮小" onClick={() => zoomBy(0.88)} type="button">−</button>
             <output aria-label="現在の倍率">{Math.round(transform.scale * 100)}%</output>
             <button aria-label="拡大" onClick={() => zoomBy(1.12)} type="button">＋</button>
-            <button className="industry-explorer__fit" onClick={fitMap} type="button">全体</button>
+            <button className="industry-explorer__fit" onClick={fitMap} type="button">表示を戻す</button>
           </div>
 
           {mode === "companies" && visibleCompanies.length === 0 ? (
@@ -969,6 +971,7 @@ function IndustryMapMobileList({
                 <button aria-pressed={selectedKey === key} onClick={() => onSelect("process", process.id)} type="button">
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <strong>{process.label}</strong>
+                  <small>{process.description}</small>
                   <i aria-hidden="true">→</i>
                 </button>
               </li>

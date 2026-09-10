@@ -117,7 +117,9 @@ Career Compass
 - `industry_map_detail_view` はノード選択と初見向け入口の両方で、詳細を新しく開いた時・別対象へ切り替えた時に送る。同じ詳細を開いたまま入口を再押下した場合や地図／リスト切替では送らない。画面内露出時間を測るイベントではない。
 - 詳細閲覧に `node_id`、`node_type`、`mode`、`view`、`entry_point`（`map` / `list` / `guide`）を付ける。
 - パネル内の全遷移を `industry_map_content_click` に揃え、既存の `destination`、`company_id`、`process`、`segment`、`career_id` を維持する。選択元の `node_id`、`node_type`、`mode`、`view` と `link_location: detail_panel` を追加する。
-- Explorer内のイベントには `source_page: /industry-map`、`ui_version: detail-links-v2` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
+- Explorer内のイベントには `source_page: /industry-map`、`ui_version: readability-v3` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加、`readability-v3` はスマホの一覧・詳細の可読性改善を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
+- スマホの表示切替は「地図で見る／一覧で読む」と案内する。一覧には工程の説明も表示し、説明を省略せず折り返す。初見向け入口でも選択済みの表示方法を保持し、詳細閲覧イベントの `view` に反映する。
+- 「表示を戻す」は従来の初期位置・倍率へ戻す操作。スマホで全ノードを画面内に収める機能ではなく、初期の地図表示と倍率は維持する。
 - 旧版の `node_open` には閉じる操作が含まれるため、新旧の件数比を改善率として比較しない。`node_open` と `detail_view` も合算しない。本文・パネル両方の遷移を同一セッションで重複排除して評価する。
 - 本番反映日・GA4受信・利用するイベントパラメータのレポート設定は公開後に確認する。ローカル実装日は本番反映日ではない。
 
