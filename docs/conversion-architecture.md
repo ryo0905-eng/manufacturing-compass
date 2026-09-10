@@ -111,11 +111,13 @@ Career Compass
 ### 業界地図の詳細導線（2026-09-10・ローカル実装）
 
 - 工程パネルの代表企業名から企業詳細へ進める。材料は材料セグメント、組立・テストは後工程・OSATの解説へ接続する。
+- 企業パネルは企業詳細を主導線とし、公開対象の確認済み拠点がある場合だけ同社の `#japan-locations`、キャリア準備データがある場合だけ `#career-prep` への補助リンクを表示する。判定はServer Componentで行い、Client Componentには真偽値だけ渡す。未掲載を拠点不存在や求人なしと表現しない。
+- 補助リンクも `industry_map_content_click` で計測し、`destination` は国内拠点を `company_locations`、準備情報を `career_preparation` とする。遷移先は企業詳細のセクションで、拠点マップへの直接遷移・採用応募ではない。
 - `industry_map_node_open` は地図・リストで新しい対象を開いた時だけ送る。同じ対象の再クリックによる閉じる操作は送らない。
 - `industry_map_detail_view` はノード選択と初見向け入口の両方で、詳細を新しく開いた時・別対象へ切り替えた時に送る。同じ詳細を開いたまま入口を再押下した場合や地図／リスト切替では送らない。画面内露出時間を測るイベントではない。
 - 詳細閲覧に `node_id`、`node_type`、`mode`、`view`、`entry_point`（`map` / `list` / `guide`）を付ける。
 - パネル内の全遷移を `industry_map_content_click` に揃え、既存の `destination`、`company_id`、`process`、`segment`、`career_id` を維持する。選択元の `node_id`、`node_type`、`mode`、`view` と `link_location: detail_panel` を追加する。
-- Explorer内のイベントには `source_page: /industry-map`、`ui_version: detail-links-v1` を付ける。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
+- Explorer内のイベントには `source_page: /industry-map`、`ui_version: detail-links-v2` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
 - 旧版の `node_open` には閉じる操作が含まれるため、新旧の件数比を改善率として比較しない。`node_open` と `detail_view` も合算しない。本文・パネル両方の遷移を同一セッションで重複排除して評価する。
 - 本番反映日・GA4受信・利用するイベントパラメータのレポート設定は公開後に確認する。ローカル実装日は本番反映日ではない。
 

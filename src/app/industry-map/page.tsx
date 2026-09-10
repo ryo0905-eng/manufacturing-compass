@@ -5,7 +5,8 @@ import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { IndustryMapExplorer } from "@/components/IndustryMapExplorer";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
-import { companies, segments } from "@/data/companies";
+import { companies, getCareerInfo, segments } from "@/data/companies";
+import { getPublicCompanyLocations } from "@/lib/company-locations";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -87,6 +88,7 @@ const supplyChain = [
 ] as const;
 
 export default function IndustryMapPage() {
+  const companiesWithPublicLocations = new Set(getPublicCompanyLocations().map((location) => location.companyId));
   const companySummaries = companies.map((company) => ({
     id: company.id,
     slug: company.slug,
@@ -96,6 +98,8 @@ export default function IndustryMapPage() {
     businessModel: company.businessModel,
     mainProducts: company.mainProducts,
     jobCategories: company.jobCategories,
+    hasPublicLocations: companiesWithPublicLocations.has(company.id),
+    hasCareerPreparation: Boolean(getCareerInfo(company.id)),
   }));
 
   return (

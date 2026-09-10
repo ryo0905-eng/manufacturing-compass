@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "detail-links-v1" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "detail-links-v2" });
 }
 
 type CompanySummary = {
@@ -34,6 +34,8 @@ type CompanySummary = {
   businessModel: string;
   mainProducts: string[];
   jobCategories: string[];
+  hasPublicLocations: boolean;
+  hasCareerPreparation: boolean;
 };
 
 type IndustryMapExplorerProps = {
@@ -870,13 +872,33 @@ function MapDetailPanel({
           <span>主な製品・領域</span>
           {company.mainProducts.slice(0, 3).map((product) => <small key={product}>{product}</small>)}
         </div>
-        <Link
-          className="industry-explorer__detail-link"
-          href={`/companies/${company.slug}` as Route}
-          onClick={() => trackContentClick({ company_id: company.id, destination: "company" })}
-        >
-          企業情報を詳しく見る <span aria-hidden="true">→</span>
-        </Link>
+        <div className="industry-explorer__detail-actions">
+          <Link
+            className="industry-explorer__detail-link"
+            href={`/companies/${company.slug}` as Route}
+            onClick={() => trackContentClick({ company_id: company.id, destination: "company" })}
+          >
+            企業情報を詳しく見る <span aria-hidden="true">→</span>
+          </Link>
+          {company.hasPublicLocations ? (
+            <Link
+              className="industry-explorer__detail-secondary"
+              href={`/companies/${company.slug}#japan-locations` as Route}
+              onClick={() => trackContentClick({ company_id: company.id, destination: "company_locations" })}
+            >
+              国内拠点を確認する
+            </Link>
+          ) : null}
+          {company.hasCareerPreparation ? (
+            <Link
+              className="industry-explorer__detail-secondary"
+              href={`/companies/${company.slug}#career-prep` as Route}
+              onClick={() => trackContentClick({ company_id: company.id, destination: "career_preparation" })}
+            >
+              キャリア準備を見る
+            </Link>
+          ) : null}
+        </div>
       </DetailPanelShell>
     );
   }
