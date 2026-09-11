@@ -18928,6 +18928,7 @@ body {
 /* Industry map aligned with the interactive learning tools */
 .page.industry-map-page {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   width: min(1180px, calc(100% - 40px));
   gap: 12px;
   margin: 0 auto;
