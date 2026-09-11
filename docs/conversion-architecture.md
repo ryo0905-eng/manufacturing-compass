@@ -117,7 +117,7 @@ Career Compass
 - `industry_map_detail_view` はノード選択と初見向け入口の両方で、詳細を新しく開いた時・別対象へ切り替えた時に送る。同じ詳細を開いたまま入口を再押下した場合や地図／リスト切替では送らない。画面内露出時間を測るイベントではない。
 - 詳細閲覧に `node_id`、`node_type`、`mode`、`view`、`entry_point`（`map` / `list` / `guide`）を付ける。
 - パネル内の全遷移を `industry_map_content_click` に揃え、既存の `destination`、`company_id`、`process`、`segment`、`career_id` を維持する。選択元の `node_id`、`node_type`、`mode`、`view` と `link_location: detail_panel` を追加する。
-- Explorer内のイベントには `source_page: /industry-map`、`ui_version: list-view-v8` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加、`readability-v3` はスマホの一覧・詳細の可読性改善、`classification-v4` は工程・役割・製品分野の説明整理、`overview-examples-v5` は全体像への企業例追加、`search-help-v6` は検索対象の案内と検索0件の導線改善、`focused-lines-v7` は選択対象に絞った関係線の表示、`list-view-v8` はPCへの一覧表示対応を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
+- Explorer内のイベントには `source_page: /industry-map`、`ui_version: pinch-fix-v9` を付ける。`detail-links-v1` は工程リンク・計測整理、`detail-links-v2` は企業パネルの拠点・準備情報リンク追加、`readability-v3` はスマホの一覧・詳細の可読性改善、`classification-v4` は工程・役割・製品分野の説明整理、`overview-examples-v5` は全体像への企業例追加、`search-help-v6` は検索対象の案内と検索0件の導線改善、`focused-lines-v7` は選択対象に絞った関係線の表示、`list-view-v8` はPCへの一覧表示対応、`pinch-fix-v9` はピンチ操作の座標補正を区別する。本文側の `industry_map_category_click` は別イベントとして維持する。検索語・自由入力は送信しない。
 - 全体像の役割ノードと一覧に、掲載済みデータから選んだ1〜2社の企業例を表示する。組立・テストは装置供給企業の例と明示する。役割パネル内の企業リンクは既存の `industry_map_content_click`（`destination: company`、選択元の `node_type: group`）へ接続する。企業ノードや工程接点の追加は含めない。
 - 操作地図の6項目は設計・製造の流れ、本文の7項目は工程順ではない領域一覧として案内する。本文の企業例には設計企業・装置供給などの役割を添える。IDMは事業モデル、メモリ・アナログ・パワーは製品分野として説明する。地図内ID `idm-memory` と既存の本文アンカー・カテゴリイベント値は保持する。共有セグメントデータの分類変更は含めない。
 - スマホの表示切替は「地図で見る／一覧で読む」と案内する。一覧には工程の説明も表示し、説明を省略せず折り返す。初見向け入口でも選択済みの表示方法を保持し、詳細閲覧イベントの `view` に反映する。
@@ -195,3 +195,7 @@ Career Compass
 - 地図／一覧の切替と一覧の基本スタイルを全画面幅で共通化する。画面幅変更時も選択した表示方法と項目を維持する。
 - PCの一覧は高さ540px内でスクロールでき、選択時は詳細を右側に並べる。スマホではページ内の一覧と画面下部の詳細パネルを維持する。
 - 操作案内は表示方法に合わせる。切替・一覧項目にキーボードフォーカスの枠を表示する。既存の `industry_map_view_change`、`industry_map_detail_view`、遷移イベントの定義は維持する。
+
+### 業界地図のピンチ操作（2026-09-11・ローカル実装）
+
+指の位置は画面座標から地図表示領域の左上を差し引いて保持し、地図の移動量と同じ座標系で拡大中心を計算する。ジェスチャーの生座標や操作ごとのイベントは送信しない。

@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "list-view-v8" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "pinch-fix-v9" });
 }
 
 type CompanySummary = {
@@ -397,7 +397,8 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
       return;
     }
     event.currentTarget.setPointerCapture(event.pointerId);
-    pointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const rect = event.currentTarget.getBoundingClientRect();
+    pointersRef.current.set(event.pointerId, { x: event.clientX - rect.left, y: event.clientY - rect.top });
     gestureRef.current = {
       startTransform: transform,
       startPointers: Array.from(pointersRef.current.values()),
@@ -409,7 +410,8 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     if (!pointersRef.current.has(event.pointerId) || !gestureRef.current) {
       return;
     }
-    pointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const rect = event.currentTarget.getBoundingClientRect();
+    pointersRef.current.set(event.pointerId, { x: event.clientX - rect.left, y: event.clientY - rect.top });
     const currentPointers = Array.from(pointersRef.current.values());
     const { startPointers, startTransform } = gestureRef.current;
 
