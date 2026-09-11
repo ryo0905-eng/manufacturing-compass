@@ -22,7 +22,7 @@ type ExplorerMode = "overview" | "companies" | "careers";
 type ExplorerView = "map" | "list";
 
 function trackIndustryMapEvent(eventName: `industry_map_${string}`, properties: Parameters<typeof trackEvent>[1]) {
-  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "pinch-fix-v9" });
+  trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: "detail-focus-v10" });
 }
 
 type CompanySummary = {
@@ -159,6 +159,7 @@ function getMapBounds(mode: ExplorerMode, companies: IndustryMapCompany[]): MapB
 
 export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMapExplorerProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const selectionTriggerRef = useRef<HTMLButtonElement | null>(null);
   const pointersRef = useRef(new Map<number, Point>());
   const gestureRef = useRef<{
     startTransform: Transform;
@@ -299,6 +300,19 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     return () => observer.disconnect();
   }, [fitMap, view]);
 
+  const closeDetail = useCallback(() => {
+    setSelectedKey(null);
+    const trigger = selectionTriggerRef.current;
+    if (trigger?.isConnected && trigger.getClientRects().length > 0) {
+      trigger.focus({ preventScroll: true });
+      return;
+    }
+    const selector = view === "list"
+      ? '.industry-explorer__mobile-list button[aria-pressed="true"]'
+      : '.industry-explorer__canvas button[aria-pressed="true"]';
+    viewportRef.current?.parentElement?.querySelector<HTMLButtonElement>(selector)?.focus({ preventScroll: true });
+  }, [view]);
+
   useEffect(() => {
     if (!selectedKey) {
       return;
@@ -306,13 +320,13 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setSelectedKey(null);
+        closeDetail();
       }
     }
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [selectedKey]);
+  }, [closeDetail, selectedKey]);
 
   function changeMode(nextMode: ExplorerMode) {
     setMode(nextMode);
@@ -323,7 +337,8 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     trackIndustryMapEvent("industry_map_mode_change", { mode: nextMode });
   }
 
-  function startGuide(nextMode: ExplorerMode, type: MapNodeType, id: string) {
+  function startGuide(nextMode: ExplorerMode, type: MapNodeType, id: string, trigger: HTMLButtonElement) {
+    selectionTriggerRef.current = trigger;
     setMode(nextMode);
     setSelectedKey(nodeKey(type, id));
     if (nextMode !== "companies") {
@@ -342,10 +357,11 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
     trackIndustryMapEvent("industry_map_view_change", { mode, view: nextView });
   }
 
-  function selectNode(type: "process" | "group" | "company" | "career", id: string) {
+  function selectNode(type: MapNodeType, id: string, trigger: HTMLButtonElement) {
+    selectionTriggerRef.current = trigger;
     const key = nodeKey(type, id);
     if (selectedKey === key) {
-      setSelectedKey(null);
+      closeDetail();
       return;
     }
     setSelectedKey(key);
@@ -522,7 +538,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
         {guideOptions.map((option, index) => (
           <button
             key={option.id}
-            onClick={() => startGuide(option.id, option.nodeType, option.nodeId)}
+            onClick={(event) => startGuide(option.id, option.nodeType, option.nodeId, event.currentTarget)}
             type="button"
           >
             <span>{String(index + 1).padStart(2, "0")}</span>
@@ -685,7 +701,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
                   aria-pressed={selectedKey === key}
                   className={`industry-explorer__node industry-explorer__node--process${selectedKey === key ? " is-selected" : ""}${isNodeMuted(key) ? " is-muted" : ""}`}
                   key={process.id}
-                  onClick={() => selectNode("process", process.id)}
+                  onClick={(event) => selectNode("process", process.id, event.currentTarget)}
                   style={{ left: process.x, top: process.y }}
                   type="button"
                 >
@@ -705,7 +721,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
                   examples={getGroupExamples(group, companiesById)}
                   key={group.id}
                   muted={isNodeMuted(key)}
-                  onSelect={() => selectNode("group", group.id)}
+                  onSelect={(trigger) => selectNode("group", group.id, trigger)}
                   type="group"
                 />
               );
@@ -722,7 +738,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
                   aria-pressed={selectedKey === key}
                   className={`industry-explorer__node industry-explorer__node--company${selectedKey === key ? " is-selected" : ""}${isNodeMuted(key) ? " is-muted" : ""}`}
                   key={item.companyId}
-                  onClick={() => selectNode("company", item.companyId)}
+                  onClick={(event) => selectNode("company", item.companyId, event.currentTarget)}
                   style={{ left: item.x, top: item.y }}
                   type="button"
                 >
@@ -740,7 +756,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
                   item={career}
                   key={career.id}
                   muted={isNodeMuted(key)}
-                  onSelect={() => selectNode("career", career.id)}
+                  onSelect={(trigger) => selectNode("career", career.id, trigger)}
                   type="career"
                 />
               );
@@ -765,11 +781,12 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
 
         {selected ? (
           <MapDetailPanel
+            key={selectedKey}
             companiesById={companiesById}
             mapCompanies={mapCompanies}
             mode={mode}
             view={view}
-            onClose={() => setSelectedKey(null)}
+            onClose={closeDetail}
             selected={selected}
           />
         ) : null}
@@ -799,7 +816,7 @@ function MapRelationNode({
   active: boolean;
   item: IndustryMapGroup | IndustryMapCareer;
   muted: boolean;
-  onSelect: () => void;
+  onSelect: (trigger: HTMLButtonElement) => void;
   type: "group" | "career";
   examples?: CompanySummary[];
 }) {
@@ -807,7 +824,7 @@ function MapRelationNode({
     <button
       aria-pressed={active}
       className={`industry-explorer__node industry-explorer__node--${type}${active ? " is-selected" : ""}${muted ? " is-muted" : ""}`}
-      onClick={onSelect}
+      onClick={(event) => onSelect(event.currentTarget)}
       style={{ left: item.x, top: item.y }}
       type="button"
     >
@@ -1008,8 +1025,12 @@ function MapDetailPanel({
 }
 
 function DetailPanelShell({ children, onClose }: { children: ReactNode; onClose: () => void }) {
+  const panelRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    panelRef.current?.focus({ preventScroll: true });
+  }, []);
   return (
-    <aside className="industry-explorer__detail" aria-label="選択した要素の詳細" aria-live="polite">
+    <aside ref={panelRef} tabIndex={-1} className="industry-explorer__detail" aria-label="選択した要素の詳細">
       <button className="industry-explorer__detail-close" onClick={onClose} type="button">
         <span aria-hidden="true">×</span> 閉じる
       </button>
@@ -1027,7 +1048,7 @@ function IndustryMapMobileList({
 }: {
   companiesById: Map<string, CompanySummary>;
   mode: ExplorerMode;
-  onSelect: (type: MapNodeType, id: string) => void;
+  onSelect: (type: MapNodeType, id: string, trigger: HTMLButtonElement) => void;
   selectedKey: string | null;
   visibleCompanies: IndustryMapCompany[];
 }) {
@@ -1043,7 +1064,7 @@ function IndustryMapMobileList({
             const key = nodeKey("process", process.id);
             return (
               <li key={process.id}>
-                <button aria-pressed={selectedKey === key} onClick={() => onSelect("process", process.id)} type="button">
+                <button aria-pressed={selectedKey === key} onClick={(event) => onSelect("process", process.id, event.currentTarget)} type="button">
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <strong>{process.label}</strong>
                   <small>{process.description}</small>
@@ -1063,7 +1084,7 @@ function IndustryMapMobileList({
             const key = nodeKey("group", group.id);
             return (
               <li key={group.id}>
-                <button aria-pressed={selectedKey === key} onClick={() => onSelect("group", group.id)} type="button">
+                <button aria-pressed={selectedKey === key} onClick={(event) => onSelect("group", group.id, event.currentTarget)} type="button">
                   <strong>{group.label}</strong>
                   <small>{group.description}</small>
                   <small>{group.exampleLabel}：{getGroupExamples(group, companiesById).map((company) => company.nameJa).join("、")}</small>
@@ -1077,7 +1098,7 @@ function IndustryMapMobileList({
             const key = nodeKey("company", item.companyId);
             return company ? (
               <li key={item.companyId}>
-                <button aria-pressed={selectedKey === key} onClick={() => onSelect("company", item.companyId)} type="button">
+                <button aria-pressed={selectedKey === key} onClick={(event) => onSelect("company", item.companyId, event.currentTarget)} type="button">
                   <strong>{company.nameJa}</strong>
                   <small>{company.businessModel}</small>
                   <i aria-hidden="true">→</i>
@@ -1089,7 +1110,7 @@ function IndustryMapMobileList({
             const key = nodeKey("career", career.id);
             return (
               <li key={career.id}>
-                <button aria-pressed={selectedKey === key} onClick={() => onSelect("career", career.id)} type="button">
+                <button aria-pressed={selectedKey === key} onClick={(event) => onSelect("career", career.id, event.currentTarget)} type="button">
                   <strong>{career.label}</strong>
                   <small>{career.description}</small>
                   <i aria-hidden="true">→</i>
