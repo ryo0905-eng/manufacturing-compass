@@ -19902,6 +19902,205 @@ body {
   }
 }
 
+/* Editorial semiconductor industry atlas */
+.industry-atlas {
+  position: relative;
+  min-width: 0;
+  margin: 0 0 36px;
+  color: #1d1d1f;
+}
+
+.industry-atlas__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 14px;
+  padding: 18px 20px 0;
+}
+
+.industry-atlas__header .section-label { margin: 0; color: #617080; font-size: 10px; font-weight: 700; letter-spacing: .04em; }
+.industry-atlas__header h2 { margin: 4px 0; font-size: 24px; line-height: 1.4; letter-spacing: -.025em; }
+.industry-atlas__header > div > p:last-child { max-width: 760px; margin: 0; color: #59616a; font-size: 13px; line-height: 1.7; }
+.industry-atlas__header dl { display: grid; grid-template-columns: repeat(3, 76px); margin: 0; }
+.industry-atlas__header dl div { padding-left: 12px; border-left: 1px solid #d9dde2; }
+.industry-atlas__header dt { color: #858b92; font-size: 9px; }
+.industry-atlas__header dd { margin: 2px 0 0; font-size: 18px; font-weight: 700; }
+
+.industry-atlas__reading-guide {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 0 20px;
+}
+
+.industry-atlas__reading-guide article { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 2px 10px; border: 1px solid #dfe4e8; border-radius: 8px; background: #fff; padding: 12px; }
+.industry-atlas__reading-guide span { grid-row: 1 / 3; color: #4c72b0; font-size: 10px; font-weight: 750; }
+.industry-atlas__reading-guide strong { font-size: 12px; }
+.industry-atlas__reading-guide p { margin: 0; color: #687078; font-size: 10px; line-height: 1.55; }
+
+.industry-atlas__category-nav {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  border: 1px solid #dfe4e8;
+  border-bottom: 0;
+  border-radius: 9px 9px 0 0;
+  background: #f5f7f8;
+  padding: 8px;
+  scrollbar-width: thin;
+}
+
+.industry-atlas__category-nav a { flex: 0 0 auto; border: 1px solid #d9dde2; border-radius: 999px; background: #fff; padding: 7px 10px; color: #45515d; font-size: 11px; font-weight: 650; text-decoration: none; }
+.industry-atlas__category-nav a:hover, .industry-atlas__category-nav a:focus-visible { border-color: #4c72b0; color: #315f98; outline: 0; }
+
+.industry-atlas__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  border: 1px solid #dfe4e8;
+  background: #fff;
+  padding: 10px 12px;
+}
+
+.industry-atlas__search { display: flex; flex: 1 1 300px; gap: 8px; align-items: center; min-height: 44px; border: 1px solid #cfd5da; border-radius: 7px; padding: 0 12px; }
+.industry-atlas__search:focus-within { border-color: #4c72b0; box-shadow: 0 0 0 3px rgba(76,114,176,.12); }
+.industry-atlas__search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: #1d1d1f; font: inherit; font-size: 14px; }
+.industry-atlas__toolbar > label:not(.industry-atlas__search) { display: inline-flex; gap: 7px; align-items: center; min-height: 44px; color: #45515d; font-size: 12px; font-weight: 600; }
+.industry-atlas__toolbar input[type="checkbox"] { width: 17px; height: 17px; accent-color: #315f98; }
+.industry-atlas__toolbar > button { min-height: 40px; border: 1px solid #cfd5da; border-radius: 6px; background: #fff; padding: 7px 11px; color: #45515d; font: inherit; font-size: 12px; cursor: pointer; }
+.industry-atlas__toolbar > button[aria-pressed="true"] { border-color: #4c72b0; background: #eef3fa; color: #254f82; }
+.industry-atlas__toolbar output { margin-left: auto; color: #59616a; font-size: 12px; font-weight: 700; }
+.industry-atlas__toolbar .industry-atlas__clear { border: 0; color: #315f98; text-decoration: underline; text-underline-offset: 3px; }
+
+.industry-atlas__empty { border-inline: 1px solid #dfe4e8; background: #fff8ed; padding: 14px 16px; color: #5f513d; }
+.industry-atlas__empty strong { font-size: 13px; }
+.industry-atlas__empty p { margin: 3px 0 8px; font-size: 12px; }
+.industry-atlas__empty ul { margin: 6px 0; padding-left: 20px; }
+.industry-atlas__empty a { color: #315f98; font-size: 12px; }
+
+.industry-atlas__flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  border-inline: 1px solid #dfe4e8;
+  background: #f8fafb;
+  padding: 14px;
+}
+
+.industry-atlas__flow > div { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 7px; align-items: center; border-radius: 7px; background: #fff; padding: 9px; text-align: center; box-shadow: inset 0 0 0 1px #e2e6e9; }
+.industry-atlas__flow strong { font-size: 11px; }
+.industry-atlas__flow span { display: grid; color: #6b7783; font-size: 8px; }
+.industry-atlas__flow i { color: #d05245; font-size: 18px; font-style: normal; line-height: 1; }
+.industry-atlas__flow > p { grid-column: 1 / -1; margin: 0; color: #6b737a; font-size: 10px; line-height: 1.6; text-align: center; }
+
+.industry-atlas__zones {
+  display: grid;
+  grid-template-areas:
+    "eda fabless foundry osat"
+    "materials idm idm inspection"
+    "materials equipment equipment inspection";
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  border: 1px solid #dfe4e8;
+  border-top: 0;
+  background: #edf1f3;
+  padding: 10px;
+}
+
+.industry-atlas__zone { --zone-accent:#4c72b0; --zone-bg:#f4f7fb; display: flex; min-width: 0; flex-direction: column; scroll-margin-top: 16px; border: 1px solid color-mix(in srgb, var(--zone-accent) 28%, #dfe4e8); border-radius: 9px; background: var(--zone-bg); padding: 12px; }
+.industry-atlas__zone--eda-ip { grid-area: eda; --zone-accent:#7667ad; --zone-bg:#f5f2fb; }
+.industry-atlas__zone--fabless { grid-area: fabless; --zone-accent:#3c79a8; --zone-bg:#eff7fc; }
+.industry-atlas__zone--foundry { grid-area: foundry; --zone-accent:#288087; --zone-bg:#eef8f7; }
+.industry-atlas__zone--idm { grid-area: idm; --zone-accent:#b36b36; --zone-bg:#fcf5ee; }
+.industry-atlas__zone--osat { grid-area: osat; --zone-accent:#8a6e3d; --zone-bg:#faf7ed; }
+.industry-atlas__zone--materials { grid-area: materials; --zone-accent:#39805c; --zone-bg:#eff8f2; }
+.industry-atlas__zone--equipment { grid-area: equipment; --zone-accent:#53719a; --zone-bg:#f0f5fa; }
+.industry-atlas__zone--inspection { grid-area: inspection; --zone-accent:#9a596c; --zone-bg:#faf1f4; }
+
+.industry-atlas__zone > header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; margin-bottom: 8px; padding-bottom: 9px; border-bottom: 2px solid var(--zone-accent); }
+.industry-atlas__zone > header p { grid-column: 1; margin: 0; color: var(--zone-accent); font-size: 8px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+.industry-atlas__zone > header h3 { grid-column: 1; margin: 0; font-size: 17px; line-height: 1.35; }
+.industry-atlas__zone > header > span { grid-column: 2; grid-row: 1 / 3; align-self: center; color: var(--zone-accent); font-size: 11px; font-weight: 750; }
+.industry-atlas__zone > header small { grid-column: 1 / -1; margin-top: 3px; color: #59616a; font-size: 10px; line-height: 1.6; }
+.industry-atlas__zone-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.industry-atlas__zone-tags span { border: 1px solid color-mix(in srgb, var(--zone-accent) 28%, #e1e5e8); border-radius: 999px; background: rgba(255,255,255,.7); padding: 2px 6px; color: #59616a; font-size: 8px; }
+
+.industry-atlas__companies { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 175px), 1fr)); gap: 6px; }
+.industry-atlas__company { position: relative; display: flex; min-width: 0; flex-direction: column; border: 1px solid #d9dfe3; border-radius: 7px; background: rgba(255,255,255,.94); padding: 10px; box-shadow: 0 1px 2px rgba(24,35,42,.04); transition: opacity .18s, filter .18s; }
+.industry-atlas__company.is-muted { opacity: .18; filter: grayscale(1); }
+.industry-atlas__company > header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; }
+.industry-atlas__company > header div { display: grid; min-width: 0; }
+.industry-atlas__company > header a, .industry-atlas__company > header strong { color: #1d1d1f; font-size: 13px; font-weight: 750; line-height: 1.35; overflow-wrap: anywhere; }
+.industry-atlas__company > header a { text-decoration-color: color-mix(in srgb, var(--zone-accent) 55%, transparent); text-underline-offset: 3px; }
+.industry-atlas__company > header small { margin-top: 2px; overflow: hidden; color: #7b838a; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.industry-atlas__company > header > span { border-radius: 999px; background: #f0f2f4; padding: 3px 6px; color: #687078; font-size: 8px; white-space: nowrap; }
+.industry-atlas__company > p { flex: 1; margin: 7px 0; color: #4f5962; font-size: 10px; line-height: 1.62; }
+.industry-atlas__company > ul { display: flex; flex-wrap: wrap; gap: 3px; margin: 0; padding: 0; list-style: none; }
+.industry-atlas__company > ul li { border-radius: 3px; background: #f1f3f4; padding: 2px 5px; color: #687078; font-size: 8px; }
+.industry-atlas__company > em { margin-top: 7px; color: #26704d; font-size: 8px; font-style: normal; font-weight: 700; }
+.industry-atlas__company > button { align-self: start; min-height: 32px; margin-top: 8px; border: 0; background: transparent; padding: 3px 0; color: #315f98; font: inherit; font-size: 9px; font-weight: 700; cursor: pointer; }
+.industry-atlas__company > button:hover, .industry-atlas__company > button:focus-visible { text-decoration: underline; text-underline-offset: 3px; outline: 0; }
+
+.industry-atlas__careers { display: grid; gap: 6px; margin-top: 9px; border-top: 1px solid color-mix(in srgb, var(--zone-accent) 25%, #d9dfe3); padding-top: 9px; }
+.industry-atlas__careers > strong { color: var(--zone-accent); font-size: 9px; }
+.industry-atlas__careers article { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; border-radius: 5px; background: rgba(255,255,255,.7); padding: 7px; }
+.industry-atlas__careers b { font-size: 10px; }
+.industry-atlas__careers p { margin: 2px 0 0; color: #687078; font-size: 9px; line-height: 1.5; }
+.industry-atlas__careers a { align-self: center; color: #315f98; font-size: 9px; }
+.industry-atlas__careers > a { justify-self: start; min-height: 32px; padding-top: 6px; font-weight: 700; }
+.industry-atlas__zone-link { align-self: start; min-height: 34px; margin-top: auto; padding-top: 10px; color: var(--zone-accent); font-size: 9px; font-weight: 750; text-decoration: none; }
+.industry-atlas__zone-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.industry-atlas__footer { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: space-between; border: 1px solid #dfe4e8; border-top: 0; border-radius: 0 0 9px 9px; background: #fff; padding: 12px 14px; }
+.industry-atlas__footer p { margin: 0; color: #737980; font-size: 9px; line-height: 1.6; }
+.industry-atlas__footer div { display: flex; flex-wrap: wrap; gap: 12px; }
+.industry-atlas__footer a { color: #315f98; font-size: 10px; font-weight: 650; }
+
+.industry-atlas__backdrop { position: fixed; z-index: 39; inset: 0; width: 100%; border: 0; background: rgba(17,24,28,.28); cursor: default; }
+.industry-atlas .industry-atlas__detail { position: fixed; z-index: 40; top: 0; right: 0; bottom: 0; width: min(390px, calc(100% - 32px)); height: auto; border-left: 1px solid #d9dde2; padding: 64px 24px 24px; box-shadow: -20px 0 48px rgba(17,24,28,.18); }
+.industry-atlas__source { margin-top: 18px; border-top: 1px solid #e2e5e8; padding-top: 12px; color: #737980 !important; font-size: 10px !important; }
+.industry-atlas__source a { color: #315f98; }
+
+@media (max-width: 1023px) {
+  .industry-atlas__header { grid-template-columns: 1fr; padding-inline: 0; }
+  .industry-atlas__header dl { grid-template-columns: repeat(3, 1fr); }
+  .industry-atlas__reading-guide { grid-template-columns: 1fr; padding: 0; }
+  .industry-atlas__category-nav { border-radius: 9px 9px 0 0; }
+  .industry-atlas__flow { grid-template-columns: 1fr; }
+  .industry-atlas__flow > p { grid-column: 1; text-align: left; }
+  .industry-atlas__zones { display: grid; grid-template-areas: none; grid-template-columns: 1fr; }
+  .industry-atlas__zone { grid-area: auto; }
+  .industry-atlas__companies { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .industry-atlas.is-filtering .industry-atlas__company.is-muted { display: none; }
+}
+
+@media (max-width: 560px) {
+  .industry-atlas__header h2 { font-size: 21px; }
+  .industry-atlas__toolbar { display: grid; grid-template-columns: 1fr 1fr; }
+  .industry-atlas__search { grid-column: 1 / -1; font-size: 16px; }
+  .industry-atlas__search input { font-size: 16px; }
+  .industry-atlas__toolbar > label:not(.industry-atlas__search) { font-size: 13px; }
+  .industry-atlas__toolbar > button { min-height: 44px; }
+  .industry-atlas__toolbar output { margin-left: 0; }
+  .industry-atlas__companies { grid-template-columns: 1fr; }
+  .industry-atlas__company { padding: 13px; }
+  .industry-atlas__company > header a, .industry-atlas__company > header strong { font-size: 15px; }
+  .industry-atlas__company > header small, .industry-atlas__company > header > span { font-size: 10px; }
+  .industry-atlas__company > p { font-size: 14px; line-height: 1.7; }
+  .industry-atlas__company > ul li, .industry-atlas__company > em { font-size: 11px; }
+  .industry-atlas__company > button { min-height: 44px; font-size: 13px; }
+  .industry-atlas__zone > header small { font-size: 13px; }
+  .industry-atlas__zone-tags span { font-size: 10px; }
+  .industry-atlas__zone-link { min-height: 44px; font-size: 12px; }
+  .industry-atlas__careers b { font-size: 13px; }
+  .industry-atlas__careers p { font-size: 12px; }
+  .industry-atlas__careers a { min-height: 40px; font-size: 12px; }
+  .industry-atlas .industry-atlas__detail { top: auto; right: 12px; bottom: 12px; left: 12px; width: auto; height: auto; max-height: calc(100dvh - 24px); border: 1px solid #d9dde2; border-radius: 11px; padding: 64px 18px 18px; }
+}
+
 /* Homepage: a quiet, career-first entry point. */
 .home-focused {
   width: 100%;

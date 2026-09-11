@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
 import { CareerCompassCta } from "@/components/CareerCompassCta";
-import { IndustryMapExplorer } from "@/components/IndustryMapExplorer";
+import { IndustryAtlas } from "@/components/IndustryAtlas";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { companies, getCareerInfo, segments } from "@/data/companies";
@@ -12,11 +12,11 @@ import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "半導体業界地図・業界マップ【2026年版】サプライチェーンを図解",
-  description: "半導体の設計、材料、前工程、製造装置、後工程、検査、最終製品の関係を業界地図で図解。日本・海外の代表企業と職種を、操作できるマップとテキスト一覧で整理します。",
+  description: "半導体業界をEDA・IP、ファブレス、ファウンドリ、IDM、OSAT、材料、製造装置、検査・計測装置の8領域で図解。日本・海外の代表31社と職種を俯瞰できます。",
   alternates: { canonical: "/industry-map" },
   openGraph: {
     title: "半導体業界地図・業界マップ【2026年版】",
-    description: "設計から最終製品まで、半導体サプライチェーンと代表企業の関係を図解します。",
+    description: "半導体業界を8つの事業領域に分け、日本・海外の代表31社と役割のつながりを図解します。",
     type: "website",
     url: "/industry-map",
   },
@@ -30,11 +30,13 @@ export default function IndustryMapPage() {
     name: company.name,
     nameJa: company.nameJa,
     summary: company.summary,
+    headquartersCountry: company.headquartersCountry,
     businessModel: company.businessModel,
     mainProducts: company.mainProducts,
     jobCategories: company.jobCategories,
     hasPublicLocations: companiesWithPublicLocations.has(company.id),
     hasCareerPreparation: Boolean(getCareerInfo(company.id)),
+    lastUpdated: company.lastUpdated,
   }));
 
   return (
@@ -54,12 +56,12 @@ export default function IndustryMapPage() {
         <div>
           <p className="section-label">SEMICONDUCTOR ECOSYSTEM</p>
           <h1>半導体業界地図・業界マップ</h1>
-          <p>設計、材料、前工程、製造装置、後工程、検査、最終製品まで。工程をたどりながら、日本・海外企業と職種のつながりを探索します。</p>
+          <p>設計、製造、後工程と、それらを支える材料・装置・検査まで。8つの領域から、日本・海外企業と職種のつながりを探索します。</p>
         </div>
-        <p><strong>6工程 × 3つの視点</strong><span>ドラッグ・ズーム・クリックで確認</span></p>
+        <p><strong>8領域 × 31社</strong><span>検索・絞り込み・クリックで確認</span></p>
       </header>
 
-      <IndustryMapExplorer companies={companySummaries} totalCompanyCount={companies.length} />
+      <IndustryAtlas companies={companySummaries} totalCompanyCount={companies.length} />
 
       <section className="section industry-supply-chain" aria-labelledby="industry-supply-chain-title">
         <div className="industry-map-directory-heading">
