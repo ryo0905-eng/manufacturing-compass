@@ -5,7 +5,7 @@ import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "製造業の品質管理・統計学習ツール｜無料で動かして学ぶ",
-  description: "Gage R&R、管理図、Cp・Cpk、実験計画法（DoE）を、数値とグラフを動かして学べる無料の学習ラボです。測定から工程改善まで4ステップで理解できます。",
+  description: "Gage R&R、管理図、Cp・Cpk、実験計画法、山積み表、OEEを、数値とグラフを動かして試せる無料の製造業向けツール集です。",
   alternates: { canonical: "/tools" },
   openGraph: {
     title: "製造業の品質管理・統計学習ラボ｜Manufacturing Compass",
@@ -21,6 +21,8 @@ const toolItems = [
   ["管理図 学習ツール", "/tools/control-chart"],
   ["Cp・Cpk計算・学習ツール", "/tools/cpk"],
   ["実験計画法（DoE）学習ツール", "/tools/doe"],
+  ["山積み表・ラインバランス", "/tools/line-balance"],
+  ["OEE改善シミュレーター", "/tools/oee"],
 ] as const;
 
 export default function ToolsPage() {

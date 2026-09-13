@@ -65,6 +65,16 @@ const learningTools = [
     title: "実験計画法",
     body: "効果、交互作用、ANOVA、確認実験を順番に学ぶ",
   },
+  {
+    href: "/tools/line-balance",
+    title: "山積み表・ラインバランス",
+    body: "作業を再配分してタクト超過を比較する",
+  },
+  {
+    href: "/tools/oee",
+    title: "OEE改善",
+    body: "停止・速度・不良の改善を良品数で比較する",
+  },
 ] as const;
 
 export default function Home() {

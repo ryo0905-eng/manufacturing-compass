@@ -25,6 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/doe",
     "/tools/control-chart",
     "/tools/gage-rr",
+    "/tools/line-balance",
+    "/tools/oee",
     "/career-compass",
     "/career-priorities",
     "/career-consultation",
