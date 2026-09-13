@@ -56,6 +56,11 @@ const learningTools = [
     body: "工程の時間変化と異常の見つけ方を学ぶ",
   },
   {
+    href: "/tools/yield-analysis",
+    title: "歩留まり解析",
+    body: "低下した製品・装置と、製品構成の影響を分ける",
+  },
+  {
     href: "/tools/gage-rr",
     title: "Gage R&R",
     body: "部品差と測定システムの誤差を分ける",

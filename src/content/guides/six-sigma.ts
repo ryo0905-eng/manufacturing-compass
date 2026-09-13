@@ -23,7 +23,7 @@ export const sixSigmaGuide: GuideArticle = {
     "Gage R&R、管理図、Cp・Cpk、DoEの学習ツールを、改善で使う順番へ接続",
   ],
   publishedAt: "2026-07-28",
-  updatedAt: "2026-07-28",
+  updatedAt: "2026-09-13",
   sources: [
     {
       title: "ISO 13053-1:2011 Quantitative methods in process improvement — Six Sigma — Part 1: DMAIC methodology",
@@ -192,6 +192,7 @@ export const sixSigmaGuide: GuideArticle = {
           items: [
             { label: "Gage R&R 学習ツール", href: "/tools/gage-rr", description: "同じものを測っても値が散る理由を確認する" },
             { label: "管理図 学習ツール", href: "/tools/control-chart", description: "工程の平均シフト、外れ、傾向を時系列で見る" },
+            { label: "歩留まり解析ツール", href: "/tools/yield-analysis", description: "歩留まり低下を製品、装置、製品構成に分けて調べる" },
             { label: "Cp・Cpk計算・学習ツール", href: "/tools/cpk", description: "平均、ばらつき、規格幅の関係を確認する" },
             { label: "実験計画法（DoE）学習ツール", href: "/tools/doe", description: "複数因子と交互作用を動かして学ぶ" },
           ],
@@ -286,7 +287,7 @@ export const sixSigmaGuide: GuideArticle = {
         {
           type: "links",
           items: [
-            { label: "品質管理・統計学習ツール", href: "/tools", description: "測定、安定性、工程能力、条件改善を順番に学ぶ" },
+            { label: "歩留まり解析ツール", href: "/tools/yield-analysis", description: "異常検知から製品・装置別比較までを試す" },
             { label: "半導体の検査・計測", href: "/guides/semiconductor-inspection-metrology", description: "測定結果を工程へ戻す流れを見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "改善対象となる工程の前後関係を見る" },
           ],

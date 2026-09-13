@@ -22,6 +22,6 @@ export default function OeePage() {
       <section><h2>入力と単位</h2><p>負荷時間と停止時間は分、理想サイクルタイムは秒／個で入力します。ツール内で単位を秒へそろえ、性能稼働率と推定生産数を計算します。計画停止は負荷時間に含めません。</p></section>
       <section><h2>改善シナリオの前提</h2><p>負荷時間と理想サイクルタイムを固定し、改善後の停止時間・性能稼働率・良品率を指定します。推定値は条件間の比較用で、設備能力、材料供給、人員、需要などの制約や実際の生産増を保証しません。</p></section>
     </article>
-    <nav className="tool-related-links" aria-label="関連する実務ツール"><span>関連ツール</span><Link href="/tools/line-balance">工程の山積みを見直す →</Link><Link href="/tools/control-chart">工程の安定性を確認する →</Link><Link href="/guides/six-sigma">DMAICの全体像を読む →</Link></nav>
+    <nav className="tool-related-links" aria-label="関連する実務ツール"><span>関連ツール</span><Link href="/tools/yield-analysis">不良率の低下条件を調べる →</Link><Link href="/tools/line-balance">工程の山積みを見直す →</Link><Link href="/tools/control-chart">工程の安定性を確認する →</Link><Link href="/guides/six-sigma">DMAICの全体像を読む →</Link></nav>
   </main>;
 }
