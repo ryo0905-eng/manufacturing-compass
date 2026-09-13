@@ -183,31 +183,31 @@ export function YieldInvestigationDashboard() {
   const maxDailyYield = Math.max(...daily.map((item) => item.yieldRate ?? 0));
   const minDailyYield = Math.min(...daily.map((item) => item.yieldRate ?? 1));
   const chartSpan = Math.max(.02, maxDailyYield - minDailyYield);
+  const selectedPeriod = Object.entries(dashboardPeriods).find(([, period]) => period.start === filters.dateStart && period.end === filters.dateEnd)?.[0] ?? "custom";
 
   return <section className={styles.dashboard} aria-label="架空の半導体工場の歩留まり原因調査" data-ready={hydrated}>
     <header className={styles.toolbar}>
+      <div className={styles.workbookTitle}><span>WORKBOOK</span><strong>Yield investigation</strong><small>更新 2026/08/16</small></div>
+      <div className={styles.demoNote}><i aria-hidden="true" /><strong>架空データ</strong><span>学習用</span></div>
       <div className={styles.mode} aria-label="体験モード">
-        <button aria-pressed={mode === "guided"} onClick={() => changeMode("guided")} type="button">ガイド付き調査</button>
+        <button aria-pressed={mode === "guided"} onClick={() => changeMode("guided")} type="button">ガイド付き</button>
         <button aria-pressed={mode === "free"} onClick={() => changeMode("free")} type="button">自由探索</button>
       </div>
-      <div className={styles.demoNote}><strong>架空データによる学習用デモ</strong><span>実在の会社・工場・装置とは関係ありません</span></div>
-      <button className={styles.reset} onClick={reset} type="button">全条件をリセット</button>
     </header>
 
     {mode === "guided" && <section className={styles.guide} aria-live="polite">
-      <div><span>STEP {Math.min(guideStep + 1, 6)} / 6</span><strong>{guideStep >= 6 ? "調査完了" : guideCopy[guideStep][0]}</strong><p>{guideStep >= 6 ? "観察で見つけた原因候補を、別の確認実験で検証できました。" : guideCopy[guideStep][1]}</p></div>
-      <ol aria-label="調査の進捗">{guideCopy.map(([title], index) => <li data-current={guideStep === index} data-done={guideStep > index} key={title}><span>{index + 1}</span><small>{title}</small></li>)}</ol>
+      <div><span>GUIDE {Math.min(guideStep + 1, 6)} / 6</span><strong>{guideStep >= 6 ? "調査完了" : guideCopy[guideStep][0]}</strong><p>{guideStep >= 6 ? "確認実験で仮説を支持しました。" : guideCopy[guideStep][1]}</p></div>
+      <ol aria-label="調査の進捗">{guideCopy.map(([title], index) => <li aria-label={`${index + 1}. ${title}`} data-current={guideStep === index} data-done={guideStep > index} key={title}><span>{index + 1}</span></li>)}</ol>
     </section>}
 
     <section className={styles.filterBar} aria-label="現在の絞り込み条件">
-      <div><span>現在の条件</span>
-        <button onClick={() => selectPeriod("all")} type="button">期間: {filters.dateStart.slice(5).replace("-", "/")}〜{filters.dateEnd.slice(5).replace("-", "/")} {filters.dateStart !== initialFilters.dateStart || filters.dateEnd !== initialFilters.dateEnd ? "×" : ""}</button>
-        {filters.focusDefect && <button onClick={() => setFilters((current) => ({ ...current, focusDefect: "" }))} type="button">注目不良: {defectLabels[filters.focusDefect]} ×</button>}
-        {filters.product && <button onClick={() => setFilters((current) => ({ ...current, product: "" }))} type="button">製品: {filters.product} ×</button>}
-        {filters.equipment && <button onClick={() => setFilters((current) => ({ ...current, equipment: "" }))} type="button">装置: {filters.equipment} ×</button>}
-        {!hasFilters && <em>全製品・全装置</em>}
-      </div>
-      <strong>{summary.lotCount}ロット / {number(summary.inspected)}個</strong>
+      <header><div><span>FILTERS</span><strong>絞り込み</strong></div>{hasFilters && <button onClick={reset} type="button">すべて解除</button>}</header>
+      <label>期間<select aria-label="期間フィルター" onChange={(event) => { if (event.target.value !== "custom") selectPeriod(event.target.value as keyof typeof dashboardPeriods); }} value={selectedPeriod}><option value="all">全期間</option><option value="baseline">変更前 8/3〜8/10</option><option value="anomaly">低下期間 8/11〜8/16</option>{selectedPeriod === "custom" && <option value="custom">選択日</option>}</select></label>
+      <label>製品<select aria-label="製品フィルター" onChange={(event) => selectDimension("product", event.target.value)} value={filters.product}><option value="">すべて</option><option value="AX-7">AX-7</option><option value="BZ-4">BZ-4</option></select></label>
+      <label>装置<select aria-label="装置フィルター" onChange={(event) => selectDimension("equipment", event.target.value)} value={filters.equipment}><option value="">すべて</option><option value="CVD-01">CVD-01</option><option value="CVD-02">CVD-02</option></select></label>
+      <label>不良項目<select aria-label="不良フィルター" onChange={(event) => { const next = event.target.value as DefectKey | ""; begin("defect"); setFilters((current) => ({ ...current, focusDefect: next })); if (next === "thickness") reach(2); }} value={filters.focusDefect}><option value="">全不良</option>{defectKeys.map((key) => <option key={key} value={key}>{defectLabels[key]}</option>)}</select></label>
+      <div className={styles.filterSummary}><span>対象</span><strong>{summary.lotCount}ロット</strong><small>{number(summary.inspected)}個</small></div>
+      <button className={styles.reset} onClick={reset} type="button">全条件をリセット</button>
     </section>
 
     <section className={styles.kpis} aria-label="選択条件のKPI">
@@ -219,8 +219,8 @@ export function YieldInvestigationDashboard() {
 
     <div className={styles.overviewGrid}>
       <section className={styles.panel} aria-labelledby="trend-title">
-        <header><div><small>01 / WHEN</small><h2 id="trend-title">歩留まり推移</h2></div><p>期間を選ぶと全パネルが更新</p></header>
-        <div className={styles.periods}>{Object.entries(dashboardPeriods).map(([key, period]) => <button aria-pressed={filters.dateStart === period.start && filters.dateEnd === period.end} key={key} onClick={() => selectPeriod(key as keyof typeof dashboardPeriods)} type="button">{period.label}</button>)}</div>
+        <header><div><small>SHEET 01</small><h2 id="trend-title">歩留まり推移</h2></div><p>クリックで期間選択</p></header>
+        <div className={styles.periods}>{Object.entries(dashboardPeriods).map(([key, period]) => <button aria-label={period.label} aria-pressed={filters.dateStart === period.start && filters.dateEnd === period.end} key={key} onClick={() => selectPeriod(key as keyof typeof dashboardPeriods)} type="button">{key === "all" ? "全期間" : key === "baseline" ? "変更前" : "低下期間"}</button>)}</div>
         <div className={styles.trend} role="img" aria-label={`日別歩留まり。最低${percent(minDailyYield)}、最高${percent(maxDailyYield)}`}>
           {daily.map((item) => {
             const selected = item.key >= filters.dateStart && item.key <= filters.dateEnd;
@@ -232,14 +232,14 @@ export function YieldInvestigationDashboard() {
       </section>
 
       <section className={styles.panel} aria-labelledby="defect-title">
-        <header><div><small>02 / WHAT</small><h2 id="defect-title">不良項目の内訳</h2></div><p>不良分類は排他的</p></header>
+        <header><div><small>SHEET 02</small><h2 id="defect-title">不良内訳</h2></div><p>排他的分類</p></header>
         <div className={styles.bars}>{defects.map((item) => <button aria-pressed={filters.focusDefect === item.key} key={item.key} onClick={() => selectDefect(item.key)} type="button"><span><b>{defectLabels[item.key]}</b><em>{number(item.count)}件</em></span><i><u style={{ width: `${item.count / maxDefects * 100}%` }} /></i></button>)}</div>
-        <p className={styles.caption}>同じ検査品を複数の不良へ重複計上していません。不良を選ぶと、比較グラフとロット一覧がその項目に切り替わります。</p>
+        <p className={styles.caption}>選択すると比較とロットが連動します。</p>
       </section>
     </div>
 
     <section className={styles.panel} aria-labelledby="compare-title">
-      <header><div><small>03 / WHERE</small><h2 id="compare-title">製品別・装置別の比較</h2></div><p>{filters.focusDefect ? `${defectLabels[filters.focusDefect]}の発生率` : "全不良を含む歩留まり"} / 処理数を併記</p></header>
+      <header><div><small>SHEET 03</small><h2 id="compare-title">製品 × 装置</h2></div><p>{filters.focusDefect ? `${defectLabels[filters.focusDefect]}率` : "歩留まり"} / 処理数</p></header>
       <div className={styles.compareGrid}>
         <Breakdown title="製品別" rows={products} selected={filters.product} onSelect={(value) => selectDimension("product", value)} inverted={Boolean(filters.focusDefect)} />
         <Breakdown title="装置別" rows={equipment} selected={filters.equipment} onSelect={(value) => selectDimension("equipment", value)} inverted={Boolean(filters.focusDefect)} />
@@ -247,31 +247,31 @@ export function YieldInvestigationDashboard() {
     </section>
 
     <section className={styles.panel} aria-labelledby="lots-title">
-      <header><div><small>04 / LOTS</small><h2 id="lots-title">対象ロットを絞り、比較群を作る</h2></div><p>表示中 {summary.lotCount}ロット / 上位12件</p></header>
+      <header><div><small>DETAIL</small><h2 id="lots-title">ロット明細</h2></div><p>{summary.lotCount}ロット / 上位12件</p></header>
       {sortedLots.length ? <div className={styles.tableWrap}><table><thead><tr><th>ロットID</th><th>日付</th><th>製品 / 装置</th><th>検査数</th><th>歩留まり</th><th>{filters.focusDefect ? defectLabels[filters.focusDefect] : "不良数"}</th><th>比較へ追加</th></tr></thead><tbody>{sortedLots.slice(0, 12).map((lot) => <tr data-alert={lot.good / lot.inspected < .96} key={lot.id}><th scope="row">{lot.id}</th><td>{lot.date.slice(5).replace("-", "/")}</td><td>{lot.product}<small>{lot.equipment}</small></td><td>{number(lot.inspected)}</td><td>{percent(lot.good / lot.inspected, 2)}</td><td>{filters.focusDefect ? `${lot.defects[filters.focusDefect]} (${percent(defectRate(lot, filters.focusDefect), 1)})` : lotDefective(lot)}</td><td><button aria-pressed={normalIds.includes(lot.id)} onClick={() => addComparison(lot, "normal")} type="button">正常群</button><button aria-pressed={abnormalIds.includes(lot.id)} onClick={() => addComparison(lot, "abnormal")} type="button">異常群</button></td></tr>)}</tbody></table></div> : <div className={styles.empty} role="status"><strong>条件に合うロットがありません</strong><p>条件を1つ解除するか、全条件をリセットしてください。</p><button onClick={reset} type="button">全条件をリセット</button></div>}
     </section>
 
     <section className={styles.panel} aria-labelledby="condition-title">
-      <header><div><small>05 / CONDITIONS</small><h2 id="condition-title">正常群と異常群の工程条件</h2></div><p>比較群はフィルター変更後も保持</p></header>
+      <header><div><small>COMPARE</small><h2 id="condition-title">工程条件</h2></div><p>比較群を固定</p></header>
       {normalConditions && abnormalConditions ? <div className={styles.conditionCompare}>
         <ConditionColumn title="正常群" count={normalLots.length} conditions={normalConditions} summary={summarizeLots(normalLots)} />
         <div className={styles.delta} aria-label="条件差"><span>差分</span><b data-large={Math.abs(abnormalConditions.pressurePa - normalConditions.pressurePa) > 20}>圧力 {signed(abnormalConditions.pressurePa - normalConditions.pressurePa)} Pa</b><small>RF {signed(abnormalConditions.rfPowerW - normalConditions.rfPowerW)} W</small><small>温度 {signed(abnormalConditions.temperatureC - normalConditions.temperatureC)} ℃</small><small>ガス {signed(abnormalConditions.gasFlowSccm - normalConditions.gasFlowSccm)} sccm</small></div>
         <ConditionColumn title="異常群" count={abnormalLots.length} conditions={abnormalConditions} summary={summarizeLots(abnormalLots)} />
-      </div> : <div className={styles.comparisonEmpty}><strong>比較するロットを選んでください</strong><p>ロット一覧で選ぶか、現在の調査条件に対応する候補を追加してください。追加後の実ロットと集計値が比較に使われ、フィルター変更でも消えません。</p><div><button aria-pressed={normalIds.includes(suggestedNormal.id)} onClick={() => addComparison(suggestedNormal, "normal")} type="button">変更前 {suggestedNormal.id}を正常群へ</button><button aria-pressed={abnormalIds.includes(suggestedAbnormal.id)} onClick={() => addComparison(suggestedAbnormal, "abnormal")} type="button">低下後 {suggestedAbnormal.id}を異常群へ</button></div></div>}
+      </div> : <div className={styles.comparisonEmpty}><strong>正常・異常を1ロットずつ選択</strong><p>比較群はフィルターを変えても残ります。</p><div><button aria-pressed={normalIds.includes(suggestedNormal.id)} onClick={() => addComparison(suggestedNormal, "normal")} type="button">変更前 {suggestedNormal.id}</button><button aria-pressed={abnormalIds.includes(suggestedAbnormal.id)} onClick={() => addComparison(suggestedAbnormal, "abnormal")} type="button">低下後 {suggestedAbnormal.id}</button></div></div>}
     </section>
 
     <section className={styles.panel} aria-labelledby="history-title">
-      <header><div><small>06 / HISTORY</small><h2 id="history-title">保全・条件変更履歴との照合</h2></div><p>一致は証明ではなく、原因候補</p></header>
+      <header><div><small>EVENTS</small><h2 id="history-title">変更履歴</h2></div><p>一致 ≠ 原因</p></header>
       <div className={styles.history}>{changeHistory.filter((item) => !filters.equipment || item.equipment === filters.equipment).map((item) => <button aria-pressed={selectedHistory === item.id} key={item.id} onClick={() => chooseHistory(item.id)} type="button"><time>{item.at}</time><span>{item.type}</span><strong>{item.equipment}</strong><p>{item.detail}</p></button>)}</div>
-      {selectedHistory && <div className={styles.hypothesis} data-candidate={selectedHistory === "history-recipe"}><span>{selectedHistory === "history-recipe" ? "原因候補" : "照合メモ"}</span><p>{selectedHistory === "history-recipe" ? "CVD-02の圧力設定変更が、AX-7の膜厚外れ増加に関係した可能性があります。時刻・装置・条件差は一致しますが、観察データだけでは原因と断定できません。" : "時系列上の記録として確認しました。対象装置・時刻・条件差が不良の偏りと一致するか、ほかの履歴と並べて判断します。"}</p></div>}
+      {selectedHistory && <div className={styles.hypothesis} data-candidate={selectedHistory === "history-recipe"}><span>{selectedHistory === "history-recipe" ? "原因候補" : "照合メモ"}</span><p>{selectedHistory === "history-recipe" ? "CVD-02の圧力変更と、AX-7の膜厚外れ増加が時系列で一致。観察だけでは断定しません。" : "対象装置・時刻・条件差が不良の偏りと一致するか確認します。"}</p></div>}
     </section>
 
     <section className={`${styles.panel} ${styles.experiment}`} aria-labelledby="experiment-title">
-      <header><div><small>07 / CONFIRMATION</small><h2 id="experiment-title">別データの確認実験で検証</h2></div><button onClick={inspectExperiment} type="button">確認実験の結果を見る</button></header>
-      {!showExperiment ? <div className={styles.locked}><strong>通常の観察データとは分けてあります</strong><p>原因候補を立ててから開き、予想と結果を比べてください。</p></div> : <><div className={styles.experimentGrid}>{confirmationRuns.map((run) => {
+      <header><div><small>VALIDATION</small><h2 id="experiment-title">確認実験</h2></div><button onClick={inspectExperiment} type="button">結果を表示</button></header>
+      {!showExperiment ? <div className={styles.locked}><strong>観察データとは別の実験結果です</strong><p>原因候補を選んでから確認します。</p></div> : <><div className={styles.experimentGrid}>{confirmationRuns.map((run) => {
         const defective = Object.values(run.defects).reduce((sum, value) => sum + value, 0);
         return <article key={run.id}><span>確認実験</span><h3>{run.label}</h3><strong>{percent((run.inspected - defective) / run.inspected, 1)}</strong><p>膜厚外れ {run.defects.thickness}件 / {run.inspected}個</p><small>圧力 {run.condition.pressurePa} Pa</small></article>;
-      })}</div><div className={styles.conclusion}><strong>検証結果</strong><p>455 Paでは膜厚外れが多く、410 Paへ戻した2回の確認で改善しました。この固定デモでは「圧力設定の変更が原因だった」という仮説を支持します。実務では、再現性、交絡条件、測定の信頼性、変更リスクも確認してから標準条件を決めます。</p></div></>}
+      })}</div><div className={styles.conclusion}><strong>検証結果</strong><p>410 Paへ戻した2回で改善。圧力変更が原因という仮説を支持します。実務では交絡条件と再現性も確認します。</p></div></>}
     </section>
   </section>;
 }
