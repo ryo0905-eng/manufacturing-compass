@@ -184,6 +184,11 @@ export const manufacturingDxAiCodingGuide: GuideArticle = {
           type: "links",
           items: [
             {
+              label: "歩留まり原因調査ダッシュボード",
+              href: "/tools/yield-dashboard",
+              description: "製造データをつなぎ、原因候補を掘り下げるBI画面の要件を体験できます。",
+            },
+            {
               label: "Cpk学習ツール",
               href: "/tools/cpk",
               description: "工程能力指数を計算し、分布と規格の関係を確認できます。",

@@ -20,6 +20,7 @@ const toolItems = [
   ["Gage R&R 学習ツール", "/tools/gage-rr"],
   ["管理図 学習ツール", "/tools/control-chart"],
   ["歩留まり解析ツール", "/tools/yield-analysis"],
+  ["歩留まり原因調査ダッシュボード", "/tools/yield-dashboard"],
   ["Cp・Cpk計算・学習ツール", "/tools/cpk"],
   ["実験計画法（DoE）学習ツール", "/tools/doe"],
   ["山積み表・ラインバランス", "/tools/line-balance"],

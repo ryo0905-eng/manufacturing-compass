@@ -31,6 +31,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/tools/doe`: 2因子2水準を起点に、効果、実験誤差、ANOVA、残差、確認実験、設計選択を学ぶ
 - `/tools/control-chart`: 管理図で偶然原因と異常原因の判断を学ぶ
 - `/tools/yield-analysis`: 日別の良品・不良品個数をp管理図で監視し、製品別・装置別・製品構成比で歩留まり低下の調査条件を絞る
+- `/tools/yield-dashboard`: 固定の架空半導体工場データで、歩留まり低下から不良・製品・装置・ロット・工程条件・変更履歴・確認実験までを連動して調べる
 - `/tools/gage-rr`: 交差型Gage R&Rで部品差、繰返し性、再現性、%GRR、ndcを学ぶ
 - `/tools/line-balance`: 工程別の作業時間を山積み表示し、タクト超過と再配分前後を比較する
 - `/tools/oee`: OEEの内訳と、停止・性能・良品率の改善による推定良品数を比較する
@@ -91,6 +92,8 @@ src/lib/format.ts           正規URLなどの共通処理
 src/lib/doe/                DoEの効果・ANOVAなど、UIから独立した計算
 src/lib/gage-rr/            Gage R&Rの疑似測定データ、ANOVA、分散成分計算
 src/lib/yield-analysis.ts   CSV検証、個数加重集計、p管理図、層別・構成比比較
+src/data/yield-dashboard.ts 架空工場のロット、排他的な不良、工程条件、変更履歴、確認実験
+src/lib/yield-dashboard.ts  歩留まりの個数加重集計、絞り込み、層別、条件比較、整合性検査
 video/                      Web本体と依存関係を分けたショート動画生成パッケージ
 video/manifests/            元記事、画面文言、音声設定、確認日、公開状態
 video/src/components/       音声ミックス、共通枠、場面などの再利用部品
@@ -182,6 +185,7 @@ video/docs/                 制作フロー、公開記録、計測ログ
 - PII、自由記述、現年収、回答一式を送らない。粗いカテゴリを追加する時も個人を推測できない粒度に限定する
 - ミニアプリは閲覧、初回操作、山積み表の工程移動、OEE改善条件の確定変更を別イベントで計測する。歩留まり解析はシナリオ、有限の操作種別、CSV読込成否だけを送り、製品名、装置名、日付、個数、生データ、ファイル名は送らない
 - 歩留まり解析のイベントは `yield_analysis_first_interaction`（初回だけ）、`yield_analysis_scenario_changed`、`yield_analysis_csv_loaded`、`yield_analysis_filter_changed`、`yield_analysis_mix_comparison_used`。初期表示は利用開始に数えず、フィルター値は `selected` / `all` のみ送る
+- 歩留まり原因調査デモは `yield_dashboard_start`（初回だけ）、`yield_dashboard_guide_step`（各段階1回）、`yield_dashboard_complete`（1回）、`yield_dashboard_free_explore`、`yield_dashboard_design_view` を送る。ロットID、日付、実数、選択値は送らず、有限の操作種別・段階・モードだけを送る
 
 ## デプロイと検証
 

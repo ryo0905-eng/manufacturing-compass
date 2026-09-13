@@ -28,6 +28,6 @@ export default function YieldAnalysisPage() {
       <div><section><span>01</span><h3>不良率の異常を時系列で見る</h3><p>基準期間を固定し、日ごとの検査数に合わせたp管理図で、通常のばらつきから外れた悪化を確認します。複数製品を混ぜた全体は参考とし、製品を選んで判定します。</p></section><section><span>02</span><h3>製品・装置で層別する</h3><p>検査数と不良品数を合算して比較します。装置差を見るときは同じ製品へ絞り、製品構成の違いを装置差と読み違えないようにします。</p></section><section><span>03</span><h3>記録と現物で仮説を確かめる</h3><p>保全、材料ロット、レシピ、治工具、検査条件の履歴をシグナル時刻と照合します。一致は原因の証明ではないため、現物確認や再現性で確かめます。</p></section></div>
       <aside><strong>計算根拠</strong><p>p管理図は、良品／不良品の二項データを対象とするNIST/SEMATECHの説明と3σ式を確認しています。初版では正規近似が難しい少数・低不良率や、過分散・依存性に対する高度な補正は行いません。</p><a href="https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc332.htm" rel="noreferrer" target="_blank">NIST/SEMATECH: Proportions Control Charts ↗</a></aside>
     </article>
-    <nav className="tool-related-links" aria-label="関連ツールと解説"><span>関連ツール</span><Link href="/tools/control-chart">管理図の判定ルールを学ぶ →</Link><Link href="/tools/oee">不良ロスをOEEで見る →</Link><Link href="/guides/six-sigma">DMAICで調査の流れを整理 →</Link></nav>
+    <nav className="tool-related-links" aria-label="関連ツールと解説"><span>関連ツール</span><Link href="/tools/yield-dashboard">架空工場で原因調査を体験 →</Link><Link href="/tools/control-chart">管理図の判定ルールを学ぶ →</Link><Link href="/tools/oee">不良ロスをOEEで見る →</Link><Link href="/guides/six-sigma">DMAICで調査の流れを整理 →</Link></nav>
   </main>;
 }

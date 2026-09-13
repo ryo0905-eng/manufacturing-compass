@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/doe",
     "/tools/control-chart",
     "/tools/yield-analysis",
+    "/tools/yield-dashboard",
     "/tools/gage-rr",
     "/tools/line-balance",
     "/tools/oee",
