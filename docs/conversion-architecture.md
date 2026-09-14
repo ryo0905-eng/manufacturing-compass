@@ -210,3 +210,5 @@ Career Compass
 - `StatisticsCourseCta` は掲載対象ページの解説後に学習案内を表示し、クリック部分だけをClient Componentにする。講座情報・掲載対象・文脈は `src/data/learning-affiliates.ts` に集約する。
 - 既存の `affiliate_outbound_click` を使用し、`service_id=udemy`、`course_id=udemy-statistics-grade-2`、`source_page`（管理済みページパス）、`cta_location=statistics_learning_after_content` を送る。ツールの入力値・計算結果・検索パラメータは送らない。
 - 既存の `trackEvent` 経由でVercel AnalyticsとGA4へ送信する。GA4は `NEXT_PUBLIC_GA_MEASUREMENT_ID` 設定済みの本番 `mfg-compass.com` だけで有効。本番受信と必要なカスタムディメンション設定は公開後に確認する。クリックと購入・合格は区別する。
+
+- リーンシックスシグマ講座追加後は、シックスシグマ記事・歩留まり原因調査ツールで `course_id=udemy-lean-six-sigma-green-belt` を送る。他のパラメータとイベント名は維持し、既存講座と講座IDで区別する。掲載先から講座を静的に選び、表示と計測で同じ講座データを使う。
