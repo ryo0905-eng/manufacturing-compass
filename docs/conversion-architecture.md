@@ -204,3 +204,9 @@ Career Compass
 
 - 地図・一覧・初見向け入口から詳細を開くとパネルへフォーカスを移す。選択対象の変更時も新しい詳細へ移し、Tabで閉じるボタン・関連リンクへ進める。
 - 閉じるボタンとEscは開いたボタンへフォーカスを戻す。元のボタンが非表示・切断済みの場合は現在の表示方法の選択項目を探す。詳細は非モーダルであり、フォーカスを閉じ込めない。
+
+## 統計学習CTA（2026-09-14）
+
+- `StatisticsCourseCta` は掲載対象ページの解説後に学習案内を表示し、クリック部分だけをClient Componentにする。講座情報・掲載対象・文脈は `src/data/learning-affiliates.ts` に集約する。
+- 既存の `affiliate_outbound_click` を使用し、`service_id=udemy`、`course_id=udemy-statistics-grade-2`、`source_page`（管理済みページパス）、`cta_location=statistics_learning_after_content` を送る。ツールの入力値・計算結果・検索パラメータは送らない。
+- 既存の `trackEvent` 経由でVercel AnalyticsとGA4へ送信する。GA4は `NEXT_PUBLIC_GA_MEASUREMENT_ID` 設定済みの本番 `mfg-compass.com` だけで有効。本番受信と必要なカスタムディメンション設定は公開後に確認する。クリックと購入・合格は区別する。

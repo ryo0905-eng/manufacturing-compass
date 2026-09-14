@@ -1,3 +1,4 @@
+import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StructuredData } from "@/components/StructuredData";
@@ -29,5 +30,6 @@ export default function YieldAnalysisPage() {
       <aside><strong>計算根拠</strong><p>p管理図は、良品／不良品の二項データを対象とするNIST/SEMATECHの説明と3σ式を確認しています。初版では正規近似が難しい少数・低不良率や、過分散・依存性に対する高度な補正は行いません。</p><a href="https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc332.htm" rel="noreferrer" target="_blank">NIST/SEMATECH: Proportions Control Charts ↗</a></aside>
     </article>
     <nav className="tool-related-links" aria-label="関連ツールと解説"><span>関連ツール</span><Link href="/tools/yield-dashboard">架空工場で原因調査を体験 →</Link><Link href="/tools/control-chart">管理図の判定ルールを学ぶ →</Link><Link href="/tools/oee">不良ロスをOEEで見る →</Link><Link href="/guides/six-sigma">DMAICで調査の流れを整理 →</Link></nav>
+  <StatisticsCourseCta sourcePage="/tools/yield-analysis" />
   </main>;
 }

@@ -1,0 +1,11 @@
+.panel {
+  margin-block: 24px;
+  min-width: 0;
+}
+
+.panel a {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+}

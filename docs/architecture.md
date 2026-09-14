@@ -78,6 +78,7 @@ src/data/company-locations.ts
                             公式確認済みの半導体企業・物理拠点・出典
 src/data/hiring-signals.ts  期限付きの拠点別採用確認状態
 src/data/affiliateLinks.ts  エージェント、提携状態、CTA
+src/data/learning-affiliates.ts 統計学習講座の広告情報とCTA掲載対象
 src/data/salary-methodology.ts
                             参考年収帯の算出説明と出典
 src/data/editorial.ts       ガイド記事の集約

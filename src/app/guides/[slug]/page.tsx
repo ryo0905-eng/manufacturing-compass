@@ -1,3 +1,4 @@
+import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
@@ -198,6 +199,8 @@ export default async function GuidePage({ params }: GuidePageProps) {
             ))}
           </nav>
         ) : null}
+
+        <StatisticsCourseCta sourcePage={`/guides/${guide.slug}`} />
 
         {guide.todayQuest ? <TodayAction action={guide.todayQuest} /> : null}
 
