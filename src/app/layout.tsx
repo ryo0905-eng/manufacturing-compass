@@ -30,6 +30,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   return (
     <html lang="ja">
+      <head>
+        <meta
+          name="impact-site-verification"
+          {...{ value: "e89c898a-5aba-449d-bd8b-cc42f1143d1e" }}
+        />
+      </head>
       <body>
         <div className="site-shell">
           <Header />
