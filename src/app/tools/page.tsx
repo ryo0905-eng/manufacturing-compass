@@ -5,7 +5,7 @@ import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "製造業の品質管理・統計学習ツール｜無料で動かして学ぶ",
-  description: "Gage R&R、管理図、歩留まり解析、Cp・Cpk、実験計画法、山積み表、OEEを、数値とグラフを動かして試せる無料の製造業向けツール集です。",
+  description: "工程条件の比較、Gage R&R、管理図、歩留まり解析、Cp・Cpk、実験計画法、山積み表、OEEを、数値とグラフを動かして試せる無料の製造業向けツール集です。",
   alternates: { canonical: "/tools" },
   openGraph: {
     title: "製造業の品質管理・統計学習ラボ｜Manufacturing Compass",
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 };
 
 const toolItems = [
+  ["工程条件の比較", "/tools/process-comparison"],
   ["Gage R&R 学習ツール", "/tools/gage-rr"],
   ["管理図 学習ツール", "/tools/control-chart"],
   ["歩留まり解析ツール", "/tools/yield-analysis"],

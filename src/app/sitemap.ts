@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/gage-rr",
     "/tools/line-balance",
     "/tools/oee",
+    "/tools/process-comparison",
     "/career-compass",
     "/career-priorities",
     "/career-consultation",
@@ -47,6 +48,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === "/tools/process-comparison" ? { lastModified: contentDate("2026-09-16") } : {}),
     ...(path === "/career-priorities" ? { lastModified: contentDate("2026-09-06") } : {}),
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),

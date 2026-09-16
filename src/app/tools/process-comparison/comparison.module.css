@@ -1,0 +1,29 @@
+.page { max-width: 1080px; margin: 0 auto; padding: 24px 20px 64px; color: #1d1d1f; overflow-wrap: anywhere; }
+.page h1 { font-size: clamp(28px, 4vw, 36px); font-weight: 600; margin: 20px 0 12px; }
+.page h2 { font-size: 24px; font-weight: 600; margin: 24px 0 12px; }
+.page p { margin: 12px 0; line-height: 1.8; }
+.page a { color: #1769aa; text-decoration: underline; }
+.nav { display: flex; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+.privacy { background: #f7f7f8; padding: 12px 16px; border-radius: 6px; }
+.tool { margin: 32px 0; }
+.tool fieldset { border: 0; padding: 0; min-width: 0; }
+.tool legend { font-size: 24px; font-weight: 600; }
+.tool label { display: grid; gap: 6px; margin: 12px 0; font-size: 14px; }
+.tool input, .tool textarea { width: 100%; min-width: 0; border: 1px solid #c9cdd2; border-radius: 6px; padding: 10px; font-size: 16px; background: white; color: #1d1d1f; }
+.tool textarea { resize: vertical; font-family: monospace; }
+.columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+.tool button { min-height: 44px; border: 1px solid #c9cdd2; border-radius: 6px; padding: 10px 16px; background: white; font-size: 14px; cursor: pointer; }
+.tool button.primary { background: #1d1d1f; color: white; border-color: #1d1d1f; }
+.tool button:disabled { cursor: wait; opacity: .6; }
+.page :is(button, input, textarea, a, summary):focus-visible { outline: 2px solid #1769aa; outline-offset: 3px; }
+.error { color: #a12b24; background: #fff4f2; padding: 12px; }
+.tableWrap, .chartWrap { overflow-x: auto; margin: 20px 0; }
+.tool table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+.tool caption { text-align: left; margin-bottom: 8px; color: #60666d; }
+.tool th, .tool td { border-bottom: 1px solid #e5e7eb; padding: 12px; text-align: right; }
+.tool th:first-child { text-align: left; }
+.tool thead { background: #f7f7f8; }
+.chart { width: 100%; min-width: 660px; height: auto; }
+.sources { margin-top: 48px; max-width: 740px; }
+@media (max-width: 640px) { .columns { grid-template-columns: 1fr; gap: 0; } .page { padding: 16px 16px 48px; } .tool th, .tool td { padding: 10px 6px; } }

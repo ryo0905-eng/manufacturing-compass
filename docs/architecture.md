@@ -27,6 +27,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/career-compass`: 12問の現在地チェックと同一画面内の結果
 - `/career-agents`: 転職エージェント比較
 - `/career-consultation`: 相談論点の整理
+- `/tools/process-comparison`: 実測2条件の記述統計・共通相対度数ヒストグラム、TSVコピーとPNG出力。計算とSVG生成は`src/lib/process-comparison.ts`、PNG化は`src/lib/process-comparison-export.ts`。同じ結果を画面・コピー・画像へ使い、サーバーAPIや永続化は追加しない。計測は`process_comparison_started/completed/copied/png_exported`の固定名のみ（プロパティなし）
 - `/tools/cpk`: 生データからPp・Ppk、短期標準偏差からCp・Cpkを計算し、SVGヒストグラムと分析を表示
 - `/tools/doe`: 2因子2水準を起点に、効果、実験誤差、ANOVA、残差、確認実験、設計選択を学ぶ
 - `/tools/control-chart`: 管理図で偶然原因と異常原因の判断を学ぶ

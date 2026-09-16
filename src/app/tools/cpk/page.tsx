@@ -47,6 +47,7 @@ export default function CpkToolPage() {
         <section><h3>Excelで計算する場合との違い</h3><p>Excelでも同じ式で計算できます。このツールは、列データを貼り付けるだけで入力件数、分布、規格中心からのずれ、確認候補を一度に整理するためのものです。元データは保存せず、入力内容も自動で整形しません。</p></section>
         <section className="capability-faq"><h3>よくある質問</h3>{faq.map((item) => <details key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}</section>
       </article>
+    <nav className="tool-related-links" aria-label="実測データの比較"><Link href="/tools/process-comparison">変更前後の測定値を比較して、表・PNGを作る →</Link></nav>
     <StatisticsCourseCta sourcePage="/tools/cpk" />
   </main>
   );

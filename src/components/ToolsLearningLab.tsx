@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
 
-type ToolId = "gage-rr" | "control-chart" | "yield-analysis" | "yield-dashboard" | "cpk" | "doe" | "line-balance" | "oee";
+type ToolId = "gage-rr" | "control-chart" | "yield-analysis" | "yield-dashboard" | "cpk" | "doe" | "line-balance" | "oee" | "process-comparison";
 
 const tools = [
   { id: "gage-rr", href: "/tools/gage-rr", step: "01", question: "測れるか", title: "Gage R&R", role: "測定システムを評価", badge: "まず確認", message: "その測定値は、部品差を見分けられるか", description: "部品差と測定誤差を分け、信頼できるデータを集められるか確かめます。", features: ["繰返し性・再現性", "%GRR・ndc", "改善シミュレーション"], time: "5〜10分", level: "入門", preview: "gage" },
@@ -15,6 +15,7 @@ const tools = [
   { id: "doe", href: "/tools/doe", step: "06", question: "どう改善するか", title: "実験計画法（DoE）", role: "改善条件を効率的に探索", badge: "次の一歩", message: "複数の条件を、効率よく比較する", description: "複数因子の主効果と交互作用を読み、改善条件を少ない実験で探索します。", features: ["2因子2水準", "交互作用・ANOVA", "残差・確認実験"], time: "8〜15分", level: "基礎", preview: "doe" },
   { id: "line-balance", href: "/tools/line-balance", step: "07", question: "工程の負荷は偏っていないか", title: "山積み表・ラインバランス", role: "作業配分を比較", badge: "実務ツール", message: "作業を移し、タクト超過の変化を見る", description: "工程別の作業時間を積み上げ、再配分前後の負荷を比較します。", features: ["積み上げ棒グラフ", "タクト超過", "配分の基準比較"], time: "3〜8分", level: "入門", preview: "balance" },
   { id: "oee", href: "/tools/oee", step: "08", question: "どのロスを改善するか", title: "OEE改善シミュレーター", role: "設備ロスを比較", badge: "実務ツール", message: "停止・速度・不良を、良品数につなげる", description: "OEEの内訳と改善シナリオから、推定良品生産量を比較します。", features: ["OEE自動計算", "3つのロス", "推定良品数"], time: "3〜5分", level: "入門", preview: "oee" },
+  { id: "process-comparison", href: "/tools/process-comparison", step: "09", question: "2条件の測定値はどう違うか", title: "工程条件の比較", role: "実測データを比較", badge: "実務ツール", message: "変更前後の分布を、報告資料にまとめる", description: "2条件の平均・ばらつき・規格内率を比較し、表とPNGを持ち帰れます。", features: ["測定値を貼り付け", "共通スケールの分布図", "表コピー・PNG保存"], time: "約3分", level: "入門", preview: "comparison" },
 ] as const;
 
 const storageKey = "mc-tools-opened-v1";
@@ -30,9 +31,10 @@ function MiniPreview({ type, title }: { type: string; title: string }) {
       {type === "cpk" && <><path className="spec" d="M67 22V120M274 22V120"/><path className="distribution" d="M36 120C70 119 91 111 111 75C132 36 158 27 180 74C199 111 224 119 298 120"/><g className="cpk-values"><text x="36" y="34">Cp 1.42</text><text x="218" y="34">Cpk 1.31</text></g><text x="60" y="136">LSL</text><text x="267" y="136">USL</text></>}
       {type === "doe" && <><path className="interaction-a" d="M70 99L257 43"/><path className="interaction-b" d="M70 48L257 94"/><circle cx="70" cy="99" r="4"/><circle cx="257" cy="43" r="4"/><circle cx="70" cy="48" r="4"/><circle cx="257" cy="94" r="4"/><text x="58" y="136">低</text><text x="247" y="136">高</text></>}
       {type === "balance" && <><rect className="balance-segment balance-segment--1" x="52" y="66" width="48" height="54"/><rect className="balance-segment balance-segment--2" x="52" y="42" width="48" height="24"/><rect className="balance-segment balance-segment--1" x="136" y="34" width="48" height="86"/><rect className="balance-segment balance-segment--2" x="136" y="18" width="48" height="16"/><rect className="balance-segment balance-segment--1" x="220" y="72" width="48" height="48"/><path className="limit" d="M24 50H304"/><text x="25" y="46">タクト</text></>}
+      {type === "comparison" && <><path className="interaction-a" d="M45 64H90V40H135V26H180V47H225V64H280"/><path className="interaction-b" d="M45 115H90V99H135V79H180V91H225V115H280"/><text x="25" y="47">A</text><text x="25" y="95">B</text></>}
       {type === "oee" && <><rect className="oee-preview-track" x="50" y="37" width="230" height="17"/><rect className="oee-preview-bar" x="50" y="37" width="166" height="17"/><rect className="oee-preview-track" x="50" y="76" width="230" height="17"/><rect className="oee-preview-bar oee-preview-bar--improved" x="50" y="76" width="203" height="17"/><text x="50" y="31">現状 OEE</text><text x="50" y="70">改善後</text></>}
     </svg>
-    <p>{type === "gage" ? "誤差が増えると部品差が見えにくくなる" : type === "chart" ? "平均シフトを管理限界で検出" : type === "yield" ? "低下した製品・装置へ絞り込む" : type === "cpk" ? "中心がずれるとCpkが低下" : type === "doe" ? "線が交差すると交互作用あり" : type === "balance" ? "工程負荷とタクト超過を比較" : "改善条件から良品数を推定"}</p>
+    <p>{type === "comparison" ? "2条件の分布とばらつきを比較" : type === "gage" ? "誤差が増えると部品差が見えにくくなる" : type === "chart" ? "平均シフトを管理限界で検出" : type === "yield" ? "低下した製品・装置へ絞り込む" : type === "cpk" ? "中心がずれるとCpkが低下" : type === "doe" ? "線が交差すると交互作用あり" : type === "balance" ? "工程負荷とタクト超過を比較" : "改善条件から良品数を推定"}</p>
   </div>;
 }
 
@@ -55,11 +57,11 @@ export function ToolsLearningLab() {
   return <>
     <nav className="tools-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span aria-hidden="true">/</span><span>学習ツール</span></nav>
     <section className="tools-lab-hero">
-      <div className="tools-lab-hero__copy"><p className="tools-eyebrow"><span aria-hidden="true" />無料・登録不要の実務ツール</p><h1>製造技術を、計算して、<br />動かして理解する。</h1><p>品質管理・統計手法と現場改善を、数値やグラフを動かしながら学び、試せます。</p><div className="tools-hero-actions"><a className="tools-primary-cta" href="#learning-roadmap">ツールを選ぶ <span aria-hidden="true">↓</span></a><a className="tools-secondary-cta" href="#tool-lab">8つのツールを見る</a></div></div>
+      <div className="tools-lab-hero__copy"><p className="tools-eyebrow"><span aria-hidden="true" />無料・登録不要の実務ツール</p><h1>製造技術を、計算して、<br />動かして理解する。</h1><p>品質管理・統計手法と現場改善を、数値やグラフを動かしながら学び、試せます。</p><div className="tools-hero-actions"><a className="tools-primary-cta" href="#learning-roadmap">ツールを選ぶ <span aria-hidden="true">↓</span></a><a className="tools-secondary-cta" href="#tool-lab">9つのツールを見る</a></div></div>
       <div className="tools-flow-visual" aria-label="測定、安定性、能力、改善の4段階"><span>測定</span><i>→</i><span>安定性</span><i>→</i><span>能力</span><i>→</i><span>改善</span><small>DATA → DECISION → ACTION</small></div>
     </section>
 
-    <section className="learning-roadmap" id="learning-roadmap" aria-labelledby="roadmap-title"><header><div><p className="section-label">TOOL ROADMAP</p><h2 id="roadmap-title">今の用事から選ぶ8つの入口</h2></div><p>測定・安定性・歩留まり・原因調査・工程能力・条件探索に加え、作業配分と設備ロスの改善を試せます。</p></header><ol>{tools.map((tool) => <li key={tool.id}><span>{tool.step}</span><div><small>{tool.role}</small><h3>{tool.question}</h3><p>{tool.title}</p><Link href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "learning_roadmap")}>試す <i aria-hidden="true">→</i></Link></div></li>)}</ol></section>
+    <section className="learning-roadmap" id="learning-roadmap" aria-labelledby="roadmap-title"><header><div><p className="section-label">TOOL ROADMAP</p><h2 id="roadmap-title">今の用事から選ぶ9つの入口</h2></div><p>測定・安定性・歩留まり・原因調査・工程能力・条件探索に加え、作業配分と設備ロスの改善を試せます。</p></header><ol>{tools.map((tool) => <li key={tool.id}><span>{tool.step}</span><div><small>{tool.role}</small><h3>{tool.question}</h3><p>{tool.title}</p><Link href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "learning_roadmap")}>試す <i aria-hidden="true">→</i></Link></div></li>)}</ol></section>
 
     <section className="tools-lab-directory" id="tool-lab" aria-labelledby="tools-title"><header><div><p className="section-label">INTERACTIVE TOOLS</p><h2 id="tools-title">グラフを動かして、3分で試す</h2></div><div className="tools-progress" aria-live="polite"><span><b>{opened.length}</b> / {tools.length} ツールを体験済み</span>{opened.length > 0 && <button onClick={resetProgress} type="button">進捗をリセット</button>}</div></header><div className="tools-card-grid">{tools.map((tool) => <article className="learning-tool-card" key={tool.id}><header><div><span>{tool.step} / {tool.role}</span><h3>{tool.title}</h3></div><em>{tool.badge}</em></header><MiniPreview type={tool.preview} title={tool.title}/><strong className="tool-card-message">{tool.message}</strong><p>{tool.description}</p><ul>{tool.features.map(feature => <li key={feature}>{feature}</li>)}</ul><dl><div><dt>所要時間</dt><dd>{tool.time}</dd></div><div><dt>難易度</dt><dd>{tool.level}</dd></div><div><dt>実務利用</dt><dd>可能</dd></div></dl><footer><Link className="tool-card-primary" href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "tool_card_cta")}>すぐ試す <span aria-hidden="true">→</span></Link></footer></article>)}</div></section>
   </>;
