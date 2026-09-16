@@ -198,9 +198,11 @@ video/docs/                 制作フロー、公開記録、計測ログ
 
 ## 半導体職種マップの事前検証（2026-09-16）
 
-現段階はdocs内の[対応表](./role-map-pilot.md)・[試用手順](./role-map-validation.md)による手作業検証。アプリコード、ルート、ナビゲーション、sitemap、計測の追加はまだ行っていない。
+現段階はdocs内の[対応表](./role-map-pilot.md)・[試用手順](./role-map-validation.md)と、試用を補助するローカル試作。`/role-map-prototype` は `NODE_ENV=production` で404とし、ナビゲーション、sitemap、計測には追加しない。
 
-検証後の[引継ぎ仕様](./role-map-mvp-spec.md)では、職務群・文脈別Profile・使用名称・業務・主張単位の根拠を分離し、ローカル静的データと純粋関数で扱う。予定URL `/roles`は静的説明をServer Component、業務選択・候補抽出・コピーをClient Componentとし、回答はメモリのみ。新しい外部API・DB・認証は追加しない。
+試作は `src/data/role-map-prototype.ts` の4職務群・18業務、`src/lib/role-map.ts` の純粋な候補抽出、Client Componentの選択・結果・コピーに分ける。回答はReactメモリだけで保持し、URL、Cookie、localStorage、外部APIへ送らない。
+
+検証後の[引継ぎ仕様](./role-map-mvp-spec.md)では、職務群・文脈別Profile・使用名称・業務・主張単位の根拠をさらに分離し、レビュー済みのローカル静的データだけを公開する。予定URL `/roles`は静的説明をServer Component、業務選択・候補抽出・コピーをClient Componentとし、回答はメモリのみ。新しい外部API・DB・認証は追加しない。
 
 ## 将来の外部サービス導入条件
 
