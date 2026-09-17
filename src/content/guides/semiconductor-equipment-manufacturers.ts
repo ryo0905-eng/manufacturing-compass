@@ -375,6 +375,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
   ],
   todayQuest: "気になる装置企業を1社選び、扱う装置を成膜・露光・エッチング・洗浄・検査・テスト・個片化のどこへ置けるか確認する",
   relatedGuideSlugs: [
+    "semiconductor-equipment-sales-ranking",
     "semiconductor-equipment-components-subfab",
     "semiconductor-rf-power-matching-manufacturers",
     "semiconductor-vacuum-gauge-pressure-control-valve-manufacturers",

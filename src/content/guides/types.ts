@@ -250,6 +250,9 @@ export type GuideBlock =
       scope: "world" | "japan";
     }
   | {
+      type: "equipment-sales-ranking";
+    }
+  | {
       type: "salary-ranking";
     }
   | {

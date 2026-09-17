@@ -212,3 +212,9 @@ Career Compass
 - 既存の `trackEvent` 経由でVercel AnalyticsとGA4へ送信する。GA4は `NEXT_PUBLIC_GA_MEASUREMENT_ID` 設定済みの本番 `mfg-compass.com` だけで有効。本番受信と必要なカスタムディメンション設定は公開後に確認する。クリックと購入・合格は区別する。
 
 - リーンシックスシグマ講座追加後は、シックスシグマ記事・歩留まり原因調査ツールで `course_id=udemy-lean-six-sigma-green-belt` を送る。他のパラメータとイベント名は維持し、既存講座と講座IDで区別する。掲載先から講座を静的に選び、表示と計測で同じ講座データを使う。
+
+### 半導体製造装置売上ランキング（2026-09-17実装・記事公開待ち）
+
+- `equipment_ranking_process_select`: 工程選択が変わった時だけ送信。`process_id` は `all / deposition / lithography / etch / cleaning / inspection / test / assembly`、`source_slug` は掲載記事のslug。初期描画と同じ選択の再押下では送信しない。
+- 企業詳細は既存の `article_company_click`、工程記事は `article_internal_click` を使用する。
+- 操作回数を人数や理解度と扱わない。公開14日後に検索登録、28日・56日後に記事群の検索クリックと関連ページ遷移を確認する。実際の受信は本番反映後に確認する。

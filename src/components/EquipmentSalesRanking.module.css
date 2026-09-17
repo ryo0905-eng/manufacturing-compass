@@ -1,0 +1,38 @@
+.root { min-width: 0; }
+.explorer { margin-block: 1.5rem; }
+.controls { border: 0; padding: 0; margin: 0; min-width: 0; }
+.controls legend { font-weight: 700; margin-bottom: .75rem; }
+.buttons { display: flex; flex-wrap: wrap; gap: .5rem; }
+.buttons button { min-height: 44px; border: 1px solid #cbd5e1; border-radius: 999px; padding: .55rem 1rem; background: #fff; color: #334155; font: inherit; cursor: pointer; }
+.buttons button[aria-pressed="true"] { background: #164e63; border-color: #164e63; color: white; }
+.root :is(button, a, summary, [tabindex]):focus-visible { outline: 3px solid #0284c7; outline-offset: 3px; }
+.hint { min-height: 3em; color: #475569; }
+.caution { padding: 1rem; background: #f1f5f9; border-radius: 12px; font-size: .9rem; }
+.chart { margin: 1.5rem 0; }
+.chart figcaption { font-weight: 700; }
+.chart figcaption small { display: block; color: #475569; font-weight: 400; margin-top: .25rem; }
+.bars { list-style: none; padding: 0; display: grid; gap: .45rem; }
+.bars li { padding: .7rem; border: 1px solid transparent; border-radius: 10px; }
+.bars li.match { background: #ecfeff; border-color: #0e7490; }
+.barHeading { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; font-size: .95rem; }
+.barHeading span { min-width: 0; overflow-wrap: anywhere; }
+.barHeading b { flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.track { height: 12px; background: #e2e8f0; border-radius: 4px; margin-top: .4rem; overflow: hidden; }
+.track span { display: block; height: 100%; background: #64748b; border-radius: inherit; }
+.match .track span { background: #0e7490; }
+.bars small { color: #475569; font-size: .8rem; }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+.card { border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; min-width: 0; overflow-wrap: anywhere; }
+.card h3 { margin-top: 0; font-size: 1.1rem; }
+.card h3 small { display: block; color: #64748b; font-size: .8rem; margin-bottom: .25rem; }
+.card ul { padding-left: 1.2rem; }
+.card li { margin-bottom: .65rem; }
+.card a { font-size: .9rem; text-underline-offset: .2em; }
+.details { border-top: 1px solid #e2e8f0; padding-top: 1rem; }
+.details summary { cursor: pointer; padding-block: .6rem; font-weight: 600; }
+.tableWrap { overflow-x: auto; margin-top: 1rem; }
+.tableWrap table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: .9rem; }
+.tableWrap caption { text-align: left; padding-bottom: .6rem; }
+.tableWrap :is(td, th) { padding: .75rem; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
+.tableWrap ul { margin: 0; padding-left: 1rem; }
+@media (max-width: 640px) { .cards { grid-template-columns: 1fr; } .card { padding: 1rem; } .barHeading { font-size: .875rem; } }
