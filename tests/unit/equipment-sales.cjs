@@ -82,6 +82,6 @@ assert.match(html, /<caption>2025年/);
 assert.match(html, /公式製品情報/);
 for (const company of companies) assert.ok(html.includes(company.salesUsdB.toFixed(2)));
 const { semiconductorEquipmentSalesRankingGuide: guide } = loadRenderable(path.join(root, 'src/content/guides/semiconductor-equipment-sales-ranking.ts'));
-assert.equal(guide.status, 'draft');
+assert.equal(guide.status, 'published');
 assert.ok(guide.sections.some(section => section.blocks?.some(block => block.type === 'equipment-sales-ranking')));
-console.log('Equipment sales SSR: buttons, selected state, live region, no-JS table, sources and draft gate passed.');
+console.log('Equipment sales SSR: buttons, selected state, live region, no-JS table, sources and publication status passed.');

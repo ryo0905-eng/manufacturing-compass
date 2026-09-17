@@ -7,8 +7,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
   description: "2025暦年の半導体製造装置売上高で世界上位10社を比較。成膜・露光・エッチング・洗浄・検査・テスト・組立を選び、関連企業と製品を確認できます。集計範囲と公式出典も掲載。",
   targetQuery: "半導体製造装置メーカー 世界ランキング",
   searchIntent: "半導体製造装置メーカーの売上規模と対応工程を比較し、次に調べる企業・装置を見つけたい",
-  // 公開前に運営者の内容確認が必要。承認後にpublishedへ切り替える。
-  status: "draft",
+  status: "published",
   category: "industry",
   presentation: "structured",
   author: "RYO",

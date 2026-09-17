@@ -213,7 +213,7 @@ Career Compass
 
 - リーンシックスシグマ講座追加後は、シックスシグマ記事・歩留まり原因調査ツールで `course_id=udemy-lean-six-sigma-green-belt` を送る。他のパラメータとイベント名は維持し、既存講座と講座IDで区別する。掲載先から講座を静的に選び、表示と計測で同じ講座データを使う。
 
-### 半導体製造装置売上ランキング（2026-09-17実装・記事公開待ち）
+### 半導体製造装置売上ランキング（2026-09-17公開対象化・本番反映未確認）
 
 - `equipment_ranking_process_select`: 工程選択が変わった時だけ送信。`process_id` は `all / deposition / lithography / etch / cleaning / inspection / test / assembly`、`source_slug` は掲載記事のslug。初期描画と同じ選択の再押下では送信しない。
 - 企業詳細は既存の `article_company_click`、工程記事は `article_internal_click` を使用する。
