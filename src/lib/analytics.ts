@@ -40,6 +40,12 @@ export type LocationMapAnalyticsEventMap = {
   };
 };
 
+export type RoleMapAnalyticsEventName =
+  | 'role_map_start'
+  | 'role_map_result_view'
+  | 'role_map_search_copy'
+  | 'role_map_related_click';
+
 function isProductionGaHost() {
   return process.env.NODE_ENV === "production"
     && typeof window !== "undefined"
@@ -76,4 +82,8 @@ export function trackLocationMapEvent<EventName extends keyof LocationMapAnalyti
   properties: LocationMapAnalyticsEventMap[EventName],
 ) {
   trackEvent(eventName, properties);
+}
+
+export function trackRoleMapEvent(eventName: RoleMapAnalyticsEventName) {
+  trackEvent(eventName);
 }

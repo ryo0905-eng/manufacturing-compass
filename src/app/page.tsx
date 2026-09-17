@@ -24,6 +24,11 @@ export const metadata: Metadata = {
 
 const researchLinks = [
   {
+    href: "/roles",
+    title: "仕事内容から職種を探す",
+    body: "担当してきた仕事から、半導体求人で使う職種名と検索語を確認します。",
+  },
+  {
     href: "/industry-map",
     title: "半導体業界を知る",
     body: "設計、製造、装置、材料など、それぞれの役割を工程から確認します。",

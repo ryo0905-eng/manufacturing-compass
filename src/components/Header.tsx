@@ -24,7 +24,7 @@ export function Header() {
         ))}
       </nav>
       <CareerCompassLink className="header-cta" ctaLocation="global_header" ctaVariant="experience_to_role">
-        経験から職種を探す
+        経験と次の準備を整理する
       </CareerCompassLink>
     </header>
   );

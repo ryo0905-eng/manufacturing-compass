@@ -52,6 +52,9 @@
 .resultBody summary { cursor: pointer; font-weight: 650; }
 .resultBody details ul { margin-top: 12px; }
 .resultBody details p { margin-top: 8px; font-size: 12px; }
+.relatedLinks { display: grid; grid-column: 1 / -1; gap: 8px; padding: 20px 24px; }
+.relatedLinks a { display: flex; justify-content: space-between; gap: 14px; border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px; color: var(--primary); font-size: 14px; font-weight: 650; text-decoration: none; }
+.relatedLinks a:hover { border-color: #8eb8c1; background: #f4f9fa; }
 .phraseList { display: grid; gap: 10px; }
 .phraseList > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
 .phraseList code { overflow-wrap: anywhere; border: 1px solid var(--line); border-radius: 7px; background: var(--surface-soft); padding: 10px; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; user-select: all; }
@@ -70,5 +73,5 @@
   .help { margin-left: 0; }
   .actions { align-items: stretch; flex-direction: column; }
   .actions button { width: 100%; }
-  .resultCard > header,.resultBody > section,.resultBody > details { padding-right: 18px; padding-left: 18px; }
+  .resultCard > header,.resultBody > section,.resultBody > details,.relatedLinks { padding-right: 18px; padding-left: 18px; }
 }

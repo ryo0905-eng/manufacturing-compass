@@ -1,8 +1,10 @@
 'use client';
 
 import { useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import { roleMapCategoryLabels, roleMapProfiles, roleMapResponsibilities } from '@/data/role-map-prototype';
 import { findRoleMapMatches } from '@/lib/role-map';
+import { trackRoleMapEvent } from '@/lib/analytics';
 import type { ResponsibilityCategory, ResponsibilityId, RoleMapMatch } from '@/types/role-map';
 import styles from './RoleMapPrototype.module.css';
 
@@ -17,6 +19,8 @@ export function RoleMapPrototype() {
   const [copiedPhrase, setCopiedPhrase] = useState<string | null>(null);
   const [copyFailedPhrase, setCopyFailedPhrase] = useState<string | null>(null);
   const resultsHeadingRef = useRef<HTMLHeadingElement>(null);
+  const startedRef = useRef(false);
+  const lastResultKeyRef = useRef<string | null>(null);
 
   const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
   const emphasizedSet = useMemo(() => new Set(emphasizedIds), [emphasizedIds]);
@@ -28,6 +32,10 @@ export function RoleMapPrototype() {
   }
 
   function toggleSelected(id: ResponsibilityId) {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      trackRoleMapEvent('role_map_start');
+    }
     setSelectedIds((current) => {
       const isSelected = current.includes(id);
       const next = isSelected ? current.filter((item) => item !== id) : [...current, id];
@@ -49,6 +57,11 @@ export function RoleMapPrototype() {
 
   function showMatches() {
     setMatches(findRoleMapMatches({ selectedIds, emphasizedIds }, roleMapProfiles, knownIds));
+    const resultKey = `${[...selectedIds].sort().join(',')}|${[...emphasizedIds].sort().join(',')}`;
+    if (lastResultKeyRef.current !== resultKey) {
+      lastResultKeyRef.current = resultKey;
+      trackRoleMapEvent('role_map_result_view');
+    }
     setCopiedPhrase(null);
     setCopyFailedPhrase(null);
     requestAnimationFrame(() => resultsHeadingRef.current?.focus());
@@ -57,6 +70,7 @@ export function RoleMapPrototype() {
   async function copyPhrase(phrase: string) {
     try {
       await navigator.clipboard.writeText(phrase);
+      trackRoleMapEvent('role_map_search_copy');
       setCopiedPhrase(phrase);
       setCopyFailedPhrase(null);
     } catch {
@@ -68,12 +82,12 @@ export function RoleMapPrototype() {
   return (
     <div className={styles.prototype}>
       <section className={styles.intro} aria-labelledby="prototype-title">
-        <p className={styles.eyebrow}>LOCAL PROTOTYPE · 4 ROLE GROUPS</p>
+        <p className={styles.eyebrow}>BETA · 4 ROLE GROUPS</p>
         <h1 id="prototype-title">仕事内容から探す 半導体職種マップ</h1>
         <p>実際に担当した仕事を選ぶと、接点のある職種名と求人検索語を理由付きで表示します。適職・能力・採用可能性を判定するものではありません。</p>
         <div className={styles.notice}>
-          <strong>検証中の試作品です</strong>
-          <span>対応する職務は4群だけです。該当しない結果は、あなたの経験不足を意味しません。回答は保存・送信されず、再読み込みで消えます。</span>
+          <strong>対象を限定したβ版です</strong>
+          <span>現在は4職務群を扱っています。該当しない結果は、あなたの経験不足を意味しません。回答内容は保存・送信されず、再読み込みで消えます。</span>
         </div>
       </section>
 
@@ -141,7 +155,7 @@ export function RoleMapPrototype() {
           {matches.length === 0 ? (
             <div className={styles.empty}>
               <h3>この4職務群では、まだ候補を絞れませんでした</h3>
-              <p>2件以上の共通業務がある場合だけ候補を表示しています。選択を増やすか、今回の試作品では未対応の職務として記録してください。</p>
+              <p>2件以上の共通業務がある場合だけ候補を表示しています。選択を増やすか、現在のβ版では未対応の職務として確認してください。</p>
             </div>
           ) : (
             <div className={styles.resultList}>
@@ -186,6 +200,11 @@ export function RoleMapPrototype() {
                       <ul>{match.profile.evidence.map((item) => <li key={item.url}><a href={item.url} target="_blank" rel="noreferrer">{item.label}</a></li>)}</ul>
                       <p>確認日: 2026-09-16。求人の継続募集を示すものではありません。</p>
                     </details>
+                    <nav className={styles.relatedLinks} aria-label={`${match.profile.title}の関連情報`}>
+                      {match.profile.relatedLinks.map((item) => (
+                        <Link key={item.href} href={item.href} onClick={() => trackRoleMapEvent('role_map_related_click')}>{item.label}<span aria-hidden="true">→</span></Link>
+                      ))}
+                    </nav>
                   </div>
                 </article>
               ))}

@@ -61,7 +61,7 @@ export default function CareerCompassPage() {
         <section><h2>診断後にできること</h2><p>結果に合う業界地図、企業一覧、製造工程記事、Cpk・DoEなどの実務ツールへ進めます。転職エージェントは選択肢の中心ではなく、確認したい論点が明確になった後の相談手段として案内します。</p></section>
         <section><h2>運営・編集方針</h2><p>Manufacturing Compassは、製造業で約10年働いてきたRYOが運営しています。企業・業界情報は公開情報と出典を確認し、実体験と分けて掲載します。詳しくは<Link href="/about">運営者情報</Link>をご覧ください。</p></section>
         <section><h2>よくある質問</h2>{faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</section>
-        <section><h2>関連する情報</h2><nav className="career-compass-related-directory"><Link href="/industry-map">半導体業界地図</Link><Link href="/companies">半導体企業一覧</Link><Link href="/guides/semiconductor-manufacturing-process">半導体製造工程</Link><Link href="/tools">実務学習ツール</Link></nav></section>
+        <section><h2>関連する情報</h2><nav className="career-compass-related-directory"><Link href="/roles">仕事内容から職種名・検索語を探す</Link><Link href="/industry-map">半導体業界地図</Link><Link href="/companies">半導体企業一覧</Link><Link href="/guides/semiconductor-manufacturing-process">半導体製造工程</Link><Link href="/tools">実務学習ツール</Link></nav></section>
       </div>
     </main>
   );

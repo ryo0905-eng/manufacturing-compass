@@ -34,6 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/career-priorities",
     "/career-consultation",
     "/career-agents",
+    "/roles",
     "/industry-map",
     "/semiconductor-map",
     "/companies",
@@ -49,6 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((path) => ({
     url: `${siteUrl}${path}`,
     ...(path === "/tools/process-comparison" ? { lastModified: contentDate("2026-09-16") } : {}),
+    ...(path === "/roles" ? { lastModified: contentDate("2026-09-17") } : {}),
     ...(path === "/career-priorities" ? { lastModified: contentDate("2026-09-06") } : {}),
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),

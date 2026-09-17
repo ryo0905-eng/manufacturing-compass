@@ -28,6 +28,7 @@ export type RoleProfile = {
   checks: string[];
   distinction: string;
   evidence: { label: string; url: string }[];
+  relatedLinks: { label: string; href: string }[];
 };
 
 export type RoleMapSelection = {

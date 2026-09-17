@@ -41,8 +41,8 @@
 | [`docs/semiconductor-location-map-implementation-plan.md`](./semiconductor-location-map-implementation-plan.md) | 拠点マップの実装順序、変更ファイル、検証、公開ゲート | 公開判断後の実装作業を分割・確認する時 |
 | [`docs/conversion-architecture.md`](./conversion-architecture.md) | 現行導線と CTA の役割 | 主要導線や計測イベントを変えた時 |
 | [`docs/role-map-pilot.md`](./role-map-pilot.md) | 半導体職種マップの4職務群・根拠台帳・業務選択票・結果カード | 出典、対応付け、試用モデルを更新する時 |
-| [`docs/role-map-validation.md`](./role-map-validation.md) | ローカル試作を使う5人試用、記録方針、Go / No-Go | 人によるレビュー、試用、判断を行う時 |
-| [`docs/role-map-mvp-spec.md`](./role-map-mvp-spec.md) | 非公開4職務群試作と、検証通過後の8職務群公開MVPの引継ぎ仕様 | 着手条件・データ・UI・検証仕様を更新する時 |
+| [`docs/role-map-validation.md`](./role-map-validation.md) | 公開β版を使う5人試用、記録方針、Go / No-Go | 人によるレビュー、試用、判断を行う時 |
+| [`docs/role-map-mvp-spec.md`](./role-map-mvp-spec.md) | 4職務群β版と、検証通過後の8職務群への拡張仕様 | 着手条件・データ・UI・検証仕様を更新する時 |
 | [`docs/monetization.md`](./monetization.md) | 広告・アフィリエイト運用原則 | 提携状態や広告運用方針を変えた時 |
 | [`docs/roadmap.md`](./roadmap.md) | フェーズ単位の方向性 | 優先順位やフェーズを見直した時 |
 | [`TASKS.md`](../TASKS.md) | 完了履歴と具体的な未完了作業 | 作業を開始・完了・保留した時 |

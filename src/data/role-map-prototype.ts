@@ -46,6 +46,10 @@ export const roleMapProfiles: RoleProfile[] = [
       { label: 'JASM Fab23 Process Engineer', url: 'https://ro.careers.tsmc.com/job/Kumamoto-JASM-Fab23-Process-Engineer-%284147%29-43/932913110/' },
       { label: 'USJC プロセスエンジニア', url: 'https://recruit.usjpc.com/job_list/process/' },
     ],
+    relatedLinks: [
+      { label: '生産技術からプロセスエンジニアへの転職ルート', href: '/guides/production-engineering-to-semiconductor-process-engineer' },
+      { label: 'Career Compassで次の準備を整理する', href: '/career-compass' },
+    ],
   },
   {
     id: 'productivity-improvement', order: 2, roleGroup: '生産性改善',
@@ -62,6 +66,10 @@ export const roleMapProfiles: RoleProfile[] = [
     evidence: [
       { label: 'JASM Intelligent Manufacturing Engineer', url: 'https://ro.careers.tsmc.com/job/Kumamoto-JASM-MFG-Intelligent-manufacturing-engineer-%283783%29-43/780587910/' },
       { label: 'キオクシア 職種概要', url: 'https://graduates-jp.kioxia.com/job/' },
+    ],
+    relatedLinks: [
+      { label: 'Career Compassで次の準備を整理する', href: '/career-compass' },
+      { label: '半導体企業を調べる', href: '/companies' },
     ],
   },
   {
@@ -82,6 +90,10 @@ export const roleMapProfiles: RoleProfile[] = [
       { label: 'JASM 設備機器エンジニア', url: 'https://ro.careers.tsmc.com/job/kumamoto-jasm-fab23-%E8%A8%AD%E5%82%99%E6%A9%9F%E5%99%A8%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2-%284146%29-43/936410810/' },
       { label: 'USJC 設備エンジニア', url: 'https://recruit.usjpc.com/job_list/equipment/' },
     ],
+    relatedLinks: [
+      { label: '設備エンジニアへの転職ルート', href: '/guides/equipment-engineer-route' },
+      { label: 'Career Compassで次の準備を整理する', href: '/career-compass' },
+    ],
   },
   {
     id: 'quality-improvement', order: 4, roleGroup: '品質改善',
@@ -98,6 +110,10 @@ export const roleMapProfiles: RoleProfile[] = [
     evidence: [
       { label: 'JASM Manufacturing Quality and Reliability Engineer', url: 'https://ro.careers.tsmc.com/job/Kumamoto-JASM-Quality-%26-Reliability-Manufacturing-Quality-and-Reliability-Engineer-%285702%29-43/1052918866/' },
       { label: 'USJC 品質保証エンジニア', url: 'https://recruit.usjpc.com/career/mie-qa_engineer/' },
+    ],
+    relatedLinks: [
+      { label: '品質経験から半導体職種への転職ルート', href: '/guides/quality-engineer-route' },
+      { label: 'Career Compassで次の準備を整理する', href: '/career-compass' },
     ],
   },
 ];
