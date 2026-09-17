@@ -88,6 +88,7 @@ export function RoleMapPrototype() {
         <div className={styles.notice}>
           <strong>対象を限定したβ版です</strong>
           <span>現在は4職務群を扱っています。該当しない結果は、あなたの経験不足を意味しません。回答内容は保存・送信されず、再読み込みで消えます。</span>
+          <Link href="/contact" onClick={() => trackRoleMapEvent('role_map_related_click')}>候補や説明への違和感を知らせる</Link>
         </div>
       </section>
 

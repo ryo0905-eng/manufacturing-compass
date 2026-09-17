@@ -7,6 +7,7 @@
 .eyebrow { margin: 0; color: var(--primary); font-size: 12px; font-weight: 750; letter-spacing: .12em; }
 .notice { display: grid; gap: 4px; border: 1px solid #cbdde1; border-radius: 10px; background: #eef7f8; padding: 16px 18px; line-height: 1.6; }
 .notice span { color: #40555b; font-size: 14px; }
+.notice a { width: fit-content; color: var(--primary); font-size: 13px; font-weight: 650; }
 .selector,.results { display: grid; gap: 22px; border-top: 1px solid var(--line); padding-top: 34px; }
 .results { margin-top: 62px; }
 .sectionHeading { display: flex; align-items: end; justify-content: space-between; gap: 20px; }

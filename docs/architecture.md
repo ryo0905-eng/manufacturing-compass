@@ -198,7 +198,7 @@ video/docs/                 制作フロー、公開記録、計測ログ
 
 ## 半導体職種マップの事前検証（2026-09-16）
 
-現段階はdocs内の[対応表](./role-map-pilot.md)・[試用手順](./role-map-validation.md)と、`/roles` で公開する4職務群のβ版。トップ、Career Compass、sitemapから接続する。
+現段階はdocs内の[対応表](./role-map-pilot.md)・[運用検証](./role-map-validation.md)と、`/roles` で公開する4職務群のβ版。トップ、Career Compass、sitemapから接続する。
 
 β版は `src/data/role-map-prototype.ts` の4職務群・18業務、`src/lib/role-map.ts` の純粋な候補抽出、Client Componentの選択・結果・コピーに分ける。回答はReactメモリだけで保持し、URL、Cookie、localStorage、外部APIへ送らない。固定操作イベントだけを計測し、回答内容や検索語をイベントへ含めない。
 
