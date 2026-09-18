@@ -218,3 +218,10 @@ Career Compass
 - `equipment_ranking_process_select`: 工程選択が変わった時だけ送信。`process_id` は `all / deposition / lithography / etch / cleaning / inspection / test / assembly`、`source_slug` は掲載記事のslug。初期描画と同じ選択の再押下では送信しない。
 - 企業詳細は既存の `article_company_click`、工程記事は `article_internal_click` を使用する。
 - 操作回数を人数や理解度と扱わない。公開14日後に検索登録、28日・56日後に記事群の検索クリックと関連ページ遷移を確認する。実際の受信は本番反映後に確認する。
+
+### メモリメーカーランキング（2026-09-18実装・本番未確認）
+
+- `memory_ranking_market_select`: DRAM/NANDの選択が変わった時だけ送信。`market` は `dram / nand`、`source_slug` は `memory-manufacturer-ranking`。初期描画と同じ選択の再押下は送信しない。
+- グラフ内の企業情報は既存の `article_company_click`、本文の内部リンクは `article_internal_click`。操作回数を人数・理解度・コンバージョン率とは解釈しない。
+- 両市場の売上シェアは原表どおり、0〜100%の共通尺度。NANDは上場主要5社で87.6%、DRAMのその他は順位外。出典付き両表はSSRで提供する。
+- 本番反映後にイベント受信、公開14日後にインデックス、28/56日後に表示語・検索クリック・企業研究への遷移を確認する。

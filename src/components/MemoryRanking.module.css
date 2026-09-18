@@ -1,0 +1,44 @@
+.root { min-width: 0; }
+.meta, .source, .scaleNote { color: #475569; font-size: .875rem; line-height: 1.7; }
+.explorer { margin-block: 1.5rem; }
+.controls { border: 0; padding: 0; margin: 0; min-width: 0; }
+.controls legend { font-weight: 700; margin-bottom: .75rem; }
+.buttons { display: flex; flex-wrap: wrap; gap: .5rem; }
+.buttons button { min-height: 44px; min-width: 100px; padding: .6rem 1.4rem; border: 1px solid #cbd5e1; border-radius: 999px; background: #fff; color: #334155; cursor: pointer; font: inherit; font-weight: 600; }
+.buttons button[aria-pressed="true"] { background: #164e63; border-color: #164e63; color: #fff; }
+.root :is(button, a, summary, [tabindex]):focus-visible { outline: 3px solid #0284c7; outline-offset: 4px; }
+.status { color: #475569; font-size: .875rem; }
+.context { padding: 1rem 1.25rem; background: #f1f5f9; border-radius: 14px; }
+.context h3 { font-size: 1rem; margin: 0 0 .5rem; }
+.context p { margin: .4rem 0; }
+.scope { font-size: .875rem; color: #475569; }
+.chart { margin: 1.5rem 0; }
+.chart figcaption { display: grid; gap: .25rem; }
+.chart figcaption strong { font-size: 1.1rem; }
+.chart figcaption span { font-size: .875rem; color: #475569; }
+.axis { display: flex; justify-content: space-between; color: #64748b; font-size: .75rem; font-variant-numeric: tabular-nums; }
+.rows { list-style: none; padding: 0; margin: .5rem 0; display: grid; gap: 1.1rem; }
+.rows li { --company-color: #64748b; }
+.rows li[data-company="samsung"] { --company-color: #2563eb; }
+.rows li[data-company="sk-hynix"] { --company-color: #0f766e; }
+.rows li[data-company="micron"] { --company-color: #7c3aed; }
+.rows li[data-company="kioxia"] { --company-color: #b45309; }
+.rowHeading { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; }
+.rowHeading > span { min-width: 0; overflow-wrap: anywhere; }
+.rowHeading small { font-size: .75rem; color: #64748b; white-space: nowrap; }
+.rowHeading b { flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.track { height: 14px; margin-block: .4rem; border-radius: 3px; background: linear-gradient(to right, transparent calc(50% - 1px), #cbd5e1 50%, transparent calc(50% + 1px)), #e2e8f0; overflow: hidden; }
+.track span { display: block; height: 100%; background: var(--company-color); }
+.rowDetails { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .25rem 1rem; font-size: .8rem; color: #475569; }
+.rowDetails a { text-underline-offset: .2em; overflow-wrap: anywhere; }
+.other { border-top: 1px solid #e2e8f0; padding-top: .75rem; color: #475569; font-size: .875rem; }
+.note { padding: .85rem 1rem; border-left: 3px solid #94a3b8; background: #f8fafc; font-size: .875rem; }
+.tables { border-top: 1px solid #e2e8f0; margin-top: 1.5rem; padding-top: .75rem; }
+.tables summary { cursor: pointer; padding-block: .75rem; font-weight: 600; }
+.tableSection { margin-block: 1.5rem; }
+.tableWrap { overflow-x: auto; }
+.tableWrap table { border-collapse: collapse; width: 100%; min-width: 490px; font-size: .875rem; }
+.tableWrap caption { text-align: left; margin-bottom: .5rem; }
+.tableWrap :is(th, td) { text-align: left; padding: .75rem; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+.tableWrap td { font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) { .rowHeading { font-size: .9rem; } .rowDetails { display: grid; } .context { padding: 1rem; } }

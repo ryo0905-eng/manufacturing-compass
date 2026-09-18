@@ -1,3 +1,4 @@
+import { MemoryRanking } from "@/components/MemoryRanking";
 import { EquipmentSalesRanking } from "@/components/EquipmentSalesRanking";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import type { Route } from "next";
@@ -610,6 +611,10 @@ export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
 
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} sourceSlug={sourceSlug} />;
+        }
+
+        if (block.type === "memory-market-ranking") {
+          return <MemoryRanking key={`memory-market-ranking-${index}`} />;
         }
 
         if (block.type === "equipment-sales-ranking") {

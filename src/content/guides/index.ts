@@ -1,3 +1,4 @@
+import { memoryManufacturerRankingGuide } from "@/content/guides/memory-manufacturer-ranking";
 import { semiconductorEquipmentSalesRankingGuide } from "@/content/guides/semiconductor-equipment-sales-ranking";
 import { appliedMaterialsSemiconductorEquipmentGuide } from "@/content/guides/applied-materials-semiconductor-equipment";
 import { aiPrototypingRequirementsGuide } from "@/content/guides/ai-prototyping-requirements";
@@ -157,6 +158,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorCareerChatgptGuide,
   semiconductorMarketCapRankingGuide,
   semiconductorEquipmentSalesRankingGuide,
+  memoryManufacturerRankingGuide,
   semiconductorSalaryRankingGuide,
   jobPostingSalaryRangeGuide,
   semiconductorRecruitmentAgentReviewGuide,

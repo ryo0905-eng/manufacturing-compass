@@ -420,6 +420,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   ],
   todayQuest: "ランキングから3社を選び、各社を「設計・製造・装置・後工程・材料」のどこに位置づけるか確認する",
   relatedGuideSlugs: [
+    "memory-manufacturer-ranking",
     "semiconductor-silicon-wafer-manufacturers",
     "ic-chip-manufacturing-companies",
     "semiconductor-equipment-manufacturers",

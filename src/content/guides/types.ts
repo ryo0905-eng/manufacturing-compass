@@ -250,6 +250,9 @@ export type GuideBlock =
       scope: "world" | "japan";
     }
   | {
+      type: "memory-market-ranking";
+    }
+  | {
       type: "equipment-sales-ranking";
     }
   | {
