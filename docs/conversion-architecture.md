@@ -225,3 +225,7 @@ Career Compass
 - グラフ内の企業情報は既存の `article_company_click`、本文の内部リンクは `article_internal_click`。操作回数を人数・理解度・コンバージョン率とは解釈しない。
 - 両市場の売上シェアは原表どおり、0〜100%の共通尺度。NANDは上場主要5社で87.6%、DRAMのその他は順位外。出典付き両表はSSRで提供する。
 - 本番反映後にイベント受信、公開14日後にインデックス、28/56日後に表示語・検索クリック・企業研究への遷移を確認する。
+
+### 光半導体メーカーの用途選択（2026-09-18）
+
+`/guides/optical-semiconductor-manufacturers` は用途選択の変更時に `optical_company_category_select` を送信する。`category` は `all / led / laser / image-sensor / photodiode` の固定ID、`source_slug` は記事slug。初期表示と同じ選択の再押下は送信しない。企業詳細・関連記事は既存の `article_company_click`・`article_internal_click` を利用する。操作回数を人数や理解度として解釈しない。本番反映日を基準に14日後のインデックス、28/56日後の流入・関連遷移を確認し、既存ランキングを含めて評価する。

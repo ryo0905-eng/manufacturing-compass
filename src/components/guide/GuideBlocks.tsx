@@ -1,3 +1,4 @@
+import { OpticalCompanies } from "@/components/OpticalCompanies";
 import { MemoryRanking } from "@/components/MemoryRanking";
 import { EquipmentSalesRanking } from "@/components/EquipmentSalesRanking";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
@@ -611,6 +612,10 @@ export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
 
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} sourceSlug={sourceSlug} />;
+        }
+
+        if (block.type === "optical-companies") {
+          return <OpticalCompanies key={`optical-companies-${index}`} />;
         }
 
         if (block.type === "memory-market-ranking") {

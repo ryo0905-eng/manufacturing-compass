@@ -1,3 +1,4 @@
+import { opticalSemiconductorManufacturersGuide } from "@/content/guides/optical-semiconductor-manufacturers";
 import { memoryManufacturerRankingGuide } from "@/content/guides/memory-manufacturer-ranking";
 import { semiconductorEquipmentSalesRankingGuide } from "@/content/guides/semiconductor-equipment-sales-ranking";
 import { appliedMaterialsSemiconductorEquipmentGuide } from "@/content/guides/applied-materials-semiconductor-equipment";
@@ -85,6 +86,7 @@ import type { GuideArticle } from "@/content/guides/types";
 export type { GuideArticle } from "@/content/guides/types";
 
 const guideArticles: GuideArticle[] = [
+  opticalSemiconductorManufacturersGuide,
   semiconductorCareerStartGuide,
   firstCareerChangeAnxietyGuide,
   companySelectionAfterThreeJobChangesGuide,

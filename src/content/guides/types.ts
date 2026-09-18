@@ -250,6 +250,9 @@ export type GuideBlock =
       scope: "world" | "japan";
     }
   | {
+      type: "optical-companies";
+    }
+  | {
       type: "memory-market-ranking";
     }
   | {
