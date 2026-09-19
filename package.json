@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=20.9 <24"
+    "node": ">=22 <24"
   },
   "scripts": {
     "dev": "next dev",
@@ -16,6 +16,7 @@
   "dependencies": {
     "@next/third-parties": "^16.2.9",
     "@vercel/analytics": "^2.0.1",
+    "ai": "7.0.107",
     "next": "16.2.9",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"

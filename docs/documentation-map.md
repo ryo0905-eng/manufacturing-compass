@@ -47,6 +47,8 @@
 | [`docs/roadmap.md`](./roadmap.md) | フェーズ単位の方向性 | 優先順位やフェーズを見直した時 |
 | [`TASKS.md`](../TASKS.md) | 完了履歴と具体的な未完了作業 | 作業を開始・完了・保留した時 |
 
+- [`docs/jev-demo.md`](./jev-demo.md): Jev実験デモの設定、回数制限、実測、公開前レビューの手順。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順

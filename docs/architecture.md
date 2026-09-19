@@ -6,7 +6,7 @@
 
 Manufacturing Compass は、Next.js App Router 上で動く静的データ中心の実務・コンテンツ・キャリア支援サービスです。
 
-Career Compass、インタラクティブ実務学習ツール、業界地図の操作部分だけを Client Component で動かし、企業、ガイド、ランキング、SEO メタデータは Server Components と静的データを基本にします。ログイン、個人情報保存、外部データベース、AI API に依存しません。実務ツールの入力と計算はブラウザ内で完結し、生データを外部へ送信しません。
+Career Compass、インタラクティブ実務学習ツール、業界地図の操作部分だけを Client Component で動かし、企業、ガイド、ランキング、SEO メタデータは Server Components と静的データを基本にします。中心機能はログイン、個人情報保存、外部データベース、AI API に依存しません。Jev実験ページのみ、下記の限定した外部APIを使用します。実務ツールの入力と計算はブラウザ内で完結し、生データを外部へ送信しません。
 
 ## 技術構成
 
@@ -206,7 +206,7 @@ video/docs/                 制作フロー、公開記録、計測ログ
 
 ## 将来の外部サービス導入条件
 
-Supabase、ユーザーアカウント、メール保存、AI API、求人連携は未採用です。導入する場合は、少なくとも次を先に決めます。
+Supabase、ユーザーアカウント、メール保存、求人連携は未採用です。AI APIは下記Jev実験ページのみの例外です。導入する場合は、少なくとも次を先に決めます。
 
 - 解くユーザー課題と、静的実装では不足する理由
 - 保存するデータ、保存期間、削除方法、同意
@@ -244,3 +244,17 @@ Supabase、ユーザーアカウント、メール保存、AI API、求人連携
 ### 光半導体メーカー記事
 
 `optical-companies` 記事ブロックは `src/data/optical-semiconductor.ts` の公式製品例を使用する。`OpticalCompanies` が出典付き全社対応表をサーバー描画し、`OpticalCompaniesExplorer` が4用途と全件の選択・図解・企業説明を連動する。選択はページ内状態のみで、API・保存・新規ライブラリは追加しない。記事登録からメタデータ・構造化データ・sitemapを既存処理で生成する。
+
+## Jev実験ページ（2026-09-20）
+
+- `/labs/jev`: Server Componentの説明・noindex設定とClient Componentの固定例選択、前後比較、メモリ内結果、評価結果JSONダウンロード。
+- `src/data/jev-demo.ts`: 架空報告10件、追加情報、レビュー前の編集上の期待分類、分類別の確認項目。
+- `src/lib/jev-demo.ts`: リクエスト組立と外部応答の検証。モデルIDと版管理したChoice質問を使用。
+- `/api/jev`: POSTのみ。Origin照合、JSONサイズ・スキーマ・固定ID検証後、Gatewayへ1回送信。自動再試行なし、タイムアウト付き。秘密や外部エラー本文を返さない。
+- 費用上限はGatewayのAPIキー予算へ委ねる。アプリは予算・利用枠の拒否と429を固定文言で表示し、自動リトライしない。キー予算の設定は運営者が管理画面で確認する。
+- アプリ用DBは使わない。本文・結果をアプリで保存せず、Gatewayの利用履歴・インフラ標準ログは各サービスの設定に従う。
+- 設定・評価・停止手順は `docs/jev-demo.md`。利用者保存用DB、認証、AI SDK以外の新規SDK依存は追加しない。
+
+### Vercel AI Gateway対応（2026-09-20）
+
+運営者が取得したGatewayキーを使うため、Jevの接続先をVercel AI Gatewayへ変更する。環境変数は`AI_GATEWAY_API_KEY`、モデルIDは`typesafe-ai/jev`。AI SDK 7のexperimental_evaluateを使い、Node.jsは22以上24未満とする。Gatewayの応答から確信度・使用量を検証して取り出す。費用管理はGatewayのAPIキー予算に一本化する。APIキー設定は.env.localまたはデプロイ環境変数で行い、コーディングエージェント向けCLIセットアップは使用しない。
