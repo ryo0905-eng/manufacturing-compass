@@ -1,32 +1,71 @@
 export const jevModel = "typesafe-ai/jev";
-export const jevQuestionVersion = "report-change-v2";
+export const jevQuestionVersion = "investigation-routing-v1";
 export const jevVerifiedAt = "2026-09-20";
 export const jevInputPricePerMillion = 0.042;
 
 export const jevCategories = {
-  equipment: { label: "設備・保全の変更", criteria: "A production equipment adjustment, repair, maintenance or cleaning change is explicitly reported, with no simultaneous material or measurement change. Multiple changes that all belong to production equipment still count as equipment. A measuring or inspection instrument belongs to measurement, not equipment.", next: "作業記録と発生時刻を照合し、変更前後・別装置の同じ製品で差を確認します。時間的な前後関係だけでは原因を確定できません。", href: "/tools/yield-dashboard", link: "歩留まり原因調査を体験する" },
-  material: { label: "材料の変更", criteria: "A raw material or consumable batch/source change is explicitly reported, with no simultaneous equipment or measurement change.", next: "材料ロットと製造ロットの対応、受入記録、他の装置で同じ材料を使った場合を確認します。", href: "/tools/yield-dashboard", link: "ロットを分けた調査を学ぶ" },
-  measurement: { label: "測定・検査の変更", criteria: "A measuring or inspection instrument, measurement method, calibration, inspection threshold or inspector change is explicitly reported, with no simultaneous production-equipment or material change. Replacement or calibration of a measuring instrument counts only as measurement.", next: "同じ試料の再測定、基準試料、測定手順と判定基準の変更履歴を確認します。", href: "/tools/gage-rr", link: "測定のばらつきを学ぶ" },
-  multiple: { label: "複数の変更", criteria: "Changes in at least two different categories among production equipment, material, and measurement are explicitly reported. Never select multiple merely because two or more changes occurred within the same category.", next: "変更点を時系列で並べ、一つずつ切り分けて比較できるデータや確認実験を検討します。", href: "/tools/doe", link: "確認実験の考え方を学ぶ" },
-  unknown: { label: "変更の記載なし・情報不足", criteria: "No change in any of equipment, material or measurement is explicitly reported. Defects, suspected causes, denied changes, and requests to investigate alone are not evidence of a change.", next: "発生時刻、対象製品・装置・材料ロット、測定方法、直前の変更履歴を集めます。記載がないことと、変更がないことは別です。", href: "/tools/control-chart", link: "時系列の変化を学ぶ" },
+  equipment: { label: "設備・保全", criteria: "Only production equipment, maintenance, cleaning or recipe changes are explicitly recorded. Multiple changes in this same category remain equipment. Measuring instruments belong to measurement." },
+  material: { label: "材料", criteria: "Only raw material or consumable batch/source changes are explicitly recorded." },
+  measurement: { label: "測定・検査", criteria: "Only measurement/inspection instrument, calibration, method or threshold changes are explicitly recorded." },
+  multiple: { label: "複数領域", criteria: "Explicit changes span at least two categories: production equipment, material, measurement. Multiple actions in one category do not qualify." },
+  unknown: { label: "変更記載なし", criteria: "No change is explicitly recorded. Symptoms, suspicions, missing records and denied changes are not changes." },
 } as const;
 export type JevCategory = keyof typeof jevCategories;
-export type JevVariant = "before" | "after";
-export interface JevSample {
-  id: string; title: string; report: string; additional: string;
-  expected: Record<JevVariant, JevCategory>; note: string;
+
+interface RouteDefinition {
+  label: string; code: string; criteria: string; next: string;
+  href?: string; link?: string;
 }
-// Entirely fictional educational examples. Expectations require editorial review;
-// they describe reported changes, never root causes or real production decisions.
-export const jevSamples: JevSample[] = [
-  { id: "cleaning", title: "清掃と不良増加", report: "半導体の量産工程で、装置Aの清掃後から外観不良が増えた。", additional: "同じ時点で検査装置の判定しきい値も変更されていた。", expected: { before: "equipment", after: "multiple" }, note: "清掃だけに注目せず、検査条件の変更も区別する例です。" },
-  { id: "batch", title: "材料ロットの切り替え", report: "材料ロットを切り替えた後から、ウェーハ上の欠陥数が増えた。", additional: "設備と検査条件は変えていない。同じ材料ロットを使う別装置でも増加した。", expected: { before: "material", after: "material" }, note: "情報が増えても分類が変わらない例です。材料が原因と確定したわけではありません。" },
-  { id: "gauge", title: "測定器の交換", report: "測定器を交換した日から、膜厚の測定値が高くなった。", additional: "製造条件と材料は変えていない。旧測定器で同じ試料を測ると従来の値だった。", expected: { before: "measurement", after: "measurement" }, note: "観察された値と工程そのものの変化を分けて考えます。" },
-  { id: "missing", title: "短い不良報告", report: "今朝から半導体製品の不良が増えた。詳細はまだ分からない。", additional: "昨夜、装置の搬送部品を交換した記録が見つかった。", expected: { before: "unknown", after: "equipment" }, note: "初報には変更情報がなく、追加調査で記載が得られる例です。" },
-  { id: "simultaneous", title: "同時に変わった条件", report: "装置の保全と材料ロットの切り替えを同じ日に行い、その後から不良が増えた。", additional: "両方を変更する前のデータしかなく、片方だけを変えた比較データはない。", expected: { before: "multiple", after: "multiple" }, note: "一つの原因へ無理に振り分けないための例です。" },
-  { id: "negation", title: "変更していないという記録", report: "材料も装置も変更していないが、検査不合格が増えた。", additional: "確認すると、検査装置の判定しきい値だけが前日に変更されていた。", expected: { before: "unknown", after: "measurement" }, note: "材料・装置という単語の存在と、実際の変更記載を区別します。" },
-  { id: "suspected", title: "推測だけの初報", report: "担当者は材料が怪しいと言っているが、材料変更や設備変更の記録はまだ確認できていない。", additional: "調査したところ、直前に材料の供給元を変更したことが記録で確認された。", expected: { before: "unknown", after: "material" }, note: "推測と確認済みの変更記載を区別します。" },
-  { id: "calibration", title: "校正後の値のずれ", report: "検査用測定器の校正後から、基準試料の測定値がずれている。", additional: "同じ日に装置の加熱部品も交換していた。", expected: { before: "measurement", after: "multiple" }, note: "別分野の変更情報が加わる例です。" },
-  { id: "two-repairs", title: "二つの保全作業", report: "半導体製造装置のポンプ交換と清掃を実施した後、測定値のばらつきが増えた。", additional: "材料と測定方法は変更していない。", expected: { before: "equipment", after: "equipment" }, note: "作業が二つあっても、分類分野は一つという境界例です。" },
-  { id: "stable", title: "追加しても分からない例", report: "製品の歩留まりが低下した。直前の変更については未確認。", additional: "不良は装置Aに集中していたが、保全・材料・測定の変更履歴はまだ確認していない。", expected: { before: "unknown", after: "unknown" }, note: "装置への集中は、設備変更があった証拠にはなりません。" },
+export const jevRoutes = {
+  spc: { label: "時系列・管理図", code: "SPC", criteria: "Review time-ordered trends and control charts when the onset, persistence or statistical stability is the unresolved issue and no more specific evidence source is indicated.", next: "時間順のデータで、変化が始まった位置と継続性を確認します。", href: "/tools/control-chart", link: "管理図を体験する" },
+  fdc: { label: "装置ログ", code: "FDC", criteria: "Review equipment sensor traces or alarm logs when instrument readings or alarms during processing are implicated, rather than a documented maintenance event.", next: "該当時刻のセンサー波形と警報ログを照合します。このサイトにFDC解析の接続はありません。" },
+  maintenance: { label: "保全履歴", code: "Maintenance", criteria: "Review maintenance work details when the anomaly is localized to serviced equipment and comparable material/measurement observations support checking that work.", next: "作業内容・実施時刻と、保全前後の記録を確認します。設備操作は行いません。" },
+  recipe: { label: "工程条件", code: "Recipe", criteria: "Compare recorded recipe versions and setpoints when a process-condition difference is the most specific unresolved lead.", next: "設定値と実際の条件を分け、比較可能な条件をそろえます。", href: "/tools/process-comparison", link: "工程条件の比較を体験する" },
+  material: { label: "材料・ロット", code: "Material", criteria: "Trace material batches when the anomaly follows the same material across comparable equipment and measurements, or a material change is the only concrete lead with no contradictory measurement evidence.", next: "材料ロットと製造ロットを対応させ、装置をまたぐ傾向を確認します。", href: "/tools/yield-analysis", link: "歩留まりの比較を体験する" },
+  metrology: { label: "測定系", code: "Metrology", criteria: "Check measurement validity when the same specimen gets conflicting results across instruments/methods, reference specimens shift, or inspection thresholds changed. Resolve comparability before trusting apparent process/material differences.", next: "同じ試料・基準試料を使い、測定器や判定基準による差を確認します。", href: "/tools/gage-rr", link: "測定のばらつきを体験する" },
+  history: { label: "工程履歴", code: "Process History", criteria: "Reconstruct lot/equipment/change chronology when concrete changes overlap, cannot be separated, or records conflict and attribution requires tracing which conditions each lot experienced.", next: "ロットが通った装置・時刻・変更履歴を並べ、比較できる組合せを探します。", href: "/tools/yield-dashboard", link: "履歴をつないだ調査を体験する" },
+  inspection: { label: "欠陥の分布", code: "Defect Inspection", criteria: "Inspect defect images, locations or morphology when the defect pattern is the main unresolved lead and measurement validity is not in dispute.", next: "欠陥の位置・形状・種類を分けて偏りを確認します。リンク先では調査の流れを学べます。", href: "/tools/yield-dashboard", link: "原因調査の流れを体験する" },
+  collect: { label: "基本情報を集める", code: "Collect Facts", criteria: "Collect basic facts when the report lacks any concrete discriminating evidence: onset, affected equipment/lots, measurements or verified changes. A guess alone is insufficient.", next: "発生時刻、対象ロット・装置、測定方法、変更記録を集めます。" },
+} as const satisfies Record<string, RouteDefinition>;
+export type JevRoute = keyof typeof jevRoutes;
+export function jevRouteInfo(key: JevRoute): RouteDefinition { return jevRoutes[key]; }
+
+// One dimension: how much usable isolation evidence is recorded, not urgency or safety.
+export const jevCompletenessLevels = [
+  { label: "症状のみ", criteria: "Only a vague symptom or suspicion; affected population and timing are not established." },
+  { label: "対象が具体的", criteria: "Affected equipment/lots or timing are concrete, but change history and controlled comparisons are absent." },
+  { label: "履歴あり", criteria: "Concrete change/history records exist, but no usable controlled comparison result is reported, or comparisons are too confounded or contradictory to isolate conditions." },
+  { label: "比較あり", criteria: "At least one usable comparison result separates conditions (same specimen across instruments, same material across equipment, or comparable before/after observations); independent confirmation is absent." },
+  { label: "再確認あり", criteria: "A usable discriminating comparison has been independently repeated or confirmed, with the compared conditions documented. This does not establish root cause." },
+] as const;
+
+export interface JevEvidence { id: string; title: string; report: string }
+export interface JevSample { id: string; title: string; report: string; evidence: readonly JevEvidence[] }
+
+// Fictional educational states. Branches are alternative situations, never cumulative.
+export const jevSamples: readonly JevSample[] = [
+  {
+    id: "batch", title: "不合格が増えた",
+    report: "半導体の量産工程で、材料ロットを切り替えた後から不合格が増えた。材料以外の記録と比較データは、まだ確認していない。",
+    evidence: [
+      { id: "across-tools", title: "別の装置でも同じ傾向", report: "同じ材料を使った装置A・Bで増加し、従来材料のロットは両装置で従来どおりだった。同じ製品・検査条件で比較し、再測定でも傾向が再現した。設備と検査条件の変更はない。" },
+      { id: "same-specimen", title: "同じ試料なのに結果が違う", report: "同じ試料を別の検査器で測ると従来どおりの結果だった。新旧どちらの材料の試料も、元の検査器だけ不合格が増えた。検査設定の変更記録はなく、測定器間の差はまだ再確認していない。" },
+    ],
+  },
+  {
+    id: "shift", title: "測定値がずれた",
+    report: "装置Aの清掃翌日から、製品の測定値が高くなった。同じ日に検査器も校正されている。材料は変えていない。",
+    evidence: [
+      { id: "reference", title: "基準試料もずれていた", report: "加工していない保管中の基準試料も、校正した検査器では高い値になった。別の検査器では従来どおりだった。再測定はまだ行っていない。" },
+      { id: "serviced-only", title: "装置Aの製品だけに偏る", report: "基準試料は両検査器とも従来どおりだった。同じ材料・同じ製品を装置Aと未清掃の装置Bで比較すると、装置Aの製品だけが高い。別の検査器で再測定しても同じ差を確認した。" },
+    ],
+  },
+  {
+    id: "unclear", title: "原因候補が食い違う",
+    report: "半導体製品の不良が増えたという連絡があった。担当者は材料を疑っているが、発生時刻、対象ロット、装置、変更記録は未確認。",
+    evidence: [
+      { id: "overlap", title: "変更時刻が重なっていた", report: "記録から、装置Aの保全と材料切り替えが同じ時刻に行われ、その後のロットで増加したと分かった。片方だけを変えた比較はなく、測定条件も未確認。" },
+      { id: "conflict", title: "記録同士が矛盾している", report: "同じロットの装置履歴が二つあり、装置Aと装置Bのどちらを通ったか食い違う。材料の変更有無も二つの記録で矛盾している。どちらが正しいか確認できず、比較データはない。" },
+    ],
+  },
 ];

@@ -247,9 +247,9 @@ Supabase、ユーザーアカウント、メール保存、求人連携は未採
 
 ## Jev実験ページ（2026-09-20）
 
-- `/labs/jev`: Server Componentの説明・noindex設定とClient Componentの固定例選択、前後比較、メモリ内結果、評価結果JSONダウンロード。
-- `src/data/jev-demo.ts`: 架空報告10件、追加情報、レビュー前の編集上の期待分類、分類別の確認項目。
-- `src/lib/jev-demo.ts`: リクエスト組立と外部応答の検証。モデルIDと版管理したChoice質問を使用。
+- `/labs/jev`: Server Componentの説明・noindex・OG・構造化データとClient Componentの3ケース×2分岐、初報基準の比較、メモリ内結果。共有クエリはcaseのみ。JSON保存は提供しない。
+- `src/data/jev-demo.ts`: 架空報告、固定の追加情報、変更分類、確認領域と静的リンク、Scoreの5段階基準。
+- `src/lib/jev-demo.ts`: `{sampleId, evidenceId}`（初報はevidenceId=null）だけを受理。questionsはchange/comparison/completeness/route。型・分布・confidence・Scoreの加重平均を検証して正規化し、4判断を返す。分類から確認先を固定変換しない。
 - `/api/jev`: POSTのみ。Origin照合、JSONサイズ・スキーマ・固定ID検証後、Gatewayへ1回送信。自動再試行なし、タイムアウト付き。秘密や外部エラー本文を返さない。
 - 費用上限はGatewayのAPIキー予算へ委ねる。アプリは予算・利用枠の拒否と429を固定文言で表示し、自動リトライしない。キー予算の設定は運営者が管理画面で確認する。
 - アプリ用DBは使わない。本文・結果をアプリで保存せず、Gatewayの利用履歴・インフラ標準ログは各サービスの設定に従う。

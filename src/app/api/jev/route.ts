@@ -34,7 +34,7 @@ export async function POST(request: Request) {
   if (process.env.JEV_DEMO_ENABLED !== "true" || !key) return reply({ error: "現在は接続準備中です。架空サンプルと確認項目をご覧いただけます。" }, 503);
   try {
     const started = performance.now();
-    const input = buildJevRequest(parsed.sample.id, parsed.variant);
+    const input = buildJevRequest(parsed.sample.id, parsed.evidence?.id ?? null);
     const gateway = createGateway({ apiKey: key });
     const upstream = await evaluate({
       model: gateway.evaluationModel(input.model),
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       providerOptions: { gateway: { zeroDataRetention: true } },
     });
     const result = parseJevResponse(upstream);
-    return reply({ ...result, sampleId: parsed.sample.id, variant: parsed.variant, elapsedMs: Math.round(performance.now() - started), measuredAt: new Date().toISOString() });
+    return reply({ ...result, sampleId: parsed.sample.id, evidenceId: parsed.evidence?.id ?? null, elapsedMs: Math.round(performance.now() - started), measuredAt: new Date().toISOString() });
   } catch (error) {
     const status = jevFailureStatus(error);
     if (status === 402) return reply({ error: "デモの予算または利用枠の上限に達したため、実行を停止しています。運営者による確認をお待ちください。" }, 402);

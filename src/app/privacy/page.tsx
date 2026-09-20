@@ -23,7 +23,7 @@ export default function PrivacyPage() {
       <section className="legal-layout">
         <article>
           <h2>Jev実験デモについて</h2>
-          <p>Jev実験デモでは、実行ボタンを押した場合に限り、選択した架空サンプルと固定の分類質問を当サイトのサーバーからVercel AI Gatewayを経由してTypeSafe AIへ送信します。自由記述や実際の業務データは受け付けません。分類結果は画面内で保持し、当サイトのデータベースには保存しません。JSON保存ボタンを押した場合のみ端末へ結果をダウンロードします。</p>
+          <p>Jev実験デモでは、実行ボタンを押した場合に限り、架空の初報と選択した追加情報、固定の判断質問を当サイトのサーバーからVercel AI Gateway経由でTypeSafe AIへ送信します。自由記述や実際の業務データは受け付けません。判断結果は画面内だけで保持し、再読み込みで消えます。当サイトのデータベースやブラウザの永続ストレージには保存しません。ケースの共有URLには固定のケースIDだけが含まれ、判断結果は含まれません。</p>
           <p>外部サービスでの処理は<a href="https://vercel.com/legal/privacy-policy">Vercelのプライバシーポリシー</a>、<a href="https://docs.typesafe.ai/legal">TypeSafeの利用条件・プライバシー関連文書</a>をご確認ください。利用回数や費用はVercel AI Gatewayの管理画面で確認します。Gatewayの利用履歴とインフラログは各提供元の設定に従います。既存のキャリア回答・測定データをこのデモへ転用しません。</p>
         </article>
         <article>
