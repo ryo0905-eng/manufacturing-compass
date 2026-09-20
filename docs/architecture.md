@@ -36,6 +36,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/tools/gage-rr`: 交差型Gage R&Rで部品差、繰返し性、再現性、%GRR、ndcを学ぶ
 - `/tools/line-balance`: 工程別の作業時間を山積み表示し、タクト超過と再配分前後を比較する
 - `/tools/oee`: OEEの内訳と、停止・性能・良品率の改善による推定良品数を比較する
+- `/games/process-engineer-survival`: Phaserの工場フロアとReactのイベントUIを組み合わせ、製造トラブルの判断をコミカルに体験する。ゲーム状態はブラウザメモリだけに保持する
 
 `/diagnosis` と `/diagnosis/result` は存在しません。Career Compass の結果は URL を分けず、クライアント側の状態として同じページに表示します。
 
@@ -96,6 +97,10 @@ src/lib/gage-rr/            Gage R&Rの疑似測定データ、ANOVA、分散成
 src/lib/yield-analysis.ts   CSV検証、個数加重集計、p管理図、層別・構成比比較
 src/data/yield-dashboard.ts 架空工場のロット、排他的な不良、工程条件、変更履歴、確認実験
 src/lib/yield-dashboard.ts  歩留まりの個数加重集計、絞り込み、層別、条件比較、整合性検査
+src/data/process-engineer-survival.ts
+                            ミニゲームのイベント、選択肢、効果、称号、学習導線
+src/lib/process-engineer-survival.ts
+                            ステータス更新、分岐条件、称号判定の純粋関数
 video/                      Web本体と依存関係を分けたショート動画生成パッケージ
 video/manifests/            元記事、画面文言、音声設定、確認日、公開状態
 video/src/components/       音声ミックス、共通枠、場面などの再利用部品
@@ -188,6 +193,13 @@ video/docs/                 制作フロー、公開記録、計測ログ
 - ミニアプリは閲覧、初回操作、山積み表の工程移動、OEE改善条件の確定変更を別イベントで計測する。歩留まり解析はシナリオ、有限の操作種別、CSV読込成否だけを送り、製品名、装置名、日付、個数、生データ、ファイル名は送らない
 - 歩留まり解析のイベントは `yield_analysis_first_interaction`（初回だけ）、`yield_analysis_scenario_changed`、`yield_analysis_csv_loaded`、`yield_analysis_filter_changed`、`yield_analysis_mix_comparison_used`。初期表示は利用開始に数えず、フィルター値は `selected` / `all` のみ送る
 - 歩留まり原因調査デモは `yield_dashboard_start`（初回だけ）、`yield_dashboard_guide_step`（各段階1回）、`yield_dashboard_complete`（1回）、`yield_dashboard_free_explore`、`yield_dashboard_design_view` を送る。ロットID、日付、実数、選択値は送らず、有限の操作種別・段階・モードだけを送る
+- 製造技術者サバイバルは `game_start`、`game_event_choice`、`game_complete`、`game_retry`、`related_tool_click` を送る。イベント・選択肢・称号・遷移先は管理済みIDだけを使い、ゲーム中の数値や自由入力は送らない
+
+## 製造技術者サバイバルの構成
+
+`/games/process-engineer-survival` は、SEO本文と構造化データをServer Component、HUD・イベント選択・結果をReact Client Component、工場マップ・移動・近接判定をPhaserで実装する。PhaserはClient Componentの`useEffect`内で動的importし、SSR時にwindowやcanvasへ触れない。ReactとPhaserの境界は、現在の目的地、近接中の場所、操作命令だけに限定する。
+
+イベント、選択肢の効果、分岐条件、称号、学習リンクはローカル静的データとして管理する。プレイ状態はURL、Cookie、localStorage、外部APIへ保存しない。マップ素材は初版ではPhaser Graphicsから生成し、将来画像へ差し替える場合もイベントデータと状態ロジックを変更しない。
 
 ## デプロイと検証
 

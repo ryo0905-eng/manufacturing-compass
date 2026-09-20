@@ -63,6 +63,11 @@ export function ToolsLearningLab() {
       <div className="tools-flow-visual" aria-label="測定、安定性、能力、改善の4段階"><span>測定</span><i>→</i><span>安定性</span><i>→</i><span>能力</span><i>→</i><span>改善</span><small>DATA → DECISION → ACTION</small></div>
     </section>
 
+    <aside className="tools-game-entry">
+      <div><p className="section-label">5-MINUTE PIXEL GAME</p><h2>月曜日の工場で、判断力を試す</h2><p>歩留まり急落、出荷保留、Excel停止。製造業あるあるを乗り切りながら、現場ヒアリングや層別の考え方に触れるミニゲームです。</p></div>
+      <Link href="/games/process-engineer-survival">製造技術者サバイバルで遊ぶ <span aria-hidden="true">→</span></Link>
+    </aside>
+
     <section className="learning-roadmap" id="learning-roadmap" aria-labelledby="roadmap-title"><header><div><p className="section-label">TOOL ROADMAP</p><h2 id="roadmap-title">今の用事から選ぶ10の入口</h2></div><p>測定・安定性・歩留まり・原因調査・工程能力・条件探索と、次に見る場所を選ぶAIデモを試せます。</p></header><ol>{tools.map((tool) => <li key={tool.id}><span>{tool.step}</span><div><small>{tool.role}</small><h3>{tool.question}</h3><p>{tool.title}</p><Link href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "learning_roadmap")}>試す <i aria-hidden="true">→</i></Link></div></li>)}</ol></section>
 
     <section className="tools-lab-directory" id="tool-lab" aria-labelledby="tools-title"><header><div><p className="section-label">INTERACTIVE TOOLS</p><h2 id="tools-title">動かして、3分で試す</h2></div><div className="tools-progress" aria-live="polite"><span><b>{opened.length}</b> / {tools.length} ツールを体験済み</span>{opened.length > 0 && <button onClick={resetProgress} type="button">進捗をリセット</button>}</div></header><div className="tools-card-grid">{tools.map((tool) => <article className="learning-tool-card" key={tool.id}><header><div><span>{tool.step} / {tool.role}</span><h3>{tool.title}</h3></div><em>{tool.badge}</em></header><MiniPreview type={tool.preview} title={tool.title}/><strong className="tool-card-message">{tool.message}</strong><p>{tool.description}</p><ul>{tool.features.map(feature => <li key={feature}>{feature}</li>)}</ul><dl><div><dt>所要時間</dt><dd>{tool.time}</dd></div><div><dt>難易度</dt><dd>{tool.level}</dd></div><div><dt>実務利用</dt><dd>{tool.id === "jev" ? "教育デモ" : "可能"}</dd></div></dl><footer><Link className="tool-card-primary" href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "tool_card_cta")}>すぐ試す <span aria-hidden="true">→</span></Link></footer></article>)}</div></section>

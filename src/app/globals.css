@@ -19,6 +19,27 @@
   --shadow: 0 20px 70px rgba(17, 24, 28, 0.06);
 }
 
+/* Optional game entry within the practical learning hub. */
+.tools-game-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+  margin: 20px 0 52px;
+  border: 1px solid #c9cdd2;
+  background: #f7f7f8;
+  padding: 20px;
+}
+
+.tools-game-entry h2 { margin: 4px 0 6px; font-size: 20px; }
+.tools-game-entry p:last-child { max-width: 720px; margin: 0; color: #60666d; font-size: 13px; line-height: 1.65; }
+.tools-game-entry > a { min-height: 42px; border: 1px solid #1d1d1f; background: #1d1d1f; padding: 11px 14px; color: #fff; font-size: 13px; font-weight: 600; text-decoration: none; }
+
+@media (max-width: 640px) {
+  .tools-game-entry { grid-template-columns: 1fr; gap: 15px; margin-bottom: 42px; padding: 17px; }
+  .tools-game-entry > a { text-align: center; }
+}
+
 /* Yield analysis: p-chart and stratified comparison workspace. */
 .yield-analysis-page {
   display: grid;
