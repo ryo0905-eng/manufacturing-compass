@@ -1,3 +1,4 @@
+import { learningTools } from "@/data/learning-tools";
 import type { Metadata } from "next";
 import { StructuredData } from "@/components/StructuredData";
 import { ToolsLearningLab } from "@/components/ToolsLearningLab";
@@ -16,23 +17,10 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-const toolItems = [
-  ["工程条件の比較", "/tools/process-comparison"],
-  ["Gage R&R 学習ツール", "/tools/gage-rr"],
-  ["管理図 学習ツール", "/tools/control-chart"],
-  ["歩留まり解析ツール", "/tools/yield-analysis"],
-  ["歩留まり原因調査ダッシュボード", "/tools/yield-dashboard"],
-  ["Cp・Cpk計算・学習ツール", "/tools/cpk"],
-  ["実験計画法（DoE）学習ツール", "/tools/doe"],
-  ["山積み表・ラインバランス", "/tools/line-balance"],
-  ["OEE改善シミュレーター", "/tools/oee"],
-  ["Jev AI 判断デモ", "/labs/jev"],
-] as const;
-
 export default function ToolsPage() {
   return (
     <main className="tools-page tools-lab-page">
-      <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "製造業の品質管理・統計学習ラボ", description: "製造データの判断を4ステップで学べる無料ツール集", url: `${siteUrl}/tools`, mainEntity: { "@type": "ItemList", numberOfItems: toolItems.length, itemListElement: toolItems.map(([name, href], index) => ({ "@type": "ListItem", position: index + 1, name, url: `${siteUrl}${href}` })) } }} />
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "製造業の品質管理・統計学習ラボ", description: "製造データの判断を4ステップで学べる無料ツール集", url: `${siteUrl}/tools`, mainEntity: { "@type": "ItemList", numberOfItems: learningTools.length, itemListElement: learningTools.map(({ title: name, href }, index) => ({ "@type": "ListItem", position: index + 1, name, url: `${siteUrl}${href}` })) } }} />
       <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "学習ツール", item: `${siteUrl}/tools` }] }} />
       <ToolsLearningLab />
     </main>

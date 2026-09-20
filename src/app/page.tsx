@@ -1,238 +1,113 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CareerResultPreview } from "@/components/CareerResultPreview";
-import { CareerRouteMap } from "@/components/CareerRouteMap";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CareerCompassLink } from "@/components/CareerCompassLink";
+import { HomeLink } from "@/components/HomeLink";
+import { HomeToolPreview } from "@/components/HomeToolPreview";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
 import { guideCategoryDetails, guideCategoryOrder } from "@/content/guides/categories";
+import type { GuideArticle } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
+import { homeGuideSlugs, homeResearchLinks, homeToolIds } from "@/data/home";
+import { learningTools } from "@/data/learning-tools";
 import { siteUrl } from "@/lib/format";
 
+const title = "製造業の技術と、半導体の仕事を理解する。";
+const description = "実務ツールで技術を学び、記事と業界地図で企業を調べ、自分の経験と次の準備を整理できます。";
+
 export const metadata: Metadata = {
-  title: { absolute: "製造業の経験を半導体の仕事につなぐ | Manufacturing Compass" },
-  description:
-    "自分の経験が半導体のどの仕事で生かせるのか。求人票を比べながら、仕事の接点と次に準備したいことを整理できるサイトです。",
+  title: { absolute: `${title} | Manufacturing Compass` },
+  description,
   alternates: { canonical: "/" },
-  openGraph: {
-    title: "製造業の経験を半導体の仕事につなぐ",
-    description: "求人票を比べながら、今の経験と半導体の仕事との接点、次に準備したいことを整理します。",
-    url: siteUrl,
-  },
+  openGraph: { title, description, url: siteUrl },
 };
 
-const researchLinks = [
-  {
-    href: "/roles",
-    title: "仕事内容から職種を探す",
-    body: "担当してきた仕事から、半導体求人で使う職種名と検索語を確認します。",
-  },
-  {
-    href: "/industry-map",
-    title: "半導体業界を知る",
-    body: "設計、製造、装置、材料など、それぞれの役割を工程から確認します。",
-  },
-  {
-    href: "/companies",
-    title: "企業を調べる",
-    body: "事業領域や職種を見ながら、気になる企業を比較します。",
-  },
-  {
-    href: "/compare",
-    title: "企業を比較する",
-    body: "事業領域や仕事との接点を、同じ比較軸で並べて確認します。",
-  },
-] as const;
-
-const homeArticles = [...beginnerGuides]
-  .sort((left, right) => right.publishedAt.localeCompare(left.publishedAt))
+const recommendedArticles = homeGuideSlugs.flatMap((slug) => {
+  const article = beginnerGuides.find((guide) => guide.slug === slug);
+  return article ? [article] : [];
+});
+const recommendedSlugs = new Set(recommendedArticles.map((article) => article.slug));
+const latestArticles = beginnerGuides
+  .filter((article) => !recommendedSlugs.has(article.slug))
+  .sort((left, right) => right.publishedAt.localeCompare(left.publishedAt) || left.slug.localeCompare(right.slug))
   .slice(0, 4);
 
-const learningTools = [
-  {
-    href: "/tools/cpk",
-    title: "Cp・Cpk",
-    body: "平均とばらつき、規格との関係を確認する",
-  },
-  {
-    href: "/tools/control-chart",
-    title: "管理図",
-    body: "工程の時間変化と異常の見つけ方を学ぶ",
-  },
-  {
-    href: "/tools/yield-analysis",
-    title: "歩留まり解析",
-    body: "低下した製品・装置と、製品構成の影響を分ける",
-  },
-  {
-    href: "/tools/gage-rr",
-    title: "Gage R&R",
-    body: "部品差と測定システムの誤差を分ける",
-  },
-  {
-    href: "/tools/doe",
-    title: "実験計画法",
-    body: "効果、交互作用、ANOVA、確認実験を順番に学ぶ",
-  },
-  {
-    href: "/tools/line-balance",
-    title: "山積み表・ラインバランス",
-    body: "作業を再配分してタクト超過を比較する",
-  },
-  {
-    href: "/tools/oee",
-    title: "OEE改善",
-    body: "停止・速度・不良の改善を良品数で比較する",
-  },
-] as const;
+function ArticleCard({ article, section }: { article: GuideArticle; section: "recommended" | "latest" }) {
+  return (
+    <HomeLink className="home-focused__article-card" href={`/guides/${article.slug}`} section={section} destination={article.slug} purpose="articles">
+      <GuideThumbnail category={article.category} compact slug={article.slug} title={article.title} />
+      <span>{guideCategoryDetails[article.category].label}<time dateTime={article.publishedAt}>{article.publishedAt.replaceAll("-", ".")}</time></span>
+      <strong>{article.title}</strong>
+      <p>{article.description}</p>
+      <i aria-hidden="true">→</i>
+    </HomeLink>
+  );
+}
 
 export default function Home() {
   return (
     <main className="home-focused">
-      <StructuredData
-        data={{ "@context": "https://schema.org", "@type": "WebSite", name: "Manufacturing Compass", url: siteUrl, inLanguage: "ja" }}
-      />
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "WebSite", name: "Manufacturing Compass", url: siteUrl, inLanguage: "ja" }} />
+      <section className="home-focused__hero" aria-labelledby="home-title">
+        <h1 id="home-title">{title}</h1>
+        <p>{description}</p>
+        <nav className="home-focused__entry-grid" aria-label="目的から選ぶ">
+          <HomeLink href="/tools" section="hero" destination="tools" purpose="technology">技術を学ぶ・使う<span aria-hidden="true">→</span></HomeLink>
+          <HomeLink href="/industry-map" section="hero" destination="industry_map" purpose="industry">企業・業界を調べる<span aria-hidden="true">→</span></HomeLink>
+          <CareerCompassLink ctaLocation="home_hero_purpose" ctaVariant="purpose_entry_v1" sourcePage="/">キャリアを整理する<span aria-hidden="true">→</span></CareerCompassLink>
+        </nav>
+      </section>
 
-      <section className="home-focused__hero">
-        <div className="home-focused__hero-copy">
-          <p className="home-focused__label">製造業から半導体へ</p>
-          <h1>自分の経験が、半導体のどの仕事で生かせるのか。</h1>
-          <p>求人票を比べながら、仕事の接点と次に準備したいことを整理するサイトです。</p>
-          <div className="home-focused__actions">
-            <CareerCompassLink className="home-focused__button" ctaLocation="home_hero" ctaVariant="experience_to_role" sourcePage="/">
-              自分の経験を整理する
-            </CareerCompassLink>
-            <Link className="home-focused__text-link" href="/industry-map">
-              半導体業界地図を見る
-            </Link>
-          </div>
-          <p className="home-focused__assurance">12問・登録不要・入力内容は保存されません</p>
+      <section className="home-focused__section" aria-labelledby="home-tools-title">
+        <header className="home-focused__heading"><h2 id="home-tools-title">技術を学ぶ・使う</h2><p>測定値の比較や、グラフを通じた学び直しに。今の用事に合うツールから試せます。</p></header>
+        <div className="home-focused__tool-grid">
+          {homeToolIds.map((id) => {
+            const tool = learningTools.find((item) => item.id === id);
+            if (!tool) return null;
+            return <HomeLink className="home-focused__tool-card" href={tool.href} key={id} section="tools" destination={id} purpose="technology">
+              <h3>{tool.title}</h3><HomeToolPreview id={id} /><p>{tool.description}</p><span className="home-focused__text-link">{id === "yield-dashboard" ? "架空データで学ぶ" : "ツールを使う"}<i aria-hidden="true"> →</i></span>
+            </HomeLink>;
+          })}
+        </div>
+        <HomeLink className="home-focused__text-link home-focused__more" href="/tools" section="tools" destination="tools" purpose="technology">ツールをすべて見る →</HomeLink>
+      </section>
+
+      <section className="home-focused__section" aria-labelledby="home-research-title">
+        <header className="home-focused__heading"><h2 id="home-research-title">半導体の企業・業界を調べる</h2><p>業界全体のつながりから、気になる企業や製品の違いまで確認できます。</p></header>
+        <nav className="home-focused__research-grid" aria-label="企業・業界研究の入口">
+          {homeResearchLinks.map((item) => <HomeLink href={item.href} key={item.id} section="research" destination={item.id} purpose="industry"><strong>{item.title}<span aria-hidden="true"> →</span></strong><p>{item.body}</p></HomeLink>)}
+        </nav>
+      </section>
+
+      <section className="home-focused__section home-focused__career" aria-labelledby="home-career-title">
+        <div>
+          <header className="home-focused__heading"><h2 id="home-career-title">経験と次の準備を整理する</h2><p>今の仕事と半導体職種の接点を見つけ、次に準備したいことを整理します。</p></header>
+          <CareerCompassLink className="home-focused__button" ctaLocation="home_career_section" ctaVariant="purpose_entry_v1" sourcePage="/">Career Compassで経験を整理する</CareerCompassLink>
+          <p className="home-focused__assurance">12問・登録不要・回答は保存されません</p>
+          <nav className="home-focused__career-links" aria-label="キャリアを考える補助ツール">
+            <CareerPrioritiesLink className="home-focused__text-link" ctaLocation="home_career_support">転職の軸ノートで優先順位を整理する →</CareerPrioritiesLink>
+            <HomeLink className="home-focused__text-link" href="/roles" section="career" destination="roles" purpose="career">仕事内容から職種を探す →</HomeLink>
+          </nav>
         </div>
         <CareerResultPreview />
       </section>
 
-      <section className="home-focused__section home-focused__career" aria-labelledby="home-career-title">
-        <header className="home-focused__heading">
-          <h2 id="home-career-title">会社名より、仕事の中身から見る。</h2>
-          <p>
-            工程改善、品質、設備、設計など、業界が変わっても重なる仕事があります。
-            まずは今の仕事内容に近い入口から見ていきます。
-          </p>
-        </header>
-        <CareerRouteMap />
-        <div className="home-focused__career-note">
-          <p>経験と職種の接点はCareer Compassで。勤務地・仕事内容・待遇など、転職で大切にしたい条件は「転職の軸ノート」で整理できます。</p>
-          <CareerPrioritiesLink className="home-focused__text-link" ctaLocation="home_career_route">
-            転職の優先順位を整理する
-          </CareerPrioritiesLink>
-        </div>
+      <section className="home-focused__section" aria-labelledby="home-recommended-title">
+        <header className="home-focused__heading"><h2 id="home-recommended-title">はじめに読みたい記事</h2><p>半導体の工程、企業の役割、キャリアの準備を理解するために選んだ3記事です。</p></header>
+        <div className="home-focused__article-grid home-focused__article-grid--recommended">{recommendedArticles.map((article) => <ArticleCard article={article} section="recommended" key={article.slug} />)}</div>
       </section>
 
-      <section className="home-focused__section" aria-labelledby="home-research-title">
-        <header className="home-focused__heading">
-          <h2 id="home-research-title">調べたいところから始める。</h2>
-          <p>最初からすべてを理解する必要はありません。気になる工程、企業、職種から確認できます。</p>
-        </header>
-        <nav className="home-focused__link-list" aria-label="半導体業界を調べる">
-          {researchLinks.map((item) => (
-            <Link href={item.href} key={item.href}>
-              <span>
-                <strong>{item.title}</strong>
-                <small>{item.body}</small>
-              </span>
-              <i aria-hidden="true">→</i>
-            </Link>
-          ))}
-        </nav>
-      </section>
-
-      <section className="home-focused__section home-focused__articles" aria-labelledby="home-articles-title">
-        <header className="home-focused__heading">
-          <div>
-            <p className="home-focused__label">NEW ARTICLES</p>
-            <h2 id="home-articles-title">最新記事</h2>
-          </div>
-          <p>キャリアの実体験、AI活用、技術解説、企業研究から、最近公開した記事を紹介します。</p>
-        </header>
-        <nav className="home-focused__article-categories" aria-label="記事のカテゴリ">
-          {guideCategoryOrder.map((category) => (
-            <Link href={`/guides#guide-category-${category}`} key={category}>
-              {guideCategoryDetails[category].label}
-            </Link>
-          ))}
-        </nav>
-        <div className="home-focused__article-grid">
-          {homeArticles.map((article) => (
-            <Link className="home-focused__article-card" href={`/guides/${article.slug}`} key={article.slug}>
-              <GuideThumbnail category={article.category} compact slug={article.slug} title={article.title} />
-              <span>
-                {guideCategoryDetails[article.category].label}
-                <time dateTime={article.publishedAt}>{article.publishedAt.replaceAll("-", ".")}</time>
-              </span>
-              <strong>{article.title}</strong>
-              <p>{article.description}</p>
-              <i aria-hidden="true">→</i>
-            </Link>
-          ))}
-        </div>
-        <Link className="home-focused__text-link" href="/guides">
-          すべての記事を見る
-        </Link>
-      </section>
-
-      <section className="home-focused__section home-focused__learning" aria-labelledby="home-learning-title">
-        <header className="home-focused__heading">
-          <h2 id="home-learning-title">必要な技術を学び直す。</h2>
-          <p>計算結果だけではなく、条件を変えたときに判断がどう変わるかをブラウザ上で確認できます。</p>
-        </header>
-        <nav className="home-focused__tool-list" aria-label="製造技術の学習ツール">
-          {learningTools.map((tool) => (
-            <Link href={tool.href} key={tool.href}>
-              <strong>{tool.title}</strong>
-              <span>{tool.body}</span>
-              <i aria-hidden="true">→</i>
-            </Link>
-          ))}
-        </nav>
-        <Link className="home-focused__text-link" href="/tools">
-          学習ツールをすべて見る
-        </Link>
+      <section className="home-focused__section" aria-labelledby="home-latest-title">
+        <header className="home-focused__heading"><h2 id="home-latest-title">最新記事</h2><p>最近公開した記事を紹介します。</p></header>
+        <nav className="home-focused__article-categories" aria-label="記事のカテゴリ">{guideCategoryOrder.map((category) => <HomeLink href={`/guides#guide-category-${category}`} key={category} section="latest" destination={`category_${category}`} purpose="articles">{guideCategoryDetails[category].label}</HomeLink>)}</nav>
+        <div className="home-focused__article-grid">{latestArticles.map((article) => <ArticleCard article={article} section="latest" key={article.slug} />)}</div>
+        <HomeLink className="home-focused__text-link home-focused__more" href="/guides" section="latest" destination="guides" purpose="articles">すべての記事を見る →</HomeLink>
       </section>
 
       <section className="home-focused__section home-focused__about" aria-labelledby="home-about-title">
-        <div>
-          <h2 id="home-about-title">このサイトについて。</h2>
-          <p>
-            Manufacturing Compassは、製造業で約10年働いてきたRYOが運営しています。
-            求人票を比べるなかで、自分の経験を別の仕事へどう説明するか迷ったことが、このサイトを作るきっかけでした。
-          </p>
-          <p>企業や業界の情報は公開情報と出典を確認し、実体験とは分けて掲載します。</p>
-          <Link className="home-focused__text-link" href="/about">
-            運営者について
-          </Link>
-        </div>
-        <aside>
-          <span>情報の扱い</span>
-          <ul>
-            <li>企業公式、IR、官公庁などの公開情報を優先</li>
-            <li>事実と運営者の実体験を分けて掲載</li>
-            <li>企業情報には出典と確認日を表示</li>
-          </ul>
-        </aside>
-      </section>
-
-      <section className="home-focused__final" aria-labelledby="home-final-title">
-        <div>
-          <h2 id="home-final-title">自分の経験と、半導体の仕事を一度比べてみる。</h2>
-          <p>現在の仕事内容と実績を12問で整理し、近い職種と次に準備したいことを確認できます。</p>
-        </div>
-        <div>
-          <CareerCompassLink className="home-focused__button" ctaLocation="home_final" ctaVariant="experience_to_role" sourcePage="/">
-            自分の経験を整理する
-          </CareerCompassLink>
-          <small>約3分・登録不要</small>
-        </div>
+        <div><h2 id="home-about-title">運営者と情報の扱い</h2><p>Manufacturing Compassは、製造業で約10年働いてきたRYOが運営しています。技術とキャリアについて、次に何を確認するかを考えるための情報を届けます。</p><HomeLink className="home-focused__text-link" href="/about" section="about" destination="about" purpose="about">運営者について →</HomeLink></div>
+        <ul><li>企業公式、IR、官公庁などの公開情報を優先</li><li>事実と運営者の実体験を分けて掲載</li><li>企業情報には出典と確認日を表示</li></ul>
       </section>
     </main>
   );
