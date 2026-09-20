@@ -16,6 +16,7 @@ export const industryGuideCollections: IndustryGuideCollection[] = [
     label: "業界の全体像・ランキング",
     description: "半導体企業の役割、事業構造、企業規模や年収の見方から調べます。",
     guides: [
+      { slug: "japan-semiconductor-factory-projects", shortTitle: "日本の半導体工場の新設・増設一覧" },
       { slug: "ic-chip-manufacturing-companies", shortTitle: "ICチップ製造会社の種類" },
       { slug: "analog-semiconductor-companies", shortTitle: "アナログ半導体と主要企業" },
       { slug: "semiconductor-foundry", shortTitle: "ファウンドリ・IDM・OSATの違い" },

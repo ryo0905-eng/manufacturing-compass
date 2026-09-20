@@ -184,6 +184,7 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
       </section>
 
       <nav className={styles.nextLinks} aria-label="次に確認するページ">
+        <Link href="/guides/japan-semiconductor-factory-projects"><strong>半導体工場の新設・増設一覧</strong><span>主要5案件の場所と稼働時期を比較する</span></Link>
         <Link href="/industry-map"><strong>半導体業界地図</strong><span>工程と企業の役割を理解する</span></Link>
         <Link href="/companies"><strong>半導体企業一覧</strong><span>会社単位で事業と職種を比較する</span></Link>
         <TrackedInternalLink
