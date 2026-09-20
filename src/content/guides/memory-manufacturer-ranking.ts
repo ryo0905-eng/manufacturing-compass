@@ -20,7 +20,7 @@ export const memoryManufacturerRankingGuide: GuideArticle = {
     "NANDの対象が上場主要5社であることを明記し、未掲載企業の順位やシェアは推測しない",
   ],
   publishedAt: "2026-09-18",
-  updatedAt: "2026-09-18",
+  updatedAt: "2026-09-20",
   sources: [
     ...memoryMarketIds.map((id) => ({ title: memoryMarkets[id].source.title, url: memoryMarkets[id].source.url, publisher: "TrendForce", accessedAt: memoryRankingMeta.checkedAt })),
     { title: "What is an SSD?", url: "https://www.micron.com/about/micron-glossary/solid-state-drives", publisher: "Micron", accessedAt: "2026-09-18" },
@@ -56,6 +56,16 @@ export const memoryManufacturerRankingGuide: GuideArticle = {
         "DRAMは調査元のブランドメーカー7社とその他を示します。NANDは上場主要5社に対象が限られるため、未掲載企業をシェア0%や6位以下と解釈しないでください。両表の掲載対象は同じではありません。",
         "DRAMの原表では、その他を含む各行の売上合計とTotal欄に2百万米ドルの差があります。原因は確認できていないため、本記事は各行の掲載値を維持し、売上合計からシェアを再計算していません。シェアの丸め差も補正していません。",
       ],
+    },
+    {
+      id: "faq",
+      heading: "メモリメーカーの順位・シェアを読むときの質問",
+      paragraphs: [],
+      blocks: [{ type: "faq", items: [
+        { question: "DRAMとNANDのシェアを足せば、メモリ全体の順位になりますか？", answer: "なりません。DRAMとNANDは別々の市場で、シェアの分母も異なります。表を切り替えて、それぞれの市場内で比較してください。" },
+        { question: "NANDの表は世界の全メーカーを対象にした上位5社ですか？", answer: "いいえ。調査元が掲載した上場主要5社が対象です。掲載されていない企業をシェア0%や6位以下とは解釈できません。" },
+        { question: "SSDメーカーを選ぶための性能ランキングですか？", answer: "いいえ。比較しているのはメモリの売上高・市場シェアです。SSDという完成品のメーカー順位や性能評価ではなく、企業全体の時価総額とも異なります。" },
+      ] }],
     },
     {
       id: "company-research",

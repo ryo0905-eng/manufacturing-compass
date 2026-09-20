@@ -20,7 +20,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
     "工程対応は各社の公式製品情報をもとに整理。企業の規模と工程での役割を分けて表示",
   ],
   publishedAt: "2026-09-17",
-  updatedAt: "2026-09-17",
+  updatedAt: "2026-09-20",
   sources: [
     { title: equipmentSalesMeta.sourceTitle, url: equipmentSalesMeta.sourceUrl, publisher: "東京エレクトロン（原出典：TechInsights）", accessedAt: equipmentSalesMeta.checkedAt },
     ...equipmentSalesCompanies.flatMap((company) => [...new Set(company.capabilities.map((item) => item.sourceUrl))].map((url) => ({
@@ -59,6 +59,16 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
         "組立・実装は接合などでチップやウェーハをつなぐ装置を扱います。先端パッケージに使う成膜・露光・検査装置は、それぞれの工程へ分類します。ボタンは半導体の全工程や全製品を網羅したものではありません。",
         "企業研究では、興味のある工程を選び、具体的な製品とその役割を確認してください。順位だけで就職先としての適性や働きやすさを判断せず、仕事内容は個別の募集内容と照合する必要があります。",
       ],
+    },
+    {
+      id: "faq",
+      heading: "半導体製造装置メーカーランキングの見方でよくある質問",
+      paragraphs: [],
+      blocks: [{ type: "faq", items: [
+        { question: "企業全体の売上高ランキングですか？", answer: "いいえ。2025暦年の半導体製造装置売上高を比較しています。企業全体の連結売上や時価総額とは異なります。集計方法の節で出典と対象期間を確認できます。" },
+        { question: "売上高が大きい企業は、すべての工程で強いのですか？", answer: "全体の装置売上高から個別工程のシェアや技術の優劣は判断できません。工程ボタンで関連企業を絞り、各社の製品例と公式情報を確認してください。" },
+        { question: "2026年の売上高を比較できますか？", answer: "この表の対象は2025年1〜12月で、データ確認日は2026年9月17日です。記事の更新日とは区別し、2026年の通年売上や予測として扱わないでください。" },
+      ] }],
     },
     {
       id: "related",

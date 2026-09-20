@@ -17,7 +17,7 @@ export const opticalSemiconductorManufacturersGuide: GuideArticle = {
   showCareerCtas: false,
   experienceBasis: ["各社の公式製品情報をもとに、発光・受光の用途別に製品例を整理"],
   publishedAt: "2026-09-18",
-  updatedAt: opticalMeta.checkedAt,
+  updatedAt: "2026-09-20",
   sources: opticalCompanies.flatMap(company => company.products.map(product => ({
     title: product.name, url: product.url, publisher: company.name, accessedAt: opticalMeta.checkedAt,
   }))),
@@ -39,6 +39,11 @@ export const opticalSemiconductorManufacturersGuide: GuideArticle = {
       "このページでは、6社を同じ期間・同じ製品範囲の光半導体売上で比較できる資料を揃えていないため、総合順位やシェアのグラフは掲載していません。用途ごとに公式製品情報を確認できた企業例を示しています。網羅的な企業一覧でもありません。",
       "数値のランキングを読む場合は、対象製品、対象期間、売上か出荷数量か、企業単体かグループかを揃えてください。各社の得意分野や製品の性能を、企業規模だけで判断することはできません。",
     ] },
+    { id: "faq", heading: "光半導体メーカーを比較するときの質問", paragraphs: [], blocks: [{ type: "faq", items: [
+      { question: "光半導体メーカーの世界1位はどこですか？", answer: "このページでは総合順位を付けていません。LED、半導体レーザー、イメージセンサーなどでは比較する市場が異なり、掲載6社を同じ期間・同じ製品範囲の売上で比較できる資料を揃えていないためです。用途ごとの企業例と公式製品情報を確認できます。" },
+      { question: "LEDとイメージセンサーのメーカーは同じ表で比較できますか？", answer: "このページでは製品の有無や用途を確認できますが、性能や売上シェアの順位は比較していません。LEDは光を出す素子、イメージセンサーは光を受けて画像を取得する製品として、用途を分けて調べます。" },
+      { question: "光通信やシリコンフォトニクスの企業もすべて載っていますか？", answer: "いいえ。対象はLED・半導体レーザー・イメージセンサー・フォトダイオードの4分類で、公式情報を確認した企業例です。光通信モジュールやシリコンフォトニクスの供給網全体を網羅する一覧ではありません。" },
+    ] }] },
     { id: "research", heading: "企業名の次は、扱う製品と用途を調べる", paragraphs: [
       "例えば「光を扱う会社」という括りから一歩進めて、LEDを作るのか、レーザー光源を作るのか、受光素子を作るのかを確認します。公式製品ページで用途や製品仕様を読み、その製品に関わる設計・製造・評価などの仕事を調べると、企業研究の対象を絞りやすくなります。",
       "半導体製造で使う光学式の計測装置と、光半導体の素子は別の対象です。また、光通信モジュールやシリコンフォトニクスの供給網全体も、この4分類だけではカバーしていません。",

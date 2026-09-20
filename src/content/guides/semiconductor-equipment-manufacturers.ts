@@ -23,7 +23,7 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
     "経済産業省の資料と、国内外の装置メーカー各社が公開する製品情報で担当工程を照合",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-19",
+  updatedAt: "2026-09-20",
   sources: [
     {
       title: "中部地域 半導体人材育成プログラム 2024年7月版",
@@ -160,6 +160,12 @@ export const semiconductorEquipmentManufacturersGuide: GuideArticle = {
         "経済産業省の人材育成資料は、製造装置メーカーを各製造工程に特化した装置を開発・製造する企業と説明しています。前工程、後工程、検査のそれぞれに装置があり、工程ごとに代表的なメーカーが異なります。",
         "一つの企業が複数工程を扱う場合も、一つの工程へ集中する場合もあります。さらに装置本体だけでなく、ソフトウェア、プロセス支援、保守、部品、改造、データ解析まで提供範囲が広がるため、企業名だけで仕事内容を決めつけないことが重要です。",
       ],
+    },
+    {
+      id: "sales-ranking",
+      heading: "装置メーカーを売上高で比較したい場合",
+      paragraphs: [],
+      blocks: [{ type: "link-callout", title: "世界上位10社の売上規模と対応工程を見る", description: "この記事は工程と企業の役割を整理する一覧です。順位を調べたい場合は、2025暦年の半導体製造装置売上高を同じ出典で比較したランキングへ進めます。", label: "半導体製造装置メーカーの売上高ランキングを見る", href: "/guides/semiconductor-equipment-sales-ranking", ctaLocation: "equipment_overview_after_definition" }],
     },
     {
       id: "front-end-equipment",

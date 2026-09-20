@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-09-06",
+  updatedAt: "2026-09-20",
   sources: [
     {
       title: "Largest semiconductor companies by market cap",
@@ -151,6 +151,17 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         "本記事では、半導体そのものを設計・製造する企業だけでなく、製造装置、検査・計測装置、EDA、半導体IP、OSATなども含めています。同じ『半導体企業』でも、顧客、設備、収益構造、技術職の役割は異なります。",
         "サムスン電子のような総合電機メーカーの時価総額は、半導体部門だけの企業価値を示すものではありません。企業全体の時価総額で比較しているため、専業企業との違いを理解したうえで順位を見てください。",
       ],
+    },
+    {
+      id: "compare-by-field",
+      heading: "製造装置・メモリ・光半導体を分野別に比較する",
+      lead: "知りたいのが企業全体の評価額ではなく、特定分野の規模や製品なら、比較対象と指標を分けて見ます。",
+      paragraphs: [],
+      blocks: [{ type: "links", items: [
+        { label: "半導体製造装置メーカーの売上高ランキング", href: "/guides/semiconductor-equipment-sales-ranking", description: "2025暦年の装置売上高で上位10社を比較。成膜・露光・検査など、扱う工程と製品を調べる" },
+        { label: "メモリメーカーランキング｜DRAM・NANDの売上シェア", href: "/guides/memory-manufacturer-ranking", description: "2026年4〜6月の製品市場別シェアを比較。DRAMとNANDを分け、企業全体の時価総額との違いを確認する" },
+        { label: "光半導体メーカーを用途から比較する", href: "/guides/optical-semiconductor-manufacturers", description: "LED・レーザー・イメージセンサー・フォトダイオードの企業例を調べる。総合順位ではなく公式製品情報で比較する" },
+      ] }],
     },
     {
       id: "methodology",
@@ -421,6 +432,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   ],
   todayQuest: "ランキングから3社を選び、各社を「設計・製造・装置・後工程・材料」のどこに位置づけるか確認する",
   relatedGuideSlugs: [
+    "semiconductor-equipment-sales-ranking",
     "optical-semiconductor-manufacturers",
     "memory-manufacturer-ranking",
     "semiconductor-silicon-wafer-manufacturers",
