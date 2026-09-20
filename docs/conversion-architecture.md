@@ -1,6 +1,6 @@
 # Conversion Architecture
 
-最終更新日: 2026-09-05
+最終更新日: 2026-09-20
 
 ## 目的
 
@@ -78,6 +78,7 @@ Career Compass
 
 ## 計測
 
+- `career_compass_cta_view`
 - `career_compass_cta_click`
 - `career_compass_start`
 - `career_compass_step`
@@ -107,6 +108,14 @@ Career Compass
 - `location_map_career_compass_click`
 
 `career_compass_cta_click` には `source_page`、`cta_location`、`cta_variant` の有限値だけを付与します。検索語や入力内容は送信しません。GA4 のページ表示からCTAクリック、1問目回答、4・8・12問到達、完了までを流入元別に確認します。
+
+### Career Compassの入口とキーイベント（2026-09-20）
+
+- GA4管理画面で現行の `career_compass_complete` をキーイベントへ登録済み。旧 `diagnosis_complete` と現行名を区別し、変更前の完了実績は通常のイベント数で確認する。`affiliate_outbound_click` の既存登録は維持する。完了と同時発火する `career_compass_result_view`、入口クリック、内部の相談先クリックを重ねてキーイベントにしない。
+- 共通 `CareerCompassLink` と記事のリンク一覧で、リンクの50%以上が画面に入った時に `career_compass_cta_view` を送る。マウント・遷移元・導線位置・バリエーションの組合せで1回とし、アンマウント時は監視を解除する。IntersectionObserver非対応時は表示計測を省略し、リンクとクリック計測を維持する。
+- 表示とクリックには同じ `source_page`、`cta_location`、`cta_variant` を使う。表示は読了・理解を示さない。記事の既存クリック名・値は保持し、`article_internal_click` と二重送信しない。表示計測の対象は共通リンクを使う入口のみで、独自リンクを含む全CTAの表示率とは扱わない。
+- 時価総額ランキングの企業研究4ステップに、経験と職種・次の準備を整理する入口を追加。既存の勤務地・企業・待遇の導線は維持する。ランキング数値と出典の確認日は変更しない。
+- コードの本番反映日は未確認。反映日から28日間、ランキングと業界地図を遷移元別に、表示したセッション→クリック→開始→完了の順序で確認する。イベント件数をそのまま割らずセッション内で重複排除する。新しい表示イベントに過去の基準値はないため、最初の期間を基準とする。
 
 ### 業界地図の詳細導線（2026-09-10・ローカル実装）
 

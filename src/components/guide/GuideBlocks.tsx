@@ -2,6 +2,7 @@ import { OpticalCompanies } from "@/components/OpticalCompanies";
 import { MemoryRanking } from "@/components/MemoryRanking";
 import { EquipmentSalesRanking } from "@/components/EquipmentSalesRanking";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 import type { Route } from "next";
 import Image from "next/image";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
@@ -676,23 +677,25 @@ export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
                     <small>{item.description}</small>
                   </CareerPrioritiesLink>;
                 }
-                const isCareerCompassLink = item.href === "/career-compass";
+                if (item.href === "/career-compass") {
+                  return <CareerCompassLink
+                    ctaLocation="guide_link_list"
+                    ctaVariant="contextual_article_link"
+                    sourcePage={sourceSlug ? `/guides/${sourceSlug}` : "/guides"}
+                    key={item.href}
+                  >
+                    <strong>{item.label}<span aria-hidden="true">→</span></strong>
+                    <small>{item.description}</small>
+                  </CareerCompassLink>;
+                }
                 return (
                   <TrackedInternalLink
-                    eventName={isCareerCompassLink
-                      ? "career_compass_cta_click"
-                      : item.href.startsWith("/tools/")
+                    eventName={item.href.startsWith("/tools/")
                         ? "article_tool_click"
                         : item.href.startsWith("/companies/")
                           ? "article_company_click"
                           : "article_internal_click"}
-                    eventProperties={isCareerCompassLink
-                      ? {
-                          cta_location: "guide_link_list",
-                          cta_variant: "contextual_article_link",
-                          source_page: sourceSlug ? `/guides/${sourceSlug}` : "/guides",
-                        }
-                      : { destination_path: item.href, source_slug: sourceSlug }}
+                    eventProperties={{ destination_path: item.href, source_slug: sourceSlug }}
                     href={item.href as Route}
                     key={item.href}
                   >
