@@ -77,4 +77,15 @@ test("initial, independent evidence, failure, cached comparisons and case sharin
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/labs\/jev$/);
   await page.goto("/labs/jev?case=invalid");
   await expect(page.getByRole("button", { name: "01 不合格が増えた", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /index/);
+  await page.goto("/tools");
+  const jevCard = page.locator("article").filter({
+    has: page.getByRole("heading", { name: "Jev AI Lab", exact: true }),
+  });
+  await expect(jevCard.getByRole("link", { name: "すぐ試す", exact: true })).toHaveAttribute(
+    "href",
+    "/labs/jev",
+  );
+  const sitemap = await page.request.get("/sitemap.xml");
+  expect(await sitemap.text()).toContain("/labs/jev");
 });

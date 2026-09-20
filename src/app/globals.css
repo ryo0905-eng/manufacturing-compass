@@ -18691,7 +18691,7 @@ body {
 .learning-roadmap ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px 0; margin: 0; padding: 0; list-style: none; }
 .learning-roadmap li { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 12px; border-top: 1px solid #c9cdd2; padding: 18px 18px 4px 0; }
 .learning-roadmap li:not(:last-child)::after { position: absolute; top: -4px; right: 12px; width: 7px; height: 7px; border-top: 1px solid #8d939a; border-right: 1px solid #8d939a; transform: rotate(45deg); content: ""; }
-.learning-roadmap li:nth-child(3)::after { display: none; }
+.learning-roadmap li:nth-child(3n)::after, .learning-roadmap li:last-child::after { display: none; }
 .learning-roadmap li > span { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 4px; background: #1d1d1f; color: #fff; font-size: 11px; font-weight: 600; }
 .learning-roadmap small { color: #737980; font-size: 10px; font-weight: 600; }
 .learning-roadmap h3 { margin: 6px 0 3px; font-size: 17px; line-height: 1.45; }
@@ -18729,6 +18729,10 @@ body {
 .interaction-a, .interaction-b { fill: none; stroke-width: 2.5; transition: transform 260ms ease; }
 .interaction-a { stroke: var(--primary); }.interaction-b { stroke: #c48a31; }
 .learning-tool-card:hover .interaction-a { transform: translateY(-5px); }.learning-tool-card:hover .interaction-b { transform: translateY(5px); }
+.tool-mini-preview--jev .preview-grid { display: none; }
+.tool-mini-preview--jev .jev-state { fill: #fff; stroke: #8da0a5; }
+.tool-mini-preview--jev .signal-dot { fill: var(--primary); }
+.tool-mini-preview--jev text:nth-of-type(2) { fill: #fff; }
 .tool-card-message { color: #1d1d1f; font-size: 15px; line-height: 1.55; }
 .learning-tool-card > p { margin: 7px 0 0; color: #60666d; font-size: 14px; line-height: 1.75; }
 .learning-tool-card > ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 17px 0; padding: 0; list-style: none; }
@@ -18743,7 +18747,7 @@ body {
 @keyframes preview-draw { from { stroke-dashoffset: 420; } }
 
 @media (max-width: 850px) {
-  .tools-lab-hero { grid-template-columns: 1fr; }.tools-flow-visual { align-items: center; }.tools-flow-visual span { padding: 0 12px; }.learning-roadmap ol { grid-template-columns: 1fr 1fr; gap: 25px 0; }.learning-roadmap li:nth-child(3)::after { display: block; }.learning-roadmap li:nth-child(2n)::after { display: none; }
+  .tools-lab-hero { grid-template-columns: 1fr; }.tools-flow-visual { align-items: center; }.tools-flow-visual span { padding: 0 12px; }.learning-roadmap ol { grid-template-columns: 1fr 1fr; gap: 25px 0; }.learning-roadmap li:nth-child(3n)::after { display: block; }.learning-roadmap li:nth-child(2n)::after, .learning-roadmap li:last-child::after { display: none; }
 }
 
 @media (max-width: 640px) {

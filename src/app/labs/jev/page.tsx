@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Jev AIを体験｜半導体の報告から次の確認先を選ぶデモ",
   description: "TypeSafe AIのJevを日本語で体験。半導体の架空報告に情報を加え、Choice・Boolean・Scoreと次の確認先がどう変わるかを比較できます。",
   alternates: { canonical: "/labs/jev" },
-  robots: { index: false, follow: true },
+  robots: { index: true, follow: true },
   openGraph: {
     title: "Jev AI Lab｜情報を足すと、判断はどう変わる？",
     description: "半導体の架空報告で、型付き判断と調査ルートの変化を体験。",

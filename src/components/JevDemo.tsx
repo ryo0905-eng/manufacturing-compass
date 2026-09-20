@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { jevCategories, jevRoutes, jevRouteInfo, jevSamples, jevCompletenessLevels, jevInputPricePerMillion, type JevRoute } from "@/data/jev-demo";
 import type { JevResult } from "@/lib/jev-demo";
+import { trackEvent } from "@/lib/analytics";
 import styles from "@/app/labs/jev/jev.module.css";
 
 const routeKeys = Object.keys(jevRoutes) as JevRoute[];
@@ -32,6 +33,10 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
   const route = current ? jevRouteInfo(current.decisions.route.choice) : null;
   const fetchingSelected = pending === resultKey(sample.id, evidenceId);
 
+  useEffect(() => {
+    trackEvent("jev_lab_view", { initial_case: initialSampleId });
+  }, [initialSampleId]);
+
   async function run(target: string | null) {
     if (busy.current || (target !== null && !initial)) return;
     const key = resultKey(sample.id, target);
@@ -39,6 +44,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
     busy.current = true;
     setPending(key);
     setError("");
+    trackEvent("jev_evaluation_start", { case_id: sample.id, stage: target === null ? "initial" : "evidence" });
     try {
       const response = await fetch("/api/jev", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -47,15 +53,18 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
       });
       const body = await response.json();
       if (!response.ok) {
+        trackEvent("jev_evaluation_failed", { case_id: sample.id, stage: target === null ? "initial" : "evidence", http_status: response.status });
         setError(typeof body.error === "string" ? body.error : "判断を取得できませんでした。");
         return;
       }
       if (body.sampleId !== sample.id || body.evidenceId !== target || !body.decisions) throw new Error("Mismatched result");
       setResults((previous) => ({ ...previous, [key]: body as JevResult }));
+      trackEvent("jev_evaluation_complete", { case_id: sample.id, stage: target === null ? "initial" : "evidence", route: body.decisions.route.choice });
       if (window.innerWidth <= 850) {
         outputRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
       }
     } catch {
+      trackEvent("jev_evaluation_failed", { case_id: sample.id, stage: target === null ? "initial" : "evidence", http_status: 0 });
       setError("通信が完了しませんでした。時間をおいて、同じボタンで再試行できます。");
     } finally {
       busy.current = false;
@@ -67,6 +76,13 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
     setSampleId(id);
     setEvidenceId(null);
     setError("");
+    trackEvent("jev_case_selected", { case_id: id });
+  }
+
+  function chooseEvidence(id: string) {
+    setEvidenceId(id);
+    setError("");
+    trackEvent("jev_evidence_selected", { case_id: sample.id, evidence_id: id });
   }
 
   return (
@@ -103,7 +119,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
           <div className={styles.evidenceList}>
             {sample.evidence.map((item, index) => (
               <button type="button" key={item.id} aria-pressed={item.id === evidenceId} disabled={!initial || pending !== null}
-                onClick={() => { setEvidenceId(item.id); setError(""); }}>
+                onClick={() => chooseEvidence(item.id)}>
                 <span className={styles.evidenceLetter}>{index === 0 ? "A" : "B"}</span>
                 <span><strong>{item.title}</strong>{item.id === evidenceId && <span>{item.report}</span>}</span>
               </button>
@@ -116,7 +132,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
           )}
           {!initial && <p className={styles.hint}>初報を評価すると、追加情報を試せます。</p>}
           {error && <p className={styles.error} role="alert">{error}</p>}
-          <p className={styles.share}><a href={`/labs/jev?case=${sample.id}`}>このケースの共有リンク ↗</a><span>結果は共有されません</span></p>
+          <p className={styles.share}><a href={`/labs/jev?case=${sample.id}`} onClick={() => trackEvent("jev_case_share_click", { case_id: sample.id })}>このケースの共有リンク ↗</a><span>結果は共有されません</span></p>
         </div>
 
         <div ref={outputRef} className={styles.outputPane} aria-busy={pending !== null}>
@@ -186,7 +202,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
               </div>
               <div className={styles.nextAction}>
                 <p>{route.next}</p>
-                {route.href && <Link href={route.href} target="_blank" rel="noopener noreferrer">{route.link} ↗</Link>}
+                {route.href && <Link href={route.href} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("jev_tool_route_click", { route: current.decisions.route.choice, destination: route.href })}>{route.link} ↗</Link>}
                 <small>確認先はJevの判断。説明とリンクはCompassの編集です。</small>
               </div>
               <details className={styles.details}>
