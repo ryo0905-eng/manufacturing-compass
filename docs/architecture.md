@@ -270,7 +270,7 @@ Supabase、ユーザーアカウント、メール保存、求人連携は未採
 - `/labs/jev`: Server Componentの説明・index可能なメタデータ・OG・構造化データとClient Componentの3ケース×2分岐、初報基準の比較、メモリ内結果。`/tools`とsitemapから接続する。共有クエリはcaseのみでcanonicalは本体URL。JSON保存は提供しない。
 - 計測は閲覧、固定ケース選択、固定追加情報選択、評価開始・成功・失敗、共有リンク、学習ツール遷移。固定ID・HTTP状態・選択された確認領域だけを送り、報告本文・確率分布・自由入力を送らない。
 - `src/data/jev-demo.ts`: 架空報告、固定の追加情報、変更分類、確認領域と静的リンク、Scoreの5段階基準。
-- `src/data/jev-visual.ts` と `JevFactoryExperience`：全3ケース×3状態の固定図と4エリアのドット絵SVG。9確認先を4エリアへ対応付け、正確な確認先名も併記。未評価・通信中・失敗時は初報と明示。JevDemoで画面高を監視し、説明・確率・学習リンクはnative dialogへ分離。API・キャッシュは維持。自動送信・予想操作なし。
+- `src/data/jev-visual.ts` と `JevFactoryExperience`：全3ケース×3状態の入力図と9選択肢の確率バー。APIの分布を合算・再正規化せず固定順で表示し、初報目印と差分を併記。PC左右/スマホ上下。JevDemoは開始後の選択イベントから自動評価し、pendingガード・結果キャッシュ・失敗ID記録で重複/自動再試行を防ぐ。通信中・失敗時は初報表示と明示。native dialogに他指標・説明・学習リンクを残す。計測版はprobability-flow-v3。
 - `src/lib/jev-demo.ts`: `{sampleId, evidenceId}`（初報はevidenceId=null）だけを受理。questionsはchange/comparison/completeness/route。型・分布・confidence・Scoreの加重平均を検証して正規化し、4判断を返す。分類から確認先を固定変換しない。
 - `/api/jev`: POSTのみ。Origin照合、JSONサイズ・スキーマ・固定ID検証後、Gatewayへ1回送信。自動再試行なし、タイムアウト付き。秘密や外部エラー本文を返さない。
 - 費用上限はGatewayのAPIキー予算へ委ねる。アプリは予算・利用枠の拒否と429を固定文言で表示し、自動リトライしない。キー予算の設定は運営者が管理画面で確認する。

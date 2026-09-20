@@ -6,16 +6,13 @@ import { jevCategories, jevRoutes, jevRouteInfo, jevSamples, jevCompletenessLeve
 import type { JevResult } from "@/lib/jev-demo";
 import { trackEvent } from "@/lib/analytics";
 import { JevFactoryExperience } from "./JevFactoryExperience";
-import { jevVisualVersion, visualCases } from "@/data/jev-visual";
+import { jevVisualVersion, visualCases, formatProbability, formatProbabilityDelta } from "@/data/jev-visual";
 import styles from "@/app/labs/jev/jev.module.css";
 
 const routeKeys = Object.keys(jevRoutes) as JevRoute[];
-const pct = (n: number) => `${Math.round(n * 100)}%`;
+const pct = formatProbability;
 const resultKey = (sampleId: string, evidenceId: string | null) => `${sampleId}:${evidenceId ?? "initial"}`;
-function delta(before: number, after: number) {
-  const points = Math.round((after - before) * 100);
-  return points === 0 ? "±0pt" : `${points > 0 ? "+" : "−"}${Math.abs(points)}pt`;
-}
+const delta = formatProbabilityDelta;
 
 export function JevDemo({ enabled, initialSampleId, helpContent }: { enabled: boolean; initialSampleId: string; helpContent?: ReactNode }) {
   const [sampleId, setSampleId] = useState(initialSampleId);
@@ -24,6 +21,8 @@ export function JevDemo({ enabled, initialSampleId, helpContent }: { enabled: bo
   const [pending, setPending] = useState<string | null>(null);
   const [error, setError] = useState("");
   const busy = useRef(false);
+  const [started, setStarted] = useState(false);
+  const failures = useRef<Record<string, string>>({});
   const shellRef = useRef<HTMLElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [infoOpen, setInfoOpen] = useState(false);
@@ -41,50 +40,68 @@ export function JevDemo({ enabled, initialSampleId, helpContent }: { enabled: bo
     trackEvent("jev_lab_view", { initial_case: initialSampleId, ui_version: jevVisualVersion });
   }, [initialSampleId]);
 
-  async function run(target: string | null) {
-    if (busy.current || (target !== null && !initial)) return;
-    const key = resultKey(sample.id, target);
-    if (results[key]) return; // The initial measurement and each branch remain stable for comparison.
+  async function run(target: string | null, caseId = sampleId, retry = false) {
+    if (!enabled || busy.current || (target !== null && !results[resultKey(caseId, null)])) return;
+    const key = resultKey(caseId, target);
+    if (results[key]) return;
+    if (failures.current[key] && !retry) {
+      setError(failures.current[key]);
+      return; // Failed inputs require an explicit retry, even after switching away and back.
+    }
     busy.current = true;
     setPending(key);
     setError("");
-    trackEvent("jev_evaluation_start", { case_id: sample.id, stage: target === null ? "initial" : "evidence" });
+    const event = { case_id: caseId, stage: target === null ? "initial" : "evidence", ui_version: jevVisualVersion };
+    const fail = (message: string, status: number) => {
+      failures.current[key] = message;
+      setError(message);
+      trackEvent("jev_evaluation_failed", { ...event, http_status: status });
+    };
+    trackEvent("jev_evaluation_start", event);
     try {
       const response = await fetch("/api/jev", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sampleId: sample.id, evidenceId: target }),
+        body: JSON.stringify({ sampleId: caseId, evidenceId: target }),
         signal: AbortSignal.timeout(22000),
       });
       const body = await response.json();
       if (!response.ok) {
-        trackEvent("jev_evaluation_failed", { case_id: sample.id, stage: target === null ? "initial" : "evidence", http_status: response.status });
-        setError(typeof body.error === "string" ? body.error : "判断を取得できませんでした。");
+        fail(typeof body.error === "string" ? body.error : "判断を取得できませんでした。", response.status);
         return;
       }
-      if (body.sampleId !== sample.id || body.evidenceId !== target || !body.decisions) throw new Error("Mismatched result");
-      setResults((previous) => ({ ...previous, [key]: body as JevResult }));
-      trackEvent("jev_evaluation_complete", { case_id: sample.id, stage: target === null ? "initial" : "evidence", route: body.decisions.route.choice });
-
+      if (body.sampleId !== caseId || body.evidenceId !== target || !body.decisions) throw new Error("Mismatched result");
+      delete failures.current[key];
+      setResults(previous => ({ ...previous, [key]: body as JevResult }));
+      trackEvent("jev_evaluation_complete", { ...event, route: body.decisions.route.choice });
     } catch {
-      trackEvent("jev_evaluation_failed", { case_id: sample.id, stage: target === null ? "initial" : "evidence", http_status: 0 });
-      setError("通信が完了しませんでした。時間をおいて、同じボタンで再試行できます。");
+      fail("通信が完了しませんでした。時間をおいて再試行してください。", 0);
     } finally {
       busy.current = false;
       setPending(null);
     }
   }
 
+  function start() {
+    if (!enabled || busy.current) return;
+    setStarted(true);
+    void run(null);
+  }
+
   function chooseCase(id: string) {
+    if (busy.current) return;
     setSampleId(id);
     setEvidenceId(null);
-    setError("");
-    trackEvent("jev_case_selected", { case_id: id });
+    setError(failures.current[resultKey(id, null)] ?? "");
+    trackEvent("jev_case_selected", { case_id: id, ui_version: jevVisualVersion });
+    if (started) void run(null, id);
   }
 
   function chooseEvidence(id: string | null) {
+    if (busy.current || (id !== null && !initial)) return;
     setEvidenceId(id);
-    setError("");
-    trackEvent("jev_evidence_selected", { case_id: sample.id, evidence_id: id ?? "initial" });
+    setError(failures.current[resultKey(sampleId, id)] ?? "");
+    trackEvent("jev_evidence_selected", { case_id: sampleId, evidence_id: id ?? "initial", ui_version: jevVisualVersion });
+    if (started) void run(id);
   }
 
 
@@ -110,15 +127,16 @@ export function JevDemo({ enabled, initialSampleId, helpContent }: { enabled: bo
   }, [infoOpen]);
 
   return <section ref={shellRef} className={styles.demo} aria-label="Jev 工場チュートリアル">
-    <header className={styles.demoHeader}><h1>Jev：次は、どこを調べる？</h1><button type="button" aria-label="説明・確率・学習リンクを開く" onClick={() => setInfoOpen(true)}>?</button></header>
+    <header className={styles.demoHeader}><h1>情報を変える。確率が動く。</h1><button type="button" aria-label="説明・確率・学習リンクを開く" onClick={() => setInfoOpen(true)}>?</button></header>
     <div className={styles.casePicker} aria-label="ケース切替">
       {jevSamples.map(item => <button key={item.id} type="button" aria-pressed={item.id === sampleId} disabled={pending !== null} onClick={() => chooseCase(item.id)}>{visualCases[item.id].label}</button>)}
     </div>
     <JevFactoryExperience sampleId={sample.id} enabled={enabled} evidenceId={evidenceId} initial={initial} selected={selected}
-      pending={pending !== null} error={error} run={run} chooseEvidence={chooseEvidence} />
+      pending={pending !== null} error={error} started={started} start={start}
+      retry={() => void run(evidenceId, sampleId, true)} chooseEvidence={chooseEvidence} />
     <dialog ref={dialogRef} className={styles.infoDialog} onCancel={event => { event.preventDefault(); setInfoOpen(false); }} aria-labelledby="jev-info-title">
       <header><h2 id="jev-info-title">説明と判断の詳細</h2><button type="button" onClick={() => setInfoOpen(false)}>閉じる</button></header>
-      <p>情報を切り替え、Jevに次の確認先を聞く教材です。図は固定の架空例で、Jevは図ではなく報告文を読みます。↑は増加・上昇、→は従来並、?は未確認。個数や不良率ではありません。</p>
+      <p>情報を切り替え、次の確認先の選択確率がどう変わるかを見る教材です。開始後は未評価の情報を選ぶと自動送信します。図は固定の架空例で、Jevは図ではなく報告文を読みます。↑は増加・上昇、→は従来並、?は未確認。個数や不良率ではありません。</p>
       <p>A/Bは別の状況です。初報と各分岐の結果を保持し、評価済みの情報に戻っても再送しません。</p>
       <h3>表示中の報告</h3><p>{sample.report}</p>{evidence && <p>追加情報：{evidence.report}</p>}
       {evidence && !selected && <p>追加情報は未評価です。以下は初報の結果です。</p>}

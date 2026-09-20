@@ -1,5 +1,14 @@
 import type { JevRoute } from "./jev-demo";
-export const jevVisualVersion = "single-screen-v2";
+export const jevVisualVersion = "probability-flow-v3";
+
+export function formatProbability(value: number): string {
+  return value > 0 && value < 0.001 ? "0.1％未満" : (value * 100).toFixed(1) + "％";
+}
+
+export function formatProbabilityDelta(before: number, after: number): string {
+  const points = Math.round((after - before) * 1000) / 10;
+  return points === 0 ? "±0.0pt" : (points > 0 ? "+" : "−") + Math.abs(points).toFixed(1) + "pt";
+}
 export type FactoryArea = "material" | "equipment" | "metrology" | "records";
 export const factoryAreas: { id: FactoryArea; label: string }[] = [
   { id: "material", label: "材料" }, { id: "equipment", label: "装置" },

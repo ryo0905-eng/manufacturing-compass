@@ -16,7 +16,7 @@ function fixture(sampleId: string, evidenceId: string | null) {
   };
 }
 
-test("all cases share compact visuals; explicit evaluation, errors and cached branches", async ({ page }) => {
+test("all cases share compact visuals; automatic evaluation, errors and cached branches", async ({ page }) => {
   const requests: { sampleId: string; evidenceId: string | null }[] = [];
   let fail = true;
   await page.route("**/api/jev", async route => {
@@ -39,15 +39,15 @@ test("all cases share compact visuals; explicit evaluation, errors and cached br
   expect(requests).toHaveLength(0);
   await page.getByRole("button", { name: "① 不合格" }).click();
   await expect(page.getByRole("button", { name: "B 検査器比較" })).toBeDisabled();
-  await page.getByRole("button", { name: "Jevに聞く" }).click();
-  await expect(page.getByRole("status")).toContainText("材料・ロット");
+  await page.getByRole("button", { name: "開始する" }).click();
+  await expect(page.getByRole("status")).toContainText("初報の結果");
   await page.getByRole("button", { name: "B 検査器比較" }).click();
-  await expect(page.getByRole("status")).toContainText("未評価・表示は初報");
-  await page.getByRole("button", { name: "Jevに聞く" }).click();
   await expect(page.getByRole("alert")).toContainText("通信失敗");
-  await expect(page.getByRole("status")).toContainText("材料・ロット");
+  await expect(page.getByRole("status")).toContainText("更新失敗・初報の結果");
   await page.getByRole("button", { name: "再試行" }).click();
-  await expect(page.getByRole("status")).toContainText("測定系");
+  await expect(page.getByRole("status")).toContainText("追加情報の結果");
+  await expect(page.locator('[data-route="metrology"]')).toContainText("84.0％");
+  await expect(page.locator('[data-route="metrology"]')).toContainText("+82.0pt");
   await page.getByRole("button", { name: "説明・確率・学習リンクを開く" }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
@@ -56,14 +56,18 @@ test("all cases share compact visuals; explicit evaluation, errors and cached br
   await expect(dialog).not.toBeVisible();
   await expect(page.getByRole("button", { name: "説明・確率・学習リンクを開く" })).toBeFocused();
   await page.getByRole("button", { name: "A 装置比較" }).click();
-  await page.getByRole("button", { name: "Jevに聞く" }).click();
-  await expect(page.getByRole("status")).toContainText("確認先は同じ");
+  await expect(page.getByRole("status")).toContainText("追加情報の結果");
+  await expect(page.locator('[data-route="material"]')).toContainText("±0.0pt");
   await page.getByRole("button", { name: "B 検査器比較" }).click();
-  await expect(page.getByRole("button", { name: "✓ 評価済み" })).toBeDisabled();
+  await expect(page.locator('[data-route="metrology"]')).toContainText("84.0％");
   expect(requests).toHaveLength(4);
   await page.getByRole("button", { name: "最初", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("初報の提案");
+  await expect(page.getByRole("status")).toContainText("初報の結果");
   expect(requests).toHaveLength(4);
+  await page.getByRole("button", { name: "② 測定値" }).click();
+  await expect(page.getByRole("status")).toContainText("初報の結果");
+  expect(requests.at(-1)).toEqual({ sampleId: "shift", evidenceId: null });
+  await expect(page.getByTestId("jev-result").getByRole("listitem")).toHaveCount(9);
   await page.goto("/labs/jev?case=unclear");
   await expect(page.getByRole("button", { name: "③ 記録" })).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://mfg-compass.com/labs/jev");

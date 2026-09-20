@@ -4,43 +4,41 @@
 
 URL: `/labs/jev`。案Bとして架空3ケース×初報・追加情報2分岐（9条件）へ更新し、4判断の実API応答を確認済み。2026年9月20日から検索公開対象とし、`/tools`、sitemap、固定イベント計測を接続。本番で表示と利用状況を確認しながら改善する。
 
-## 図解UI：single-screen-v2
+## 確率分布UI：probability-flow-v3
 
-全3ケースを共通の一画面型UIへ統一。公式PlaygroundのChoiceチュートリアルの「狭い問い・入力・判断」を参考に、状況の図・情報切替・次の確認先に絞った。
+全3ケースを「入力情報を変える → 各選択肢の確率が変わる」体験へ更新。ドット絵は入力の補助に限定し、単一確認先への移動演出を廃止する。
 
-- 材料・装置・検査器・記録の4エリアで全9状態を表示。比較A/Bは独立した状況。
-- 予想操作・大きな導入・常設詳細表を廃止。報告・確率・注意事項・学習リンクは「？」のモーダル内へ移動。
-- 残り画面高を監視して配置。小画面・拡大時は情報を隠さずスクロールを許容。一画面収まりは実機未検証。
-- 実APIの9確認先を4エリアへ対応付け、作業者と正確な確認先名を表示。原因断定や修理成功演出はしない。
-- 未評価・通信中・失敗時は初報表示と明示。同じ提案は変化と演出しない。分岐キャッシュ・明示評価・API・共有URL・canonicalを維持。
-- React/SVG/CSSのみ。動きを減らす設定では移動アニメーションを停止。閲覧計測の版IDは single-screen-v2。
+- 主画面で9選択肢を固定順・共通尺度0〜100％で表示。4エリアへ合算しない。APIの数値を再正規化せず、小数1桁で表示（正の0.1％未満はその旨を表示）。初報の目印と差分ptを添える。
+- 「次に確認する先の選択確率」であり原因の確率・正解率ではない。A/Bは独立した状況。詳細報告・他指標・学習リンクは「？」へ残す。
+- 初回開始時に送信案内。以後は未評価のケース・情報の選択だけで自動評価。評価済みは即時キャッシュ表示、事前取得・自動再試行なし。
+- 通信中は選択を無効化。初報を残すときは出所を表示。失敗入力を記憶し、切替で戻っても明示的な再試行まで送信しない。
+- PC左右/スマホ上下に配置。画面高を利用しつつ、小画面・文字拡大時は内容の高さを優先し、隠さずスクロールさせる。動きを減らす設定ではバーの遷移を止める。
+- API・質問・予算管理・共有URL・canonicalは維持。評価関連イベントにUI版IDを追加。送信案内とプライバシー説明も更新。
 
 ### 今回の検証
 
-単体テスト2本と型チェックは成功。対象lintはE2Eテストの正規表現ミスで失敗し、固定URL比較へ修正。規定どおり再実行なし。
-
-実行コマンド：
+成功したコマンド（typecheck・対象lint各1回）：
 
 ```bash
-node tests/unit/jev-demo.cjs
 node tests/unit/jev-visual.cjs
+node tests/unit/jev-demo.cjs
 npm run typecheck
-npx eslint src/components/JevDemo.tsx src/components/JevFactoryExperience.tsx src/data/jev-visual.ts src/app/labs/jev/page.tsx tests/unit/jev-visual.cjs tests/e2e/jev-demo.spec.ts
+npx eslint src/components/JevDemo.tsx src/components/JevFactoryExperience.tsx src/data/jev-visual.ts src/app/labs/jev/page.tsx src/app/privacy/page.tsx tests/unit/jev-visual.cjs tests/e2e/jev-demo.spec.ts
 git diff --check
 ```
 
-全9図・分岐分離・確認先対応・SSR・失敗時表示を単体検証。E2Eは全ケースの画面内収まり・明示送信・キャッシュ・モーダル/Escape/フォーカス復帰に更新したが未実行。実API・build・ブラウザ実機確認・ユーザーテストは今回未実施。
+単体テストで全9図、9本の実数バー、固定順、同率・順位逆転・分散、初報線・差分・微小値、開始前通信なし、開始後自動評価、重複防止、初報/分岐失敗、明示再試行、キャッシュ、無効モード、計測版IDを確認。コントローラーはモック通信のフックハーネスで検証し、実ブラウザと区別する。
 
-手動確認：375px/PCの一画面収まり、320px/拡大時の情報欠け、各分岐、キーボードとモーダル、動きを減らす設定、未評価/初報/追加後の区別。体験者が「何を比べ、次にどこを見るか」を説明できるか確認する。
+E2EはPC/スマホの画面内収まり・横幅・自動評価・モーダル・キャッシュに更新済みだが未実行。実API・build・ブラウザ実機確認・ユーザーテストは未実施。一画面収まり、待ち時間、バーの動き、キーボード/読み上げは実機確認が必要。
 
 変更ファイル：
 
-- `src/components/JevFactoryExperience.tsx`、`src/data/jev-visual.ts`
-- `src/components/JevDemo.tsx`、`src/app/labs/jev/page.tsx`、`src/app/labs/jev/jev.module.css`
+- `src/components/JevDemo.tsx`、`src/components/JevFactoryExperience.tsx`、`src/data/jev-visual.ts`
+- `src/app/labs/jev/jev.module.css`、`src/app/labs/jev/page.tsx`、`src/app/privacy/page.tsx`
 - `tests/unit/jev-visual.cjs`、`tests/e2e/jev-demo.spec.ts`
 - `docs/PRD.md`、`docs/architecture.md`、`TASKS.md`、本文書
 
-推奨コミット：`feat: unify Jev tutorials into a single-screen factory UI`
+推奨コミット：`feat: visualize Jev probability shifts on input changes`
 
 ## 設定
 

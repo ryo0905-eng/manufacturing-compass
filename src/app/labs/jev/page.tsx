@@ -41,7 +41,7 @@ export default async function JevPage({ searchParams }: { searchParams: Promise<
           <details><summary>Choice・Boolean・Scoreは何を返す？</summary><p>Choiceは選択肢と確率分布、Booleanは「比較記録がある」に該当する確率、Scoreは情報の充実度を返します。各質問は同じ報告を独立に評価します。一般のLLMにも構造化出力はありますが、この画面は文章の回答を表示せず、判断を直接ルートと指標に反映します。</p></details>
           <details><summary>追加情報で確信度が下がることもある？</summary><p>あります。情報が矛盾する場合や、複数の確認先が考えられる場合もあります。確信度は確率分布から導かれる指標で、正解率や原因の確定度ではありません。初報と追加後の確率は同じ選択肢・尺度で表示し、変化しない結果もそのまま残します。</p></details>
           <details><summary>実際の製造・品質判断に使える？</summary><p>教育・デモ用途の参考判断です。原因を断定せず、Lot Hold・設備停止・品質判定などは担当者と社内基準に従ってください。自動操作は行いません。リンク先は独立した学習ツールで、この報告の解析結果が自動で読み戻されることはありません。</p></details>
-          <details><summary>データはどこへ送られる？</summary><p>実行操作時に固定の架空報告と質問をVercel AI Gateway経由でTypeSafe AIへ送信します。実データ・自由入力は受け付けません。画面内の結果は再読み込みで消えます。<Link href="/privacy">プライバシーポリシー</Link></p></details>
+          <details><summary>データはどこへ送られる？</summary><p>開始時と、開始後に未評価のケース・追加情報を選んだ時に、固定の架空報告と質問をVercel AI Gateway経由でTypeSafe AIへ送信します。実データ・自由入力は受け付けません。画面内の結果は再読み込みで消えます。<Link href="/privacy">プライバシーポリシー</Link></p></details>
           <p className={styles.sources}>
             <a href="https://docs.typesafe.ai/introduction">Jev公式ドキュメント</a>
             <a href="https://docs.typesafe.ai/primitives/score">Scoreの仕様</a>
