@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { jevCategories, jevRoutes, jevRouteInfo, jevSamples, jevCompletenessLevels, jevInputPricePerMillion, type JevRoute } from "@/data/jev-demo";
 import type { JevResult } from "@/lib/jev-demo";
 import { trackEvent } from "@/lib/analytics";
+import { JevFactoryExperience } from "./JevFactoryExperience";
+import { jevVisualVersion } from "@/data/jev-visual";
 import styles from "@/app/labs/jev/jev.module.css";
 
 const routeKeys = Object.keys(jevRoutes) as JevRoute[];
@@ -34,7 +36,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
   const fetchingSelected = pending === resultKey(sample.id, evidenceId);
 
   useEffect(() => {
-    trackEvent("jev_lab_view", { initial_case: initialSampleId });
+    trackEvent("jev_lab_view", { initial_case: initialSampleId, ui_version: jevVisualVersion });
   }, [initialSampleId]);
 
   async function run(target: string | null) {
@@ -60,7 +62,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
       if (body.sampleId !== sample.id || body.evidenceId !== target || !body.decisions) throw new Error("Mismatched result");
       setResults((previous) => ({ ...previous, [key]: body as JevResult }));
       trackEvent("jev_evaluation_complete", { case_id: sample.id, stage: target === null ? "initial" : "evidence", route: body.decisions.route.choice });
-      if (window.innerWidth <= 850) {
+      if (sample.id !== "batch" && window.innerWidth <= 850) {
         outputRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
       }
     } catch {
@@ -85,56 +87,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
     trackEvent("jev_evidence_selected", { case_id: sample.id, evidence_id: id });
   }
 
-  return (
-    <section className={styles.demo} aria-labelledby="demo-title">
-      <header className={styles.demoHeader}>
-        <div><p className={styles.eyebrow}>JEV DECISION LAB</p><h2 id="demo-title">情報が変わる。次の確認先が変わる。</h2></div>
-        <span className={styles.statusPill}>{enabled ? "実APIデモ" : "接続準備中"}</span>
-      </header>
-      <div className={styles.casePicker} aria-label="架空ケース">
-        {jevSamples.map((item, index) => (
-          <button key={item.id} type="button" aria-pressed={item.id === sampleId} disabled={pending !== null}
-            onClick={() => chooseCase(item.id)}>
-            <span>0{index + 1}</span>{item.title}
-          </button>
-        ))}
-      </div>
-      <div className={styles.workspace}>
-        <div className={styles.inputPane}>
-          <div className={styles.stepHeading}><span>01</span><h3>まず、初報を読む</h3><small>STATE</small></div>
-          <div className={styles.report}><p>{sample.report}</p></div>
-          {!initial ? (
-            <button className={styles.primaryButton} type="button" disabled={!enabled || pending !== null} onClick={() => run(null)}>
-              {pending ? "Jevが判断しています…" : "初報を評価する →"}
-            </button>
-          ) : (
-            <button className={styles.initialButton} type="button" disabled={pending !== null} onClick={() => { setEvidenceId(null); setError(""); }}>
-              ✓ 初報の結果を表示{evidenceId === null ? "中" : "する"}
-            </button>
-          )}
-          <p className={styles.sendNote}>操作時に架空報告と質問をGateway経由でTypeSafe AIへ送信。</p>
-
-          <div id="jev-evidence" className={styles.stepHeading}><span>02</span><h3>追加情報を1つ選ぶ</h3></div>
-          <p className={styles.hint}>同じ初報から分かれる、別々の状況です。</p>
-          <div className={styles.evidenceList}>
-            {sample.evidence.map((item, index) => (
-              <button type="button" key={item.id} aria-pressed={item.id === evidenceId} disabled={!initial || pending !== null}
-                onClick={() => chooseEvidence(item.id)}>
-                <span className={styles.evidenceLetter}>{index === 0 ? "A" : "B"}</span>
-                <span><strong>{item.title}</strong>{item.id === evidenceId && <span>{item.report}</span>}</span>
-              </button>
-            ))}
-          </div>
-          {evidence && (
-            <button className={styles.primaryButton} type="button" disabled={!enabled || pending !== null || Boolean(selected)} onClick={() => run(evidence.id)}>
-              {fetchingSelected ? "この情報で再評価中…" : selected ? "この追加情報は評価済み" : "この情報で再評価する →"}
-            </button>
-          )}
-          {!initial && <p className={styles.hint}>初報を評価すると、追加情報を試せます。</p>}
-          {error && <p className={styles.error} role="alert">{error}</p>}
-          <p className={styles.share}><a href={`/labs/jev?case=${sample.id}`} onClick={() => trackEvent("jev_case_share_click", { case_id: sample.id })}>このケースの共有リンク ↗</a><span>結果は共有されません</span></p>
-        </div>
-
+  const detailedOutput = (
         <div ref={outputRef} className={styles.outputPane} aria-busy={pending !== null}>
           <div className={styles.stepHeading}><span>03</span><h3>判断とルートを見る</h3><small>4 DECISIONS</small></div>
           <p className={styles.resultStatus} role="status" aria-live="polite">
@@ -230,7 +183,73 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
             </div>
           )}
         </div>
+
+  );
+
+  return (
+    <section className={styles.demo} aria-labelledby="demo-title">
+      <header className={styles.demoHeader}>
+        <div><p className={styles.eyebrow}>JEV DECISION LAB</p><h2 id="demo-title">工場を見て、調べる先を選ぼう。</h2></div>
+        <span className={styles.statusPill}>{enabled ? "実APIデモ" : "接続準備中"}</span>
+      </header>
+      <div className={styles.casePicker} aria-label="架空ケース">
+        {jevSamples.map((item, index) => (
+          <button key={item.id} type="button" aria-pressed={item.id === sampleId} disabled={pending !== null}
+            onClick={() => chooseCase(item.id)}>
+            <span>0{index + 1}</span>{item.title}
+          </button>
+        ))}
       </div>
+      {sample.id === "batch" ? <>
+        <JevFactoryExperience enabled={enabled} evidenceId={evidenceId} initial={initial} selected={selected}
+          pending={pending !== null} error={error} run={run}
+          chooseEvidence={id => { if (id === null) { setEvidenceId(null); setError(""); } else chooseEvidence(id); }} />
+        <details className={styles.visualDetails}><summary>詳しく見る：報告文・確率・技術情報</summary>
+          <div className={styles.report}><p>{sample.report}</p>{evidence && <p>追加情報：{evidence.report}</p>}</div>
+        {detailedOutput}
+        </details>
+        <p className={styles.share}><a href={`/labs/jev?case=${sample.id}`} onClick={() => trackEvent("jev_case_share_click", { case_id: sample.id })}>このケースの共有リンク ↗</a></p>
+      </> : (
+      <div className={styles.workspace}>
+        <div className={styles.inputPane}>
+          <div className={styles.stepHeading}><span>01</span><h3>まず、初報を読む</h3><small>STATE</small></div>
+          <div className={styles.report}><p>{sample.report}</p></div>
+          {!initial ? (
+            <button className={styles.primaryButton} type="button" disabled={!enabled || pending !== null} onClick={() => run(null)}>
+              {pending ? "Jevが判断しています…" : "初報を評価する →"}
+            </button>
+          ) : (
+            <button className={styles.initialButton} type="button" disabled={pending !== null} onClick={() => { setEvidenceId(null); setError(""); }}>
+              ✓ 初報の結果を表示{evidenceId === null ? "中" : "する"}
+            </button>
+          )}
+          <p className={styles.sendNote}>操作時に架空報告と質問をGateway経由でTypeSafe AIへ送信。</p>
+
+          <div id="jev-evidence" className={styles.stepHeading}><span>02</span><h3>追加情報を1つ選ぶ</h3></div>
+          <p className={styles.hint}>同じ初報から分かれる、別々の状況です。</p>
+          <div className={styles.evidenceList}>
+            {sample.evidence.map((item, index) => (
+              <button type="button" key={item.id} aria-pressed={item.id === evidenceId} disabled={!initial || pending !== null}
+                onClick={() => chooseEvidence(item.id)}>
+                <span className={styles.evidenceLetter}>{index === 0 ? "A" : "B"}</span>
+                <span><strong>{item.title}</strong>{item.id === evidenceId && <span>{item.report}</span>}</span>
+              </button>
+            ))}
+          </div>
+          {evidence && (
+            <button className={styles.primaryButton} type="button" disabled={!enabled || pending !== null || Boolean(selected)} onClick={() => run(evidence.id)}>
+              {fetchingSelected ? "この情報で再評価中…" : selected ? "この追加情報は評価済み" : "この情報で再評価する →"}
+            </button>
+          )}
+          {!initial && <p className={styles.hint}>初報を評価すると、追加情報を試せます。</p>}
+          {error && <p className={styles.error} role="alert">{error}</p>}
+          <p className={styles.share}><a href={`/labs/jev?case=${sample.id}`} onClick={() => trackEvent("jev_case_share_click", { case_id: sample.id })}>このケースの共有リンク ↗</a><span>結果は共有されません</span></p>
+        </div>
+
+        {detailedOutput}
+      </div>
+
+      )}
       <footer className={styles.demoFooter}>教育用の架空データ · AI出力は参考判断 · 自動操作なし · 確信度は正解率ではありません</footer>
     </section>
   );

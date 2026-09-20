@@ -270,6 +270,7 @@ Supabase、ユーザーアカウント、メール保存、求人連携は未採
 - `/labs/jev`: Server Componentの説明・index可能なメタデータ・OG・構造化データとClient Componentの3ケース×2分岐、初報基準の比較、メモリ内結果。`/tools`とsitemapから接続する。共有クエリはcaseのみでcanonicalは本体URL。JSON保存は提供しない。
 - 計測は閲覧、固定ケース選択、固定追加情報選択、評価開始・成功・失敗、共有リンク、学習ツール遷移。固定ID・HTTP状態・選択された確認領域だけを送り、報告本文・確率分布・自由入力を送らない。
 - `src/data/jev-demo.ts`: 架空報告、固定の追加情報、変更分類、確認領域と静的リンク、Scoreの5段階基準。
+- `src/data/jev-visual.ts` と `JevFactoryExperience`：batchケースの固定比較図と4エリアのドット絵SVG。AIが選んだ9種類の確認先を4エリアへ表示上だけ対応付け、正確な確認先名も併記する。推論結果や確率を図解から作らない。予想はローカル状態のみ。分岐未評価・通信中・失敗時は初報の提案であることを明示する。React/CSSのみで、新規ゲームエンジン・自動API呼出しなし。
 - `src/lib/jev-demo.ts`: `{sampleId, evidenceId}`（初報はevidenceId=null）だけを受理。questionsはchange/comparison/completeness/route。型・分布・confidence・Scoreの加重平均を検証して正規化し、4判断を返す。分類から確認先を固定変換しない。
 - `/api/jev`: POSTのみ。Origin照合、JSONサイズ・スキーマ・固定ID検証後、Gatewayへ1回送信。自動再試行なし、タイムアウト付き。秘密や外部エラー本文を返さない。
 - 費用上限はGatewayのAPIキー予算へ委ねる。アプリは予算・利用枠の拒否と429を固定文言で表示し、自動リトライしない。キー予算の設定は運営者が管理画面で確認する。

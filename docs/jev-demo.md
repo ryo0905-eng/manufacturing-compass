@@ -4,6 +4,43 @@
 
 URL: `/labs/jev`。案Bとして架空3ケース×初報・追加情報2分岐（9条件）へ更新し、4判断の実API応答を確認済み。2026年9月20日から検索公開対象とし、`/tools`、sitemap、固定イベント計測を接続。本番で表示と利用状況を確認しながら改善する。
 
+## 図解UI：pixel-investigation-v1
+
+最初の「不合格が増えた」だけを、ドット絵SVGの観察図 → タップで予想 → Jevの提案、という流れに変更した。他の2ケースは既存UIを維持する。
+
+- 初報は材料切替 → 製造 → 不合格増加。追加情報は装置間/検査器間の比較表を、設備アイコンと記号で表示。記号は個数・不良率ではなく傾向の図解。
+- A/Bは別々の状況。固定教材の比較結果と実APIの提案を明確に分ける。主画面は短い説明に絞り、報告全文・確率・Score・技術情報・ページ末尾の補足は折りたたむ。
+- 材料・装置・検査器・記録の4エリアを選んで予想できる。予想は採点・保存・API送信・計測しない。
+- Jevが返した9種類の確認先を4エリアに表示上だけ対応付ける。調査員アイコンの移動と正確な確認先名で伝える。原因箇所の断定、確率の捏造、変わらない応答を変化として演出する処理はない。
+- 追加情報の未評価・通信中・失敗時は「初報の提案」と明示。初報と分岐ごとの成功結果は既存のメモリキャッシュを使い、切替で再送しない。
+- API、質問版、固定報告、予算管理、共有URL、canonicalは変更しない。閲覧計測に固定の `ui_version` を追加。
+- Phaser・画像素材・新しい依存は追加せずReact/SVG/CSSで実装。OSの動きを減らす設定では矢印と調査員の移動演出を止める。
+
+### 今回の検証
+
+以下は成功。typecheckと対象lintは各1回のみ。既存APIのテストも通信モックであり、実APIは呼び出していない。
+
+```bash
+node tests/unit/jev-demo.cjs
+node tests/unit/jev-visual.cjs
+npm run typecheck
+npx eslint src/components/JevDemo.tsx src/components/JevFactoryExperience.tsx src/data/jev-visual.ts src/app/labs/jev/page.tsx tests/unit/jev-visual.cjs tests/e2e/jev-demo.spec.ts
+git diff --check
+```
+
+図解の分岐分離・全確認先の表示対応・サーバー描画・未評価/エラー時の初報表示・提案不変時の表示を検証。E2Eは新しい操作ラベル・キャッシュ・失敗時表示に合わせて更新したが、未実行。build・ブラウザ実機確認・ユーザーテストは未実施。
+
+手動確認は320/375px・PC、キーボード選択、動きを減らす設定、AIアイコンの移動、初報/追加後の区別、分岐再選択での通信なし、詳細の開閉を対象にする。体験者が「どの比較で次の確認先を変えたか」を説明できるかは別途確認する。
+
+変更ファイル：
+
+- `src/components/JevFactoryExperience.tsx`（新規）、`src/data/jev-visual.ts`（新規）
+- `src/components/JevDemo.tsx`、`src/app/labs/jev/page.tsx`、`src/app/labs/jev/jev.module.css`
+- `tests/unit/jev-visual.cjs`（新規）、`tests/e2e/jev-demo.spec.ts`
+- `docs/PRD.md`、`docs/architecture.md`、`TASKS.md`、本文書
+
+推奨コミット：`feat: simplify Jev lab with pixel investigation visuals`
+
 ## 設定
 
 費用・利用回数はVercel AI Gatewayで管理する。Upstash、Redis、独自の共有カウンターは不要。

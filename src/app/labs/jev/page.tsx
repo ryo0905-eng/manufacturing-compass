@@ -35,14 +35,15 @@ export default async function JevPage({ searchParams }: { searchParams: Promise<
 
       <header className={styles.hero}>
         <p className={styles.heroLabel}>JEV AI × MANUFACTURING COMPASS</p>
-        <h1>ひとつの情報で、<br />調べる先は変わる？</h1>
-        <p>半導体の架空報告に、追加情報をひとつ。<br />Jevの選択・確率・スコアが動く、判断の実験室。</p>
+        <h1>工場を見て、<br />次の一手を考えよう。</h1>
+        <p>あなたなら、どこを調べる？ 情報をひとつ足して、Jevの提案と比べよう。</p>
       </header>
 
       <JevDemo key={initialSampleId} enabled={enabled} initialSampleId={initialSampleId} />
 
       <section className={styles.about} aria-labelledby="about-jev">
-          <h2 id="about-jev">Jevを、製造業の判断で試す</h2>
+          <h2 id="about-jev">このデモについて</h2>
+          <details><summary>仕組み・注意点・送信先</summary>
           <p>TypeSafe AIのJevは、stateと型付き質問から構造化された判断を返すSystem One Modelです。このデモでは1回のリクエストで4つの質問を評価し、次の確認先へつなげます。</p>
           <details><summary>Choice・Boolean・Scoreは何を返す？</summary><p>Choiceは選択肢と確率分布、Booleanは「比較記録がある」に該当する確率、Scoreは情報の充実度を返します。各質問は同じ報告を独立に評価します。一般のLLMにも構造化出力はありますが、この画面は文章の回答を表示せず、判断を直接ルートと指標に反映します。</p></details>
           <details><summary>追加情報で確信度が下がることもある？</summary><p>あります。情報が矛盾する場合や、複数の確認先が考えられる場合もあります。確信度は確率分布から導かれる指標で、正解率や原因の確定度ではありません。初報と追加後の確率は同じ選択肢・尺度で表示し、変化しない結果もそのまま残します。</p></details>
@@ -56,6 +57,7 @@ export default async function JevPage({ searchParams }: { searchParams: Promise<
             <span>確認日：2026年9月20日</span>
           </p>
           <p>Manufacturing Compassによる非公式デモです。</p>
+          </details>
       </section>
     </main>
   );

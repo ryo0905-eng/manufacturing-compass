@@ -133,3 +133,84 @@
   .routeCard h4 { font-size: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { .bars i, .bars b { transition: none; } }
+
+/* Pixel investigation: the report is illustrated, never generated from AI output. */
+.factoryExperience { padding: 0 26px 20px; }
+.visualScene { background: #253b46; color: #edf4e9; border: 4px solid #192d36; padding: 20px; box-shadow: inset 0 0 0 2px #526b70; }
+.sceneHeading { display: flex; gap: 12px; align-items: baseline; }
+.sceneHeading > span { color: #ffe29b; font-size: 11px; white-space: nowrap; }
+.sceneHeading h3 { margin: 0; font-size: clamp(15px,2.2vw,20px); line-height: 1.6; }
+.pixelIcon { width: 58px; height: 58px; flex-shrink: 0; image-rendering: pixelated; }
+.initialFlow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 12px; padding: 24px 0; }
+.initialFlow > div { display: grid; justify-items: center; gap: 8px; text-align: center; }
+.initialFlow strong { font: 700 18px ui-monospace,monospace; }
+.initialFlow small { color: #c6d7d9; font-size: 11px; }
+.initialFlow > b { color: #e4cc87; animation: jevFlow 1.2s steps(3,end) 3; }
+.sceneNote { display: block; color: #b9c9cb; font-size: 10px; line-height: 1.6; }
+.comparisonBoard table { width: 100%; table-layout: fixed; border-collapse: collapse; margin: 16px 0 8px; }
+.comparisonBoard th,.comparisonBoard td { padding: 12px 8px; text-align: center; border-bottom: 1px solid #536b73; font-size: 13px; }
+.comparisonBoard thead th { color: #d2e4e4; font-weight: 500; }
+.comparisonBoard thead th:first-child { width: 30%; }
+.comparisonBoard th .pixelIcon { display: block; margin: 0 auto 6px; width: 42px; height: 42px; }
+.comparisonBoard tbody th { font-weight: 500; }
+.comparisonBoard td small { display: block; margin-top: 4px; font-size: 11px; color: #d5e0de; }
+.comparisonBoard > p { margin: 12px 0; color: #c7d8da; font-size: 12px; line-height: 1.6; }
+.lotTag { display: block; width: 28px; margin: 0 auto 6px; padding: 3px; background: #d5bc82; color: #243942; border: 2px solid #9d8054; font: 700 14px ui-monospace,monospace; }
+.moreRejects { color: #ffd394; font: 700 26px ui-monospace,monospace; }
+.usualOutput { color: #a8e4cc; font: 700 26px ui-monospace,monospace; }
+.investigationMap { padding: 24px 0 0; }
+.mapHeading { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.mapHeading h3,.visualBranches h3 { font-size: 16px; margin: 0 0 12px; }
+.mapHeading > span { font-size: 11px; color: #697783; }
+.factoryStations { position: relative; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; padding: 60px 0 12px; background: repeating-linear-gradient(0deg,#eef2ef 0 27px,#e4eae5 27px 28px); border: 2px solid #d3ddd7; }
+.factoryStations button { display: grid; justify-items: center; align-content: start; gap: 4px; margin: 0 6px; padding: 8px 2px; background: #fff9; border: 2px solid transparent; min-height: 108px; cursor: pointer; color: #254351; font: inherit; }
+.factoryStations button[aria-pressed="true"] { border-color: #467798; background: #e6f1fa; }
+.factoryStations strong { font-size: 13px; }
+.factoryStations small { font-size: 10px; color: #315a7c; }
+.jevMarker { position: absolute; top: 7px; transform: translateX(-50%); transition: left .55s steps(7,end); display: flex; align-items: center; gap: 3px; pointer-events: none; }
+.jevMarker .pixelIcon { width: 30px; height: 38px; }
+.jevMarker span { background: #253c49; color: #f6e6aa; font: 700 11px ui-monospace,monospace; padding: 4px; }
+.visualResult { margin: 12px 0; padding: 14px 16px; background: #eff4f6; border-left: 3px solid #638393; }
+.visualResult > p { margin: 0 0 6px; font-size: 12px; color: #526977; }
+.visualResult h3 { font-size: 22px; margin: 0 0 8px; color: #244152; }
+.visualResult > small { display: block; font-size: 11px; color: #526977; line-height: 1.6; margin-top: 8px; }
+.visualResult a { display: inline-block; min-height: 44px; padding-top: 12px; font-size: 13px; color: #245b85; text-underline-offset: 4px; }
+.routeComparison { line-height: 1.8; }
+.routeComparison strong { display: block; font-size: 12px; color: #245f59; }
+.cachedNote { color: #426e60; font-size: 12px; margin: 10px 0; }
+.factoryExperience .sendNote { margin-bottom: 20px; }
+.visualBranches { border-top: 1px solid #dce4e5; padding-top: 18px; scroll-margin-top: 130px; }
+.visualBranches > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.visualBranches button { border: 1px solid #c4d1d5; background: white; color: #345563; border-radius: 6px; min-height: 44px; padding: 10px 14px; font: inherit; font-size: 12px; cursor: pointer; }
+.visualBranches button[aria-pressed="true"] { background: #273f4a; color: white; border-color: #273f4a; }
+.visualBranches > p { color: #697783; font-size: 11px; }
+.visualDetails { margin: 0 26px 18px; border-top: 1px solid #dce4e5; }
+.visualDetails > summary { cursor: pointer; padding: 16px 0; min-height: 44px; font-size: 13px; color: #536977; }
+.visualDetails .outputPane { border: 0; padding: 16px; }
+.demo > .share { margin: 0 26px 16px; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@keyframes jevFlow { 0% { transform: translateX(-3px); opacity: .5; } 100% { transform: translateX(3px); opacity: 1; } }
+@media (max-width: 600px) {
+  .factoryExperience { padding: 0 12px 16px; }
+  .visualScene { padding: 12px; }
+  .initialFlow { gap: 5px; }
+  .initialFlow .pixelIcon { width: 44px; height: 44px; }
+  .initialFlow strong { font-size: 15px; }
+  .initialFlow small { font-size: 10px; }
+  .factoryStations { gap: 0; }
+  .factoryStations button { margin: 0 2px; }
+  .factoryStations .pixelIcon { width: 42px; height: 42px; }
+  .factoryStations .jevMarker .pixelIcon { width: 24px; height: 32px; }
+  .factoryStations small { font-size: 9px; }
+  .mapHeading { flex-wrap: wrap; margin-bottom: 8px; }
+  .mapHeading h3 { margin: 0; }
+  .comparisonBoard th,.comparisonBoard td { padding: 10px 3px; font-size: 11px; }
+  .comparisonBoard td small { font-size: 10px; }
+  .moreRejects,.usualOutput { font-size: 22px; }
+  .visualDetails { margin: 0 12px 16px; }
+  .visualDetails .outputPane { padding: 12px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .initialFlow > b { animation: none; }
+  .jevMarker { transition: none; }
+}

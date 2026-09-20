@@ -31,38 +31,43 @@ test("initial, independent evidence, failure, cached comparisons and case sharin
     await route.fulfill({ json: fixture(input.sampleId, input.evidenceId) });
   });
   await page.goto("/labs/jev?case=batch");
-  await expect(page.getByRole("button", { name: /同じ試料なのに/ })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "B · 検査器を比べる" })).toBeDisabled();
   expect(requests).toHaveLength(0);
-  await page.getByRole("button", { name: "初報を評価する →" }).click();
-  await expect(page.getByRole("status")).toContainText("初報の実測結果");
+  await page.getByRole("button", { name: /材料 あなたの予想|材料/ }).first().click();
+  expect(requests).toHaveLength(0); // A prediction never sends an API request.
+  await page.getByRole("button", { name: "Jevなら、どこを見る？" }).click();
+  await expect(page.getByRole("status")).toContainText("初報の提案");
   await expect(page.getByRole("heading", { name: "材料・ロット", exact: true })).toBeVisible();
 
-  await page.getByRole("button", { name: /同じ試料なのに/ }).click();
+  await page.getByRole("button", { name: "B · 検査器を比べる" }).click();
   await expect(page.getByRole("status")).toContainText("未評価");
-  await page.getByRole("button", { name: "この情報で再評価する →" }).click();
+  await page.getByRole("button", { name: "この比較をJevに見せる" }).click();
   await expect(page.getByRole("alert").filter({ hasText: "テスト用：再評価に失敗" })).toBeVisible();
   // A failed branch never replaces the initial measurement.
   await expect(page.getByRole("heading", { name: "材料・ロット", exact: true })).toBeVisible();
-  await expect(page.getByRole("status")).toContainText("初報の結果を表示中");
-  await page.getByRole("button", { name: "この情報で再評価する →" }).click();
-  await expect(page.getByRole("status")).toContainText("比較中");
+  await expect(page.getByRole("status")).toContainText("初報の提案を表示");
+  await page.getByRole("button", { name: "この比較をJevに見せる" }).click();
+  await expect(page.getByRole("status")).toContainText("追加後の提案");
   await expect(page.getByRole("heading", { name: "測定系", exact: true })).toBeVisible();
-  await expect(page.getByText("変更カテゴリは同じ", { exact: false })).toBeVisible();
+  await expect(page.getByText("確認先が変わった", { exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "測定のばらつきを体験する" })).toHaveAttribute("href", "/tools/gage-rr");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.getByText("詳しく見る：報告文・確率・技術情報", { exact: true }).click();
   const barWidths = await page.locator("[data-selected] > div").evaluateAll(elements => elements.map(el => el.getBoundingClientRect().width));
   expect(Math.max(...barWidths) - Math.min(...barWidths)).toBeLessThan(1);
+  await page.getByText("詳しく見る：報告文・確率・技術情報", { exact: true }).click();
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: `/tmp/jev-b-${testInfo.project.name}.png`, fullPage: true, animations: "disabled" });
 
-  await page.getByRole("button", { name: /別の装置でも同じ傾向/ }).click();
+  await page.getByRole("button", { name: "A · 装置を比べる" }).click();
   await expect(page.getByRole("status")).toContainText("未評価");
   await expect(page.getByRole("heading", { name: "材料・ロット", exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "この情報で再評価する →" }).click();
-  await expect(page.getByRole("status")).toContainText("比較中");
-  await page.getByRole("button", { name: /同じ試料なのに/ }).click();
+  await page.getByRole("button", { name: "この比較をJevに見せる" }).click();
+  await expect(page.getByRole("status")).toContainText("追加後の提案");
+  await expect(page.getByText("確認先は同じ", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "B · 検査器を比べる" }).click();
   await expect(page.getByRole("heading", { name: "測定系", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "この追加情報は評価済み" })).toBeDisabled();
+  await expect(page.getByText("✓ 評価済み · 切替では再送しません")).toBeVisible();
   expect(requests).toEqual([
     { sampleId: "batch", evidenceId: null },
     { sampleId: "batch", evidenceId: "same-specimen" },
