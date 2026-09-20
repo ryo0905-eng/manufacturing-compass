@@ -56,6 +56,7 @@ export function ProcessEngineerSurvivalGame() {
   const [nearbyId, setNearbyId] = useState<GameLocationId | null>(null);
   const [floorMessage, setFloorMessage] = useState("黄色い「!」の場所へ向かおう");
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [lastEffects, setLastEffects] = useState<Partial<GameStats>>({});
   const [resolvedTroubles, setResolvedTroubles] = useState(0);
   const [endingReason, setEndingReason] = useState<EndingReason>("clocked_out");
   const [shareMessage, setShareMessage] = useState("");
@@ -82,6 +83,7 @@ export function ProcessEngineerSurvivalGame() {
     setCurrentMinutes(GAME_START_MINUTES);
     setNearbyId(null);
     setFeedback(null);
+    setLastEffects({});
     setResolvedTroubles(0);
     setEndingReason("clocked_out");
     setFloorMessage("黄色い「!」の場所へ向かおう");
@@ -132,6 +134,7 @@ export function ProcessEngineerSurvivalGame() {
     setResolvedTroubles(nextResolved);
     setCurrentMinutes(nextMinutes);
     setFeedback(choice.result);
+    setLastEffects(choice.effects);
     setPhase("feedback");
     trackGameEvent("game_event_choice", {
       stage_id: "monday-morning",
@@ -155,10 +158,28 @@ export function ProcessEngineerSurvivalGame() {
     }
     setEventIndex(nextIndex);
     setFeedback(null);
+    setLastEffects({});
     setNearbyId(null);
     setFloorMessage(`次は ${formatGameTime(SURVIVAL_EVENTS[nextIndex].time)}。黄色い「!」へ向かおう`);
     setPhase("playing");
   }, [currentEvent, currentMinutes, eventIndex, finishGame, flags, resolvedTroubles, stats]);
+
+  useEffect(() => {
+    const handleShortcut = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLButtonElement) return;
+      if (phase === "feedback" && (event.key === "Enter" || event.key === " ")) {
+        event.preventDefault();
+        continueAfterFeedback();
+        return;
+      }
+      if (phase === "event" && currentEvent && ["1", "2", "3"].includes(event.key)) {
+        const choice = availableChoices(currentEvent, stats, flags)[Number(event.key) - 1];
+        if (choice?.available) choose(choice);
+      }
+    };
+    window.addEventListener("keydown", handleShortcut);
+    return () => window.removeEventListener("keydown", handleShortcut);
+  }, [choose, continueAfterFeedback, currentEvent, flags, phase, stats]);
 
   const shareResult = useCallback(async () => {
     const text = `製造技術者サバイバル「月曜日の朝」\n称号：${resultTitle.label}\n歩留まり ${stats.yield}% / Trust ${stats.trust} / 解決 ${resolvedTroubles}件\n#製造技術者サバイバル #ManufacturingCompass`;
@@ -201,6 +222,7 @@ export function ProcessEngineerSurvivalGame() {
           onNearbyChange={setNearbyId}
           onReady={handleCanvasReady}
         />
+        {phase !== "intro" ? <div className="survival-stage-progress" aria-hidden="true"><span>MONDAY SHIFT</span><strong>{Math.min(eventIndex + 1, SURVIVAL_EVENTS.length).toString().padStart(2, "0")} / {SURVIVAL_EVENTS.length}</strong></div> : null}
 
         {phase === "intro" ? (
           <div className="survival-overlay survival-intro">
@@ -227,7 +249,7 @@ export function ProcessEngineerSurvivalGame() {
                   disabled={!choice.available}
                   onClick={() => choose(choice)}
                 >
-                  <span>{choice.text}</span>
+                  <span><b>{index + 1}</b>{choice.text}</span>
                   {!choice.available ? <small>{choice.unavailableText}</small> : null}
                 </button>
               ))}
@@ -239,7 +261,10 @@ export function ProcessEngineerSurvivalGame() {
           <div className="survival-overlay survival-feedback" role="status">
             <p className="survival-kicker">ACTION RESULT</p>
             <p>{feedback}</p>
-            <button type="button" onClick={continueAfterFeedback}>次へ進む</button>
+            <div className="survival-effect-chips" aria-label="ステータス変化">
+              {Object.entries(lastEffects).filter(([, value]) => value !== 0).map(([key, value]) => <span key={key} data-positive={(value ?? 0) > 0}>{key.toUpperCase()} {(value ?? 0) > 0 ? "+" : ""}{value}</span>)}
+            </div>
+            <button type="button" onClick={continueAfterFeedback}>NEXT →<small>Enter / Space</small></button>
           </div>
         ) : null}
 
@@ -282,7 +307,7 @@ export function ProcessEngineerSurvivalGame() {
         </div>
         <div className="survival-prompt" aria-live="polite">
           <strong>{nearbyLocation ? `${nearbyLocation.shortLabel} の近く` : floorMessage}</strong>
-          <span>{currentEvent ? `目的地：${currentLocation?.label}` : ""}</span>
+          <span>{currentEvent ? `目的地：${currentLocation?.label}　Shiftでダッシュ` : ""}</span>
         </div>
         <button
           type="button"
