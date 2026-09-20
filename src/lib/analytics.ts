@@ -46,14 +46,15 @@ export type RoleMapAnalyticsEventName =
   | 'role_map_search_copy'
   | 'role_map_related_click';
 
-type GameAnalyticsContext = { stage_id: "monday-morning"; game_version: "factory-action-v2" };
+type GameAnalyticsContext = { stage_id: "two-machines"; game_version: "factory-investigation-v3"; case_id: "case-a" | "case-b" };
 export type GameAnalyticsEventMap = {
   game_start: GameAnalyticsContext;
-  game_repair_complete: GameAnalyticsContext & { trouble_id: string; station_id: string };
+  game_observe: GameAnalyticsContext & { observation_id: string };
+  game_experiment: GameAnalyticsContext & { experiment_id: "diagnostic" | "verification"; station_id: string };
+  game_countermeasure: GameAnalyticsContext & { action_id: "stop" | "resume" | "restart" | "material" | "cooling"; station_id: string };
   game_complete: GameAnalyticsContext & {
-    ending: "clocked_out";
+    ending: "target_met" | "investigation_carried_forward";
     title_id: string;
-    resolved_band: "0_to_4" | "5_to_7" | "8_plus";
   };
   game_retry: GameAnalyticsContext;
   related_tool_click: GameAnalyticsContext & { destination_id: string };

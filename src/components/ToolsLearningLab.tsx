@@ -64,7 +64,7 @@ export function ToolsLearningLab() {
     </section>
 
     <aside className="tools-game-entry">
-      <div><p className="section-label">3-MINUTE FACTORY ACTION</p><h2>月曜日の工場を、3分で駆け抜ける</h2><p>同時発生するトラブルを長押しで復旧。現場のヒントと段取りを使って、連続復旧ボーナスを狙うミニゲームです。</p></div>
+      <div><p className="section-label">FACTORY INVESTIGATION PROTOTYPE</p><h2>2台の異常。原因は1つ？</h2><p>観察・比較試験・対策で、良品が流れる工場を取り戻す原因調査ゲーム。稼働90秒＋時間制限のない調査で、生産技術の判断を体験します。</p></div>
       <Link href="/games/process-engineer-survival">製造技術者サバイバルで遊ぶ <span aria-hidden="true">→</span></Link>
     </aside>
 
