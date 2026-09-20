@@ -1,333 +1,182 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  GAME_END_MINUTES,
-  GAME_LOCATIONS,
-  GAME_START_MINUTES,
-  INITIAL_GAME_STATS,
-  LEARNING_ITEMS,
-  SURVIVAL_EVENTS,
-  type GameFlag,
-  type GameLocationId,
-  type GameStats,
-  type SurvivalChoice,
-} from "@/data/process-engineer-survival";
-import {
-  applyChoiceFlags,
-  availableChoices,
-  clampStats,
-  eventDescription,
-  formatGameTime,
-  getResultTitle,
-} from "@/lib/process-engineer-survival";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent, type PointerEvent } from "react";
+import { GAME_LOCATIONS, GAME_VERSION, LEARNING_ITEMS, RULES } from "@/data/process-engineer-survival";
+import { clockFor, resultFor, SurvivalRuntime } from "@/lib/process-engineer-survival";
 import { trackGameEvent } from "@/lib/analytics";
-import {
-  ProcessEngineerSurvivalCanvas,
-  type SurvivalCanvasHandle,
-} from "@/components/ProcessEngineerSurvivalCanvas";
+import { ProcessEngineerSurvivalCanvas, type Direction, type SurvivalCanvasHandle } from "./ProcessEngineerSurvivalCanvas";
 
-type GamePhase = "intro" | "playing" | "event" | "feedback" | "finished";
-type EndingReason = "clocked_out" | "hp_depleted" | "san_depleted";
-
-const HUD_STATS: Array<{ key: keyof Pick<GameStats, "hp" | "san" | "yield" | "trust" | "boss">; label: string; suffix?: string }> = [
-  { key: "hp", label: "HP" },
-  { key: "san", label: "SAN" },
-  { key: "yield", label: "Yield", suffix: "%" },
-  { key: "trust", label: "Trust" },
-  { key: "boss", label: "Boss" },
-];
-
-const USED_LEARNING_FLAGS: Record<(typeof LEARNING_ITEMS)[number]["id"], GameFlag[]> = {
-  "four-m": ["root_cause_found"],
-  spc: ["checked_spc"],
-  floor: ["heard_floor", "heard_noise"],
-  stratify: ["stratified_data"],
-  countermeasure: ["reset_conditions", "root_cause_found"],
-};
+const context = { stage_id: "monday-morning", game_version: GAME_VERSION } as const;
+const meters = [["hp", "HP"], ["san", "SAN"], ["yield", "Yield"], ["trust", "Trust"], ["boss", "Boss"]] as const;
 
 export function ProcessEngineerSurvivalGame() {
-  const [phase, setPhase] = useState<GamePhase>("intro");
-  const [stats, setStats] = useState<GameStats>({ ...INITIAL_GAME_STATS });
-  const [flags, setFlags] = useState<Set<GameFlag>>(new Set());
-  const [eventIndex, setEventIndex] = useState(0);
-  const [currentMinutes, setCurrentMinutes] = useState(GAME_START_MINUTES);
-  const [nearbyId, setNearbyId] = useState<GameLocationId | null>(null);
-  const [floorMessage, setFloorMessage] = useState("黄色い「!」の場所へ向かおう");
-  const [feedback, setFeedback] = useState<string | null>(null);
-  const [lastEffects, setLastEffects] = useState<Partial<GameStats>>({});
-  const [resolvedTroubles, setResolvedTroubles] = useState(0);
-  const [endingReason, setEndingReason] = useState<EndingReason>("clocked_out");
+  const [runtime] = useState(() => new SurvivalRuntime());
+  const state = useSyncExternalStore(runtime.subscribe, runtime.getSnapshot, runtime.getSnapshot);
+  const [run, setRun] = useState(0);
+  const [ready, setReady] = useState(false);
+  const [error, setError] = useState(false);
+  const [nearby, setNearby] = useState<string | null>(null);
+  const [muted, setMuted] = useState(false);
   const [shareMessage, setShareMessage] = useState("");
-  const canvasHandleRef = useRef<SurvivalCanvasHandle | null>(null);
-  const firstChoiceRef = useRef<HTMLButtonElement>(null);
+  const handle = useRef<SurvivalCanvasHandle | null>(null);
+  const audio = useRef<AudioContext | null>(null);
+  const lastNotice = useRef(0);
+  const completeSent = useRef(false);
+  const region = useRef<HTMLDivElement>(null);
+  const resultHeading = useRef<HTMLHeadingElement>(null);
+  const pauseButton = useRef<HTMLButtonElement>(null);
+  const result = resultFor(state);
 
-  const currentEvent = SURVIVAL_EVENTS[eventIndex] ?? null;
-  const activeLocationId = phase === "playing" ? currentEvent?.locationId ?? null : null;
-  const currentLocation = GAME_LOCATIONS.find((location) => location.id === currentEvent?.locationId);
-  const resultTitle = useMemo(() => getResultTitle({ stats, flags }), [stats, flags]);
+  const onReady = useCallback((value: SurvivalCanvasHandle | null) => { handle.current = value; setReady(Boolean(value)); }, []);
+  const onError = useCallback(() => { setError(true); runtime.pause(); }, [runtime]);
+  const onNearby = useCallback((value: string | null) => setNearby(value), []);
 
-  useEffect(() => {
-    if (phase === "event") firstChoiceRef.current?.focus();
-  }, [phase]);
-
-  const handleCanvasReady = useCallback((handle: SurvivalCanvasHandle | null) => {
-    canvasHandleRef.current = handle;
-  }, []);
-
-  const resetGame = useCallback((isRetry: boolean) => {
-    setStats({ ...INITIAL_GAME_STATS });
-    setFlags(new Set());
-    setEventIndex(0);
-    setCurrentMinutes(GAME_START_MINUTES);
-    setNearbyId(null);
-    setFeedback(null);
-    setLastEffects({});
-    setResolvedTroubles(0);
-    setEndingReason("clocked_out");
-    setFloorMessage("黄色い「!」の場所へ向かおう");
-    setShareMessage("");
-    setPhase("playing");
-    if (isRetry) trackGameEvent("game_retry", { stage_id: "monday-morning" });
-    trackGameEvent("game_start", { stage_id: "monday-morning" });
-  }, []);
-
-  const handleInteract = useCallback((locationId: GameLocationId) => {
-    if (phase !== "playing" || !currentEvent) return;
-    if (locationId !== currentEvent.locationId) {
-      const location = GAME_LOCATIONS.find((item) => item.id === locationId);
-      setFloorMessage(`${location?.shortLabel ?? "ここ"}は今の呼び出し先ではない。黄色い「!」を追おう。`);
-      return;
-    }
-    setCurrentMinutes((minutes) => Math.max(minutes, currentEvent.time));
-    setFloorMessage("");
-    setPhase("event");
-  }, [currentEvent, phase]);
-
-  const finishGame = useCallback((nextStats: GameStats, nextFlags: Set<GameFlag>, reason: EndingReason, completedCount: number, minutes: number) => {
-    setStats(nextStats);
-    setFlags(nextFlags);
-    setEndingReason(reason);
-    setCurrentMinutes(minutes);
-    setPhase("finished");
-    const title = getResultTitle({ stats: nextStats, flags: nextFlags });
-    trackGameEvent("game_complete", {
-      stage_id: "monday-morning",
-      ending: reason,
-      title_id: title.id,
-      resolved_band: completedCount >= 8 ? "8_plus" : completedCount >= 5 ? "5_to_7" : "0_to_4",
-    });
-  }, []);
-
-  const choose = useCallback((choice: SurvivalChoice) => {
-    if (!currentEvent || phase !== "event") return;
-    const choiceState = availableChoices(currentEvent, stats, flags).find((item) => item.id === choice.id);
-    if (!choiceState?.available) return;
-
-    const nextStats = clampStats(stats, choice.effects);
-    const nextFlags = applyChoiceFlags(flags, choice);
-    const nextResolved = resolvedTroubles + (choice.resolvesTrouble ? 1 : 0);
-    const nextMinutes = Math.max(currentMinutes, currentEvent.time) + currentEvent.duration;
-    setStats(nextStats);
-    setFlags(nextFlags);
-    setResolvedTroubles(nextResolved);
-    setCurrentMinutes(nextMinutes);
-    setFeedback(choice.result);
-    setLastEffects(choice.effects);
-    setPhase("feedback");
-    trackGameEvent("game_event_choice", {
-      stage_id: "monday-morning",
-      event_id: currentEvent.id,
-      choice_id: choice.id,
-    });
-
-    if (nextStats.hp <= 0 || nextStats.san <= 0) {
-      window.setTimeout(() => {
-        finishGame(nextStats, nextFlags, nextStats.hp <= 0 ? "hp_depleted" : "san_depleted", nextResolved, nextMinutes);
-      }, 900);
-    }
-  }, [currentEvent, currentMinutes, finishGame, flags, phase, resolvedTroubles, stats]);
-
-  const continueAfterFeedback = useCallback(() => {
-    if (!currentEvent || stats.hp <= 0 || stats.san <= 0) return;
-    const nextIndex = eventIndex + 1;
-    if (nextIndex >= SURVIVAL_EVENTS.length) {
-      finishGame(stats, flags, "clocked_out", resolvedTroubles, Math.max(currentMinutes, GAME_END_MINUTES));
-      return;
-    }
-    setEventIndex(nextIndex);
-    setFeedback(null);
-    setLastEffects({});
-    setNearbyId(null);
-    setFloorMessage(`次は ${formatGameTime(SURVIVAL_EVENTS[nextIndex].time)}。黄色い「!」へ向かおう`);
-    setPhase("playing");
-  }, [currentEvent, currentMinutes, eventIndex, finishGame, flags, resolvedTroubles, stats]);
-
-  useEffect(() => {
-    const handleShortcut = (event: KeyboardEvent) => {
-      if (event.target instanceof HTMLButtonElement) return;
-      if (phase === "feedback" && (event.key === "Enter" || event.key === " ")) {
-        event.preventDefault();
-        continueAfterFeedback();
-        return;
-      }
-      if (phase === "event" && currentEvent && ["1", "2", "3"].includes(event.key)) {
-        const choice = availableChoices(currentEvent, stats, flags)[Number(event.key) - 1];
-        if (choice?.available) choose(choice);
-      }
-    };
-    window.addEventListener("keydown", handleShortcut);
-    return () => window.removeEventListener("keydown", handleShortcut);
-  }, [choose, continueAfterFeedback, currentEvent, flags, phase, stats]);
-
-  const shareResult = useCallback(async () => {
-    const text = `製造技術者サバイバル「月曜日の朝」\n称号：${resultTitle.label}\n歩留まり ${stats.yield}% / Trust ${stats.trust} / 解決 ${resolvedTroubles}件\n#製造技術者サバイバル #ManufacturingCompass`;
+  const enableSound = () => {
     try {
-      const shareMethod = Reflect.get(navigator, "share") as Navigator["share"] | undefined;
-      const shared = typeof shareMethod === "function";
-      if (shared) await shareMethod.call(navigator, { title: "製造技術者サバイバル", text, url: window.location.href });
-      else await navigator.clipboard.writeText(`${text}\n${window.location.href}`);
-      setShareMessage(shared ? "共有メニューを開きました" : "結果をコピーしました");
-    } catch {
-      setShareMessage("共有をキャンセルしました");
-    }
-  }, [resolvedTroubles, resultTitle.label, stats.trust, stats.yield]);
-
-  const pressDirection = (direction: "down" | "left" | "right" | "up", pressed: boolean) => {
-    canvasHandleRef.current?.setDirection(direction, pressed);
+      if (!audio.current) audio.current = new AudioContext();
+      void audio.current.resume().catch(() => {});
+    } catch { /* The game is fully playable without audio. */ }
   };
+  const pause = useCallback(() => { runtime.pause(); handle.current?.clear(); }, [runtime]);
+  useEffect(() => {
+    const visibility = () => { if (document.hidden) pause(); };
+    window.addEventListener("blur", pause);
+    document.addEventListener("visibilitychange", visibility);
+    return () => {
+      window.removeEventListener("blur", pause);
+      document.removeEventListener("visibilitychange", visibility);
+    };
+  }, [pause]);
+  useEffect(() => () => { void audio.current?.close().catch(() => {}); }, []);
+  useEffect(() => {
+    if (state.phase === "paused") pauseButton.current?.focus();
+    if (state.phase === "finished") resultHeading.current?.focus();
+  }, [state.phase]);
+  useEffect(() => {
+    const notice = state.notice;
+    if (!notice || lastNotice.current === notice.serial) return;
+    lastNotice.current = notice.serial;
+    if (notice.kind === "repair") trackGameEvent("game_repair_complete", { ...context, trouble_id: notice.troubleId!, station_id: notice.location });
+    const sound = audio.current;
+    if (muted || !sound || sound.state !== "running") return;
+    const frequencies = notice.kind === "repair" ? [440, 554, 660 + notice.combo * 55] : [520, 780];
+    frequencies.forEach((frequency, index) => {
+      const oscillator = sound.createOscillator(), gain = sound.createGain();
+      const at = sound.currentTime + index * .065;
+      oscillator.type = "square"; oscillator.frequency.value = frequency;
+      gain.gain.setValueAtTime(.0001, at);
+      gain.gain.exponentialRampToValueAtTime(.035, at + .008);
+      gain.gain.exponentialRampToValueAtTime(.0001, at + .12);
+      oscillator.connect(gain); gain.connect(sound.destination);
+      oscillator.start(at); oscillator.stop(at + .13);
+      oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); };
+    });
+  }, [state.notice, muted]);
+  useEffect(() => {
+    if (state.phase !== "finished" || completeSent.current) return;
+    completeSent.current = true;
+    trackGameEvent("game_complete", { ...context, ending: "clocked_out", title_id: result.title.id,
+      resolved_band: state.resolved >= 8 ? "8_plus" : state.resolved >= 5 ? "5_to_7" : "0_to_4" });
+  }, [state.phase, state.resolved, result.title.id]);
 
-  const nearbyLocation = GAME_LOCATIONS.find((location) => location.id === nearbyId);
-  const overtime = Math.max(0, currentMinutes - GAME_END_MINUTES);
-  const endingLabel = endingReason === "clocked_out" ? "17時を越えて引継ぎ完了" : endingReason === "hp_depleted" ? "体力が尽きて保健室へ" : "精神力が尽きてPCをそっと閉じた";
-
-  return (
-    <section className="survival-game" aria-label="製造技術者サバイバル ゲーム">
-      <div className="survival-hud" aria-label="現在のステータス">
-        {HUD_STATS.map(({ key, label, suffix }) => (
-          <div className="survival-meter" key={key}>
-            <div><span>{label}</span><strong>{stats[key]}{suffix}</strong></div>
-            <span className="survival-meter__track" aria-hidden="true"><i style={{ width: `${stats[key]}%` }} /></span>
-          </div>
-        ))}
-        <div className="survival-clock"><span>TIME</span><strong>{formatGameTime(currentMinutes)}</strong><small>MON</small></div>
+  const start = (retry: boolean) => {
+    enableSound();
+    handle.current?.clear();
+    if (retry) { setReady(false); setRun(value => value + 1); trackGameEvent("game_retry", context); }
+    lastNotice.current = 0; completeSent.current = false;
+    setNearby(null); setShareMessage(""); runtime.start();
+    trackGameEvent("game_start", context);
+    region.current?.focus();
+  };
+  const resume = () => { enableSound(); handle.current?.clear(); runtime.resume(); region.current?.focus(); };
+  const share = async () => {
+    const text = `製造技術者サバイバル：${result.title.label}\n${state.score}点 / 復旧${state.resolved}件 / 最大${state.bestCombo}連続\nhttps://mfg-compass.com/games/process-engineer-survival`;
+    try { await navigator.clipboard.writeText(text); setShareMessage("結果をコピーしました"); }
+    catch { setShareMessage(text); }
+  };
+  const pointer = (event: PointerEvent<HTMLButtonElement>, action: () => void) => {
+    event.preventDefault(); event.currentTarget.setPointerCapture(event.pointerId); action();
+  };
+  const key = (event: KeyboardEvent<HTMLButtonElement>, action: () => void) => {
+    if (event.key === " " || event.key === "Enter") { event.preventDefault(); if (!event.repeat) action(); }
+  };
+  const playing = state.phase === "playing" && ready;
+  const nearest = GAME_LOCATIONS.find(l => l.id === nearby);
+  const instructions = state.work ? "長押し中…離すと中断・修理の進捗は保持" : nearest ? `${nearest.label}：ACTION長押し` : "警告の設備へ移動 → ACTION長押し";
+  return <section className="survival-game" aria-label="製造技術者サバイバル">
+    <div className="survival-toolbar">
+      <span>3 MIN SHIFT · 月曜日の朝</span>
+      <button type="button" aria-pressed={muted} onClick={() => { if (muted) enableSound(); setMuted(!muted); }}>音 {muted ? "OFF" : "ON"}</button>
+      <button type="button" disabled={!playing} onClick={pause}>一時停止</button>
+    </div>
+    <div className="survival-hud" aria-label="現在のステータス">
+      {meters.map(([id, label]) => <div className="survival-meter" key={id}><div><span>{label}</span><strong>{Math.round(state[id])}{id === "yield" ? "%" : ""}</strong></div><span className="survival-meter__track" aria-hidden="true"><i style={{ width: `${state[id]}%` }} /></span></div>)}
+      <div className="survival-clock"><span>TIME</span><strong>{clockFor(state)}</strong><small>あと{Math.ceil(RULES.duration - state.elapsed)}秒</small></div>
+    </div>
+    <div className="survival-scorebar">
+      <strong>{state.score.toLocaleString()} pts</strong><span>復旧 {state.resolved}件</span>
+      <strong className="survival-combo">{state.elapsed - state.lastRepair <= RULES.comboWindow ? `×${state.combo} CHAIN · あと${Math.max(0, Math.ceil(RULES.comboWindow - state.elapsed + state.lastRepair))}秒` : "12秒以内の連続復旧でボーナス"}</strong>
+    </div>
+    <div ref={region} tabIndex={-1} className="survival-stage" aria-label="工場アクション操作領域" onPointerDown={event => {
+      if (state.phase === "playing" && !(event.target as HTMLElement).closest("button, a")) region.current?.focus();
+    }}>
+      <ProcessEngineerSurvivalCanvas key={run} runtime={runtime} onReady={onReady} onNearbyChange={onNearby} onError={onError} />
+      {error ? <div className="survival-overlay"><h2>マップを読み込めませんでした</h2><p>通信状況を確認して再読み込みしてください。</p><button onClick={() => window.location.reload()}>再読み込み</button></div> :
+        state.phase === "intro" ? <div className="survival-overlay survival-intro">
+          <p className="survival-kicker">180 SECONDS / MONDAY SHIFT</p><h2>止まったラインを、動かそう。</h2>
+          <p>まず目の前の設備Aへ。ACTIONを3秒長押しで復旧！ 次の警告は自分の順番でさばこう。</p>
+          <ul><li>移動：矢印 / WASD　ダッシュ：Shift</li><li>作業：Space / Enter長押し（スマホは下のボタン）</li><li>◆ 現場・解析PCでヒント → 復旧が1秒に</li><li>12秒以内の連続復旧で最大5倍！</li></ul>
+          <button disabled={!ready} onClick={() => start(false)}>{ready ? "8:00 出社する" : "工場を準備中…"}</button>
+        </div> : state.phase === "paused" ? <div className="survival-overlay"><h2>ひと息つこう。</h2><p>時計は止まっています。準備ができたら再開してください。</p><button ref={pauseButton} onClick={resume}>仕事に戻る</button></div> :
+        state.phase === "finished" ? <div className="survival-overlay survival-result">
+          <p className="survival-kicker">17:00 / SHIFT COMPLETE</p><h2 ref={resultHeading} tabIndex={-1}>{result.title.label}</h2><p>{result.title.description}</p>
+          <dl>
+            <div><dt>SCORE</dt><dd>{state.score}</dd></div><div><dt>復旧 / 最大連続</dt><dd>{state.resolved}件 / ×{state.bestCombo}</dd></div>
+            <div><dt>Final Yield</dt><dd>{state.yield}%</dd></div><div><dt>HP / SAN</dt><dd>{Math.round(state.hp)} / {Math.round(state.san)}</dd></div>
+            <div><dt>Trust / Boss</dt><dd>{state.trust} / {state.boss}</dd></div><div><dt>引継ぎ案件</dt><dd>{result.pending}件</dd></div>
+          </dl><p>推定残業 {result.overtime}分（未解決1件につき10分・発生待ちを含む）</p>
+          <div className="survival-result__actions"><button onClick={() => start(true)}>もう一度、月曜日へ</button><button className="is-secondary" onClick={share}>結果をコピー</button></div>
+          <p className="survival-share-message" role="status">{shareMessage}</p>
+        </div> : null}
+    </div>
+    <div className="survival-dispatch">
+      <div className="survival-tickets" aria-label="対応案件">{state.tasks.map(task => <div key={task.id} data-overdue={task.overdue}>
+        <strong>{GAME_LOCATIONS.find(l => l.id === task.location)?.shortLabel}</strong><span>{task.title}</span>
+        <b>{task.overdue ? "要対応" : `あと${Math.max(0, Math.ceil(RULES.deadline - state.elapsed + task.born))}秒`}</b>
+      </div>)}{!state.tasks.length && <span>ラインは順調。次の呼び出しに備えよう。</span>}</div>
+      <p className="survival-hints">◆ ヒント：{state.hints.length ? state.hints.map(id => GAME_LOCATIONS.find(l => l.id === id)?.shortLabel).join(" / ") : "現場担当・解析PCで1秒長押し"}</p>
+      <p className="survival-bubble" role="status">{state.notice?.text ?? "「今日こそ定時で帰る」— 朝8時のあなた"}</p>
+    </div>
+    <div className="survival-controls" aria-label="ゲーム操作">
+      <div className="survival-dpad">{(["up", "left", "down", "right"] as Direction[]).map(direction => {
+        const change = (pressed: boolean) => handle.current?.setDirection(direction, pressed);
+        return <button key={direction} type="button" disabled={!playing} className={`is-${direction}`}
+          aria-label={`${({ up: "上", down: "下", left: "左", right: "右" })[direction]}へ移動`}
+          onPointerDown={event => pointer(event, () => change(true))} onPointerUp={() => change(false)}
+          onPointerCancel={() => change(false)} onLostPointerCapture={() => change(false)}
+          onKeyDown={event => key(event, () => change(true))} onKeyUp={event => key(event, () => change(false))} onBlur={() => change(false)}
+        >{({ up: "▲", down: "▼", left: "◀", right: "▶" })[direction]}</button>;
+      })}</div>
+      <div className="survival-prompt"><strong>{instructions}</strong><span>休憩室でHP・SAN回復 / 0でも完走できます</span></div>
+      <div className="survival-action-buttons">
+        <button type="button" className="survival-action" disabled={!playing}
+          onPointerDown={event => pointer(event, () => handle.current?.setAction(true))}
+          onPointerUp={() => handle.current?.setAction(false)} onPointerCancel={() => handle.current?.setAction(false)}
+          onLostPointerCapture={() => handle.current?.setAction(false)}
+          onKeyDown={event => key(event, () => handle.current?.setAction(true))} onKeyUp={event => key(event, () => handle.current?.setAction(false))}
+          onBlur={() => handle.current?.setAction(false)}
+        >ACTION<small>長押しで作業</small></button>
+        <button type="button" className="survival-action survival-dash" disabled={!playing || state.elapsed < state.dashReadyAt}
+          onPointerDown={event => pointer(event, () => handle.current?.dash())}
+          onKeyDown={event => key(event, () => handle.current?.dash())}
+        >{state.elapsed < state.dashReadyAt ? "充電中…" : "DASH"}<small>Shift / 短距離加速</small></button>
       </div>
-
-      <div className="survival-stage">
-        <ProcessEngineerSurvivalCanvas
-          activeLocationId={activeLocationId}
-          paused={phase !== "playing"}
-          onInteract={handleInteract}
-          onNearbyChange={setNearbyId}
-          onReady={handleCanvasReady}
-        />
-        {phase !== "intro" ? <div className="survival-stage-progress" aria-hidden="true"><span>MONDAY SHIFT</span><strong>{Math.min(eventIndex + 1, SURVIVAL_EVENTS.length).toString().padStart(2, "0")} / {SURVIVAL_EVENTS.length}</strong></div> : null}
-
-        {phase === "intro" ? (
-          <div className="survival-overlay survival-intro">
-            <p className="survival-kicker">STAGE 01</p>
-            <h2>月曜日の朝</h2>
-            <p>朝8時。メール17件、未読Teams 6件、歩留まりはまだ平和。黄色い「!」へ移動し、17時まで工場の一日を乗り切ろう。</p>
-            <ul><li>移動：矢印キー / WASD / 画面の方向キー</li><li>調べる：Enter / Space / ACTION</li><li>選択によって後半の情報と選択肢が変化</li></ul>
-            <button type="button" onClick={() => resetGame(false)}>8:00 出社する</button>
-          </div>
-        ) : null}
-
-        {phase === "event" && currentEvent ? (
-          <div className="survival-overlay survival-dialog" role="dialog" aria-modal="true" aria-labelledby="survival-event-title">
-            <header><span>{formatGameTime(currentEvent.time)}</span><span>{currentLocation?.label}</span></header>
-            {currentEvent.speaker ? <p className="survival-speaker">{currentEvent.speaker}</p> : null}
-            <h2 id="survival-event-title">{currentEvent.title}</h2>
-            <p>{eventDescription(currentEvent, stats, flags)}</p>
-            <div className="survival-choices">
-              {availableChoices(currentEvent, stats, flags).map((choice, index) => (
-                <button
-                  ref={index === 0 ? firstChoiceRef : undefined}
-                  type="button"
-                  key={choice.id}
-                  disabled={!choice.available}
-                  onClick={() => choose(choice)}
-                >
-                  <span><b>{index + 1}</b>{choice.text}</span>
-                  {!choice.available ? <small>{choice.unavailableText}</small> : null}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : null}
-
-        {phase === "feedback" && feedback ? (
-          <div className="survival-overlay survival-feedback" role="status">
-            <p className="survival-kicker">ACTION RESULT</p>
-            <p>{feedback}</p>
-            <div className="survival-effect-chips" aria-label="ステータス変化">
-              {Object.entries(lastEffects).filter(([, value]) => value !== 0).map(([key, value]) => <span key={key} data-positive={(value ?? 0) > 0}>{key.toUpperCase()} {(value ?? 0) > 0 ? "+" : ""}{value}</span>)}
-            </div>
-            <button type="button" onClick={continueAfterFeedback}>NEXT →<small>Enter / Space</small></button>
-          </div>
-        ) : null}
-
-        {phase === "finished" ? (
-          <div className="survival-overlay survival-result">
-            <p className="survival-kicker">SHIFT COMPLETE</p>
-            <h2>{resultTitle.label}</h2>
-            <p>{resultTitle.description}</p>
-            <dl>
-              <div><dt>Final Yield</dt><dd>{stats.yield}%</dd></div>
-              <div><dt>残業時間</dt><dd>{overtime}分</dd></div>
-              <div><dt>Trust / Boss</dt><dd>{stats.trust} / {stats.boss}</dd></div>
-              <div><dt>HP / SAN</dt><dd>{stats.hp} / {stats.san}</dd></div>
-              <div><dt>解決できたトラブル</dt><dd>{resolvedTroubles} / {SURVIVAL_EVENTS.length}</dd></div>
-            </dl>
-            <small>{endingLabel}</small>
-            <div className="survival-result__actions">
-              <button type="button" onClick={() => resetGame(true)}>もう一度月曜日を始める</button>
-              <button type="button" className="is-secondary" onClick={shareResult}>結果を共有</button>
-            </div>
-            {shareMessage ? <p className="survival-share-message" role="status">{shareMessage}</p> : null}
-          </div>
-        ) : null}
-      </div>
-
-      <div className="survival-controls" aria-label="ゲーム操作">
-        <div className="survival-dpad">
-          {(["up", "left", "down", "right"] as const).map((direction) => (
-            <button
-              type="button"
-              className={`is-${direction}`}
-              key={direction}
-              aria-label={`${direction}へ移動`}
-              onPointerDown={() => pressDirection(direction, true)}
-              onPointerUp={() => pressDirection(direction, false)}
-              onPointerCancel={() => pressDirection(direction, false)}
-              onPointerLeave={() => pressDirection(direction, false)}
-            >{direction === "up" ? "▲" : direction === "down" ? "▼" : direction === "left" ? "◀" : "▶"}</button>
-          ))}
-        </div>
-        <div className="survival-prompt" aria-live="polite">
-          <strong>{nearbyLocation ? `${nearbyLocation.shortLabel} の近く` : floorMessage}</strong>
-          <span>{currentEvent ? `目的地：${currentLocation?.label}　Shiftでダッシュ` : ""}</span>
-        </div>
-        <button
-          type="button"
-          className="survival-action"
-          onClick={() => canvasHandleRef.current?.interact()}
-          disabled={phase !== "playing" || !nearbyId}
-        >ACTION<small>Enter / Space</small></button>
-      </div>
-
-      {phase === "finished" ? (
-        <section className="survival-learning" aria-labelledby="survival-learning-title">
-          <header><p className="section-label">PLAY → LEARN → TRY</p><h2 id="survival-learning-title">今回使われた問題解決の考え方</h2><p>ゲーム内の判断は簡略化した学習用表現です。実工程では安全・品質の手順と、十分なデータ確認を優先してください。</p></header>
-          <div>
-            {LEARNING_ITEMS.map((item) => {
-              const used = USED_LEARNING_FLAGS[item.id].some((flag) => flags.has(flag));
-              return <article key={item.id} data-used={used}><span>{used ? "今回使った" : "次に試す"}</span><h3>{item.title}</h3><p>{item.description}</p><Link href={item.href} onClick={() => trackGameEvent("related_tool_click", { stage_id: "monday-morning", destination_id: item.id })}>関連ツールで学ぶ →</Link></article>;
-            })}
-          </div>
-        </section>
-      ) : null}
-    </section>
-  );
+    </div>
+    {state.phase === "finished" && <section className="survival-learning">
+      <header><p className="section-label">PLAY → LEARN → TRY</p><h2>現場のヒントを、次の判断へ</h2>
+        <p>今回はヒントを{state.hintsUsed}件の復旧に活用しました。復旧と原因の証明は別の仕事です。ゲームの短縮時間は演出であり、実工程では安全・品質手順と検証を優先してください。</p></header>
+      <div>{LEARNING_ITEMS.map(item => <article key={item.id}><h3>{item.title}</h3><p>{item.description}</p><Link href={item.href} onClick={() => trackGameEvent("related_tool_click", { ...context, destination_id: item.id })}>関連ツールで学ぶ →</Link></article>)}</div>
+    </section>}
+  </section>;
 }

@@ -2,144 +2,107 @@
 
 import { useEffect, useRef } from "react";
 import type Phaser from "phaser";
-import {
-  GAME_LOCATIONS,
-  type GameLocationId,
-} from "@/data/process-engineer-survival";
+import { GAME_LOCATIONS, RULES, type GameLocationId } from "@/data/process-engineer-survival";
+import { hintTarget, workDuration, type SurvivalRuntime } from "@/lib/process-engineer-survival";
 
-type Direction = "down" | "left" | "right" | "up";
-
+export type Direction = "down" | "left" | "right" | "up";
 export type SurvivalCanvasHandle = {
-  interact: () => void;
   setDirection: (direction: Direction, pressed: boolean) => void;
+  setAction: (pressed: boolean) => void;
+  dash: () => void;
+  clear: () => void;
 };
-
 type Props = {
-  activeLocationId: GameLocationId | null;
-  paused: boolean;
-  onInteract: (locationId: GameLocationId) => void;
-  onNearbyChange: (locationId: GameLocationId | null) => void;
-  onReady?: (handle: SurvivalCanvasHandle | null) => void;
+  runtime: SurvivalRuntime;
+  onReady: (handle: SurvivalCanvasHandle | null) => void;
+  onNearbyChange: (location: GameLocationId | null) => void;
+  onError: () => void;
 };
-
 const MAP_WIDTH = 800;
 const MAP_HEIGHT = 480;
 
-export function ProcessEngineerSurvivalCanvas({
-  activeLocationId,
-  paused,
-  onInteract,
-  onNearbyChange,
-  onReady,
-}: Props) {
+export function ProcessEngineerSurvivalCanvas({ runtime, onReady, onNearbyChange, onError }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const activeLocationRef = useRef(activeLocationId);
-  const pausedRef = useRef(paused);
-  const interactRef = useRef(onInteract);
-  const nearbyChangeRef = useRef(onNearbyChange);
-  const virtualDirectionsRef = useRef(new Set<Direction>());
-
-  useEffect(() => { activeLocationRef.current = activeLocationId; }, [activeLocationId]);
-  useEffect(() => { pausedRef.current = paused; }, [paused]);
-  useEffect(() => { interactRef.current = onInteract; }, [onInteract]);
-  useEffect(() => { nearbyChangeRef.current = onNearbyChange; }, [onNearbyChange]);
-
   useEffect(() => {
-    if (!containerRef.current) return;
     let cancelled = false;
     let game: Phaser.Game | null = null;
+    const directions = new Set<Direction>();
+    const keys = new Set<string>();
+    let touchAction = false;
+    let wasHeld = false;
+    let dashQueued = false;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const clear = () => {
+      directions.clear(); keys.clear(); touchAction = false; wasHeld = false; dashQueued = false;
+      runtime.stop();
+    };
+    const unsubscribe = runtime.subscribe(() => {
+      if (runtime.getState().phase !== "playing") clear();
+    });
+    const keydown = (event: KeyboardEvent) => {
+      if (runtime.getState().phase !== "playing" || event.ctrlKey || event.metaKey || event.altKey) return;
+      if (event.target instanceof HTMLElement) {
+        if (event.target.closest("input, select, textarea")) return;
+        // Toolbar focus must not strand movement; Enter/Space still activate its buttons.
+        if (event.target.closest("button, a") && (event.code === "Enter" || event.code === "Space")) return;
+      }
+      if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "KeyW", "KeyA", "KeyS", "KeyD", "Space", "Enter", "ShiftLeft", "ShiftRight"].includes(event.code)) return;
+      event.preventDefault();
+      keys.add(event.code);
+      if (event.code.startsWith("Shift") && !event.repeat) dashQueued = true;
+    };
+    const keyup = (event: KeyboardEvent) => { keys.delete(event.code); };
+    window.addEventListener("keydown", keydown);
+    window.addEventListener("keyup", keyup);
 
-    void import("phaser").then(({ default: PhaserRuntime }) => {
+    void import("phaser").then(({ default: P }) => {
       if (cancelled || !containerRef.current) return;
-
-      class RuntimeFactoryFloorScene extends PhaserRuntime.Scene {
+      class Floor extends P.Scene {
         private player!: Phaser.Physics.Arcade.Sprite;
-        private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-        private wasd!: Record<"W" | "A" | "S" | "D", Phaser.Input.Keyboard.Key>;
-        private actionKeys: Phaser.Input.Keyboard.Key[] = [];
-        private shiftKey!: Phaser.Input.Keyboard.Key;
-        private nearbyId: GameLocationId | null = null;
-        private targetMarker!: Phaser.GameObjects.Graphics;
-        private targetText!: Phaser.GameObjects.Text;
         private playerShadow!: Phaser.GameObjects.Ellipse;
-        private walkFrame = 0;
-        private lastWalkFrameAt = 0;
-
-        constructor() {
-          super("factory-floor");
-        }
-
+        private marks!: Phaser.GameObjects.Graphics;
+        private statusLabels = new Map<GameLocationId, Phaser.GameObjects.Text>();
+        private machines = new Map<GameLocationId, Phaser.Physics.Arcade.Sprite>();
+        private warningLights = new Map<GameLocationId, Phaser.GameObjects.Rectangle>();
+        private products = new Map<GameLocationId, Phaser.GameObjects.Rectangle>();
+        private nearby: GameLocationId | null = null;
+        private serial = 0;
+        private facing = new P.Math.Vector2(0, -1);
+        private dashVector = new P.Math.Vector2(0, -1);
+        constructor() { super("factory-action"); }
         create() {
-          this.cameras.main.setBackgroundColor("#18212a");
-          this.drawFloor();
-          this.createTextures();
-          this.drawFactoryDetails();
-
+          this.drawFloor(); this.createTextures(); this.drawFactoryDetails();
+          this.physics.world.setBounds(26, 26, MAP_WIDTH - 52, MAP_HEIGHT - 52);
           const obstacles = this.physics.add.staticGroup();
-          GAME_LOCATIONS.forEach((location) => {
-            const texture = this.textureForLocation(location.id);
-            this.add.ellipse(location.x + 4, location.y + location.height / 2 - 1, location.width * 0.88, 13, 0x10181d, 0.48).setDepth(1);
-            const object = obstacles.create(location.x, location.y, texture) as Phaser.Physics.Arcade.Sprite;
-            object.setDisplaySize(location.width, location.height).refreshBody();
-            object.setDepth(2);
-
-            this.add.text(location.x, location.y - location.height / 2 - 13, location.shortLabel, {
-              backgroundColor: "#172229",
-              color: "#eef6f2",
-              fontFamily: "monospace",
-              fontSize: "11px",
-              fontStyle: "bold",
-              padding: { x: 5, y: 2 },
-              stroke: "#18212a",
-              strokeThickness: 2,
-            }).setOrigin(0.5).setDepth(4);
-
-            if (location.kind === "person") {
-              this.add.ellipse(location.x, location.y + 11, 17, 7, 0x10181d, 0.55).setDepth(3);
-              this.add.image(location.x, location.y - 2, location.id === "boss" ? "npc-boss" : "npc-quality").setDepth(4);
-            }
-
-            if (location.kind === "machine") {
-              const lightColor = location.id === "machine-b" ? 0xffbe55 : 0x69e397;
-              const light = this.add.rectangle(location.x + location.width * 0.31, location.y - location.height * 0.24, 6, 6, lightColor).setDepth(5);
-              this.tweens.add({ targets: light, alpha: { from: 1, to: .3 }, duration: location.id === "machine-b" ? 360 : 820, yoyo: true, repeat: -1 });
+          GAME_LOCATIONS.forEach(location => {
+            this.add.ellipse(location.x + 4, location.y + location.height / 2, location.width * .9, 12, 0x10181d, .5);
+            const object = obstacles.create(location.x, location.y, this.textureForLocation(location.id)) as Phaser.Physics.Arcade.Sprite;
+            object.setDisplaySize(location.width, location.height).refreshBody().setDepth(2);
+            this.machines.set(location.id, object);
+            this.add.text(location.x, location.y - location.height / 2 - 15, location.shortLabel, {
+              backgroundColor: "#172229", color: "#eef6f2", fontFamily: "monospace", fontSize: "12px", padding: { x: 4, y: 2 },
+            }).setOrigin(.5).setDepth(4);
+            this.statusLabels.set(location.id, this.add.text(location.x, location.y + location.height / 2 + 13, "", {
+              backgroundColor: "#172229", color: "#a9e8c0", fontFamily: "monospace", fontSize: "11px", padding: { x: 3, y: 2 },
+            }).setOrigin(.5).setDepth(7));
+            if (location.kind === "person") this.add.image(location.x, location.y, location.id === "boss" ? "npc-boss" : "npc-quality").setDepth(4);
+            if (location.kind === "machine" || location.id === "meeting") {
+              this.warningLights.set(location.id, this.add.rectangle(location.x + 40, location.y - 13, 6, 6, 0x69e397).setDepth(4));
+              this.products.set(location.id, this.add.rectangle(location.x - 40, location.y + 10, 9, 5, 0xb0ddd7).setDepth(4));
             }
           });
-
-          this.playerShadow = this.add.ellipse(390, 256, 22, 8, 0x0b1014, 0.65).setDepth(4);
-          this.player = this.physics.add.sprite(390, 242, "player-0").setDepth(5);
-          this.player.setCollideWorldBounds(true);
-          this.player.setSize(16, 20);
+          this.playerShadow = this.add.ellipse(145, 202, 22, 8, 0x0b1014, .65).setDepth(4);
+          this.player = this.physics.add.sprite(145, 190, "player-0").setDepth(5);
+          this.player.setCollideWorldBounds(true).setSize(16, 18);
           this.physics.add.collider(this.player, obstacles);
-
-          this.targetMarker = this.add.graphics().setDepth(3);
-          this.targetText = this.add.text(0, 0, "!", {
-            color: "#fff3a3",
-            fontFamily: "monospace",
-            fontSize: "20px",
-            fontStyle: "bold",
-            stroke: "#7b4a12",
-            strokeThickness: 4,
-          }).setOrigin(0.5).setDepth(6);
-
-          this.cursors = this.input.keyboard!.createCursorKeys();
-          this.wasd = this.input.keyboard!.addKeys("W,A,S,D") as Record<"W" | "A" | "S" | "D", Phaser.Input.Keyboard.Key>;
-          this.actionKeys = [
-            this.input.keyboard!.addKey(PhaserRuntime.Input.Keyboard.KeyCodes.ENTER),
-            this.input.keyboard!.addKey(PhaserRuntime.Input.Keyboard.KeyCodes.SPACE),
-          ];
-          this.shiftKey = this.input.keyboard!.addKey(PhaserRuntime.Input.Keyboard.KeyCodes.SHIFT);
-
-          const handle: SurvivalCanvasHandle = {
-            interact: () => this.interact(),
-            setDirection: (direction, pressed) => {
-              if (pressed) virtualDirectionsRef.current.add(direction);
-              else virtualDirectionsRef.current.delete(direction);
-            },
-          };
-          onReady?.(handle);
+          this.marks = this.add.graphics().setDepth(6);
+          onReady({
+            clear,
+            setDirection: (direction, pressed) => { if (pressed) directions.add(direction); else directions.delete(direction); },
+            setAction: pressed => { touchAction = pressed; },
+            dash: () => { dashQueued = true; },
+          });
         }
-
         private drawFloor() {
           const graphics = this.add.graphics();
           graphics.fillStyle(0x26343c, 1).fillRect(18, 18, MAP_WIDTH - 36, MAP_HEIGHT - 36);
@@ -271,95 +234,118 @@ export function ProcessEngineerSurvivalCanvas({
           graphics.destroy();
         }
 
-        private interact() {
-          if (!pausedRef.current && this.nearbyId) interactRef.current(this.nearbyId);
+
+        private inRange(location: GameLocationId) {
+          const l = GAME_LOCATIONS.find(item => item.id === location)!;
+          const dx = Math.max(0, Math.abs(this.player.x - l.x) - l.width / 2);
+          const dy = Math.max(0, Math.abs(this.player.y - l.y) - l.height / 2);
+          return Math.hypot(dx, dy) <= 34;
         }
-
-        update() {
-          if (!this.player) return;
-          const activeLocation = GAME_LOCATIONS.find((location) => location.id === activeLocationRef.current);
-          this.targetMarker.clear();
-          if (activeLocation) {
-            const targetColor = this.nearbyId === activeLocation.id ? 0x77e5a0 : 0xffd85b;
-            this.targetMarker.setAlpha(.72 + Math.sin(this.time.now / 150) * .2);
-            this.targetMarker.lineStyle(3, targetColor, 0.95).strokeRoundedRect(
-              activeLocation.x - activeLocation.width / 2 - 6,
-              activeLocation.y - activeLocation.height / 2 - 6,
-              activeLocation.width + 12,
-              activeLocation.height + 12,
-              4,
-            );
-            this.targetText.setVisible(true).setColor(this.nearbyId === activeLocation.id ? "#8dffae" : "#fff3a3").setPosition(activeLocation.x, activeLocation.y - activeLocation.height / 2 - 34 + Math.sin(this.time.now / 130) * 3);
-          } else {
-            this.targetText.setVisible(false);
+        private celebrate() {
+          const state = runtime.getState();
+          const notice = state.notice;
+          if (!notice || this.serial === notice.serial) return;
+          this.serial = notice.serial;
+          const location = GAME_LOCATIONS.find(l => l.id === notice.location)!;
+          const label = this.add.text(location.x, location.y - 22,
+            notice.kind === "repair" ? `復旧！ +${notice.points}  ×${notice.combo}` : notice.kind === "hint" ? "ヒント入手！" : "回復！",
+            { fontFamily: "monospace", fontSize: "15px", color: "#fff3a3", backgroundColor: "#15352b", padding: { x: 5, y: 4 } }).setOrigin(.5).setDepth(10);
+          this.tweens.add({ targets: label, y: motion.matches ? label.y : label.y - 22, alpha: 0, duration: 1100, onComplete: () => label.destroy() });
+          if (!motion.matches) {
+            for (let index = 0; index < 6 + notice.combo * 2; index++) {
+              const pixel = this.add.rectangle(location.x, location.y, 4, 4, index % 2 ? 0xffdb6c : 0x81e3b2).setDepth(9);
+              const angle = index * 2.4;
+              this.tweens.add({ targets: pixel, x: location.x + Math.cos(angle) * 45, y: location.y + Math.sin(angle) * 35,
+                alpha: 0, duration: 450, onComplete: () => pixel.destroy() });
+            }
           }
-
-          if (pausedRef.current) {
+        }
+        update(_time: number, delta: number) {
+          if (!this.player) return;
+          let state = runtime.getState();
+          if (state.phase !== "playing") {
             this.player.setVelocity(0);
-            this.player.setTexture("player-0");
+            this.tweens.pauseAll();
             return;
           }
-
-          const directions = virtualDirectionsRef.current;
-          const left = this.cursors.left.isDown || this.wasd.A.isDown || directions.has("left");
-          const right = this.cursors.right.isDown || this.wasd.D.isDown || directions.has("right");
-          const up = this.cursors.up.isDown || this.wasd.W.isDown || directions.has("up");
-          const down = this.cursors.down.isDown || this.wasd.S.isDown || directions.has("down");
-          const velocity = new PhaserRuntime.Math.Vector2(Number(right) - Number(left), Number(down) - Number(up));
-          const isMoving = velocity.lengthSq() > 0;
-          if (isMoving) velocity.normalize().scale(this.shiftKey.isDown ? 285 : 220);
+          this.tweens.resumeAll();
+          const vector = new P.Math.Vector2(
+            Number(keys.has("ArrowRight") || keys.has("KeyD") || directions.has("right")) - Number(keys.has("ArrowLeft") || keys.has("KeyA") || directions.has("left")),
+            Number(keys.has("ArrowDown") || keys.has("KeyS") || directions.has("down")) - Number(keys.has("ArrowUp") || keys.has("KeyW") || directions.has("up")),
+          );
+          if (vector.lengthSq()) { vector.normalize(); this.facing.copy(vector); }
+          if (dashQueued) {
+            if (state.elapsed >= state.dashReadyAt) this.dashVector.copy(this.facing);
+            runtime.dash(); dashQueued = false; state = runtime.getState();
+          }
+          const dashing = state.elapsed < state.dashUntil;
+          const velocity = dashing ? this.dashVector.clone().scale(RULES.dashSpeed) : vector.scale(RULES.walkSpeed);
           this.player.setVelocity(velocity.x, velocity.y);
+          this.player.setTexture(velocity.lengthSq() && !motion.matches ? `player-${Math.floor(state.elapsed * 11) % 2}` : "player-0");
+          if (velocity.x) this.player.setFlipX(velocity.x < 0);
           this.playerShadow.setPosition(this.player.x + 1, this.player.y + 14);
-          if (velocity.x !== 0) this.player.setFlipX(velocity.x < 0);
-          if (isMoving && this.time.now - this.lastWalkFrameAt > 95) {
-            this.walkFrame = this.walkFrame === 0 ? 1 : 0;
-            this.player.setTexture(`player-${this.walkFrame}`);
-            this.lastWalkFrameAt = this.time.now;
-          } else if (!isMoving) {
-            this.walkFrame = 0;
-            this.player.setTexture("player-0");
+          if (dashing && !motion.matches) this.player.setTint(0xb4f6ff); else this.player.clearTint();
+          const nearest = GAME_LOCATIONS.filter(l => this.inRange(l.id)).sort((a, b) =>
+            Math.hypot(this.player.x - a.x, this.player.y - a.y) - Math.hypot(this.player.x - b.x, this.player.y - b.y))[0]?.id ?? null;
+          if (nearest !== this.nearby) { this.nearby = nearest; onNearbyChange(nearest); }
+          const held = touchAction || keys.has("Space") || keys.has("Enter");
+          if (state.work && (!held || !this.inRange(state.work.location))) runtime.stop();
+          if (held && !wasHeld) runtime.begin(nearest);
+          wasHeld = held;
+          // Physics uses fixed 60Hz steps. Bound catch-up to avoid teleporting after a stalled frame.
+          runtime.tick(Math.min(delta / 1000, .1));
+          state = runtime.getState();
+          this.marks.clear();
+          GAME_LOCATIONS.forEach(location => {
+            const task = state.tasks.find(t => t.location === location.id);
+            const label = this.statusLabels.get(location.id)!;
+            const light = this.warningLights.get(location.id);
+            if (task) {
+              const color = task.overdue ? 0xff8372 : 0xffd85b;
+              const seconds = Math.max(0, Math.ceil(RULES.deadline - (state.elapsed - task.born)));
+              label.setText(task.overdue ? "! 停止 / 要対応" : `! 警告 ${seconds}s`).setColor(task.overdue ? "#ff998b" : "#ffe68c");
+              this.marks.lineStyle(2, color).strokeRect(location.x - location.width / 2 - 4, location.y - location.height / 2 - 4, location.width + 8, location.height + 8);
+              light?.setFillStyle(color).setAlpha(motion.matches ? 1 : .7 + .3 * Math.sin(state.elapsed * 7));
+              this.machines.get(location.id)?.setTint(task.overdue ? 0xe0aaaa : 0xffffff);
+              const duration = state.hints.includes(task.location) ? RULES.hintedRepair : RULES.repair;
+              this.marks.fillStyle(0x142128).fillRect(location.x - 35, location.y + 8, 70, 6);
+              this.marks.fillStyle(0x81e3b2).fillRect(location.x - 35, location.y + 8, 70 * Math.min(1, task.progress / duration), 6);
+            } else {
+              light?.setFillStyle(0x69e397).setAlpha(1);
+              this.machines.get(location.id)?.clearTint();
+              if (location.id === "quality" || location.id === "analysis-pc") {
+                const target = hintTarget(state, location.id);
+                label.setText(target ? `◆ ${GAME_LOCATIONS.find(l => l.id === target.location)?.shortLabel} 1秒` : "◆ 調査待ち").setColor("#9fdcff");
+              } else if (location.id === "break-room") {
+                label.setText(state.elapsed < state.restReadyAt ? `休憩あと${Math.ceil(state.restReadyAt - state.elapsed)}s` : "♥ 休憩 2秒").setColor("#a9e8c0");
+              } else label.setText(location.id === "boss" ? "定時まで頼んだ！" : "稼働中 ▶").setColor("#a9e8c0");
+            }
+            const product = this.products.get(location.id);
+            if (product) {
+              product.setVisible(!task);
+              if (!task) product.x = location.x - 38 + (motion.matches ? 30 : state.elapsed * 28 % 76);
+            }
+          });
+          if (state.work) {
+            this.marks.fillStyle(0x142128).fillRect(this.player.x - 18, this.player.y - 24, 36, 5);
+            this.marks.fillStyle(0x81e3b2).fillRect(this.player.x - 18, this.player.y - 24, 36 * Math.min(1, state.work.progress / workDuration(state)), 5);
           }
-
-          const nearest = GAME_LOCATIONS
-            .map((location) => ({
-              id: location.id,
-              distance: PhaserRuntime.Math.Distance.Between(this.player.x, this.player.y, location.x, location.y),
-              threshold: Math.max(location.width, location.height) / 2 + 54,
-            }))
-            .filter((candidate) => candidate.distance <= candidate.threshold)
-            .sort((a, b) => a.distance - b.distance)[0]?.id ?? null;
-
-          if (nearest !== this.nearbyId) {
-            this.nearbyId = nearest;
-            nearbyChangeRef.current(nearest);
-          }
-
-          if (this.actionKeys.some((key) => PhaserRuntime.Input.Keyboard.JustDown(key))) this.interact();
+          this.celebrate();
         }
       }
-
-      game = new PhaserRuntime.Game({
-        type: PhaserRuntime.AUTO,
-        parent: containerRef.current,
-        width: MAP_WIDTH,
-        height: MAP_HEIGHT,
-        backgroundColor: "#18212a",
-        pixelArt: true,
-        roundPixels: true,
-        physics: { default: "arcade", arcade: { debug: false } },
-        scale: { mode: PhaserRuntime.Scale.FIT, autoCenter: PhaserRuntime.Scale.CENTER_BOTH },
-        scene: RuntimeFactoryFloorScene,
-        input: { keyboard: true, touch: true },
+      game = new P.Game({
+        type: P.AUTO, parent: containerRef.current, width: MAP_WIDTH, height: MAP_HEIGHT,
+        backgroundColor: "#18212a", pixelArt: true, roundPixels: true,
+        physics: { default: "arcade", arcade: { debug: false, fixedStep: true, fps: 60 } },
+        scale: { mode: P.Scale.FIT, autoCenter: P.Scale.CENTER_BOTH },
+        scene: Floor, audio: { noAudio: true }, input: { keyboard: false },
       });
-    });
-
+    }).catch(() => { if (!cancelled) onError(); });
     return () => {
-      cancelled = true;
-      virtualDirectionsRef.current.clear();
-      onReady?.(null);
-      game?.destroy(true);
+      cancelled = true; unsubscribe(); clear();
+      window.removeEventListener("keydown", keydown); window.removeEventListener("keyup", keyup);
+      onReady(null); game?.destroy(true);
     };
-  }, [onReady]);
-
-  return <div ref={containerRef} className="survival-canvas" aria-label="工場フロアのゲーム画面" />;
+  }, [runtime, onReady, onNearbyChange, onError]);
+  return <div ref={containerRef} className="survival-canvas" aria-label="工場フロア。設備に近づきACTIONを長押しして復旧" />;
 }

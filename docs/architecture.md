@@ -98,9 +98,9 @@ src/lib/yield-analysis.ts   CSV検証、個数加重集計、p管理図、層別
 src/data/yield-dashboard.ts 架空工場のロット、排他的な不良、工程条件、変更履歴、確認実験
 src/lib/yield-dashboard.ts  歩留まりの個数加重集計、絞り込み、層別、条件比較、整合性検査
 src/data/process-engineer-survival.ts
-                            ミニゲームのイベント、選択肢、効果、称号、学習導線
+                            ミニゲームの固定発生順、制限値、称号、学習導線
 src/lib/process-engineer-survival.ts
-                            ステータス更新、分岐条件、称号判定の純粋関数
+                            時間進行・修理・ヒント・連続復旧の純粋関数と状態ストア
 video/                      Web本体と依存関係を分けたショート動画生成パッケージ
 video/manifests/            元記事、画面文言、音声設定、確認日、公開状態
 video/src/components/       音声ミックス、共通枠、場面などの再利用部品
@@ -193,13 +193,17 @@ video/docs/                 制作フロー、公開記録、計測ログ
 - ミニアプリは閲覧、初回操作、山積み表の工程移動、OEE改善条件の確定変更を別イベントで計測する。歩留まり解析はシナリオ、有限の操作種別、CSV読込成否だけを送り、製品名、装置名、日付、個数、生データ、ファイル名は送らない
 - 歩留まり解析のイベントは `yield_analysis_first_interaction`（初回だけ）、`yield_analysis_scenario_changed`、`yield_analysis_csv_loaded`、`yield_analysis_filter_changed`、`yield_analysis_mix_comparison_used`。初期表示は利用開始に数えず、フィルター値は `selected` / `all` のみ送る
 - 歩留まり原因調査デモは `yield_dashboard_start`（初回だけ）、`yield_dashboard_guide_step`（各段階1回）、`yield_dashboard_complete`（1回）、`yield_dashboard_free_explore`、`yield_dashboard_design_view` を送る。ロットID、日付、実数、選択値は送らず、有限の操作種別・段階・モードだけを送る
-- 製造技術者サバイバルは `game_start`、`game_event_choice`、`game_complete`、`game_retry`、`related_tool_click` を送る。イベント・選択肢・称号・遷移先は管理済みIDだけを使い、ゲーム中の数値や自由入力は送らない
+- 製造技術者サバイバルは `game_start`、`game_repair_complete`、`game_complete`、`game_retry`、`related_tool_click` を送る。すべてに `game_version=factory-action-v2` を付け、旧選択式の `game_event_choice` と区別する。固定の案件・設備・称号・遷移先IDと完了区分のみ送り、スコアやステータス値・自由入力は送らない
 
 ## 製造技術者サバイバルの構成
 
-`/games/process-engineer-survival` は、SEO本文と構造化データをServer Component、HUD・イベント選択・結果をReact Client Component、工場マップ・移動・近接判定をPhaserで実装する。PhaserはClient Componentの`useEffect`内で動的importし、SSR時にwindowやcanvasへ触れない。ReactとPhaserの境界は、現在の目的地、近接中の場所、操作命令だけに限定する。
+`/games/process-engineer-survival` はSEO本文をServer Component、HUD・開始・一時停止・結果をReact、移動・接触・設備と復旧演出をPhaserで実装する。PhaserはuseEffect内で動的importする。ゲーム状態の正本は `SurvivalRuntime` のみで、Phaserが更新を駆動しReactはuseSyncExternalStoreで最大約10Hzのスナップショットを購読する。進行関数は最大50msずつ処理し、長い描画フレームの追従は100msまでに制限する。描画が著しく遅い環境では実時間より進行が遅くなる場合がある。
 
-イベント、選択肢の効果、分岐条件、称号、学習リンクはローカル静的データとして管理する。プレイ状態はURL、Cookie、localStorage、外部APIへ保存しない。マップ素材は初版ではPhaser Graphicsから生成し、将来画像へ差し替える場合もイベントデータと状態ロジックを変更しない。
+同時案件数は20秒まで1件、60秒まで2件、140秒まで3件、以後4件。設備A/B/Cと会議室の海外支援端末を対応先とする。占有中・上限超過の案件は固定順の待ち行列に残し、空き次第発生する。期限は実際の発生時点から30秒、超過減点は各案件1回。未発生の待機案件も終了時の引継ぎに数える。
+
+移動・ACTION長押し・ダッシュは命令として伝え、作業対象は開始時に固定する。範囲外または解除で中断し、修理進捗を保持する。フォーカス喪失・非表示で時計と入力を止め、再開は手動。リトライで状態を初期化し、Phaserを再生成して位置・入力・演出も破棄する。音はユーザーの開始操作後にWeb Audioで生成し、ミュートを常設する。動きを減らす設定で点滅・粒子・歩行フレームを抑える。
+
+プレイ状態はURL、Cookie、localStorage、外部APIへ保存しない。マップはGraphicsから生成し、正式素材へ差し替え可能。検証項目は [ゲーム確認チェックリスト](./process-engineer-survival-checklist.md) を参照。
 
 ## デプロイと検証
 

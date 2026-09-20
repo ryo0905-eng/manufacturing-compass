@@ -46,17 +46,17 @@ export type RoleMapAnalyticsEventName =
   | 'role_map_search_copy'
   | 'role_map_related_click';
 
+type GameAnalyticsContext = { stage_id: "monday-morning"; game_version: "factory-action-v2" };
 export type GameAnalyticsEventMap = {
-  game_start: { stage_id: "monday-morning" };
-  game_event_choice: { stage_id: "monday-morning"; event_id: string; choice_id: string };
-  game_complete: {
-    stage_id: "monday-morning";
-    ending: "clocked_out" | "hp_depleted" | "san_depleted";
+  game_start: GameAnalyticsContext;
+  game_repair_complete: GameAnalyticsContext & { trouble_id: string; station_id: string };
+  game_complete: GameAnalyticsContext & {
+    ending: "clocked_out";
     title_id: string;
     resolved_band: "0_to_4" | "5_to_7" | "8_plus";
   };
-  game_retry: { stage_id: "monday-morning" };
-  related_tool_click: { stage_id: "monday-morning"; destination_id: string };
+  game_retry: GameAnalyticsContext;
+  related_tool_click: GameAnalyticsContext & { destination_id: string };
 };
 
 function isProductionGaHost() {

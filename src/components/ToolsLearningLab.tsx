@@ -64,7 +64,7 @@ export function ToolsLearningLab() {
     </section>
 
     <aside className="tools-game-entry">
-      <div><p className="section-label">5-MINUTE PIXEL GAME</p><h2>月曜日の工場で、判断力を試す</h2><p>歩留まり急落、出荷保留、Excel停止。製造業あるあるを乗り切りながら、現場ヒアリングや層別の考え方に触れるミニゲームです。</p></div>
+      <div><p className="section-label">3-MINUTE FACTORY ACTION</p><h2>月曜日の工場を、3分で駆け抜ける</h2><p>同時発生するトラブルを長押しで復旧。現場のヒントと段取りを使って、連続復旧ボーナスを狙うミニゲームです。</p></div>
       <Link href="/games/process-engineer-survival">製造技術者サバイバルで遊ぶ <span aria-hidden="true">→</span></Link>
     </aside>
 
