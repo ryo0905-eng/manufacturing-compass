@@ -33,14 +33,7 @@ export default async function JevPage({ searchParams }: { searchParams: Promise<
         <Link href="/">ホーム</Link><span>/</span><Link href="/tools">実務ツール</Link><span>/ Jevデモ</span>
       </nav>
 
-      <header className={styles.hero}>
-        <p className={styles.heroLabel}>JEV AI × MANUFACTURING COMPASS</p>
-        <h1>工場を見て、<br />次の一手を考えよう。</h1>
-        <p>あなたなら、どこを調べる？ 情報をひとつ足して、Jevの提案と比べよう。</p>
-      </header>
-
-      <JevDemo key={initialSampleId} enabled={enabled} initialSampleId={initialSampleId} />
-
+      <JevDemo key={initialSampleId} enabled={enabled} initialSampleId={initialSampleId} helpContent={
       <section className={styles.about} aria-labelledby="about-jev">
           <h2 id="about-jev">このデモについて</h2>
           <details><summary>仕組み・注意点・送信先</summary>
@@ -59,6 +52,7 @@ export default async function JevPage({ searchParams }: { searchParams: Promise<
           <p>Manufacturing Compassによる非公式デモです。</p>
           </details>
       </section>
+      } />
     </main>
   );
 }

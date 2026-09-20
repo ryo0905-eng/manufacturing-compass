@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import type { CSSProperties } from "react";
 import { jevRouteInfo } from "@/data/jev-demo";
-import { factoryAreas, getVisualEvidence, routeArea, type FactoryArea } from "@/data/jev-visual";
+import { factoryAreas, getVisualScene, routeArea, visualCases, type FactoryArea } from "@/data/jev-visual";
 import type { JevResult } from "@/lib/jev-demo";
-import { trackEvent } from "@/lib/analytics";
 import styles from "@/app/labs/jev/jev.module.css";
 
 function PixelIcon({ kind }: { kind: FactoryArea | "worker" }) {
@@ -17,65 +15,44 @@ function PixelIcon({ kind }: { kind: FactoryArea | "worker" }) {
       : <><path fill="#547b88" d="M8 8h32v38H8z"/><path fill="#e5e7cf" d="M12 12h24v30H12z"/><path fill="#b9a776" d="M18 4h12v12H18z"/><path fill="#637d80" d="M16 22h16v3H16zM16 29h16v3H16zM16 36h10v2H16z"/></>}
   </svg>;
 }
+
 type Props = {
-  enabled: boolean; evidenceId: string | null; initial?: JevResult; selected?: JevResult;
+  sampleId: string; enabled: boolean; evidenceId: string | null; initial?: JevResult; selected?: JevResult;
   pending: boolean; error: string; chooseEvidence: (id: string | null) => void; run: (id: string | null) => void;
 };
-export function JevFactoryExperience({ enabled, evidenceId, initial, selected, pending, error, chooseEvidence, run }: Props) {
-  const [guesses, setGuesses] = useState<Record<string, FactoryArea>>({});
-  const stage = evidenceId ?? "initial", guess = guesses[stage];
-  const scene = getVisualEvidence(evidenceId);
+export function JevFactoryExperience({ sampleId, enabled, evidenceId, initial, selected, pending, error, chooseEvidence, run }: Props) {
+  const scene = getVisualScene(sampleId, evidenceId);
   const current = selected ?? initial;
   const route = current ? jevRouteInfo(current.decisions.route.choice) : null;
-  const currentArea = current ? routeArea[current.decisions.route.choice] : null;
-  const markerIndex = factoryAreas.findIndex(item => item.id === currentArea);
+  const area = current ? routeArea[current.decisions.route.choice] : null;
+  const markerIndex = factoryAreas.findIndex(item => item.id === area);
+  const previous = initial ? jevRouteInfo(initial.decisions.route.choice) : null;
   const compared = Boolean(evidenceId && selected && initial);
-  const previousRoute = initial ? jevRouteInfo(initial.decisions.route.choice) : null;
-  const link = route?.href;
-  const status = pending ? (initial ? "確認中 · 初報の提案を表示" : "Jevに確認中…") : evidenceId && !selected ? "追加情報は未評価 · 初報の提案を表示" : compared ? "追加後の提案" : initial ? "初報の提案" : "まずは、あなたならどこを見る？";
-  return <div className={styles.factoryExperience}>
-    <div className={styles.visualScene} key={stage} aria-label="固定教材の比較図">
-      <div className={styles.sceneHeading}><span>観察</span><h3>{scene?.title ?? "材料が替わった。その後、不合格が増えた。"}</h3></div>
-      {scene ? <div className={styles.comparisonBoard}>
-        <table><caption className={styles.srOnly}>{scene.title}</caption><thead><tr><th scope="col">比較対象</th>{scene.columns.map(column => <th key={column} scope="col"><PixelIcon kind={evidenceId === "across-tools" ? "equipment" : "metrology"} />{column}</th>)}</tr></thead>
-          <tbody>{scene.rowLabels.map((label, row) => <tr key={label}><th scope="row"><span className={styles.lotTag}>{row === 0 ? "旧" : "新"}</span>{label}</th>{scene.outcomes[row].map((value, column) => <td key={column}><span className={value === "increase" ? styles.moreRejects : styles.usualOutput}>{value === "increase" ? "× ↑" : "○ →"}</span><small>{value === "increase" ? "不合格が増加" : "従来どおり"}</small></td>)}</tr>)}</tbody>
-        </table><p>{scene.caption}</p>
-      </div> : <div className={styles.initialFlow}>
-        <div><PixelIcon kind="material" /><strong>旧 → 新</strong><small>材料を切替</small></div><b aria-hidden="true">→</b>
-        <div><PixelIcon kind="equipment" /><strong>製造</strong><small>ほかの記録は未確認</small></div><b aria-hidden="true">→</b>
-        <div><PixelIcon kind="metrology" /><strong className={styles.moreRejects}>× ↑</strong><small>不合格が増えた</small></div>
-      </div>}
-      <small className={styles.sceneNote}>固定の架空教材 · 記号は傾向の図解（個数・不良率ではありません）</small>
-    </div>
-
-    <div className={styles.investigationMap}>
-      <div className={styles.mapHeading}><h3>次は、どこを見る？</h3><span>タップで予想 · 採点なし</span></div>
-      <div className={styles.factoryStations}>
-        {factoryAreas.map(area => <button type="button" key={area.id} aria-pressed={guess === area.id} disabled={pending} onClick={() => setGuesses(previous => ({ ...previous, [stage]: area.id }))}>
-          <PixelIcon kind={area.id} /><strong>{area.label}</strong><small>{guess === area.id ? "あなたの予想" : "　"}</small>
-        </button>)}
-        {currentArea && <div className={styles.jevMarker} style={{ left: `${markerIndex * 25 + 12.5}%` }} aria-hidden="true"><PixelIcon kind="worker" /><span>Jev</span></div>}
+  const status = pending ? (initial ? "確認中・表示は初報" : "Jevに確認中…") : evidenceId && !selected ? "未評価・表示は初報" : selected ? evidenceId ? "追加後の提案" : "初報の提案" : "情報を見て、Jevに聞こう";
+  return <div className={styles.experience} data-testid="jev-experience">
+    <div className={styles.scene} aria-label="固定教材の工場図">
+      <h2>{scene.title}</h2>
+      <div className={styles.stations}>
+        {factoryAreas.map(item => <div className={styles.station} key={item.id} data-target={area === item.id}>
+          <PixelIcon kind={item.id} /><strong>{item.label}</strong>
+          <div className={styles.observations}>{scene.stations[item.id].map((text, i) => <span key={i}>{text}</span>)}</div>
+        </div>)}
+        {area && <div className={styles.marker} style={{ "--index": markerIndex } as CSSProperties} aria-hidden="true"><PixelIcon kind="worker" /><span>次に確認</span></div>}
       </div>
-      <div className={styles.visualResult} aria-busy={pending}>
-        <p role="status">{status}</p>
-        {route ? <><h3>{route.label}</h3>
-          {compared && previousRoute && <p className={styles.routeComparison}>初報：{previousRoute.label} → 追加後：{route.label}<strong>{initial!.decisions.route.choice === selected!.decisions.route.choice ? "確認先は同じ" : "確認先が変わった"}</strong></p>}
-          {link && <Link href={link} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("jev_tool_route_click", { route: current!.decisions.route.choice, destination: link })}>{route.link} ↗</Link>}
-        </> : <p>材料？ 装置？ それとも検査器？</p>}
-        <small>Jevの提案は「次の確認先」。原因の確定ではありません。</small>
-      </div>
-      {!selected && <button type="button" className={styles.primaryButton} disabled={!enabled || pending} onClick={() => run(evidenceId)}>{pending ? "Jevに確認中…" : evidenceId ? "この比較をJevに見せる" : "Jevなら、どこを見る？"}</button>}
-      {selected && <p className={styles.cachedNote}>✓ 評価済み · 切替では再送しません</p>}
-      {error && <p className={styles.error} role="alert">{error}</p>}
-      <p className={styles.sendNote}>実行時のみ、固定の架空報告をGateway経由でTypeSafe AIへ送信。</p>
+      <p className={styles.sceneNote}>{scene.note}</p>
     </div>
-
-    <section id="jev-evidence" className={styles.visualBranches} aria-label="追加の比較">
-      <h3>もうひとつ、情報を見てみよう</h3>
-      <div><button type="button" aria-pressed={evidenceId === null} disabled={!initial || pending} onClick={() => chooseEvidence(null)}>初報に戻る</button>
-        <button type="button" aria-pressed={evidenceId === "across-tools"} disabled={!initial || pending} onClick={() => chooseEvidence("across-tools")}>A · 装置を比べる</button>
-        <button type="button" aria-pressed={evidenceId === "same-specimen"} disabled={!initial || pending} onClick={() => chooseEvidence("same-specimen")}>B · 検査器を比べる</button></div>
-      <p>AとBは別々の状況です。情報は足し合わせません。</p>
-    </section>
+    <div className={styles.switches} aria-label="情報切替">
+      <button type="button" aria-pressed={evidenceId === null} disabled={pending} onClick={() => chooseEvidence(null)}>最初</button>
+      {visualCases[sampleId].branches.map(branch => <button type="button" key={branch.id} aria-pressed={evidenceId === branch.id} disabled={!initial || pending} onClick={() => chooseEvidence(branch.id)}>{branch.label}</button>)}
+    </div>
+    <div className={styles.result} aria-busy={pending} data-testid="jev-result">
+      <div className={styles.answer} role="status">
+        <small>{status}</small>
+        <strong>{route ? "次は「" + route.label + "」を確認" : "次は、どこを調べる？"}</strong>
+        <span>{compared && previous ? initial!.decisions.route.choice === selected!.decisions.route.choice ? "初報から確認先は同じ" : "初報：" + previous.label + " → " + route!.label : "原因の確定ではありません"}</span>
+      </div>
+      <button className={styles.run} type="button" disabled={!enabled || pending || Boolean(selected)} onClick={() => run(evidenceId)}>{pending ? "確認中…" : selected ? "✓ 評価済み" : error ? "再試行" : "Jevに聞く"}</button>
+    </div>
+    {error ? <p className={styles.error} role="alert">{error}</p> : <p className={styles.footnote}>{enabled ? "実行時に架空報告をTypeSafe AIへ送信 · A/Bは別の状況" : "API接続準備中 · 評価は実行できません"}</p>}
   </div>;
 }

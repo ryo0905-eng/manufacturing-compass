@@ -4,21 +4,22 @@
 
 URL: `/labs/jev`。案Bとして架空3ケース×初報・追加情報2分岐（9条件）へ更新し、4判断の実API応答を確認済み。2026年9月20日から検索公開対象とし、`/tools`、sitemap、固定イベント計測を接続。本番で表示と利用状況を確認しながら改善する。
 
-## 図解UI：pixel-investigation-v1
+## 図解UI：single-screen-v2
 
-最初の「不合格が増えた」だけを、ドット絵SVGの観察図 → タップで予想 → Jevの提案、という流れに変更した。他の2ケースは既存UIを維持する。
+全3ケースを共通の一画面型UIへ統一。公式PlaygroundのChoiceチュートリアルの「狭い問い・入力・判断」を参考に、状況の図・情報切替・次の確認先に絞った。
 
-- 初報は材料切替 → 製造 → 不合格増加。追加情報は装置間/検査器間の比較表を、設備アイコンと記号で表示。記号は個数・不良率ではなく傾向の図解。
-- A/Bは別々の状況。固定教材の比較結果と実APIの提案を明確に分ける。主画面は短い説明に絞り、報告全文・確率・Score・技術情報・ページ末尾の補足は折りたたむ。
-- 材料・装置・検査器・記録の4エリアを選んで予想できる。予想は採点・保存・API送信・計測しない。
-- Jevが返した9種類の確認先を4エリアに表示上だけ対応付ける。調査員アイコンの移動と正確な確認先名で伝える。原因箇所の断定、確率の捏造、変わらない応答を変化として演出する処理はない。
-- 追加情報の未評価・通信中・失敗時は「初報の提案」と明示。初報と分岐ごとの成功結果は既存のメモリキャッシュを使い、切替で再送しない。
-- API、質問版、固定報告、予算管理、共有URL、canonicalは変更しない。閲覧計測に固定の `ui_version` を追加。
-- Phaser・画像素材・新しい依存は追加せずReact/SVG/CSSで実装。OSの動きを減らす設定では矢印と調査員の移動演出を止める。
+- 材料・装置・検査器・記録の4エリアで全9状態を表示。比較A/Bは独立した状況。
+- 予想操作・大きな導入・常設詳細表を廃止。報告・確率・注意事項・学習リンクは「？」のモーダル内へ移動。
+- 残り画面高を監視して配置。小画面・拡大時は情報を隠さずスクロールを許容。一画面収まりは実機未検証。
+- 実APIの9確認先を4エリアへ対応付け、作業者と正確な確認先名を表示。原因断定や修理成功演出はしない。
+- 未評価・通信中・失敗時は初報表示と明示。同じ提案は変化と演出しない。分岐キャッシュ・明示評価・API・共有URL・canonicalを維持。
+- React/SVG/CSSのみ。動きを減らす設定では移動アニメーションを停止。閲覧計測の版IDは single-screen-v2。
 
 ### 今回の検証
 
-以下は成功。typecheckと対象lintは各1回のみ。既存APIのテストも通信モックであり、実APIは呼び出していない。
+単体テスト2本と型チェックは成功。対象lintはE2Eテストの正規表現ミスで失敗し、固定URL比較へ修正。規定どおり再実行なし。
+
+実行コマンド：
 
 ```bash
 node tests/unit/jev-demo.cjs
@@ -28,18 +29,18 @@ npx eslint src/components/JevDemo.tsx src/components/JevFactoryExperience.tsx sr
 git diff --check
 ```
 
-図解の分岐分離・全確認先の表示対応・サーバー描画・未評価/エラー時の初報表示・提案不変時の表示を検証。E2Eは新しい操作ラベル・キャッシュ・失敗時表示に合わせて更新したが、未実行。build・ブラウザ実機確認・ユーザーテストは未実施。
+全9図・分岐分離・確認先対応・SSR・失敗時表示を単体検証。E2Eは全ケースの画面内収まり・明示送信・キャッシュ・モーダル/Escape/フォーカス復帰に更新したが未実行。実API・build・ブラウザ実機確認・ユーザーテストは今回未実施。
 
-手動確認は320/375px・PC、キーボード選択、動きを減らす設定、AIアイコンの移動、初報/追加後の区別、分岐再選択での通信なし、詳細の開閉を対象にする。体験者が「どの比較で次の確認先を変えたか」を説明できるかは別途確認する。
+手動確認：375px/PCの一画面収まり、320px/拡大時の情報欠け、各分岐、キーボードとモーダル、動きを減らす設定、未評価/初報/追加後の区別。体験者が「何を比べ、次にどこを見るか」を説明できるか確認する。
 
 変更ファイル：
 
-- `src/components/JevFactoryExperience.tsx`（新規）、`src/data/jev-visual.ts`（新規）
+- `src/components/JevFactoryExperience.tsx`、`src/data/jev-visual.ts`
 - `src/components/JevDemo.tsx`、`src/app/labs/jev/page.tsx`、`src/app/labs/jev/jev.module.css`
-- `tests/unit/jev-visual.cjs`（新規）、`tests/e2e/jev-demo.spec.ts`
+- `tests/unit/jev-visual.cjs`、`tests/e2e/jev-demo.spec.ts`
 - `docs/PRD.md`、`docs/architecture.md`、`TASKS.md`、本文書
 
-推奨コミット：`feat: simplify Jev lab with pixel investigation visuals`
+推奨コミット：`feat: unify Jev tutorials into a single-screen factory UI`
 
 ## 設定
 

@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { jevCategories, jevRoutes, jevRouteInfo, jevSamples, jevCompletenessLevels, jevInputPricePerMillion, type JevRoute } from "@/data/jev-demo";
 import type { JevResult } from "@/lib/jev-demo";
 import { trackEvent } from "@/lib/analytics";
 import { JevFactoryExperience } from "./JevFactoryExperience";
-import { jevVisualVersion } from "@/data/jev-visual";
+import { jevVisualVersion, visualCases } from "@/data/jev-visual";
 import styles from "@/app/labs/jev/jev.module.css";
 
 const routeKeys = Object.keys(jevRoutes) as JevRoute[];
@@ -17,14 +17,16 @@ function delta(before: number, after: number) {
   return points === 0 ? "±0pt" : `${points > 0 ? "+" : "−"}${Math.abs(points)}pt`;
 }
 
-export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initialSampleId: string }) {
+export function JevDemo({ enabled, initialSampleId, helpContent }: { enabled: boolean; initialSampleId: string; helpContent?: ReactNode }) {
   const [sampleId, setSampleId] = useState(initialSampleId);
   const [evidenceId, setEvidenceId] = useState<string | null>(null);
   const [results, setResults] = useState<Record<string, JevResult>>({});
   const [pending, setPending] = useState<string | null>(null);
   const [error, setError] = useState("");
   const busy = useRef(false);
-  const outputRef = useRef<HTMLDivElement>(null);
+  const shellRef = useRef<HTMLElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [infoOpen, setInfoOpen] = useState(false);
   const sample = jevSamples.find((item) => item.id === sampleId)!;
   const initial = results[resultKey(sample.id, null)];
   const selected = results[resultKey(sample.id, evidenceId)];
@@ -33,7 +35,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
   const before = comparing ? initial : undefined;
   const evidence = sample.evidence.find((item) => item.id === evidenceId);
   const route = current ? jevRouteInfo(current.decisions.route.choice) : null;
-  const fetchingSelected = pending === resultKey(sample.id, evidenceId);
+
 
   useEffect(() => {
     trackEvent("jev_lab_view", { initial_case: initialSampleId, ui_version: jevVisualVersion });
@@ -62,9 +64,7 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
       if (body.sampleId !== sample.id || body.evidenceId !== target || !body.decisions) throw new Error("Mismatched result");
       setResults((previous) => ({ ...previous, [key]: body as JevResult }));
       trackEvent("jev_evaluation_complete", { case_id: sample.id, stage: target === null ? "initial" : "evidence", route: body.decisions.route.choice });
-      if (sample.id !== "batch" && window.innerWidth <= 850) {
-        outputRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-      }
+
     } catch {
       trackEvent("jev_evaluation_failed", { case_id: sample.id, stage: target === null ? "initial" : "evidence", http_status: 0 });
       setError("通信が完了しませんでした。時間をおいて、同じボタンで再試行できます。");
@@ -81,176 +81,71 @@ export function JevDemo({ enabled, initialSampleId }: { enabled: boolean; initia
     trackEvent("jev_case_selected", { case_id: id });
   }
 
-  function chooseEvidence(id: string) {
+  function chooseEvidence(id: string | null) {
     setEvidenceId(id);
     setError("");
-    trackEvent("jev_evidence_selected", { case_id: sample.id, evidence_id: id });
+    trackEvent("jev_evidence_selected", { case_id: sample.id, evidence_id: id ?? "initial" });
   }
 
-  const detailedOutput = (
-        <div ref={outputRef} className={styles.outputPane} aria-busy={pending !== null}>
-          <div className={styles.stepHeading}><span>03</span><h3>判断とルートを見る</h3><small>4 DECISIONS</small></div>
-          <p className={styles.resultStatus} role="status" aria-live="polite">
-            {pending ? (initial ? "再評価中 · 初報の結果を表示しています" : "4つの質問を同じ報告から評価しています") :
-              evidenceId && !selected ? "選択した追加情報は未評価 · 初報の結果を表示中" :
-                comparing ? `初報と「${evidence?.title}」を比較中` : initial ? "初報の実測結果 · 追加情報で変化を試せます" : "1回のリクエストで、4つの型付き判断"}
-          </p>
-          {current && route ? (
-            <>
-              <div className={styles.routeFlow}>
-                <span className={styles.flowNode}>Jev</span>
-                <span className={styles.flowLine} aria-hidden="true">→</span>
-                <div className={styles.routeCard}>
-                  <div className={styles.cardLabel}>次に確認する領域 <span>Choice</span></div>
-                  {before && <p className={styles.previousRoute}>初報：{jevRoutes[before.decisions.route.choice].label} →</p>}
-                  <h4>{route.label}</h4><p className={styles.routeCode}>{route.code}</p>
-                  <p className={styles.confidence}>確信度 {before && <><s>{pct(before.decisions.route.confidence)}</s> → </>}{pct(current.decisions.route.confidence)}</p>
-                </div>
-              </div>
-              {before && (
-                <p className={styles.changeSummary}>
-                  {before.decisions.route.choice === current.decisions.route.choice ? "確認先は同じ" : "確認先が変化"}
-                  <span> · </span>
-                  {before.decisions.change.choice === current.decisions.change.choice ? "変更カテゴリは同じ" : "変更カテゴリも変化"}
-                </p>
-              )}
-              {initial && <a className={styles.tryAnother} href="#jev-evidence">追加情報を選び直す ↑</a>}
-              <div className={styles.decisionCards}>
-                <div>
-                  <div className={styles.cardLabel}>記録された変更 <span>Choice</span></div>
-                  {before && <small>初報：{jevCategories[before.decisions.change.choice].label}</small>}
-                  <strong>{jevCategories[current.decisions.change.choice].label}</strong>
-                </div>
-                <div>
-                  <div className={styles.cardLabel}>比較記録あり <span>Boolean</span></div>
-                  {before && <small>初報 {pct(before.decisions.comparison.probability)} →</small>}
-                  <strong>{pct(current.decisions.comparison.probability)}</strong><small>該当する確率</small>
-                </div>
-                <div className={styles.scoreCard}>
-                  <div className={styles.cardLabel}>情報の充実度 <span>Score</span></div>
-                  <strong>{before && <small>{(before.decisions.completeness.score + 1).toFixed(1)} → </small>}{(current.decisions.completeness.score + 1).toFixed(1)}<small> / 5</small></strong>
-                  <div className={styles.scoreScale} aria-hidden="true">
-                    {before && <i style={{ left: `${before.decisions.completeness.score / 4 * 100}%` }} />}
-                    <b style={{ left: `${current.decisions.completeness.score / 4 * 100}%` }} />
-                  </div>
-                  <div className={styles.scoreEnds}><span>症状のみ</span><span>再確認あり</span></div>
-                </div>
-              </div>
 
-              <div className={styles.distribution}>
-                <div className={styles.distributionHeading}><h4>確認先の確率</h4><span>{before ? "薄：初報 / 濃：追加後" : "初報"} · 0–100%</span></div>
-                {routeKeys.map((key) => {
-                  const now = current.decisions.route.probabilities[key];
-                  const old = before?.decisions.route.probabilities[key];
-                  return <div className={styles.distributionRow} key={key} data-selected={key === current.decisions.route.choice}>
-                    <span>{jevRoutes[key].label}</span>
-                    <div className={styles.bars} aria-hidden="true">
-                      {old !== undefined && <i style={{ width: `${old * 100}%` }} />}
-                      <b style={{ width: `${now * 100}%` }} />
-                    </div>
-                    <span className={styles.values}>{old !== undefined && <><span>{pct(old)}</span> → </>}{pct(now)}</span>
-                    {old !== undefined && <span className={styles.delta}>{delta(old, now)}</span>}
-                  </div>;
-                })}
-              </div>
-              <div className={styles.nextAction}>
-                <p>{route.next}</p>
-                {route.href && <Link href={route.href} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("jev_tool_route_click", { route: current.decisions.route.choice, destination: route.href })}>{route.link} ↗</Link>}
-                <small>確認先はJevの判断。説明とリンクはCompassの編集です。</small>
-              </div>
-              <details className={styles.details}>
-                <summary>ほかの確率・判断基準・技術情報</summary>
-                <p>各質問は同じ報告を独立に評価しています。confidenceは分布の集中度を表す指標で、正解率ではありません。</p>
-                <table><caption>記録された変更の確率</caption><thead><tr><th>分類</th>{before && <th>初報</th>}<th>{before ? "追加後" : "初報"}</th></tr></thead><tbody>
-                  {Object.entries(jevCategories).map(([key, item]) => <tr key={key}><th>{item.label}</th>{before && <td>{pct(before.decisions.change.probabilities[key as keyof typeof jevCategories])}</td>}<td>{pct(current.decisions.change.probabilities[key as keyof typeof jevCategories])}</td></tr>)}
-                </tbody></table>
-                <p>変更分類の確信度：{before && <>{pct(before.decisions.change.confidence)} → </>}{pct(current.decisions.change.confidence)}</p>
-                <table><caption>情報充実度の5段階と確率</caption><thead><tr><th>段階</th>{before && <th>初報</th>}<th>{before ? "追加後" : "初報"}</th></tr></thead><tbody>
-                  {jevCompletenessLevels.map((level, i) => <tr key={level.label}><th>{i + 1}. {level.label}</th>{before && <td>{pct(before.decisions.completeness.probabilities[String(i)])}</td>}<td>{pct(current.decisions.completeness.probabilities[String(i)])}</td></tr>)}
-                </tbody></table>
-                <p>Scoreは段階の加重平均です。確信度：{before && <>{pct(before.decisions.completeness.confidence)} → </>}{pct(current.decisions.completeness.confidence)}。比較記録のBooleanはtrueの確率で、confidenceではありません。</p>
-                <p>比較記録＝同じ試料の別測定、同じ材料の別装置など、条件を切り分けられる比較結果。提案だけ・変更が同時・未確認の矛盾は含みません。</p>
-                <dl><div><dt>API往復時間</dt><dd>{current.elapsedMs.toLocaleString()} ms</dd></div><div><dt>入力</dt><dd>{current.inputTokens.toLocaleString()} tokens</dd></div><div><dt>入力料金概算</dt><dd>${(current.inputTokens / 1_000_000 * jevInputPricePerMillion).toFixed(8)}</dd></div><div><dt>モデル / 質問版</dt><dd>{current.model} / {current.questionVersion}</dd></div><div><dt>計測日時</dt><dd>{current.measuredAt}</dd></div></dl>
-                <p>時間はGatewayとの通信を含みます。料金は2026年9月20日確認の入力単価による概算で、税・ホスティング費用を含みません。</p>
-              </details>
-            </>
-          ) : (
-            <div className={styles.emptyState}>
-              <div className={styles.emptyFlow}><span>報告</span><span>→</span><strong>Jev</strong><span>→</span><span>確認先</span></div>
-              <h4>まずは、初報でどう判断する？</h4>
-              <p>追加情報を選ぶと、判断の変化を比べられます。</p>
-              <div className={styles.typeBadges}><span>Choice × 2</span><span>Boolean</span><span>Score</span></div>
-            </div>
-          )}
-        </div>
+  useEffect(() => {
+    const resize = () => {
+      const shell = shellRef.current;
+      if (!shell) return;
+      const top = shell.getBoundingClientRect().top + window.scrollY;
+      const height = window.visualViewport?.height ?? window.innerHeight;
+      shell.style.setProperty("--jev-height", Math.max(416, height - top - 12) + "px");
+    };
+    resize();
+    const observer = new ResizeObserver(resize);
+    const header = document.querySelector(".site-header");
+    if (header) observer.observe(header);
+    window.addEventListener("resize", resize);
+    window.visualViewport?.addEventListener("resize", resize);
+    return () => { observer.disconnect(); window.removeEventListener("resize", resize); window.visualViewport?.removeEventListener("resize", resize); };
+  }, []);
+  useEffect(() => {
+    if (infoOpen) dialogRef.current?.showModal();
+    else dialogRef.current?.close();
+  }, [infoOpen]);
 
-  );
-
-  return (
-    <section className={styles.demo} aria-labelledby="demo-title">
-      <header className={styles.demoHeader}>
-        <div><p className={styles.eyebrow}>JEV DECISION LAB</p><h2 id="demo-title">工場を見て、調べる先を選ぼう。</h2></div>
-        <span className={styles.statusPill}>{enabled ? "実APIデモ" : "接続準備中"}</span>
-      </header>
-      <div className={styles.casePicker} aria-label="架空ケース">
-        {jevSamples.map((item, index) => (
-          <button key={item.id} type="button" aria-pressed={item.id === sampleId} disabled={pending !== null}
-            onClick={() => chooseCase(item.id)}>
-            <span>0{index + 1}</span>{item.title}
-          </button>
-        ))}
-      </div>
-      {sample.id === "batch" ? <>
-        <JevFactoryExperience enabled={enabled} evidenceId={evidenceId} initial={initial} selected={selected}
-          pending={pending !== null} error={error} run={run}
-          chooseEvidence={id => { if (id === null) { setEvidenceId(null); setError(""); } else chooseEvidence(id); }} />
-        <details className={styles.visualDetails}><summary>詳しく見る：報告文・確率・技術情報</summary>
-          <div className={styles.report}><p>{sample.report}</p>{evidence && <p>追加情報：{evidence.report}</p>}</div>
-        {detailedOutput}
+  return <section ref={shellRef} className={styles.demo} aria-label="Jev 工場チュートリアル">
+    <header className={styles.demoHeader}><h1>Jev：次は、どこを調べる？</h1><button type="button" aria-label="説明・確率・学習リンクを開く" onClick={() => setInfoOpen(true)}>?</button></header>
+    <div className={styles.casePicker} aria-label="ケース切替">
+      {jevSamples.map(item => <button key={item.id} type="button" aria-pressed={item.id === sampleId} disabled={pending !== null} onClick={() => chooseCase(item.id)}>{visualCases[item.id].label}</button>)}
+    </div>
+    <JevFactoryExperience sampleId={sample.id} enabled={enabled} evidenceId={evidenceId} initial={initial} selected={selected}
+      pending={pending !== null} error={error} run={run} chooseEvidence={chooseEvidence} />
+    <dialog ref={dialogRef} className={styles.infoDialog} onCancel={event => { event.preventDefault(); setInfoOpen(false); }} aria-labelledby="jev-info-title">
+      <header><h2 id="jev-info-title">説明と判断の詳細</h2><button type="button" onClick={() => setInfoOpen(false)}>閉じる</button></header>
+      <p>情報を切り替え、Jevに次の確認先を聞く教材です。図は固定の架空例で、Jevは図ではなく報告文を読みます。↑は増加・上昇、→は従来並、?は未確認。個数や不良率ではありません。</p>
+      <p>A/Bは別の状況です。初報と各分岐の結果を保持し、評価済みの情報に戻っても再送しません。</p>
+      <h3>表示中の報告</h3><p>{sample.report}</p>{evidence && <p>追加情報：{evidence.report}</p>}
+      {evidence && !selected && <p>追加情報は未評価です。以下は初報の結果です。</p>}
+      {current && route && <>
+        <h3>次の確認先：{route.label}</h3><p>{route.next}</p>
+        {route.href && <Link href={route.href} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent("jev_tool_route_click", { route: current.decisions.route.choice, destination: route.href })}>{route.link} ↗</Link>}
+        <p>確認先はJevの提案。説明・図・リンクはCompassの編集です。確率や確信度は原因の確定度・正解率ではありません。</p>
+        <div className={styles.tableWrap}><table><caption>確認先の選択確率（同一尺度）</caption><thead><tr><th>確認先</th>{before && <th>初報</th>}<th>{before ? "追加後" : "初報"}</th>{before && <th>差</th>}</tr></thead><tbody>
+          {routeKeys.map(id => <tr key={id}><th>{jevRoutes[id].label}</th>{before && <td>{pct(before.decisions.route.probabilities[id])}</td>}<td>{pct(current.decisions.route.probabilities[id])}</td>{before && <td>{delta(before.decisions.route.probabilities[id], current.decisions.route.probabilities[id])}</td>}</tr>)}
+        </tbody></table></div>
+        <p>確認先の確信度：{before && <>{pct(before.decisions.route.confidence)} → </>}{pct(current.decisions.route.confidence)}</p>
+        <p>変更分類：{before && <>{jevCategories[before.decisions.change.choice].label} → </>}{jevCategories[current.decisions.change.choice].label}</p>
+        <p>比較記録あり（Boolean）：{before && <>{pct(before.decisions.comparison.probability)} → </>}{pct(current.decisions.comparison.probability)}</p>
+        <p>情報充実度（Score）：{before && <>{(before.decisions.completeness.score + 1).toFixed(1)} → </>}{(current.decisions.completeness.score + 1).toFixed(1)} / 5</p>
+        <details><summary>その他の確率・技術情報</summary>
+          <div className={styles.tableWrap}><table><caption>変更分類の確率</caption><thead><tr><th>分類</th>{before && <th>初報</th>}<th>表示中</th></tr></thead><tbody>
+            {Object.entries(jevCategories).map(([id, item]) => <tr key={id}><th>{item.label}</th>{before && <td>{pct(before.decisions.change.probabilities[id as keyof typeof jevCategories])}</td>}<td>{pct(current.decisions.change.probabilities[id as keyof typeof jevCategories])}</td></tr>)}
+          </tbody></table></div>
+          <div className={styles.tableWrap}><table><caption>情報充実度の確率</caption><thead><tr><th>段階</th>{before && <th>初報</th>}<th>表示中</th></tr></thead><tbody>
+            {jevCompletenessLevels.map((level, i) => <tr key={level.label}><th>{level.label}</th>{before && <td>{pct(before.decisions.completeness.probabilities[String(i)])}</td>}<td>{pct(current.decisions.completeness.probabilities[String(i)])}</td></tr>)}
+          </tbody></table></div>
+          <p>変更分類の確信度：{pct(current.decisions.change.confidence)} / Scoreの確信度：{pct(current.decisions.completeness.confidence)}。各問いは独立評価。Scoreは段階の加重平均、Booleanは該当確率です。</p>
+          <p>{current.model} / {current.questionVersion}<br />API往復 {current.elapsedMs.toLocaleString()}ms / 入力 {current.inputTokens.toLocaleString()} tokens<br />入力料金概算：$ {(current.inputTokens / 1_000_000 * jevInputPricePerMillion).toFixed(8)}（2026年9月20日確認の単価、税・ホスティング除外）<br />計測日時：{current.measuredAt}</p>
         </details>
-        <p className={styles.share}><a href={`/labs/jev?case=${sample.id}`} onClick={() => trackEvent("jev_case_share_click", { case_id: sample.id })}>このケースの共有リンク ↗</a></p>
-      </> : (
-      <div className={styles.workspace}>
-        <div className={styles.inputPane}>
-          <div className={styles.stepHeading}><span>01</span><h3>まず、初報を読む</h3><small>STATE</small></div>
-          <div className={styles.report}><p>{sample.report}</p></div>
-          {!initial ? (
-            <button className={styles.primaryButton} type="button" disabled={!enabled || pending !== null} onClick={() => run(null)}>
-              {pending ? "Jevが判断しています…" : "初報を評価する →"}
-            </button>
-          ) : (
-            <button className={styles.initialButton} type="button" disabled={pending !== null} onClick={() => { setEvidenceId(null); setError(""); }}>
-              ✓ 初報の結果を表示{evidenceId === null ? "中" : "する"}
-            </button>
-          )}
-          <p className={styles.sendNote}>操作時に架空報告と質問をGateway経由でTypeSafe AIへ送信。</p>
-
-          <div id="jev-evidence" className={styles.stepHeading}><span>02</span><h3>追加情報を1つ選ぶ</h3></div>
-          <p className={styles.hint}>同じ初報から分かれる、別々の状況です。</p>
-          <div className={styles.evidenceList}>
-            {sample.evidence.map((item, index) => (
-              <button type="button" key={item.id} aria-pressed={item.id === evidenceId} disabled={!initial || pending !== null}
-                onClick={() => chooseEvidence(item.id)}>
-                <span className={styles.evidenceLetter}>{index === 0 ? "A" : "B"}</span>
-                <span><strong>{item.title}</strong>{item.id === evidenceId && <span>{item.report}</span>}</span>
-              </button>
-            ))}
-          </div>
-          {evidence && (
-            <button className={styles.primaryButton} type="button" disabled={!enabled || pending !== null || Boolean(selected)} onClick={() => run(evidence.id)}>
-              {fetchingSelected ? "この情報で再評価中…" : selected ? "この追加情報は評価済み" : "この情報で再評価する →"}
-            </button>
-          )}
-          {!initial && <p className={styles.hint}>初報を評価すると、追加情報を試せます。</p>}
-          {error && <p className={styles.error} role="alert">{error}</p>}
-          <p className={styles.share}><a href={`/labs/jev?case=${sample.id}`} onClick={() => trackEvent("jev_case_share_click", { case_id: sample.id })}>このケースの共有リンク ↗</a><span>結果は共有されません</span></p>
-        </div>
-
-        {detailedOutput}
-      </div>
-
-      )}
-      <footer className={styles.demoFooter}>教育用の架空データ · AI出力は参考判断 · 自動操作なし · 確信度は正解率ではありません</footer>
-    </section>
-  );
+      </>}
+      <p><a href={`/labs/jev?case=${sample.id}`} onClick={() => trackEvent("jev_case_share_click", { case_id: sample.id })}>このケースの共有リンク ↗</a>（結果は共有されません）</p>
+      {helpContent}
+    </dialog>
+  </section>;
 }
