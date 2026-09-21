@@ -5,6 +5,29 @@ Python is an offline development dependency; it is not part of the Next.js build
 
 ## Version 2 staged experiment
 
+### Rules, brightness and OR combinations
+
+`docs/ai-visual-inspection-v2-lighting-protocol.md` freezes the rule grids,
+tuning objective and brightness gains before evaluation. Run rules first, then
+each of the 12 matched recipe/seed models in a separate bounded command:
+
+```sh
+python scripts/ai-visual-inspection/lighting_v2.py rules
+python scripts/ai-visual-inspection/lighting_v2.py balanced 17
+# Repeat separately for all declared recipes and seeds 17 / 29 / 43.
+python scripts/ai-visual-inspection/report_lighting_v2.py
+python scripts/ai-visual-inspection/test_lighting_v2.py
+node tests/unit/ai-visual-inspection.cjs
+```
+
+Each evaluator has a 175-second limit and refuses overwrites. At brightness 1.0,
+existing scores are verified and reused; 0.7 / 1.3 require actual ONNX inference.
+The rule and AI input pixel hashes must match. Reports verify cached masks,
+counts and OR monotonicity, retain threshold curves and changed-image IDs, and
+render metadata-selected examples. Artifacts live under
+`.cache/ai-visual-inspection/v2/lighting/`. Timing is native CPU, not browser timing.
+Background swaps and final evaluation remain separate steps.
+
 ### Matched continuation for all training recipes
 
 After baseline stability passes, `matched_v2.py` applies the identical continuation
