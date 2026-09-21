@@ -5,6 +5,27 @@ Python is an offline development dependency; it is not part of the Next.js build
 
 ## Version 2 staged experiment
 
+The later user-authorized continuation is recorded separately in
+`docs/ai-visual-inspection-v2-followup-protocol.md`. It preserves the original
+failed tiny-fit run and its criteria. The follow-up passed the tiny-fit gate,
+then the fresh 2,400-image baseline passed tuning and fixed development evaluation.
+
+```sh
+python scripts/ai-visual-inspection/followup_v2.py tiny-extension
+python scripts/ai-visual-inspection/followup_v2.py baseline
+python scripts/ai-visual-inspection/followup_v2.py development
+python scripts/ai-visual-inspection/inspect_followup_v2.py
+python scripts/ai-visual-inspection/report_followup_v2.py
+```
+
+These stages have already run; the runner refuses to overwrite their records.
+Outputs use `.cache/ai-visual-inspection/v2/followup/`. Inspection and reporting
+consume cached results without fitting or tuning. This is one baseline seed,
+not completion of the multi-recipe experiment or a browser release. See
+`docs/ai-visual-inspection-v2-followup-validation.md` for measured results.
+
+### Original 320-update attempt
+
 The follow-up was explicitly authorized by the user. Its predeclared conditions
 are in `docs/ai-visual-inspection-v2-protocol.md`; v1 artifacts remain unchanged.
 

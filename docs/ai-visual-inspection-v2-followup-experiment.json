@@ -1,0 +1,711 @@
+{
+  "date": "2026-09-21",
+  "experiment": "v2-authorized-followup",
+  "stages": {
+    "tiny-extension": {
+      "stage": "tiny-extension",
+      "passed": true,
+      "seed": 17,
+      "device": "mps",
+      "learningRate": 0.0003,
+      "optimizerReinitialized": true,
+      "parentWeightsSha256": "4bb6d1246134001c03ccf28165395322c44d02f22646d1eed86ba032b09b6aec",
+      "trainingImages": 48,
+      "evaluationImages": 48,
+      "evaluationSplit": "train-first-48",
+      "history": [
+        {
+          "block": 1,
+          "updates": 80,
+          "totalUpdates": 400,
+          "loss": 0.1755418793298304,
+          "metrics": {
+            "all": {
+              "missed": 0,
+              "bad": 24,
+              "rejected": 2,
+              "good": 24,
+              "missRate": 0.0,
+              "rejectRate": 0.08333333333333333,
+              "defectMeanIoU": 0.8177837177114545
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 12,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.9039948621085626
+            },
+            "scratch": {
+              "missed": 0,
+              "bad": 12,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.7315725733143467
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 2,
+              "good": 24,
+              "missRate": null,
+              "rejectRate": 0.08333333333333333,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 6.14160175001598
+        },
+        {
+          "block": 2,
+          "updates": 160,
+          "totalUpdates": 480,
+          "loss": 0.10115292705595494,
+          "metrics": {
+            "all": {
+              "missed": 0,
+              "bad": 24,
+              "rejected": 0,
+              "good": 24,
+              "missRate": 0.0,
+              "rejectRate": 0.0,
+              "defectMeanIoU": 0.9051876992806415
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 12,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.9671641017116759
+            },
+            "scratch": {
+              "missed": 0,
+              "bad": 12,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.8432112968496068
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 0,
+              "good": 24,
+              "missRate": null,
+              "rejectRate": 0.0,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": true,
+          "seconds": 10.610412042005919
+        },
+        {
+          "block": 3,
+          "updates": 240,
+          "totalUpdates": 560,
+          "loss": 0.06887994448188692,
+          "metrics": {
+            "all": {
+              "missed": 0,
+              "bad": 24,
+              "rejected": 0,
+              "good": 24,
+              "missRate": 0.0,
+              "rejectRate": 0.0,
+              "defectMeanIoU": 0.9171961937863441
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 12,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.9663602107633658
+            },
+            "scratch": {
+              "missed": 0,
+              "bad": 12,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.868032176809323
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 0,
+              "good": 24,
+              "missRate": null,
+              "rejectRate": 0.0,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": true,
+          "seconds": 15.148148250009399
+        }
+      ],
+      "threshold": 0.5,
+      "minimumArea": 12,
+      "updates": 240,
+      "seconds": 15.353165417007403,
+      "modelSha256": "de316f6840678a96973ecb5dd8bdb139002213705dd1ca57c229beff75cc55d0",
+      "weightsSha256": "19adbafd6469d4c3a6a786d1c2fe31ec446f9f78cd5bf14a33dec40237f8a43c",
+      "onnxBytes": 477448,
+      "protocolSha256": "dfe9cd588f457161b304ef417d610e92d98b39d628420adf4835848b12c04c80",
+      "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+    },
+    "baseline": {
+      "stage": "baseline",
+      "passed": true,
+      "seed": 17,
+      "device": "mps",
+      "learningRate": 0.001,
+      "optimizerReinitialized": true,
+      "parentWeightsSha256": null,
+      "trainingImages": 2400,
+      "evaluationImages": 400,
+      "evaluationSplit": "tune",
+      "history": [
+        {
+          "block": 1,
+          "updates": 75,
+          "totalUpdates": 75,
+          "loss": 1.1355526947975159,
+          "metrics": {
+            "all": {
+              "missed": 45,
+              "bad": 200,
+              "rejected": 52,
+              "good": 200,
+              "missRate": 0.225,
+              "rejectRate": 0.26,
+              "defectMeanIoU": 0.37280375287376466
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.584420048415844
+            },
+            "scratch": {
+              "missed": 45,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.45,
+              "rejectRate": null,
+              "defectMeanIoU": 0.16118745733168516
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 52,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.26,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 11.925262500008103
+        },
+        {
+          "block": 2,
+          "updates": 150,
+          "totalUpdates": 150,
+          "loss": 0.6419172783692678,
+          "metrics": {
+            "all": {
+              "missed": 4,
+              "bad": 200,
+              "rejected": 58,
+              "good": 200,
+              "missRate": 0.02,
+              "rejectRate": 0.29,
+              "defectMeanIoU": 0.5279816589498423
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.6506059578788633
+            },
+            "scratch": {
+              "missed": 4,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.04,
+              "rejectRate": null,
+              "defectMeanIoU": 0.4053573600208212
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 58,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.29,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 22.608216708991677
+        },
+        {
+          "block": 3,
+          "updates": 225,
+          "totalUpdates": 225,
+          "loss": 0.5381164093812306,
+          "metrics": {
+            "all": {
+              "missed": 21,
+              "bad": 200,
+              "rejected": 33,
+              "good": 200,
+              "missRate": 0.105,
+              "rejectRate": 0.165,
+              "defectMeanIoU": 0.5189448975650613
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.7435087470304264
+            },
+            "scratch": {
+              "missed": 21,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.21,
+              "rejectRate": null,
+              "defectMeanIoU": 0.29438104809969656
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 33,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.165,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 33.395077875000425
+        },
+        {
+          "block": 4,
+          "updates": 300,
+          "totalUpdates": 300,
+          "loss": 0.4479325753450394,
+          "metrics": {
+            "all": {
+              "missed": 0,
+              "bad": 200,
+              "rejected": 56,
+              "good": 200,
+              "missRate": 0.0,
+              "rejectRate": 0.28,
+              "defectMeanIoU": 0.5821031666668666
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.6765920633216619
+            },
+            "scratch": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.487614270012071
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 56,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.28,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 44.073162708984455
+        },
+        {
+          "block": 5,
+          "updates": 375,
+          "totalUpdates": 375,
+          "loss": 0.45066388448079425,
+          "metrics": {
+            "all": {
+              "missed": 8,
+              "bad": 200,
+              "rejected": 36,
+              "good": 200,
+              "missRate": 0.04,
+              "rejectRate": 0.18,
+              "defectMeanIoU": 0.6253380256492657
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.7770059291904282
+            },
+            "scratch": {
+              "missed": 8,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.08,
+              "rejectRate": null,
+              "defectMeanIoU": 0.4736701221081032
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 36,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.18,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 54.69337287498638
+        },
+        {
+          "block": 6,
+          "updates": 450,
+          "totalUpdates": 450,
+          "loss": 0.35722542146841685,
+          "metrics": {
+            "all": {
+              "missed": 2,
+              "bad": 200,
+              "rejected": 28,
+              "good": 200,
+              "missRate": 0.01,
+              "rejectRate": 0.14,
+              "defectMeanIoU": 0.6699052958640469
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.8238610534640962
+            },
+            "scratch": {
+              "missed": 2,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.02,
+              "rejectRate": null,
+              "defectMeanIoU": 0.5159495382639975
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 28,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.14,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 65.28537974998471
+        },
+        {
+          "block": 7,
+          "updates": 525,
+          "totalUpdates": 525,
+          "loss": 0.30985482583443325,
+          "metrics": {
+            "all": {
+              "missed": 15,
+              "bad": 200,
+              "rejected": 44,
+              "good": 200,
+              "missRate": 0.075,
+              "rejectRate": 0.22,
+              "defectMeanIoU": 0.6021048256220964
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.7926664913446466
+            },
+            "scratch": {
+              "missed": 15,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.15,
+              "rejectRate": null,
+              "defectMeanIoU": 0.4115431598995466
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 44,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.22,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 75.95248012500815
+        },
+        {
+          "block": 8,
+          "updates": 600,
+          "totalUpdates": 600,
+          "loss": 0.336330261627833,
+          "metrics": {
+            "all": {
+              "missed": 3,
+              "bad": 200,
+              "rejected": 22,
+              "good": 200,
+              "missRate": 0.015,
+              "rejectRate": 0.11,
+              "defectMeanIoU": 0.7347445034036332
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.8777754964833175
+            },
+            "scratch": {
+              "missed": 3,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.03,
+              "rejectRate": null,
+              "defectMeanIoU": 0.5917135103239486
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 22,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.11,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": false,
+          "seconds": 86.72940033400664
+        },
+        {
+          "block": 9,
+          "updates": 675,
+          "totalUpdates": 675,
+          "loss": 0.25981267154216764,
+          "metrics": {
+            "all": {
+              "missed": 1,
+              "bad": 200,
+              "rejected": 18,
+              "good": 200,
+              "missRate": 0.005,
+              "rejectRate": 0.09,
+              "defectMeanIoU": 0.7498475798935664
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.8679682553115851
+            },
+            "scratch": {
+              "missed": 1,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.01,
+              "rejectRate": null,
+              "defectMeanIoU": 0.6317269044755474
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 18,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.09,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": true,
+          "seconds": 97.62789337499999
+        },
+        {
+          "block": 10,
+          "updates": 750,
+          "totalUpdates": 750,
+          "loss": 0.2170294229189555,
+          "metrics": {
+            "all": {
+              "missed": 0,
+              "bad": 200,
+              "rejected": 9,
+              "good": 200,
+              "missRate": 0.0,
+              "rejectRate": 0.045,
+              "defectMeanIoU": 0.7906506284496276
+            },
+            "dirt": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.925713342503278
+            },
+            "scratch": {
+              "missed": 0,
+              "bad": 100,
+              "rejected": 0,
+              "good": 0,
+              "missRate": 0.0,
+              "rejectRate": null,
+              "defectMeanIoU": 0.6555879143959773
+            },
+            "good": {
+              "missed": 0,
+              "bad": 0,
+              "rejected": 9,
+              "good": 200,
+              "missRate": null,
+              "rejectRate": 0.045,
+              "defectMeanIoU": null
+            }
+          },
+          "meetsTarget": true,
+          "seconds": 108.35101724998094
+        }
+      ],
+      "threshold": 0.5,
+      "minimumArea": 12,
+      "updates": 750,
+      "seconds": 108.55989666699315,
+      "modelSha256": "72e511a1fc3a1603f7798352988ab20c1a97d540e54c47a831c6abe589ebe7cb",
+      "weightsSha256": "4502982c462a31053e6b4603378aa5cd2945b0b8ada6008d5e00439ed692ff0a",
+      "onnxBytes": 477448,
+      "protocolSha256": "dfe9cd588f457161b304ef417d610e92d98b39d628420adf4835848b12c04c80",
+      "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+    },
+    "development": {
+      "stage": "development",
+      "passed": true,
+      "evaluationImages": 600,
+      "metrics": {
+        "all": {
+          "missed": 4,
+          "bad": 300,
+          "rejected": 17,
+          "good": 300,
+          "missRate": 0.013333333333333334,
+          "rejectRate": 0.056666666666666664,
+          "defectMeanIoU": 0.767566014557231
+        },
+        "dirt": {
+          "missed": 0,
+          "bad": 150,
+          "rejected": 0,
+          "good": 0,
+          "missRate": 0.0,
+          "rejectRate": null,
+          "defectMeanIoU": 0.9092900397541424
+        },
+        "scratch": {
+          "missed": 4,
+          "bad": 150,
+          "rejected": 0,
+          "good": 0,
+          "missRate": 0.02666666666666667,
+          "rejectRate": null,
+          "defectMeanIoU": 0.6258419893603197
+        },
+        "good": {
+          "missed": 0,
+          "bad": 0,
+          "rejected": 17,
+          "good": 300,
+          "missRate": null,
+          "rejectRate": 0.056666666666666664,
+          "defectMeanIoU": null
+        }
+      },
+      "conversion": {
+        "samples": 24,
+        "maxAbsoluteDifference": 1.2964010238647461e-05,
+        "masksMatch": true,
+        "passed": true
+      },
+      "threshold": 0.5,
+      "minimumArea": 12,
+      "modelSha256": "72e511a1fc3a1603f7798352988ab20c1a97d540e54c47a831c6abe589ebe7cb",
+      "nativeCpuMedianMs": 14.222187499399297,
+      "nativeCpuP95Ms": 15.039308340055868,
+      "browserValidation": "not-run",
+      "finalEvaluation": "not-run",
+      "protocolSha256": "dfe9cd588f457161b304ef417d610e92d98b39d628420adf4835848b12c04c80",
+      "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+    }
+  },
+  "finalEvaluation": "not-run",
+  "browserValidation": "not-run",
+  "humanReview": "pending"
+}
