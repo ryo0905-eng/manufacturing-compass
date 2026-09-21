@@ -1,0 +1,60 @@
+.page { max-width: 1160px; margin: 0 auto; padding: 32px 20px 80px; color: #172a3e; }
+.breadcrumb { display: flex; gap: 12px; font-size: .9rem; margin-bottom: 24px; }
+.hero { max-width: 800px; margin-bottom: 28px; }
+.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -.04em; line-height: 1.3; }
+.small { font-size: .85rem; line-height: 1.7; color: #526476; }
+.lab, .start { padding: 24px; background: #f7f9fc; border: 1px solid #d6e0e9; border-radius: 20px; }
+.start { text-align: center; padding: 44px 20px; }
+.lab h2 { margin-top: 24px; font-size: 1.4rem; }
+.lab button, .start button { border: 1px solid #aebfce; border-radius: 9px; padding: 10px 15px; background: white; color: #172a3e; cursor: pointer; font: inherit; min-height: 44px; }
+.lab button:hover, .start button:hover { background: #e9f1fb; }
+.lab button:disabled { cursor: default; opacity: .55; }
+.lab button:focus-visible, .start button:focus-visible, .lab input:focus-visible, .lab select:focus-visible, .lab summary:focus-visible { outline: 3px solid #146bc7; outline-offset: 3px; }
+.lab input, .lab select { accent-color: #145d99; }
+.lab input[type=checkbox] { width: 18px; height: 18px; margin-right: 8px; vertical-align: middle; }
+.lab select { display: block; width: 100%; max-width: 560px; background: white; border: 1px solid #aebfce; color: #172a3e; border-radius: 8px; min-height: 44px; padding: 8px; margin: 8px 0 16px; font: inherit; }
+.steps { display: flex; flex-wrap: wrap; gap: 8px; }
+.steps button { flex: 1 1 160px; font-size: .85rem; }
+.steps button[aria-current=step] { background: #173c61; color: white; border-color: #173c61; }
+.controls { border: 1px solid #d6e0e9; border-radius: 12px; padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; margin: 24px 0; min-width: 0; }
+.controls legend { padding: 0 8px; font-weight: 600; }
+.control { display: grid; grid-template-columns: minmax(0, 1fr) 76px; align-items: center; gap: 10px; }
+.control span { grid-column: 1 / -1; font-size: .9rem; }
+.control input[type=range] { width: 100%; min-width: 0; height: 32px; }
+.control input[type=number] { width: 76px; border: 1px solid #aebfce; border-radius: 6px; padding: 8px; background: white; color: inherit; font: inherit; }
+.comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.comparison figure { margin: 0; padding: 16px; border: 1px solid #d6e0e9; border-radius: 14px; background: white; min-width: 0; }
+.comparison figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font-size: .9rem; margin-bottom: 12px; }
+.image { display: block; width: 100%; height: auto; aspect-ratio: 1; image-rendering: pixelated; border: 1px solid #b6c3d1; }
+.toolbar { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 20px 0; font-size: .9rem; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 24px 0; }
+.count { background: white; border: 1px solid #d6e0e9; border-radius: 12px; padding: 16px; }
+.count h3 { margin: 0 0 12px; font-size: 1rem; }
+.count p { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; margin: 8px 0; gap: 4px 12px; }
+.count strong { font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+.count small { flex-basis: 100%; color: #526476; }
+.thumbnails { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin: 16px 0; }
+.thumbnails button { padding: 6px; font-size: .75rem; }
+.thumbnails button[aria-pressed=true] { outline: 3px solid #145d99; outline-offset: 2px; }
+.thumbnails figure { margin: 0; font-size: .75rem; }
+.thumbnails img { width: 100%; height: auto; image-rendering: pixelated; }
+.training, .reflection, .confirmation { border-top: 1px solid #d6e0e9; padding: 20px 0; }
+.lab details { margin: 24px 0; }
+.lab summary { cursor: pointer; min-height: 44px; padding: 10px 0; }
+.lab details p, .reflection p { font-size: .9rem; line-height: 1.8; }
+.dialog { width: min(1000px, calc(100% - 32px)); max-height: 90dvh; margin: auto; overflow: auto; border: 1px solid #d6e0e9; border-radius: 16px; background: #f7f9fc; color: #172a3e; padding: 20px; }
+.dialog::backdrop { background: rgb(10 25 45 / 70%); }
+.document { max-width: 800px; margin: 48px auto 0; line-height: 1.9; }
+.document h2 { font-size: 1.3rem; margin-top: 28px; }
+.document a, .breadcrumb a, .reflection a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) {
+  .page { padding: 20px 12px 50px; }
+  .lab { padding: 16px 12px; }
+  .controls, .comparison { grid-template-columns: 1fr; }
+  .comparison { gap: 12px; max-width: 360px; margin: auto; }
+  .comparison figure { padding: 10px; }
+  .toolbar { gap: 8px; }
+  .toolbar strong { font-size: .8rem; }
+  .steps button { flex-basis: 130px; }
+  .dialog { padding: 12px; }
+}

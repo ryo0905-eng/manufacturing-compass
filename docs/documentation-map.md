@@ -72,6 +72,8 @@ AI外観検査v2の背景交換と最終600枚の固定評価は [事前条件](
 
 AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [端末内推論の実装記録](./ai-visual-inspection-web-runtime.md) に記録する。オフライン精度の合否とは分ける。
 
+比較UIの範囲、固定教材の選択、確認済みの保持、公開前の残項目は [UI実装記録](./ai-visual-inspection-ui.md) に記録する。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順

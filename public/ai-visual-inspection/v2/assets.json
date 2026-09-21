@@ -31,6 +31,211 @@
       "gzipBytes": 1693,
       "sha256": "6e6648c5e77f8ac67b005c0716f28b22b26e56123a6e7ee239b37813b9e0df4e"
     },
+    "lesson/balanced-0.png": {
+      "bytes": 8350,
+      "gzipBytes": 8373,
+      "sha256": "80236d31c7b211f41a9c46458bc14ccdc3a56755c44ae82b11545a7c85887228"
+    },
+    "lesson/balanced-10.png": {
+      "bytes": 10374,
+      "gzipBytes": 10397,
+      "sha256": "336ae5ecb26af56b156cca70d1f4680159332c7413bb7a379ba934671db95228"
+    },
+    "lesson/balanced-11.png": {
+      "bytes": 10295,
+      "gzipBytes": 10318,
+      "sha256": "335fd8386367fd2b0aa7175a1596c2dd1499ae45968ee0fc7517983efdc1372e"
+    },
+    "lesson/balanced-2.png": {
+      "bytes": 8447,
+      "gzipBytes": 8470,
+      "sha256": "9f50b24984bcaf6b87a31db69170eb545e767b2a1ee4a9267eb9c10d303df07a"
+    },
+    "lesson/balanced-3.png": {
+      "bytes": 8488,
+      "gzipBytes": 8511,
+      "sha256": "a98f382d6043321ff5c76d4017f8a12fd5aeab3069c1278b0cc99ff3d736976a"
+    },
+    "lesson/balanced-4.png": {
+      "bytes": 8289,
+      "gzipBytes": 8312,
+      "sha256": "62c44355cd583491c2667bbee3b179ba2567de33d496f875790710806793dabf"
+    },
+    "lesson/balanced-6.png": {
+      "bytes": 8415,
+      "gzipBytes": 8438,
+      "sha256": "390aa26142c9e308609042d58411e14bd6a063422aa3a1c357a4b7895709dd1c"
+    },
+    "lesson/balanced-7.png": {
+      "bytes": 8491,
+      "gzipBytes": 8514,
+      "sha256": "f72be0b2e5dfc1948536dbd97af1aabe91da43e95ef15ec6d0eeed035d0c1d12"
+    },
+    "lesson/balanced-8.png": {
+      "bytes": 10245,
+      "gzipBytes": 10268,
+      "sha256": "7c63f06ce6323a80b3d40ac1d83d377ca9fe8575a7ed774124fae5f454a2052e"
+    },
+    "lesson/confirmation.json": {
+      "bytes": 3005,
+      "gzipBytes": 370,
+      "sha256": "3899e7ce84ab5c464aa73748335d0f528be2471a3cff70e6e177e375898ffe3c"
+    },
+    "lesson/confirmation.masks": {
+      "bytes": 393216,
+      "gzipBytes": 815,
+      "sha256": "23b6ecad381fdca1a2e92833e5ff1ee173752de6fd419c32a4bce3b65a36b21d"
+    },
+    "lesson/confirmation.pixels": {
+      "bytes": 393216,
+      "gzipBytes": 228368,
+      "sha256": "974f936d1fc87be0126102034aeb30b15faa9f4cc1d17c406ab1ce1499fe4c7c"
+    },
+    "lesson/dirt-biased-0.png": {
+      "bytes": 8350,
+      "gzipBytes": 8373,
+      "sha256": "80236d31c7b211f41a9c46458bc14ccdc3a56755c44ae82b11545a7c85887228"
+    },
+    "lesson/dirt-biased-10.png": {
+      "bytes": 10374,
+      "gzipBytes": 10397,
+      "sha256": "336ae5ecb26af56b156cca70d1f4680159332c7413bb7a379ba934671db95228"
+    },
+    "lesson/dirt-biased-2.png": {
+      "bytes": 8447,
+      "gzipBytes": 8470,
+      "sha256": "9f50b24984bcaf6b87a31db69170eb545e767b2a1ee4a9267eb9c10d303df07a"
+    },
+    "lesson/dirt-biased-4.png": {
+      "bytes": 8289,
+      "gzipBytes": 8312,
+      "sha256": "62c44355cd583491c2667bbee3b179ba2567de33d496f875790710806793dabf"
+    },
+    "lesson/dirt-biased-6.png": {
+      "bytes": 8415,
+      "gzipBytes": 8438,
+      "sha256": "390aa26142c9e308609042d58411e14bd6a063422aa3a1c357a4b7895709dd1c"
+    },
+    "lesson/dirt-biased-8.png": {
+      "bytes": 10245,
+      "gzipBytes": 10268,
+      "sha256": "7c63f06ce6323a80b3d40ac1d83d377ca9fe8575a7ed774124fae5f454a2052e"
+    },
+    "lesson/label-errors-0.png": {
+      "bytes": 8350,
+      "gzipBytes": 8373,
+      "sha256": "80236d31c7b211f41a9c46458bc14ccdc3a56755c44ae82b11545a7c85887228"
+    },
+    "lesson/label-errors-10.png": {
+      "bytes": 10374,
+      "gzipBytes": 10397,
+      "sha256": "336ae5ecb26af56b156cca70d1f4680159332c7413bb7a379ba934671db95228"
+    },
+    "lesson/label-errors-11.png": {
+      "bytes": 10295,
+      "gzipBytes": 10318,
+      "sha256": "335fd8386367fd2b0aa7175a1596c2dd1499ae45968ee0fc7517983efdc1372e"
+    },
+    "lesson/label-errors-15.png": {
+      "bytes": 6774,
+      "gzipBytes": 6797,
+      "sha256": "c7c2427a388a9a2ef04029d0edd0799d07587e5bb43bbf38d5f8078ffec5c469"
+    },
+    "lesson/label-errors-19.png": {
+      "bytes": 8505,
+      "gzipBytes": 8528,
+      "sha256": "aed88342bf05cb8bdfc3f8a2bf6db7d5cbd2bd0a3a2ea651b728d8ebc6b359a6"
+    },
+    "lesson/label-errors-2.png": {
+      "bytes": 8447,
+      "gzipBytes": 8470,
+      "sha256": "9f50b24984bcaf6b87a31db69170eb545e767b2a1ee4a9267eb9c10d303df07a"
+    },
+    "lesson/label-errors-23.png": {
+      "bytes": 9279,
+      "gzipBytes": 9302,
+      "sha256": "d46fdd15ee88edf1add5a74c45e16fbea1e14fee04393195a568eccace464c7c"
+    },
+    "lesson/label-errors-3.png": {
+      "bytes": 8488,
+      "gzipBytes": 8511,
+      "sha256": "a98f382d6043321ff5c76d4017f8a12fd5aeab3069c1278b0cc99ff3d736976a"
+    },
+    "lesson/label-errors-4.png": {
+      "bytes": 8289,
+      "gzipBytes": 8312,
+      "sha256": "62c44355cd583491c2667bbee3b179ba2567de33d496f875790710806793dabf"
+    },
+    "lesson/label-errors-6.png": {
+      "bytes": 8415,
+      "gzipBytes": 8438,
+      "sha256": "390aa26142c9e308609042d58411e14bd6a063422aa3a1c357a4b7895709dd1c"
+    },
+    "lesson/label-errors-7.png": {
+      "bytes": 8491,
+      "gzipBytes": 8514,
+      "sha256": "f72be0b2e5dfc1948536dbd97af1aabe91da43e95ef15ec6d0eeed035d0c1d12"
+    },
+    "lesson/label-errors-8.png": {
+      "bytes": 10245,
+      "gzipBytes": 10268,
+      "sha256": "7c63f06ce6323a80b3d40ac1d83d377ca9fe8575a7ed774124fae5f454a2052e"
+    },
+    "lesson/normal-poor-0.png": {
+      "bytes": 8350,
+      "gzipBytes": 8373,
+      "sha256": "80236d31c7b211f41a9c46458bc14ccdc3a56755c44ae82b11545a7c85887228"
+    },
+    "lesson/normal-poor-10.png": {
+      "bytes": 10374,
+      "gzipBytes": 10397,
+      "sha256": "336ae5ecb26af56b156cca70d1f4680159332c7413bb7a379ba934671db95228"
+    },
+    "lesson/normal-poor-11.png": {
+      "bytes": 10295,
+      "gzipBytes": 10318,
+      "sha256": "335fd8386367fd2b0aa7175a1596c2dd1499ae45968ee0fc7517983efdc1372e"
+    },
+    "lesson/normal-poor-2.png": {
+      "bytes": 8447,
+      "gzipBytes": 8470,
+      "sha256": "9f50b24984bcaf6b87a31db69170eb545e767b2a1ee4a9267eb9c10d303df07a"
+    },
+    "lesson/normal-poor-3.png": {
+      "bytes": 8488,
+      "gzipBytes": 8511,
+      "sha256": "a98f382d6043321ff5c76d4017f8a12fd5aeab3069c1278b0cc99ff3d736976a"
+    },
+    "lesson/normal-poor-6.png": {
+      "bytes": 8415,
+      "gzipBytes": 8438,
+      "sha256": "390aa26142c9e308609042d58411e14bd6a063422aa3a1c357a4b7895709dd1c"
+    },
+    "lesson/normal-poor-7.png": {
+      "bytes": 8491,
+      "gzipBytes": 8514,
+      "sha256": "f72be0b2e5dfc1948536dbd97af1aabe91da43e95ef15ec6d0eeed035d0c1d12"
+    },
+    "lesson/practice.json": {
+      "bytes": 3149,
+      "gzipBytes": 371,
+      "sha256": "5a6345faa36abda982bac5232556d7e1fadc636b90beef68a2f310b3c6ddbda1"
+    },
+    "lesson/practice.masks": {
+      "bytes": 393216,
+      "gzipBytes": 836,
+      "sha256": "c29f1a381ba5f94b4906e129e606c20a5d648e4d9a92a9265dbb5be5a250ab04"
+    },
+    "lesson/practice.pixels": {
+      "bytes": 393216,
+      "gzipBytes": 229537,
+      "sha256": "04f68be16b7cecadf6fefb979b55d4b121b891c4e93f578581619e75f9e9ef98"
+    },
+    "lesson/training.json": {
+      "bytes": 6340,
+      "gzipBytes": 445,
+      "sha256": "90e2bf0c3060735cdaf139050055736a982454284e4718798997648f77b76609"
+    },
     "models/balanced-17.onnx": {
       "bytes": 477448,
       "gzipBytes": 439586,

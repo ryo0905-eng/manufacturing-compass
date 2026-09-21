@@ -1,0 +1,151 @@
+{
+  "size": 128,
+  "images": [
+    {
+      "id": "v2-development-0000-0",
+      "kind": "good",
+      "texture": "flat",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0000-1",
+      "kind": "good",
+      "texture": "flat",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0000-2",
+      "kind": "dirt",
+      "texture": "flat",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0000-3",
+      "kind": "scratch",
+      "texture": "flat",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0001-0",
+      "kind": "good",
+      "texture": "wave",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0001-1",
+      "kind": "good",
+      "texture": "wave",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0001-2",
+      "kind": "dirt",
+      "texture": "wave",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0001-3",
+      "kind": "scratch",
+      "texture": "wave",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0002-0",
+      "kind": "good",
+      "texture": "lines",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0002-1",
+      "kind": "good",
+      "texture": "lines",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0002-2",
+      "kind": "dirt",
+      "texture": "lines",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0002-3",
+      "kind": "scratch",
+      "texture": "lines",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0003-0",
+      "kind": "good",
+      "texture": "flat",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0003-1",
+      "kind": "good",
+      "texture": "flat",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0003-2",
+      "kind": "dirt",
+      "texture": "flat",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0003-3",
+      "kind": "scratch",
+      "texture": "flat",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0004-0",
+      "kind": "good",
+      "texture": "wave",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0004-1",
+      "kind": "good",
+      "texture": "wave",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0004-2",
+      "kind": "dirt",
+      "texture": "wave",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0004-3",
+      "kind": "scratch",
+      "texture": "wave",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0005-0",
+      "kind": "good",
+      "texture": "lines",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0005-1",
+      "kind": "good",
+      "texture": "lines",
+      "defective": false
+    },
+    {
+      "id": "v2-development-0005-2",
+      "kind": "dirt",
+      "texture": "lines",
+      "defective": true
+    },
+    {
+      "id": "v2-development-0005-3",
+      "kind": "scratch",
+      "texture": "lines",
+      "defective": true
+    }
+  ],
+  "pixelsSha256": "04f68be16b7cecadf6fefb979b55d4b121b891c4e93f578581619e75f9e9ef98",
+  "masksSha256": "c29f1a381ba5f94b4906e129e606c20a5d648e4d9a92a9265dbb5be5a250ab04"
+}

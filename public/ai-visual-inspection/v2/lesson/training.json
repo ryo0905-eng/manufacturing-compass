@@ -1,0 +1,279 @@
+{
+  "balanced": {
+    "total": 2400,
+    "counts": {
+      "good": 1200,
+      "dirt": 600,
+      "scratch": 600
+    },
+    "examples": [
+      {
+        "file": "balanced-0.png",
+        "kind": "good",
+        "texture": "flat",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "balanced-2.png",
+        "kind": "dirt",
+        "texture": "flat",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "balanced-3.png",
+        "kind": "scratch",
+        "texture": "flat",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "balanced-4.png",
+        "kind": "good",
+        "texture": "wave",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "balanced-6.png",
+        "kind": "dirt",
+        "texture": "wave",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "balanced-7.png",
+        "kind": "scratch",
+        "texture": "wave",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "balanced-8.png",
+        "kind": "good",
+        "texture": "lines",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "balanced-10.png",
+        "kind": "dirt",
+        "texture": "lines",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "balanced-11.png",
+        "kind": "scratch",
+        "texture": "lines",
+        "taughtDefective": true,
+        "labelAltered": false
+      }
+    ]
+  },
+  "dirt-biased": {
+    "total": 2400,
+    "counts": {
+      "good": 1200,
+      "dirt": 1200
+    },
+    "examples": [
+      {
+        "file": "dirt-biased-0.png",
+        "kind": "good",
+        "texture": "flat",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "dirt-biased-2.png",
+        "kind": "dirt",
+        "texture": "flat",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "dirt-biased-4.png",
+        "kind": "good",
+        "texture": "wave",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "dirt-biased-6.png",
+        "kind": "dirt",
+        "texture": "wave",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "dirt-biased-8.png",
+        "kind": "good",
+        "texture": "lines",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "dirt-biased-10.png",
+        "kind": "dirt",
+        "texture": "lines",
+        "taughtDefective": true,
+        "labelAltered": false
+      }
+    ]
+  },
+  "normal-poor": {
+    "total": 2400,
+    "counts": {
+      "good": 1200,
+      "dirt": 600,
+      "scratch": 600
+    },
+    "examples": [
+      {
+        "file": "normal-poor-0.png",
+        "kind": "good",
+        "texture": "flat",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "normal-poor-2.png",
+        "kind": "dirt",
+        "texture": "flat",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "normal-poor-3.png",
+        "kind": "scratch",
+        "texture": "flat",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "normal-poor-6.png",
+        "kind": "dirt",
+        "texture": "wave",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "normal-poor-7.png",
+        "kind": "scratch",
+        "texture": "wave",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "normal-poor-10.png",
+        "kind": "dirt",
+        "texture": "lines",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "normal-poor-11.png",
+        "kind": "scratch",
+        "texture": "lines",
+        "taughtDefective": true,
+        "labelAltered": false
+      }
+    ]
+  },
+  "label-errors": {
+    "total": 2400,
+    "counts": {
+      "good": 1500,
+      "dirt": 600,
+      "scratch": 300
+    },
+    "examples": [
+      {
+        "file": "label-errors-0.png",
+        "kind": "good",
+        "texture": "flat",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "label-errors-2.png",
+        "kind": "dirt",
+        "texture": "flat",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "label-errors-3.png",
+        "kind": "scratch",
+        "texture": "flat",
+        "taughtDefective": false,
+        "labelAltered": true
+      },
+      {
+        "file": "label-errors-4.png",
+        "kind": "good",
+        "texture": "wave",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "label-errors-6.png",
+        "kind": "dirt",
+        "texture": "wave",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "label-errors-7.png",
+        "kind": "scratch",
+        "texture": "wave",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "label-errors-8.png",
+        "kind": "good",
+        "texture": "lines",
+        "taughtDefective": false,
+        "labelAltered": false
+      },
+      {
+        "file": "label-errors-10.png",
+        "kind": "dirt",
+        "texture": "lines",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "label-errors-11.png",
+        "kind": "scratch",
+        "texture": "lines",
+        "taughtDefective": false,
+        "labelAltered": true
+      },
+      {
+        "file": "label-errors-15.png",
+        "kind": "scratch",
+        "texture": "flat",
+        "taughtDefective": true,
+        "labelAltered": false
+      },
+      {
+        "file": "label-errors-19.png",
+        "kind": "scratch",
+        "texture": "wave",
+        "taughtDefective": false,
+        "labelAltered": true
+      },
+      {
+        "file": "label-errors-23.png",
+        "kind": "scratch",
+        "texture": "lines",
+        "taughtDefective": true,
+        "labelAltered": false
+      }
+    ]
+  }
+}

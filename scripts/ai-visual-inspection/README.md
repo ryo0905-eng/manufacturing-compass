@@ -274,3 +274,14 @@ Do not repeat a failed verification in the same turn with alternate settings.
 The export copies only locked models into `public`; evaluation images and
 Python reference scores remain in the ignored cache. The frozen experiment
 scripts and final evaluation data are not modified by this stage.
+
+## Lesson UI assets
+
+`export_lesson.py` exports the first 24 development images and first 24 already-opened final images without inference-based selection. It also exports actual training-group representatives. Run it with the Python environment above, then run `sync_web.cjs`. Labels stay separate from worker inputs.
+
+```sh
+node tests/unit/ai-visual-inspection-lesson.cjs
+node tests/unit/ai-visual-inspection-ui.cjs
+```
+
+These are data and simulated-hook/SSR checks, not browser interaction tests. See `docs/ai-visual-inspection-ui.md` for the unverified browser and release gates.
