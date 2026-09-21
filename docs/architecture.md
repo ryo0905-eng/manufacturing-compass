@@ -44,6 +44,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/tools/process-comparison`: 実測2条件の記述統計・共通相対度数ヒストグラム、TSVコピーとPNG出力。計算とSVG生成は`src/lib/process-comparison.ts`、PNG化は`src/lib/process-comparison-export.ts`。同じ結果を画面・コピー・画像へ使い、サーバーAPIや永続化は追加しない。計測は`process_comparison_started/completed/copied/png_exported`の固定名のみ（プロパティなし）
 - `/tools/cpk`: 生データからPp・Ppk、短期標準偏差からCp・Cpkを計算し、SVGヒストグラムと分析を表示
 - `/tools/doe`: 2因子2水準を起点に、効果、実験誤差、ANOVA、残差、確認実験、設計選択を学ぶ
+- `/tools/bayesian-optimization`: 架空成膜工程の12回の実験を、DOE→GP予測→LCBによる追加実験→確認→真値の振り返りとして体験する。`src/lib/bayesian-optimization` のmodelはtypesのみに依存し、simulatorの真値を参照しない。sessionは原子的なDOE追加と12回の予算、確認前予測を保持する。Server Componentの説明とClient Componentの操作、Canvasの面とSVGの点を分離し、状態はメモリのみ。計算失敗時は履歴を保持して予測を消去・停止する。文言と公開日付は`src/data/bayesian-optimization.ts`、詳細は[専用仕様](./bayesian-optimization-spec.md)。
 - `/tools/control-chart`: 管理図で偶然原因と異常原因の判断を学ぶ
 - `/tools/yield-analysis`: 日別の良品・不良品個数をp管理図で監視し、製品別・装置別・製品構成比で歩留まり低下の調査条件を絞る
 - `/tools/yield-dashboard`: 固定の架空半導体工場データで、歩留まり低下から不良・製品・装置・ロット・工程条件・変更履歴・確認実験までを連動して調べる

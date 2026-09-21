@@ -23,7 +23,7 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
     "東京エレクトロンとLam Researchの公式情報で、絶縁膜・金属膜、高アスペクト比構造などの量産用途を確認",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-09-21",
   sources: [
     {
       title: "マテリアルの創出と成膜",
@@ -298,6 +298,7 @@ export const semiconductorDepositionProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "ベイズ最適化を体験する", href: "/tools/bayesian-optimization", description: "架空の成膜モデルで温度・圧力を選び、予測から次の実験を探す。実設備の推奨条件ではありません" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "成膜がリソグラフィやエッチングとどうつながるか確認する" },
             { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "CVD・ALD原料、キャリアガス、供給設備と主要企業を見る" },
             { label: "フォトリソグラフィの仕組み", href: "/guides/photolithography-process", description: "成膜した材料へ加工場所を決める次の工程を断面図で見る" },

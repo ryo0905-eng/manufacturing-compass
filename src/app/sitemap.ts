@@ -1,3 +1,4 @@
+import { bayesianRelease } from "@/data/bayesian-optimization";
 import { englishPracticalToolIds, englishPracticalTools, isEnglishPracticalToolPublished } from "@/data/practical-tools-english";
 import type { MetadataRoute } from "next";
 import { englishGuides, isEnglishGuidePublished } from "@/content/guides/en";
@@ -26,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools",
     "/tools/cpk",
     "/tools/doe",
+    "/tools/bayesian-optimization",
     "/tools/control-chart",
     "/tools/yield-analysis",
     "/tools/yield-dashboard",
@@ -54,6 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === "/tools/bayesian-optimization" ? { lastModified: contentDate(bayesianRelease.updatedAt) } : {}),
     ...(path === "/tools/process-comparison" ? { lastModified: contentDate("2026-09-16") } : {}),
     ...(path === "/labs/jev" ? { lastModified: contentDate("2026-09-20") } : {}),
     ...(path === "/games/process-engineer-survival" ? { lastModified: contentDate("2026-09-20") } : {}),

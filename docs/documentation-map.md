@@ -49,6 +49,8 @@
 
 - [`docs/jev-demo.md`](./jev-demo.md): Jev実験デモの設定、回数制限、実測、公開前レビューの手順。
 
+ベイズ最適化学習ツールの体験・仮想装置・GP/LCB・検証仕様は [`docs/bayesian-optimization-spec.md`](./bayesian-optimization-spec.md) を参照する。計算方式・実験予算・教材モデルの変更時に更新する。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順
