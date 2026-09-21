@@ -24,6 +24,7 @@ const draft = {
 export const englishPracticalTools: Record<EnglishPracticalToolId, EnglishToolEdition> = {
   oee: {
     ...draft, sourceUpdatedAt: "2026-09-21",
+    status: "published", reviewedBy: "RYO", reviewedAt: "2026-09-21", publishedAt: "2026-09-21",
     title: "OEE Calculator & Improvement Simulator",
     description: "Calculate availability, performance and quality, then compare estimated good output under an improvement scenario. Free, no signup, calculated in your browser.",
     sections: [
@@ -35,6 +36,7 @@ export const englishPracticalTools: Record<EnglishPracticalToolId, EnglishToolEd
   },
   "line-balance": {
     ...draft, sourceUpdatedAt: "2026-09-13",
+    status: "published", reviewedBy: "RYO", reviewedAt: "2026-09-21", publishedAt: "2026-09-21",
     title: "Yamazumi Chart & Line Balancing Tool",
     description: "Build a stacked workload chart, move tasks between stations and compare time above takt with a baseline. Free manual line balancing, with no signup.",
     sections: [
@@ -49,6 +51,7 @@ export const englishPracticalTools: Record<EnglishPracticalToolId, EnglishToolEd
   },
   "process-comparison": {
     ...draft, sourceUpdatedAt: "2026-09-16",
+    status: "published", reviewedBy: "RYO", reviewedAt: "2026-09-21", publishedAt: "2026-09-21",
     title: "Compare Two Data Sets: Mean, Variation & Histograms",
     description: "Compare two measurement data sets using descriptive statistics and shared-scale histograms. Copy a table for Excel or save a PNG, entirely in your browser.",
     sections: [

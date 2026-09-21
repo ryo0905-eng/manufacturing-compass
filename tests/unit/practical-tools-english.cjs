@@ -67,6 +67,23 @@ async function main() {
   const copy = load('src/data/practical-tool-text.ts');
   const t = copy.getToolText('en');
   assert.equal(t('{0}の工程名', '工程{1}'), 'Station name: 工程{1}', 'user labels are never translated or interpolated again');
+  // Verify the checked-in release before isolating draft fixtures below.
+  const releases = load('src/data/practical-tools-english.ts');
+  const actualUrls = load('src/app/sitemap.ts').default().map(item => item.url);
+  const actualMetadata = load('src/lib/practical-tool-metadata.ts');
+  for (const id of releases.englishPracticalToolIds) {
+    assert.equal(releases.isEnglishPracticalToolPublished(id), true);
+    assert.equal(releases.englishPracticalTools[id].reviewedBy, 'RYO');
+    assert.equal(releases.englishPracticalTools[id].reviewedAt, '2026-09-21');
+    assert.equal(releases.englishPracticalTools[id].publishedAt, '2026-09-21');
+    assert.ok(actualUrls.some(url => url.endsWith(`/en/tools/${id}`)));
+    assert.equal(actualMetadata.englishPracticalToolMetadata(id).robots.index, true);
+    const html = renderToStaticMarkup(React.createElement(load(`src/app/(en)/en/tools/${id}/page.tsx`).default));
+    assert.ok(!html.includes('Editorial preview'));
+    assert.ok(html.includes('Reviewed by RYO'));
+    for (const other of releases.englishPracticalToolIds.filter(other => other !== id)) assert.ok(html.includes(`href="/en/tools/${other}"`));
+  }
+  for (const edition of Object.values(releases.englishPracticalTools)) Object.assign(edition, { status: 'draft', reviewedAt: null, reviewedBy: null, publishedAt: null });
   const components = [['OeeSimulator', 'oee'], ['LineBalanceSimulator', 'line-balance'], ['ProcessComparisonTool', 'process-comparison']];
   for (const [name, id] of components) {
     const Component = load(`src/components/${name}.tsx`)[name];
@@ -178,6 +195,7 @@ async function main() {
   for (const [, id] of components) {
     const fresh = loader();
     const editions = fresh('src/data/practical-tools-english.ts');
+    for (const item of Object.values(editions.englishPracticalTools)) Object.assign(item, { status: 'draft', reviewedAt: null, reviewedBy: null, publishedAt: null });
     const edition = editions.englishPracticalTools[id];
     assert.equal(editions.isEnglishPracticalToolPublished(id), false);
     edition.status = 'published';
