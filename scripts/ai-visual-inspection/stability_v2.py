@@ -22,23 +22,24 @@ PROTOCOL = ROOT / "docs/ai-visual-inspection-v2-stability-protocol.md"
 SEEDS = (17, 29, 43)
 
 
-def read(stage, seed):
-    row = json.loads((OUTPUT / f"{stage}-{seed}.json").read_text())
-    if row["protocolSha256"] != sha(PROTOCOL) or row["manifestSha256"] != sha(CACHE / "manifest.json"):
+def read(stage, seed, output=OUTPUT, protocol=PROTOCOL):
+    row = json.loads((output / f"{stage}-{seed}.json").read_text())
+    if row["protocolSha256"] != sha(protocol) or row["manifestSha256"] != sha(CACHE / "manifest.json"):
         raise ValueError("Experiment conditions changed")
     return row
 
 
-def persist(stage, seed, row):
-    row.update(seed=seed, protocolSha256=sha(PROTOCOL), manifestSha256=sha(CACHE / "manifest.json"))
-    (OUTPUT / f"{stage}-{seed}.json").write_text(json.dumps(row, indent=2)+"\n")
+def persist(stage, seed, row, output=OUTPUT, protocol=PROTOCOL):
+    row.update(seed=seed, protocolSha256=sha(protocol), manifestSha256=sha(CACHE / "manifest.json"))
+    (output / f"{stage}-{seed}.json").write_text(json.dumps(row, indent=2)+"\n")
 
 
-def fit(seed):
+def fit(seed, recipe="balanced", output=OUTPUT, protocol=PROTOCOL):
     start = time.monotonic()
-    folder, stem = (FOLLOWUP, "baseline") if seed == 17 else (COMPARISON, f"balanced-{seed}")
+    reused_baseline = recipe == "balanced" and seed == 17
+    folder, stem = (FOLLOWUP, "baseline") if reused_baseline else (COMPARISON, f"{recipe}-{seed}")
     parent = folder / f"{stem}.pt"
-    old = json.loads((folder / ("baseline.json" if seed == 17 else f"{stem}-train.json")).read_text())
+    old = json.loads((folder / ("baseline.json" if reused_baseline else f"{stem}-train.json")).read_text())
     if sha(parent) != old["weightsSha256"] or old["manifestSha256"] != sha(CACHE / "manifest.json") or old["updates"] != 750:
         raise ValueError("Parent weights / data / updates mismatch")
     if not torch.backends.mps.is_available():
@@ -49,7 +50,7 @@ def fit(seed):
     model.load_state_dict(torch.load(parent, weights_only=True))
     model = model.to("mps")
     optimizer = torch.optim.Adam(model.parameters(), lr=.0003)
-    arrays, _ = load("train")
+    arrays, _ = load("train", recipe)
     x = torch.from_numpy(arrays["images"].copy())[:, None].float()/255
     y = torch.from_numpy(arrays["masks"].copy())[:, None].float()
     tune, meta = load("tune")
@@ -71,13 +72,13 @@ def fit(seed):
         print(json.dumps({"seed": seed, **history[-1], "seconds": time.monotonic()-start}), flush=True)
     after = evaluate(model, tune_x, tune, meta, "mps")
     model = model.cpu().eval()
-    path = OUTPUT / f"balanced-{seed}"
+    path = output / f"{recipe}-{seed}"
     torch.save(model.state_dict(), path.with_suffix(".pt"))
     for state in optimizer.state.values():
         for key, value in state.items():
             if torch.is_tensor(value):
                 state[key] = value.cpu()
-    checkpoint = OUTPUT / f"checkpoint-{seed}.pt"
+    checkpoint = output / f"checkpoint-{seed}.pt"
     torch.save({"model": model.state_dict(), "optimizer": optimizer.state_dict(),
                 "cpuRngState": torch.get_rng_state(), "totalUpdates": 1200}, checkpoint)
     torch.onnx.export(InferenceModel(model), torch.zeros(1, 1, 128, 128), str(path.with_suffix(".onnx")),
@@ -89,15 +90,15 @@ def fit(seed):
            "parentWeightsSha256": sha(parent), "weightsSha256": sha(path.with_suffix(".pt")),
            "modelSha256": sha(path.with_suffix(".onnx")), "checkpointSha256": sha(checkpoint),
            "onnxBytes": path.with_suffix(".onnx").stat().st_size, "seconds": time.monotonic()-start}
-    persist("train", seed, row)
+    persist("train", seed, row, output, protocol)
     print(json.dumps({"seed": seed, "passed": row["passed"], "tune": after}), flush=True)
 
 
-def development(seed):
+def development(seed, recipe="balanced", output=OUTPUT, protocol=PROTOCOL):
     if not all(read("train", s).get("passed", False) for s in SEEDS):
         raise ValueError("All three tuning runs must pass first")
-    training = read("train", seed)
-    path = OUTPUT / f"balanced-{seed}"
+    training = read("train", seed, output, protocol)
+    path = output / f"{recipe}-{seed}"
     if sha(path.with_suffix(".onnx")) != training["modelSha256"] or sha(path.with_suffix(".pt")) != training["weightsSha256"]:
         raise ValueError("Frozen model changed")
     arrays, meta = load("development")
@@ -119,11 +120,11 @@ def development(seed):
     error = float(np.max(np.abs(reference-scores[:24])))
     match = all(np.array_equal(ai(a, .5, 12), b) for a, b in zip(reference, masks[:24]))
     conversion = {"samples": 24, "maxAbsoluteDifference": error, "masksMatch": match, "passed": error < 1e-4 and match}
-    np.savez_compressed(OUTPUT / f"development-{seed}.npz", scores=scores, masks=masks)
+    np.savez_compressed(output / f"development-{seed}.npz", scores=scores, masks=masks)
     row = {"passed": meets(result, False) and conversion["passed"], "metrics": result, "conversion": conversion,
            "modelSha256": training["modelSha256"], "evaluationImages": 600, "evaluationSplit": "development",
            "threshold": .5, "minimumArea": 12, "finalEvaluation": "not-run", "browserValidation": "not-run"}
-    persist("development", seed, row)
+    persist("development", seed, row, output, protocol)
     print(json.dumps(row), flush=True)
 
 

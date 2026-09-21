@@ -5,6 +5,29 @@ Python is an offline development dependency; it is not part of the Next.js build
 
 ## Version 2 staged experiment
 
+### Matched continuation for all training recipes
+
+After baseline stability passes, `matched_v2.py` applies the identical continuation
+to each of `dirt-biased`, `normal-poor`, `label-errors` and seeds 17, 29, 43.
+The runner shares the baseline fitting/evaluation functions with explicit recipe
+and output arguments. It checks baseline success, preserves old artifacts, and
+limits each invocation to 175 seconds. A biased model does not have to meet the
+baseline accuracy target to be evaluated; its measured failure is part of the lesson.
+
+```sh
+# One model; run each declared recipe / seed separately.
+python scripts/ai-visual-inspection/matched_v2.py train dirt-biased 17
+python scripts/ai-visual-inspection/matched_v2.py development dirt-biased 17
+# After all nine new evaluations finish:
+python scripts/ai-visual-inspection/report_matched_v2.py
+```
+
+Conditions: `docs/ai-visual-inspection-v2-matched-protocol.md`. Outputs:
+`.cache/ai-visual-inspection/v2/matched/<recipe>/`. The report checks all twelve
+models' hashes, training counts, thresholds and cached mask/count agreement,
+then records paired changes and renders examples. It reuses the three stability
+baselines without rerunning their inference. The final holdout remains untouched.
+
 ### Baseline stability continuation
 
 The 2026-09-22 continuation is frozen in

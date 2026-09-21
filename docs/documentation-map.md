@@ -64,6 +64,8 @@ AI外観検査v2の4構成・3シード比較は [固定条件](./ai-visual-insp
 
 AI外観検査v2の基準3シードの安定化は [固定条件](./ai-visual-inspection-v2-stability-protocol.md)、[結果](./ai-visual-inspection-v2-stability-validation.md)、[数値記録](./ai-visual-inspection-v2-stability-experiment.json) に記録する。旧10エポックの比較へ新モデルを混在させない。
 
+AI外観検査v2の全モデルへの同量追加学習と4構成比較の更新は [固定条件](./ai-visual-inspection-v2-matched-protocol.md)、[比較結果](./ai-visual-inspection-v2-matched-validation.md)、[数値記録](./ai-visual-inspection-v2-matched-experiment.json) に記録する。基準の安定化記録を再利用し、旧比較は保持する。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順
