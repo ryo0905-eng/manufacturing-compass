@@ -1,0 +1,40 @@
+{
+  "version": "synthetic-board-v2-seed17",
+  "seed": 17,
+  "size": 128,
+  "source": "docs/ai-visual-inspection-v2-holdout-experiment.json",
+  "models": {
+    "balanced": {
+      "file": "balanced-17.onnx",
+      "bytes": 477448,
+      "sha256": "5ccbb55e0ab6bd0d213ef527d7db6cbeffe5286e1be08e179a17e96df2b8a715",
+      "trainingImages": 2400,
+      "epochs": 16,
+      "updates": 1200
+    },
+    "dirt-biased": {
+      "file": "dirt-biased-17.onnx",
+      "bytes": 477448,
+      "sha256": "c668dbbf7de6b22166678dbd1de3850e5fcbc909aacdc15b2f7e3846365ad3f7",
+      "trainingImages": 2400,
+      "epochs": 16,
+      "updates": 1200
+    },
+    "normal-poor": {
+      "file": "normal-poor-17.onnx",
+      "bytes": 477448,
+      "sha256": "f6e948b24adf771469fcfefa8608e01364483067b4e36dce5284e28b581c9503",
+      "trainingImages": 2400,
+      "epochs": 16,
+      "updates": 1200
+    },
+    "label-errors": {
+      "file": "label-errors-17.onnx",
+      "bytes": 477448,
+      "sha256": "555677a9ea99997d9d12baf5a1aba44f0966be37a73e53543c28401bf0ed79d5",
+      "trainingImages": 2400,
+      "epochs": 16,
+      "updates": 1200
+    }
+  }
+}

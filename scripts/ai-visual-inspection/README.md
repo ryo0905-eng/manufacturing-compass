@@ -252,3 +252,23 @@ trained** models. Generated images do not simulate an actual optical system.
 All images are generated from code. No external dataset or pretrained weights
 are used. Dependency licenses must accompany any distributed runtime. See
 `docs/ai-visual-inspection-spec.md` for the planned experience and release gate.
+
+## Web runtime assets (2026-09-22)
+
+After the offline gate, export the frozen seed-17 models and development references:
+
+```sh
+/private/tmp/mc-visual-inspection-venv/bin/python scripts/ai-visual-inspection/export_web.py
+node scripts/ai-visual-inspection/sync_web.cjs
+node tests/unit/ai-visual-inspection-client.cjs
+node tests/unit/ai-visual-inspection-runtime.cjs
+node tests/unit/ai-visual-inspection-wasm.cjs
+```
+
+Use Node 22. The last test runs real WASM under Node, not a browser benchmark,
+and is capped at 175 seconds. Its initial run failed score range validation;
+do not report parity as passed. See `docs/ai-visual-inspection-web-runtime.md`.
+Do not repeat a failed verification in the same turn with alternate settings.
+The export copies only locked models into `public`; evaluation images and
+Python reference scores remain in the ignored cache. The frozen experiment
+scripts and final evaluation data are not modified by this stage.

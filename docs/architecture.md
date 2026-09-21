@@ -1,6 +1,6 @@
 # Architecture
 
-最終更新日: 2026-09-21
+最終更新日: 2026-09-22
 
 ## 方針
 
@@ -14,7 +14,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 `scripts/ai-visual-inspection/` はWebビルドから分離したPythonの生成・学習・評価環境。固定した依存版、学習データ構成、シードを使い、出力はGit管理外の `.cache/ai-visual-inspection/` に保存する。実験出力を公開ディレクトリへ自動コピーしない。
 
-`src/lib/ai-visual-inspection/` はラベルを参照しない画素処理・連結領域と、真値を扱う評価処理を分離する。技術ゲート通過後にのみ、Server Componentのページと専用Client Component、Worker内のONNX Runtime Web推論を追加する。モデルとランタイムは同一サイトの静的配信、推論は端末内。入力・判定結果・学習状態は送信・永続保存しない。固定カテゴリの既存Analyticsのみ利用する。詳しくは [仕様](./ai-visual-inspection-spec.md)。
+`src/lib/ai-visual-inspection/` はラベルを参照しない画素処理・連結領域と、真値を扱う評価処理を分離する。オフラインゲート通過後、Worker内のONNX Runtime Web 1.22.0推論と要求管理Clientを実装。静的Workerは `sync_web.cjs` で同じTypeScriptソースから生成し、モデルは `export_web.py` が固定ハッシュを確認して出力する。WASM数値照合は未通過であり、Server Componentのページと操作UIは未追加。[実装記録](./ai-visual-inspection-web-runtime.md)を参照。モデルとランタイムは同一サイトの静的配信、推論は端末内。入力・判定結果・学習状態は送信・永続保存しない。固定カテゴリの既存Analyticsのみ利用する。詳しくは [仕様](./ai-visual-inspection-spec.md)。
 
 ### 共通スタック
 

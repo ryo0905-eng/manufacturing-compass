@@ -1,0 +1,82 @@
+import type * as Ort from "onnxruntime-web";
+import { changeLighting, inspectRule, inspectScores } from "./processing.js";
+import { ASSET_ROOT, MODEL_IDS } from "./protocol.js";
+import type { ImageResult, InspectionRequest, ModelId } from "./protocol.js";
+
+type Manifest = { models: Record<ModelId, { file: string; sha256: string }> };
+const hash = async (bytes: Uint8Array) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new Uint8Array(bytes))), b => b.toString(16).padStart(2, "0")).join("");
+
+/** One session and at most 24 score maps, all in volatile Worker memory. */
+export class InspectionRuntime {
+  private ort?: typeof Ort;
+  private session?: Ort.InferenceSession;
+  private model?: ModelId;
+  private cache = new Map<string, Float32Array>();
+
+  private async selectModel(model: ModelId) {
+    if (!MODEL_IDS.includes(model)) throw new Error("Unknown model");
+    if (this.session && this.model === model) return this.session;
+    if (!this.ort) {
+      const url = `${ASSET_ROOT}/ort/ort.wasm.min.mjs`;
+      this.ort = await import(/* webpackIgnore: true */ url) as typeof Ort;
+      this.ort.env.wasm.numThreads = 1;
+      this.ort.env.wasm.proxy = false;
+      this.ort.env.wasm.wasmPaths = new URL(`${ASSET_ROOT}/ort/`, location.origin).href;
+    }
+    const response = await fetch(`${ASSET_ROOT}/manifest.json`);
+    if (!response.ok) throw new Error("Manifest unavailable");
+    const manifest: Manifest = await response.json();
+    const asset = manifest.models[model];
+    if (asset.file !== `${model}-17.onnx`) throw new Error("Invalid model path");
+    const loaded = await fetch(`${ASSET_ROOT}/models/${asset.file}`);
+    if (!loaded.ok) throw new Error("Model unavailable");
+    const bytes = new Uint8Array(await loaded.arrayBuffer());
+    if (await hash(bytes) !== asset.sha256) throw new Error("Model identity mismatch");
+    await this.session?.release();
+    this.session = undefined;
+    this.model = undefined;
+    this.cache.clear();
+    this.session = await this.ort.InferenceSession.create(bytes, { executionProviders: ["wasm"], graphOptimizationLevel: "all" });
+    this.model = model;
+    return this.session;
+  }
+
+  async evaluate(request: InspectionRequest, isCurrent: () => boolean) {
+    if (!Number.isSafeInteger(request.id) || !Array.isArray(request.images) || request.images.length < 1 || request.images.length > 24) throw new Error("Invalid batch");
+    const { settings } = request;
+    for (const image of request.images) {
+      if (image.width !== 128 || image.height !== 128 || !(image.pixels instanceof Uint8Array) || image.pixels.length !== 16384) throw new Error("Invalid pixels");
+    }
+    const session = await this.selectModel(settings.model);
+    const started = performance.now();
+    const results: ImageResult[] = [];
+    let inferenceCount = 0;
+    for (const source of request.images) {
+      // Yield so newer requests can cancel a batch between images.
+      await new Promise(resolve => setTimeout(resolve, 0));
+      if (!isCurrent()) return null;
+      const image = changeLighting(source, settings.gain);
+      const key = await hash(image.pixels);
+      let scores = this.cache.get(key);
+      if (!scores) {
+        const input = new this.ort!.Tensor("float32", Float32Array.from(image.pixels, value => value / 255), [1, 1, 128, 128]);
+        let outputs: Ort.InferenceSession.ReturnType | undefined;
+        try {
+          outputs = await session.run({ pixels: input });
+          const output = outputs.scores;
+          if (!output || output.type !== "float32" || output.dims.join(",") !== "1,1,128,128" || !(output.data instanceof Float32Array)) throw new Error("Invalid score map");
+          scores = new Float32Array(output.data);
+          inspectScores(scores, 128, 128, settings.scoreThreshold, settings.minimumArea);
+          if (this.cache.size >= 24) this.cache.delete(this.cache.keys().next().value!);
+          this.cache.set(key, scores);
+          inferenceCount++;
+        } finally {
+          input.dispose();
+          for (const output of Object.values(outputs ?? {})) output.dispose();
+        }
+      }
+      results.push({ image, scores: new Float32Array(scores), rule: inspectRule(image, settings.rule), ai: inspectScores(scores, 128, 128, settings.scoreThreshold, settings.minimumArea) });
+    }
+    return isCurrent() ? { results, elapsedMs: performance.now() - started, inferenceCount } : null;
+  }
+}

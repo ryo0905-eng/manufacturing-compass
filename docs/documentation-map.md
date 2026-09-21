@@ -70,6 +70,8 @@ AI外観検査v2のルールしきい値・明るさ変化・併用の検証は 
 
 AI外観検査v2の背景交換と最終600枚の固定評価は [事前条件](./ai-visual-inspection-v2-holdout-protocol.md)、[結果](./ai-visual-inspection-v2-holdout-validation.md)、[数値・固定ハッシュ](./ai-visual-inspection-v2-holdout-experiment.json) に記録する。開封履歴を保持し、評価後の開発変更時は同じ群を未使用扱いに戻さない。
 
+AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [端末内推論の実装記録](./ai-visual-inspection-web-runtime.md) に記録する。オフライン精度の合否とは分ける。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順

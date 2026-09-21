@@ -1,0 +1,80 @@
+{
+  "runtimeVersion": "1.22.0",
+  "assets": {
+    "NOTICE.md": {
+      "bytes": 1264,
+      "gzipBytes": 796,
+      "sha256": "eade317b334b80352d4a253f3de180d76ff66a16275fb0b19ec189cb485d407f"
+    },
+    "inference.worker.js": {
+      "bytes": 1023,
+      "gzipBytes": 441,
+      "sha256": "fe1b97f950a81e6e20120b457a781b353eeed5234017a4be62bce3e80512c2a6"
+    },
+    "manifest.json": {
+      "bytes": 1132,
+      "gzipBytes": 444,
+      "sha256": "7bc85266f77d00dcba5e4d7fb2c461ccf2a5aa6c840fe0ff9cb6488edcfcb74f"
+    },
+    "processing.js": {
+      "bytes": 4368,
+      "gzipBytes": 1466,
+      "sha256": "4a748585314857f3c5984b663122b2c9abe2c58954df966afdeefc13f47eecf5"
+    },
+    "protocol.js": {
+      "bytes": 216,
+      "gzipBytes": 178,
+      "sha256": "2340490b37886dc6c9e9ee6ff989baf7c121b8b576aeaf2b60160e27135019e6"
+    },
+    "runtime.js": {
+      "bytes": 4621,
+      "gzipBytes": 1678,
+      "sha256": "4eed2a5536d74e02e2189411b9d684eb1eee80a459353710406b08e5fb10cfb2"
+    },
+    "models/balanced-17.onnx": {
+      "bytes": 477448,
+      "gzipBytes": 439586,
+      "sha256": "5ccbb55e0ab6bd0d213ef527d7db6cbeffe5286e1be08e179a17e96df2b8a715"
+    },
+    "models/dirt-biased-17.onnx": {
+      "bytes": 477448,
+      "gzipBytes": 439366,
+      "sha256": "c668dbbf7de6b22166678dbd1de3850e5fcbc909aacdc15b2f7e3846365ad3f7"
+    },
+    "models/label-errors-17.onnx": {
+      "bytes": 477448,
+      "gzipBytes": 439437,
+      "sha256": "555677a9ea99997d9d12baf5a1aba44f0966be37a73e53543c28401bf0ed79d5"
+    },
+    "models/normal-poor-17.onnx": {
+      "bytes": 477448,
+      "gzipBytes": 439490,
+      "sha256": "f6e948b24adf771469fcfefa8608e01364483067b4e36dce5284e28b581c9503"
+    },
+    "ort/LICENSE": {
+      "bytes": 1073,
+      "gzipBytes": 644,
+      "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c"
+    },
+    "ort/ThirdPartyNotices.txt": {
+      "bytes": 326866,
+      "gzipBytes": 31752,
+      "sha256": "e9e90971a8e75a9a8ac0c6412e29c1202d079998389915aa485f46c816c3b4cc"
+    },
+    "ort/ort-wasm-simd-threaded.mjs": {
+      "bytes": 20856,
+      "gzipBytes": 8392,
+      "sha256": "30dd851d9c00622940500f71ddd2ff8820c5cb65270816080175b958705385a8"
+    },
+    "ort/ort-wasm-simd-threaded.wasm": {
+      "bytes": 11210254,
+      "gzipBytes": 2864351,
+      "sha256": "71aef04959c5c1b6de461b6538e2058e306610034a85aad2742d0c7fd4533fe4"
+    },
+    "ort/ort.wasm.min.mjs": {
+      "bytes": 48259,
+      "gzipBytes": 15598,
+      "sha256": "6ef726f355b791129f7ddf3f62e7877a16b9b777abe87004b8ab306e6b9cf265"
+    }
+  }
+}
