@@ -7,7 +7,7 @@ import type { JevResult } from "@/lib/jev-demo";
 import { trackEvent } from "@/lib/analytics";
 import { JevFactoryExperience } from "./JevFactoryExperience";
 import { jevVisualVersion, visualCases, formatProbability, formatProbabilityDelta } from "@/data/jev-visual";
-import styles from "@/app/labs/jev/jev.module.css";
+import styles from "@/app/(ja)/labs/jev/jev.module.css";
 
 const routeKeys = Object.keys(jevRoutes) as JevRoute[];
 const pct = formatProbability;

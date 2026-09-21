@@ -27,6 +27,8 @@
 
 ### EFEM英語版1本の検索需要実験（2026-09-21）
 
+- [x] Vercelで判明したルート移動後のCSS参照漏れを修正（JevDemo・JevFactoryExperience・ProcessComparisonToolと対象テスト）。src内のCSS参照28件の実在確認とJEV・工程比較の対象テスト各1回が通過。ローカルbuild未実施、Vercel再ビルドは未確認。
+
 - [x] 英語原稿・公式出典・原文更新日・翻訳日を別データとして追加。2026-09-21に運営者が原稿を承認。
 - [x] 日本語URLを維持して言語別レイアウトを分離。英語の図表・目次・出典・言語切り替え、公開状態に連動するcanonical/hreflang/sitemap、共通計測、404を実装。
 - [x] `npm run typecheck`（1回）、`node tests/unit/english-guide.cjs`（1回）、`git diff --check`が通過。既存app全47ファイルの移動先を照合し、意図した3ファイル以外の内容維持を確認。古いNext生成型キャッシュのみ削除。dev・build・ブラウザは未実施。

@@ -5,7 +5,7 @@ import { processComparisonSample } from "@/data/process-comparison-sample";
 import { trackEvent } from "@/lib/analytics";
 import { compareProcesses, comparisonRows, comparisonSvg, comparisonTsv, type Comparison, type ComparisonInput } from "@/lib/process-comparison";
 import { downloadComparisonPng } from "@/lib/process-comparison-export";
-import styles from "@/app/tools/process-comparison/comparison.module.css";
+import styles from "@/app/(ja)/tools/process-comparison/comparison.module.css";
 
 const empty: ComparisonInput = { nameA: "条件A", nameB: "条件B", measurement: "", unit: "", dataA: "", dataB: "", lower: "", upper: "" };
 

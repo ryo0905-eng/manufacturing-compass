@@ -3,7 +3,7 @@
 import { jevRoutes, type JevRoute } from "@/data/jev-demo";
 import { factoryAreas, getVisualScene, formatProbability, formatProbabilityDelta, visualCases, type FactoryArea } from "@/data/jev-visual";
 import type { JevResult } from "@/lib/jev-demo";
-import styles from "@/app/labs/jev/jev.module.css";
+import styles from "@/app/(ja)/labs/jev/jev.module.css";
 
 function PixelIcon({ kind }: { kind: FactoryArea }) {
   return <svg viewBox="0 0 48 48" aria-hidden="true" className={styles.pixelIcon} shapeRendering="crispEdges">

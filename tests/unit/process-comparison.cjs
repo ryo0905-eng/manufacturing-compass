@@ -54,7 +54,7 @@ async function uiTest(clipboardFails) {
   const { ProcessComparisonTool } = load('src/components/ProcessComparisonTool.tsx', {
     '@/data/process-comparison-sample': load('src/data/process-comparison-sample.ts'),
     react, 'react/jsx-runtime': { jsx: element, jsxs: element }, '@/lib/analytics': { trackEvent: (...args) => events.push(args) }, '@/lib/process-comparison': lib,
-    '@/lib/process-comparison-export': { downloadComparisonPng: async text => { exported = text; } }, '@/app/tools/process-comparison/comparison.module.css': { default: {} },
+    '@/lib/process-comparison-export': { downloadComparisonPng: async text => { exported = text; } }, '@/app/(ja)/tools/process-comparison/comparison.module.css': { default: {} },
   }, { navigator: { clipboard: { writeText: async text => { if (clipboardFails) throw Error('denied'); copied = text; } } } });
   const render = () => { cursor = 0; return ProcessComparisonTool(); };
   const button = label => nodes(render(), n => n.type === 'button' && n.props.children === label)[0];

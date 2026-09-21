@@ -34,7 +34,7 @@ for (const sample of data.jevSamples) {
 }
 const { JevFactoryExperience } = load("src/components/JevFactoryExperience.tsx", {
   "@/data/jev-demo": data, "@/data/jev-visual": visual,
-  "@/app/labs/jev/jev.module.css": { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) },
+  "@/app/(ja)/labs/jev/jev.module.css": { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) },
 });
 const keys = Object.keys(data.jevRoutes);
 const distribution = (route, high = .84) => Object.fromEntries(keys.map(id => [id, id === route ? high : (1 - high) / 8]));
@@ -113,7 +113,7 @@ async function controllerTests() {
     "@/data/jev-demo": data, "@/data/jev-visual": visual,
     "./JevFactoryExperience": { JevFactoryExperience },
     "@/lib/analytics": { trackEvent: (name, event) => events.push({ name, ...event }) },
-    "@/app/labs/jev/jev.module.css": { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) },
+    "@/app/(ja)/labs/jev/jev.module.css": { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) },
   }, {
     AbortSignal: { timeout() {} },
     fetch: (_url, options) => {
