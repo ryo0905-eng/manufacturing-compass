@@ -5,6 +5,35 @@ Python is an offline development dependency; it is not part of the Next.js build
 
 ## Version 2 staged experiment
 
+### Fixed recipe / seed comparison
+
+The next experiment uses four recipes and seeds 17, 29, 43 under
+`docs/ai-visual-inspection-v2-comparison-protocol.md`. Every model uses exactly
+10 epochs / 750 updates. The balanced seed 17 checkpoint is reused, not selected
+from the best of the new results. Each training/evaluation invocation has a
+175-second guard and refuses to overwrite its record. Run jobs separately;
+do not wrap the full experiment in a single shell command exceeding three minutes.
+
+```sh
+# Example for one new model; repeat separately for each declared recipe/seed.
+python scripts/ai-visual-inspection/compare_v2.py train dirt-biased 17
+python scripts/ai-visual-inspection/compare_v2.py evaluate dirt-biased 17
+# Reused model: evaluation only.
+python scripts/ai-visual-inspection/compare_v2.py evaluate balanced 17
+# Read stored outputs, with no fitting or inference.
+python scripts/ai-visual-inspection/report_comparison_v2.py
+python scripts/ai-visual-inspection/inspect_comparison_v2.py
+python -m unittest discover -s scripts/ai-visual-inspection -p 'test*.py'
+```
+
+Outputs: `.cache/ai-visual-inspection/v2/comparison/`. The report retains all
+seeds, paired decision changes, actual training counts, ONNX parity and missing
+runs. A recipe need not worsen every metric. The preview uses metadata-first
+examples and the first changed decisions, not a selection of attractive successes.
+The final holdout and browser execution remain separate steps.
+
+### Successful baseline follow-up
+
 The later user-authorized continuation is recorded separately in
 `docs/ai-visual-inspection-v2-followup-protocol.md`. It preserves the original
 failed tiny-fit run and its criteria. The follow-up passed the tiny-fit gate,

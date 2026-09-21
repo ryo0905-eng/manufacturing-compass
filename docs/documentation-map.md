@@ -60,6 +60,8 @@ AI外観検査v2の段階的な再検証条件は [`docs/ai-visual-inspection-v2
 
 AI外観検査v2の追加学習は [`docs/ai-visual-inspection-v2-followup-protocol.md`](./ai-visual-inspection-v2-followup-protocol.md) で条件を固定し、[`docs/ai-visual-inspection-v2-followup-validation.md`](./ai-visual-inspection-v2-followup-validation.md) と [`docs/ai-visual-inspection-v2-followup-experiment.json`](./ai-visual-inspection-v2-followup-experiment.json) に記録する。48枚の学習確認・400枚の調整・600枚の開発評価を区別し、教材全体の完成と混同しない。
 
+AI外観検査v2の4構成・3シード比較は [固定条件](./ai-visual-inspection-v2-comparison-protocol.md)、[比較報告](./ai-visual-inspection-v2-comparison-validation.md)、[機械可読結果](./ai-visual-inspection-v2-comparison-experiment.json) に記録する。開発評価と最終評価を区別し、全シードの未達・改善・不変も保持する。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順
