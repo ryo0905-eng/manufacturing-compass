@@ -15,6 +15,7 @@ function load(relative, dependencies = {}, globals = {}) {
   vm.runInNewContext(code, {
     exports,
     require(name) {
+      if (name === '@/data/cpk-text') return load('src/data/cpk-text.ts');
       if (name === 'react/jsx-runtime') return { jsx: element, jsxs: element };
       if (Object.hasOwn(dependencies, name)) return dependencies[name];
       throw new Error(`Unexpected dependency: ${name}`);

@@ -1,10 +1,13 @@
 "use client";
 
+import { cpkText, type CpkLocale } from "@/data/cpk-text";
+
 import { useRef, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
 import type { CapabilityMethod } from "@/lib/process-capability";
 
-export function CpkResultCopy({ text, method }: { text: string; method: CapabilityMethod }) {
+export function CpkResultCopy({ text, method, locale = "ja" }: { text: string; method: CapabilityMethod; locale?: CpkLocale }) {
+  const t = (text: string) => cpkText(locale, text);
   const [status, setStatus] = useState<"idle" | "copying" | "success" | "error">("idle");
   const copying = useRef(false);
 
@@ -21,21 +24,20 @@ export function CpkResultCopy({ text, method }: { text: string; method: Capabili
     }
     copying.current = false;
     setStatus("success");
-    trackEvent("cpk_result_copied", { method });
+    trackEvent("cpk_result_copied", { method, ...(locale === "en" ? { locale } : {}) });
   }
 
   return (
     <div className="cpk-result-copy">
       <button type="button" disabled={status === "copying"} onClick={copyResult}>
-        {status === "copying" ? "コピー中…" : "結果をコピー"}
+        {status === "copying" ? t("コピー中…") : t("結果をコピー")}
       </button>
       <p role="status">
-        {status === "success" ? "コピーしました。メモなどに貼り付けられます。" : status === "error" ? "自動コピーできませんでした。下のテキストを選択して、手動でコピーしてください。" : ""}
+        {status === "success" ? t("コピーしました。メモなどに貼り付けられます。") : status === "error" ? t("自動コピーできませんでした。下のテキストを選択して、手動でコピーしてください。") : ""}
       </p>
       {status === "error" ? (
         <label>
-          コピー用の計算結果（読取専用）
-          <textarea readOnly value={text} rows={8} onFocus={(event) => event.currentTarget.select()} />
+          {t("コピー用の計算結果（読取専用）")}<textarea readOnly value={text} rows={8} onFocus={(event) => event.currentTarget.select()} />
         </label>
       ) : null}
     </div>

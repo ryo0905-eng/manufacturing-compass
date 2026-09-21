@@ -30,6 +30,10 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - 英語記事は `src/content/guides/en` の独立レジストリに置き、既存 `GuideArticle` を拡張した翻訳情報で原文更新日・翻訳日・人間の確認日を保持する。原文更新日との差は対象テストで検出する。
 - 英語の公開判定は `status: published`、空でない `publishedAt` と `translation.reviewedAt` の全条件。レビュー用draftは静的生成するがnoindex、sitemap・hreflang・日本語からの言語切り替え対象外。これはアクセス制限ではないため、非公開情報は置かない。
 - 英語記事の自己参照canonicalと公開時の日英相互hreflangを生成する。日本語の記事一覧・記事数には英語版を混ぜない。英語トップと英語一覧は作らない。
+- `/en/tools/cpk` は既存の `CpkToolExperience` と子コンポーネントに `locale="en"` を渡す。未指定は日本語。数式・サンプル・状態を複製せず、翻訳は `src/data/cpk-text.ts`、英語解説・公開管理は `src/data/cpk-english.ts` に分離する。
+- Cpkの分析説明は共通の分岐結果を翻訳し、学習の比較説明も既存分岐に言語引数を加える。片側規格は規格中心を定義しない専用説明を日英共通で使う。計算結果は変更しない。
+- Cpk英語版は `englishCpkRelease` のstatus・reviewedAt・publishedAtで検索公開を制御する。EFEMの公開状態とは独立し、確認前はnoindex・sitemap/hreflang/日本語からのリンク対象外とする。公開時は相互の自己参照canonical・ja/enを設定する。
+- 英語の既存Cpkイベントには `locale=en` のみ追加し、測定値・規格・結果・コピー本文は送信しない。`cpk_language_switch` は固定パス・言語だけを送る。入力は言語切り替えや再読み込みで失われる。
 
 ### 中心導線
 

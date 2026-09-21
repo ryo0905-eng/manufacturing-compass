@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { englishGuides, isEnglishGuidePublished } from "@/content/guides/en";
+import { englishCpkRelease, isEnglishCpkPublished } from "@/data/cpk-english";
 import { companies, isCompanyIndexable, segments } from "@/data/companies";
 import { companyLocations } from "@/data/company-locations";
 import { beginnerGuides, comparePairs, rankings } from "@/data/editorial";
@@ -102,5 +103,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.66,
   }));
 
-  return [...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes];
+  const englishToolRoutes = isEnglishCpkPublished() ? [{
+    url: `${siteUrl}/en/tools/cpk`, lastModified: contentDate(englishCpkRelease.updatedAt),
+    changeFrequency: "monthly" as const, priority: 0.8,
+  }] : [];
+
+  return [...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
 }

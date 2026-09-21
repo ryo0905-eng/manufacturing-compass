@@ -1,3 +1,4 @@
+import { cpkText, type CpkLocale } from "@/data/cpk-text";
 import type { CapabilityResult } from "@/lib/process-capability";
 
 type HistogramBin = { start: number; end: number; count: number };
@@ -21,9 +22,10 @@ function number(value: number) {
   return Number(value.toFixed(4)).toString();
 }
 
-export function CapabilityHistogram({ result, values }: { result: CapabilityResult; values: number[] }) {
+export function CapabilityHistogram({ result, values, locale = "ja" }: { result: CapabilityResult; values: number[]; locale?: CpkLocale }) {
+  const t = (text: string) => cpkText(locale, text);
   if (values.length < 2 || result.standardDeviation <= 0) {
-    return <p className="capability-chart-empty">分布を描画するには、異なる測定値が2件以上必要です。</p>;
+    return <p className="capability-chart-empty">{t("分布を描画するには、異なる測定値が2件以上必要です。")}</p>;
   }
 
   const candidates = [
@@ -47,15 +49,15 @@ export function CapabilityHistogram({ result, values }: { result: CapabilityResu
   const lines = [
     result.lowerSpecificationLimit === undefined ? undefined : { label: "LSL", value: result.lowerSpecificationLimit, className: "spec" },
     result.upperSpecificationLimit === undefined ? undefined : { label: "USL", value: result.upperSpecificationLimit, className: "spec" },
-    { label: "平均", value: result.mean, className: "mean" },
-    center === undefined ? undefined : { label: "規格中心", value: center, className: "center" },
+    { label: t("平均"), value: result.mean, className: "mean" },
+    center === undefined ? undefined : { label: t("規格中心"), value: center, className: "center" },
   ].filter((line): line is { label: string; value: number; className: string } => line !== undefined);
 
   return (
     <figure className="capability-chart">
       <svg viewBox="0 0 720 290" role="img" aria-labelledby="capability-chart-title capability-chart-desc">
-        <title id="capability-chart-title">測定値のヒストグラム</title>
-        <desc id="capability-chart-desc">{values.length}件の測定値の分布。平均は{number(result.mean)}、標準偏差は{number(result.standardDeviation)}です。</desc>
+        <title id="capability-chart-title">{t("測定値のヒストグラム")}</title>
+        <desc id="capability-chart-desc">{locale === "en" ? `Distribution of ${values.length} measurements. Mean ${number(result.mean)}, standard deviation ${number(result.standardDeviation)}.` : <>{values.length}件の測定値の分布。平均は{number(result.mean)}、標準偏差は{number(result.standardDeviation)}です。</>}</desc>
         <rect className="chart-plot-background" x={plot.x} y={plot.y} width={plot.width} height={plot.height} rx="5" />
         {gridTicks.map((tick) => {
           const y = plot.y + plot.height - tick * plot.height;
@@ -66,29 +68,29 @@ export function CapabilityHistogram({ result, values }: { result: CapabilityResu
           const barWidth = plot.width / bins.length - 3;
           const height = (bin.count / maxCount) * (plot.height - 22);
           return (
-            <g className="histogram-bar" key={bin.start} tabIndex={0} role="img" aria-label={`${number(bin.start)}以上${number(bin.end)}未満、${bin.count}件`}>
-              <title>{number(bin.start)}〜{number(bin.end)}：{bin.count}件</title>
+            <g className="histogram-bar" key={bin.start} tabIndex={0} role="img" aria-label={locale === "en" ? `${number(bin.start)} to less than ${number(bin.end)}: ${bin.count} measurements` : `${number(bin.start)}以上${number(bin.end)}未満、${bin.count}件`}>
+              <title>{locale === "en" ? `${number(bin.start)}–${number(bin.end)}: ${bin.count} measurements` : `${number(bin.start)}〜${number(bin.end)}：${bin.count}件`}</title>
               <rect x={plot.x + index * (plot.width / bins.length) + 1.5} y={plot.y + plot.height - height} width={barWidth} height={height} rx="2" />
             </g>
           );
         })}
         {lines.map((line) => (
           <g className={`chart-reference chart-reference--${line.className}`} key={line.label} tabIndex={0} role="img" aria-label={`${line.label} ${number(line.value)}`}>
-            <title>{line.label}：{number(line.value)}</title>
+            <title>{`${line.label}${locale === "en" ? ": " : "："}${number(line.value)}`}</title>
             <line x1={x(line.value)} x2={x(line.value)} y1={plot.y - 2} y2={plot.y + plot.height} />
-            <text x={x(line.value)} y={line.label === "規格中心" ? 22 : 12} textAnchor="middle">{line.label}</text>
+            <text x={x(line.value)} y={line.className === "center" ? 22 : 12} textAnchor="middle">{line.label}</text>
           </g>
         ))}
         <text className="axis-label" x={plot.x} y="275">{number(domainMin)}</text>
         <text className="axis-label" x={plot.x + plot.width} y="275" textAnchor="end">{number(domainMax)}</text>
       </svg>
-      <div className="capability-chart-legend" aria-label="グラフの凡例">
-        <span className="capability-chart-legend__bar">測定値</span>
-        <span className="capability-chart-legend__spec">規格限界</span>
-        <span className="capability-chart-legend__mean">平均</span>
-        {center === undefined ? null : <span className="capability-chart-legend__center">規格中心</span>}
+      <div className="capability-chart-legend" aria-label={t("グラフの凡例")}>
+        <span className="capability-chart-legend__bar">{t("測定値")}</span>
+        <span className="capability-chart-legend__spec">{t("規格限界")}</span>
+        <span className="capability-chart-legend__mean">{t("平均")}</span>
+        {center === undefined ? null : <span className="capability-chart-legend__center">{t("規格中心")}</span>}
       </div>
-      <figcaption>棒を選択すると区間と件数を確認できます。実線は規格限界、破線は平均、点線は規格中心です。</figcaption>
+      <figcaption>{t("棒を選択すると区間と件数を確認できます。実線は規格限界、破線は平均、点線は規格中心です。")}</figcaption>
     </figure>
   );
 }

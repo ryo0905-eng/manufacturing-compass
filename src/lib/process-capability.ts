@@ -114,6 +114,14 @@ export function analyzeCapability(result: CapabilityResult): AnalysisResult {
   const { potential, performance, lower, upper, centerOffset } = result;
   const commonChecks = ["工程の管理状態", "測定システム", "サンプリング方法"];
 
+  if (potential === undefined) {
+    return {
+      heading: "片側規格との距離を確認",
+      summary: "片側規格では規格中心を定義できません。平均と指定した規格限界の距離、ばらつき、工程の管理状態を確認してください。",
+      checks: commonChecks,
+    };
+  }
+
   if (potential !== undefined && potential < 1.33) {
     return {
       heading: "ばらつきの確認を優先",

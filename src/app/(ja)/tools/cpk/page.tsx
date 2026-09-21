@@ -5,11 +5,13 @@ import { CpkToolExperience } from "@/components/CpkToolExperience";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { siteUrl } from "@/lib/format";
+import { CpkLanguageLink } from "@/components/CpkLanguageLink";
+import { isEnglishCpkPublished } from "@/data/cpk-english";
 
 export const metadata: Metadata = {
   title: "Cp・Cpk計算ツール｜Pp・Ppk、ヒストグラム対応",
   description: "測定データからPp・Ppkとヒストグラムを計算・表示。短期標準偏差を入力したCp・Cpk計算にも対応。登録不要、データ保存なし。",
-  alternates: { canonical: "/tools/cpk" },
+  alternates: { canonical: "/tools/cpk", ...(isEnglishCpkPublished() ? { languages: { ja: `${siteUrl}/tools/cpk`, en: `${siteUrl}/en/tools/cpk` } } : {}) },
   openGraph: {
     title: "Cp・Cpk計算ツール｜Manufacturing Compass",
     description: "Excelの測定データを貼り付けて、工程能力と分布をブラウザ内で確認できます。",
@@ -34,6 +36,7 @@ export default function CpkToolPage() {
         <p className="privacy-note"><strong>登録不要・ブラウザ内で計算</strong><span>入力データはサーバー、Analytics、外部APIへ送信しません。</span></p>
       </header>
 
+      {isEnglishCpkPublished() ? <CpkLanguageLink locale="ja" /> : null}
       <CpkToolExperience />
 
       <nav className="tool-related-links" aria-label="関連する実務学習ツール"><span>関連ツール</span><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "yield_dashboard" }} href="/tools/yield-dashboard">架空工場で歩留まり原因調査を体験 <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "prototype_guide" }} href="/guides/ai-prototyping-requirements">このツールをAIで試作・改善した記録 <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "six_sigma" }} href="/guides/six-sigma">シックスシグマとDMAICの全体像 <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "control_chart" }} href="/tools/control-chart">管理図で工程の時間変化を学ぶ <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "doe" }} href="/tools/doe">実験計画法を動かして学ぶ <span aria-hidden="true">→</span></TrackedInternalLink></nav>
