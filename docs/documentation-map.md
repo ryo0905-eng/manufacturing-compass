@@ -68,6 +68,8 @@ AI外観検査v2の全モデルへの同量追加学習と4構成比較の更新
 
 AI外観検査v2のルールしきい値・明るさ変化・併用の検証は [固定条件](./ai-visual-inspection-v2-lighting-protocol.md)、[比較報告](./ai-visual-inspection-v2-lighting-validation.md)、[数値・曲線・変化画像](./ai-visual-inspection-v2-lighting-experiment.json) に記録する。調整用と開発用、ネイティブCPUとブラウザの確認を区別する。
 
+AI外観検査v2の背景交換と最終600枚の固定評価は [事前条件](./ai-visual-inspection-v2-holdout-protocol.md)、[結果](./ai-visual-inspection-v2-holdout-validation.md)、[数値・固定ハッシュ](./ai-visual-inspection-v2-holdout-experiment.json) に記録する。開封履歴を保持し、評価後の開発変更時は同じ群を未使用扱いに戻さない。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順

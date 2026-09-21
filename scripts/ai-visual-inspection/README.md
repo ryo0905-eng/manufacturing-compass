@@ -5,6 +5,35 @@ Python is an offline development dependency; it is not part of the Next.js build
 
 ## Version 2 staged experiment
 
+### Background counterfactuals and locked final evaluation
+
+`docs/ai-visual-inspection-v2-holdout-protocol.md` freezes this stage. Reconstruct
+the original development pixels exactly, then swap only the background to each
+of the next two boards. Defects and capture parameters remain fixed. Run each
+evaluation command separately (175-second limit, no overwrites):
+
+```sh
+python scripts/ai-visual-inspection/holdout_v2.py prepare
+python scripts/ai-visual-inspection/holdout_v2.py background rules
+python scripts/ai-visual-inspection/holdout_v2.py background balanced 17
+# Repeat background evaluation for all 12 recipe/seed pairs.
+python scripts/ai-visual-inspection/holdout_v2.py freeze
+# Only after all declared gates pass; these commands permanently open final data:
+python scripts/ai-visual-inspection/holdout_v2.py final rules
+python scripts/ai-visual-inspection/holdout_v2.py final balanced 17
+# Repeat final evaluation for all 12 recipe/seed pairs, without retuning.
+python scripts/ai-visual-inspection/report_holdout_v2.py
+python scripts/ai-visual-inspection/test_holdout_v2.py
+```
+
+The lock contains model, data, processing-source and protocol hashes; the runner
+checks it before opening final images. Artifacts and the persistent opening
+ledger live in `.cache/ai-visual-inspection/v2/holdout/`. The report checks cached
+masks and OR combinations and shows errors as well as metadata-selected examples.
+Any subsequent model/processing changes informed by final results require
+retiring this cohort to development and creating an independent new holdout.
+Passing these checks does not validate Worker/WASM, UI or factory performance.
+
 ### Rules, brightness and OR combinations
 
 `docs/ai-visual-inspection-v2-lighting-protocol.md` freezes the rule grids,
