@@ -19,7 +19,7 @@
 .controls { border: 1px solid #d6e0e9; border-radius: 12px; padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; margin: 24px 0; min-width: 0; }
 .controls legend { padding: 0 8px; font-weight: 600; }
 .control { display: grid; grid-template-columns: minmax(0, 1fr) 76px; align-items: center; gap: 10px; }
-.control span { grid-column: 1 / -1; font-size: .9rem; }
+.control > label { display: block; grid-column: 1 / -1; font-size: .9rem; }
 .control input[type=range] { width: 100%; min-width: 0; height: 32px; }
 .control input[type=number] { width: 76px; border: 1px solid #aebfce; border-radius: 6px; padding: 8px; background: white; color: inherit; font: inherit; }
 .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }

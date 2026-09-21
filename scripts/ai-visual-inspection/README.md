@@ -288,4 +288,4 @@ These are data and simulated-hook/SSR checks, not browser interaction tests. See
 
 ## Browser check
 
-`node scripts/ai-visual-inspection/check_browser.cjs` starts and stops a Webpack dev server on port 3100, then drives Chromium. Use Node 22 and keep port 3100 free. The script is capped at 175 seconds. Its first ad-hoc run stopped at the reflection label lookup; the committed runner has only been syntax-checked. See `docs/ai-visual-inspection-browser-validation.md` before reporting results or rerunning.
+`node scripts/ai-visual-inspection/check_browser.cjs` starts and stops a Webpack dev server on port 3100, then drives Chromium. Use Node 22 and keep port 3100 free. The script is capped at 175 seconds. The main flow now passes after the reflection label fix. `check_browser_remaining.cjs` covers the remaining models, keyboard, rapid changes, Worker metrics, and retry; it stopped at the range-label lookup. The label fix has passed unit/SSR and type checking but awaits browser recheck. See `docs/ai-visual-inspection-browser-validation.md` before reporting results or rerunning.

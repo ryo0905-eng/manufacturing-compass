@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { inspectionKinds, inspectionModels, inspectionSteps, inspectionTextures, inspectionRelease } from "@/data/ai-visual-inspection";
 import { InspectionClient } from "@/lib/ai-visual-inspection/client";
@@ -20,9 +20,10 @@ function event(name: "start" | "step_complete" | "model_change" | "lighting_chan
   // Only call with fixed categories below. Never send images, results or slider values.
   trackEvent(`visual_inspection_${name}`, { lesson_version: inspectionRelease.version, category });
 }
-function Control({ label, value, min, max, step = 1, onChange }: { label: string; value: number; min: number; max: number; step?: number; onChange: (n: number) => void }) {
+export function Control({ label, value, min, max, step = 1, onChange }: { label: string; value: number; min: number; max: number; step?: number; onChange: (n: number) => void }) {
+  const id = useId();
   const change = (value: string) => { if (value !== "" && Number.isFinite(Number(value))) onChange(Math.max(min, Math.min(max, Math.round(Number(value) / step) * step))); };
-  return <label className={styles.control}><span>{label}</span><input type="range" min={min} max={max} step={step} value={value} onChange={e => change(e.target.value)} /><input aria-label={`${label} 数値入力`} type="number" min={min} max={max} step={step} value={Number(value.toFixed(2))} onChange={e => change(e.target.value)} /></label>;
+  return <div className={styles.control}><label htmlFor={id}>{label}</label><input id={id} type="range" min={min} max={max} step={step} value={value} onChange={e => change(e.target.value)} /><input aria-label={`${label} 数値入力`} type="number" min={min} max={max} step={step} value={Number(value.toFixed(2))} onChange={e => change(e.target.value)} /></div>;
 }
 function Counts({ title, decisions, truth }: { title: string; decisions: (boolean | null)[]; truth: boolean[] }) {
   const counts = truth.length ? countErrors(decisions, truth) : null;

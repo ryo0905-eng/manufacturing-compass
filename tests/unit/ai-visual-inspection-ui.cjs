@@ -79,6 +79,14 @@ function samples(mode) {
   assert.ok(text(tree).includes('確認済み24枚を再評価'));assert.ok(!text(tree).includes('設定を固定して、別の24枚を開く'));
   assert.ok(events.every(([,props])=>Object.keys(props).every(key=>['lesson_version','category'].includes(key))));
   const ssr=loader({'@/lib/analytics':{trackEvent(){}},'@/lib/format':{siteUrl:'https://mfg-compass.com'}});
+  const Control=ssr(path.join(root,'components/ai-visual-inspection/InspectionLab.tsx')).Control;
+  const controlsHtml=renderToStaticMarkup(React.createElement(React.Fragment,null,
+    React.createElement(Control,{label:'AIの欠陥らしさのしきい値',value:.5,min:.1,max:.9,step:.05,onChange(){}}),
+    React.createElement(Control,{label:'撮影の明るさ（倍率）',value:1,min:.7,max:1.3,step:.1,onChange(){}})));
+  const ids=[...controlsHtml.matchAll(/<label for="([^"]+)">([^<]+)<\/label>/g)];
+  assert.equal(ids.length,2);assert.notEqual(ids[0][1],ids[1][1]);
+  for(const [,id,label] of ids){assert.ok(controlsHtml.includes(`<input id="${id}" type="range"`));assert.ok(controlsHtml.includes(`aria-label="${label} 数値入力"`));}
+  assert.ok(!/<label[^>]*>[^<]*<input/.test(controlsHtml),'a label must not wrap two controls');
   const page=ssr(path.join(root,'app/(ja)/tools/ai-visual-inspection/page.tsx'));
   const html=renderToStaticMarkup(React.createElement(page.default));
   assert.ok(html.includes('WebApplication')&&html.includes('BreadcrumbList')&&html.includes('体験を始める'));

@@ -4,7 +4,7 @@
 
 ## 状態
 
-`/tools/ai-visual-inspection` に5段階の試用画面を実装。Server Componentの概要・メタデータと、操作用Client Componentを分離した。実ブラウザの起動・基本推論・モデル切替・明るさ・確認画像・dialogのEscとフォーカス復帰は確認したが、振り返りの自動操作で停止。ラベル修正後の再確認、スマホ、その他のキーボード操作、実転送量・端末性能、人の試用は未完了。[初回ブラウザ記録](./ai-visual-inspection-browser-validation.md)。確認前の検索公開を避けるため一時的にnoindexとし、sitemap・トップ・ツール一覧への追加はまだ行っていない。デプロイしていない。
+`/tools/ai-visual-inspection` に5段階の試用画面を実装。Server Componentの概要・メタデータと、操作用Client Componentを分離した。実ブラウザの一周、全モデルの切替、390px幅の縦配置、取得失敗時の未評価、dialogのEscとフォーカス復帰を確認した。追加のキーボード確認はスライダー名の検索で停止し、ラベルを修正。修正後の追加確認と実機性能、人の試用は未完了。[初回ブラウザ記録](./ai-visual-inspection-browser-validation.md)。確認前の検索公開を避けるため一時的にnoindexとし、sitemap・トップ・ツール一覧への追加はまだ行っていない。デプロイしていない。
 
 ## 体験
 

@@ -1,0 +1,111 @@
+{
+  "date": "2026-09-22",
+  "testedRevision": "f032d532ddad8936c4981cbff37eb9ce0c0ada64",
+  "mainFlowPassed": true,
+  "allChecksPassed": false,
+  "primary": {
+    "verified": [
+      "initial-worker-wasm",
+      "practice-24",
+      "dialog-escape-focus",
+      "model-switch-dirt-biased",
+      "lighting-0.7",
+      "confirmation-24",
+      "reflection",
+      "mobile-viewport",
+      "model-network-failure"
+    ],
+    "measurements": {
+      "batchMs": 1421,
+      "workerResources": [
+        [
+          {
+            "name": "/ai-visual-inspection/v2/ort/ort.wasm.min.mjs",
+            "encodedBodySize": 15621,
+            "decodedBodySize": 48259,
+            "transferSize": 15921,
+            "duration": 2.7000000178813934
+          },
+          {
+            "name": "/ai-visual-inspection/v2/manifest.json",
+            "encodedBodySize": 444,
+            "decodedBodySize": 1132,
+            "transferSize": 744,
+            "duration": 1.699999988079071
+          },
+          {
+            "name": "/ai-visual-inspection/v2/models/balanced-17.onnx",
+            "encodedBodySize": 477448,
+            "decodedBodySize": 477448,
+            "transferSize": 477748,
+            "duration": 2.5
+          },
+          {
+            "name": "/ai-visual-inspection/v2/ort/ort-wasm-simd-threaded.mjs",
+            "encodedBodySize": 8391,
+            "decodedBodySize": 20856,
+            "transferSize": 8691,
+            "duration": 2.2000000178813934
+          },
+          {
+            "name": "/ai-visual-inspection/v2/ort/ort-wasm-simd-threaded.wasm",
+            "encodedBodySize": 2878594,
+            "decodedBodySize": 11210254,
+            "transferSize": 2878894,
+            "duration": 369.69999998807907
+          },
+          {
+            "name": "/ai-visual-inspection/v2/manifest.json",
+            "encodedBodySize": 444,
+            "decodedBodySize": 1132,
+            "transferSize": 300,
+            "duration": 20.30000001192093
+          },
+          {
+            "name": "/ai-visual-inspection/v2/models/dirt-biased-17.onnx",
+            "encodedBodySize": 477448,
+            "decodedBodySize": 477448,
+            "transferSize": 477748,
+            "duration": 6.700000017881393
+          }
+        ]
+      ],
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "figures": [
+          {
+            "x": 25,
+            "y": -866.640625,
+            "width": 340,
+            "height": 376.484375
+          },
+          {
+            "x": 25,
+            "y": -478.15625,
+            "width": 340,
+            "height": 376.484375
+          }
+        ]
+      }
+    },
+    "failure": null,
+    "environment": "Desktop Chromium / Next dev webpack; not a physical smartphone"
+  },
+  "remaining": {
+    "verified": [
+      "model-normal-poor",
+      "model-label-errors",
+      "training-representatives"
+    ],
+    "measurements": {},
+    "failure": "Timeout: exact-name lookup of AI score slider (30 seconds)",
+    "environment": "Desktop Chromium / Next dev webpack; mobile viewport only"
+  },
+  "firstRuntimeAssets": {
+    "encodedBodyBytes": 3380498,
+    "transferSizeBytes": 3381998,
+    "scope": "5 Worker resource entries: ORT JS, manifest, first model, WASM loader and WASM; excludes UI and Worker bootstrap modules"
+  },
+  "afterTestChange": "Separated range label and number input; unit/SSR and typecheck passed; no browser rerun"
+}
