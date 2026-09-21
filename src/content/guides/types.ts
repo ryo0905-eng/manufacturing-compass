@@ -5,6 +5,16 @@ export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
   | {
+      type: "comparison-table";
+      title: string;
+      columns: string[];
+      rows: Array<{
+        label: string;
+        values: string[];
+        source?: { title: string; url: string };
+      }>;
+    }
+  | {
       type: "image";
       src: string;
       alt: string;

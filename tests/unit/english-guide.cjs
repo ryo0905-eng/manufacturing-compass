@@ -42,7 +42,8 @@ async function main() {
   assert.equal(registry.englishGuides.length, 1);
   const guide = registry.englishGuides[0];
   const source = load('src/content/guides/index').getGuideBySlug(guide.translation.sourceSlug);
-  assert.equal(guide.translation.sourceUpdatedAt, source.updatedAt, 'Review English edition when Japanese source changes');
+  assert.equal(guide.translation.pendingSourceUpdatedAt ?? guide.translation.sourceUpdatedAt, source.updatedAt, 'Review or explicitly record a pending Japanese revision');
+  if (guide.translation.pendingSourceUpdatedAt) assert.notEqual(guide.translation.pendingSourceUpdatedAt, guide.translation.sourceUpdatedAt, 'Pending source revision must differ from the reviewed translation');
   const en = load('src/app/(en)/en/guides/[slug]/page');
   const ja = load('src/app/(ja)/guides/[slug]/page');
   const sitemap = load('src/app/sitemap').default;

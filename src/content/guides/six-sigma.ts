@@ -303,6 +303,7 @@ export const sixSigmaGuide: GuideArticle = {
   todayQuest:
     "身近な改善テーマを一つ選び、「何が困るのか」「今は何で測っているか」「改善後を何で確認するか」を一文ずつ書く",
   relatedGuideSlugs: [
+    "cpk-low-causes",
     "semiconductor-inspection-metrology",
     "semiconductor-manufacturing-process",
     "quality-engineer-route",

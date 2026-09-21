@@ -69,6 +69,21 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
           );
         }
 
+        if (block.type === "comparison-table") {
+          return (
+            <div className="guide-comparison-table" role="region" aria-label={block.title} tabIndex={0} key={`comparison-table-${index}`}>
+              <table>
+                <caption>{block.title}</caption>
+                <thead><tr>{block.columns.map(column => <th scope="col" key={column}>{column}</th>)}</tr></thead>
+                <tbody>{block.rows.map(row => <tr key={row.label}>
+                  <th scope="row">{row.label}{row.source ? <small><a href={row.source.url} target="_blank" rel="noopener noreferrer">{row.source.title}</a></small> : null}</th>
+                  {row.values.map((value, cellIndex) => <td key={cellIndex}>{value}</td>)}
+                </tr>)}</tbody>
+              </table>
+            </div>
+          );
+        }
+
         if (block.type === "mapping") {
           return (
             <div className="guide-mapping" key={`mapping-${index}`}>

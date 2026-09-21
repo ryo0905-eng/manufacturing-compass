@@ -14,6 +14,7 @@ export const efemEnglishGuide: EnglishGuideArticle = {
   translation: {
     sourceSlug: "semiconductor-wafer-handling-efem-manufacturers",
     sourceUpdatedAt: "2026-09-01",
+    pendingSourceUpdatedAt: "2026-09-21",
     translatedAt: "2026-09-21",
     reviewedAt: "2026-09-21",
   },

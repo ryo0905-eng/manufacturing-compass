@@ -304,3 +304,10 @@ Supabase、ユーザーアカウント、メール保存、求人連携は未採
 ### Vercel AI Gateway対応（2026-09-20）
 
 運営者が取得したGatewayキーを使うため、Jevの接続先をVercel AI Gatewayへ変更する。環境変数は`AI_GATEWAY_API_KEY`、モデルIDは`typesafe-ai/jev`。AI SDK 7のexperimental_evaluateを使い、Node.jsは22以上24未満とする。Gatewayの応答から確信度・使用量を検証して取り出す。費用管理はGatewayのAPIキー予算に一本化する。APIキー設定は.env.localまたはデプロイ環境変数で行い、コーディングエージェント向けCLIセットアップは使用しない。
+
+## 記事の比較表と翻訳差分（2026-09-21）
+
+- GuideBlockのcomparison-tableは見出し列・行見出し・文字列値・任意の行別出典を持ち、GuideBlocksでcaption付きのHTML表として表示する。スマホは列関係を維持した横スクロール。新しいクライアント処理は追加しない。
+- Cpk結果解説は通常のGuideArticleとして登録する。draftは既存の公開フィルターにより一覧・sitemap・記事URLから除外され、確認用原稿は非公開文書で読む。公開指示後にstatusと実際の公開日を設定する。
+- Cpkツールから新記事へのリンクは記事がpublishedのときだけ表示する。シックスシグマの関連記事も既存の公開フィルターを使う。
+- 公開済み英語版の翻訳元に更新がある場合、translation.pendingSourceUpdatedAtに未反映の日本語更新日を記録できる。sourceUpdatedAt・translatedAt・reviewedAtは実際に翻訳・確認した版の日付を維持する。対象テストは未記録の原文更新を検出し、差分を確認して反映後にpendingを外す。pendingは翻訳済みや確認済みを意味せず、英語版の公開状態も変更しない。

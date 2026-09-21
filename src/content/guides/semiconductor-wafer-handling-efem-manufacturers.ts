@@ -23,37 +23,37 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
     "Brooksで大気・真空環境をまたぐ自動化プラットフォーム、川崎重工でEFEM向けウェーハ搬送ロボットとSEMI規格対応の領域を確認",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-09-01",
+  updatedAt: "2026-09-21",
   sources: [
     {
       title: "Wafer Handling System",
       url: "https://www.rorze.com/en/products_category/wafer-transfer-system/",
       publisher: "RORZE Corporation",
-      accessedAt: "2026-07-16",
+      accessedAt: "2026-09-21",
     },
     {
       title: "ACE EFEM",
       url: "https://www.rorze.com/en/products/ace-efem/",
       publisher: "RORZE Corporation",
-      accessedAt: "2026-07-16",
+      accessedAt: "2026-09-21",
     },
     {
       title: "Semiconductor Related Equipment",
-      url: "https://www.hirata.co.jp/en/products/semiconductor",
+      url: "https://www.hirata.co.jp/products/semiconductor",
       publisher: "Hirata Corporation",
-      accessedAt: "2026-07-16",
+      accessedAt: "2026-09-21",
     },
     {
       title: "Vacuum Automation",
       url: "https://www.brooks.com/solutions/vacuum-automation/",
       publisher: "Brooks Automation",
-      accessedAt: "2026-07-16",
+      accessedAt: "2026-09-21",
     },
     {
       title: "Wafer Transfer Robots",
-      url: "https://kawasakirobotics.com/jp/robots-category/wafer/",
+      url: "https://kawasakirobotics.com/jp/applications/silicon-wafer-handling/",
       publisher: "Kawasaki Heavy Industries, Ltd.",
-      accessedAt: "2026-07-16",
+      accessedAt: "2026-09-21",
     },
     {
       title: "RORZE Integrated Report 2025",
@@ -111,22 +111,36 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
       lead: "装置の境界を分けると、各部品の役割が見えます。",
       blocks: [
         {
-          type: "mapping",
-          leftLabel: "領域",
-          rightLabel: "主な設備と環境",
-          rows: [
-            { left: "工場内搬送", right: "OHT・AGV・ストッカがFOUP単位で装置間を運ぶ" },
-            { left: "EFEM", right: "ロードポート、大気ロボット、アライナ、FFU、制御がFOUPと装置入口をつなぐ" },
-            { left: "ロードロック", right: "ウェーハを収容して大気・真空を切り替え、両環境の間を分離する" },
-            { left: "真空搬送モジュール", right: "真空ロボットがロードロックと複数のプロセス室間でウェーハを運ぶ" },
-            { left: "プロセスモジュール", right: "成膜、エッチング、洗浄、熱処理、計測など実際の処理を行う" },
-            { left: "ソーター", right: "FOUP・カセット間の移載、並べ替え、反転、ID・検査などを主目的にする" },
-          ],
-        },
+          type: "process-flow",
+          title: "位置関係｜工場搬送から処理室まで、EFEMはどこにある？",
+          description: "真空処理を行う代表的な枚葉装置の構成です。これは装置の位置関係で、先の6段階はウェーハの搬送手順です。大気処理装置ではロードロックや真空搬送を使わない場合があります。",
+          stages: [
+            {
+              label: "FACTORY",
+              title: "工場内搬送",
+              body: "OHT・AGV・ストッカがFOUP単位で装置間を運ぶ。EFEMの外側。"
+            },
+            {
+              label: "FRONT END",
+              title: "EFEM：清浄な大気側",
+              body: "ロードポートでFOUPを受け、大気ロボットが一枚ずつ取り出す。アライナ・FFU・制御を組み合わせる。"
+            },
+            {
+              label: "BOUNDARY",
+              title: "ロードロック",
+              body: "ウェーハを収容し、大気と真空を切り替える境界。EFEM後段と真空搬送系をつなぐ。"
+            },
+            {
+              label: "PROCESS SIDE",
+              title: "真空搬送・処理室",
+              body: "真空ロボットがロードロックと各処理室をつなぐ。成膜・エッチングなどの処理はプロセスモジュールが担う。"
+            }
+          ]
+        }
       ],
       paragraphs: [
-        "平田機工はEFEMを、ロードポートとウェーハ搬送ロボットを統合し、容器とプロセス装置の間でクリーンに受け渡す装置として説明しています。",
-        "Brooksは大気・真空環境をまたぐ搬送システムとして、EFEM、ロードポート、真空ロボット、プロセスモジュールの統合を示しています。",
+        "ソーターはFOUP・カセット間の移載や並べ替えを主目的とする装置です。プロセス装置への受け渡しを担うEFEMとは、用途を分けて確認します。",
+        "平田機工はEFEMを容器とプロセス装置の間でクリーンに受け渡す装置として説明しています。Brooksの真空システムは、EFEM・ロードポート・プロセスモジュールを統合する構成を示しています。"
       ],
     },
     {
@@ -210,16 +224,75 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
       lead: "部品単体、統合EFEM、真空プラットフォームで提供範囲が異なります。",
       blocks: [
         {
-          type: "mapping",
-          leftLabel: "企業",
-          rightLabel: "公式情報で確認できる主な領域",
-          rows: [
-            { left: "ローツェ｜日本", right: "大気・真空ウェーハロボット、アライナ、ロードポート、真空プラットフォーム、EFEM・ソーター、装置通信ソフトを展開" },
-            { left: "平田機工｜日本", right: "ロードポート、大気・真空ロボット、アライナ、EFEM・ソーターを展開し、300mmやパネル搬送にも対応" },
-            { left: "Brooks Automation｜米国", right: "大気・真空自動化、真空ロボット、EFEM、ロードポート、真空プラットフォーム、診断・サービスを展開" },
-            { left: "川崎重工｜日本", right: "EFEM向け大気ウェーハ搬送ロボットと真空ロボットを展開し、複数FOUPアクセス、精密・滑らかな搬送、安全規格対応を示す" },
+          type: "comparison-table",
+          title: "代表4社の提供範囲｜2026年9月21日に確認した公式製品情報",
+          columns: [
+            "企業・公式出典",
+            "ロボット単体",
+            "ロードポート",
+            "統合EFEM",
+            "真空搬送"
           ],
+          rows: [
+            {
+              label: "ローツェ",
+              values: [
+                "大気・真空ロボット",
+                "製品掲載あり",
+                "ACE EFEMなど",
+                "真空ロボット・プラットフォーム"
+              ],
+              source: {
+                title: "ウェーハ搬送製品一覧",
+                url: "https://www.rorze.com/en/products_category/wafer-transfer-system/"
+              }
+            },
+            {
+              label: "平田機工",
+              values: [
+                "大気・真空ロボット",
+                "KWF・HPLPシリーズ",
+                "Freedomシリーズ",
+                "真空対応ロボット"
+              ],
+              source: {
+                title: "半導体関連生産設備",
+                url: "https://www.hirata.co.jp/products/semiconductor"
+              }
+            },
+            {
+              label: "Brooks Automation",
+              values: [
+                "MagnaTran真空ロボットなど",
+                "Load Port Systems",
+                "Marathon EFEM Platforms",
+                "Marathon真空システム"
+              ],
+              source: {
+                title: "Vacuum Automation",
+                url: "https://www.brooks.com/solutions/vacuum-automation/"
+              }
+            },
+            {
+              label: "川崎重工",
+              values: [
+                "ウェーハ搬送ロボット",
+                "今回の出典では未確認",
+                "今回の出典では未確認",
+                "真空ロボット"
+              ],
+              source: {
+                title: "ウェーハ搬送ロボット",
+                url: "https://kawasakirobotics.com/jp/applications/silicon-wafer-handling/"
+              }
+            }
+          ]
         },
+        {
+          type: "note",
+          title: "「未確認」は「提供していない」という意味ではありません",
+          body: "表は出典に明記された提供範囲を整理したものです。製品群の一部や統合システムとしての提供を含み、単体販売や全機種への対応を保証しません。性能順位・市場シェア・メーカーの網羅性は示していません。"
+        }
       ],
       paragraphs: [
         "ロボット・部品を装置メーカーへ供給する企業と、EFEM・真空搬送を統合して供給する企業では責任範囲が異なります。",

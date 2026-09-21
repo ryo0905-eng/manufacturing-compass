@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-09-20",
+  updatedAt: "2026-09-21",
   sources: [
     {
       title: "Largest semiconductor companies by market cap",
@@ -131,6 +131,33 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     conclusion: "2026年9月6日確認時点ではNVIDIAが首位です。ただし、時価総額だけでなく各社が設計・製造・装置・後工程のどこを担うかを合わせて見ます。",
     learnings: "世界TOP30、日本TOP10、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
   },
+  overviewBlocks: [
+    {
+      type: "links",
+      items: [
+        {
+          label: "世界TOP30を見る",
+          href: "#world-ranking",
+          description: "半導体メーカー・装置・材料などを企業全体の時価総額で比較"
+        },
+        {
+          label: "日本TOP10を見る",
+          href: "#japan-ranking",
+          description: "同じデータ基準で抽出した日本企業の順位を確認"
+        },
+        {
+          label: "製造装置の売上高で比較",
+          href: "/guides/semiconductor-equipment-sales-ranking",
+          description: "装置事業の売上高を基準に、担当する工程も見る"
+        },
+        {
+          label: "メモリの売上シェアで比較",
+          href: "/guides/memory-manufacturer-ranking",
+          description: "DRAMとNANDを分けて製品市場のシェアを見る"
+        }
+      ]
+    }
+  ],
   sections: [
     {
       id: "world-ranking",
@@ -150,6 +177,16 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       paragraphs: [
         "本記事では、半導体そのものを設計・製造する企業だけでなく、製造装置、検査・計測装置、EDA、半導体IP、OSATなども含めています。同じ『半導体企業』でも、顧客、設備、収益構造、技術職の役割は異なります。",
         "サムスン電子のような総合電機メーカーの時価総額は、半導体部門だけの企業価値を示すものではありません。企業全体の時価総額で比較しているため、専業企業との違いを理解したうえで順位を見てください。",
+      ],
+    },
+    {
+      id: "japan-ranking",
+      heading: "日本の半導体関連企業・時価総額ランキングTOP10",
+      lead: "同じデータセットから日本企業を抽出すると、製造装置と検査・計測装置の企業が多く入ります。",
+      blocks: [{ type: "market-cap-ranking", scope: "japan" }],
+      paragraphs: [
+        "日本1位は東京エレクトロンで世界20位、2位はアドバンテストで世界21位です。日本TOP10では、東京エレクトロン、アドバンテスト、ディスコ、レーザーテック、SCREEN、KOKUSAI ELECTRICの6社を装置または検査・計測装置へ分類しました。",
+        "ルネサスとロームは半導体デバイスを扱うIDM、SUMCOはシリコンウェーハ、MARUWAはセラミック材料・電子部品を扱います。キオクシアやソシオネクストなど著名企業でも、基準データのカテゴリや順位によって今回のTOP10へ入らない場合があります。編集判断でカテゴリ外の企業を追加していません。",
       ],
     },
     {
@@ -212,16 +249,6 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       ],
       paragraphs: [
         "上位10社の順位は企業の優劣を表すものではありません。株式市場が企業全体へ付けた評価額を並べた結果であり、売上高、利益、従業員数、特定製品の市場シェアとは別の指標です。",
-      ],
-    },
-    {
-      id: "japan-ranking",
-      heading: "日本の半導体関連企業・時価総額ランキングTOP10",
-      lead: "同じデータセットから日本企業を抽出すると、製造装置と検査・計測装置の企業が多く入ります。",
-      blocks: [{ type: "market-cap-ranking", scope: "japan" }],
-      paragraphs: [
-        "日本1位は東京エレクトロンで世界20位、2位はアドバンテストで世界21位です。日本TOP10では、東京エレクトロン、アドバンテスト、ディスコ、レーザーテック、SCREEN、KOKUSAI ELECTRICの6社を装置または検査・計測装置へ分類しました。",
-        "ルネサスとロームは半導体デバイスを扱うIDM、SUMCOはシリコンウェーハ、MARUWAはセラミック材料・電子部品を扱います。キオクシアやソシオネクストなど著名企業でも、基準データのカテゴリや順位によって今回のTOP10へ入らない場合があります。編集判断でカテゴリ外の企業を追加していません。",
       ],
     },
     {
@@ -297,25 +324,12 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     },
     {
       id: "revenue-ranking",
-      heading: "半導体企業の時価総額ランキングと売上高ランキングは何が違うか",
-      lead: "時価総額は株式市場の評価、売上高は一定期間の事業規模を表します。",
-      blocks: [
-        {
-          type: "mapping",
-          leftLabel: "比べる指標",
-          rightLabel: "読み取れることと限界",
-          rows: [
-            { left: "時価総額", right: "株価 × 発行済株式数。成長期待や市場環境を含み、日々変動する" },
-            { left: "売上高", right: "一定期間に得た収益。事業規模を見やすいが、利益率や将来性を単独では示さない" },
-            { left: "利益", right: "売上から費用を引いた成果。設備投資や会計上の要因で変動する" },
-            { left: "従業員数・拠点数", right: "組織や運営規模の一面。企業価値や採用数と同じではない" },
-          ],
-        },
-      ],
+      heading: "時価総額と売上高を企業研究でどう使い分けるか",
+      lead: "同じ順位表で違う指標を代用せず、目的に合う数字へ進みます。",
       paragraphs: [
-        "例えば、設計とソフトウェアを軸に高い成長期待を集める企業は、工場や従業員数だけでは説明できない時価総額になる場合があります。反対に、大きな売上と製造設備を持つ企業でも、市場からの評価倍率が同じとは限りません。",
-        "企業研究では、時価総額で市場評価を確認し、売上高と利益で事業の実績を見て、事業別売上や設備投資から何へ注力しているかを確認すると、数字を混同しにくくなります。",
-      ],
+        "市場からの評価を見たいときは時価総額、一定期間の事業規模を見たいときは売上高を確認します。総合企業では、企業全体と半導体部門の集計範囲もそろえる必要があります。",
+        "装置を比較するなら装置売上、メモリを比較するならDRAM・NAND別の売上シェアへ進み、対象期間・範囲・通貨を確認してください。時価総額の高さから採用数や働きやすさを推定することはできません。"
+      ]
     },
     {
       id: "career-view",
@@ -428,7 +442,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       paragraphs: [
         "ランキングから分かるのは、株式市場が付けた企業全体の評価額と、上位企業の構成です。転職先を考えるときは、時価総額だけで決めず、自分の経験が設計、前工程、後工程、装置、材料のどこへつながるかを確認してください。",
       ],
-    },
+    }
   ],
   todayQuest: "ランキングから3社を選び、各社を「設計・製造・装置・後工程・材料」のどこに位置づけるか確認する",
   relatedGuideSlugs: [

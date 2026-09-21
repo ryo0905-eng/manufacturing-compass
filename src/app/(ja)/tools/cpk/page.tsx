@@ -1,3 +1,4 @@
+import { cpkLowCausesGuide } from "@/content/guides/cpk-low-causes";
 import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -39,6 +40,7 @@ export default function CpkToolPage() {
       {isEnglishCpkPublished() ? <CpkLanguageLink locale="ja" /> : null}
       <CpkToolExperience />
 
+      {cpkLowCausesGuide.status === "published" ? <nav className="tool-related-links" aria-label="計算結果の読み方"><TrackedInternalLink href="/guides/cpk-low-causes" eventName="cpk_related_content_click" eventProperties={{ destination: "cpk_low_causes" }}>Cpkが低い原因は？平均のずれとばらつきの見分け方 →</TrackedInternalLink></nav> : null}
       <nav className="tool-related-links" aria-label="関連する実務学習ツール"><span>関連ツール</span><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "yield_dashboard" }} href="/tools/yield-dashboard">架空工場で歩留まり原因調査を体験 <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "prototype_guide" }} href="/guides/ai-prototyping-requirements">このツールをAIで試作・改善した記録 <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "six_sigma" }} href="/guides/six-sigma">シックスシグマとDMAICの全体像 <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "control_chart" }} href="/tools/control-chart">管理図で工程の時間変化を学ぶ <span aria-hidden="true">→</span></TrackedInternalLink><TrackedInternalLink eventName="cpk_related_content_click" eventProperties={{ destination: "doe" }} href="/tools/doe">実験計画法を動かして学ぶ <span aria-hidden="true">→</span></TrackedInternalLink></nav>
 
       <article className="capability-document">

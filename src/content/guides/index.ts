@@ -1,3 +1,4 @@
+import { cpkLowCausesGuide } from "@/content/guides/cpk-low-causes";
 import { japanSemiconductorFactoryProjectsGuide } from "@/content/guides/japan-semiconductor-factory-projects";
 import { opticalSemiconductorManufacturersGuide } from "@/content/guides/optical-semiconductor-manufacturers";
 import { memoryManufacturerRankingGuide } from "@/content/guides/memory-manufacturer-ranking";
@@ -87,6 +88,7 @@ import type { GuideArticle } from "@/content/guides/types";
 export type { GuideArticle } from "@/content/guides/types";
 
 const guideArticles: GuideArticle[] = [
+  cpkLowCausesGuide,
   japanSemiconductorFactoryProjectsGuide,
   opticalSemiconductorManufacturersGuide,
   semiconductorCareerStartGuide,
