@@ -8,12 +8,12 @@ const p = {}, protocol = {};
 const globals = { Uint8Array, Float32Array, Float64Array, Int32Array, setTimeout, URL, performance, crypto: crypto.webcrypto, location: { origin: 'https://example.invalid' } };
 vm.runInNewContext(compile('processing'), { ...globals, exports: p });
 vm.runInNewContext(compile('protocol'), { ...globals, exports: protocol });
-let creates = 0, runs = 0, releases = 0, disposed = 0, invalid = false;
+let creates = 0, runs = 0, releases = 0, disposed = 0, invalid = false, roundoff = false;
 const modelBytes = new Uint8Array([1, 2, 3]);
 const sha256 = crypto.createHash('sha256').update(modelBytes).digest('hex');
 const ort = { env: { wasm: {} }, Tensor: class { dispose() { disposed++; } }, InferenceSession: { create: async () => {
   creates++;
-  return { run: async () => { runs++; return { scores: { type: 'float32', dims: [1, 1, 128, 128], data: new Float32Array(16384).fill(invalid ? NaN : .6), dispose() { disposed++; } } }; }, release: async () => { releases++; } };
+  return { run: async () => { runs++; return { scores: { type: 'float32', dims: [1, 1, 128, 128], data: new Float32Array(16384).fill(invalid ? NaN : roundoff ? -(2 ** -23) : .6), dispose() { disposed++; } } }; }, release: async () => { releases++; } };
 } } };
 const exportsObject = {};
 vm.runInNewContext(compile('runtime'), { ...globals, exports: exportsObject,
@@ -39,6 +39,10 @@ vm.runInNewContext(compile('runtime'), { ...globals, exports: exportsObject,
   await assert.rejects(runtime.evaluate(request, () => true), /AI/);
   invalid = false;
   assert.equal((await runtime.evaluate(request, () => true)).inferenceCount, 1, 'invalid scores are not cached');
+  roundoff = true;
+  const rounded = await runtime.evaluate({ ...request, settings: { ...settings, gain: 1.3 } }, () => true);
+  assert.equal(rounded.results[0].ai.defective, false);
+  assert.equal(rounded.results[0].scores[0], 0);
   assert.equal(disposed, runs * 2, 'tensor resources released including validation failures');
   await assert.rejects(runtime.evaluate({ ...request, images: [] }, () => true));
   await assert.rejects(runtime.evaluate({ ...request, images: [ { ...request.images[0], width: 1 } ] }, () => true));

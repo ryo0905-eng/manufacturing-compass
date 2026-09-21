@@ -91,3 +91,15 @@ export function inspectScores(scores, width, height, threshold, minimumArea) {
     });
     return extractRegions(binary, width, height, minimumArea);
 }
+/** One float32 epsilon at 1; only absorb observed endpoint roundoff, never NaN/large errors.
+ * inspectScores remains strict. Apply once at the model-output boundary.
+ */
+export const SCORE_ROUNDOFF_TOLERANCE = 2 ** -23;
+export function normalizeModelScores(raw) {
+    return Float32Array.from(raw, value => {
+        if (!Number.isFinite(value) || value < -SCORE_ROUNDOFF_TOLERANCE || value > 1 + SCORE_ROUNDOFF_TOLERANCE) {
+            throw new Error("AIの出力が不正です。");
+        }
+        return Math.min(1, Math.max(0, value));
+    });
+}

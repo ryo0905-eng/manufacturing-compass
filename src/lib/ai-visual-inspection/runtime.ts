@@ -1,5 +1,5 @@
 import type * as Ort from "onnxruntime-web";
-import { changeLighting, inspectRule, inspectScores } from "./processing.js";
+import { changeLighting, inspectRule, inspectScores, normalizeModelScores } from "./processing.js";
 import { ASSET_ROOT, MODEL_IDS } from "./protocol.js";
 import type { ImageResult, InspectionRequest, ModelId } from "./protocol.js";
 
@@ -65,7 +65,7 @@ export class InspectionRuntime {
           outputs = await session.run({ pixels: input });
           const output = outputs.scores;
           if (!output || output.type !== "float32" || output.dims.join(",") !== "1,1,128,128" || !(output.data instanceof Float32Array)) throw new Error("Invalid score map");
-          scores = new Float32Array(output.data);
+          scores = normalizeModelScores(output.data);
           inspectScores(scores, 128, 128, settings.scoreThreshold, settings.minimumArea);
           if (this.cache.size >= 24) this.cache.delete(this.cache.keys().next().value!);
           this.cache.set(key, scores);

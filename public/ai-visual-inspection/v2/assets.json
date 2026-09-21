@@ -17,9 +17,9 @@
       "sha256": "7bc85266f77d00dcba5e4d7fb2c461ccf2a5aa6c840fe0ff9cb6488edcfcb74f"
     },
     "processing.js": {
-      "bytes": 4368,
-      "gzipBytes": 1466,
-      "sha256": "4a748585314857f3c5984b663122b2c9abe2c58954df966afdeefc13f47eecf5"
+      "bytes": 4925,
+      "gzipBytes": 1678,
+      "sha256": "01297715ff589083e2f8c8d9bdb654a82b8a11c5bf5973729ef3712cceed4f3f"
     },
     "protocol.js": {
       "bytes": 216,
@@ -27,9 +27,9 @@
       "sha256": "2340490b37886dc6c9e9ee6ff989baf7c121b8b576aeaf2b60160e27135019e6"
     },
     "runtime.js": {
-      "bytes": 4621,
-      "gzipBytes": 1678,
-      "sha256": "4eed2a5536d74e02e2189411b9d684eb1eee80a459353710406b08e5fb10cfb2"
+      "bytes": 4647,
+      "gzipBytes": 1693,
+      "sha256": "6e6648c5e77f8ac67b005c0716f28b22b26e56123a6e7ee239b37813b9e0df4e"
     },
     "models/balanced-17.onnx": {
       "bytes": 477448,

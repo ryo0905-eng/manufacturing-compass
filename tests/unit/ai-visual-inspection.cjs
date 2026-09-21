@@ -53,3 +53,14 @@ for (const example of fixture.cases) {
   assert.deepEqual([...p.inspectRule(changed, { threshold: example.threshold, minimumArea: fixture.minimumArea, corrected: example.corrected }).mask], example.mask);
 }
 console.log('Visual inspection: independent pixel, region, count and failure tests passed.');
+
+// Exact endpoint tolerance; do not loosen the strict postprocessor itself.
+const eps = 2 ** -23;
+const rawScores = Float32Array.from([-eps, -eps / 2, 0, .5, 1, 1 + eps]);
+assert.deepEqual([...p.normalizeModelScores(rawScores)], [0, 0, 0, .5, 1, 1]);
+assert.equal(rawScores[0], -eps, 'normalization does not mutate runtime output');
+for (const value of [-2 * eps, 1 + 2 * eps, NaN, Infinity, -Infinity]) {
+  assert.throws(() => p.normalizeModelScores(Float32Array.of(value)), /AI/);
+}
+assert.throws(() => p.inspectScores(Float32Array.of(-eps), 1, 1, .5, 1), /AI/);
+console.log('Score endpoint roundoff: narrow bounds, nonfinite rejection and immutability passed');

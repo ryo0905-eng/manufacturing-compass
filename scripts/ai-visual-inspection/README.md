@@ -266,8 +266,10 @@ node tests/unit/ai-visual-inspection-wasm.cjs
 ```
 
 Use Node 22. The last test runs real WASM under Node, not a browser benchmark,
-and is capped at 175 seconds. Its initial run failed score range validation;
-do not report parity as passed. See `docs/ai-visual-inspection-web-runtime.md`.
+and is capped at 175 seconds. Its initial run failed strict score range validation.
+After identifying endpoint roundoff, normalization bounded by 2^-23 was added;
+all 12 conditions now pass pixel/rule/AI mask parity with score error below 1e-4.
+`diagnose_wasm.cjs` records raw model outputs without treating them as a passing gate. See `docs/ai-visual-inspection-web-runtime.md`.
 Do not repeat a failed verification in the same turn with alternate settings.
 The export copies only locked models into `public`; evaluation images and
 Python reference scores remain in the ignored cache. The frozen experiment

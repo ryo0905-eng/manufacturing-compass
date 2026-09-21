@@ -31,7 +31,7 @@ vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/lib/ai-visual-inspect
       const expectedScores = new Float32Array(scoreBytes.buffer, scoreBytes.byteOffset, scoreBytes.length / 4);
       const expectedMasks = bytes(`${condition.name}.mask`);
       const expectedPixels = bytes(`pixels-${condition.gain.toFixed(1)}.bin`);
-      let maxError = 0;
+      let maxError = 0, maxNormalizedError = 0, correctedValues = 0;
       for (let i = 0; i < 24; i++) {
         const offset = i * 16384;
         const image = p.changeLighting({ width: 128, height: 128, pixels: source.slice(offset, offset + 16384) }, condition.gain);
@@ -39,12 +39,20 @@ vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/lib/ai-visual-inspect
         const input = new ort.Tensor('float32', Float32Array.from(image.pixels, value => value / 255), [1, 1, 128, 128]);
         const output = await session.run({ pixels: input });
         const scores = output.scores.data;
-        const invalid = Array.from(scores.entries()).find(([, value]) => !Number.isFinite(value) || value < 0 || value > 1);
+        const invalid = Array.from(scores.entries()).find(([, value]) => !Number.isFinite(value) || value < -p.SCORE_ROUNDOFF_TOLERANCE || value > 1 + p.SCORE_ROUNDOFF_TOLERANCE);
         if (invalid) {
           fs.writeFileSync(`${ref}/wasm-failure.json`, JSON.stringify({ model, gain: condition.gain, imageIndex: i, pixelIndex: invalid[0], value: String(invalid[1]), min: Math.min(...scores), max: Math.max(...scores) }, null, 2)+'\n');
         }
         for (let j = 0; j < 16384; j++) maxError = Math.max(maxError, Math.abs(scores[j] - expectedScores[offset+j]));
-        assert.deepEqual(p.inspectScores(scores, 128, 128, .5, 12).mask, expectedMasks.slice(offset, offset+16384));
+        const normalized = p.normalizeModelScores(scores);
+        for (let j = 0; j < 16384; j++) {
+          maxNormalizedError = Math.max(maxNormalizedError, Math.abs(normalized[j] - expectedScores[offset+j]));
+          if (scores[j] !== normalized[j]) correctedValues++;
+          for (const threshold of [.1, .2, .3, .4, .5, .6, .7, .8, .9]) {
+            assert.equal(normalized[j] >= threshold, scores[j] >= threshold, 'roundoff must not change the fixed threshold sweep');
+          }
+        }
+        assert.deepEqual(p.inspectScores(normalized, 128, 128, .5, 12).mask, expectedMasks.slice(offset, offset+16384));
         for (const corrected of [false, true]) {
           const expected = bytes(`rule-${condition.gain.toFixed(1)}-${Number(corrected)}.mask`);
           assert.deepEqual(p.inspectRule(image, { threshold: corrected ? 8 : 112, minimumArea: 12, corrected }).mask, expected.slice(offset, offset+16384));
@@ -52,7 +60,8 @@ vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/lib/ai-visual-inspect
         input.dispose(); output.scores.dispose();
       }
       assert.ok(maxError <= 1e-4, `Score mismatch: ${maxError}`);
-      const result = { model, gain: condition.gain, images: 24, maxScoreError: maxError, masksMatch: true, pixelsMatch: true, rulesMatch: true, elapsedMs: performance.now()-start };
+      assert.ok(maxNormalizedError <= 1e-4);
+      const result = { model, gain: condition.gain, images: 24, maxScoreError: maxError, maxNormalizedError, correctedValues, thresholdSweepUnchanged: true, masksMatch: true, pixelsMatch: true, rulesMatch: true, elapsedMs: performance.now()-start };
       report.cases.push(result);
       console.log(JSON.stringify(result));
     }
