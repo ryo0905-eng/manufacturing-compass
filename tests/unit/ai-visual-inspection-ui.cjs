@@ -90,6 +90,8 @@ function samples(mode) {
   const page=ssr(path.join(root,'app/(ja)/tools/ai-visual-inspection/page.tsx'));
   const html=renderToStaticMarkup(React.createElement(page.default));
   assert.ok(html.includes('WebApplication')&&html.includes('BreadcrumbList')&&html.includes('体験を始める'));
-  assert.equal(page.metadata.robots.index,false);
+  assert.equal(page.metadata.robots.index,true);
+  assert.equal(page.metadata.robots.follow,true);
+  assert.equal(page.metadata.alternates.canonical,"/tools/ai-visual-inspection");
   console.log('UI: lazy start, pending/error counts, stale result rejection, confirmation locking, retry history, analytics categories and SSR passed (no browser)');
 })().catch(error=>{console.error(error);process.exitCode=1;});

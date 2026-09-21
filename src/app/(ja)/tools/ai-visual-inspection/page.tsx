@@ -8,7 +8,7 @@ import styles from "@/components/ai-visual-inspection/inspection.module.css";
 const route = "/tools/ai-visual-inspection";
 const title = "AI外観検査ラボ｜ルールベースとの違いを体験";
 const description = "同じ合成基板画像をルールベースとAIで検査。しきい値、学習例、撮影の明るさを変えて、見逃しと過検出から採用方法を考える無料の画像検査体験です。";
-export const metadata: Metadata = { title, description, alternates: { canonical: route }, robots: { index: false, follow: true }, openGraph: { title, description, url: `${siteUrl}${route}`, type: "website" } };
+export const metadata: Metadata = { title, description, alternates: { canonical: route }, robots: { index: true, follow: true }, openGraph: { title, description, url: `${siteUrl}${route}`, type: "website" } };
 export default function InspectionPage() {
   return <main className={styles.page}>
     <StructuredData data={{ "@context": "https://schema.org", "@type": "WebApplication", name: title, description, url: `${siteUrl}${route}`, applicationCategory: "EducationalApplication", operatingSystem: "Web", inLanguage: "ja", dateModified: inspectionRelease.updatedAt, offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" } }} />

@@ -1,3 +1,4 @@
+import { inspectionRelease } from "@/data/ai-visual-inspection";
 import { taguchiRelease } from "@/data/taguchi";
 import { bayesianRelease } from "@/data/bayesian-optimization";
 import { englishPracticalToolIds, englishPracticalTools, isEnglishPracticalToolPublished } from "@/data/practical-tools-english";
@@ -30,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/doe",
     "/tools/taguchi",
     "/tools/bayesian-optimization",
+    "/tools/ai-visual-inspection",
     "/tools/control-chart",
     "/tools/yield-analysis",
     "/tools/yield-dashboard",
@@ -58,6 +60,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === "/tools/ai-visual-inspection" ? { lastModified: contentDate(inspectionRelease.updatedAt) } : {}),
     ...(path === "/tools/taguchi" ? { lastModified: contentDate(taguchiRelease.updatedAt) } : {}),
     ...(path === "/tools/bayesian-optimization" ? { lastModified: contentDate(bayesianRelease.updatedAt) } : {}),
     ...(path === "/tools/process-comparison" ? { lastModified: contentDate("2026-09-16") } : {}),
