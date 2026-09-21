@@ -20,3 +20,7 @@ pnpm-debug.log*
 
 # Private interview notes and unpublished source material
 .private/
+
+# Reproducible visual-inspection experiments (not served by Next.js)
+.cache/ai-visual-inspection/
+scripts/ai-visual-inspection/__pycache__/

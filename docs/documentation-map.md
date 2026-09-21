@@ -52,6 +52,9 @@
 ベイズ最適化学習ツールの体験・仮想装置・GP/LCB・検証仕様は [`docs/bayesian-optimization-spec.md`](./bayesian-optimization-spec.md) を参照する。計算方式・実験予算・教材モデルの変更時に更新する。
 
 タグチメソッド体験の実験計画・SN比・仮想装置・確認実験・検証は [`docs/taguchi-spec.md`](./taguchi-spec.md) を参照する。
+AI外観検査ラボの段階的実装・技術検証・公開条件は [`docs/ai-visual-inspection-spec.md`](./ai-visual-inspection-spec.md) を参照する。合成画像・学習モデル・比較条件・実装ゲートの変更時に更新する。
+
+AI外観検査の実測と未達理由は [`docs/ai-visual-inspection-validation.md`](./ai-visual-inspection-validation.md)、全数値・モデルハッシュは [`docs/ai-visual-inspection-experiment.json`](./ai-visual-inspection-experiment.json) に記録する。これらは実験証跡であり、要件の正本ではない。
 
 ## 非公開文書
 
