@@ -1,0 +1,563 @@
+{
+  "protocolSha256": "679cb6985b8dbbcc9d625164ef34ed315966fde6c6176f369f32f9b92913e513",
+  "runs": {
+    "train": {
+      "17": {
+        "passed": true,
+        "before": {
+          "all": {
+            "missed": 0,
+            "bad": 200,
+            "rejected": 9,
+            "good": 200,
+            "missRate": 0.0,
+            "rejectRate": 0.045,
+            "defectMeanIoU": 0.7906506284496276
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.925713342503278
+          },
+          "scratch": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.6555879143959773
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 9,
+            "good": 200,
+            "missRate": null,
+            "rejectRate": 0.045,
+            "defectMeanIoU": null
+          }
+        },
+        "after": {
+          "all": {
+            "missed": 0,
+            "bad": 200,
+            "rejected": 8,
+            "good": 200,
+            "missRate": 0.0,
+            "rejectRate": 0.04,
+            "defectMeanIoU": 0.8874151362183784
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.9587825249436647
+          },
+          "scratch": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.8160477474930923
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 8,
+            "good": 200,
+            "missRate": null,
+            "rejectRate": 0.04,
+            "defectMeanIoU": null
+          }
+        },
+        "history": [
+          {
+            "epoch": 11,
+            "loss": 0.16738304992516836
+          },
+          {
+            "epoch": 12,
+            "loss": 0.14601411079367002
+          },
+          {
+            "epoch": 13,
+            "loss": 0.13879344279567402
+          },
+          {
+            "epoch": 14,
+            "loss": 0.12209810947378476
+          },
+          {
+            "epoch": 15,
+            "loss": 0.11052073369423548
+          },
+          {
+            "epoch": 16,
+            "loss": 0.10423164233565331
+          }
+        ],
+        "trainingImages": 2400,
+        "evaluationSplit": "tune",
+        "evaluationImages": 400,
+        "additionalUpdates": 450,
+        "totalUpdates": 1200,
+        "learningRate": 0.0003,
+        "optimizerReinitialized": true,
+        "threshold": 0.5,
+        "minimumArea": 12,
+        "parentWeightsSha256": "4502982c462a31053e6b4603378aa5cd2945b0b8ada6008d5e00439ed692ff0a",
+        "weightsSha256": "1babea0dbced8b77ff116e788d43e55a82fb0f525ecea84d9e0863b1e7697f2e",
+        "modelSha256": "5ccbb55e0ab6bd0d213ef527d7db6cbeffe5286e1be08e179a17e96df2b8a715",
+        "checkpointSha256": "7cb49613d9e1f5d756bf08b4aefa822e5f70fbde2c95386d2b97dc9b7bbe2da4",
+        "onnxBytes": 477448,
+        "seconds": 63.31057504200726,
+        "seed": 17,
+        "protocolSha256": "679cb6985b8dbbcc9d625164ef34ed315966fde6c6176f369f32f9b92913e513",
+        "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+      },
+      "29": {
+        "passed": true,
+        "before": {
+          "all": {
+            "missed": 4,
+            "bad": 200,
+            "rejected": 4,
+            "good": 200,
+            "missRate": 0.02,
+            "rejectRate": 0.02,
+            "defectMeanIoU": 0.7073028594309104
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.8952572077069112
+          },
+          "scratch": {
+            "missed": 4,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.04,
+            "rejectRate": null,
+            "defectMeanIoU": 0.5193485111549099
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 4,
+            "good": 200,
+            "missRate": null,
+            "rejectRate": 0.02,
+            "defectMeanIoU": null
+          }
+        },
+        "after": {
+          "all": {
+            "missed": 3,
+            "bad": 200,
+            "rejected": 4,
+            "good": 200,
+            "missRate": 0.015,
+            "rejectRate": 0.02,
+            "defectMeanIoU": 0.7969609342223771
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.9205089618905902
+          },
+          "scratch": {
+            "missed": 3,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.03,
+            "rejectRate": null,
+            "defectMeanIoU": 0.6734129065541644
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 4,
+            "good": 200,
+            "missRate": null,
+            "rejectRate": 0.02,
+            "defectMeanIoU": null
+          }
+        },
+        "history": [
+          {
+            "epoch": 11,
+            "loss": 0.24060931652784348
+          },
+          {
+            "epoch": 12,
+            "loss": 0.2203069771329562
+          },
+          {
+            "epoch": 13,
+            "loss": 0.19582857429981232
+          },
+          {
+            "epoch": 14,
+            "loss": 0.18599393099546432
+          },
+          {
+            "epoch": 15,
+            "loss": 0.174441441098849
+          },
+          {
+            "epoch": 16,
+            "loss": 0.16540320456027985
+          }
+        ],
+        "trainingImages": 2400,
+        "evaluationSplit": "tune",
+        "evaluationImages": 400,
+        "additionalUpdates": 450,
+        "totalUpdates": 1200,
+        "learningRate": 0.0003,
+        "optimizerReinitialized": true,
+        "threshold": 0.5,
+        "minimumArea": 12,
+        "parentWeightsSha256": "8929d29a45b6162f439ab9e8b3676597e620b6acd12fec225c9ed569320fd3cc",
+        "weightsSha256": "350c180942577e7af54e79f730bbda60f7f98806ea7d46b341c698858d017809",
+        "modelSha256": "e2f3708d7efc48c0511624e54406f8ac2ae8a358e00d403da006171dc9b1bc05",
+        "checkpointSha256": "c24dd026154253da57e8abcf242b6cdd54ad071ba2d14c18b3d9b7940de03081",
+        "onnxBytes": 477448,
+        "seconds": 63.04565741599072,
+        "seed": 29,
+        "protocolSha256": "679cb6985b8dbbcc9d625164ef34ed315966fde6c6176f369f32f9b92913e513",
+        "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+      },
+      "43": {
+        "passed": true,
+        "before": {
+          "all": {
+            "missed": 4,
+            "bad": 200,
+            "rejected": 0,
+            "good": 200,
+            "missRate": 0.02,
+            "rejectRate": 0.0,
+            "defectMeanIoU": 0.7033727599987907
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.9258721522965714
+          },
+          "scratch": {
+            "missed": 4,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.04,
+            "rejectRate": null,
+            "defectMeanIoU": 0.4808733677010104
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 0,
+            "good": 200,
+            "missRate": null,
+            "rejectRate": 0.0,
+            "defectMeanIoU": null
+          }
+        },
+        "after": {
+          "all": {
+            "missed": 0,
+            "bad": 200,
+            "rejected": 0,
+            "good": 200,
+            "missRate": 0.0,
+            "rejectRate": 0.0,
+            "defectMeanIoU": 0.8184244649341292
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.959511839254604
+          },
+          "scratch": {
+            "missed": 0,
+            "bad": 100,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.6773370906136545
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 0,
+            "good": 200,
+            "missRate": null,
+            "rejectRate": 0.0,
+            "defectMeanIoU": null
+          }
+        },
+        "history": [
+          {
+            "epoch": 11,
+            "loss": 0.20112166156371433
+          },
+          {
+            "epoch": 12,
+            "loss": 0.1766206504404545
+          },
+          {
+            "epoch": 13,
+            "loss": 0.17243610421816508
+          },
+          {
+            "epoch": 14,
+            "loss": 0.15790726880232492
+          },
+          {
+            "epoch": 15,
+            "loss": 0.14987528403600056
+          },
+          {
+            "epoch": 16,
+            "loss": 0.1475546775261561
+          }
+        ],
+        "trainingImages": 2400,
+        "evaluationSplit": "tune",
+        "evaluationImages": 400,
+        "additionalUpdates": 450,
+        "totalUpdates": 1200,
+        "learningRate": 0.0003,
+        "optimizerReinitialized": true,
+        "threshold": 0.5,
+        "minimumArea": 12,
+        "parentWeightsSha256": "2a7086206e0ebb30c021b6305133bf2fa8acc06efab2f8ebe5d35647b708f43e",
+        "weightsSha256": "b90a440da70c665b246d06aa40ac1cd2437d51874c2181ce78140a310073d416",
+        "modelSha256": "4e9c001e854db9ab1fcb4d068dbe53066458f6dfb6435d803e06a4da64046ab3",
+        "checkpointSha256": "dbfd1f0a4e6105ae8af0ed114be9584ed11733357634dc4d34150d7bfd701774",
+        "onnxBytes": 477448,
+        "seconds": 63.999838582996745,
+        "seed": 43,
+        "protocolSha256": "679cb6985b8dbbcc9d625164ef34ed315966fde6c6176f369f32f9b92913e513",
+        "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+      }
+    },
+    "development": {
+      "17": {
+        "passed": true,
+        "metrics": {
+          "all": {
+            "missed": 0,
+            "bad": 300,
+            "rejected": 8,
+            "good": 300,
+            "missRate": 0.0,
+            "rejectRate": 0.02666666666666667,
+            "defectMeanIoU": 0.8737756592980724
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 8,
+            "good": 300,
+            "missRate": null,
+            "rejectRate": 0.02666666666666667,
+            "defectMeanIoU": null
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 150,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.9582142263649803
+          },
+          "scratch": {
+            "missed": 0,
+            "bad": 150,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.7893370922311647
+          }
+        },
+        "conversion": {
+          "samples": 24,
+          "maxAbsoluteDifference": 1.767277717590332e-05,
+          "masksMatch": true,
+          "passed": true
+        },
+        "modelSha256": "5ccbb55e0ab6bd0d213ef527d7db6cbeffe5286e1be08e179a17e96df2b8a715",
+        "evaluationImages": 600,
+        "evaluationSplit": "development",
+        "threshold": 0.5,
+        "minimumArea": 12,
+        "finalEvaluation": "not-run",
+        "browserValidation": "not-run",
+        "seed": 17,
+        "protocolSha256": "679cb6985b8dbbcc9d625164ef34ed315966fde6c6176f369f32f9b92913e513",
+        "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+      },
+      "29": {
+        "passed": true,
+        "metrics": {
+          "all": {
+            "missed": 2,
+            "bad": 300,
+            "rejected": 6,
+            "good": 300,
+            "missRate": 0.006666666666666667,
+            "rejectRate": 0.02,
+            "defectMeanIoU": 0.7845750856758279
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 6,
+            "good": 300,
+            "missRate": null,
+            "rejectRate": 0.02,
+            "defectMeanIoU": null
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 150,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.926067930061467
+          },
+          "scratch": {
+            "missed": 2,
+            "bad": 150,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.013333333333333334,
+            "rejectRate": null,
+            "defectMeanIoU": 0.6430822412901886
+          }
+        },
+        "conversion": {
+          "samples": 24,
+          "maxAbsoluteDifference": 1.8388032913208008e-05,
+          "masksMatch": true,
+          "passed": true
+        },
+        "modelSha256": "e2f3708d7efc48c0511624e54406f8ac2ae8a358e00d403da006171dc9b1bc05",
+        "evaluationImages": 600,
+        "evaluationSplit": "development",
+        "threshold": 0.5,
+        "minimumArea": 12,
+        "finalEvaluation": "not-run",
+        "browserValidation": "not-run",
+        "seed": 29,
+        "protocolSha256": "679cb6985b8dbbcc9d625164ef34ed315966fde6c6176f369f32f9b92913e513",
+        "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+      },
+      "43": {
+        "passed": true,
+        "metrics": {
+          "all": {
+            "missed": 0,
+            "bad": 300,
+            "rejected": 2,
+            "good": 300,
+            "missRate": 0.0,
+            "rejectRate": 0.006666666666666667,
+            "defectMeanIoU": 0.7958085996508117
+          },
+          "good": {
+            "missed": 0,
+            "bad": 0,
+            "rejected": 2,
+            "good": 300,
+            "missRate": null,
+            "rejectRate": 0.006666666666666667,
+            "defectMeanIoU": null
+          },
+          "dirt": {
+            "missed": 0,
+            "bad": 150,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.9538160033905486
+          },
+          "scratch": {
+            "missed": 0,
+            "bad": 150,
+            "rejected": 0,
+            "good": 0,
+            "missRate": 0.0,
+            "rejectRate": null,
+            "defectMeanIoU": 0.6378011959110748
+          }
+        },
+        "conversion": {
+          "samples": 24,
+          "maxAbsoluteDifference": 1.8775463104248047e-05,
+          "masksMatch": true,
+          "passed": true
+        },
+        "modelSha256": "4e9c001e854db9ab1fcb4d068dbe53066458f6dfb6435d803e06a4da64046ab3",
+        "evaluationImages": 600,
+        "evaluationSplit": "development",
+        "threshold": 0.5,
+        "minimumArea": 12,
+        "finalEvaluation": "not-run",
+        "browserValidation": "not-run",
+        "seed": 43,
+        "protocolSha256": "679cb6985b8dbbcc9d625164ef34ed315966fde6c6176f369f32f9b92913e513",
+        "manifestSha256": "084b5fe77393aaffc28a0144f4525854ff825250ab7c9c87e0d964ffe52ced2e"
+      }
+    }
+  },
+  "passingSeeds": {
+    "train": [
+      "17",
+      "29",
+      "43"
+    ],
+    "development": [
+      "17",
+      "29",
+      "43"
+    ]
+  },
+  "finalEvaluation": "not-run",
+  "browserValidation": "not-run"
+}

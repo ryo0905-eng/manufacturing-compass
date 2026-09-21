@@ -5,6 +5,30 @@ Python is an offline development dependency; it is not part of the Next.js build
 
 ## Version 2 staged experiment
 
+### Baseline stability continuation
+
+The 2026-09-22 continuation is frozen in
+`docs/ai-visual-inspection-v2-stability-protocol.md`. Apply six extra epochs at
+learning rate 0.0003 to each existing baseline seed, resetting Adam and the RNG.
+Keep the score threshold, area and acceptance criteria unchanged. Run each command
+separately (175-second limit), and do not overwrite earlier runs.
+
+```sh
+python scripts/ai-visual-inspection/stability_v2.py train 17
+python scripts/ai-visual-inspection/stability_v2.py train 29
+python scripts/ai-visual-inspection/stability_v2.py train 43
+# Only after all three tuning runs pass:
+python scripts/ai-visual-inspection/stability_v2.py development 17
+python scripts/ai-visual-inspection/stability_v2.py development 29
+python scripts/ai-visual-inspection/stability_v2.py development 43
+python scripts/ai-visual-inspection/report_stability_v2.py
+```
+
+Artifacts live in `.cache/ai-visual-inspection/v2/stability/`. The report also
+renders cached masks for metadata-first examples and first errors. The final
+holdout remains untouched. Do not compare these updated baselines fairly against
+the old biased models; those need the same continuation first.
+
 ### Fixed recipe / seed comparison
 
 The next experiment uses four recipes and seeds 17, 29, 43 under
