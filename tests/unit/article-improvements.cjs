@@ -89,32 +89,33 @@ async function main() {
   assert.equal(en.translation.sourceUpdatedAt, '2026-09-01');
   assert.equal(en.status, 'published');
 
-  const page = load('src/app/(ja)/guides/[slug]/page');
   const props = { params: Promise.resolve({ slug: cpk.slug }) };
-  assert.equal(cpk.status, 'draft');
-  assert.equal(cpk.publishedAt, '');
-  assert.equal(load('src/content/guides/index').getGuideBySlug(cpk.slug), undefined);
-  assert.ok(!page.generateStaticParams().some(item => item.slug === cpk.slug));
-  assert.ok(!load('src/app/sitemap').default().some(item => item.url.endsWith(`/guides/${cpk.slug}`)));
-  await assert.rejects(page.default(props), /NOT_FOUND/);
-  let tool = load('src/app/(ja)/tools/cpk/page').default;
-  assert.ok(!renderToStaticMarkup(React.createElement(tool)).includes('href="/guides/cpk-low-causes"'));
-
-  // Simulate editorial approval in memory to verify publication wiring, without publishing the draft.
-  cache.clear();
-  const reviewed = load('src/content/guides/cpk-low-causes').cpkLowCausesGuide;
-  reviewed.status = 'published'; reviewed.publishedAt = '2026-09-21';
+  assert.equal(cpk.status, 'published');
+  assert.equal(cpk.publishedAt, '2026-09-21');
+  assert.ok(load('src/content/guides/index').getGuideBySlug(cpk.slug));
   const publishedPage = load('src/app/(ja)/guides/[slug]/page');
   const meta = await publishedPage.generateMetadata(props);
   assert.equal(meta.alternates.canonical, '/guides/cpk-low-causes');
-  assert.ok(publishedPage.generateStaticParams().some(item => item.slug === reviewed.slug));
+  assert.ok(publishedPage.generateStaticParams().some(item => item.slug === cpk.slug));
   assert.ok(load('src/app/sitemap').default().some(item => item.url.endsWith('/guides/cpk-low-causes')));
   const html = renderToStaticMarkup(await publishedPage.default(props));
   assert.ok(html.includes('"@type":"Article"') && html.includes('"@type":"FAQPage"'));
   assert.ok(html.includes('href="/tools/cpk"'));
   assert.ok(html.includes('模式図'));
-  tool = load('src/app/(ja)/tools/cpk/page').default;
+  let tool = load('src/app/(ja)/tools/cpk/page').default;
   assert.ok(renderToStaticMarkup(React.createElement(tool)).includes('href="/guides/cpk-low-causes"'));
+
+  // Verify draft isolation with an in-memory fixture; the real article remains published.
+  cache.clear();
+  const draft = load('src/content/guides/cpk-low-causes').cpkLowCausesGuide;
+  draft.status = 'draft'; draft.publishedAt = '';
+  const page = load('src/app/(ja)/guides/[slug]/page');
+  assert.equal(load('src/content/guides/index').getGuideBySlug(draft.slug), undefined);
+  assert.ok(!page.generateStaticParams().some(item => item.slug === draft.slug));
+  assert.ok(!load('src/app/sitemap').default().some(item => item.url.endsWith(`/guides/${draft.slug}`)));
+  await assert.rejects(page.default(props), /NOT_FOUND/);
+  tool = load('src/app/(ja)/tools/cpk/page').default;
+  assert.ok(!renderToStaticMarkup(React.createElement(tool)).includes('href="/guides/cpk-low-causes"'));
   console.log('PASS: EFEM boundaries/sourced comparison, ranking navigation, Cpk examples, draft isolation and publication links/SEO');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

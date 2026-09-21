@@ -13,13 +13,13 @@ export const cpkLowCausesGuide: GuideArticle = {
   description: "同じCpk＝1でも、平均のずれとばらつきの状態は異なります。架空の3例でCpとCpkを比較し、測定系・工程の安定性・データの混在など、改善前に確認することを整理します。",
   targetQuery: "Cpk 低い 原因",
   searchIntent: "計算したCpkが低い理由を平均とばらつきに分けて理解し、工程条件を変える前に何を確認するか知りたい",
-  status: "draft",
+  status: "published",
   category: "technology",
   presentation: "structured",
   author: "RYO",
-  // Assigned editor only. This draft is excluded from public routes until human review.
+  // Publication approved by the operator on 2026-09-21.
   reviewedBy: "RYO",
-  publishedAt: "",
+  publishedAt: "2026-09-21",
   updatedAt: "2026-09-21",
   showCareerCtas: false,
   basisLabel: "この記事の前提",
