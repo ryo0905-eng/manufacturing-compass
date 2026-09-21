@@ -56,6 +56,8 @@ AI外観検査ラボの段階的実装・技術検証・公開条件は [`docs/a
 
 AI外観検査の実測と未達理由は [`docs/ai-visual-inspection-validation.md`](./ai-visual-inspection-validation.md)、全数値・モデルハッシュは [`docs/ai-visual-inspection-experiment.json`](./ai-visual-inspection-experiment.json) に記録する。これらは実験証跡であり、要件の正本ではない。
 
+AI外観検査v2の段階的な再検証条件は [`docs/ai-visual-inspection-v2-protocol.md`](./ai-visual-inspection-v2-protocol.md)、実測は [`docs/ai-visual-inspection-v2-validation.md`](./ai-visual-inspection-v2-validation.md) と [`docs/ai-visual-inspection-v2-experiment.json`](./ai-visual-inspection-v2-experiment.json) に分離する。旧版の結果は上書きしない。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順

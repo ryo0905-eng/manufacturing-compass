@@ -3,6 +3,32 @@
 No web route or published claims should be added until the experiment gate passes.
 Python is an offline development dependency; it is not part of the Next.js build.
 
+## Version 2 staged experiment
+
+The follow-up was explicitly authorized by the user. Its predeclared conditions
+are in `docs/ai-visual-inspection-v2-protocol.md`; v1 artifacts remain unchanged.
+
+```sh
+python scripts/ai-visual-inspection/data_v2.py
+python scripts/ai-visual-inspection/test_v2.py
+python scripts/ai-visual-inspection/audit_v2.py
+python scripts/ai-visual-inspection/train_v2.py tiny
+python scripts/ai-visual-inspection/report_v2.py
+```
+
+Outputs use `.cache/ai-visual-inspection/v2/`. Metadata and array checks verify
+capture-gain pairing and intervention isolation. `train_v2.py baseline` requires
+the tiny-fit gate to pass and must not be run for this attempt: the 320-update
+tiny-fit result did not meet its predeclared limits. The script refuses to
+overwrite a recorded run. Training/holdout scores must never be conflated.
+
+The tiny-fit attempt found every defective image but rejected two clean images
+of the same striped board. See `docs/ai-visual-inspection-v2-validation.md` for
+the learning curve and remaining limitations. Do not change the run budget or
+threshold after inspecting the result and call the original attempt a pass.
+
+## Version 1 retained experiment
+
 **v1 is a failed experiment, not a release candidate.** The second clean capture
 alone receives a 0.97 brightness gain. This is a known label-correlated nuisance;
 the audit and gate explicitly reject it. Preserve this version to reproduce the
