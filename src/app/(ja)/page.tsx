@@ -70,6 +70,7 @@ export default function Home() {
             </HomeLink>;
           })}
         </div>
+        <HomeLink className="home-focused__text-link home-focused__more" href="/tools/ai-visual-inspection" section="tools" destination="ai-visual-inspection" purpose="technology">教育用・試用版：AI外観検査ラボで、ルールとAIを比べる →</HomeLink>
         <HomeLink className="home-focused__text-link home-focused__more" href="/tools" section="tools" destination="tools" purpose="technology">ツールをすべて見る →</HomeLink>
       </section>
 
