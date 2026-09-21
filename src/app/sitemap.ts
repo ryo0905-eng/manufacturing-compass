@@ -1,3 +1,4 @@
+import { englishPracticalToolIds, englishPracticalTools, isEnglishPracticalToolPublished } from "@/data/practical-tools-english";
 import type { MetadataRoute } from "next";
 import { englishGuides, isEnglishGuidePublished } from "@/content/guides/en";
 import { englishCpkRelease, isEnglishCpkPublished } from "@/data/cpk-english";
@@ -108,5 +109,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const, priority: 0.8,
   }] : [];
 
-  return [...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
+  const practicalToolRoutes = englishPracticalToolIds.filter(isEnglishPracticalToolPublished).map(id => ({
+    url: `${siteUrl}/en/tools/${id}`, lastModified: contentDate(englishPracticalTools[id].updatedAt),
+    changeFrequency: "monthly" as const, priority: 0.8,
+  }));
+
+  return [...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
 }

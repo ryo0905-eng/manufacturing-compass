@@ -1,3 +1,4 @@
+import { isEnglishPracticalToolPublished } from "@/data/practical-tools-english";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CpkToolExperience } from "@/components/CpkToolExperience";
@@ -37,11 +38,11 @@ export default function EnglishCpkPage() {
       <p className="privacy-note"><strong>No signup · Calculated in your browser</strong><span>Input data is not sent to servers, analytics or external APIs.</span></p>
     </header>
     <CpkToolExperience locale="en" />
-    <nav className="tool-related-links" aria-label="Related tools (Japanese)">
-      <span>Related tools (Japanese)</span>
+    <nav className="tool-related-links" aria-label="Related tools">
+      <span>Related tools</span>
       <TrackedInternalLink href="/tools/control-chart" hrefLang="ja" eventName="cpk_related_content_click" eventProperties={{ destination: "control_chart", locale: "en" }}>Control charts (Japanese) →</TrackedInternalLink>
       <TrackedInternalLink href="/tools/doe" hrefLang="ja" eventName="cpk_related_content_click" eventProperties={{ destination: "doe", locale: "en" }}>Design of experiments (Japanese) →</TrackedInternalLink>
-      <Link href="/tools/process-comparison" hrefLang="ja">Compare two sets of measurements (Japanese) →</Link>
+      <Link href={isEnglishPracticalToolPublished("process-comparison") ? "/en/tools/process-comparison" : "/tools/process-comparison"} hrefLang={isEnglishPracticalToolPublished("process-comparison") ? "en" : "ja"}>Compare two sets of measurements{isEnglishPracticalToolPublished("process-comparison") ? "" : " (Japanese)"} →</Link>
     </nav>
     <article className="capability-document">
       <header><h2>Understanding your results</h2><p>Check which standard deviation and specification limits the calculation uses.</p></header>

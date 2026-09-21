@@ -256,6 +256,16 @@ Supabase、ユーザーアカウント、メール保存、求人連携は未採
 - 回答はReactのメモリ内だけで保持。再読み込みで消去され、URL・Cookie・localStorage・外部APIには保存／送信しない。クリップボード書込みは本人のボタン操作時だけ行う。
 - 開始・画面到達・完成・コピーのみ既存Analytics経路で計測。選択内容、順位、質問、ノート本文を送信しない。
 
+## 英語実務ツール3本の構成
+
+- 英語URLは `/en/tools/oee`、`/en/tools/line-balance`、`/en/tools/process-comparison`。既存英語ルートレイアウトとSiteAnalyticsを共用する。新しいルート移動は行わない。
+- 既存コンポーネントの任意localeは省略時ja。計算を共用し、UI・検証・出力文言は `src/data/practical-tool-text.ts` の辞書で切り替える。ユーザー入力は置換引数として保持し、翻訳・再展開しない。
+- `src/data/practical-tools-english.ts` は英語解説・出典・翻訳日・本文更新日・翻訳元本文更新日を持つ。翻訳元の日付はルート移動日ではなく本文更新日で管理し、日本語本文変更時に差分と翻訳更新の要否を確認する。
+- 同データのstatus、reviewedAt、reviewedBy、publishedAtでページごとに公開判定する。メタデータ、相互言語リンク、関連記事リンク、sitemap、構造化データを同じ判定へ接続する。draftはURLで確認可能だがnoindexであり、秘密情報は置かない。
+- `EnglishPracticalToolPage` がプレビュー、言語リンク、解説、出典、日付を共通表示する。工程条件比較のCSSは既存の `(ja)` 配下の実ファイルを再利用する。
+- 英語の既存操作イベントはlocale=enを付加する。OEEのシナリオ変更は入力開始時の数値と比較し、有効な数値変更が確定した場合だけ送る。入力値・結果・ユーザー入力名は送信しない。共通言語切り替えはtool_language_switch、関連記事はtool_related_content_clickで固定ID・パスを送る。
+- 本番反映日は非公開実験記録で別管理する。計算式・サンプル数値は変えず、OEEの停止時間の説明のみ、生産予定外の時間と生産予定内の停止を区別する内容へ日英で明確化した。
+
 ## Cpk学習比較の構成
 
 `src/data/cpk-learning.ts` に操作範囲・プリセット・条件型、`src/lib/cpk-learning.ts` に比較状態の更新・説明・正規確率密度を分離。工程能力は既存calculateCapabilityを再利用する。曲線は横軸92〜108、縦軸は標準偏差0.25の最大密度を基準とする共通固定スケール。CpkToolExperienceは両モードをマウントしたままhiddenとinertで非表示側の操作・読み上げを除外する。再読込で状態は消える。

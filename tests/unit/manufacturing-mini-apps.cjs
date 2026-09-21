@@ -7,7 +7,7 @@ const ts = require('typescript');
 function load(file) {
   const exports = {};
   const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2017 } }).outputText;
-  vm.runInNewContext(code, { exports }, { filename: file });
+  vm.runInNewContext(code, { exports, require: name => { if (name === '@/data/practical-tool-text') return load(path.resolve(__dirname, '../../src/data/practical-tool-text.ts')); throw Error(name); } }, { filename: file });
   return exports;
 }
 

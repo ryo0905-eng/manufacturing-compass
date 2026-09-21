@@ -1,3 +1,4 @@
+import { getToolText, type ToolLocale } from "@/data/practical-tool-text";
 export type LineStation = { id: string; name: string };
 export type LineTask = { id: string; name: string; seconds: number; stationId: string };
 
@@ -9,14 +10,15 @@ export type LineBalanceResult = {
   longestStationSeconds: number;
 };
 
-export function validateLineBalance(taktTime: number, stations: LineStation[], tasks: LineTask[]) {
+export function validateLineBalance(taktTime: number, stations: LineStation[], tasks: LineTask[], locale: ToolLocale = "ja") {
+  const t = getToolText(locale);
   const errors: string[] = [];
-  if (!Number.isFinite(taktTime) || taktTime <= 0) errors.push("目標タクトタイムは0より大きい数値で入力してください。");
-  if (stations.length === 0) errors.push("工程を1つ以上追加してください。");
-  if (stations.some((station) => !station.name.trim())) errors.push("工程名の空欄を入力してください。");
-  if (tasks.some((task) => !task.name.trim())) errors.push("作業名の空欄を入力してください。");
-  if (tasks.some((task) => !Number.isFinite(task.seconds) || task.seconds <= 0)) errors.push("各作業時間は0より大きい数値で入力してください。");
-  if (tasks.some((task) => !stations.some((station) => station.id === task.stationId))) errors.push("所属工程がない作業を見直してください。");
+  if (!Number.isFinite(taktTime) || taktTime <= 0) errors.push(t("目標タクトタイムは0より大きい数値で入力してください。"));
+  if (stations.length === 0) errors.push(t("工程を1つ以上追加してください。"));
+  if (stations.some((station) => !station.name.trim())) errors.push(t("工程名の空欄を入力してください。"));
+  if (tasks.some((task) => !task.name.trim())) errors.push(t("作業名の空欄を入力してください。"));
+  if (tasks.some((task) => !Number.isFinite(task.seconds) || task.seconds <= 0)) errors.push(t("各作業時間は0より大きい数値で入力してください。"));
+  if (tasks.some((task) => !stations.some((station) => station.id === task.stationId))) errors.push(t("所属工程がない作業を見直してください。"));
   return errors;
 }
 

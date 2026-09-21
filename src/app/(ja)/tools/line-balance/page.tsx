@@ -1,3 +1,5 @@
+import { PracticalToolLanguageLink } from "@/components/PracticalToolLanguageLink";
+import { practicalToolAlternates } from "@/lib/practical-tool-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LineBalanceSimulator } from "@/components/LineBalanceSimulator";
@@ -7,7 +9,7 @@ import { siteUrl } from "@/lib/format";
 export const metadata: Metadata = {
   title: "山積み表・ラインバランス計算ツール｜工程負荷を可視化",
   description: "工程ごとの作業時間を山積み表で可視化し、タクト超過と作業再配分をブラウザ内で比較できる無料ツールです。登録不要。",
-  alternates: { canonical: "/tools/line-balance" },
+  alternates: practicalToolAlternates("line-balance", "ja"),
   openGraph: { title: "山積み表・ラインバランス計算ツール｜Manufacturing Compass", description: "作業を工程間で移し、タクト超過の変化をすぐ比較できます。", url: `${siteUrl}/tools/line-balance` },
 };
 
@@ -16,6 +18,7 @@ export default function LineBalancePage() {
     <StructuredData data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "山積み表・ラインバランス計算ツール", url: `${siteUrl}/tools/line-balance`, applicationCategory: "BusinessApplication", operatingSystem: "Web", offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" }, inLanguage: "ja" }} />
     <nav className="cpk-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><Link href="/tools">実務ツール</Link><span>/</span><span>山積み表・ラインバランス</span></nav>
     <header className="mini-app-hero"><div><p className="section-label">LINE BALANCE</p><h1>山積み表・ラインバランス</h1><p>工程ごとの負荷を積み上げて、作業の再配分による変化を試せます。</p></div><p className="privacy-note"><strong>登録不要・ブラウザ内で計算</strong><span>工程名、作業名、時間は保存・外部送信しません。</span></p></header>
+    <PracticalToolLanguageLink id="line-balance" locale="ja" />
     <LineBalanceSimulator />
     <article className="mini-app-document">
       <section><h2>使い方</h2><p>目標タクトタイム、工程、作業時間を入力し、各作業の所属工程を選びます。棒がタクト線を超える工程を確認し、作業を別工程へ移して比較してください。</p></section>
