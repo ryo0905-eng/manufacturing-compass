@@ -111,7 +111,7 @@ async function main() {
     assert.equal(properties.cta_location, 'consultation_theme');
   }
 
-  const { default: AgentsPage } = load('src/app/career-agents/page.tsx', {
+  const { default: AgentsPage } = load('src/app/(ja)/career-agents/page.tsx', {
     'next/link': 'Link',
     '@/components/AffiliateDisclosure': { AffiliateDisclosure: 'AffiliateDisclosure' },
     '@/components/AgentConsultationMatrix': { AgentConsultationMatrix: 'AgentConsultationMatrix' },

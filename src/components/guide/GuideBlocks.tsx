@@ -13,6 +13,7 @@ import type { GuideBlock } from "@/content/guides/types";
 type GuideBlocksProps = {
   blocks: GuideBlock[];
   sourceSlug?: string;
+  locale?: "ja" | "en";
 };
 
 const sigmaDistributionPaths = {
@@ -21,7 +22,7 @@ const sigmaDistributionPaths = {
   capable: "M16 126 C73 126 94 119 105 88 C111 70 114 35 120 20 C126 35 129 70 135 88 C146 119 167 126 224 126",
 } as const;
 
-export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
+export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksProps) {
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
@@ -669,7 +670,7 @@ export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
 
         if (block.type === "links") {
           return (
-            <nav className="guide-link-list" aria-label="関連ページ" key={`links-${index}`}>
+            <nav className="guide-link-list" aria-label={locale === "en" ? "Related pages (Japanese)" : "関連ページ"} key={`links-${index}`}>
               {block.items.map((item) => {
                 if (item.href === "/career-priorities") {
                   return <CareerPrioritiesLink ctaLocation="guide_link_list" key={item.href}>
@@ -695,8 +696,9 @@ export function GuideBlocks({ blocks, sourceSlug }: GuideBlocksProps) {
                         : item.href.startsWith("/companies/")
                           ? "article_company_click"
                           : "article_internal_click"}
-                    eventProperties={{ destination_path: item.href, source_slug: sourceSlug }}
+                    eventProperties={{ destination_path: item.href, source_slug: sourceSlug, ...(locale === "en" ? { source_locale: "en", source_page: `/en/guides/${sourceSlug}` } : {}) }}
                     href={item.href as Route}
+                    hrefLang={locale === "en" ? "ja" : undefined}
                     key={item.href}
                   >
                     <strong>{item.label}<span aria-hidden="true">→</span></strong>

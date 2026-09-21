@@ -110,7 +110,7 @@ Vercel で `main` を本番、Pull Request を Preview として運用します�
 - Output Directory: 未指定
 - 正規ドメイン: `https://mfg-compass.com`
 
-正規URLは `src/lib/format.ts` の `siteUrl` と `src/app/layout.tsx` の `metadataBase` で管理します。ドメイン変更時は両方を更新します。
+正規URLは `src/lib/format.ts` の `siteUrl` で管理し、日英レイアウトの `metadataBase` も参照します。
 
 確認対象:
 

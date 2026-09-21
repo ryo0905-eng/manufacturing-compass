@@ -1,0 +1,220 @@
+import type { EnglishGuideArticle } from "./types";
+
+export const efemEnglishGuide: EnglishGuideArticle = {
+  slug: "semiconductor-wafer-handling-efem-manufacturers",
+  title: "What is an EFEM? Components, wafer handling and manufacturers",
+  description: "Learn how an Equipment Front End Module connects a FOUP to a semiconductor process tool. Explore load ports, robots, aligners, the transfer sequence and four manufacturer examples.",
+  targetQuery: "what is an EFEM",
+  searchIntent: "Understand the boundary, components and operation of an EFEM, and compare wafer handling suppliers by their product scope.",
+  status: "draft",
+  category: "industry",
+  presentation: "structured",
+  author: "RYO",
+  // Designated reviewer; do not display as completed until translation.reviewedAt is set.
+  reviewedBy: "RYO",
+  translation: {
+    sourceSlug: "semiconductor-wafer-handling-efem-manufacturers",
+    sourceUpdatedAt: "2026-09-01",
+    translatedAt: "2026-09-21",
+    reviewedAt: null,
+  },
+  publishedAt: "",
+  updatedAt: "2026-09-21",
+  showCareerCtas: false,
+  showExperienceBasis: false,
+  experienceBasis: [],
+  sources: [
+    { title: "Wafer Handling System", url: "https://www.rorze.com/en/products_category/wafer-transfer-system/", publisher: "RORZE Corporation", accessedAt: "2026-09-21" },
+    { title: "ACE EFEM", url: "https://www.rorze.com/en/products/ace-efem/", publisher: "RORZE Corporation", accessedAt: "2026-09-21" },
+    { title: "Semiconductor related equipment", url: "https://www.hirata.co.jp/en/products/semiconductor", publisher: "HIRATA Corporation", accessedAt: "2026-09-21" },
+    { title: "Vacuum Automation", url: "https://www.brooks.com/solutions/vacuum-automation/", publisher: "Brooks Automation", accessedAt: "2026-09-21" },
+    { title: "Wafer Transfer Robots", url: "https://kawasakirobotics.com/robots-category/wafer/", publisher: "Kawasaki Robotics", accessedAt: "2026-09-21" },
+    { title: "Host Online Communication Solution", url: "https://www.rorze.com/en/products/host-online-communication-solution/", publisher: "RORZE Corporation", accessedAt: "2026-09-21" },
+  ],
+  readTime: "12 min read",
+  intro: {
+    problem: "FOUPs, load ports, aligners, sorters and vacuum robots often appear together in equipment descriptions. Which of them actually belong to an EFEM?",
+    conclusion: "An EFEM handles individual wafers in a clean atmospheric environment at the front of a process tool. A load lock separates this front end from vacuum transfer when the process requires it.",
+    learnings: "Follow a wafer from its carrier into the tool, distinguish the components, and compare suppliers using the same substrate and transfer requirements.",
+  },
+  overviewBlocks: [
+    { type: "note", title: "EFEM in one sentence", body: "An Equipment Front End Module is an integrated module at the front of a semiconductor tool that receives a FOUP and transfers individual wafers between the carrier and the tool in a clean atmospheric environment." },
+    {
+      type: "process-flow",
+      title: "From FOUP to process tool and back",
+      description: "A simplified sequence for a typical 300 mm single-wafer tool. Actual equipment configurations and operating sequences vary.",
+      stages: [
+        { label: "01 / DOCK", title: "Receive the FOUP", body: "An overhead hoist transport (OHT), automated guided vehicle (AGV) or operator delivers the carrier. The load port checks identification, seating and clamping." },
+        { label: "02 / OPEN", title: "Open and map", body: "The load port opens the carrier door at the controlled interface. Wafer mapping checks the occupied slots before transfer." },
+        { label: "03 / PICK", title: "Pick one wafer", body: "The atmospheric robot inserts its end effector into the selected slot, supporting the wafer while limiting contact, vibration and particles." },
+        { label: "04 / ALIGN", title: "Check position", body: "The aligner establishes the wafer center and notch orientation. An ID reader may identify the wafer when required by the configuration." },
+        { label: "05 / HANDOFF", title: "Transfer into the tool", body: "The robot places the wafer in an atmospheric processing area or a load lock. A vacuum robot can then transfer it to a process chamber." },
+        { label: "06 / RETURN", title: "Return the wafer", body: "After processing, the wafer returns to its original or assigned carrier. Control software tracks slots, processing history and exceptions." },
+      ],
+    },
+    {
+      type: "mapping", leftLabel: "Component", rightLabel: "Role",
+      rows: [
+        { left: "FOUP", right: "A Front Opening Unified Pod: a closed carrier commonly used to store and transport multiple 300 mm wafers between tools." },
+        { left: "Load port", right: "The interface that receives and clamps the carrier, operates its door and supports identification and wafer mapping." },
+        { left: "Atmospheric robot", right: "Transfers wafers between the FOUP, aligner, load lock and other tool stations in a clean atmospheric environment." },
+        { left: "Aligner", right: "Measures wafer center and notch or flat orientation so the next station receives the wafer in the required position." },
+        { left: "Enclosure and FFU", right: "The enclosure, fan filter unit, sensors and controls maintain the transfer environment. Airflow, filtration and access doors must work together." },
+        { left: "Load lock and vacuum robot", right: "The load lock cycles between atmospheric and vacuum pressure; the vacuum robot transfers wafers within the vacuum system. These are normally downstream of the EFEM." },
+      ],
+    },
+  ],
+  sections: [
+    {
+      id: "boundary", heading: "Separate the EFEM from vacuum transfer and factory transport",
+      lead: "A clear system boundary makes each component easier to understand.",
+      blocks: [{ type: "mapping", leftLabel: "System", rightLabel: "Main function and environment", rows: [
+        { left: "Factory transport", right: "OHTs, AGVs and stockers move or store complete carriers between tools." },
+        { left: "EFEM", right: "Load ports, atmospheric robots, aligners, filtration and controls connect the carrier to the tool entrance." },
+        { left: "Load lock", right: "An enclosed chamber changes pressure while separating the atmospheric side from the vacuum side." },
+        { left: "Vacuum transfer module", right: "A vacuum robot moves wafers between load locks and process chambers without returning them to atmosphere." },
+        { left: "Process module", right: "Performs the actual deposition, etching, cleaning, thermal treatment or measurement operation." },
+        { left: "Sorter", right: "Primarily transfers or reorganizes wafers between carriers. Configurations may include identification, inspection or flipping." },
+      ] }],
+      paragraphs: [
+        "Hirata describes EFEMs as integrated load ports and wafer transfer robots. Brooks describes vacuum systems that connect EFEMs, load ports and process modules. A supplier may offer several of these systems, but they do not all serve the same purpose.",
+      ],
+    },
+    {
+      id: "handling", heading: "Distinguish particles, positioning errors and transfer faults",
+      lead: "Faster motion must be balanced against vibration, slip, particle generation and settling time.",
+      blocks: [
+        { type: "cards", columns: 2, items: [
+          { label: "VACUUM", title: "Backside vacuum gripping", body: "Vacuum openings hold the wafer from its back surface. Check contact areas, particles, marks and the response of thin wafers. This describes the gripping method, not operation in a vacuum chamber." },
+          { label: "EDGE", title: "Edge gripping", body: "Holding the wafer perimeter reduces backside contact. Edge condition, notch position, gripping force, deflection and loss-of-wafer detection still matter." },
+          { label: "BERNOULLI", title: "Low-contact handling", body: "Airflow-based methods can reduce contact. Confirm gas requirements, support stability, particles and positioning for the actual substrate; do not assume every supplier offers this option." },
+          { label: "SPECIAL", title: "Special substrates and carriers", body: "Thin, warped or transparent substrates, SiC, glass, ring frames and panels may require different end effectors, sensors and motion paths." },
+        ] },
+        { type: "note", title: "Check more than wafer presence", body: "A transfer system may combine slot mapping, end-effector sensors, distance or thickness sensing, vacuum pressure, torque and imaging. Evaluate how it detects protruding wafers, double picks and other abnormal conditions before and after a move." },
+      ],
+      paragraphs: [
+        "RORZE lists vacuum chucking and optional edge clamping for its ACE EFEM, together with alignment, identification and purge options. Availability depends on the model and configuration.",
+        "Do not compare bare, patterned, thinned, bonded, warped and carrier-mounted wafers as if they had identical handling requirements.",
+        "For a particle issue, check airflow, contact surfaces, moving parts and carrier-door operation. For a positioning issue, check teaching, alignment, the end effector and handoff height. For transfer faults, examine mapping, sensors, gripping pressure, sequence timing and recovery logs. These are general investigation prompts, not a diagnosis of a particular machine.",
+      ],
+    },
+    {
+      id: "performance", heading: "Throughput depends on the complete transfer sequence",
+      lead: "The shortest robot move is not necessarily the most stable production cycle.",
+      blocks: [{ type: "mapping", leftLabel: "Performance or quality factor", rightLabel: "What to examine", rows: [
+        { left: "Cycle time", right: "Carrier opening, mapping, picking, alignment, handoff, settling and return—not just arm travel." },
+        { left: "Ports and robot configuration", right: "Port count, single or dual arms, a track axis, aligners and buffers determine which tasks can overlap." },
+        { left: "Position and repeatability", right: "Center, angle, height and handoff position, including thermal changes, drift and differences between tools." },
+        { left: "Cleanliness", right: "Particles associated with drives, cables, belts, end effectors, carrier doors and airflow." },
+        { left: "Vibration and settling", right: "The time required after motion for the wafer and mechanism to settle enough for a safe handoff." },
+        { left: "Transfer reliability", right: "Missed picks, drops, double picks, protrusion, mapping faults and collisions, including stoppage and recovery frequency." },
+        { left: "Availability and maintenance", right: "Wear parts, calibration, cleaning, teaching, replacement, preventive maintenance and fault recovery." },
+      ] }],
+      paragraphs: [
+        "Hirata and RORZE show configurations that combine ports, robots and aligners. The useful comparison is the required tool sequence with the intended wafer and carrier, not an isolated maximum robot speed.",
+        "Record the travel distance, motion path, end effector, acceleration and settling conditions when comparing cycle times.",
+      ],
+    },
+    {
+      id: "standards", heading: "Integration includes communication and safety interfaces",
+      lead: "Mechanical fit alone does not establish compatibility with the factory.",
+      blocks: [{ type: "mapping", leftLabel: "Interface", rightLabel: "What to confirm", rows: [
+        { left: "FOUP and load port", right: "Carrier dimensions, door operation, seating, clamping, slot positions, mapping and any purge requirements." },
+        { left: "OHT handoff", right: "Transfer signals and coordination of arrival, seating, clamping and safe equipment states." },
+        { left: "SECS/GEM and GEM300", right: "Equipment state, carrier and wafer tracking, recipes, alarms and communication with the factory host." },
+        { left: "Safety", right: "Pinch points, collisions, dropped wafers, doors, emergency stops, power disturbances, recovery and maintenance access." },
+        { left: "Traceability", right: "Carrier and wafer IDs, slot assignments, process order, destinations, exceptions and reprocessing history." },
+      ] }],
+      paragraphs: [
+        "Kawasaki lists SEMI F47 and SEMI S2 compliance for its wafer transfer robots. RORZE provides host communication solutions covering SECS/GEM and GEM300. Confirm applicability for the exact model and configuration; a component claim does not establish compliance of an entire integrated tool.",
+        "Use interface testing with the selected process tool, factory host, transport system and safety circuits to check integration requirements.",
+      ],
+    },
+    {
+      id: "manufacturers", heading: "Four examples of EFEM and wafer handling suppliers",
+      lead: "Component supply, integrated EFEMs and vacuum platforms have different boundaries of responsibility.",
+      blocks: [{ type: "mapping", leftLabel: "Company", rightLabel: "Examples of scope shown in official information", rows: [
+        { left: "RORZE — Japan", right: "Atmospheric and vacuum wafer robots, aligners, load ports, vacuum platforms, EFEMs, sorters and equipment communication software." },
+        { left: "Hirata — Japan", right: "Load ports, atmospheric and vacuum transfer robots, aligners, EFEMs and sorters; its product information also covers panel handling." },
+        { left: "Brooks Automation — United States", right: "Vacuum robots, modular vacuum systems and integration with EFEMs, load ports and process modules, with diagnostics and service support." },
+        { left: "Kawasaki Robotics — Japan", right: "Wafer transfer robots for front-end handling, including access to multiple FOUP positions and model-specific safety and power-disturbance compliance claims." },
+      ] }],
+      paragraphs: [
+        "These are representative examples, not an exhaustive supplier directory or a market-share ranking. Check each manufacturer's current product documentation for the scope of a specific quotation.",
+        "A company supplying a robot to an equipment builder may have a different integration responsibility from a supplier delivering a complete EFEM or vacuum transfer system.",
+      ],
+    },
+    {
+      id: "comparison", heading: "Compare suppliers using eight consistent requirements",
+      lead: "Evaluate a safe wafer handoff as part of a complete equipment cycle and service life.",
+      blocks: [{ type: "mapping", leftLabel: "Comparison axis", rightLabel: "Questions to carry into a product review", rows: [
+        { left: "1. Substrate", right: "What diameter, thickness, mass, warp, transparency and material? Is it on a ring frame, panel or carrier?" },
+        { left: "2. Configuration", right: "How many ports, arms, aligners and buffers? Are a track axis, sorter, load lock or vacuum transfer module required?" },
+        { left: "3. Handling", right: "Backside vacuum, edge grip or another method? How are dropped wafers, double picks and protrusion detected? Is flipping or ID reading needed?" },
+        { left: "4. Cleanliness and vibration", right: "What particle sources, airflow, purge, backside contamination, settling and damage mechanisms need evaluation?" },
+        { left: "5. Precision and capacity", right: "What position, angle, height, repeatability, cycle time, concurrent operation and recovery performance are required?" },
+        { left: "6. Safety and standards", right: "Which carrier, handoff and safety requirements apply? What must happen during an emergency stop, power disturbance or maintenance task?" },
+        { left: "7. Controls and data", right: "How are motion, teaching, host communication, wafer tracking, logs, diagnostics and upstream controls integrated?" },
+        { left: "8. Production support", right: "Who owns customization, integration, commissioning, preventive maintenance, spare parts, long-term supply and change control?" },
+      ] }],
+      paragraphs: [
+        "At robot level, examine reach and repeatability. At EFEM level, examine successful transfers, cycle time and particles from carrier opening through handoff to the tool.",
+        "For thin or warped wafers, evaluate representative samples with the expected warp, surface and edge conditions and handling history. Standard samples alone may not reveal the relevant limitations.",
+      ],
+    },
+    {
+      id: "jobs", heading: "Engineering work connects motion, cleanliness and tool integration",
+      lead: "The work spans the robot mechanism through factory automation.",
+      blocks: [{ type: "cards", columns: 3, items: [
+        { label: "MECHANICS", title: "Mechanical design", body: "Arms, drives, linear mechanisms, end effectors, load ports, aligners and enclosures." },
+        { label: "MOTION", title: "Motion control", body: "Trajectories, acceleration, vibration suppression, settling, collision avoidance and synchronization." },
+        { label: "CLEAN", title: "Clean environments", body: "Particles, airflow, fan filter units, nitrogen purge, gripping, backside contamination and materials." },
+        { label: "SENSOR", title: "Sensing and imaging", body: "Slot mapping, wafer presence, double picks, center and notch detection, identification and fault detection." },
+        { label: "SOFTWARE", title: "Equipment software", body: "Sequences, states, host communication, tracking, logs and recovery." },
+        { label: "INTEGRATION", title: "Integration and service", body: "Interfaces to process tools, transport, carriers and load locks, plus teaching, commissioning and maintenance." },
+      ] }],
+      paragraphs: [
+        "Experience in mechanical design, robotics, controls, embedded systems, imaging, clean technology, production automation or field service can be relevant. Actual responsibilities depend on the role.",
+        "When reading a job description, identify whether the work concerns a robot, load port, integrated EFEM, vacuum system, software or on-site commissioning.",
+      ],
+    },
+    {
+      id: "faq", heading: "Frequently asked questions about EFEMs",
+      paragraphs: [],
+      blocks: [{ type: "faq", items: [
+        { question: "What does EFEM stand for?", answer: "Equipment Front End Module. It connects a wafer carrier to the front of a process tool using load ports, atmospheric handling robots, alignment, environmental control and control software." },
+        { question: "What does FOUP stand for?", answer: "Front Opening Unified Pod. It is a closed carrier commonly used for multiple 300 mm wafers, with a front door for transfer at the tool interface." },
+        { question: "How do atmospheric and vacuum robots differ?", answer: "An atmospheric robot operates in a clean atmospheric environment such as an EFEM. A vacuum robot transfers wafers on the low-pressure side of the load lock, typically between process chambers." },
+        { question: "Which manufacturers are covered here?", answer: "RORZE, Hirata, Brooks Automation and Kawasaki Robotics are used as examples. Their product scopes differ, and this is not an exhaustive list or performance ranking." },
+        { question: "Does a faster robot always mean higher throughput?", answer: "No. Carrier opening, mapping, alignment, travel distance, settling, tool waiting time and fault recovery all contribute to the complete sequence." },
+      ] }],
+    },
+    {
+      id: "summary", heading: "Use the FOUP-to-tool boundary as your starting point",
+      lead: "An EFEM brings clean, precise and safe wafer handling together at the tool entrance.",
+      blocks: [
+        { type: "cards", columns: 2, items: [
+          { label: "BOUNDARY", title: "Separate the systems", body: "Distinguish factory transport, EFEM, load lock, vacuum transfer and process chambers." },
+          { label: "WAFER", title: "Define the substrate", body: "Specify dimensions, warp, material, front and back surfaces, and carrier conditions." },
+          { label: "SEQUENCE", title: "Measure the full cycle", body: "Include opening, picking, alignment, handoff, return and recovery." },
+          { label: "INTEGRATE", title: "Check the interfaces", body: "Connect carrier, factory transport, process tool, safety, communication, tracking and maintenance requirements." },
+        ] },
+        { type: "links", items: [
+          { label: "Semiconductor equipment manufacturers (Japanese)", href: "/guides/semiconductor-equipment-manufacturers", description: "See how front-end handling connects to different process tools." },
+          { label: "Deposition equipment manufacturers (Japanese)", href: "/guides/semiconductor-deposition-equipment-manufacturers", description: "Explore process tools that can use load locks and vacuum transfer." },
+          { label: "Etching equipment manufacturers (Japanese)", href: "/guides/semiconductor-etching-equipment-manufacturers", description: "Connect wafer handling to etching process chambers." },
+          { label: "Cleaning equipment manufacturers (Japanese)", href: "/guides/semiconductor-cleaning-equipment-manufacturers", description: "Learn about single-wafer cleaning and its handling interfaces." },
+          { label: "Inspection and metrology equipment (Japanese)", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "Explore automated handling for wafer inspection and measurement." },
+          { label: "Vacuum pump manufacturers (Japanese)", href: "/guides/semiconductor-vacuum-pump-manufacturers", description: "Understand the pumping systems behind load locks and vacuum transfer." },
+          { label: "Semiconductor industry map (Japanese)", href: "/industry-map", description: "Place equipment, materials and manufacturing stages in the wider industry." },
+          { label: "Company directory (Japanese)", href: "/companies", description: "Explore semiconductor companies by business area." },
+        ] },
+      ],
+      paragraphs: [
+        "For a practical next step, choose one official product page and write down its substrate requirements, system configuration, handling method, cleanliness and vibration considerations, precision and capacity, safety interfaces, controls and production support. Leave any unspecified item as a question for the supplier.",
+      ],
+    },
+  ],
+  relatedGuideSlugs: [],
+  relatedCompanyIds: [],
+};

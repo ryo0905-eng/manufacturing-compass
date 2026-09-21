@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import { Analytics } from "@vercel/analytics/next";
+import { SiteAnalytics } from "@/components/SiteAnalytics";
 import Link from "next/link";
-import "./globals.css";
+import "@/app/globals.css";
+import { siteUrl } from "@/lib/format";
 import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mfg-compass.com"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "製造技術者の仕事とキャリアを支える | Manufacturing Compass",
     template: "%s | Manufacturing Compass",
@@ -24,10 +24,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const gaMeasurementId = process.env.VERCEL_ENV === "production"
-    ? process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
-    : undefined;
-
   return (
     <html lang="ja">
       <head>
@@ -53,8 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </div>
           </footer>
         </div>
-        <Analytics />
-        {gaMeasurementId ? <GoogleAnalytics gaId={gaMeasurementId} /> : null}
+        <SiteAnalytics />
       </body>
     </html>
   );

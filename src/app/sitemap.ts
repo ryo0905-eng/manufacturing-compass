@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { englishGuides, isEnglishGuidePublished } from "@/content/guides/en";
 import { companies, isCompanyIndexable, segments } from "@/data/companies";
 import { companyLocations } from "@/data/company-locations";
 import { beginnerGuides, comparePairs, rankings } from "@/data/editorial";
@@ -94,5 +95,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.66,
   }));
 
-  return [...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes];
+  const englishGuideRoutes = englishGuides.filter(isEnglishGuidePublished).map((guide) => ({
+    url: `${siteUrl}/en/guides/${guide.slug}`,
+    lastModified: contentDate(guide.updatedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.66,
+  }));
+
+  return [...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes];
 }

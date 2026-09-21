@@ -9,6 +9,8 @@ import { DiagnosisCta } from "@/components/DiagnosisCta";
 import { StructuredData } from "@/components/StructuredData";
 import { TodayAction } from "@/components/TodayAction";
 import { GuideBlocks } from "@/components/guide/GuideBlocks";
+import { GuideLanguageLink } from "@/components/guide/GuideLanguageLink";
+import { getPublishedEnglishTranslation } from "@/content/guides/en";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
 import { companies } from "@/data/companies";
@@ -31,10 +33,14 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
     return {};
   }
 
+  const translation = getPublishedEnglishTranslation(guide.slug);
   return {
     title: guide.title,
     description: guide.description,
-    alternates: { canonical: `/guides/${guide.slug}` },
+    alternates: {
+      canonical: `/guides/${guide.slug}`,
+      ...(translation ? { languages: { ja: `${siteUrl}/guides/${guide.slug}`, en: `${siteUrl}/en/guides/${translation.slug}` } } : {}),
+    },
     openGraph: {
       type: "article",
       locale: "ja_JP",
@@ -89,6 +95,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
       {faqItems.length > 0 ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }} /> : null}
       <article className="article-layout">
         <header className="article-hero">
+          {getPublishedEnglishTranslation(guide.slug) ? <GuideLanguageLink slug={guide.slug} locale="ja" /> : null}
           <p className="section-label">製造業・半導体の記事・{guide.readTime}</p>
           <h1>{guide.title}</h1>
           <p>{guide.description}</p>
