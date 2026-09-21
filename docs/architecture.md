@@ -43,6 +43,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/career-consultation`: 相談論点の整理
 - `/tools/process-comparison`: 実測2条件の記述統計・共通相対度数ヒストグラム、TSVコピーとPNG出力。計算とSVG生成は`src/lib/process-comparison.ts`、PNG化は`src/lib/process-comparison-export.ts`。同じ結果を画面・コピー・画像へ使い、サーバーAPIや永続化は追加しない。計測は`process_comparison_started/completed/copied/png_exported`の固定名のみ（プロパティなし）
 - `/tools/cpk`: 生データからPp・Ppk、短期標準偏差からCp・Cpkを計算し、SVGヒストグラムと分析を表示
+- `/tools/taguchi`: L9の2列による9制御条件×3誤差状態の望小SN比と確認実験を学ぶ。`src/lib/taguchi`でtypes・simulator・analysis・sessionを分離し、analysisは真値を参照しない。81回の段階進行と実験ID由来の乱数、独立した確認群を保持。操作は専用Client ComponentとSVG、説明はServer Component、文言・日付は`src/data/taguchi.ts`。状態はメモリのみ、失敗時は観測保持・解析停止。詳細は[専用仕様](./taguchi-spec.md)。
 - `/tools/doe`: 2因子2水準を起点に、効果、実験誤差、ANOVA、残差、確認実験、設計選択を学ぶ
 - `/tools/bayesian-optimization`: 架空成膜工程の12回の実験を、DOE→GP予測→LCBによる追加実験→確認→真値の振り返りとして体験する。`src/lib/bayesian-optimization` のmodelはtypesのみに依存し、simulatorの真値を参照しない。sessionは原子的なDOE追加と12回の予算、確認前予測を保持する。Server Componentの説明とClient Componentの操作、Canvasの面とSVGの点を分離し、状態はメモリのみ。計算失敗時は履歴を保持して予測を消去・停止する。文言と公開日付は`src/data/bayesian-optimization.ts`、詳細は[専用仕様](./bayesian-optimization-spec.md)。
 - `/tools/control-chart`: 管理図で偶然原因と異常原因の判断を学ぶ

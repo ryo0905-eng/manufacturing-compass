@@ -51,6 +51,8 @@
 
 ベイズ最適化学習ツールの体験・仮想装置・GP/LCB・検証仕様は [`docs/bayesian-optimization-spec.md`](./bayesian-optimization-spec.md) を参照する。計算方式・実験予算・教材モデルの変更時に更新する。
 
+タグチメソッド体験の実験計画・SN比・仮想装置・確認実験・検証は [`docs/taguchi-spec.md`](./taguchi-spec.md) を参照する。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順

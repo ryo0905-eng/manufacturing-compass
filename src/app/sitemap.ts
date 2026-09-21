@@ -1,3 +1,4 @@
+import { taguchiRelease } from "@/data/taguchi";
 import { bayesianRelease } from "@/data/bayesian-optimization";
 import { englishPracticalToolIds, englishPracticalTools, isEnglishPracticalToolPublished } from "@/data/practical-tools-english";
 import type { MetadataRoute } from "next";
@@ -27,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools",
     "/tools/cpk",
     "/tools/doe",
+    "/tools/taguchi",
     "/tools/bayesian-optimization",
     "/tools/control-chart",
     "/tools/yield-analysis",
@@ -56,6 +58,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === "/tools/taguchi" ? { lastModified: contentDate(taguchiRelease.updatedAt) } : {}),
     ...(path === "/tools/bayesian-optimization" ? { lastModified: contentDate(bayesianRelease.updatedAt) } : {}),
     ...(path === "/tools/process-comparison" ? { lastModified: contentDate("2026-09-16") } : {}),
     ...(path === "/labs/jev" ? { lastModified: contentDate("2026-09-20") } : {}),

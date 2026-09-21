@@ -49,6 +49,7 @@ export default function BayesianOptimizationPage() {
       <h2>結果を見るときの注意</h2>
       <p>探索中の改善線は「これまでの観測最小値」で、測定ノイズを含みます。最後に真値へ切り替えると、偶然の好結果との違いを確認できます。比較する最良値は操作可能な41×41点の中での最良値であり、連続空間の厳密な最適解ではありません。</p>
       <p>{text.repeatNote} また、良い条件を見つけることと物理的な原因の解明は別です。このデータから工程能力や量産適合性を判定しません。</p>
+      <p><Link href="/tools/taguchi">次はタグチメソッドで、原料状態の変化に強い条件を比べる →</Link></p>
       <h2>出典・更新日</h2>
       <ul><li><a href="https://www.itl.nist.gov/div898/handbook/pri/section3/pri337.htm">NIST：要因計画への中心点の追加</a></li><li><a href="https://gaussianprocess.org/gpml/chapters/RW2.pdf">Rasmussen &amp; Williams：Gaussian Processes for Machine Learning, Chapter 2</a></li><li><a href="https://botorch.org/docs/acquisition">BoTorch：獲得関数</a></li></ul>
       <p>仮想応答関数・画面構成は本教材独自の設計です。出典が本教材の性能を保証するものではありません。</p>

@@ -47,6 +47,7 @@ export const stageText: Record<Stage, { title: string; hint: string }> = {
 
 export const methodText: Record<SelectionMethod, string> = { manual: "自分で選択", doe: "DOE", bo: "BO推奨", confirmation: "確認実験" };
 export const bayesianLinks = [
+  { id: "taguchi", href: "/tools/taguchi", title: "タグチメソッドで、誤差に強い条件を探す", detail: "原料状態を変えて品質を比較する、別の架空モデルです。" },
   { id: "doe", href: "/tools/doe", title: "DOEで、効果と交互作用を学ぶ", detail: "初期実験だけでなく、追加調査・確認にも使えます。" },
   { id: "comparison", href: "/tools/process-comparison", title: "工程比較で、2条件の分布を比べる", detail: "次は十分な測定数を集めて、ばらつきも確認します。" },
   { id: "cpk", href: "/tools/cpk", title: "安定した工程の能力を、別途評価する", detail: "今回の12点からCpkは算出しません。" },
