@@ -64,6 +64,16 @@ function samples(mode) {
   await click('AIを再試行');await finish(calls.at(-1));
   await click('5. 採用方法を考える');await finish(calls.at(-1));
   await click('設定を固定して、別の24枚を開く');assert.ok(text(tree).includes('確認済み'));assert.ok(counts('AI').decisions.every(v=>v===null));await finish(calls.at(-1));
+  for (const [id, label] of [['inspection-filter','画像一覧'], ['inspection-choice','採用候補'], ['inspection-reason','重視したこと']]) {
+    assert.equal(nodes(tree,n=>n.type==='select'&&n.props.id===id).length,1);
+    const labels=nodes(tree,n=>n.type==='label'&&n.props.htmlFor===id);
+    assert.equal(labels.length,1);assert.equal(text(labels[0]),label,'label text must not include option text');
+  }
+  const choice=nodes(tree,n=>n.type==='select'&&n.props.id==='inspection-choice')[0];
+  choice.props.onChange({target:{value:'追加検証'}});await flush();
+  const reason=nodes(tree,n=>n.type==='select'&&n.props.id==='inspection-reason')[0];
+  reason.props.onChange({target:{value:'撮影条件への対応'}});await flush();
+  await click('この理由で振り返りを終える');assert.ok(text(tree).includes('一律の正解はありません'));
   assert.equal(counts('AI').truth.length,24);assert.equal(nodes(tree,n=>n.type==='fieldset')[0].props.disabled,true);
   await click('練習を最初から（確認済みは保持）');await finish(calls.at(-1));await click('5. 採用方法を考える');await finish(calls.at(-1));
   assert.ok(text(tree).includes('確認済み24枚を再評価'));assert.ok(!text(tree).includes('設定を固定して、別の24枚を開く'));

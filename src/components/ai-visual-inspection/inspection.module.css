@@ -58,3 +58,7 @@
   .steps button { flex-basis: 130px; }
   .dialog { padding: 12px; }
 }
+
+/* Keep checkbox labels together despite the site's global form-label grid. */
+.controls > label:not(.control), .toolbar > label { display: inline-flex; align-items: center; gap: 8px; }
+.controls > label:not(.control) input, .toolbar > label input { flex-shrink: 0; margin: 0; }

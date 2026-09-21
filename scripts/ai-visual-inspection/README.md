@@ -285,3 +285,7 @@ node tests/unit/ai-visual-inspection-ui.cjs
 ```
 
 These are data and simulated-hook/SSR checks, not browser interaction tests. See `docs/ai-visual-inspection-ui.md` for the unverified browser and release gates.
+
+## Browser check
+
+`node scripts/ai-visual-inspection/check_browser.cjs` starts and stops a Webpack dev server on port 3100, then drives Chromium. Use Node 22 and keep port 3100 free. The script is capped at 175 seconds. Its first ad-hoc run stopped at the reflection label lookup; the committed runner has only been syntax-checked. See `docs/ai-visual-inspection-browser-validation.md` before reporting results or rerunning.
