@@ -1,4 +1,4 @@
-/** The English UI is reviewable by URL; search discovery starts after human review. */
+/** Publication metadata for the English Cpk tool. */
 export const englishCpkRelease: {
   status: "draft" | "published";
   translatedAt: string;
@@ -6,11 +6,11 @@ export const englishCpkRelease: {
   reviewedAt: string | null;
   publishedAt: string | null;
 } = {
-  status: "draft",
+  status: "published",
   translatedAt: "2026-09-21",
   updatedAt: "2026-09-21",
-  reviewedAt: null,
-  publishedAt: null,
+  reviewedAt: "2026-09-21",
+  publishedAt: "2026-09-21",
 };
 
 export function isEnglishCpkPublished() {
