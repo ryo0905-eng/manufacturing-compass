@@ -14,6 +14,8 @@ import { TestingDiagram, TestingReadout } from './TestingDiagram';
 import { waferPreparationSteps } from '@/data/semiconductor-wafer-preparation';
 import { WaferPreparationDiagram } from './WaferPreparationDiagram';
 import { tourStops, tourRecap } from '@/data/semiconductor-tour';
+import { WorkRolePanel } from './WorkRolePanel';
+import { workRoles, workNote, workRelease, type WorkRoleId } from '@/data/semiconductor-work';
 import styles from './process.module.css';
 export function ProcessExplorer() {
   const [state, setState] = useState(initialState);
@@ -31,6 +33,7 @@ export function ProcessExplorer() {
   }, []);
   function navigate(action: ProcessAction) {
     setQuestion(undefined);
+    setWorkRole(undefined);
     setInside(false);
     setConnected(false);
     send(action);
@@ -70,6 +73,15 @@ export function ProcessExplorer() {
   }, [state.view, state.experience]);
   const [inside, setInside] = useState(false);
   const [connected, setConnected] = useState(false);
+  const [workRole, setWorkRole] = useState<WorkRoleId | undefined>();
+  const viewedWork = useRef(new Set<WorkRoleId>());
+  function selectWork(id: WorkRoleId) {
+    setWorkRole(id);
+    if (viewedWork.current.has(id)) return;
+    viewedWork.current.add(id);
+    trackEvent('semiconductor_process_work_opened', { version: workRelease.version, experience_id: 'thin-film', role_id: id });
+  }
+  const selectedWork = workRoles.find(role => role.id === workRole);
   const waferPreparation = state.experience==='wafer-preparation';
   const testing = state.experience==='wafer-test'||state.experience==='final-test' ? state.experience : undefined;
   const assembly = state.experience === 'assembly';
@@ -121,6 +133,13 @@ export function ProcessExplorer() {
         <p className={styles.eyebrow}>{experience.summary.eyebrow}</p><h2>{experience.summary.title}</h2>
         {waferPreparation ? <WaferPreparationDiagram step="wafer-clean-check" progress={1}/> : testing ? <><TestingDiagram mode={testing} step={3} progress={1}/><TestingReadout mode={testing} step={3} progress={1}/></> : interconnect ? <><InterconnectDiagram step="cap" progress={1} connected={connected}/><button type="button" aria-pressed={connected} onClick={()=>setConnected(value=>!value)}>つながる部分を見る</button></> : assembly ? <AssemblyDiagram step="trim-form" progress={1} inside/> : <CompletedStructure/>}
         {experience.summary.paragraphs.map(paragraph=><p key={paragraph}>{paragraph}</p>)}
+        {state.experience === 'thin-film' && <section className={styles.workRoles} aria-labelledby="thin-film-work-heading">
+          <p className={styles.eyebrow}>ここで働く人</p><h3 id="thin-film-work-heading">この工程を支える仕事</h3>
+          <p>狙った形を作り続けるために、どんな仕事があるのでしょう。気になる役割を選んでみてください。</p>
+          <div className={styles.workChoices} role="group" aria-label="仕事の役割を選ぶ">{workRoles.map(role => <button type="button" key={role.id} aria-pressed={workRole === role.id} aria-controls={selectedWork ? 'thin-film-work-panel' : undefined} onClick={()=>selectWork(role.id)}>{role.label}</button>)}</div>
+          {selectedWork && <WorkRolePanel role={selectedWork} onRelated={()=>trackEvent('semiconductor_process_work_related_clicked', { version: workRelease.version, experience_id: 'thin-film', role_id: selectedWork.id, destination: selectedWork.id })}/>}
+          <p className={styles.small}>{workNote}</p>
+        </section>}
         {state.tour ? <div className={styles.tourEntry}><p>{tourIndex<5?`次は「${tourStops[tourIndex+1].label}」。${tourStops[tourIndex+1].purpose}`:'6つの体験を、ひとつの流れとして振り返ります。'}</p><p className={styles.small}>この体験の確認済み：{state.completed.length} / {processSteps.length}工程。未確認の工程は後から見直せます。</p><button type="button" className={styles.primary} onClick={()=>navigate({type:'tour-next',from:state.experience})}>{tourIndex<5?'次の体験へ →':'見学コースを振り返る →'}</button><button type="button" onClick={()=>navigate({type:'tour-map'})}>コースの全体図</button></div> : <>
         {waferPreparation&&<button type="button" className={styles.primary} onClick={()=>navigate({type:'enter',experience:'thin-film'})}>続けて膜に形を作る →</button>}
         {state.experience==='thin-film'&&<button type="button" className={styles.primary} onClick={()=>navigate({type:'enter',experience:'interconnect'})}>続けて配線をつくる →</button>}

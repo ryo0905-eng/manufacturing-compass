@@ -138,3 +138,16 @@
 .tourRecap article { padding: 16px; background: white; border: 1px solid #dce1e7; border-radius: 8px; }
 .tourRecap h3 { margin-top: 0; }
 @media (max-width: 760px) { .tourStops, .tourRecap { grid-template-columns: 1fr; } .tourEntry { padding: 16px; } }
+
+.workRoles { margin: 24px 0; padding: 20px; border: 1px solid #dce1e7; border-radius: 12px; }
+.workChoices { display: flex; flex-wrap: wrap; gap: 8px; }
+.workChoices button[aria-pressed="true"] { background: #eef3fa; border-color: #1769aa; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.workPanel { margin-top: 20px; }
+.workPanel h4 { font-size: 18px; margin: 12px 0; }
+.workFlow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; }
+.workFlow li { min-width: 0; padding: 10px; background: #f5f8fa; border: 1px solid #dce1e7; border-radius: 8px; font-size: 13px; }
+.workFlow svg { width: 100%; height: auto; max-height: 110px; display: block; }
+.workFacts { display: grid; grid-template-columns: 7em minmax(0, 1fr); gap: 10px 16px; font-size: 14px; }
+.workFacts dt { font-weight: 600; }
+.workFacts dd { margin: 0; }
+@media (max-width: 560px) { .workRoles { padding: 14px; } .workChoices { flex-direction: column; } .workFlow { grid-template-columns: 1fr; } .workFlow li { display: flex; align-items: center; gap: 12px; } .workFlow svg { width: 100px; flex: 0 0 100px; } .workFacts { grid-template-columns: 1fr; gap: 4px; } .workFacts dd { margin-bottom: 10px; } }

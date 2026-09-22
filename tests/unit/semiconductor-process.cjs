@@ -96,6 +96,7 @@ function harness(reduced=false){
   if(name==='next/link')return{default:'a'};
   if(name==='@/lib/analytics')return{trackEvent:(name,props)=>events.push({name,props})};
   if(name.endsWith('.css'))return{default:new Proxy({},{get:(_,k)=>String(k)})};
+  if(name==='./WorkRolePanel')return{WorkRolePanel:function WorkRolePanel(){}};
   if(name==='./WaferPreparationDiagram')return{WaferPreparationDiagram:function WaferPreparationDiagram(){}};
   if(name==='./TestingDiagram')return{TestingDiagram:function TestingDiagram(){},TestingReadout:function TestingReadout(){}};
   if(name==='./InterconnectDiagram')return{InterconnectDiagram:function InterconnectDiagram(){}};
@@ -387,3 +388,28 @@ assert.equal(toured.view,'tour-summary');assert.equal(toured.tourCompleted,false
 const tourUI=harness();tourUI.render();tourUI.click('順番に見る →');assert.equal(tourUI.get().tour,true);tourUI.click('高純度のシリコンを溶かす');tourUI.tick(0);tourUI.tick(600);tourUI.click('コースの全体図');assert.equal(tourUI.get().playing,false);assert.equal(tourUI.raf.size,0);assert.equal(tourUI.get().view,'tour-map');tourUI.click('現在の体験を開く');assert.equal(tourUI.get().progress,0);tourUI.click('コースの全体図');tourUI.click('自由に工程を選ぶ');assert.equal(tourUI.get().tour,false);tourUI.unmount();
 assert.ok(preparationPage.includes('おすすめ見学コース'));assert.ok(preparationPage.includes('気になる工程を選ぶ'));
 console.log('PASS six-stop tour, ordered handoffs, stale clicks, incomplete recap, preserved histories, deduplicated events, UI stop/navigation and SSR entry');
+
+const workData=load(path.join(base,'data/semiconductor-work.ts'));
+const workPanel=load(path.join(base,'components/semiconductor-process/WorkRolePanel.tsx'));
+for(const role of workData.workRoles){
+ const html=renderToStaticMarkup(React.createElement(workPanel.WorkRolePanel,{role,onRelated(){}}));
+ for(const content of [role.problem,role.investigate,role.people,role.next,role.guide,'仕事の見方','thin-film-work-panel'])assert.ok(html.includes(content));
+ assert.equal((html.match(/<svg/g)||[]).length,3);assert.ok(html.includes('aria-hidden="true"'));
+ assert.ok(fs.readFileSync(`src/content/guides/${role.guide.split('/').pop()}.ts`,'utf8').includes('"published"'));
+ assert.ok(workData.workSources.some(source=>source.id===role.id));
+}
+const jobs=harness(true);jobs.render();assert.equal(jobs.nodes(n=>n.type==='button'&&text(n)==='加工条件を整える').length,0);
+jobs.click('膜に形を作る');
+// Last-step summary is allowed, but the job UI must not change simulation confirmation.
+jobs.nodes(n=>n.type==='button'&&n.props.children?.[1]==='加工後の洗浄')[0].props.onClick();jobs.render();jobs.click('表面を洗って次へ進む');
+const thinDefinition=load(path.join(base,'data/semiconductor-experiences.ts')).experiences['thin-film'];jobs.click(thinDefinition.summary.button);
+const jobState=plain(jobs.get());
+for(const role of workData.workRoles){jobs.click(role.label);const panel=jobs.nodes(n=>n.type?.name==='WorkRolePanel')[0];assert.equal(panel.props.role.id,role.id);assert.deepEqual(plain(jobs.get()),jobState);panel.props.onRelated();}
+jobs.click('加工条件を整える');assert.equal(jobs.events.filter(e=>e.name==='semiconductor_process_work_opened').length,3);
+for(const event of jobs.events.filter(e=>e.name.startsWith('semiconductor_process_work_'))){assert.equal(event.props.experience_id,'thin-film');assert.equal(event.props.version,'thin-film-work-v1');assert.ok(workData.workRoles.some(role=>role.id===event.props.role_id));assert.ok(!('progress' in event.props));}
+jobs.click('続けて配線をつくる →');assert.equal(jobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);assert.equal(jobs.get().experience,'interconnect');jobs.unmount();
+const workPage=renderToStaticMarkup(React.createElement(load(path.join(base,'app/(ja)/tools/semiconductor-process/page.tsx')).default));
+for(const role of workData.workRoles)assert.ok(workPage.includes(role.investigate));
+for(const source of workData.workSources)assert.ok(workPage.includes(source.url));
+assert.ok(workPage.includes('3つの仕事を文章で読む'));
+console.log('PASS work roles: three visual panels, accessible text/SSR, published guides/sources, selection events, deduplication, simulation isolation and thin-film-only integration');
