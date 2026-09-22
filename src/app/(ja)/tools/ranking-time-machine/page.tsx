@@ -31,10 +31,9 @@ export default function RankingTimeMachinePage() {
     ] }} />
     <nav className={styles.breadcrumb} aria-label="パンくず"><Link href="/">ホーム</Link><span aria-hidden="true">/</span><Link href="/tools">学習ツール</Link><span aria-hidden="true">/</span><span>ランキング・タイムマシン</span></nav>
     <header className={styles.hero}>
-      <p className={styles.eyebrow}>ランキング・タイムマシン · 実データ · 登録不要</p>
       <h1>半導体企業の時価総額ランキング推移</h1>
-      <p>2015〜2025年の年末時価総額から、主要20社の順位の入れ替わりをたどります。「再生」で年を進め、気になる企業を選んで過去の順位を確かめてください。</p>
-      <Notice>選定20社内の比較です。製造装置企業5社を含み、各年の世界全体の上位10社を再現するものではありません。数値は企業全体の時価総額です。</Notice>
+      <p>2015〜2025年の実データで、主要20社の順位の変化を再生。企業を選ぶと過去の順位を確認できます。</p>
+      <p className={styles.small}>装置企業5社を含む選定20社内の比較 · 企業全体の時価総額　<a href="#ranking-scope">対象・注意事項</a> / <a href="#ranking-sources">出典</a></p>
     </header>
     <RankingTimeMachine companies={companies} snapshots={rankingTimeMachineSnapshots} />
     <noscript><p>再生・年の移動・企業選択にはJavaScriptが必要です。2015年のランキング表、以下の説明と出典はそのまま読めます。</p></noscript>
@@ -45,6 +44,7 @@ export default function RankingTimeMachinePage() {
         <p>時価総額と売上高は異なる指標です。企業全体への期待や事業構成、買収、株式数、為替などの変化も含むため、順位上昇だけから半導体事業の成長や技術力、働きやすさは判断できません。</p>
       </section>
       <section aria-labelledby="ranking-scope"><h2 id="ranking-scope">比較する20社と対象範囲</h2>
+        <Notice>選定20社内の比較です。製造装置企業5社を含み、各年の世界全体の上位10社を再現するものではありません。数値は企業全体の時価総額です。</Notice>
         <p>半導体の設計・製造と装置の主要企業から、対象期間の年末履歴を確認できた20社を選定しました。現在のランキング上位20社や、当時の全上場企業を網羅した一覧ではありません。</p>
         <p>Armなど期間中に非上場期間のある企業や、買収により独立した上場会社でなくなった企業は対象外です。そのため、昔の世界順位や業界全体の勢力図を完全に復元したものではありません。</p>
         <details><summary>対象20社と各社のデータ出典</summary><ul>{companies.map(company => <li key={company.id}><a href={company.sourceUrl}>{company.name}</a> · {company.category}</li>)}</ul></details>

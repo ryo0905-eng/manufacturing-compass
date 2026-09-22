@@ -47,19 +47,21 @@ export function RankingTimeMachine({ companies, snapshots }: { companies: readon
   }
 
   return <div className={styles.workspace}>
-    <TimelineControls years={timeline.map(item => item.year)} index={index} playing={playing}
-      onPlay={() => {
-        dispatch({ type: 'play' });
-        trackRankingTimeMachineEvent('ranking_timemachine_play', { year: index === timeline.length - 1 ? timeline[0].year : year });
-      }}
-      onPause={() => { dispatch({ type: 'pause' }); trackRankingTimeMachineEvent('ranking_timemachine_pause', { year }); }}
-      onReset={() => {
-        dispatch({ type: 'reset' });
-        if (index !== 0) trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[0].year, interaction: 'reset' });
-      }}
-      onYear={next => dispatch({ type: 'year', index: next })}
-      onYearCommit={next => trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[next].year, interaction: 'slider' })} />
-    <RankingRaceChart rows={rows} year={year} selectedId={selectedId} animate={animate} onSelect={selectCompany} />
+    <div className={styles.stage}>
+      <TimelineControls years={timeline.map(item => item.year)} index={index} playing={playing}
+        onPlay={() => {
+          dispatch({ type: 'play' });
+          trackRankingTimeMachineEvent('ranking_timemachine_play', { year: index === timeline.length - 1 ? timeline[0].year : year });
+        }}
+        onPause={() => { dispatch({ type: 'pause' }); trackRankingTimeMachineEvent('ranking_timemachine_pause', { year }); }}
+        onReset={() => {
+          dispatch({ type: 'reset' });
+          if (index !== 0) trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[0].year, interaction: 'reset' });
+        }}
+        onYear={next => dispatch({ type: 'year', index: next })}
+        onYearCommit={next => trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[next].year, interaction: 'slider' })} />
+      <RankingRaceChart rows={rows} year={year} selectedId={selectedId} animate={animate} onSelect={selectCompany} />
+    </div>
     <SelectField id="ranking-company" label="企業を選ぶ（対象20社）" value={selectedId} onChange={event => selectCompany(event.target.value)}>
       <option value="">企業の順位・履歴を見る</option>
       {companies.map(company => <option key={company.id} value={company.id}>{companyName(company, year)}</option>)}

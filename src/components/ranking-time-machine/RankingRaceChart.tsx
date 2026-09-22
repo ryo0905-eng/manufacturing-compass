@@ -15,7 +15,7 @@ export function RankingRaceChart({ rows, year, selectedId, animate, onSelect }: 
     // Measure every label, including companies currently outside the top ten.
     // A shared row height keeps transitions aligned without clipping wrapped names.
     const measure = () => {
-      const height = Math.ceil(Math.max(...Array.from(element.children, row => row.getBoundingClientRect().height))) + 8;
+      const height = Math.ceil(Math.max(...Array.from(element.children, row => row.getBoundingClientRect().height))) + 2;
       element.style.setProperty('--race-row-height', `${height}px`);
     };
     measure();
