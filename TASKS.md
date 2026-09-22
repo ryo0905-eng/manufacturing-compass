@@ -18,6 +18,8 @@
 
 ### ランキング・タイムマシン（2026-09-22）
 
+- [x] 2026-09-23：開始年を2010年へ拡張。2010〜2014年の実データ100件を追加し、全16年・320件を出典と照合。2010〜2015年はAvago表記。初期表・比較基準・metadata・関連導線・仕様を更新。`RANKING_SOURCE_CHECK=/private/tmp/ranking-time-machine-source-check-2010.json node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。公開禁止情報の差分確認済み。ブラウザ・build・commit・pushは未実施。
+
 - [x] 2026-09-23：チャートの企業名に32pxのロゴを追加。20社分のPNG（計144,915バイト）をローカル保存し、取得先・取得日・権利者の説明を記録。Avago表記時はBroadcomロゴを非表示。画像確認・既存対象テスト・`npm run typecheck`（1回）・`git diff --check`成功。ブラウザ・実機確認は未実施。
 
 - [x] 2026-09-23：チャートの数値・幅・横軸を年末値間で3秒かけて補間し、値の交差で順位を更新。補間値であることを明記し、停止時と表・詳細は確定値を表示。最終年の補間完了まで再生状態を維持。補間端点・順位逆転・中断・reduced-motion切替・フレーム破棄の対象テスト、`node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。ブラウザでの滑らかさと実機性能は未確認。

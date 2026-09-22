@@ -22,7 +22,7 @@ export function CompanyDetail({ companyId, timeline, index }: {
       <div><dt>開始年から表示年</dt><dd>{rankChange(first.rank, row.rank)}</dd></div>
     </dl>
     <p className={styles.small}>順位はすべて対象20社内。企業価値や就職先としての優劣を判定するものではありません。</p>
-    <details><summary>2015〜2025年の順位と数値を見る</summary>
+    <details><summary>{timeline[0].year}〜{timeline[timeline.length - 1].year}年の順位と数値を見る</summary>
       <table className={styles.table}><caption>{row.name}の年別履歴（十億米ドル）</caption>
         <thead><tr><th scope="col">年末</th><th scope="col">順位</th><th scope="col">時価総額</th></tr></thead>
         <tbody>{timeline.map(snapshot => { const item = snapshot.rows.find(company => company.id === companyId)!; return <tr key={snapshot.year} data-selected={snapshot.year === year}><th scope="row">{snapshot.year}</th><td>{item.rank}</td><td>{formatMarketCap(item.valueUsdB)}</td></tr>; })}</tbody>

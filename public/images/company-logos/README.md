@@ -2,7 +2,7 @@
 
 取得日: 2026-09-23
 
-CompaniesMarketCapの各社ページに掲載されたCompaniesLogo由来のPNG。企業を識別する編集・解説目的で使用し、権利は各権利者に帰属する。ロゴの一般的な再利用許諾を表すものではない。原画像を変更せず保存し、表示時だけ縮小する。各年当時のロゴは再現しない。2015年のAvagoにはBroadcomロゴを表示しない。
+CompaniesMarketCapの各社ページに掲載されたCompaniesLogo由来のPNG。企業を識別する編集・解説目的で使用し、権利は各権利者に帰属する。ロゴの一般的な再利用許諾を表すものではない。原画像を変更せず保存し、表示時だけ縮小する。各年当時のロゴは再現しない。2010〜2015年のAvagoにはBroadcomロゴを表示しない。
 
 参照: https://companieslogo.com/ （権利者・編集目的の説明）、https://companiesmarketcap.com/nvidia/marketcap/ （画像提供元の説明）
 

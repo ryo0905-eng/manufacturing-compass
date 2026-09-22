@@ -136,7 +136,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       type: "links",
       items: [
         {
-          label: "2015〜2025年の時価総額の推移を見る",
+          label: "2010〜2025年の時価総額の推移を見る",
           href: "/tools/ranking-time-machine",
           description: "ランキング・タイムマシンで主要20社内の順位を再生。各年末の実データで比較"
         },

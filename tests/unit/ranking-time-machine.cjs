@@ -44,16 +44,22 @@ const companies = data.rankingTimeMachineCompanies;
 const snapshots = data.rankingTimeMachineSnapshots;
 const timeline = lib.prepareRanking(companies, snapshots);
 assert.equal(companies.length, 20);
+assert.equal(data.rankingTimeMachineMetadata.firstYear, 2010);
+assert.equal(data.rankingTimeMachineMetadata.lastYear, 2025);
 assert.equal(companies.filter(c => c.category === '製造装置').length, 5);
-assert.equal(snapshots.length, 11);
-assert.equal(snapshots.flatMap(s => s.entries).length, 220);
-assert.deepEqual(plain(snapshots.map(s => s.year)), Array.from({ length: 11 }, (_, i) => 2015 + i));
+assert.equal(snapshots.length, 16);
+assert.equal(snapshots.flatMap(s => s.entries).length, 320);
+assert.deepEqual(plain(snapshots.map(s => s.year)), Array.from({ length: 16 }, (_, i) => 2010 + i));
 const companyRegistry = load('src/data/companies.ts');
 for (const company of companies) {
   assert.match(company.sourceUrl, /^https:\/\/companiesmarketcap.com\/[^/]+\/marketcap\/$/);
   if (company.companySlug) assert.ok(companyRegistry.getCompanyBySlug(company.companySlug), company.companySlug);
 }
 const at = (year, id) => timeline.find(s => s.year === year).rows.find(c => c.id === id);
+assert.equal(at(2010, 'nvidia').valueUsdB, 8.94);
+assert.equal(at(2010, 'intel').valueUsdB, 115.89);
+assert.equal(at(2010, 'broadcom').valueUsdB, 6.86);
+assert.equal(at(2010, 'nxp').valueUsdB, 5.24);
 assert.equal(at(2015, 'nvidia').valueUsdB, 17.73);
 assert.equal(at(2015, 'intel').valueUsdB, 162.77);
 assert.equal(at(2020, 'nvidia').valueUsdB, 323.24);
@@ -62,7 +68,7 @@ assert.equal(at(2025, 'tsmc').valueUsdB, 1570);
 assert.ok(at(2015, 'intel').rank < at(2015, 'nvidia').rank);
 assert.ok(at(2020, 'intel').rank > at(2020, 'nvidia').rank);
 assert.ok(at(2015, 'amd').rank > 10 && at(2025, 'amd').rank <= 10);
-assert.match(at(2015, 'broadcom').displayName, /^Avago/);
+for (let year = 2010; year <= 2015; year++) assert.match(at(year, 'broadcom').displayName, /^Avago/);
 assert.equal(at(2016, 'broadcom').displayName, 'Broadcom');
 assert.equal(lib.rankChange(9, 2), '7位上昇');
 assert.equal(lib.rankChange(2, 9), '7位下降');
@@ -94,7 +100,7 @@ assert.deepEqual(plain(halfway.map(row => [row.id, row.valueUsdB, row.rank])), [
 assert.equal(JSON.stringify([startRows, endRows]), beforeInterpolation);
 assert.deepEqual(plain(lib.interpolateRankingRows(startRows, endRows, -1)), plain(startRows));
 assert.deepEqual(plain(lib.interpolateRankingRows(startRows, endRows, 2)), plain(endRows));
-const animatedEnd = lib.interpolateRankingRows(timeline[0].rows, timeline[10].rows, 1);
+const animatedEnd = lib.interpolateRankingRows(timeline[0].rows, timeline[timeline.length - 1].rows, 1);
 assert.ok(animatedEnd.slice(0, 10).some(row => row.id === 'amd'));
 
 // Exercise the animation hook with a deterministic frame clock and motion preference.
@@ -155,7 +161,7 @@ assert.equal(animationFrames.size, 0); assert.equal(motionListener, undefined);
 if (process.env.RANKING_SOURCE_CHECK) {
   const source = JSON.parse(fs.readFileSync(process.env.RANKING_SOURCE_CHECK, 'utf8'));
   assert.deepEqual(plain(snapshots), source.snapshots);
-  console.log('All 220 values match the retained source extraction.');
+  console.log('All 320 values match the retained source extraction.');
 }
 
 function nodes(tree, predicate) {
@@ -189,25 +195,25 @@ tick(); assert.equal(controls().index, 1);
 assert.equal(events.length, 1); // No automatic year event.
 controls().onPause(); render(); assert.equal(timers.size, 0);
 controls().onYear(5); render(); assert.equal(events.length, 2);
-controls().onYearCommit(5); assert.equal(events.at(-1)[1].year, 2020);
+controls().onYearCommit(5); assert.equal(events.at(-1)[1].year, 2015);
 controls().onPlay(); render();
 props('RankingRaceChart').onSelect('amd'); render();
 assert.equal(timers.size, 0); assert.equal(props('CompanyDetail').companyId, 'amd'); assert.equal(focused, 1);
 controls().onPlay(); render(); documentStub.hidden = true; listeners.get('visibilitychange')(); render();
 assert.equal(timers.size, 0); documentStub.hidden = false;
-controls().onYear(9); render(); controls().onPlay(); render(); tick();
-assert.equal(controls().index, 10); assert.equal(controls().playing, true); // Final interpolation is still playing.
+controls().onYear(timeline.length - 2); render(); controls().onPlay(); render(); tick();
+assert.equal(controls().index, timeline.length - 1); assert.equal(controls().playing, true); // Final interpolation is still playing.
 tick(); assert.equal(controls().playing, false); assert.equal(timers.size, 0);
 controls().onPlay(); render(); assert.equal(controls().index, 0);
 controls().onReset(); render(); assert.equal(controls().index, 0); assert.equal(props('CompanyDetail').companyId, ''); assert.equal(timers.size, 0);
 for (const [event, properties] of events) {
   assert.match(event, /^ranking_timemachine_(play|pause|year_change|company_click)$/);
   assert.equal(properties.ranking_type, 'market_cap'); assert.equal(properties.data_kind, 'real');
-  assert.ok(properties.year >= 2015 && properties.year <= 2025);
+  assert.ok(properties.year >= 2010 && properties.year <= 2025);
 }
 const related = nodes(render(), node => node.props?.eventName === 'ranking_timemachine_related_click');
 assert.equal(related.length, 5);
-for (const link of related) assert.equal(link.props.eventProperties.year, 2015);
+for (const link of related) assert.equal(link.props.eventProperties.year, 2010);
 for (const effect of effects) effect?.cleanup?.();
 assert.equal(listeners.size, 0); assert.equal(timers.size, 0);
 
@@ -227,7 +233,9 @@ const page = load('src/app/(ja)/tools/ranking-time-machine/page.tsx');
 const html = renderToStaticMarkup(React.createElement(page.default));
 assert.equal(page.metadata.alternates.canonical, '/tools/ranking-time-machine');
 assert.equal(page.metadata.robots.index, true);
-assert.match(html, /<caption>2015/);
+assert.match(page.metadata.title, /2010〜2025/);
+assert.match(page.metadata.description, /2010〜2025/);
+assert.match(html, /<caption>2010/);
 assert.match(html, /選定20社内/); assert.match(html, /各年の世界全体の上位10社を再現するものではありません/);
 assert.match(html, /Avago Technologies/); assert.match(html, /CompaniesMarketCap/); assert.match(html, /<noscript>/);
 assert.match(html, /WebApplication/); assert.match(html, /BreadcrumbList/);
@@ -238,9 +246,15 @@ assert.equal((html.match(/<tr[ >]/g) || []).length, 21);
 for (const company of companies) assert.ok(html.includes(company.sourceUrl));
 for (const destination of ['/industry-map', '/semiconductor-map', '/compare', '/guides/semiconductor-market-cap-ranking', '/guides/semiconductor-equipment-sales-ranking']) assert.ok(html.includes(`href="${destination}"`));
 const { CompanyDetail } = load('src/components/ranking-time-machine/CompanyDetail.tsx');
-const detail = renderToStaticMarkup(React.createElement(CompanyDetail, { companyId: 'amd', timeline, index: 10 }));
+const detail = renderToStaticMarkup(React.createElement(CompanyDetail, { companyId: 'amd', timeline, index: timeline.length - 1 }));
 assert.match(detail, /href="\/companies\/amd"/);
-assert.equal((detail.match(/<tr[ >]/g) || []).length, 12);
+assert.match(detail, /2010年の順位/);
+assert.match(detail, /2010〜2025年の順位と数値/);
+const firstDetail = renderToStaticMarkup(React.createElement(CompanyDetail, { companyId: 'broadcom', timeline, index: 0 }));
+assert.match(firstDetail, /Avago Technologies/);
+assert.match(firstDetail, /対象期間外/);
+assert.match(firstDetail, /変化なし/);
+assert.equal((detail.match(/<tr[ >]/g) || []).length, 17);
 const mediaTek = renderToStaticMarkup(React.createElement(CompanyDetail, { companyId: 'mediatek', timeline, index: 0 }));
 assert.ok(!mediaTek.includes('/companies/mediatek'));
 for (const file of ['src/content/guides/semiconductor-market-cap-ranking.ts', 'src/content/guides/semiconductor-equipment-sales-ranking.ts', 'src/app/(ja)/tools/page.tsx']) assert.ok(fs.readFileSync(path.join(root, file), 'utf8').includes('/tools/ranking-time-machine'));

@@ -32,11 +32,11 @@ export default function RankingTimeMachinePage() {
     <nav className={styles.breadcrumb} aria-label="パンくず"><Link href="/">ホーム</Link><span aria-hidden="true">/</span><Link href="/tools">学習ツール</Link><span aria-hidden="true">/</span><span>ランキング・タイムマシン</span></nav>
     <header className={styles.hero}>
       <h1>半導体企業の時価総額ランキング推移</h1>
-      <p>2015〜2025年の実データで、主要20社の順位の変化を再生。企業を選ぶと過去の順位を確認できます。</p>
+      <p>2010〜2025年の実データで、主要20社の順位の変化を再生。企業を選ぶと過去の順位を確認できます。</p>
       <p className={styles.small}>装置企業5社を含む選定20社内の比較 · 企業全体の時価総額　<a href="#ranking-scope">対象・注意事項</a> / <a href="#ranking-sources">出典</a></p>
     </header>
     <RankingTimeMachine companies={companies} snapshots={rankingTimeMachineSnapshots} />
-    <noscript><p>再生・年の移動・企業選択にはJavaScriptが必要です。2015年のランキング表、以下の説明と出典はそのまま読めます。</p></noscript>
+    <noscript><p>再生・年の移動・企業選択にはJavaScriptが必要です。2010年のランキング表、以下の説明と出典はそのまま読めます。</p></noscript>
     <article className={styles.document}>
       <section aria-labelledby="ranking-reading"><h2 id="ranking-reading">順位が入れ替わると、何が分かる？</h2>
         <p>時価総額は、株価と発行済株式数から見た企業の市場での評価額です。半導体企業のランキング推移を見ると、選定企業間で評価額の大小がどう変化したかを確認できます。</p>
@@ -48,13 +48,13 @@ export default function RankingTimeMachinePage() {
         <p>半導体の設計・製造と装置の主要企業から、対象期間の年末履歴を確認できた20社を選定しました。現在のランキング上位20社や、当時の全上場企業を網羅した一覧ではありません。</p>
         <p>Armなど期間中に非上場期間のある企業や、買収により独立した上場会社でなくなった企業は対象外です。そのため、昔の世界順位や業界全体の勢力図を完全に復元したものではありません。</p>
         <details><summary>対象20社と各社のデータ出典</summary><ul>{companies.map(company => <li key={company.id}><a href={company.sourceUrl}>{company.name}</a> · {company.category}</li>)}</ul></details>
-        <p>Broadcom系列の2015年はAvago Technologiesとして表示します。2016年の統合前に存在した旧Broadcom Corporationとは別の系列で、両社の過去数値を合算していません。<a href={meta.broadcomSourceUrl}>企業統合の公式資料</a>。</p>
+        <p>Broadcom系列の2010〜2015年はAvago Technologiesとして表示します。2016年の統合前に存在した旧Broadcom Corporationとは別の系列で、両社の過去数値を合算していません。<a href={meta.broadcomSourceUrl}>企業統合の公式資料</a>。</p>
         <p>Samsung ElectronicsやBroadcomなど、半導体以外の事業を持つ企業も含みます。時価総額を半導体部門だけに分割する推計は行っていません。</p>
       </section>
       <section aria-labelledby="ranking-sources"><h2 id="ranking-sources">データソース・集計方法・注意事項</h2>
         <dl className={styles.definition}>
           <dt>指標</dt><dd>各社の時価総額。企業全体の株式市場での評価額。</dd>
-          <dt>対象期間</dt><dd>2015〜2025年の各年末。2026年途中の値は含みません。</dd>
+          <dt>対象期間</dt><dd>2010〜2025年の各年末。2026年途中の値は含みません。</dd>
           <dt>通貨・単位</dt><dd>十億米ドル（1十億米ドル＝10億米ドル）。名目値で、物価調整はしていません。</dd>
           <dt>データソース</dt><dd><a href={meta.sourceUrl}>CompaniesMarketCap</a>の各社「End of year Market Cap」。各企業へのリンクは上の対象一覧に掲載。</dd>
           <dt>換算方法</dt><dd>出典の米ドル表示を使用。兆ドル表記を十億ドルへ単位変換する以外に、独自の為替換算・補間・再計算は行っていません。</dd>
@@ -63,7 +63,7 @@ export default function RankingTimeMachinePage() {
         </dl>
         <p>出典に表示された丸め値を掲載しています。取引市場、現地株式・ADR（米国預託証券）、株式数、為替や改訂によって他のサービスと差が出ることがあります。全市場で同一時刻に観測された値とは限らず、出典の細かな換算・調整手順を本ページで独立に再現したものではありません。</p>
         <p>CompaniesMarketCapの年末データをもとに、Manufacturing Compassが比較対象の選定・可視化・解説を作成しました。数値は将来の株価や採用を予測するものではありません。</p>
-        <p>ロゴは企業識別のための参考表示です。各年当時のロゴを再現したものではありません。画像は各社の出典ページ経由で取得した<a href="https://companieslogo.com/">CompaniesLogo</a>由来のもので、権利は各権利者に帰属します。2015年のAvagoには現在のBroadcomロゴを表示していません。</p>
+        <p>ロゴは企業識別のための参考表示です。各年当時のロゴを再現したものではありません。画像は各社の出典ページ経由で取得した<a href="https://companieslogo.com/">CompaniesLogo</a>由来のもので、権利は各権利者に帰属します。2010〜2015年のAvagoには現在のBroadcomロゴを表示していません。</p>
       </section>
     </article>
   </main>;

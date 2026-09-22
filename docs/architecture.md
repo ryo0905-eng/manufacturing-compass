@@ -14,9 +14,9 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 - `/tools/ranking-time-machine` のServer Componentが説明・出典・metadata・WebApplication/BreadcrumbListを提供。操作は専用Client ComponentsとCSS Moduleに分離し、新しいライブラリは使わない。
 - チャートのロゴは企業マスターの `logoUrl` と `public/images/company-logos/` の静的PNGを使用。取得先・取得日は同ディレクトリのREADMEに記録する。32pxの装飾画像として企業名に併記し、読み込み失敗時は固定サイズの代替表示。歴史名のAvagoには現在のBroadcomロゴを付けない。
-- `src/data/ranking-time-machine.ts` は企業マスター、2015〜2025年の年次スナップショット220件、出典URL・確認日を管理する。企業IDで結び、既存企業ページへのリンクはサーバーで存在を確認する。
+- `src/data/ranking-time-machine.ts` は企業マスター、2010〜2025年の年次スナップショット320件、出典URL・確認日を管理する。企業IDで結び、既存企業ページへのリンクはサーバーで存在を確認する。
 - 純粋な処理で欠損・重複・非正数を拒否し、同値は同順位（1,1,3）とする。スナップショットは年の昇順・連続を要求。丸め済み時価総額は十億米ドル単位。出典を混ぜず、為替換算・欠損補間は行わない。描画用の補間値は元データに保存しない。
-- 初期2015年の表はSSR。3秒間隔のタイマーは停止・アンマウント時に破棄し、非表示タブでも停止する。年度変更時、表・詳細は確定値を反映。チャート専用の `useRankingAnimation` がrequestAnimationFrameで3秒間の線形補間を行い、数値・幅・軸を更新する。補間値の降順で順位を再計算し、位置・出入りはCSSで400ms遷移。最終年も補間が完了するまで再生状態を維持する。停止・年選択で確定値へ戻り、フレーム予約を破棄。動きを抑える設定の変更にも追従し、補間を止める。共通行高をResizeObserverで測り、名前の折り返しに対応。動きを抑える設定では遷移なし。
+- 初期2010年の表はSSR。3秒間隔のタイマーは停止・アンマウント時に破棄し、非表示タブでも停止する。年度変更時、表・詳細は確定値を反映。チャート専用の `useRankingAnimation` がrequestAnimationFrameで3秒間の線形補間を行い、数値・幅・軸を更新する。補間値の降順で順位を再計算し、位置・出入りはCSSで400ms遷移。最終年も補間が完了するまで再生状態を維持する。停止・年選択で確定値へ戻り、フレーム予約を破棄。動きを抑える設定の変更にも追従し、補間を止める。共通行高をResizeObserverで測り、名前の折り返しに対応。動きを抑える設定では遷移なし。
 - GA4/Vercelへ `ranking_timemachine_play/pause/year_change/company_click/related_click` を送る。year・ranking_type=market_cap・data_kind=real、企業操作に固定company ID、リンクにdestination。自動再生による年変更・自動停止・描画ではイベントを送らない。
 - CompaniesMarketCapの利用規約 https://companiesmarketcap.com/terms-of-service/ 第5項の編集目的・出典明記条項を参照（2026-09-22確認）。数値を伴う業界解説として構成し、データ販売・API・CSV配信は行わない。商用利用全般の許諾があるとは記録しない。
 - 2026年途中の数値と既存ランキング記事の基準日データは別管理。Samsung等の複合企業、AVGO系列の2016年統合、現存20社を選定した範囲を公開説明に含める。
