@@ -20163,6 +20163,8 @@ body {
 .home-focused__text-link { color: #1769aa; font-size: 14px; line-height: 1.7; font-weight: 500; }
 .home-focused__text-link i { font-style: normal; }
 .home-focused__more { display: inline-flex; align-items: center; min-height: 44px; margin-top: 16px; }
+.home-focused__tool-links { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 16px; }
+.home-focused__tool-links .home-focused__more { max-width: 100%; margin-top: 0; }
 .home-focused__research-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .home-focused__research-grid a { padding: 20px; background: #f7f7f8; border-radius: 6px; color: inherit; }
 .home-focused__research-grid p { margin-top: 8px; font-size: 14px; }
