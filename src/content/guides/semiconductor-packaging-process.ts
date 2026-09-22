@@ -23,7 +23,7 @@ export const semiconductorPackagingProcessGuide: GuideArticle = {
     "Amkor TechnologyとTSMCの公式情報で、積層ダイ、チップレット、2.5D・3D、インターポーザ、異種ダイ統合とKGDの考え方を確認",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "How Silicon Die Become Chip Packages",
@@ -78,6 +78,7 @@ export const semiconductorPackagingProcessGuide: GuideArticle = {
       "パッケージの役割と断面、ダイ接合から外部端子まで、ワイヤボンドとフリップチップ、アンダーフィル・モールド、リードフレーム・基板、代表形式、反り・剥離・接合不良、2.5D・3D・チップレット、関連職種・企業。",
   },
   overviewBlocks: [
+    { type: "links", items: [{ label: "半導体ができるまで", href: "/tools/semiconductor-process", description: "切り分け・固定・ワイヤ接続・保護を、自分のペースで確かめる" }] },
     {
       type: "quote",
       quote:

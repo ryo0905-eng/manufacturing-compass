@@ -336,4 +336,4 @@ Serverページが定義・解説・出典・SEOを出力し、`CorrelationTool`
 
 ## 半導体工程図鑑
 
-`/tools/semiconductor-process` のServerページが説明・静止図・出典・SEOを出力し、ClientのProcessExplorerが6地点・8工程・振り返りを扱う。教材データ、純粋な形状関数と状態遷移、SVG・専用CSSを分離。RAFは再生トークンで古いコールバックを破棄し、非表示・画面外・unmountで停止・解除する。低モーションは加工後の静止形を使う。新規依存、API、動画配信、WebGL、永続保存は追加しない。[仕様](./semiconductor-process-spec.md)。
+`/tools/semiconductor-process` のServerページが説明・静止図・出典・SEOを出力し、ClientのProcessExplorerが6地点・薄膜加工8工程・組立7工程・体験別の振り返りを扱う。ExperienceId（thin-film／assembly）で教材・進捗・計測を分離し、操作とレイアウトを共有する。組立の教材、純粋形状関数、SVGはそれぞれ専用モジュールに置く。教材データ、純粋な形状関数と状態遷移、SVG・専用CSSを分離。RAFは再生トークンで古いコールバックを破棄し、非表示・画面外・unmountで停止・解除する。低モーションは加工後の静止形を使う。新規依存、API、動画配信、WebGL、永続保存は追加しない。[仕様](./semiconductor-process-spec.md)。

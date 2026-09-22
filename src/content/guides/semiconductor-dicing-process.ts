@@ -23,7 +23,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
     "リンテックとNittoの公式情報で、ダイシングテープによるリングフレーム固定、加工中の保持、UV照射後の粘着力低下とピックアップを確認",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "Basic Processes Using Blade Dicing Saws",
@@ -78,6 +78,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
       "ダイシングの目的、前準備、テープ固定からピックアップまで、ブレード・アブレーション・ステルスの違い、カーフ、チッピング、加工くず、洗浄・乾燥、薄ウェーハ、DBG・SDBG、関連職種・企業。",
   },
   overviewBlocks: [
+    { type: "links", items: [{ label: "半導体ができるまで", href: "/tools/semiconductor-process", description: "切り分け・固定・ワイヤ接続・保護を、自分のペースで確かめる" }] },
     {
       type: "quote",
       quote:

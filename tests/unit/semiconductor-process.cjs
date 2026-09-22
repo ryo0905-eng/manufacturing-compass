@@ -96,6 +96,7 @@ function harness(reduced=false){
   if(name==='next/link')return{default:'a'};
   if(name==='@/lib/analytics')return{trackEvent:(name,props)=>events.push({name,props})};
   if(name.endsWith('.css'))return{default:new Proxy({},{get:(_,k)=>String(k)})};
+  if(name==='./AssemblyDiagram')return{AssemblyDiagram:function AssemblyDiagram(){}};
   if(name==='./ProcessDiagram')return{ProcessDiagram:function ProcessDiagram(){},Wafer:function Wafer(){},JourneyDiagram:function JourneyDiagram(){},CompletedStructure:function CompletedStructure(){}};
   if(name.startsWith('@/'))return load(path.join(base,name.slice(2)));
   throw Error(name);
@@ -122,7 +123,7 @@ u.click('光に反応する膜を塗る');u.tick(9000);u.media.matches=true;u.me
 const slider=u.nodes(n=>n.type==='input'&&n.props.type==='range')[0];slider.props.onChange({target:{value:'30'}});u.render();assert.equal(u.get().progress,.3);assert.equal(u.get().playing,false);
 u.click('再開');assert.equal(u.get().progress,1);
 u.click('なぜここだけ削れる？＋');u.click('なぜここだけ削れる？−');u.click('なぜここだけ削れる？＋');assert.equal(u.events.filter(e=>e.name==='semiconductor_process_question_opened').length,1);
-for(const e of u.events)assert.ok(Object.keys(e.props).every(k=>['version','step_id','question_id','destination'].includes(k)));
+for(const e of u.events)assert.ok(Object.keys(e.props).every(k=>['version','experience_id','step_id','question_id','destination'].includes(k)));
 u.unmount();assert.equal(u.raf.size,0);assert.equal(Object.keys(u.listeners).length,0);
 const low=harness(true);low.render();low.click('一つの加工を拡大してみる ↗');low.click('表面をきれいにする');assert.equal(low.get().progress,1);assert.equal(low.raf.size,0);
 low.click('次の工程 →');assert.equal(low.get().step,1);assert.equal(low.get().progress,1);assert.equal(low.get().playing,false);assert.equal(low.raf.size,0);
@@ -154,3 +155,61 @@ for(const filename of ['src/app/(ja)/rankings/page.tsx','src/app/(ja)/rankings/[
 for(const step of data.processSteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(s=>s.id===id));}
 const css=fs.readFileSync('src/components/semiconductor-process/process.module.css','utf8');assert.ok(css.includes(':focus-visible'));assert.ok(css.includes('min-height: 44px'));assert.ok(css.includes('@media'));
 console.log('PASS diagram/page SSR with no React warnings, technical wording, source/guide references, static content, SEO, sitemap and incoming links');
+
+// Assembly geometry is deterministic, continuous, and preserves connections under resin.
+const assemblyData=load(path.join(base,'data/semiconductor-assembly.ts'));
+const assemblyModel=load(path.join(base,'lib/semiconductor-process/assembly.ts'));
+const assemblyDiagram=load(path.join(base,'components/semiconductor-process/AssemblyDiagram.tsx'));
+for(let i=0;i<7;i++){
+ const id=assemblyData.assemblySteps[i].id;
+ for(const progress of [0,.5,1]){
+  const f=assemblyModel.assemblyFrame(id,progress);
+  assert.deepEqual(plain(f),plain(assemblyModel.assemblyFrame(id,progress)));
+  for(const value of Object.values(f))assert.ok(value>=0&&value<=1);
+  for(const inside of [true,false]){
+   const html=renderToStaticMarkup(React.createElement(assemblyDiagram.AssemblyDiagram,{step:id,progress,inside}));
+   assert.ok(html.includes('role="img"'));assert.ok(html.includes('<desc'));assert.ok(html.includes('★'));assert.ok(!html.includes('NaN'));
+  }
+ }
+ if(i<6)assert.deepEqual(plain(assemblyModel.assemblyFrame(id,1)),plain(assemblyModel.assemblyFrame(assemblyData.assemblySteps[i+1].id,0)));
+}
+assert.equal(assemblyModel.assemblyFrame('dice',1).tape,1);
+assert.equal(assemblyModel.assemblyFrame('attach',1).wire,0);
+assert.equal(assemblyModel.assemblyFrame('mold',1).wire,1);
+assert.equal(assemblyModel.assemblyFrame('trim-form',1).resin,1);
+for(const [id,p] of [['bad',0],['dice',NaN],['wire',-1],['mold',1.1]])assert.throws(()=>assemblyModel.assemblyFrame(id,p));
+for(const c of assemblyModel.assemblyConnections){assert.ok(c.terminalX>assemblyModel.assemblyResin.x&&c.terminalX<assemblyModel.assemblyResin.x+assemblyModel.assemblyResin.width);assert.ok(c.path.startsWith(`M${c.padX} 203`));assert.ok(c.path.endsWith(`${c.terminalX} 228`));}
+let both=model.initialState();const bothEvents=[];
+function advance(a){const r=model.transition(both,a);both=r.state;bothEvents.push(...r.events);}
+for(const experience of ['assembly','thin-film','assembly','thin-film']){
+ advance({type:'enter',experience});assert.equal(both.step,0);assert.equal(both.progress,0);assert.equal(both.playing,false);
+ const steps=experience==='assembly'?assemblyData.assemblySteps:data.processSteps;
+ for(let i=0;i<steps.length;i++){advance({type:'step',index:i});advance({type:'scrub',progress:1});}
+ advance({type:'question',id:experience==='assembly'?'connection':'protected'});
+ advance({type:'summary'});assert.equal(both.view,'summary');
+}
+for(const experience of ['assembly','thin-film']){
+ const e=bothEvents.filter(e=>e.experience_id===experience);
+ assert.equal(e.filter(e=>e.name==='semiconductor_process_started').length,1);
+ assert.equal(e.filter(e=>e.name==='semiconductor_process_completed').length,1);
+ assert.equal(e.filter(e=>e.name==='semiconductor_process_question_opened').length,1);
+ assert.equal(e.filter(e=>e.name==='semiconductor_process_step_completed').length,experience==='assembly'?7:8);
+}
+const assemblyUI=harness();assemblyUI.render();
+assemblyUI.nodes(n=>n.type==='button'&&text(n).includes('切り分け・組み立て'))[0].props.onClick();assemblyUI.render();
+assemblyUI.click('組み立てを体験する');assert.equal(assemblyUI.get().experience,'assembly');assert.equal(assemblyUI.get().playing,false);
+assemblyUI.click('ウエハを支える');assemblyUI.tick(0);assemblyUI.tick(2000);
+for(let i=1;i<7;i++){
+ assemblyUI.click('次の工程 →');assert.equal(assemblyUI.get().playing,true);assemblyUI.tick(i*3000);assemblyUI.tick(i*3000+2000);assert.equal(assemblyUI.get().step,i);
+ if(i===5){assemblyUI.click('中を見る');assert.equal(assemblyUI.nodes(n=>n.type?.name==='AssemblyDiagram')[0].props.inside,true);assemblyUI.click('外観');}
+}
+assemblyUI.click('組立のまとめへ →');assert.equal(assemblyUI.get().view,'summary');
+assemblyUI.click('全体図で最終検査を見る →');assert.equal(assemblyUI.get().overview,5);
+assemblyUI.nodes(n=>n.type==='button'&&text(n).includes('素子・配線を作る'))[0].props.onClick();assemblyUI.render();
+assemblyUI.click('一つの加工を拡大してみる ↗');assert.equal(assemblyUI.get().experience,'thin-film');assert.equal(assemblyUI.get().completed.length,0);assert.equal(assemblyUI.get().history.assembly.completed.length,7);
+assemblyUI.unmount();
+const assemblyPage=renderToStaticMarkup(React.createElement(load(path.join(base,'app/(ja)/tools/semiconductor-process/page.tsx')).default));
+for(const phrase of ['組立7工程','小さなチップを','樹脂が透明','https://www.ti.com/lit/pdf/snoa286'])assert.ok(assemblyPage.includes(phrase));
+for(const name of ['semiconductor-dicing-process','semiconductor-packaging-process'])assert.ok(fs.readFileSync(`src/content/guides/${name}.ts`,'utf8').includes(data.processRoute));
+for(const step of assemblyData.assemblySteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(source=>source.id===id));}
+console.log('PASS assembly geometry/SSR, seven-step playback, inside view, independent histories/events, restart, static copy and source/entry links');

@@ -117,3 +117,6 @@
   .workspace .scrubber { display: grid; grid-template-columns: auto 3ch minmax(0, 1fr); gap: 12px; }
   .workspace .scrubber input { min-width: 0; margin: 0; }
 }
+
+.assemblyText { font-size: 16px; fill: #344651; }
+.explorer button[aria-pressed="true"] { background: #eef3fa; border-color: #1769aa; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }

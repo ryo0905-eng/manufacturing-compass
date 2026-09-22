@@ -1,14 +1,18 @@
+export type ExperienceId = 'thin-film' | 'assembly';
 export const processRoute = '/tools/semiconductor-process';
 export const processRelease = { status: 'published', updatedAt: '2026-09-22', sourcesCheckedAt: '2026-09-22' } as const;
-export const PROCESS_VERSION = 'semiconductor-process-v1';
+export const PROCESS_VERSION = 'semiconductor-process-v2';
 export const processCopy = {
   title: '半導体の製造工程を動かして学ぶ｜前工程・後工程の全体像',
   heading: 'この丸い板が、どうやって半導体になるの？',
-  description: 'ウエハからチップまでの全体像と、膜をつける・模様を写す・削る加工を動く断面図で体験。止めたり戻したりしながら、前工程・後工程の役割を約5分で学べます。',
+  description: '前工程の薄膜加工と、後工程の切り分け・組み立てを動く図で体験。ウエハから製品まで、固定・接続・保護の役割を各約3〜5分で学べます。',
   limits: 'ポジ型レジストを使う加工の一例です。寸法・厚さ・速度は実物比例ではありません。熱処理、下地との削れやすさの違い（選択比）、保護膜の消耗などを簡略化しています。実設備の操作手順ではありません。',
   privacy: '操作状態はこの画面内だけで扱い、保存しません。利用状況は工程IDなどの固定分類だけを計測します。',
 };
 export const processSources = [
+  { id: 'disco', title: 'DISCO：ブレードによる切断', url: 'https://www.disco.co.jp/eg/solution/library/dicing/basic.html' },
+  { id: 'ti-assembly', title: 'TI：半導体パッケージの組立技術', url: 'https://www.ti.com/lit/pdf/snoa286' },
+  { id: 'ti-flow', title: 'TI：組立と検査の流れ', url: 'https://www.ti.com/about-ti/manufacturing/assembly-test.html' },
   { id: 'asml', title: 'ASML：半導体製造の主要工程', url: 'https://www.asml.com/en/company/stories/2021/semiconductor-manufacturing-process-steps' },
   { id: 'tel', title: '東京エレクトロン：製造工程と装置の役割', url: 'https://www.tel.com/product/' },
   { id: 'optics', title: 'ASML：リソグラフィの原理', url: 'https://www.asml.com/en/technology/lithography-principles' },
