@@ -1,6 +1,7 @@
 import { processSteps, questions, processRelated, processCopy, type ExperienceId } from './semiconductor-process';
 import { assemblySteps, assemblyQuestions, assemblyRelated, assemblyCopy } from './semiconductor-assembly';
 import { interconnectSteps, interconnectQuestions, interconnectRelated, interconnectCopy } from './semiconductor-interconnect';
+import { testingCopy, testingLessons, testingSteps, testingQuestions, testingRelated, type TestingMode } from './semiconductor-testing';
 export type ExperienceDefinition = {
   steps: readonly { id: string; verb: string; term: string; before: string; after: string; explanation: string; sourceIds: readonly string[]; guide: string }[];
   questions: readonly { id: string; title: string; body: string }[];
@@ -8,7 +9,22 @@ export type ExperienceDefinition = {
   limits: string; label: string; locator: string; overview: number; nextOverview: number;
   summary: { eyebrow: string; title: string; paragraphs: readonly string[]; button: string; nextLabel: string; restart: string };
 };
+function testingDefinition(mode: TestingMode): ExperienceDefinition {
+  const lesson = testingLessons[mode];
+  return {
+    steps: testingSteps(mode), questions: testingQuestions, related: testingRelated, limits: testingCopy.limits,
+    label: mode === 'wafer-test' ? 'ウエハ検査の一例' : '最終検査の一例', locator: lesson.intro,
+    overview: lesson.overview, nextOverview: lesson.nextOverview,
+    summary: {
+      eyebrow: '接触・測定・比較・記録', title: '見た目ではなく、電気的な働きを確かめる',
+      paragraphs: [mode === 'wafer-test' ? 'ウエハ上の電極へ接触し、信号に対する応答を確かめ、位置と結果を対応付けました。' : '組立後の外部端子から接触し、パッケージの状態での応答を確かめました。', '一致したのは教材の一項目だけです。実際には必要な試験を行い、結果全体から分類や次の処理を判断します。検査の対象・項目・条件は製品によって異なります。'],
+      button: '検査のまとめへ →', nextLabel: '全体図で組立とのつながりを見る →', restart: '検査を最初から見直す',
+    },
+  };
+}
 export const experiences: Record<ExperienceId, ExperienceDefinition> = {
+  'wafer-test': testingDefinition('wafer-test'),
+  'final-test': testingDefinition('final-test'),
   'thin-film': {
     steps: processSteps, questions, related: processRelated, limits: processCopy.limits, label: '前工程の一例', overview: 2, nextOverview: 3,
     locator: 'ウエハの一部分の断面を見ています。実物を切断する操作ではありません。',

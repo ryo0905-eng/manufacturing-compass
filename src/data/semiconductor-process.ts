@@ -1,15 +1,17 @@
-export type ExperienceId = 'thin-film' | 'assembly' | 'interconnect';
+export type ExperienceId = 'thin-film' | 'assembly' | 'interconnect' | 'wafer-test' | 'final-test';
 export const processRoute = '/tools/semiconductor-process';
 export const processRelease = { status: 'published', updatedAt: '2026-09-22', sourcesCheckedAt: '2026-09-22' } as const;
-export const PROCESS_VERSION = 'semiconductor-process-v3';
+export const PROCESS_VERSION = 'semiconductor-process-v4';
 export const processCopy = {
   title: '半導体の製造工程を動かして学ぶ｜前工程・後工程の全体像',
   heading: 'この丸い板が、どうやって半導体になるの？',
-  description: '薄膜加工、配線づくり＋CMP、切り分け・組み立ての3体験。動く図を止めたり戻したりしながら、ウエハから製品までを各約3〜5分で学べます。',
+  description: '薄膜加工、配線づくり＋CMP、組立、ウエハ検査、最終検査の5体験。動く図を止めたり戻したりしながら、ウエハから製品までを各約3〜5分で学べます。',
   limits: 'ポジ型レジストを使う加工の一例です。寸法・厚さ・速度は実物比例ではありません。熱処理、下地との削れやすさの違い（選択比）、保護膜の消耗などを簡略化しています。実設備の操作手順ではありません。',
   privacy: '操作状態はこの画面内だけで扱い、保存しません。利用状況は工程IDなどの固定分類だけを計測します。',
 };
 export const processSources = [
+  { id: 'advantest-ate', title: 'アドバンテスト：自動試験装置の役割', url: 'https://www.advantest.com/en/semiconductor-basics/automated-test-equipment/' },
+  { id: 'advantest-glossary', title: 'アドバンテスト：ウエハ検査・パッケージ検査の用語', url: 'https://www.advantest.com/en/investors/ir-library/glossary/' },
   { id: 'lam-interconnect', title: 'Lam Research：配線形成', url: 'https://www.lamresearch.com/products/our-solutions/interconnect-solutions/' },
   { id: 'applied-interconnect', title: 'Applied Materials：配線の材料と加工', url: 'https://www.appliedmaterials.com/us/en/semiconductor/markets-and-inflections/advanced-logic/interconnect.html' },
   { id: 'fujimi-cmp', title: 'フジミ：半導体デバイスの研磨', url: 'https://www.fujimiinc.co.jp/service/cmp/index.html' },

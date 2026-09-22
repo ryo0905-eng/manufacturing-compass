@@ -23,7 +23,7 @@ export const semiconductorWaferTestGuide: GuideArticle = {
     "TeradyneとFormFactorの公式情報で、ATE・プローバ・プローブカードの接続、信号品質、接触精度、並列測定、KGDの考え方を確認",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "What Is ATE (Automated Test Equipment)?",
@@ -78,6 +78,7 @@ export const semiconductorWaferTestGuide: GuideArticle = {
       "ウェーハテストの目的、テストセル、接触から判定までの流れ、機能・DC・タイミング試験、ビニングとウェーハマップ、プローブカード、並列測定、接触不良、温度、KGD、関連職種・企業。",
   },
   overviewBlocks: [
+    { type: "links", items: [{ label: "電気的な検査を動く図で体験する", href: "/tools/semiconductor-process", description: "ウエハ上と組立後の接触・信号・応答・記録を、止めたり戻したりして確かめます。" }] },
     {
       type: "quote",
       quote:

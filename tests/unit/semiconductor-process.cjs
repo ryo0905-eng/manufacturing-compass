@@ -96,6 +96,7 @@ function harness(reduced=false){
   if(name==='next/link')return{default:'a'};
   if(name==='@/lib/analytics')return{trackEvent:(name,props)=>events.push({name,props})};
   if(name.endsWith('.css'))return{default:new Proxy({},{get:(_,k)=>String(k)})};
+  if(name==='./TestingDiagram')return{TestingDiagram:function TestingDiagram(){},TestingReadout:function TestingReadout(){}};
   if(name==='./InterconnectDiagram')return{InterconnectDiagram:function InterconnectDiagram(){}};
   if(name==='./AssemblyDiagram')return{AssemblyDiagram:function AssemblyDiagram(){}};
   if(name==='./ProcessDiagram')return{ProcessDiagram:function ProcessDiagram(){},Wafer:function Wafer(){},JourneyDiagram:function JourneyDiagram(){},CompletedStructure:function CompletedStructure(){}};
@@ -252,7 +253,7 @@ const cmpHtml=renderToStaticMarkup(React.createElement(wiringDiagram.Interconnec
 for(const term of ['研磨液','パッド','相対運動','化学的な働き'])assert.ok(cmpHtml.includes(term));
 let triple=model.initialState();const tripleEvents=[];
 const tripleAct=a=>{const r=model.transition(triple,a);triple=r.state;tripleEvents.push(...r.events);};
-for(let repeat=0;repeat<2;repeat++)for(const experience of ['thin-film','interconnect','assembly']){
+for(let repeat=0;repeat<2;repeat++)for(const experience of Object.keys(definitions)){
  tripleAct({type:'enter',experience});assert.equal(triple.step,0);assert.equal(triple.progress,0);assert.equal(triple.playing,false);
  tripleAct({type:'motion',reduced:true});
  for(let i=0;i<definitions[experience].steps.length;i++)tripleAct({type:'step',index:i,autoplay:true});
@@ -280,5 +281,48 @@ const wiringPage=renderToStaticMarkup(React.createElement(load(path.join(base,'a
 for(const phrase of ['配線7工程','金属を埋めて、余分な部分を磨く','CMP','lamresearch.com','fujimiinc.co.jp'])assert.ok(wiringPage.includes(phrase));
 for(const step of wiringData.interconnectSteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(s=>s.id===id));}
 for(const name of ['semiconductor-interconnect-process','semiconductor-cmp-process'])assert.ok(fs.readFileSync(`src/content/guides/${name}.ts`,'utf8').includes(data.processRoute));
-assert.equal(data.PROCESS_VERSION,'semiconductor-process-v3');
+assert.equal(data.PROCESS_VERSION,'semiconductor-process-v4');
 console.log('PASS interconnect geometry, isolation/connection, CMP/clean invariants, SSR, three-experience histories/events, playback, restart, summary handoff and published links');
+
+const testingData=load(path.join(base,'data/semiconductor-testing.ts'));
+const testingModel=load(path.join(base,'lib/semiconductor-process/testing.ts'));
+const testingDiagram=load(path.join(base,'components/semiconductor-process/TestingDiagram.tsx'));
+const testWarnings=[];console.error=(...args)=>testWarnings.push(args);
+try{
+ for(const mode of testingData.testingModes){
+  for(let i=0;i<4;i++){
+   for(const p of [0,.25,.5,.75,1]){
+    const f=testingModel.testingFrame(mode,i,p);assert.deepEqual(plain(f),plain(testingModel.testingFrame(mode,i,p)));
+    assert.ok(f.contact>=0&&f.contact<=1);assert.ok(f.observedCount>=0&&f.observedCount<=4);
+    if(i<2)assert.equal(f.observedCount,0);
+    if(i<3||p<.5)assert.equal(f.compared,false);
+    assert.equal(f.recorded,i===3&&p===1);
+    if(f.observedCount>0&&i===2)assert.equal(f.contact,1);
+    const html=renderToStaticMarkup(React.createElement(testingDiagram.TestingDiagram,{mode,step:i,progress:p}));
+    assert.ok(html.includes('<title'));assert.ok(html.includes('<desc'));assert.ok(html.includes('role="img"'));assert.ok(!html.includes('NaN'));
+   }
+   if(i<3)assert.deepEqual(plain(testingModel.testingFrame(mode,i,1)),plain(testingModel.testingFrame(mode,i+1,0)));
+  }
+  const initial=renderToStaticMarkup(React.createElement(testingDiagram.TestingReadout,{mode,step:0,progress:0}));assert.equal((initial.match(/<td>未取得<\/td>/g)||[]).length,4);assert.ok(initial.includes('比較結果はまだありません'));
+  const final=renderToStaticMarkup(React.createElement(testingDiagram.TestingReadout,{mode,step:3,progress:1}));assert.ok(final.includes('製品全体の合格とは判断しません'));assert.ok(final.includes('記録しました'));
+ }
+}finally{console.error=oldError;}
+assert.equal(testWarnings.length,0,JSON.stringify(testWarnings));
+for(const row of testingData.testPattern){assert.equal(row.expected,1-row.input);assert.equal(row.response,row.expected);}
+for(const [mode,i,p] of [['bad',0,0],['wafer-test',-1,0],['final-test',4,0],['final-test',1,NaN],['wafer-test',.5,0],['wafer-test',2,1.1]])assert.throws(()=>testingModel.testingFrame(mode,i,p));
+for(const mode of testingData.testingModes){
+ const t=harness();t.render();t.nodes(n=>n.type==='button'&&text(n).includes(mode==='wafer-test'?'ウエハで検査':'最終検査'))[0].props.onClick();t.render();
+ t.click(mode==='wafer-test'?'ウエハ検査を体験する':'最終検査を体験する');assert.equal(t.get().experience,mode);assert.equal(t.get().playing,false);
+ const steps=testingData.testingSteps(mode);t.click(steps[0].verb);t.tick(0);t.tick(2000);
+ for(let i=1;i<4;i++){t.click('次の工程 →');assert.equal(t.get().playing,true);t.tick(i*3000);t.tick(i*3000+2000);}
+ t.click('検査のまとめへ →');assert.equal(t.get().view,'summary');
+ t.click(mode==='wafer-test'?'組立後の検査も見てみる →':'ウエハ上の検査も見てみる →');assert.equal(t.get().experience,mode==='wafer-test'?'final-test':'wafer-test');assert.equal(t.get().completed.length,0);assert.equal(t.get().history[mode].completed.length,4);
+ t.click('次の工程 →');const staleTest=[...t.raf.values()][0];t.click('← 前の工程');staleTest(99999);assert.equal(t.get().playing,false);assert.equal(t.get().progress,0);
+ t.click(testingData.testingSteps(t.get().experience)[0].verb);t.tick(15000);t.doc.hidden=true;t.listeners.visibilitychange();t.render();assert.equal(t.get().playing,false);t.doc.hidden=false;t.listeners.visibilitychange();assert.equal(t.get().playing,false);
+ t.unmount();assert.equal(t.raf.size,0);
+ for(const step of steps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(s=>s.id===id));}
+}
+const testPage=renderToStaticMarkup(React.createElement(load(path.join(base,'app/(ja)/tools/semiconductor-process/page.tsx')).default));
+for(const term of ['ウエハ検査4工程','最終検査4工程','見た目が同じでも','advantest.com','電極や端子へ接触'])assert.ok(testPage.includes(term));
+for(const name of ['semiconductor-wafer-test','semiconductor-final-test'])assert.ok(fs.readFileSync(`src/content/guides/${name}.ts`,'utf8').includes(data.processRoute));
+console.log('PASS wafer/final test frames, delayed responses/results, fixed teaching example, readout SSR, independent histories, playback/switch/cancellation and source links');

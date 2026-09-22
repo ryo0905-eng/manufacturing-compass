@@ -23,7 +23,7 @@ export const semiconductorFinalTestGuide: GuideArticle = {
     "CohuとIntelの公式情報で、ハンドラの搬送・温度制御・接触、バーンイン、組立後の電気・機能試験を確認",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "What Is ATE (Automated Test Equipment)?",
@@ -84,6 +84,7 @@ export const semiconductorFinalTestGuide: GuideArticle = {
       "最終検査の目的、テストセル、搬送からビニングまで、機能・DC・タイミング・性能試験、温度制御、ソケット接触、ウェーハテストとの相関、バーンイン・信頼性・SLT、並列測定、テストエスケープと過剰選別、関連職種・企業。",
   },
   overviewBlocks: [
+    { type: "links", items: [{ label: "電気的な検査を動く図で体験する", href: "/tools/semiconductor-process", description: "ウエハ上と組立後の接触・信号・応答・記録を、止めたり戻したりして確かめます。" }] },
     {
       type: "quote",
       quote:
