@@ -113,9 +113,9 @@ assert.equal(u.nodes(n=>n.type==='nav'&&n.props['aria-label']==='完成までの
 u.click('表面をきれいにする');u.tick(0);u.tick(800);assert.equal(u.get().progress,.4);
 u.click('一時停止');assert.equal(u.raf.size,0);u.tick(1600);assert.equal(u.get().progress,.4);
 u.click('再開');u.tick(2000);u.tick(3200);assert.equal(u.get().progress,1);assert.equal(u.raf.size,0);
-u.click('次の工程 →');assert.equal(u.get().progress,0);u.click('薄い膜をつける');u.tick(4000);u.tick(4500);
+u.click('次の工程 →');assert.equal(u.get().progress,0);assert.equal(u.get().playing,true);u.tick(4000);u.tick(4500);
 const stale=[...u.raf.values()][0];u.click('次の工程 →');stale(6000);assert.equal(u.get().step,2);assert.equal(u.get().progress,0);assert.equal(u.scrolls.length,1);
-u.click('光に反応する膜を塗る');u.tick(6500);u.doc.hidden=true;u.listeners.visibilitychange();u.render();assert.equal(u.get().playing,false);u.doc.hidden=false;u.listeners.visibilitychange();assert.equal(u.get().playing,false);
+assert.equal(u.get().playing,true);assert.equal(u.raf.size,1);u.tick(6500);u.doc.hidden=true;u.listeners.visibilitychange();u.render();assert.equal(u.get().playing,false);u.doc.hidden=false;u.listeners.visibilitychange();assert.equal(u.get().playing,false);
 u.click('光に反応する膜を塗る');u.tick(7000);u.hide();u.render();assert.equal(u.get().playing,false);
 u.click('光に反応する膜を塗る');u.tick(8000);u.listeners.pagehide();u.render();assert.equal(u.get().playing,false);
 u.click('光に反応する膜を塗る');u.tick(9000);u.media.matches=true;u.mediaListeners.change();u.render();assert.equal(u.get().progress,1);assert.equal(u.get().playing,false);
@@ -125,6 +125,14 @@ u.click('なぜここだけ削れる？＋');u.click('なぜここだけ削れ�
 for(const e of u.events)assert.ok(Object.keys(e.props).every(k=>['version','step_id','question_id','destination'].includes(k)));
 u.unmount();assert.equal(u.raf.size,0);assert.equal(Object.keys(u.listeners).length,0);
 const low=harness(true);low.render();low.click('一つの加工を拡大してみる ↗');low.click('表面をきれいにする');assert.equal(low.get().progress,1);assert.equal(low.raf.size,0);
+low.click('次の工程 →');assert.equal(low.get().step,1);assert.equal(low.get().progress,1);assert.equal(low.get().playing,false);assert.equal(low.raf.size,0);
+assert.equal(low.events.filter(e=>e.name==='semiconductor_process_step_completed'&&e.props.step_id===data.processSteps[1].id).length,1);
+low.click('← 前の工程');assert.equal(low.get().progress,0);assert.equal(low.get().playing,false);
+const navigation=harness();navigation.render();navigation.click('一つの加工を拡大してみる ↗');
+navigation.click('次の工程 →');navigation.click('次の工程 →');assert.equal(navigation.get().step,2);assert.equal(navigation.raf.size,1);
+navigation.tick(0);navigation.tick(2000);assert.equal(navigation.get().step,2);assert.equal(navigation.get().progress,1);assert.equal(navigation.get().playing,false);
+navigation.click('← 前の工程');assert.equal(navigation.get().step,1);assert.equal(navigation.get().progress,0);assert.equal(navigation.raf.size,0);
+navigation.nodes(n=>n.type==='button'&&n.props.children?.[1]==='露光')[0].props.onClick();navigation.render();assert.equal(navigation.get().step,3);assert.equal(navigation.get().playing,false);navigation.unmount();
 const running=harness();running.render();running.click('一つの加工を拡大してみる ↗');running.click('表面をきれいにする');assert.equal(running.raf.size,1);running.unmount();assert.equal(running.raf.size,0);
 console.log('PASS simulated RAF timing, pause/resume, stage cancellation, slider, visibility/pagehide/offscreen stop, reduced motion and unmount cleanup (not browser verification)');
 const diagrams=load(path.join(base,'components/semiconductor-process/ProcessDiagram.tsx'));

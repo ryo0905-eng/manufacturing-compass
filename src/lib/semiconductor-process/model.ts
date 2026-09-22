@@ -17,7 +17,7 @@ export function frame(step: number, progress: number) {
   };
 }
 export type ProcessState = { view: 'overview' | 'process' | 'summary'; overview: number; step: number; progress: number; playing: boolean; token: number; reduced: boolean; started: boolean; completed: ProcessStepId[]; explained: string[]; announcement: string };
-export type ProcessAction = { type: 'enter' } | { type: 'overview'; index: number } | { type: 'step'; index: number } | { type: 'play' } | { type: 'pause' } | { type: 'replay' } | { type: 'scrub'; progress: number } | { type: 'tick'; token: number; progress: number } | { type: 'motion'; reduced: boolean } | { type: 'question'; id: string } | { type: 'summary' };
+export type ProcessAction = { type: 'enter' } | { type: 'overview'; index: number } | { type: 'step'; index: number; autoplay?: boolean } | { type: 'play' } | { type: 'pause' } | { type: 'replay' } | { type: 'scrub'; progress: number } | { type: 'tick'; token: number; progress: number } | { type: 'motion'; reduced: boolean } | { type: 'question'; id: string } | { type: 'summary' };
 export type ProcessEvent = { name: string; step_id?: ProcessStepId; question_id?: string };
 export function initialState(): ProcessState {
   return { view: 'overview', overview: 2, step: 0, progress: 0, playing: false, token: 0, reduced: false, started: false, completed: [], explained: [], announcement: '' };
@@ -36,7 +36,12 @@ export function transition(state: ProcessState, action: ProcessAction): { state:
       next = { ...stop(), view: 'overview', overview: action.index }; break;
     case 'step':
       if (!state.started || !Number.isInteger(action.index) || action.index < 0 || action.index >= processSteps.length) break;
-      next = { ...stop(), view: 'process', step: action.index, progress: 0, announcement: `${processSteps[action.index].verb}：加工前の状態です。` }; break;
+      next = {
+        ...stop(), view: 'process', step: action.index,
+        progress: action.autoplay && state.reduced ? 1 : 0,
+        playing: Boolean(action.autoplay) && !state.reduced,
+        announcement: action.autoplay ? `${processSteps[action.index].verb}を開始します。` : `${processSteps[action.index].verb}：加工前の状態です。`,
+      }; break;
     case 'play':
     case 'replay':
       if (state.view !== 'process' || state.playing) break;

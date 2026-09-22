@@ -80,7 +80,7 @@ export function ProcessExplorer() {
             </div>
             <label className={styles.scrubber}>途中を確かめる <span>{Math.round(state.progress*100)}%</span><input type="range" min="0" max="100" step="1" value={Math.round(state.progress*100)} aria-valuetext={`教材の進行度 ${Math.round(state.progress*100)}パーセント`} onChange={e=>send({type:'scrub',progress:Number(e.target.value)/100})}/></label>
             <p className={styles.small}>教材アニメーションの進行度です。処理時間や加工量ではありません。{state.reduced?'動きを減らす設定のため、再生ボタンで加工後の静止図を表示します。':''}</p>
-            <div className={styles.previousNext}><button type="button" disabled={state.step===0} onClick={()=>navigate({type:'step',index:state.step-1})}>← 前の工程</button>{state.step<7?<button type="button" onClick={()=>navigate({type:'step',index:state.step+1})}>次の工程 →</button>:<button type="button" className={styles.primary} disabled={!state.completed.includes('clean-after')} onClick={()=>navigate({type:'summary'})}>繰り返す意味と、その先へ →</button>}</div>
+            <div className={styles.previousNext}><button type="button" disabled={state.step===0} onClick={()=>navigate({type:'step',index:state.step-1})}>← 前の工程</button>{state.step<7?<button type="button" onClick={()=>navigate({type:'step',index:state.step+1,autoplay:true})}>次の工程 →</button>:<button type="button" className={styles.primary} disabled={!state.completed.includes('clean-after')} onClick={()=>navigate({type:'summary'})}>繰り返す意味と、その先へ →</button>}</div>
           </div>
         </div>
         </section>
