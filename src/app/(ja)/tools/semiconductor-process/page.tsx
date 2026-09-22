@@ -1,4 +1,4 @@
-import { workRoles, workNote, workSources, workRelease, assemblyWorkRoles, assemblyWorkSources } from '@/data/semiconductor-work';
+import { workRoles, workNote, workSources, workRelease, assemblyWorkRoles, assemblyWorkSources, interconnectWorkRoles, interconnectWorkSources } from '@/data/semiconductor-work';
 import { waferPreparationCopy, waferPreparationSteps } from '@/data/semiconductor-wafer-preparation';
 import { WaferPreparationDiagram } from '@/components/semiconductor-process/WaferPreparationDiagram';
 import { testingCopy, testingLessons, testingModes, testingSteps } from '@/data/semiconductor-testing';
@@ -45,6 +45,9 @@ export default function SemiconductorProcessPage() {
       <h2>切り分け・組み立てを支える仕事</h2><p>組立条件を整える人、装置を支える人、品質を確かめる人。固定・接続・保護の役割を、仕事の側から見直します。</p><p>{workNote}</p>
       <details className={styles.detail}><summary>組立を支える3つの仕事を文章で読む</summary>{assemblyWorkRoles.map(role=><section key={role.id}><h3>{role.label}</h3><p>{role.name}</p><p>困りごと：{role.problem}</p><p>調べること：{role.investigate}</p><p>関わる人：{role.people}</p><p>{role.next}</p><Link href={role.guide}>{role.guideLabel} →</Link></section>)}</details>
       <p className={styles.small}>企業の公開職務説明を役割の参考にしています。国内の統一職種名や募集中の求人を示すものではありません。</p><ul>{assemblyWorkSources.map(source=><li key={source.id}><a href={source.url}>{source.title}</a></li>)}</ul><p className={styles.small}>組立の仕事紹介の更新・出典確認日：<time dateTime={workRelease.updatedAt}>{workRelease.updatedAt}</time></p>
+      <h2>配線づくり・CMPを支える仕事</h2><p>表面の余分な導電膜を除き、溝や穴に必要な金属を残す。そのための条件・装置・測定を、それぞれの仕事から見てみましょう。</p><p>{workNote}</p>
+      <details className={styles.detail}><summary>配線・CMPを支える3つの仕事を文章で読む</summary>{interconnectWorkRoles.map(role=><section key={role.id}><h3>{role.label}</h3><p>{role.name}</p><p>困りごと：{role.problem}</p><p>調べること：{role.investigate}</p><p>関わる人：{role.people}</p><p>{role.next}</p><Link href={role.guide}>{role.guideLabel} →</Link></section>)}</details>
+      <p className={styles.small}>公開職務説明を役割の参考にしています。募集中の求人や統一された担当範囲を示すものではありません。計測・検査と品質保証は同じ職種とは限りません。</p><ul>{interconnectWorkSources.map(source=><li key={source.id}><a href={source.url}>{source.title}</a></li>)}</ul><p className={styles.small}>配線・CMPの仕事紹介の更新・出典確認日：<time dateTime={workRelease.updatedAt}>{workRelease.updatedAt}</time></p>
       <h2>出典・更新日</h2><ul>{processSources.map(source=><li key={source.id}><a href={source.url}>{source.title}</a></li>)}</ul><p>図は公開情報をもとに独自に制作した模式図です。実物の寸法比、特定製品の製造手順や装置性能を示すものではありません。</p><p className={styles.small}>最終更新日：<time dateTime={processRelease.updatedAt}>{processRelease.updatedAt}</time> ／ 出典確認日：<time dateTime={processRelease.sourcesCheckedAt}>{processRelease.sourcesCheckedAt}</time></p>
     </article>
   </main>;

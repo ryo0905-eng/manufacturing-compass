@@ -442,5 +442,29 @@ const assemblyDef=load(path.join(base,'data/semiconductor-experiences.ts')).expe
 assemblyJobs.click(assemblyDef.summary.restart);finishJobExperience('assembly');assert.equal(assemblyJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);assemblyJobs.click('組立条件を整える');assert.equal(assemblyJobs.events.filter(e=>e.name==='semiconductor_process_work_opened').length,4);assemblyJobs.unmount();
 for(const role of workData.assemblyWorkRoles)assert.ok(workPage.includes(role.investigate));
 for(const source of workData.assemblyWorkSources)assert.ok(workPage.includes(source.url));
-for(const id of ['wafer-preparation','interconnect','wafer-test','final-test'])assert.equal(workData.workLessons[id],undefined);
+for(const id of ['wafer-preparation','wafer-test','final-test'])assert.equal(workData.workLessons[id],undefined);
 console.log('PASS assembly work: distinct graphics/text, SSR/sources, published links, role selection, restart, per-experience analytics deduplication and thin-film regression');
+
+for(const role of workData.interconnectWorkRoles){
+ const html=renderToStaticMarkup(React.createElement(workPanel.WorkRolePanel,{role,experience:'interconnect',onRelated(){}}));
+ for(const value of [role.problem,role.investigate,role.people,role.next,'interconnect-work-panel','左右の配線は絶縁膜で隔てます'])assert.ok(html.includes(value));
+ assert.equal((html.match(/<svg/g)||[]).length,3);assert.ok(!html.includes('NaN'));
+ assert.ok(workData.interconnectWorkSources.some(source=>source.id===role.id));
+ assert.ok(fs.readFileSync(`src/content/guides/${role.guide.split('/').pop()}.ts`,'utf8').includes('"published"'));
+ assert.ok(workPage.includes(role.investigate));
+}
+for(const source of workData.interconnectWorkSources)assert.ok(workPage.includes(source.url.replaceAll('&','&amp;')));
+const cmpGraphic=load(path.join(base,'components/semiconductor-process/InterconnectWorkGraphic.tsx')).InterconnectWorkGraphic;
+const metalDiagram=index=>renderToStaticMarkup(React.createElement('svg',null,React.createElement(cmpGraphic,{role:'process',index})));
+assert.ok(metalDiagram(0).includes('y="24" width="120" height="8"'));
+for(const index of [1,2]){const html=metalDiagram(index);assert.ok(!html.includes('y="24" width="120" height="8"'));for(const x of [29,93])assert.ok(html.includes(`x="${x}" y="64" width="38" height="8"`));assert.ok(html.includes('M34 32h28v16h-10v16h-8V48h-10Z'));assert.ok(html.includes('M98 32h28v16h-10v16h-8V48h-10Z'));}
+const cmpJobs=harness(true);cmpJobs.render();cmpJobs.click('膜に形を作る');
+function finishCmpJob(id){const def=load(path.join(base,'data/semiconductor-experiences.ts')).experiences[id];cmpJobs.nodes(n=>n.type==='button'&&n.props.children?.[1]===def.steps.at(-1).term)[0].props.onClick();cmpJobs.render();cmpJobs.click(def.steps.at(-1).verb);cmpJobs.click(def.summary.button);}
+finishCmpJob('thin-film');cmpJobs.click('加工条件を整える');cmpJobs.click('続けて配線をつくる →');finishCmpJob('interconnect');assert.equal(cmpJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);
+const cmpJobState=plain(cmpJobs.get());
+for(const role of workData.interconnectWorkRoles){cmpJobs.click(role.label);const panel=cmpJobs.nodes(n=>n.type?.name==='WorkRolePanel')[0];assert.equal(panel.props.experience,'interconnect');assert.equal(panel.props.role.id,role.id);panel.props.onRelated();assert.deepEqual(plain(cmpJobs.get()),cmpJobState);}
+cmpJobs.click('配線・CMPの条件を整える');assert.equal(cmpJobs.events.filter(e=>e.name==='semiconductor_process_work_opened').length,4);
+const cmpDef=load(path.join(base,'data/semiconductor-experiences.ts')).experiences.interconnect;cmpJobs.click(cmpDef.summary.restart);finishCmpJob('interconnect');assert.equal(cmpJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);cmpJobs.click('配線・CMPの条件を整える');assert.equal(cmpJobs.events.filter(e=>e.name==='semiconductor_process_work_opened').length,4);
+for(const event of cmpJobs.events.filter(e=>e.name.startsWith('semiconductor_process_work_')&&e.props.experience_id==='interconnect')){assert.equal(event.props.version,'interconnect-work-v1');assert.ok(['process','equipment','measurement'].includes(event.props.role_id));assert.ok(!('progress' in event.props));}
+cmpJobs.click('続けてウエハ検査を体験する →');assert.equal(cmpJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);cmpJobs.unmount();
+console.log('PASS interconnect work: metal retention/separation graphics, three roles/SSR/sources, links, selection/restart, isolated events and existing work/tour regressions');

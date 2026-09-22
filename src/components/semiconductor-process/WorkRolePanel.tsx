@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { type WorkRole, type WorkExperienceId, workLessons } from '@/data/semiconductor-work';
+import { InterconnectWorkGraphic } from './InterconnectWorkGraphic';
 import styles from './process.module.css';
 
 /** Static, independent visual: selecting a role never changes the process simulation. */
@@ -11,7 +12,7 @@ export function WorkRolePanel({ role, onRelated, experience = 'thin-film' }: { r
     <ol className={styles.workFlow} aria-label="仕事の見方">
       {role.diagram.map((caption, index) => <li key={caption}>
         <svg viewBox="0 0 160 86" aria-hidden="true" focusable="false">
-          {experience === 'assembly' ? <AssemblyWorkGraphic role={role.id} index={index}/> : role.id === 'process' ? <>
+          {experience === 'interconnect' ? <InterconnectWorkGraphic role={role.id} index={index}/> : experience === 'assembly' ? <AssemblyWorkGraphic role={role.id} index={index}/> : role.id === 'process' ? <>
             <path d="M20 65H140" stroke="#667985" strokeWidth="5"/>
             <path d={index === 0 ? 'M25 60V32H58V60H100V32H135V60' : 'M25 60V38H63V60H96V38H135V60'} fill="none" stroke="#28749c" strokeWidth="8"/>
             {index > 0 && <path d="M54 15H106M54 10V20M106 10V20" fill="none" stroke="#815a20" strokeWidth="2"/>}
@@ -34,6 +35,7 @@ export function WorkRolePanel({ role, onRelated, experience = 'thin-film' }: { r
       </li>)}
     </ol>
     {experience === 'assembly' && <p className={styles.small}>内部の図は透視の模式図です。実際に樹脂が透明なわけではなく、検査画像の再現でもありません。</p>}
+    {experience === 'interconnect' && <p className={styles.small}>金属は溝と上下をつなぐ穴に残し、左右の配線は絶縁膜で隔てます。下地などの薄膜や寸法は簡略化しています。測定画像・電流の再現ではありません。</p>}
     <dl className={styles.workFacts}>
       <dt>困りごと</dt><dd>{role.problem}</dd>
       <dt>調べること</dt><dd>{role.investigate}</dd>
@@ -41,7 +43,7 @@ export function WorkRolePanel({ role, onRelated, experience = 'thin-film' }: { r
       <dt>次につなげる</dt><dd>{role.next}</dd>
     </dl>
     <Link className={styles.articleLink} href={role.guide} onClick={onRelated}>{role.guideLabel} →</Link>
-    {experience === 'thin-film' && role.id === 'measurement' && <p className={styles.small}>計測・検査と品質保証は同じ職種とは限りません。関連記事では品質データや不良解析の経験を扱います。</p>}
+    {role.id === 'measurement' && <p className={styles.small}>計測・検査と品質保証は同じ職種とは限りません。関連記事では品質データや不良解析の経験を扱います。</p>}
     <p className={styles.small}>役割の参考：<a href={source.url}>{source.title}</a>。困りごとは教材用に構成した例です。</p>
   </div>;
 }

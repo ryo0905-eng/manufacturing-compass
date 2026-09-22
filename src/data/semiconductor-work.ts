@@ -77,7 +77,41 @@ export const assemblyWorkRoles: readonly WorkRole[] = [
     guide: '/guides/quality-engineer-route', guideLabel: '品質・不良解析の仕事につながる経験を読む',
   },
 ];
-export type WorkExperienceId = 'thin-film' | 'assembly';
+export const interconnectWorkSources = [
+  { id: 'process', title: '荏原製作所：CMPプロセス開発・顧客サポートの職務説明', url: 'https://ebara.jposting.net/u/jobs/job.phtml?job_code=1536' },
+  { id: 'equipment', title: 'EBARA Precision Machinery Europe：CMP Field Service Engineerの職務説明', url: 'https://ebara-pm.softgarden.io/job/58118082/Field-Service-Engineer-m-w-d-?jobDbPVId=279163578&l=en' },
+  { id: 'measurement', title: 'Micron：Metrology Applications Engineerの職務説明', url: 'https://micron.wd1.myworkdayjobs.com/en-US/External/job/Metrology-Applications-Engineer_JR89915' },
+] as const;
+export const interconnectWorkRoles: readonly WorkRole[] = [
+  {
+    id: 'process', label: '配線・CMPの条件を整える', name: '配線・CMPのプロセスエンジニアなど',
+    problem: '余分な金属を除きながら、必要な配線を残すには何を確かめる？',
+    investigate: '加工前後の膜や形の測定結果と条件の記録を比べ、狙った状態になるかを確かめる実験を計画します。',
+    people: '測定担当と評価項目をそろえ、装置や材料の担当と変化の候補を整理します。',
+    next: '表面の余分な金属と導電性の下地を除き、溝・穴の金属を残せているかを確認する。平らに見えることだけで、接続や分離ができたとは決められません。',
+    diagram: ['表面にも金属が残る', '余分な導電膜を除く', '左右を隔て、上下をつなぐ'],
+    guide: '/guides/production-engineering-to-semiconductor-process-engineer', guideLabel: '関連するプロセス改善の経験を読む',
+  },
+  {
+    id: 'equipment', label: '研磨装置の調子を保つ', name: 'CMPの設備・装置エンジニアなど',
+    problem: '研磨装置の状態がいつもと違う。加工に影響していない？',
+    investigate: '装置の動作やアラーム、点検・保全の記録をたどります。パッドや研磨液を扱う部分も含め、装置の変化を担当者と切り分けます。',
+    people: '製造担当に発生状況を聞き、プロセス担当と加工結果を照合します。必要に応じて装置メーカーと調べます。',
+    next: '復旧後の加工結果も確認し、再発を防ぐ点検につなげる。装置が動くことと、必要な配線が残ることは別の確認です。',
+    diagram: ['パッドと研磨液で磨く', '装置の記録を確認', '加工結果も確かめる'],
+    guide: '/guides/equipment-engineer-route', guideLabel: '設備・装置の仕事につながる経験を読む',
+  },
+  {
+    id: 'measurement', label: '加工後の状態を測る', name: '計測・検査のエンジニアなど',
+    problem: '見た目は平らでも、必要なところに金属が残っている？',
+    investigate: '確かめたい厚さ・形・表面の状態に応じて、測る場所や方法をそろえます。測定のばらつきと、加工による違いを分けて考えます。',
+    people: 'プロセス担当と知りたい違いを整理し、測定装置の担当と測り方や装置の状態を確認します。',
+    next: '結果と測定方法の限界を共有し、追加測定や加工条件の確認へつなげる。一枚の図や一つの測定だけで電気的な接続・分離を保証するわけではありません。',
+    diagram: ['測る場所を決める', '同じ方法で比べる', '結果と注意点を共有'],
+    guide: '/guides/quality-engineer-route', guideLabel: '関連する品質・不良解析の仕事も読む',
+  },
+];
+export type WorkExperienceId = 'thin-film' | 'assembly' | 'interconnect';
 type WorkLesson = {
   experience: WorkExperienceId; version: string; intro: string;
   roles: readonly WorkRole[];
@@ -85,5 +119,6 @@ type WorkLesson = {
 };
 export const workLessons: Partial<Record<ExperienceId, WorkLesson>> = {
   'thin-film': { experience: 'thin-film', version: workRelease.version, intro: '狙った形を作り続けるために、どんな仕事があるのでしょう。気になる役割を選んでみてください。', roles: workRoles, sources: workSources },
+  interconnect: { experience: 'interconnect', version: 'interconnect-work-v1', intro: '余分な金属を取り除き、必要な配線を残す。その加工を支える仕事を見てみましょう。', roles: interconnectWorkRoles, sources: interconnectWorkSources },
   assembly: { experience: 'assembly', version: 'assembly-work-v1', intro: '固定する・電気的につなぐ・保護する。それぞれを安定して行うために、どんな人が関わるのでしょう。', roles: assemblyWorkRoles, sources: assemblyWorkSources },
 };
