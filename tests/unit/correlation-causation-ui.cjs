@@ -85,6 +85,8 @@ for(const first of [0,1]) {
 }
 const broken=harness(true);broken.choose('correlation-hypothesis',0);broken.click('仮説を持って始める');broken.click('比較方法を考える');broken.click('この方法で40ロットを実験する');assert.ok(plainText(broken.render()).includes('実験と解析を停止'));assert.equal(broken.chart(),undefined);broken.click('同じ教材で再挑戦');assert.equal(broken.slots[0].error,null);
 const actual=moduleLoader()(path.join(base,'data/correlation-causation.ts'));
+assert.equal(actual.correlationRelease.status,'published');
+assert.equal(actual.isCorrelationPublished(),true);
 const capture=[];const prior=console.error;console.error=(...args)=>capture.push(args.join(' '));
 try {
  for(const published of [false,true]) {

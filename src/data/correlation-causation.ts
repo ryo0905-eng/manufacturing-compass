@@ -1,6 +1,6 @@
 export const correlationRoute = '/tools/correlation-causation';
 export const correlationRelease: { status: 'review' | 'published'; updatedAt: string; sourcesCheckedAt: string } = {
-  status: 'review', updatedAt: '2026-09-22', sourcesCheckedAt: '2026-09-22',
+  status: 'published', updatedAt: '2026-09-22', sourcesCheckedAt: '2026-09-22',
 };
 export function isCorrelationPublished() { return correlationRelease.status === 'published'; }
 export const VERSION = 'correlation-causation-v1';
