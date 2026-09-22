@@ -94,3 +94,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - `Phase 1` や `Phase 1.5` と書かれた古い構想より、現行の PRD、実装、TASKS の現在欄を優先します。
 
 - [`docs/correlation-causation-spec.md`](./correlation-causation-spec.md): 相関と因果ラボの学習手順、架空数値、無作為割付、公開状態、検証と観測方針。
+
+- [`docs/improvement-confidence-spec.md`](./improvement-confidence-spec.md): 改善の差を見極める教材の3ケース、Welch信頼区間、乱数、自由実験履歴、公開・検証仕様。

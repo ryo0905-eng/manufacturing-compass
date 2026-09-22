@@ -329,3 +329,7 @@ Supabase、ユーザーアカウント、メール保存、求人連携は未採
 ## 相関と因果ラボ（2026-09-22）
 
 Serverページが定義・解説・出典・SEOを出力し、`CorrelationTool`とSVG/表が5段階の体験を提供する。`src/data/correlation-causation.ts` に文面・固定条件・公開状態、`src/lib/correlation-causation/` に生成・観測だけの解析・純粋な状態遷移を分離。観察と2実験の乱数列・IDを分け、同期refで連打を抑止する。新規API・依存・永続化なし。reviewでは直接URLのみ、publishedで一覧・関連リンク・sitemapとindexを有効化。[仕様・検証境界](./correlation-causation-spec.md)。
+
+## 改善の差を見極める
+
+`/tools/improvement-confidence` のServerページが説明・出典・SEOを出力し、Clientの操作部がメモリ内で3ケースと自由実験を扱う。`src/data/improvement-confidence.ts` に教材・公開情報、`src/lib/improvement-confidence/` に独立した統計計算・シード付き生成・純粋な状態遷移、専用コンポーネントにSVG・表・操作画面を分離。Welch区間は観測値のみから計算し、真値は振り返りだけで使う。既存DOE・工程比較の計算、新規依存、外部API、永続保存は変更・追加しない。revisionで古い操作とイベント重複を防ぎ、計算エラー時は履歴を残して停止する。[仕様と検証](./improvement-confidence-spec.md)。

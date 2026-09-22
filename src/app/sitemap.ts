@@ -1,3 +1,4 @@
+import { improvementRoute, improvementRelease } from "@/data/improvement-confidence";
 import { correlationRelease, correlationRoute, isCorrelationPublished } from "@/data/correlation-causation";
 import { inspectionRelease } from "@/data/ai-visual-inspection";
 import { taguchiRelease } from "@/data/taguchi";
@@ -26,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((location) => location.contentStatus === "complete")
     .reduce((latest, location) => location.lastVerifiedAt > latest ? location.lastVerifiedAt : latest, "1970-01-01");
   const staticRoutes = [
+    improvementRoute,
     ...(isCorrelationPublished() ? [correlationRoute] : []),
     "",
     "/tools",
@@ -62,6 +64,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === improvementRoute ? { lastModified: contentDate(improvementRelease.updatedAt) } : {}),
     ...(path === correlationRoute ? { lastModified: contentDate(correlationRelease.updatedAt) } : {}),
     ...(path === "/tools/ai-visual-inspection" ? { lastModified: contentDate(inspectionRelease.updatedAt) } : {}),
     ...(path === "/tools/taguchi" ? { lastModified: contentDate(taguchiRelease.updatedAt) } : {}),
