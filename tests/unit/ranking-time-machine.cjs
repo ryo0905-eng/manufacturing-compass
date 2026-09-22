@@ -81,6 +81,76 @@ assert.throws(() => lib.prepareRanking(companies, []));
 assert.throws(() => lib.prepareRanking(companies, [snapshots[0], snapshots[2]]));
 assert.throws(() => lib.prepareRanking(companies, [snapshots[0], snapshots[0]]));
 
+// Interpolation is visual only; endpoints and rank crossings remain deterministic.
+const startRows = lib.rankSnapshot(fixtureCompanies, fixture);
+const endRows = lib.rankSnapshot(fixtureCompanies, { year: 2021, entries: [
+  { companyId: 'z', valueUsdB: 8 }, { companyId: 'b', valueUsdB: 2 }, { companyId: 'a', valueUsdB: 3 },
+] });
+const beforeInterpolation = JSON.stringify([startRows, endRows]);
+assert.deepEqual(plain(lib.interpolateRankingRows(startRows, endRows, 0)), plain(startRows));
+assert.deepEqual(plain(lib.interpolateRankingRows(startRows, endRows, 1)), plain(endRows));
+const halfway = lib.interpolateRankingRows(startRows, endRows, .5);
+assert.deepEqual(plain(halfway.map(row => [row.id, row.valueUsdB, row.rank])), [['z', 5, 1], ['a', 3, 2], ['b', 2.5, 3]]);
+assert.equal(JSON.stringify([startRows, endRows]), beforeInterpolation);
+assert.deepEqual(plain(lib.interpolateRankingRows(startRows, endRows, -1)), plain(startRows));
+assert.deepEqual(plain(lib.interpolateRankingRows(startRows, endRows, 2)), plain(endRows));
+const animatedEnd = lib.interpolateRankingRows(timeline[0].rows, timeline[10].rows, 1);
+assert.ok(animatedEnd.slice(0, 10).some(row => row.id === 'amd'));
+
+// Exercise the animation hook with a deterministic frame clock and motion preference.
+const animationSlots = [], animationEffects = [], animationFrames = new Map();
+let animationCursor = 0, animationFrameId = 0, animationNow = 0, motionListener;
+const motion = { matches: false, addEventListener: (_, fn) => { motionListener = fn; }, removeEventListener: () => { motionListener = undefined; } };
+const animationLoad = loader({ react: { ...React,
+  useRef: initial => { const slot = animationCursor++; return animationSlots[slot] ?? (animationSlots[slot] = { current: initial }); },
+  useState: initial => { const slot = animationCursor++; if (!(slot in animationSlots)) animationSlots[slot] = initial; return [animationSlots[slot], value => { animationSlots[slot] = value; }]; },
+  useLayoutEffect: (fn, deps) => {
+    const slot = animationCursor++, old = animationEffects[slot];
+    if (!old || deps.some((dep, i) => !Object.is(dep, old.deps[i]))) {
+      old?.cleanup?.(); animationEffects[slot] = { deps, pending: fn };
+    }
+  },
+} }, {
+  window: { matchMedia: () => motion }, performance: { now: () => animationNow },
+  requestAnimationFrame: fn => { animationFrames.set(++animationFrameId, fn); return animationFrameId; },
+  cancelAnimationFrame: id => animationFrames.delete(id),
+});
+const { useRankingAnimation } = animationLoad('src/components/ranking-time-machine/useRankingAnimation.ts');
+function animationRender(rows, year, animate) {
+  animationCursor = 0; useRankingAnimation(rows, year, animate);
+  for (const effect of animationEffects) if (effect?.pending) { effect.cleanup = effect.pending(); delete effect.pending; }
+  animationCursor = 0; return useRankingAnimation(rows, year, animate);
+}
+function animationStep(now) {
+  animationNow = now;
+  const callbacks = [...animationFrames.values()]; animationFrames.clear();
+  callbacks.forEach(callback => callback(now));
+}
+assert.equal(animationRender(startRows, 2020, false).interpolating, false);
+assert.equal(animationRender(endRows, 2021, true).interpolating, true);
+animationStep(1500);
+assert.deepEqual(plain(animationRender(endRows, 2021, true).rows), plain(halfway));
+animationStep(3000);
+assert.deepEqual(plain(animationRender(endRows, 2021, true).rows), plain(endRows));
+assert.equal(animationFrames.size, 0);
+animationRender(startRows, 2022, true); animationStep(3500);
+assert.equal(animationRender(startRows, 2022, false).interpolating, false); // Pause settles the selected year.
+assert.equal(animationFrames.size, 0);
+animationRender(endRows, 2023, true); animationStep(4000);
+assert.deepEqual(plain(animationRender(startRows, 2020, false).rows), plain(startRows)); // Scrub/reset cancels stale frames.
+assert.equal(animationFrames.size, 0);
+motion.matches = true;
+assert.equal(animationRender(endRows, 2021, true).interpolating, false);
+assert.equal(animationFrames.size, 0);
+motion.matches = false;
+animationRender(startRows, 2022, true);
+motion.matches = true; motionListener();
+assert.equal(animationRender(startRows, 2022, true).interpolating, false);
+assert.equal(animationFrames.size, 0);
+motion.matches = false; animationRender(endRows, 2023, true);
+for (const effect of animationEffects) effect?.cleanup?.();
+assert.equal(animationFrames.size, 0); assert.equal(motionListener, undefined);
+
 // Optional one-time verification against the independently retained web extraction.
 if (process.env.RANKING_SOURCE_CHECK) {
   const source = JSON.parse(fs.readFileSync(process.env.RANKING_SOURCE_CHECK, 'utf8'));
@@ -126,7 +196,8 @@ assert.equal(timers.size, 0); assert.equal(props('CompanyDetail').companyId, 'am
 controls().onPlay(); render(); documentStub.hidden = true; listeners.get('visibilitychange')(); render();
 assert.equal(timers.size, 0); documentStub.hidden = false;
 controls().onYear(9); render(); controls().onPlay(); render(); tick();
-assert.equal(controls().index, 10); assert.equal(controls().playing, false); assert.equal(timers.size, 0);
+assert.equal(controls().index, 10); assert.equal(controls().playing, true); // Final interpolation is still playing.
+tick(); assert.equal(controls().playing, false); assert.equal(timers.size, 0);
 controls().onPlay(); render(); assert.equal(controls().index, 0);
 controls().onReset(); render(); assert.equal(controls().index, 0); assert.equal(props('CompanyDetail').companyId, ''); assert.equal(timers.size, 0);
 for (const [event, properties] of events) {

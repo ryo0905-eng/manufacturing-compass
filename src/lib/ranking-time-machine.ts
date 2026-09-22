@@ -2,6 +2,17 @@ import type { RankingCompany, RankingSnapshot } from '@/data/ranking-time-machin
 
 export type RankedCompany = RankingCompany & { valueUsdB: number; rank: number; displayName: string };
 
+// Visual interpolation only: never write these values back to source snapshots.
+export function interpolateRankingRows(from: readonly RankedCompany[], to: readonly RankedCompany[], progress: number): RankedCompany[] {
+  const fraction = Math.max(0, Math.min(1, progress));
+  const previous = new Map(from.map(row => [row.id, row.valueUsdB]));
+  const rows = to.map(row => {
+    const start = previous.get(row.id) ?? row.valueUsdB;
+    return { ...row, valueUsdB: fraction === 1 ? row.valueUsdB : start + (row.valueUsdB - start) * fraction };
+  }).sort((a, b) => b.valueUsdB - a.valueUsdB || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  return rows.map(row => ({ ...row, rank: rows.findIndex(item => item.valueUsdB === row.valueUsdB) + 1 }));
+}
+
 export function companyName(company: RankingCompany, year: number) {
   return company.historicalNames?.find(item => item.year === year)?.name ?? company.name;
 }
@@ -33,9 +44,8 @@ export function prepareRanking(companies: readonly RankingCompany[], snapshots: 
   });
 }
 
-export function formatMarketCap(value: number) {
-  return value.toLocaleString('ja-JP', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
+const marketCapFormatter = new Intl.NumberFormat('ja-JP', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+export function formatMarketCap(value: number) { return marketCapFormatter.format(value); }
 
 export function rankChange(firstRank: number, currentRank: number) {
   const change = firstRank - currentRank;
@@ -60,7 +70,9 @@ export function reduceTimeline(state: TimelineState, action: TimelineAction, cou
     case 'tick': {
       if (!state.playing) return state;
       const index = Math.min(count - 1, state.index + 1);
-      return { ...state, index, playing: index < count - 1, animate: true };
+      // Keep the final transition playing until its values have reached the endpoint.
+      const playing = state.index < count - 1;
+      return { ...state, index, playing, animate: playing };
     }
   }
 }

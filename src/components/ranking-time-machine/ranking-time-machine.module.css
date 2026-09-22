@@ -38,8 +38,7 @@
 .track { display: block; width: 100%; height: 20px; background: var(--mc-surface-subtle); border-radius: 2px; overflow: hidden; }
 .bar { display: block; height: 100%; background: var(--mc-selection); border-radius: 2px; }
 .value { text-align: right; font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.race[data-animate="true"] .raceRow { transition: transform 800ms ease-in-out, opacity 800ms ease-in-out; }
-.race[data-animate="true"] .bar { transition: width 800ms ease-in-out; }
+.race[data-animate="true"] .raceRow { transition: transform 400ms ease-in-out, opacity 400ms ease-in-out; }
 .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
 .metrics div { padding: 12px; background: var(--mc-surface-subtle); }
 .metrics dt { font-size: 12px; color: var(--mc-text-muted); }
@@ -85,5 +84,5 @@
   .definition dd { margin-bottom: 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .race[data-animate="true"] .raceRow, .race[data-animate="true"] .bar { transition: none; }
+  .race[data-animate="true"] .raceRow { transition: none; }
 }
