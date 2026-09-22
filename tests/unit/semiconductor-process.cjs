@@ -442,7 +442,7 @@ const assemblyDef=load(path.join(base,'data/semiconductor-experiences.ts')).expe
 assemblyJobs.click(assemblyDef.summary.restart);finishJobExperience('assembly');assert.equal(assemblyJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);assemblyJobs.click('組立条件を整える');assert.equal(assemblyJobs.events.filter(e=>e.name==='semiconductor_process_work_opened').length,4);assemblyJobs.unmount();
 for(const role of workData.assemblyWorkRoles)assert.ok(workPage.includes(role.investigate));
 for(const source of workData.assemblyWorkSources)assert.ok(workPage.includes(source.url));
-for(const id of ['wafer-preparation','wafer-test','final-test'])assert.equal(workData.workLessons[id],undefined);
+for(const id of ['wafer-preparation','wafer-test','final-test'])assert.equal(workData.workLessons[id].roles.length,3);
 console.log('PASS assembly work: distinct graphics/text, SSR/sources, published links, role selection, restart, per-experience analytics deduplication and thin-film regression');
 
 for(const role of workData.interconnectWorkRoles){
@@ -468,3 +468,48 @@ const cmpDef=load(path.join(base,'data/semiconductor-experiences.ts')).experienc
 for(const event of cmpJobs.events.filter(e=>e.name.startsWith('semiconductor_process_work_')&&e.props.experience_id==='interconnect')){assert.equal(event.props.version,'interconnect-work-v1');assert.ok(['process','equipment','measurement'].includes(event.props.role_id));assert.ok(!('progress' in event.props));}
 cmpJobs.click('続けてウエハ検査を体験する →');assert.equal(cmpJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);cmpJobs.unmount();
 console.log('PASS interconnect work: metal retention/separation graphics, three roles/SSR/sources, links, selection/restart, isolated events and existing work/tour regressions');
+
+// Finish the first release: all six experiences have three distinct, sourced roles.
+const allWorkIds=tourData.tourStops.map(stop=>stop.id);
+assert.equal(Object.keys(workData.workLessons).length,6);
+let roleTotal=0;
+for(const id of allWorkIds){
+ const lesson=workData.workLessons[id];assert.equal(lesson.experience,id);assert.equal(lesson.roles.length,3);assert.equal(new Set(lesson.roles.map(role=>role.id)).size,3);
+ for(const role of lesson.roles){
+  roleTotal++;
+  const html=renderToStaticMarkup(React.createElement(workPanel.WorkRolePanel,{role,experience:id,onRelated(){}}));
+  assert.ok(html.includes(`${id}-work-panel`));assert.equal((html.match(/<svg/g)||[]).length,3);
+  for(const copy of [role.problem,role.investigate,role.people,role.next]){assert.ok(html.includes(copy));assert.ok(workPage.includes(copy));}
+  const source=lesson.sources.find(source=>source.id===role.id);assert.ok(source);assert.ok(workPage.includes(source.url.replaceAll('&','&amp;')));
+  assert.ok(fs.readFileSync(`src/content/guides/${role.guide.split('/').pop()}.ts`,'utf8').includes('"published"'));
+  if(id==='wafer-preparation'){assert.ok(html.includes('回路はまだありません'));assert.ok(!html.includes('data-subject="wafer-electrodes"'));}
+  if(id==='wafer-test'){assert.ok(html.includes('data-subject="wafer-electrodes"'));assert.ok(!html.includes('data-subject="package-terminals"'));}
+  if(id==='final-test'){assert.ok(html.includes('data-subject="package-terminals"'));assert.ok(!html.includes('data-subject="wafer-electrodes"'));}
+ }
+}
+assert.equal(roleTotal,18);
+const allJobs=harness(true);allJobs.render();allJobs.click('順番に見る →');
+for(const id of allWorkIds){
+ assert.equal(allJobs.get().experience,id);const def=load(path.join(base,'data/semiconductor-experiences.ts')).experiences[id];
+ allJobs.click(def.steps[0].verb);for(let i=1;i<def.steps.length;i++)allJobs.click('次の工程 →');allJobs.click(def.summary.button);
+ assert.equal(allJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);const simulation=plain(allJobs.get());
+ for(const role of workData.workLessons[id].roles){
+  allJobs.click(role.label);allJobs.click(role.label);
+  const panel=allJobs.nodes(n=>n.type?.name==='WorkRolePanel')[0];assert.equal(panel.props.experience,id);assert.equal(panel.props.role.id,role.id);panel.props.onRelated();
+  assert.deepEqual(plain(allJobs.get()),simulation);
+  const choice=allJobs.nodes(n=>n.type==='button'&&text(n)===role.label)[0];assert.equal(choice.props['aria-pressed'],true);assert.equal(choice.props['aria-controls'],`${id}-work-panel`);
+ }
+ if(['wafer-preparation','wafer-test','final-test'].includes(id)){
+  allJobs.click(def.summary.restart);assert.equal(allJobs.get().progress,0);assert.equal(allJobs.get().playing,false);
+  const last=def.steps.at(-1);allJobs.nodes(n=>n.type==='button'&&n.props.children?.[1]===last.term)[0].props.onClick();allJobs.render();allJobs.click(last.verb);allJobs.click(def.summary.button);
+  assert.equal(allJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);allJobs.click(workData.workLessons[id].roles[0].label);
+ }
+ allJobs.click(id==='final-test'?'見学コースを振り返る →':'次の体験へ →');
+}
+assert.equal(allJobs.get().view,'tour-summary');assert.equal(allJobs.get().tourCompleted,true);
+const allOpened=allJobs.events.filter(e=>e.name==='semiconductor_process_work_opened');assert.equal(allOpened.length,18);
+assert.equal(new Set(allOpened.map(e=>`${e.props.experience_id}:${e.props.role_id}`)).size,18);
+for(const e of allJobs.events.filter(e=>e.name.startsWith('semiconductor_process_work_'))){assert.equal(e.props.version,workData.workLessons[e.props.experience_id].version);assert.ok(!('progress' in e.props));}
+assert.equal(allJobs.events.filter(e=>e.name==='semiconductor_process_work_related_clicked').length,18);
+assert.equal(allJobs.events.filter(e=>e.name==='semiconductor_process_tour_completed').length,1);allJobs.unmount();
+console.log('PASS first release: 6 experiences/18 roles, all source/guide/SSR coverage, distinct preparation/test diagrams, guided full traversal, selection/restart, 18 independent events and unchanged completion');

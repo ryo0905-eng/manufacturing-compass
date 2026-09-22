@@ -1,3 +1,4 @@
+import { workLessons } from '@/data/semiconductor-work';
 import { workRoles, workNote, workSources, workRelease, assemblyWorkRoles, assemblyWorkSources, interconnectWorkRoles, interconnectWorkSources } from '@/data/semiconductor-work';
 import { waferPreparationCopy, waferPreparationSteps } from '@/data/semiconductor-wafer-preparation';
 import { WaferPreparationDiagram } from '@/components/semiconductor-process/WaferPreparationDiagram';
@@ -25,7 +26,7 @@ export default function SemiconductorProcessPage() {
     <StructuredData data={{ '@context': 'https://schema.org', '@type': 'WebApplication', name: '半導体ができるまで', description: processCopy.description, url: `${siteUrl}${processRoute}`, applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: 'ja', dateModified: processRelease.updatedAt, offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' } }}/>
     <StructuredData data={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'ホーム', item: siteUrl }, { '@type': 'ListItem', position: 2, name: '学習ツール', item: `${siteUrl}/tools` }, { '@type': 'ListItem', position: 3, name: '半導体ができるまで', item: `${siteUrl}${processRoute}` }] }}/>
     <nav className={styles.breadcrumb} aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><Link href="/tools">学習ツール</Link><span>/</span><span>半導体ができるまで</span></nav>
-    <header className={styles.hero}><p className={styles.eyebrow}>触って分かる工程図鑑 · 教育用 · 各体験 約3〜5分</p><h1>{processCopy.heading}</h1><p>膜に形を作る前工程。チップを切り分け、つなぎ、保護する後工程。<br/>ウエハ準備・加工・組立・検査を6つの体験で動かして、ウエハから製品になる流れを確かめましょう。</p><p className={styles.small}>{processCopy.privacy}</p></header>
+    <header className={styles.hero}><p className={styles.eyebrow}>触って分かる工程図鑑 · 教育用 · 各体験 約3〜5分</p><h1>{processCopy.heading}</h1><p>膜に形を作る前工程。チップを切り分け、つなぎ、保護する後工程。<br/>ウエハ準備・加工・組立・検査を6つの体験で動かして、ウエハから製品になる流れを確かめましょう。</p><p>各体験のまとめでは、その工程を支える3つの仕事も紹介します。</p><p className={styles.small}>{processCopy.privacy}</p></header>
     <ProcessExplorer/>
     <noscript><p>動かす体験にはJavaScriptが必要です。全体像と工程の解説、下の静止図はそのまま読めます。</p></noscript>
     <article className={styles.document}>
@@ -48,6 +49,7 @@ export default function SemiconductorProcessPage() {
       <h2>配線づくり・CMPを支える仕事</h2><p>表面の余分な導電膜を除き、溝や穴に必要な金属を残す。そのための条件・装置・測定を、それぞれの仕事から見てみましょう。</p><p>{workNote}</p>
       <details className={styles.detail}><summary>配線・CMPを支える3つの仕事を文章で読む</summary>{interconnectWorkRoles.map(role=><section key={role.id}><h3>{role.label}</h3><p>{role.name}</p><p>困りごと：{role.problem}</p><p>調べること：{role.investigate}</p><p>関わる人：{role.people}</p><p>{role.next}</p><Link href={role.guide}>{role.guideLabel} →</Link></section>)}</details>
       <p className={styles.small}>公開職務説明を役割の参考にしています。募集中の求人や統一された担当範囲を示すものではありません。計測・検査と品質保証は同じ職種とは限りません。</p><ul>{interconnectWorkSources.map(source=><li key={source.id}><a href={source.url}>{source.title}</a></li>)}</ul><p className={styles.small}>配線・CMPの仕事紹介の更新・出典確認日：<time dateTime={workRelease.updatedAt}>{workRelease.updatedAt}</time></p>
+      {(['wafer-preparation', 'wafer-test', 'final-test'] as const).map(id=>{const lesson=workLessons[id];const title=id==='wafer-preparation'?'ウエハ準備':id==='wafer-test'?'ウエハ検査':'最終検査';return <section key={id}><h2>{title}を支える仕事</h2><p>{lesson.intro}</p><p>{workNote}</p><details className={styles.detail}><summary>{title}を支える3つの仕事を文章で読む</summary>{lesson.roles.map(role=><section key={role.id}><h3>{role.label}</h3><p>{role.name}</p><p>困りごと：{role.problem}</p><p>調べること：{role.investigate}</p><p>関わる人：{role.people}</p><p>{role.next}</p><Link href={role.guide}>{role.guideLabel} →</Link></section>)}</details><p className={styles.small}>公開職務説明を参考にした教材です。募集中の求人や各社共通の職種分類ではありません。</p><ul>{lesson.sources.map(source=><li key={source.id}><a href={source.url}>{source.title}</a></li>)}</ul><p className={styles.small}>仕事紹介の更新・出典確認日：<time dateTime={workRelease.updatedAt}>{workRelease.updatedAt}</time></p></section>;})}
       <h2>出典・更新日</h2><ul>{processSources.map(source=><li key={source.id}><a href={source.url}>{source.title}</a></li>)}</ul><p>図は公開情報をもとに独自に制作した模式図です。実物の寸法比、特定製品の製造手順や装置性能を示すものではありません。</p><p className={styles.small}>最終更新日：<time dateTime={processRelease.updatedAt}>{processRelease.updatedAt}</time> ／ 出典確認日：<time dateTime={processRelease.sourcesCheckedAt}>{processRelease.sourcesCheckedAt}</time></p>
     </article>
   </main>;

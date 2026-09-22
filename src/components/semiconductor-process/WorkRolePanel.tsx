@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { type WorkRole, type WorkExperienceId, workLessons } from '@/data/semiconductor-work';
 import { InterconnectWorkGraphic } from './InterconnectWorkGraphic';
+import { TestingWorkGraphic } from './TestingWorkGraphic';
+import { PreparationWorkGraphic } from './PreparationWorkGraphic';
 import styles from './process.module.css';
 
 /** Static, independent visual: selecting a role never changes the process simulation. */
@@ -12,7 +14,7 @@ export function WorkRolePanel({ role, onRelated, experience = 'thin-film' }: { r
     <ol className={styles.workFlow} aria-label="仕事の見方">
       {role.diagram.map((caption, index) => <li key={caption}>
         <svg viewBox="0 0 160 86" aria-hidden="true" focusable="false">
-          {experience === 'interconnect' ? <InterconnectWorkGraphic role={role.id} index={index}/> : experience === 'assembly' ? <AssemblyWorkGraphic role={role.id} index={index}/> : role.id === 'process' ? <>
+          {experience === 'wafer-test' || experience === 'final-test' ? <TestingWorkGraphic mode={experience} role={role.id} index={index}/> : experience === 'wafer-preparation' ? <PreparationWorkGraphic role={role.id} index={index}/> : experience === 'interconnect' ? <InterconnectWorkGraphic role={role.id} index={index}/> : experience === 'assembly' ? <AssemblyWorkGraphic role={role.id} index={index}/> : role.id === 'process' ? <>
             <path d="M20 65H140" stroke="#667985" strokeWidth="5"/>
             <path d={index === 0 ? 'M25 60V32H58V60H100V32H135V60' : 'M25 60V38H63V60H96V38H135V60'} fill="none" stroke="#28749c" strokeWidth="8"/>
             {index > 0 && <path d="M54 15H106M54 10V20M106 10V20" fill="none" stroke="#815a20" strokeWidth="2"/>}
@@ -36,6 +38,8 @@ export function WorkRolePanel({ role, onRelated, experience = 'thin-film' }: { r
     </ol>
     {experience === 'assembly' && <p className={styles.small}>内部の図は透視の模式図です。実際に樹脂が透明なわけではなく、検査画像の再現でもありません。</p>}
     {experience === 'interconnect' && <p className={styles.small}>金属は溝と上下をつなぐ穴に残し、左右の配線は絶縁膜で隔てます。下地などの薄膜や寸法は簡略化しています。測定画像・電流の再現ではありません。</p>}
+    {(experience === 'wafer-test' || experience === 'final-test') && <p className={styles.small}>{experience === 'wafer-test' ? 'ウエハ上の電極へプローブで接触します。' : '組立後の製品の端子へソケットを通して接触します。'}図はテストの構成と記録の模式例です。波形・測定結果・合否の再現ではありません。</p>}
+    {experience === 'wafer-preparation' && <p className={styles.small}>この板に回路はまだありません。矢印は確認する場所の目安で、特定の測定装置や加工動作を再現していません。</p>}
     <dl className={styles.workFacts}>
       <dt>困りごと</dt><dd>{role.problem}</dd>
       <dt>調べること</dt><dd>{role.investigate}</dd>

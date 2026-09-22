@@ -1,3 +1,4 @@
+import { waferTestWorkRoles, finalTestWorkRoles, preparationWorkRoles, testingWorkSources, preparationWorkSources } from './semiconductor-work-remaining';
 import type { ExperienceId } from './semiconductor-process';
 // Fictional situations illustrate roles; they are not incident reports or operating procedures.
 export const workRelease = { updatedAt: '2026-09-22', version: 'thin-film-work-v1' } as const;
@@ -37,7 +38,7 @@ export const workRoles = [
 ] as const;
 export type WorkRoleId = WorkRole['id'];
 export type WorkRole = {
-  id: 'process' | 'equipment' | 'measurement' | 'quality'; label: string; name: string;
+  id: 'process' | 'equipment' | 'measurement' | 'quality' | 'test'; label: string; name: string;
   problem: string; investigate: string; people: string; next: string;
   diagram: readonly string[]; guide: string; guideLabel: string;
 };
@@ -111,13 +112,16 @@ export const interconnectWorkRoles: readonly WorkRole[] = [
     guide: '/guides/quality-engineer-route', guideLabel: '関連する品質・不良解析の仕事も読む',
   },
 ];
-export type WorkExperienceId = 'thin-film' | 'assembly' | 'interconnect';
+export type WorkExperienceId = ExperienceId;
 type WorkLesson = {
   experience: WorkExperienceId; version: string; intro: string;
   roles: readonly WorkRole[];
   sources: readonly { id: string; title: string; url: string }[];
 };
-export const workLessons: Partial<Record<ExperienceId, WorkLesson>> = {
+export const workLessons: Record<ExperienceId, WorkLesson> = {
+  'wafer-preparation': { experience: 'wafer-preparation', version: 'wafer-preparation-work-v1', intro: '回路を作る前の、加工の土台。その仕上がりを支える仕事を見てみましょう。', roles: preparationWorkRoles, sources: preparationWorkSources },
+  'wafer-test': { experience: 'wafer-test', version: 'wafer-test-work-v1', intro: '切り分ける前のチップをどう調べ、結果を次へ渡すのでしょう。', roles: waferTestWorkRoles, sources: testingWorkSources },
+  'final-test': { experience: 'final-test', version: 'final-test-work-v1', intro: '組立後の製品を端子から調べる。そのテスト・装置・結果を支える仕事です。', roles: finalTestWorkRoles, sources: testingWorkSources },
   'thin-film': { experience: 'thin-film', version: workRelease.version, intro: '狙った形を作り続けるために、どんな仕事があるのでしょう。気になる役割を選んでみてください。', roles: workRoles, sources: workSources },
   interconnect: { experience: 'interconnect', version: 'interconnect-work-v1', intro: '余分な金属を取り除き、必要な配線を残す。その加工を支える仕事を見てみましょう。', roles: interconnectWorkRoles, sources: interconnectWorkSources },
   assembly: { experience: 'assembly', version: 'assembly-work-v1', intro: '固定する・電気的につなぐ・保護する。それぞれを安定して行うために、どんな人が関わるのでしょう。', roles: assemblyWorkRoles, sources: assemblyWorkSources },
