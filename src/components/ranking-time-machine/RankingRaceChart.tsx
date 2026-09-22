@@ -38,12 +38,11 @@ export function RankingRaceChart({ rows, year, selectedId, animate, onSelect }: 
         const visible = index < 10;
         return <li key={row.id} className={styles.raceRow} data-visible={visible} aria-hidden={!visible} inert={!visible}
           style={{ '--position': Math.min(index, 10) } as CSSProperties}>
-          <button type="button" className={styles.raceButton} onClick={() => onSelect(row.id)} aria-pressed={selectedId === row.id}
+          <button type="button" className={styles.raceButton} onClick={() => onSelect(row.id)} aria-pressed={selectedId === row.id} title={row.displayName}
             aria-controls="ranking-company-detail" aria-label={`${row.rank}位 ${row.displayName} ${formatMarketCap(row.valueUsdB)}十億米ドル。詳細を見る`}>
             <span className={styles.rank}>{row.rank}<small>位</small></span>
             <span className={styles.companyIdentity}>
-              <CompanyLogo src={row.displayName === row.name ? row.logoUrl : undefined} />
-              <span className={styles.companyName}>{row.displayName}</span>
+              <CompanyLogo src={row.displayName === row.name ? row.logoUrl : undefined} name={row.displayName} aspectRatio={row.logoAspectRatio} />
             </span>
             <span className={styles.track} aria-hidden="true"><span className={styles.bar} style={{ width: `${row.valueUsdB / max * 100}%` }} /></span>
             <span className={styles.value}>{formatMarketCap(row.valueUsdB)}</span>

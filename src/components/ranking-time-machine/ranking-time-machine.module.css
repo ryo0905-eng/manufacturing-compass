@@ -21,7 +21,7 @@
 .controls label { display: block; margin-top: 8px; font-weight: 600; }
 .controls input { display: block; width: 100%; min-height: 44px; margin: 0; accent-color: var(--mc-action); cursor: pointer; }
 .rangeEnds { display: flex; justify-content: space-between; color: var(--mc-text-muted); font-size: 12px; }
-.figure { margin: 0; --race-name-width: 240px; }
+.figure { margin: 0; --race-name-width: 140px; }
 .figure h2 { font-size: 18px; margin-bottom: 2px; }
 .figure p { margin: 4px 0; }
 .axis { display: flex; justify-content: space-between; margin: 8px calc(5.25rem + 17px) 2px calc(2.25rem + var(--race-name-width) + 29px); font-size: 11px; font-variant-numeric: tabular-nums; color: var(--mc-text-muted); }
@@ -35,10 +35,11 @@
 .rank { font-size: 18px; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; }
 .rank small { font-size: 11px; margin-left: 2px; }
 .companyName { overflow-wrap: anywhere; font-size: 14px; font-weight: 600; }
-.companyIdentity { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.companyLogo { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; background: #fff; border-radius: 4px; }
-.companyLogo img { display: block; width: 32px; height: 32px; object-fit: contain; }
-.logoPlaceholder { width: 12px; height: 12px; border: 1px solid var(--mc-border); border-radius: 3px; }
+.companyIdentity { display: flex; align-items: center; min-width: 0; }
+/* Source PNGs are square with centered artwork. Exclude transparent padding
+   from the layout while preserving the artwork's proportions and row height. */
+.companyLogo { display: block; position: relative; width: 140px; max-width: 100%; height: 32px; overflow: hidden; }
+.companyLogo img { position: absolute; display: block; top: 50%; left: 0; width: min(100%, calc(30px * var(--logo-aspect-ratio))); height: auto; max-width: none; transform: translateY(-50%); }
 .track { display: block; width: 100%; height: 20px; background: var(--mc-surface-subtle); border-radius: 2px; overflow: hidden; }
 .bar { display: block; height: 100%; background: var(--mc-selection); border-radius: 2px; }
 .value { text-align: right; font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }

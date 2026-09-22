@@ -8,6 +8,8 @@ export type RankingCompany = {
   sourceUrl: string;
   country?: string;
   logoUrl?: string;
+  // Visible artwork width / height inside the centered square PNG (without transparent padding).
+  logoAspectRatio?: number;
   historicalNames?: readonly { year: number; name: string }[];
 };
 export type RankingSnapshot = {
@@ -36,6 +38,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "nvidia",
     "logoUrl": "/images/company-logos/nvidia.png",
+    "logoAspectRatio": 5.224490,
     "name": "NVIDIA",
     "companySlug": "nvidia",
     "sourceUrl": "https://companiesmarketcap.com/nvidia/marketcap/",
@@ -44,6 +47,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "tsmc",
     "logoUrl": "/images/company-logos/tsmc.png",
+    "logoAspectRatio": 1.273632,
     "name": "TSMC",
     "companySlug": "tsmc",
     "sourceUrl": "https://companiesmarketcap.com/tsmc/marketcap/",
@@ -52,6 +56,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "samsung-electronics",
     "logoUrl": "/images/company-logos/samsung-electronics.png",
+    "logoAspectRatio": 6.564103,
     "name": "Samsung Electronics",
     "companySlug": "samsung-electronics",
     "sourceUrl": "https://companiesmarketcap.com/samsung/marketcap/",
@@ -60,6 +65,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "intel",
     "logoUrl": "/images/company-logos/intel.png",
+    "logoAspectRatio": 2.370370,
     "name": "Intel",
     "companySlug": "intel",
     "sourceUrl": "https://companiesmarketcap.com/intel/marketcap/",
@@ -68,6 +74,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "broadcom",
     "logoUrl": "/images/company-logos/broadcom.png",
+    "logoAspectRatio": 7.314286,
     "name": "Broadcom",
     "companySlug": "broadcom",
     "sourceUrl": "https://companiesmarketcap.com/broadcom/marketcap/",
@@ -87,6 +94,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "amd",
     "logoUrl": "/images/company-logos/amd.png",
+    "logoAspectRatio": 4.196721,
     "name": "AMD",
     "companySlug": "amd",
     "sourceUrl": "https://companiesmarketcap.com/amd/marketcap/",
@@ -95,6 +103,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "micron",
     "logoUrl": "/images/company-logos/micron.png",
+    "logoAspectRatio": 4.654545,
     "name": "Micron Technology",
     "companySlug": "micron",
     "sourceUrl": "https://companiesmarketcap.com/micron-technology/marketcap/",
@@ -103,6 +112,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "sk-hynix",
     "logoUrl": "/images/company-logos/sk-hynix.png",
+    "logoAspectRatio": 1.910448,
     "name": "SK hynix",
     "companySlug": "sk-hynix",
     "sourceUrl": "https://companiesmarketcap.com/sk-hynix/marketcap/",
@@ -111,6 +121,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "qualcomm",
     "logoUrl": "/images/company-logos/qualcomm.png",
+    "logoAspectRatio": 5.446809,
     "name": "Qualcomm",
     "companySlug": "qualcomm",
     "sourceUrl": "https://companiesmarketcap.com/qualcomm/marketcap/",
@@ -119,6 +130,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "texas-instruments",
     "logoUrl": "/images/company-logos/texas-instruments.png",
+    "logoAspectRatio": 8.000000,
     "name": "Texas Instruments",
     "companySlug": "texas-instruments",
     "sourceUrl": "https://companiesmarketcap.com/texas-instruments/marketcap/",
@@ -127,6 +139,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "analog-devices",
     "logoUrl": "/images/company-logos/analog-devices.png",
+    "logoAspectRatio": 3.506849,
     "name": "Analog Devices",
     "companySlug": "analog-devices",
     "sourceUrl": "https://companiesmarketcap.com/analog-devices/marketcap/",
@@ -135,6 +148,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "nxp",
     "logoUrl": "/images/company-logos/nxp.png",
+    "logoAspectRatio": 2.909091,
     "name": "NXP Semiconductors",
     "companySlug": "nxp",
     "sourceUrl": "https://companiesmarketcap.com/nxp-semiconductors/marketcap/",
@@ -143,6 +157,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "mediatek",
     "logoUrl": "/images/company-logos/mediatek.png",
+    "logoAspectRatio": 4.000000,
     "name": "MediaTek",
     "sourceUrl": "https://companiesmarketcap.com/mediatek/marketcap/",
     "category": "半導体・設計"
@@ -150,6 +165,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "infineon",
     "logoUrl": "/images/company-logos/infineon.png",
+    "logoAspectRatio": 2.285714,
     "name": "Infineon",
     "companySlug": "infineon",
     "sourceUrl": "https://companiesmarketcap.com/infineon/marketcap/",
@@ -158,6 +174,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "stmicroelectronics",
     "logoUrl": "/images/company-logos/stmicroelectronics.png",
+    "logoAspectRatio": 1.882353,
     "name": "STMicroelectronics",
     "companySlug": "stmicroelectronics",
     "sourceUrl": "https://companiesmarketcap.com/stmicroelectronics/marketcap/",
@@ -166,6 +183,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "asml",
     "logoUrl": "/images/company-logos/asml.png",
+    "logoAspectRatio": 3.555556,
     "name": "ASML",
     "companySlug": "asml",
     "sourceUrl": "https://companiesmarketcap.com/asml/marketcap/",
@@ -174,6 +192,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "applied-materials",
     "logoUrl": "/images/company-logos/applied-materials.png",
+    "logoAspectRatio": 3.121951,
     "name": "Applied Materials",
     "companySlug": "applied-materials",
     "sourceUrl": "https://companiesmarketcap.com/applied-materials/marketcap/",
@@ -182,6 +201,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "lam-research",
     "logoUrl": "/images/company-logos/lam-research.png",
+    "logoAspectRatio": 2.942529,
     "name": "Lam Research",
     "companySlug": "lam-research",
     "sourceUrl": "https://companiesmarketcap.com/lam-research/marketcap/",
@@ -190,6 +210,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "tokyo-electron",
     "logoUrl": "/images/company-logos/tokyo-electron.png",
+    "logoAspectRatio": 2.438095,
     "name": "東京エレクトロン",
     "companySlug": "tokyo-electron",
     "sourceUrl": "https://companiesmarketcap.com/tokyo-electron/marketcap/",
@@ -198,6 +219,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "kla",
     "logoUrl": "/images/company-logos/kla.png",
+    "logoAspectRatio": 4.491228,
     "name": "KLA",
     "companySlug": "kla",
     "sourceUrl": "https://companiesmarketcap.com/kla/marketcap/",
@@ -559,4 +581,3 @@ export const rankingTimeMachineSnapshots: readonly RankingSnapshot[] = [
     { companyId: "kla", valueUsdB: 159.34 },
   ] },
 ];
-

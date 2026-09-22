@@ -1,14 +1,16 @@
 'use client';
 
 import Image from 'next/image';
-import { memo, useState } from 'react';
+import { memo, useState, type CSSProperties } from 'react';
 import styles from './ranking-time-machine.module.css';
 
-// Decorative: the adjacent company name is always the accessible label.
-export const CompanyLogo = memo(function CompanyLogo({ src }: { src?: string }) {
+// The chart button supplies the accessible company name, including historical names.
+export const CompanyLogo = memo(function CompanyLogo({ src, name, aspectRatio = 1 }: {
+  src?: string; name: string; aspectRatio?: number;
+}) {
   const [failedSrc, setFailedSrc] = useState<string>();
-  return <span className={styles.companyLogo} aria-hidden="true">
-    {src && failedSrc !== src ? <Image src={src} alt="" width={32} height={32} unoptimized loading="eager"
-      onError={() => setFailedSrc(src)} /> : <span className={styles.logoPlaceholder} />}
+  if (!src || failedSrc === src) return <span className={styles.companyName} aria-hidden="true">{name}</span>;
+  return <span className={styles.companyLogo} aria-hidden="true" style={{ '--logo-aspect-ratio': aspectRatio } as CSSProperties}>
+    <Image src={src} alt="" width={256} height={256} unoptimized loading="eager" onError={() => setFailedSrc(src)} />
   </span>;
 });
