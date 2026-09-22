@@ -1,6 +1,6 @@
 # Conversion Architecture
 
-最終更新日: 2026-09-20
+最終更新日: 2026-09-22
 
 ## 目的
 
@@ -37,6 +37,14 @@ Career Compass
   → 企業詳細 / 公式採用情報
   → 必要なら Career Compass で経験との接点を整理
 ```
+
+## 共通ヘッダーの導線・計測（2026-09-22）
+
+- 日本語ヘッダーは「技術を学ぶ」→ `/tools`、「業界地図」→ `/industry-map`、「企業を探す」→ `/companies`、「記事を読む」→ `/guides` とし、「キャリアを整理する」→ `/career-compass` を主ボタンにする。
+- 通常リンクは `header_nav_click` を送信する。`destination_id` は `tools`・`industry_map`・`companies`・`guides`、`display_mode` はクリック時の幅で `desktop`（1,024px以上）または `mobile_menu`。入力値やクエリ文字列は送信しない。
+- キャリアボタンは既存の `career_compass_cta_view`・`career_compass_cta_click` を使い、`cta_location=global_header`、`cta_variant=header_navigation_v2` とする。通常リンクイベントは重ねて送信しない。
+- PCとスマホで単一のCTA要素を使い、既存の50%以上可視の表示計測を維持する。閉じたメニューでは表示計測せず、同じページでの再開閉・表示幅の切り替えでも表示イベントを重複させない。
+- 公開後は通常リンクの利用状況とCareer Compassへの遷移・開始状況を見る。スマホはメニュー開閉によってCTA露出が変わるため、旧版とのクリック率比較だけで評価しない。本番反映と実データによる評価は別途行う。
 
 ## ページの役割
 
