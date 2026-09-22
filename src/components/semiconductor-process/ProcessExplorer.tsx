@@ -13,6 +13,7 @@ import { InterconnectDiagram } from './InterconnectDiagram';
 import { TestingDiagram, TestingReadout } from './TestingDiagram';
 import { waferPreparationSteps } from '@/data/semiconductor-wafer-preparation';
 import { WaferPreparationDiagram } from './WaferPreparationDiagram';
+import { tourStops, tourRecap } from '@/data/semiconductor-tour';
 import styles from './process.module.css';
 export function ProcessExplorer() {
   const [state, setState] = useState(initialState);
@@ -77,9 +78,17 @@ export function ProcessExplorer() {
   const { steps: processSteps, questions } = experience;
   const step = processSteps[state.step], overview = journey[state.overview];
   const linkClick = (destination: string) => trackEvent('semiconductor_process_related_clicked', { version: PROCESS_VERSION, experience_id: state.experience, destination });
+  const tourIndex = tourStops.findIndex(item => item.id === state.experience);
+  const confirmed = tourStops.filter(item => state.history[item.id].completed.length === experiences[item.id].steps.length).length;
   return <div ref={root} className={styles.explorer}>
-    {state.view !== 'process' && <nav className={styles.journey} aria-label="完成までの6地点">{journey.map((item, i) => <button type="button" key={item.id} aria-current={state.view === 'overview' && state.overview === i ? 'step' : undefined} onClick={() => navigate({ type: 'overview', index: i })}><span>{String(i+1).padStart(2,'0')}</span>{item.label}{(i>=1)&&<small>体験する</small>}</button>)}</nav>}
+    {!state.tour && state.view === 'overview' && <section className={styles.tourEntry} aria-label="見方を選ぶ"><p className={styles.eyebrow}>おすすめ見学コース</p><h2>丸い板から、一つの製品になるまで。</h2><p>6つの体験を順番に巡ります。各約3〜5分。途中で好きな体験に移ることもできます。</p><div className={styles.transport}><button type="button" className={styles.primary} onClick={()=>navigate({type:'tour-start'})}>順番に見る →</button><button type="button" onClick={()=>{navigate({type:'free'});work.current?.scrollIntoView({block:'start',behavior:'instant'});}}>気になる工程を選ぶ</button></div><p className={styles.small}>各体験は別の模式例です。確認状況はこのページを開いている間だけ保持します。</p></section>}
+    {!state.tour && state.view !== 'process' && <nav className={styles.journey} aria-label="完成までの6地点">{journey.map((item, i) => <button type="button" key={item.id} aria-current={state.view === 'overview' && state.overview === i ? 'step' : undefined} onClick={() => navigate({ type: 'overview', index: i })}><span>{String(i+1).padStart(2,'0')}</span>{item.label}{(i>=1)&&<small>体験する</small>}</button>)}</nav>}
     <div className={styles.work} ref={work} tabIndex={-1}>
+      {(state.view==='tour-map'||state.view==='tour-summary') && <section aria-label="見学コース" className={styles.tourEntry}><p className={styles.eyebrow}>おすすめ見学コース · 確認済み {confirmed} / 6体験</p><h2>{state.view==='tour-summary'?'ウエハから製品まで、振り返ってみよう':'見学コースの全体図'}</h2><p>設計をもとに製造する流れを、6つの体験で見ていきます。各体験は別の簡略化した模式例です。同じウエハを完成まで加工する再現ではありません。</p>
+        <ol className={styles.tourStops}>{tourStops.map((item,i)=>{const count=state.history[item.id].completed.length,total=experiences[item.id].steps.length;return <li key={item.id}><button type="button" aria-current={state.experience===item.id?'step':undefined} onClick={()=>navigate({type:'enter',experience:item.id})}><span>{i+1}. {item.label}</span><small>{state.experience===item.id?'現在地 · ':''}{count===total?'✓ 確認済み':count>0?`${count} / ${total}工程を確認`:state.history[item.id].started?'体験中':'未開始'}</small></button><p>{item.purpose}</p></li>;})}</ol>
+        {state.view==='tour-summary'&&<><h3>{confirmed===6?'6体験の全工程を確認しました':'未確認の工程は、上の体験から見直せます'}</h3><div className={styles.tourRecap}>{tourRecap.map(item=><article key={item.title}><h3>{item.title}</h3><p>{item.body}</p></article>)}</div><p>「固定・接続・保護は何が違う？」「なぜ組立の前後で検査する？」自分の言葉で説明してみましょう。</p><nav className={styles.related} aria-label="見学の次へ"><Link href="/industry-map" onClick={()=>linkClick('industry-map')}>業界地図で企業の役割を見る →</Link><Link href={journey[2].guide} onClick={()=>linkClick('fabrication')}>製造工程を記事で読む →</Link></nav></>}
+        <div className={styles.transport}><button type="button" onClick={()=>navigate({type:'enter',experience:state.experience})}>現在の体験を開く</button><button type="button" onClick={()=>navigate({type:'free'})}>自由に工程を選ぶ</button></div>
+      </section>}
       {state.view==='overview' && <section className={styles.overview} aria-labelledby="process-overview-title">
         <JourneyDiagram index={state.overview}/><div><p className={styles.eyebrow}>全体像 / {state.overview+1} OF 6</p><h2 id="process-overview-title">{overview.title}</h2><p>{overview.body}</p>
         {state.overview===1 ? <button type="button" className={styles.primary} onClick={()=>navigate({type:'enter',experience:'wafer-preparation'})}>ウエハの準備を体験する</button> : (state.overview===3||state.overview===5) ? <button type="button" className={styles.primary} onClick={()=>navigate({type:'enter',experience:state.overview===3?'wafer-test':'final-test'})}>{state.overview===3?'ウエハ検査を体験する':'最終検査を体験する'}</button> : state.overview===4 ? <><h3>{assemblyCopy.heading}</h3><p>{assemblyCopy.intro}</p><button type="button" className={styles.primary} onClick={() => navigate({type:'enter',experience:'assembly'})}>組み立てを体験する</button></> : state.overview===2 ? <div className={styles.transport}><button type="button" className={styles.primary} onClick={() => navigate({type:'enter'})}>膜に形を作る</button><button type="button" onClick={() => navigate({type:'enter',experience:'interconnect'})}>配線をつくる</button></div> : <button type="button" onClick={() => navigate({type:'overview',index:state.overview===5?2:state.overview+1})}>{state.overview===5?'ウエハ上の加工に戻る':'次の地点を見る →'}</button>}
@@ -87,7 +96,7 @@ export function ProcessExplorer() {
       </section>}
       {state.view==='process' && <>
         <section className={styles.workspace} aria-label="加工体験">
-        <div className={styles.processHeader}><div><p className={styles.eyebrow}>{experience.label} / {state.step+1} OF {processSteps.length}</p><h2>{step.verb}</h2><p>{step.term} <span>· {state.progress===1?step.after:step.before}</span></p></div><button type="button" onClick={() => navigate({type:'overview',index:experience.overview})}>全体像に戻る</button></div>
+        <div className={styles.processHeader}><div><p className={styles.eyebrow}>{state.tour?`見学 ${tourIndex+1}/6 · `:''}{experience.label} / {state.step+1} OF {processSteps.length}</p><h2>{step.verb}</h2><p>{step.term} <span>· {state.progress===1?step.after:step.before}</span></p></div><button type="button" onClick={() => navigate(state.tour?{type:'tour-map'}:{type:'overview',index:experience.overview})}>{state.tour?'コースの全体図':'全体像に戻る'}</button></div>
         <div className={styles.lab}>
           <aside className={styles.locator}><Wafer marked/><p>{experience.locator}</p><nav className={styles.steps} aria-label={`${testing?'検査':'加工'}の${processSteps.length}工程`}>{processSteps.map((s,i)=><button type="button" key={s.id} aria-current={state.step===i?'step':undefined} onClick={()=>navigate({type:'step',index:i})}><span>{i+1}</span>{s.term}{state.completed.includes(s.id)&&<small aria-label="確認済み">✓</small>}</button>)}</nav></aside>
           <div className={styles.stage}>
@@ -112,11 +121,13 @@ export function ProcessExplorer() {
         <p className={styles.eyebrow}>{experience.summary.eyebrow}</p><h2>{experience.summary.title}</h2>
         {waferPreparation ? <WaferPreparationDiagram step="wafer-clean-check" progress={1}/> : testing ? <><TestingDiagram mode={testing} step={3} progress={1}/><TestingReadout mode={testing} step={3} progress={1}/></> : interconnect ? <><InterconnectDiagram step="cap" progress={1} connected={connected}/><button type="button" aria-pressed={connected} onClick={()=>setConnected(value=>!value)}>つながる部分を見る</button></> : assembly ? <AssemblyDiagram step="trim-form" progress={1} inside/> : <CompletedStructure/>}
         {experience.summary.paragraphs.map(paragraph=><p key={paragraph}>{paragraph}</p>)}
+        {state.tour ? <div className={styles.tourEntry}><p>{tourIndex<5?`次は「${tourStops[tourIndex+1].label}」。${tourStops[tourIndex+1].purpose}`:'6つの体験を、ひとつの流れとして振り返ります。'}</p><p className={styles.small}>この体験の確認済み：{state.completed.length} / {processSteps.length}工程。未確認の工程は後から見直せます。</p><button type="button" className={styles.primary} onClick={()=>navigate({type:'tour-next',from:state.experience})}>{tourIndex<5?'次の体験へ →':'見学コースを振り返る →'}</button><button type="button" onClick={()=>navigate({type:'tour-map'})}>コースの全体図</button></div> : <>
         {waferPreparation&&<button type="button" className={styles.primary} onClick={()=>navigate({type:'enter',experience:'thin-film'})}>続けて膜に形を作る →</button>}
         {state.experience==='thin-film'&&<button type="button" className={styles.primary} onClick={()=>navigate({type:'enter',experience:'interconnect'})}>続けて配線をつくる →</button>}
         {(state.experience==='assembly'||state.experience==='interconnect')&&<button type="button" className={styles.primary} onClick={()=>navigate({type:'enter',experience:assembly?'final-test':'wafer-test'})}>{assembly?'続けて最終検査を体験する →':'続けてウエハ検査を体験する →'}</button>}
         {testing&&<button type="button" className={styles.primary} onClick={()=>navigate({type:'enter',experience:testing==='wafer-test'?'final-test':'wafer-test'})}>{testing==='wafer-test'?'組立後の検査も見てみる →':'ウエハ上の検査も見てみる →'}</button>}
         <button type="button" onClick={()=>navigate({type:'overview',index:experience.nextOverview})}>{experience.summary.nextLabel}</button>
+        </>}
         <button type="button" onClick={()=>navigate({type:'enter',experience:state.experience})}>{experience.summary.restart}</button>
         <nav className={styles.related} aria-label="理解を深める">{experience.related.map(item=><Link href={item.href} key={item.id} onClick={()=>linkClick(item.id)}>{item.label} →</Link>)}</nav>
       </section>}

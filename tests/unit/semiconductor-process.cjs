@@ -282,7 +282,7 @@ const wiringPage=renderToStaticMarkup(React.createElement(load(path.join(base,'a
 for(const phrase of ['配線7工程','金属を埋めて、余分な部分を磨く','CMP','lamresearch.com','fujimiinc.co.jp'])assert.ok(wiringPage.includes(phrase));
 for(const step of wiringData.interconnectSteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(s=>s.id===id));}
 for(const name of ['semiconductor-interconnect-process','semiconductor-cmp-process'])assert.ok(fs.readFileSync(`src/content/guides/${name}.ts`,'utf8').includes(data.processRoute));
-assert.equal(data.PROCESS_VERSION,'semiconductor-process-v5');
+assert.equal(data.PROCESS_VERSION,'semiconductor-process-v6');
 console.log('PASS interconnect geometry, isolation/connection, CMP/clean invariants, SSR, three-experience histories/events, playback, restart, summary handoff and published links');
 
 const testingData=load(path.join(base,'data/semiconductor-testing.ts'));
@@ -363,3 +363,27 @@ for(const term of ['ウエハ準備8工程','この丸い板は、結晶を育�
 assert.ok(fs.readFileSync('src/content/guides/semiconductor-silicon-wafer-manufacturing.ts','utf8').includes(data.processRoute));
 for(const step of preparationData.waferPreparationSteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(s=>s.id===id));}
 console.log('PASS wafer preparation endpoints/continuity, material removal vs cleaning, delayed check, SSR, eight-step playback/restart, thin-film handoff, six-experience events and source links');
+
+// Guided tour preserves independent histories and cannot skip chapters on stale clicks.
+const tourData=load(path.join(base,'data/semiconductor-tour.ts'));
+let toured=model.initialState(),tourEvents=[];
+function tourAct(action){const result=model.transition(toured,action);toured=result.state;tourEvents.push(...result.events);}
+tourAct({type:'tour-start'});assert.equal(toured.experience,'wafer-preparation');assert.equal(toured.playing,false);
+tourAct({type:'motion',reduced:true});
+for(const stop of tourData.tourStops){
+ assert.equal(toured.experience,stop.id);
+ const definition=load(path.join(base,'data/semiconductor-experiences.ts')).experiences[stop.id];
+ definition.steps.forEach((step,index)=>{tourAct({type:'step',index});tourAct({type:'play'});});
+ tourAct({type:'summary'});tourAct({type:'tour-next',from:stop.id});
+ const after=toured.experience;tourAct({type:'tour-next',from:stop.id});assert.equal(toured.experience,after);
+}
+assert.equal(toured.view,'tour-summary');assert.equal(toured.tourCompleted,true);
+assert.equal(tourEvents.filter(e=>e.name==='semiconductor_process_tour_completed').length,1);
+tourAct({type:'tour-start'});assert.equal(toured.progress,0);assert.equal(toured.completed.length,8);
+assert.equal(tourEvents.filter(e=>e.name==='semiconductor_process_tour_started').length,1);
+tourAct({type:'free'});assert.equal(toured.tour,false);assert.equal(toured.history['final-test'].completed.length,4);
+toured=model.initialState();tourEvents=[];tourAct({type:'tour-start'});tourAct({type:'enter',experience:'final-test'});tourAct({type:'step',index:3});tourAct({type:'scrub',progress:1});tourAct({type:'summary'});tourAct({type:'tour-next',from:'final-test'});
+assert.equal(toured.view,'tour-summary');assert.equal(toured.tourCompleted,false);assert.ok(!tourEvents.some(e=>e.name==='semiconductor_process_tour_completed'));
+const tourUI=harness();tourUI.render();tourUI.click('順番に見る →');assert.equal(tourUI.get().tour,true);tourUI.click('高純度のシリコンを溶かす');tourUI.tick(0);tourUI.tick(600);tourUI.click('コースの全体図');assert.equal(tourUI.get().playing,false);assert.equal(tourUI.raf.size,0);assert.equal(tourUI.get().view,'tour-map');tourUI.click('現在の体験を開く');assert.equal(tourUI.get().progress,0);tourUI.click('コースの全体図');tourUI.click('自由に工程を選ぶ');assert.equal(tourUI.get().tour,false);tourUI.unmount();
+assert.ok(preparationPage.includes('おすすめ見学コース'));assert.ok(preparationPage.includes('気になる工程を選ぶ'));
+console.log('PASS six-stop tour, ordered handoffs, stale clicks, incomplete recap, preserved histories, deduplicated events, UI stop/navigation and SSR entry');

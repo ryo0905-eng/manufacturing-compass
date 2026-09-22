@@ -1,5 +1,6 @@
 import { processSteps, type ExperienceId } from '@/data/semiconductor-process';
 import { experiences } from '@/data/semiconductor-experiences';
+import { tourStops } from '@/data/semiconductor-tour';
 export const OPENINGS = [{ x: 156, width: 72 }, { x: 352, width: 72 }] as const;
 export const REGIONS = [{ x: 40, width: 116, opening: false }, { x: 156, width: 72, opening: true }, { x: 228, width: 124, opening: false }, { x: 352, width: 72, opening: true }, { x: 424, width: 116, opening: false }] as const;
 export function frame(step: number, progress: number) {
@@ -18,11 +19,11 @@ export function frame(step: number, progress: number) {
   };
 }
 type History = { started: boolean; completed: string[]; explained: string[] };
-export type ProcessState = { experience: ExperienceId; history: Record<ExperienceId, History>; view: 'overview' | 'process' | 'summary'; overview: number; step: number; progress: number; playing: boolean; token: number; reduced: boolean; started: boolean; completed: string[]; explained: string[]; announcement: string };
-export type ProcessAction = { type: 'enter'; experience?: ExperienceId } | { type: 'overview'; index: number } | { type: 'step'; index: number; autoplay?: boolean } | { type: 'play' } | { type: 'pause' } | { type: 'replay' } | { type: 'scrub'; progress: number } | { type: 'tick'; token: number; progress: number } | { type: 'motion'; reduced: boolean } | { type: 'question'; id: string } | { type: 'summary' };
+export type ProcessState = { experience: ExperienceId; history: Record<ExperienceId, History>; tour: boolean; tourStarted: boolean; tourCompleted: boolean; view: 'overview' | 'process' | 'summary' | 'tour-map' | 'tour-summary'; overview: number; step: number; progress: number; playing: boolean; token: number; reduced: boolean; started: boolean; completed: string[]; explained: string[]; announcement: string };
+export type ProcessAction = { type: 'tour-start' } | { type: 'tour-map' } | { type: 'tour-next'; from: ExperienceId } | { type: 'free' } | { type: 'enter'; experience?: ExperienceId } | { type: 'overview'; index: number } | { type: 'step'; index: number; autoplay?: boolean } | { type: 'play' } | { type: 'pause' } | { type: 'replay' } | { type: 'scrub'; progress: number } | { type: 'tick'; token: number; progress: number } | { type: 'motion'; reduced: boolean } | { type: 'question'; id: string } | { type: 'summary' };
 export type ProcessEvent = { name: string; experience_id?: ExperienceId; step_id?: string; question_id?: string };
 export function initialState(): ProcessState {
-  return { experience: 'thin-film', history: { 'wafer-preparation': { started: false, completed: [], explained: [] }, 'wafer-test': { started: false, completed: [], explained: [] }, 'final-test': { started: false, completed: [], explained: [] }, 'thin-film': { started: false, completed: [], explained: [] }, assembly: { started: false, completed: [], explained: [] }, interconnect: { started: false, completed: [], explained: [] } }, view: 'overview', overview: 2, step: 0, progress: 0, playing: false, token: 0, reduced: false, started: false, completed: [], explained: [], announcement: '' };
+  return { tour: false, tourStarted: false, tourCompleted: false, experience: 'thin-film', history: { 'wafer-preparation': { started: false, completed: [], explained: [] }, 'wafer-test': { started: false, completed: [], explained: [] }, 'final-test': { started: false, completed: [], explained: [] }, 'thin-film': { started: false, completed: [], explained: [] }, assembly: { started: false, completed: [], explained: [] }, interconnect: { started: false, completed: [], explained: [] } }, view: 'overview', overview: 2, step: 0, progress: 0, playing: false, token: 0, reduced: false, started: false, completed: [], explained: [], announcement: '' };
 }
 export function transition(state: ProcessState, action: ProcessAction): { state: ProcessState; events: ProcessEvent[] } {
   const { steps, questions: activeQuestions } = experiences[state.experience];
@@ -30,6 +31,28 @@ export function transition(state: ProcessState, action: ProcessAction): { state:
   let next = state;
   const stop = () => ({ ...state, playing: false, token: state.token + 1 });
   switch (action.type) {
+    case 'tour-start': {
+      const entered = transition({ ...stop(), tour: true, tourStarted: true }, { type: 'enter', experience: tourStops[0].id });
+      if (!state.tourStarted) entered.events.unshift({ name: 'semiconductor_process_tour_started' });
+      return entered;
+    }
+    case 'tour-map':
+      if (state.tour) next = { ...stop(), view: 'tour-map', announcement: '見学コースの現在地と確認状況です。' };
+      break;
+    case 'free':
+      next = { ...stop(), tour: false, view: 'overview', overview: experiences[state.experience].overview };
+      break;
+    case 'tour-next': {
+      if (!state.tour || state.view !== 'summary' || action.from !== state.experience) break;
+      const index = tourStops.findIndex(item => item.id === state.experience);
+      if (index < tourStops.length - 1) return transition(stop(), { type: 'enter', experience: tourStops[index + 1].id });
+      next = { ...stop(), view: 'tour-summary', announcement: '見学コースの振り返りです。' };
+      if (!state.tourCompleted && tourStops.every(item => experiences[item.id].steps.every(step => state.history[item.id].completed.includes(step.id)))) {
+        next.tourCompleted = true;
+        events.push({ name: 'semiconductor_process_tour_completed' });
+      }
+      break;
+    }
     case 'enter': {
       const experience = action.experience ?? 'thin-film';
       const saved = state.history[experience];

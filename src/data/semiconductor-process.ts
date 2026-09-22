@@ -1,11 +1,11 @@
 export type ExperienceId = 'thin-film' | 'assembly' | 'interconnect' | 'wafer-test' | 'final-test' | 'wafer-preparation';
 export const processRoute = '/tools/semiconductor-process';
 export const processRelease = { status: 'published', updatedAt: '2026-09-22', sourcesCheckedAt: '2026-09-22' } as const;
-export const PROCESS_VERSION = 'semiconductor-process-v5';
+export const PROCESS_VERSION = 'semiconductor-process-v6';
 export const processCopy = {
   title: '半導体の製造工程を動かして学ぶ｜前工程・後工程の全体像',
   heading: 'この丸い板が、どうやって半導体になるの？',
-  description: 'ウエハ準備、薄膜加工、配線づくり＋CMP、組立、ウエハ検査、最終検査の6体験。動く図を止めたり戻したりしながら、ウエハから製品までを各約3〜5分で学べます。',
+  description: 'ウエハ準備、薄膜加工、配線づくり＋CMP、組立、ウエハ検査、最終検査の6体験。おすすめ見学コースで順番に巡るか、気になる工程から体験できます。各約3〜5分、動く図でウエハから製品までを学べます。',
   limits: 'ポジ型レジストを使う加工の一例です。寸法・厚さ・速度は実物比例ではありません。熱処理、下地との削れやすさの違い（選択比）、保護膜の消耗などを簡略化しています。実設備の操作手順ではありません。',
   privacy: '操作状態はこの画面内だけで扱い、保存しません。利用状況は工程IDなどの固定分類だけを計測します。',
 };

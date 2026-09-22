@@ -125,3 +125,16 @@
 .testTable { width: 100%; border-collapse: collapse; text-align: center; }
 .testTable th, .testTable td { padding: 8px 4px; border-bottom: 1px solid #c9cdd2; }
 .testTable caption { text-align: left; padding: 8px 0; }
+
+.tourEntry { margin: 20px 0; padding: 24px; border: 1px solid #dce1e7; border-radius: 12px; background: #f8fafc; }
+.tourEntry h2 { margin-top: 0; }
+.tourStops { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.tourStops li { min-width: 0; }
+.tourStops button { width: 100%; min-height: 64px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; }
+.tourStops button[aria-current="step"] { border-color: #216b9e; outline: 2px solid #216b9e; outline-offset: 2px; }
+.tourStops small { font-size: 12px; }
+.tourStops p { font-size: 14px; }
+.tourRecap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.tourRecap article { padding: 16px; background: white; border: 1px solid #dce1e7; border-radius: 8px; }
+.tourRecap h3 { margin-top: 0; }
+@media (max-width: 760px) { .tourStops, .tourRecap { grid-template-columns: 1fr; } .tourEntry { padding: 16px; } }
