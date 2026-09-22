@@ -2,6 +2,7 @@ import { learningTools } from "@/data/learning-tools";
 import type { Metadata } from "next";
 import { StructuredData } from "@/components/StructuredData";
 import { ToolsLearningLab } from "@/components/ToolsLearningLab";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -23,6 +24,10 @@ export default function ToolsPage() {
       <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "製造業の品質管理・統計学習ラボ", description: "製造データの判断を4ステップで学べる無料ツール集", url: `${siteUrl}/tools`, mainEntity: { "@type": "ItemList", numberOfItems: learningTools.length, itemListElement: learningTools.map(({ title: name, href }, index) => ({ "@type": "ListItem", position: index + 1, name, url: `${siteUrl}${href}` })) } }} />
       <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "学習ツール", item: `${siteUrl}/tools` }] }} />
       <ToolsLearningLab />
+      <aside className="tools-game-entry">
+        <div><p className="section-label">企業研究の実験企画</p><h2>半導体企業ランキング・タイムマシン</h2><p>主要20社の2015〜2025年の年末時価総額を、再生・年の移動・企業選択で比較。実データで対象企業内の順位変化をたどれます。</p></div>
+        <TrackedInternalLink href="/tools/ranking-time-machine" eventName="tool_card_click" eventProperties={{ tool_name: 'ランキング・タイムマシン', source_section: 'tools_experiment' }}>時価総額の推移を見る →</TrackedInternalLink>
+      </aside>
     </main>
   );
 }

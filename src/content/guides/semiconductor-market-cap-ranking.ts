@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-09-21",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "Largest semiconductor companies by market cap",
@@ -135,6 +135,11 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       type: "links",
       items: [
+        {
+          label: "2015〜2025年の時価総額の推移を見る",
+          href: "/tools/ranking-time-machine",
+          description: "ランキング・タイムマシンで主要20社内の順位を再生。各年末の実データで比較"
+        },
         {
           label: "世界TOP30を見る",
           href: "#world-ranking",

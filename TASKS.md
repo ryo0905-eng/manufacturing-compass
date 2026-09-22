@@ -16,6 +16,14 @@
 
 ## 現在の優先タスク
 
+### ランキング・タイムマシン（2026-09-22）
+
+- [x] 主要20社の2015〜2025年末時価総額220件をCompaniesMarketCapから取得。対象20社内比較、装置5社、企業全体の評価額、Avago系列、対象外企業を明記。
+- [x] 再生・停止・リセット・年選択、上位10社の移動、企業詳細・20社表、出典、metadata・構造化データ・sitemap・記事と一覧の導線・5イベントを実装。
+- [x] 対象テスト（順位・同値・欠損拒否・再生/停止/年/企業操作・非表示時停止・計測・SSR）と既存装置売上の回帰テスト通過。取得結果と220件を照合。型チェック1回成功、差分・公開禁止語確認済み。
+- 実行：`RANKING_SOURCE_CHECK=/private/tmp/ranking-time-machine-source-check.json node tests/unit/ranking-time-machine.cjs`、`node tests/unit/equipment-sales.cjs`、`npm run typecheck`、`git diff --check`。ソース照合用の取得記録は一時ファイルで、通常の単体テストは環境変数なしでも実行できる。
+- [ ] 本番反映・モバイル実画面・本番GA4受信。build・devサーバー・ブラウザ・commit・pushは今回の実施対象外。
+
 ### 外資系企業「日本の仕事」探索ボード（2026-09-22）
 
 - [x] 10社を調査し、公式根拠がある8社・14業務を実装。AMD・TIは掲載準備中として別記。KLA・Infineonの2拠点を共有。

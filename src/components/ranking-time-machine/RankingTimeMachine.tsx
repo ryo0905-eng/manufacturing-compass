@@ -1,0 +1,74 @@
+'use client';
+
+import { useEffect, useMemo, useReducer } from 'react';
+import { SelectField } from '@/components/ui/Controls';
+import { TrackedInternalLink } from '@/components/TrackedInternalLink';
+import type { RankingCompany, RankingSnapshot } from '@/data/ranking-time-machine';
+import { trackRankingTimeMachineEvent } from '@/lib/analytics';
+import { companyName, initialTimeline, prepareRanking, rankingPlaybackInterval, reduceTimeline, type TimelineAction, type TimelineState } from '@/lib/ranking-time-machine';
+import { RankingRaceChart } from './RankingRaceChart';
+import { TimelineControls } from './TimelineControls';
+import { RankingTable } from './RankingTable';
+import { CompanyDetail } from './CompanyDetail';
+import styles from './ranking-time-machine.module.css';
+
+const relatedLinks = [
+  { href: '/guides/semiconductor-market-cap-ranking', label: '基準日時点の時価総額ランキング' },
+  { href: '/guides/semiconductor-equipment-sales-ranking', label: '装置メーカーの売上高ランキング' },
+  { href: '/industry-map', label: '半導体業界地図' },
+  { href: '/semiconductor-map', label: '日本の半導体工場・拠点マップ' },
+  { href: '/compare', label: '企業を比較する' },
+] as const;
+
+export function RankingTimeMachine({ companies, snapshots }: { companies: readonly RankingCompany[]; snapshots: readonly RankingSnapshot[] }) {
+  const timeline = useMemo(() => prepareRanking(companies, snapshots), [companies, snapshots]);
+  const [state, dispatch] = useReducer((current: TimelineState, action: TimelineAction) => reduceTimeline(current, action, timeline.length), initialTimeline);
+  const { index, playing, selectedId, animate } = state;
+  const { year, rows } = timeline[index];
+
+  useEffect(() => {
+    if (!playing) return;
+    const timer = window.setTimeout(() => {
+      dispatch({ type: document.hidden ? 'pause' : 'tick' });
+    }, rankingPlaybackInterval);
+    return () => window.clearTimeout(timer);
+  }, [playing, index]);
+
+  useEffect(() => {
+    const stopWhenHidden = () => { if (document.hidden) dispatch({ type: 'pause' }); };
+    document.addEventListener('visibilitychange', stopWhenHidden);
+    return () => document.removeEventListener('visibilitychange', stopWhenHidden);
+  }, []);
+
+  function selectCompany(id: string) {
+    dispatch({ type: 'company', id });
+    if (id) trackRankingTimeMachineEvent('ranking_timemachine_company_click', { year, company: id });
+    if (id) requestAnimationFrame(() => document.getElementById('ranking-company-detail')?.focus());
+  }
+
+  return <div className={styles.workspace}>
+    <TimelineControls years={timeline.map(item => item.year)} index={index} playing={playing}
+      onPlay={() => {
+        dispatch({ type: 'play' });
+        trackRankingTimeMachineEvent('ranking_timemachine_play', { year: index === timeline.length - 1 ? timeline[0].year : year });
+      }}
+      onPause={() => { dispatch({ type: 'pause' }); trackRankingTimeMachineEvent('ranking_timemachine_pause', { year }); }}
+      onReset={() => {
+        dispatch({ type: 'reset' });
+        if (index !== 0) trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[0].year, interaction: 'reset' });
+      }}
+      onYear={next => dispatch({ type: 'year', index: next })}
+      onYearCommit={next => trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[next].year, interaction: 'slider' })} />
+    <RankingRaceChart rows={rows} year={year} selectedId={selectedId} animate={animate} onSelect={selectCompany} />
+    <SelectField id="ranking-company" label="企業を選ぶ（対象20社）" value={selectedId} onChange={event => selectCompany(event.target.value)}>
+      <option value="">企業の順位・履歴を見る</option>
+      {companies.map(company => <option key={company.id} value={company.id}>{companyName(company, year)}</option>)}
+    </SelectField>
+    <CompanyDetail companyId={selectedId} timeline={timeline} index={index} />
+    <RankingTable rows={rows} year={year} selectedId={selectedId} onSelect={selectCompany} />
+    <nav className={styles.panel} aria-label="関連する企業研究ページ"><h2>企業の規模から、事業と仕事へ</h2>
+      <p>順位が気になったら、その企業が何を作り、業界でどんな役割を持つか調べてみましょう。</p>
+      <div className={styles.links}>{relatedLinks.map(link => <TrackedInternalLink key={link.href} href={link.href} eventName="ranking_timemachine_related_click" eventProperties={{ year, ranking_type: 'market_cap', data_kind: 'real', destination: link.href }}>{link.label} →</TrackedInternalLink>)}</div>
+    </nav>
+  </div>;
+}

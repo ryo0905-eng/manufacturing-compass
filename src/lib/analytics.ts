@@ -109,3 +109,16 @@ export function trackGameEvent<EventName extends keyof GameAnalyticsEventMap>(
 ) {
   trackEvent(eventName, properties);
 }
+
+export type RankingTimeMachineEvent =
+  | 'ranking_timemachine_play'
+  | 'ranking_timemachine_pause'
+  | 'ranking_timemachine_year_change'
+  | 'ranking_timemachine_company_click';
+
+export function trackRankingTimeMachineEvent(
+  eventName: RankingTimeMachineEvent,
+  properties: { year: number; company?: string; interaction?: 'slider' | 'reset' },
+) {
+  trackEvent(eventName, { ...properties, ranking_type: 'market_cap', data_kind: 'real' });
+}
