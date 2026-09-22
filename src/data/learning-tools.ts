@@ -1,4 +1,10 @@
-export type ToolId = "ai-visual-inspection" | "taguchi" | "bayesian-optimization" | "gage-rr" | "control-chart" | "yield-analysis" | "yield-dashboard" | "cpk" | "doe" | "line-balance" | "oee" | "process-comparison" | "jev";
+import { isCorrelationPublished } from "@/data/correlation-causation";
+
+export type ToolId = "correlation-causation" | "ai-visual-inspection" | "taguchi" | "bayesian-optimization" | "gage-rr" | "control-chart" | "yield-analysis" | "yield-dashboard" | "cpk" | "doe" | "line-balance" | "oee" | "process-comparison" | "jev";
+
+export const correlationLearningTool = {
+  id: "correlation-causation", href: "/tools/correlation-causation", step: "14", question: "それは本当に原因か", title: "相関と因果ラボ", role: "比較方法を考える", badge: "教育用", message: "製品別に分けると、関係が逆に見える？", description: "架空の半導体加工データで、集計の逆転と無作為割付を体験します。", features: ["製品別の散布図", "比較方法を選ぶ", "実験結果を振り返る"], time: "約5分", level: "入門", preview: "correlation",
+} as const;
 
 export const learningTools = [
   { id: "gage-rr", href: "/tools/gage-rr", step: "01", question: "測れるか", title: "Gage R&R", role: "測定システムを評価", badge: "まず確認", message: "その測定値は、部品差を見分けられるか", description: "部品差と測定誤差を分け、信頼できるデータを集められるか確かめます。", features: ["繰返し性・再現性", "%GRR・ndc", "改善シミュレーション"], time: "5〜10分", level: "入門", preview: "gage" },
@@ -14,5 +20,6 @@ export const learningTools = [
   { id: "process-comparison", href: "/tools/process-comparison", step: "11", question: "2条件の測定値はどう違うか", title: "工程条件の比較", role: "実測データを比較", badge: "実務ツール", message: "変更前後の分布を、報告資料にまとめる", description: "2条件の測定値を比較し、表とグラフにまとめる", features: ["測定値を貼り付け", "共通スケールの分布図", "表コピー・PNG保存"], time: "約3分", level: "入門", preview: "comparison" },
   { id: "jev", href: "/labs/jev", step: "12", question: "次にどこを見るか", title: "Jev AI Lab", role: "AIの型付き判断を体験", badge: "NEW", message: "情報を足すと、確認先の確率はどう動く？", description: "半導体の架空報告で、Choice・Boolean・Scoreと調査ルートの変化を試します。", features: ["固定の架空データ", "初報との比較", "自動操作なし"], time: "約3分", level: "入門", preview: "jev" },
   { id: "ai-visual-inspection", href: "/tools/ai-visual-inspection", step: "13", question: "画像検査にAIをどう使うか", title: "AI外観検査ラボ", role: "ルールとAIを比較", badge: "教育用・試用版", message: "同じ画像で、見逃しと過検出を比べる", description: "合成基板画像で、しきい値・学習例・明るさを変えて検査の使いどころを体験します。", features: ["同じ画像で比較", "検出領域を重ねて表示", "学習例・撮影条件を変更"], time: "約5分", level: "入門", preview: "inspection" },
+  ...(isCorrelationPublished() ? [correlationLearningTool] : []),
 ] as const;
 

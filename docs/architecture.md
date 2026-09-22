@@ -325,3 +325,7 @@ Supabase、ユーザーアカウント、メール保存、求人連携は未採
 - Cpk結果解説は通常のGuideArticleとして登録する。draftは既存の公開フィルターにより一覧・sitemap・記事URLから除外され、確認用原稿は非公開文書で読む。公開指示後にstatusと実際の公開日を設定する。
 - Cpkツールから新記事へのリンクは記事がpublishedのときだけ表示する。シックスシグマの関連記事も既存の公開フィルターを使う。
 - 公開済み英語版の翻訳元に更新がある場合、translation.pendingSourceUpdatedAtに未反映の日本語更新日を記録できる。sourceUpdatedAt・translatedAt・reviewedAtは実際に翻訳・確認した版の日付を維持する。対象テストは未記録の原文更新を検出し、差分を確認して反映後にpendingを外す。pendingは翻訳済みや確認済みを意味せず、英語版の公開状態も変更しない。
+
+## 相関と因果ラボ（2026-09-22）
+
+Serverページが定義・解説・出典・SEOを出力し、`CorrelationTool`とSVG/表が5段階の体験を提供する。`src/data/correlation-causation.ts` に文面・固定条件・公開状態、`src/lib/correlation-causation/` に生成・観測だけの解析・純粋な状態遷移を分離。観察と2実験の乱数列・IDを分け、同期refで連打を抑止する。新規API・依存・永続化なし。reviewでは直接URLのみ、publishedで一覧・関連リンク・sitemapとindexを有効化。[仕様・検証境界](./correlation-causation-spec.md)。

@@ -1,3 +1,4 @@
+import { correlationRelease, correlationRoute, isCorrelationPublished } from "@/data/correlation-causation";
 import { inspectionRelease } from "@/data/ai-visual-inspection";
 import { taguchiRelease } from "@/data/taguchi";
 import { bayesianRelease } from "@/data/bayesian-optimization";
@@ -25,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((location) => location.contentStatus === "complete")
     .reduce((latest, location) => location.lastVerifiedAt > latest ? location.lastVerifiedAt : latest, "1970-01-01");
   const staticRoutes = [
+    ...(isCorrelationPublished() ? [correlationRoute] : []),
     "",
     "/tools",
     "/tools/cpk",
@@ -60,6 +62,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === correlationRoute ? { lastModified: contentDate(correlationRelease.updatedAt) } : {}),
     ...(path === "/tools/ai-visual-inspection" ? { lastModified: contentDate(inspectionRelease.updatedAt) } : {}),
     ...(path === "/tools/taguchi" ? { lastModified: contentDate(taguchiRelease.updatedAt) } : {}),
     ...(path === "/tools/bayesian-optimization" ? { lastModified: contentDate(bayesianRelease.updatedAt) } : {}),

@@ -92,3 +92,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 
 - [`docs/phase-1-brief.md`](./phase-1-brief.md) は過去の Phase 1.5 検討記録です。現行要件には使用しません。
 - `Phase 1` や `Phase 1.5` と書かれた古い構想より、現行の PRD、実装、TASKS の現在欄を優先します。
+
+- [`docs/correlation-causation-spec.md`](./correlation-causation-spec.md): 相関と因果ラボの学習手順、架空数値、無作為割付、公開状態、検証と観測方針。

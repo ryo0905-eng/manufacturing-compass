@@ -1,3 +1,4 @@
+import { isCorrelationPublished, correlationRoute } from "@/data/correlation-causation";
 import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -54,7 +55,7 @@ export default function DoeToolPage() {
       <DoeDesignComparison />
     </section>
 
-    <section className="doe-next-learning"><div><p className="section-label">KEEP LEARNING</p><h3>次の実務学習へ</h3><p>工程能力や製造業・半導体の技術解説も、実際の判断とつなげて確認できます。</p></div><nav aria-label="次に学ぶ内容"><Link href="/tools/taguchi"><span>タグチメソッド体験</span><strong>誤差因子への強さを比べる</strong></Link><Link href="/tools/bayesian-optimization"><span>ベイズ最適化を体験する</span><strong>次の実験を予測で選ぶ</strong></Link><Link href="/guides/ai-prototyping-requirements"><span>AIプロトタイピング</span><strong>このツールを試作・改善した記録を読む</strong></Link><Link href="/guides/six-sigma"><span>シックスシグマ</span><strong>DMAICの中でDoEを使う位置を確認する</strong></Link><Link href="/tools/cpk"><span>Cp・Cpk計算ツール</span><strong>平均とばらつきから工程能力を学ぶ</strong></Link><Link href="/guides"><span>技術ガイド</span><strong>製造業・半導体の解説を読む</strong></Link></nav></section>
+    <section className="doe-next-learning"><div><p className="section-label">KEEP LEARNING</p><h3>次の実務学習へ</h3><p>工程能力や製造業・半導体の技術解説も、実際の判断とつなげて確認できます。</p></div><nav aria-label="次に学ぶ内容">{isCorrelationPublished() && <Link href={correlationRoute}><span>相関と因果ラボ</span><strong>比較方法で結果が変わる理由を学ぶ</strong></Link>}<Link href="/tools/taguchi"><span>タグチメソッド体験</span><strong>誤差因子への強さを比べる</strong></Link><Link href="/tools/bayesian-optimization"><span>ベイズ最適化を体験する</span><strong>次の実験を予測で選ぶ</strong></Link><Link href="/guides/ai-prototyping-requirements"><span>AIプロトタイピング</span><strong>このツールを試作・改善した記録を読む</strong></Link><Link href="/guides/six-sigma"><span>シックスシグマ</span><strong>DMAICの中でDoEを使う位置を確認する</strong></Link><Link href="/tools/cpk"><span>Cp・Cpk計算ツール</span><strong>平均とばらつきから工程能力を学ぶ</strong></Link><Link href="/guides"><span>技術ガイド</span><strong>製造業・半導体の解説を読む</strong></Link></nav></section>
   <nav className="tool-related-links" aria-label="実測データの比較"><Link href="/tools/process-comparison">変更前後の測定値を比較して、表・PNGを作る →</Link></nav>
     <StatisticsCourseCta sourcePage="/tools/doe" />
   </main>;
