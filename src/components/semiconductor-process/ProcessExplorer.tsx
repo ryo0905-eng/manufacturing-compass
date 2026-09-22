@@ -23,7 +23,7 @@ export function ProcessExplorer() {
   function navigate(action: ProcessAction) {
     setQuestion(undefined);
     send(action);
-    work.current?.focus();
+    work.current?.focus({ preventScroll: true });
   }
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -53,10 +53,14 @@ export function ProcessExplorer() {
     handle = requestAnimationFrame(tick);
     return () => { cancelled = true; cancelAnimationFrame(handle); };
   }, [state.playing, state.token, send]);
+  useEffect(() => {
+    // Align once on view changes; playback and step changes must not move the page.
+    if (state.view !== 'overview') work.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }, [state.view]);
   const step = processSteps[state.step], overview = journey[state.overview];
   const linkClick = (destination: string) => trackEvent('semiconductor_process_related_clicked', { version: PROCESS_VERSION, destination });
   return <div ref={root} className={styles.explorer}>
-    <nav className={styles.journey} aria-label="完成までの6地点">{journey.map((item, i) => <button type="button" key={item.id} aria-current={state.view === 'overview' && state.overview === i ? 'step' : undefined} onClick={() => navigate({ type: 'overview', index: i })}><span>{String(i+1).padStart(2,'0')}</span>{item.label}</button>)}</nav>
+    {state.view !== 'process' && <nav className={styles.journey} aria-label="完成までの6地点">{journey.map((item, i) => <button type="button" key={item.id} aria-current={state.view === 'overview' && state.overview === i ? 'step' : undefined} onClick={() => navigate({ type: 'overview', index: i })}><span>{String(i+1).padStart(2,'0')}</span>{item.label}</button>)}</nav>}
     <div className={styles.work} ref={work} tabIndex={-1}>
       {state.view==='overview' && <section className={styles.overview} aria-labelledby="process-overview-title">
         <JourneyDiagram index={state.overview}/><div><p className={styles.eyebrow}>全体像 / {state.overview+1} OF 6</p><h2 id="process-overview-title">{overview.title}</h2><p>{overview.body}</p>
@@ -64,6 +68,7 @@ export function ProcessExplorer() {
         <Link className={styles.articleLink} href={overview.guide} onClick={() => linkClick(overview.id)}>この地点を記事で詳しく読む →</Link></div>
       </section>}
       {state.view==='process' && <>
+        <section className={styles.workspace} aria-label="加工体験">
         <div className={styles.processHeader}><div><p className={styles.eyebrow}>前工程の一例 / {state.step+1} OF 8</p><h2>{step.verb}</h2><p>{step.term} <span>· {state.progress===1?step.after:step.before}</span></p></div><button type="button" onClick={() => navigate({type:'overview',index:2})}>全体像に戻る</button></div>
         <div className={styles.lab}>
           <aside className={styles.locator}><Wafer marked/><p>ウエハの一部分の断面を見ています。実物を切断する操作ではありません。</p><nav className={styles.steps} aria-label="加工の8工程">{processSteps.map((s,i)=><button type="button" key={s.id} aria-current={state.step===i?'step':undefined} onClick={()=>navigate({type:'step',index:i})}><span>{i+1}</span>{s.term}{state.completed.includes(s.id)&&<small aria-label="確認済み">✓</small>}</button>)}</nav></aside>
@@ -78,6 +83,7 @@ export function ProcessExplorer() {
             <div className={styles.previousNext}><button type="button" disabled={state.step===0} onClick={()=>navigate({type:'step',index:state.step-1})}>← 前の工程</button>{state.step<7?<button type="button" onClick={()=>navigate({type:'step',index:state.step+1})}>次の工程 →</button>:<button type="button" className={styles.primary} disabled={!state.completed.includes('clean-after')} onClick={()=>navigate({type:'summary'})}>繰り返す意味と、その先へ →</button>}</div>
           </div>
         </div>
+        </section>
         <div className={styles.questions}>{questions.map(q=><div key={q.id}><button type="button" aria-expanded={question===q.id} aria-controls={`process-question-${q.id}`} onClick={()=>{const opening=question!==q.id;setQuestion(opening?q.id:undefined);if(opening)send({type:'question',id:q.id});}}>{q.title}<span aria-hidden="true">{question===q.id?'−':'＋'}</span></button>{question===q.id&&<p id={`process-question-${q.id}`}>{q.body}{q.id==='protected'&&state.step<4?'現像・エッチングの工程を開くと、窓と保護された場所を見比べられます。':''}</p>}</div>)}</div>
         <details className={styles.detail}><summary>この工程の補足と詳しい記事</summary><p>{step.explanation}</p><Link href={step.guide} onClick={()=>linkClick(step.id)}>{step.term}を記事で詳しく読む →</Link></details>
       </>}

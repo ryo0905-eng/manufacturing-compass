@@ -77,7 +77,7 @@ console.log('PASS frame endpoints/midpoints/continuity, substrate and protection
 function nodes(tree,pred){if(!tree||typeof tree!=='object')return[];if(Array.isArray(tree))return tree.flatMap(t=>nodes(t,pred));return[...(pred(tree)?[tree]:[]),...nodes(tree.props?.children,pred)];}
 function text(tree){if(tree==null||typeof tree==='boolean')return'';if(typeof tree!=='object')return String(tree);if(Array.isArray(tree))return tree.map(text).join('');return text(tree.props?.children);}
 function harness(reduced=false){
- const slots=[],pending=[],events=[],raf=new Map(),listeners={},mediaListeners={};let cursor=0,nextRaf=1,observerCallback;
+ const slots=[],pending=[],events=[],scrolls=[],raf=new Map(),listeners={},mediaListeners={};let cursor=0,nextRaf=1,observerCallback;
  const doc={hidden:false,addEventListener:(n,f)=>{listeners[n]=f;},removeEventListener:n=>{delete listeners[n];}};
  const media={matches:reduced,addEventListener:(n,f)=>{mediaListeners[n]=f;},removeEventListener:n=>{delete mediaListeners[n];}};
  const windowMock={matchMedia:()=>media,addEventListener:(n,f)=>{listeners[n]=f;},removeEventListener:n=>{delete listeners[n];}};
@@ -100,20 +100,21 @@ function harness(reduced=false){
   if(name.startsWith('@/'))return load(path.join(base,name.slice(2)));
   throw Error(name);
  }});
- function render(){cursor=0;const tree=exports.ProcessExplorer();for(const node of nodes(tree,n=>n.props?.ref))node.props.ref.current={focus(){}};while(pending.length)pending.shift()();return tree;}
+ function render(){cursor=0;const tree=exports.ProcessExplorer();for(const node of nodes(tree,n=>n.props?.ref))node.props.ref.current={focus(){},scrollIntoView(options){scrolls.push(options);}};while(pending.length)pending.shift()();return tree;}
  const button=label=>nodes(render(),n=>n.type==='button'&&text(n)===label)[0];
  const click=label=>{const b=button(label);assert.ok(b,label);assert.ok(!b.props.disabled,label);b.props.onClick();render();};
  function tick(time){const callbacks=[...raf.values()];raf.clear();callbacks.forEach(fn=>fn(time));render();}
  const get=()=>slots[1].current;
- return{render,button,click,tick,get,events,raf,doc,media,listeners,mediaListeners,hide:()=>observerCallback([{isIntersecting:false}]),unmount:()=>{for(const s of slots)if(s&&s.cleanup)s.cleanup();},nodes:pred=>nodes(render(),pred)};
+ return{render,button,click,tick,get,events,scrolls,raf,doc,media,listeners,mediaListeners,hide:()=>observerCallback([{isIntersecting:false}]),unmount:()=>{for(const s of slots)if(s&&s.cleanup)s.cleanup();},nodes:pred=>nodes(render(),pred)};
 }
-const u=harness();u.render();u.click('一つの加工を拡大してみる ↗');
-assert.equal(u.get().view,'process');
+const u=harness();u.render();assert.equal(u.scrolls.length,0);u.click('一つの加工を拡大してみる ↗');
+assert.equal(u.get().view,'process');assert.equal(u.scrolls.length,1);assert.equal(u.scrolls[0].block,'start');
+assert.equal(u.nodes(n=>n.type==='nav'&&n.props['aria-label']==='完成までの6地点').length,0);
 u.click('表面をきれいにする');u.tick(0);u.tick(800);assert.equal(u.get().progress,.4);
 u.click('一時停止');assert.equal(u.raf.size,0);u.tick(1600);assert.equal(u.get().progress,.4);
 u.click('再開');u.tick(2000);u.tick(3200);assert.equal(u.get().progress,1);assert.equal(u.raf.size,0);
 u.click('次の工程 →');assert.equal(u.get().progress,0);u.click('薄い膜をつける');u.tick(4000);u.tick(4500);
-const stale=[...u.raf.values()][0];u.click('次の工程 →');stale(6000);assert.equal(u.get().step,2);assert.equal(u.get().progress,0);
+const stale=[...u.raf.values()][0];u.click('次の工程 →');stale(6000);assert.equal(u.get().step,2);assert.equal(u.get().progress,0);assert.equal(u.scrolls.length,1);
 u.click('光に反応する膜を塗る');u.tick(6500);u.doc.hidden=true;u.listeners.visibilitychange();u.render();assert.equal(u.get().playing,false);u.doc.hidden=false;u.listeners.visibilitychange();assert.equal(u.get().playing,false);
 u.click('光に反応する膜を塗る');u.tick(7000);u.hide();u.render();assert.equal(u.get().playing,false);
 u.click('光に反応する膜を塗る');u.tick(8000);u.listeners.pagehide();u.render();assert.equal(u.get().playing,false);
