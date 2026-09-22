@@ -70,7 +70,7 @@ export default function GuidesPage() {
           <p>WRITTEN &amp; REVIEWED BY</p>
           <strong>RYO</strong>
           <span>製造業経験 約10年</span>
-          <p>電子部品の製造技術・品質・海外工場・製造DXを経て、外資系半導体企業のRFフィルタ事業へ。実体験と公開情報を分けて書きます。</p>
+          <p>電子部品の製造技術・品質・海外工場・製造DXを経て、半導体の会社へ。実体験と公開情報を分けて書きます。</p>
           <Link href="/about">執筆者と編集方針を見る <span aria-hidden="true">→</span></Link>
         </aside>
       </section>
@@ -109,7 +109,7 @@ export default function GuidesPage() {
             <ol>
               <li><small>01</small><strong>電子部品</strong><p>工程改善・品質</p></li>
               <li><small>02</small><strong>異業種DX</strong><p>ミスマッチ</p></li>
-              <li><small>03</small><strong>外資系半導体</strong><p>RFフィルタのプロセス職</p></li>
+              <li><small>03</small><strong>半導体の会社</strong><p>プロセス職へ</p></li>
             </ol>
           </div>
           <div className="guides-feature-copy">

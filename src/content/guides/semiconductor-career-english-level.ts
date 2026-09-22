@@ -3,7 +3,7 @@ import type { GuideArticle } from "@/content/guides/types";
 export const semiconductorCareerEnglishLevelGuide: GuideArticle = {
   slug: "semiconductor-career-english-level",
   title: "外資系半導体への転職に英語力はどこまで必要？",
-  description: "TOEIC約600点・会話経験ほぼなしで海外勤務を始めたRYOが、2.5年の実務と外資系半導体企業のRFフィルタ事業にあるポジションの選考で、実際に確認された英語力を振り返ります。",
+  description: "TOEIC約600点・会話経験ほぼなしで海外勤務を始めたRYOが、2.5年の実務と半導体の会社のポジションの選考で、実際に確認された英語力を振り返ります。",
   targetQuery: "半導体 転職 英語力",
   searchIntent: "英語力に自信がなく外資系半導体メーカーへの応募を迷っている人が、職種ごとの英語要件と実際の選考例から判断材料を得たい",
   status: "published",
@@ -14,10 +14,10 @@ export const semiconductorCareerEnglishLevelGuide: GuideArticle = {
   experienceBasis: [
     "TOEIC約600点・英会話経験がほぼない状態から海外勤務を始めた経験",
     "マレーシアとシンガポールの工場で約2.5年間、会議・指示・メールに英語を使った経験",
-    "外資系半導体企業のRFフィルタ事業にあるポジションの技術面接・人事面接を受け、オファーを得た経験",
+    "半導体の会社のポジションの技術面接・人事面接を受け、オファーを得た経験",
   ],
   publishedAt: "2026-07-13",
-  updatedAt: "2026-07-19",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "Field Application Engineer Chitose",
@@ -50,7 +50,7 @@ export const semiconductorCareerEnglishLevelGuide: GuideArticle = {
       items: [
         { label: "01", title: "TOEIC 約600点", body: "会話経験はほぼなく、読むにも時間が必要" },
         { label: "02", title: "海外勤務 約2.5年", body: "マレーシア・シンガポールで英語を実務使用" },
-        { label: "03", title: "外資系RFフィルタ事業へ", body: "TOEIC 780点を記載し、英語確認を含む選考へ" },
+        { label: "03", title: "半導体の会社へ", body: "TOEIC 780点を記載し、英語確認を含む選考へ" },
       ],
     },
   ],
@@ -72,7 +72,7 @@ export const semiconductorCareerEnglishLevelGuide: GuideArticle = {
         },
       ],
       paragraphs: [
-        "私が応募した外資系半導体企業のRFフィルタ事業にあるポジションには、英語がmustとは書かれていませんでした。Business levelやFluentなどの記載もなかったため、英語力を理由に応募を迷うことはありませんでした。",
+        "私が応募した半導体の会社のポジションには、英語がmustとは書かれていませんでした。Business levelやFluentなどの記載もなかったため、英語力を理由に応募を迷うことはありませんでした。",
         "表はASML Japanの公開求人を比べたもので、私の転職先ではありません。同じ会社でもTOEIC 600超、700以上、800以上かつ流暢など、職種によって記載が違います。私は点数だけでなく、会議、技術議論、顧客対応のどこで英語を使うのかまで見るようにしています。",
       ],
     },

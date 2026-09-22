@@ -11,9 +11,9 @@ export const semiconductorCareerStartGuide: GuideArticle = {
   presentation: "legacy",
   author: "RYO",
   reviewedBy: "RYO",
-  experienceBasis: ["電子部品メーカーでの製造技術・工程改善・品質経験", "複数回の転職活動で電子部品と半導体求人を比較した経験", "外資系半導体企業のRFフィルタ事業への転職を決めた経験"],
+  experienceBasis: ["電子部品メーカーでの製造技術・工程改善・品質経験", "複数回の転職活動で電子部品と半導体求人を比較した経験", "半導体の会社への転職を決めた経験"],
   publishedAt: "2026-07-05",
-  updatedAt: "2026-08-01",
+  updatedAt: "2026-09-22",
   sources: [
     { title: "半導体・デジタル産業戦略検討会議", url: "https://www.meti.go.jp/policy/mono_info_service/joho/conference/semicon_digital.html", publisher: "経済産業省", accessedAt: "2026-07-12" },
     { title: "日本の電子工業の生産・輸出・輸入", url: "https://www.jeita.or.jp/japanese/stat/electronic/2026/product_04.html", publisher: "JEITA", accessedAt: "2026-07-12" },
@@ -36,7 +36,7 @@ export const semiconductorCareerStartGuide: GuideArticle = {
       heading: "電子部品の仕事と、半導体求人で重なった部分",
       paragraphs: [
         "私の場合、求人票で共通していたのは、工程条件の管理、歩留まり改善、不良解析、製造データの分析、品質問題への対応、海外工場との調整でした。製品や工程は同じではありません。それでも、量産工程を安定させる考え方や、原因をデータで絞る進め方は、職種によって評価される場合があります。",
-        "電子部品だけでなく半導体企業まで視野を広げると、経験を使えそうな求人が増えました。さらに外資系まで含めると、専門性、海外経験、英語、データ活用を条件に含む求人や、より高い年収帯の求人も候補に入りました。結果として、私は外資系半導体企業のRFフィルタ事業への転職を決めました。会社の分類は半導体ですが、担当製品は電子部品に近く、これまでの経験とのつながりがある仕事です。",
+        "電子部品だけでなく半導体企業まで視野を広げると、経験を使えそうな求人が増えました。さらに外資系まで含めると、専門性、海外経験、英語、データ活用を条件に含む求人や、より高い年収帯の求人も候補に入りました。結果として、私は半導体の会社への転職を決めました。これまでの工程改善や品質の経験とのつながりがある仕事です。",
       ],
     },
     {
