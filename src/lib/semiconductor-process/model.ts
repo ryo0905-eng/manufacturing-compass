@@ -1,5 +1,5 @@
-import { processSteps, questions, type ExperienceId } from '@/data/semiconductor-process';
-import { assemblySteps, assemblyQuestions } from '@/data/semiconductor-assembly';
+import { processSteps, type ExperienceId } from '@/data/semiconductor-process';
+import { experiences } from '@/data/semiconductor-experiences';
 export const OPENINGS = [{ x: 156, width: 72 }, { x: 352, width: 72 }] as const;
 export const REGIONS = [{ x: 40, width: 116, opening: false }, { x: 156, width: 72, opening: true }, { x: 228, width: 124, opening: false }, { x: 352, width: 72, opening: true }, { x: 424, width: 116, opening: false }] as const;
 export function frame(step: number, progress: number) {
@@ -22,11 +22,10 @@ export type ProcessState = { experience: ExperienceId; history: Record<Experienc
 export type ProcessAction = { type: 'enter'; experience?: ExperienceId } | { type: 'overview'; index: number } | { type: 'step'; index: number; autoplay?: boolean } | { type: 'play' } | { type: 'pause' } | { type: 'replay' } | { type: 'scrub'; progress: number } | { type: 'tick'; token: number; progress: number } | { type: 'motion'; reduced: boolean } | { type: 'question'; id: string } | { type: 'summary' };
 export type ProcessEvent = { name: string; experience_id?: ExperienceId; step_id?: string; question_id?: string };
 export function initialState(): ProcessState {
-  return { experience: 'thin-film', history: { 'thin-film': { started: false, completed: [], explained: [] }, assembly: { started: false, completed: [], explained: [] } }, view: 'overview', overview: 2, step: 0, progress: 0, playing: false, token: 0, reduced: false, started: false, completed: [], explained: [], announcement: '' };
+  return { experience: 'thin-film', history: { 'thin-film': { started: false, completed: [], explained: [] }, assembly: { started: false, completed: [], explained: [] }, interconnect: { started: false, completed: [], explained: [] } }, view: 'overview', overview: 2, step: 0, progress: 0, playing: false, token: 0, reduced: false, started: false, completed: [], explained: [], announcement: '' };
 }
 export function transition(state: ProcessState, action: ProcessAction): { state: ProcessState; events: ProcessEvent[] } {
-  const steps = state.experience === 'assembly' ? assemblySteps : processSteps;
-  const activeQuestions = state.experience === 'assembly' ? assemblyQuestions : questions;
+  const { steps, questions: activeQuestions } = experiences[state.experience];
   const events: ProcessEvent[] = [];
   let next = state;
   const stop = () => ({ ...state, playing: false, token: state.token + 1 });

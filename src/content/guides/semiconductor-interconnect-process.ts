@@ -23,7 +23,7 @@ export const semiconductorInterconnectProcessGuide: GuideArticle = {
     "Lam Researchとimecの公式情報で、絶縁膜エッチング、BEOL多層配線、RC遅延、微細化時の材料・信頼性課題を確認",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "Interconnect",
@@ -84,6 +84,7 @@ export const semiconductorInterconnectProcessGuide: GuideArticle = {
       "配線とビアの役割、BEOL、銅ダマシンの基本フロー、シングル／デュアルダマシン、サブトラクティブ法との違い、絶縁膜と低k材料、バリア・ライナー、RC遅延、エレクトロマイグレーション、代表的な配線不良、検査・計測、関連職種・企業。",
   },
   overviewBlocks: [
+    { type: "links", items: [{ label: "配線づくりとCMPを動く図で体験する", href: "/tools/semiconductor-process", description: "溝と穴を埋め、余分な導電膜を除き、必要な接続を残す流れを確かめます。" }] },
     {
       type: "quote",
       quote:

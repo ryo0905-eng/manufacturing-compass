@@ -96,6 +96,7 @@ function harness(reduced=false){
   if(name==='next/link')return{default:'a'};
   if(name==='@/lib/analytics')return{trackEvent:(name,props)=>events.push({name,props})};
   if(name.endsWith('.css'))return{default:new Proxy({},{get:(_,k)=>String(k)})};
+  if(name==='./InterconnectDiagram')return{InterconnectDiagram:function InterconnectDiagram(){}};
   if(name==='./AssemblyDiagram')return{AssemblyDiagram:function AssemblyDiagram(){}};
   if(name==='./ProcessDiagram')return{ProcessDiagram:function ProcessDiagram(){},Wafer:function Wafer(){},JourneyDiagram:function JourneyDiagram(){},CompletedStructure:function CompletedStructure(){}};
   if(name.startsWith('@/'))return load(path.join(base,name.slice(2)));
@@ -108,7 +109,7 @@ function harness(reduced=false){
  const get=()=>slots[1].current;
  return{render,button,click,tick,get,events,scrolls,raf,doc,media,listeners,mediaListeners,hide:()=>observerCallback([{isIntersecting:false}]),unmount:()=>{for(const s of slots)if(s&&s.cleanup)s.cleanup();},nodes:pred=>nodes(render(),pred)};
 }
-const u=harness();u.render();assert.equal(u.scrolls.length,0);u.click('一つの加工を拡大してみる ↗');
+const u=harness();u.render();assert.equal(u.scrolls.length,0);u.click('膜に形を作る');
 assert.equal(u.get().view,'process');assert.equal(u.scrolls.length,1);assert.equal(u.scrolls[0].block,'start');
 assert.equal(u.nodes(n=>n.type==='nav'&&n.props['aria-label']==='完成までの6地点').length,0);
 u.click('表面をきれいにする');u.tick(0);u.tick(800);assert.equal(u.get().progress,.4);
@@ -125,16 +126,16 @@ u.click('再開');assert.equal(u.get().progress,1);
 u.click('なぜここだけ削れる？＋');u.click('なぜここだけ削れる？−');u.click('なぜここだけ削れる？＋');assert.equal(u.events.filter(e=>e.name==='semiconductor_process_question_opened').length,1);
 for(const e of u.events)assert.ok(Object.keys(e.props).every(k=>['version','experience_id','step_id','question_id','destination'].includes(k)));
 u.unmount();assert.equal(u.raf.size,0);assert.equal(Object.keys(u.listeners).length,0);
-const low=harness(true);low.render();low.click('一つの加工を拡大してみる ↗');low.click('表面をきれいにする');assert.equal(low.get().progress,1);assert.equal(low.raf.size,0);
+const low=harness(true);low.render();low.click('膜に形を作る');low.click('表面をきれいにする');assert.equal(low.get().progress,1);assert.equal(low.raf.size,0);
 low.click('次の工程 →');assert.equal(low.get().step,1);assert.equal(low.get().progress,1);assert.equal(low.get().playing,false);assert.equal(low.raf.size,0);
 assert.equal(low.events.filter(e=>e.name==='semiconductor_process_step_completed'&&e.props.step_id===data.processSteps[1].id).length,1);
 low.click('← 前の工程');assert.equal(low.get().progress,0);assert.equal(low.get().playing,false);
-const navigation=harness();navigation.render();navigation.click('一つの加工を拡大してみる ↗');
+const navigation=harness();navigation.render();navigation.click('膜に形を作る');
 navigation.click('次の工程 →');navigation.click('次の工程 →');assert.equal(navigation.get().step,2);assert.equal(navigation.raf.size,1);
 navigation.tick(0);navigation.tick(2000);assert.equal(navigation.get().step,2);assert.equal(navigation.get().progress,1);assert.equal(navigation.get().playing,false);
 navigation.click('← 前の工程');assert.equal(navigation.get().step,1);assert.equal(navigation.get().progress,0);assert.equal(navigation.raf.size,0);
 navigation.nodes(n=>n.type==='button'&&n.props.children?.[1]==='露光')[0].props.onClick();navigation.render();assert.equal(navigation.get().step,3);assert.equal(navigation.get().playing,false);navigation.unmount();
-const running=harness();running.render();running.click('一つの加工を拡大してみる ↗');running.click('表面をきれいにする');assert.equal(running.raf.size,1);running.unmount();assert.equal(running.raf.size,0);
+const running=harness();running.render();running.click('膜に形を作る');running.click('表面をきれいにする');assert.equal(running.raf.size,1);running.unmount();assert.equal(running.raf.size,0);
 console.log('PASS simulated RAF timing, pause/resume, stage cancellation, slider, visibility/pagehide/offscreen stop, reduced motion and unmount cleanup (not browser verification)');
 const diagrams=load(path.join(base,'components/semiconductor-process/ProcessDiagram.tsx'));
 const warnings=[];const oldError=console.error;console.error=(...args)=>warnings.push(args);
@@ -206,10 +207,78 @@ for(let i=1;i<7;i++){
 assemblyUI.click('組立のまとめへ →');assert.equal(assemblyUI.get().view,'summary');
 assemblyUI.click('全体図で最終検査を見る →');assert.equal(assemblyUI.get().overview,5);
 assemblyUI.nodes(n=>n.type==='button'&&text(n).includes('素子・配線を作る'))[0].props.onClick();assemblyUI.render();
-assemblyUI.click('一つの加工を拡大してみる ↗');assert.equal(assemblyUI.get().experience,'thin-film');assert.equal(assemblyUI.get().completed.length,0);assert.equal(assemblyUI.get().history.assembly.completed.length,7);
+assemblyUI.click('膜に形を作る');assert.equal(assemblyUI.get().experience,'thin-film');assert.equal(assemblyUI.get().completed.length,0);assert.equal(assemblyUI.get().history.assembly.completed.length,7);
 assemblyUI.unmount();
 const assemblyPage=renderToStaticMarkup(React.createElement(load(path.join(base,'app/(ja)/tools/semiconductor-process/page.tsx')).default));
 for(const phrase of ['組立7工程','小さなチップを','樹脂が透明','https://www.ti.com/lit/pdf/snoa286'])assert.ok(assemblyPage.includes(phrase));
 for(const name of ['semiconductor-dicing-process','semiconductor-packaging-process'])assert.ok(fs.readFileSync(`src/content/guides/${name}.ts`,'utf8').includes(data.processRoute));
 for(const step of assemblyData.assemblySteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(source=>source.id===id));}
 console.log('PASS assembly geometry/SSR, seven-step playback, inside view, independent histories/events, restart, static copy and source/entry links');
+
+const wiringData=load(path.join(base,'data/semiconductor-interconnect.ts'));
+const wiringModel=load(path.join(base,'lib/semiconductor-process/interconnect.ts'));
+const wiringDiagram=load(path.join(base,'components/semiconductor-process/InterconnectDiagram.tsx'));
+const definitions=load(path.join(base,'data/semiconductor-experiences.ts')).experiences;
+const wf=wiringModel.interconnectFrame;
+const wg=wiringModel.wiringGeometry;
+const diagramWarnings=[];console.error=(...args)=>diagramWarnings.push(args);
+try{
+ for(let i=0;i<7;i++){
+  const id=wiringData.interconnectSteps[i].id;
+  for(const p of [0,.25,.5,.75,1]){
+   const f=wf(id,p);assert.deepEqual(plain(f),plain(wf(id,p)));
+   for(const v of Object.values(f))assert.ok(Number.isFinite(v)&&v>=0);
+   const html=renderToStaticMarkup(React.createElement(wiringDiagram.InterconnectDiagram,{step:id,progress:p,connected:true}));
+   for(const term of ['role="img"','<desc','斜線：金属','点：絶縁膜','導電性下地','保護膜'])assert.ok(html.includes(term),term);
+   assert.ok(!html.includes('NaN'));
+  }
+  if(i<6)assert.deepEqual(plain(wf(id,1)),plain(wf(wiringData.interconnectSteps[i+1].id,0)));
+ }
+}finally{console.error=oldError;}
+assert.equal(diagramWarnings.length,0,JSON.stringify(diagramWarnings));
+for(const [id,p] of [['bad',0],['cmp',NaN],['cap',Infinity],['liner',-.1],['dielectric',1.1]])assert.throws(()=>wf(id,p));
+assert.equal(wg.top+wf('trench-via',1).trenchDepth+wf('trench-via',1).viaDepth,wg.lowerTop);
+const filled=wf('fill-metal',1),polished=wf('cmp',1);
+assert.equal(filled.fillTop,wg.top);assert.equal(filled.mouthMetal,filled.surfaceLiner);assert.ok(filled.overburden>0);
+assert.equal(polished.fillTop,wg.top);assert.equal(polished.overburden,0);assert.equal(polished.surfaceLiner,0);assert.equal(polished.mouthMetal,0);assert.equal(polished.liner,1);
+for(const p of [0,.2,.5,.9,1]){const f=wf('cmp',p);assert.equal(f.fillTop,wg.top);assert.equal(f.trenchDepth,45);assert.equal(f.viaDepth,75);assert.equal(f.liner,1);}
+const clean=wf('post-cmp-clean',1);assert.equal(clean.residue,0);
+const {residue:residueBefore,...beforeClean}=polished;const {residue:residueAfter,...afterClean}=clean;assert.deepEqual(plain(beforeClean),plain(afterClean));
+assert.ok(wg.channels[0].x+wg.channels[0].width<wg.channels[1].x);
+for(const c of wg.channels){assert.ok(c.viaX>=c.x);assert.ok(c.viaX+c.viaWidth<=c.x+c.width);}
+const connectedHtml=renderToStaticMarkup(React.createElement(wiringDiagram.InterconnectDiagram,{step:'cap',progress:1,connected:true}));
+assert.ok(connectedHtml.includes('左側の上下がつながる'));assert.ok(connectedHtml.includes('電流の再現ではありません'));
+const cmpHtml=renderToStaticMarkup(React.createElement(wiringDiagram.InterconnectDiagram,{step:'cmp',progress:.5}));
+for(const term of ['研磨液','パッド','相対運動','化学的な働き'])assert.ok(cmpHtml.includes(term));
+let triple=model.initialState();const tripleEvents=[];
+const tripleAct=a=>{const r=model.transition(triple,a);triple=r.state;tripleEvents.push(...r.events);};
+for(let repeat=0;repeat<2;repeat++)for(const experience of ['thin-film','interconnect','assembly']){
+ tripleAct({type:'enter',experience});assert.equal(triple.step,0);assert.equal(triple.progress,0);assert.equal(triple.playing,false);
+ tripleAct({type:'motion',reduced:true});
+ for(let i=0;i<definitions[experience].steps.length;i++)tripleAct({type:'step',index:i,autoplay:true});
+ tripleAct({type:'question',id:definitions[experience].questions[0].id});
+ tripleAct({type:'summary'});assert.equal(triple.view,'summary');
+}
+for(const experience of Object.keys(definitions)){
+ const e=tripleEvents.filter(e=>e.experience_id===experience);
+ assert.equal(e.filter(e=>e.name==='semiconductor_process_started').length,1);
+ assert.equal(e.filter(e=>e.name==='semiconductor_process_step_completed').length,definitions[experience].steps.length);
+ assert.equal(e.filter(e=>e.name==='semiconductor_process_completed').length,1);
+ assert.equal(e.filter(e=>e.name==='semiconductor_process_question_opened').length,1);
+}
+const wiringUI=harness();wiringUI.render();wiringUI.click('配線をつくる');assert.equal(wiringUI.get().experience,'interconnect');assert.equal(wiringUI.get().playing,false);
+wiringUI.click('絶縁する膜を重ねる');wiringUI.tick(0);wiringUI.tick(600);assert.equal(wiringUI.get().progress,.3);
+wiringUI.click('一時停止');wiringUI.tick(1000);assert.equal(wiringUI.get().progress,.3);
+wiringUI.click('再開');wiringUI.tick(1200);wiringUI.tick(2600);assert.equal(wiringUI.get().progress,1);
+for(let i=1;i<7;i++){wiringUI.click('次の工程 →');assert.equal(wiringUI.get().playing,true);wiringUI.tick(3000*i);wiringUI.tick(3000*i+2000);}
+wiringUI.click('つながる部分を見る');assert.equal(wiringUI.nodes(n=>n.type?.name==='InterconnectDiagram')[0].props.connected,true);
+wiringUI.click('配線のまとめへ →');assert.equal(wiringUI.get().view,'summary');wiringUI.click('つながる部分を見る');
+wiringUI.click('全体図でウエハ検査を見る →');assert.equal(wiringUI.get().overview,3);
+wiringUI.nodes(n=>n.type==='button'&&text(n).includes('素子・配線を作る'))[0].props.onClick();wiringUI.render();wiringUI.click('膜に形を作る');assert.equal(wiringUI.get().completed.length,0);assert.equal(wiringUI.get().history.interconnect.completed.length,7);
+wiringUI.nodes(n=>n.type==='button'&&n.props.children?.[1]==='加工後の洗浄')[0].props.onClick();wiringUI.render();wiringUI.nodes(n=>n.type==='input')[0].props.onChange({target:{value:'100'}});wiringUI.render();wiringUI.click('繰り返す意味と、その先へ →');wiringUI.click('続けて配線をつくる →');assert.equal(wiringUI.get().progress,0);assert.equal(wiringUI.get().completed.length,7);wiringUI.unmount();
+const wiringPage=renderToStaticMarkup(React.createElement(load(path.join(base,'app/(ja)/tools/semiconductor-process/page.tsx')).default));
+for(const phrase of ['配線7工程','金属を埋めて、余分な部分を磨く','CMP','lamresearch.com','fujimiinc.co.jp'])assert.ok(wiringPage.includes(phrase));
+for(const step of wiringData.interconnectSteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(s=>s.id===id));}
+for(const name of ['semiconductor-interconnect-process','semiconductor-cmp-process'])assert.ok(fs.readFileSync(`src/content/guides/${name}.ts`,'utf8').includes(data.processRoute));
+assert.equal(data.PROCESS_VERSION,'semiconductor-process-v3');
+console.log('PASS interconnect geometry, isolation/connection, CMP/clean invariants, SSR, three-experience histories/events, playback, restart, summary handoff and published links');

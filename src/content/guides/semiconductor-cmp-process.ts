@@ -23,7 +23,7 @@ export const semiconductorCmpProcessGuide: GuideArticle = {
     "KLAの公式アプリケーションノートで、銅CMPのディッシング、エロージョン、リセスと表面形状測定の考え方を確認",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "Nano-level Polishing Technique that Supports Semiconductor",
@@ -75,6 +75,7 @@ export const semiconductorCmpProcessGuide: GuideArticle = {
     learnings: "CMPの目的、装置と研磨の流れ、スラリー・パッド・コンディショナー、酸化膜・金属CMP、終点検出、ディッシング・エロージョン、研磨後洗浄、管理項目、関連職種。",
   },
   overviewBlocks: [
+    { type: "links", items: [{ label: "配線づくりとCMPを動く図で体験する", href: "/tools/semiconductor-process", description: "溝と穴を埋め、余分な導電膜を除き、必要な接続を残す流れを確かめます。" }] },
     {
       type: "quote",
       quote: "CMPは『表面をきれいに磨く』より、『高い部分を狙って除去し、異なる材料を必要な高さへそろえる』工程として見ると理解しやすくなります。",

@@ -1,15 +1,18 @@
-export type ExperienceId = 'thin-film' | 'assembly';
+export type ExperienceId = 'thin-film' | 'assembly' | 'interconnect';
 export const processRoute = '/tools/semiconductor-process';
 export const processRelease = { status: 'published', updatedAt: '2026-09-22', sourcesCheckedAt: '2026-09-22' } as const;
-export const PROCESS_VERSION = 'semiconductor-process-v2';
+export const PROCESS_VERSION = 'semiconductor-process-v3';
 export const processCopy = {
   title: '半導体の製造工程を動かして学ぶ｜前工程・後工程の全体像',
   heading: 'この丸い板が、どうやって半導体になるの？',
-  description: '前工程の薄膜加工と、後工程の切り分け・組み立てを動く図で体験。ウエハから製品まで、固定・接続・保護の役割を各約3〜5分で学べます。',
+  description: '薄膜加工、配線づくり＋CMP、切り分け・組み立ての3体験。動く図を止めたり戻したりしながら、ウエハから製品までを各約3〜5分で学べます。',
   limits: 'ポジ型レジストを使う加工の一例です。寸法・厚さ・速度は実物比例ではありません。熱処理、下地との削れやすさの違い（選択比）、保護膜の消耗などを簡略化しています。実設備の操作手順ではありません。',
   privacy: '操作状態はこの画面内だけで扱い、保存しません。利用状況は工程IDなどの固定分類だけを計測します。',
 };
 export const processSources = [
+  { id: 'lam-interconnect', title: 'Lam Research：配線形成', url: 'https://www.lamresearch.com/products/our-solutions/interconnect-solutions/' },
+  { id: 'applied-interconnect', title: 'Applied Materials：配線の材料と加工', url: 'https://www.appliedmaterials.com/us/en/semiconductor/markets-and-inflections/advanced-logic/interconnect.html' },
+  { id: 'fujimi-cmp', title: 'フジミ：半導体デバイスの研磨', url: 'https://www.fujimiinc.co.jp/service/cmp/index.html' },
   { id: 'disco', title: 'DISCO：ブレードによる切断', url: 'https://www.disco.co.jp/eg/solution/library/dicing/basic.html' },
   { id: 'ti-assembly', title: 'TI：半導体パッケージの組立技術', url: 'https://www.ti.com/lit/pdf/snoa286' },
   { id: 'ti-flow', title: 'TI：組立と検査の流れ', url: 'https://www.ti.com/about-ti/manufacturing/assembly-test.html' },
