@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef, type CSSProperties } from 'react';
 import { formatMarketCap, type RankedCompany } from '@/lib/ranking-time-machine';
 import { useRankingAnimation } from './useRankingAnimation';
+import { CompanyLogo } from './CompanyLogo';
 import styles from './ranking-time-machine.module.css';
 
 export function RankingRaceChart({ rows, year, selectedId, animate, onSelect }: {
@@ -40,7 +41,10 @@ export function RankingRaceChart({ rows, year, selectedId, animate, onSelect }: 
           <button type="button" className={styles.raceButton} onClick={() => onSelect(row.id)} aria-pressed={selectedId === row.id}
             aria-controls="ranking-company-detail" aria-label={`${row.rank}位 ${row.displayName} ${formatMarketCap(row.valueUsdB)}十億米ドル。詳細を見る`}>
             <span className={styles.rank}>{row.rank}<small>位</small></span>
-            <span className={styles.companyName}>{row.displayName}</span>
+            <span className={styles.companyIdentity}>
+              <CompanyLogo src={row.displayName === row.name ? row.logoUrl : undefined} />
+              <span className={styles.companyName}>{row.displayName}</span>
+            </span>
             <span className={styles.track} aria-hidden="true"><span className={styles.bar} style={{ width: `${row.valueUsdB / max * 100}%` }} /></span>
             <span className={styles.value}>{formatMarketCap(row.valueUsdB)}</span>
           </button>

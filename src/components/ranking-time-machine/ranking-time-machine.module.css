@@ -35,6 +35,10 @@
 .rank { font-size: 18px; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; }
 .rank small { font-size: 11px; margin-left: 2px; }
 .companyName { overflow-wrap: anywhere; font-size: 14px; font-weight: 600; }
+.companyIdentity { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.companyLogo { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; background: #fff; border-radius: 4px; }
+.companyLogo img { display: block; width: 32px; height: 32px; object-fit: contain; }
+.logoPlaceholder { width: 12px; height: 12px; border: 1px solid var(--mc-border); border-radius: 3px; }
 .track { display: block; width: 100%; height: 20px; background: var(--mc-surface-subtle); border-radius: 2px; overflow: hidden; }
 .bar { display: block; height: 100%; background: var(--mc-selection); border-radius: 2px; }
 .value { text-align: right; font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -72,7 +76,7 @@
   .race { --race-row-height: 62px; }
   .raceButton { grid-template-columns: 2rem minmax(0, 1fr) 5.5rem; gap: 4px 8px; min-height: 60px; }
   .rank { grid-column: 1; grid-row: 1 / 3; }
-  .companyName { grid-column: 2 / 4; grid-row: 1; }
+  .companyIdentity { grid-column: 2 / 4; grid-row: 1; }
   .track { grid-column: 2; grid-row: 2; height: 14px; }
   .value { grid-column: 3; grid-row: 2; }
   .axis { margin-left: calc(2rem + 13px); margin-right: calc(5.5rem + 13px); }

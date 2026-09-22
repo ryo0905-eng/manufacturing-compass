@@ -63,6 +63,7 @@ export default function RankingTimeMachinePage() {
         </dl>
         <p>出典に表示された丸め値を掲載しています。取引市場、現地株式・ADR（米国預託証券）、株式数、為替や改訂によって他のサービスと差が出ることがあります。全市場で同一時刻に観測された値とは限らず、出典の細かな換算・調整手順を本ページで独立に再現したものではありません。</p>
         <p>CompaniesMarketCapの年末データをもとに、Manufacturing Compassが比較対象の選定・可視化・解説を作成しました。数値は将来の株価や採用を予測するものではありません。</p>
+        <p>ロゴは企業識別のための参考表示です。各年当時のロゴを再現したものではありません。画像は各社の出典ページ経由で取得した<a href="https://companieslogo.com/">CompaniesLogo</a>由来のもので、権利は各権利者に帰属します。2015年のAvagoには現在のBroadcomロゴを表示していません。</p>
       </section>
     </article>
   </main>;

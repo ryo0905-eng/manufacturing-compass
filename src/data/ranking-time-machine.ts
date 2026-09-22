@@ -35,6 +35,7 @@ export const rankingTimeMachineMetadata = {
 export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   {
     "id": "nvidia",
+    "logoUrl": "/images/company-logos/nvidia.png",
     "name": "NVIDIA",
     "companySlug": "nvidia",
     "sourceUrl": "https://companiesmarketcap.com/nvidia/marketcap/",
@@ -42,6 +43,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "tsmc",
+    "logoUrl": "/images/company-logos/tsmc.png",
     "name": "TSMC",
     "companySlug": "tsmc",
     "sourceUrl": "https://companiesmarketcap.com/tsmc/marketcap/",
@@ -49,6 +51,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "samsung-electronics",
+    "logoUrl": "/images/company-logos/samsung-electronics.png",
     "name": "Samsung Electronics",
     "companySlug": "samsung-electronics",
     "sourceUrl": "https://companiesmarketcap.com/samsung/marketcap/",
@@ -56,6 +59,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "intel",
+    "logoUrl": "/images/company-logos/intel.png",
     "name": "Intel",
     "companySlug": "intel",
     "sourceUrl": "https://companiesmarketcap.com/intel/marketcap/",
@@ -63,6 +67,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "broadcom",
+    "logoUrl": "/images/company-logos/broadcom.png",
     "name": "Broadcom",
     "companySlug": "broadcom",
     "sourceUrl": "https://companiesmarketcap.com/broadcom/marketcap/",
@@ -76,6 +81,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "amd",
+    "logoUrl": "/images/company-logos/amd.png",
     "name": "AMD",
     "companySlug": "amd",
     "sourceUrl": "https://companiesmarketcap.com/amd/marketcap/",
@@ -83,6 +89,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "micron",
+    "logoUrl": "/images/company-logos/micron.png",
     "name": "Micron Technology",
     "companySlug": "micron",
     "sourceUrl": "https://companiesmarketcap.com/micron-technology/marketcap/",
@@ -90,6 +97,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "sk-hynix",
+    "logoUrl": "/images/company-logos/sk-hynix.png",
     "name": "SK hynix",
     "companySlug": "sk-hynix",
     "sourceUrl": "https://companiesmarketcap.com/sk-hynix/marketcap/",
@@ -97,6 +105,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "qualcomm",
+    "logoUrl": "/images/company-logos/qualcomm.png",
     "name": "Qualcomm",
     "companySlug": "qualcomm",
     "sourceUrl": "https://companiesmarketcap.com/qualcomm/marketcap/",
@@ -104,6 +113,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "texas-instruments",
+    "logoUrl": "/images/company-logos/texas-instruments.png",
     "name": "Texas Instruments",
     "companySlug": "texas-instruments",
     "sourceUrl": "https://companiesmarketcap.com/texas-instruments/marketcap/",
@@ -111,6 +121,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "analog-devices",
+    "logoUrl": "/images/company-logos/analog-devices.png",
     "name": "Analog Devices",
     "companySlug": "analog-devices",
     "sourceUrl": "https://companiesmarketcap.com/analog-devices/marketcap/",
@@ -118,6 +129,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "nxp",
+    "logoUrl": "/images/company-logos/nxp.png",
     "name": "NXP Semiconductors",
     "companySlug": "nxp",
     "sourceUrl": "https://companiesmarketcap.com/nxp-semiconductors/marketcap/",
@@ -125,12 +137,14 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "mediatek",
+    "logoUrl": "/images/company-logos/mediatek.png",
     "name": "MediaTek",
     "sourceUrl": "https://companiesmarketcap.com/mediatek/marketcap/",
     "category": "半導体・設計"
   },
   {
     "id": "infineon",
+    "logoUrl": "/images/company-logos/infineon.png",
     "name": "Infineon",
     "companySlug": "infineon",
     "sourceUrl": "https://companiesmarketcap.com/infineon/marketcap/",
@@ -138,6 +152,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "stmicroelectronics",
+    "logoUrl": "/images/company-logos/stmicroelectronics.png",
     "name": "STMicroelectronics",
     "companySlug": "stmicroelectronics",
     "sourceUrl": "https://companiesmarketcap.com/stmicroelectronics/marketcap/",
@@ -145,6 +160,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "asml",
+    "logoUrl": "/images/company-logos/asml.png",
     "name": "ASML",
     "companySlug": "asml",
     "sourceUrl": "https://companiesmarketcap.com/asml/marketcap/",
@@ -152,6 +168,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "applied-materials",
+    "logoUrl": "/images/company-logos/applied-materials.png",
     "name": "Applied Materials",
     "companySlug": "applied-materials",
     "sourceUrl": "https://companiesmarketcap.com/applied-materials/marketcap/",
@@ -159,6 +176,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "lam-research",
+    "logoUrl": "/images/company-logos/lam-research.png",
     "name": "Lam Research",
     "companySlug": "lam-research",
     "sourceUrl": "https://companiesmarketcap.com/lam-research/marketcap/",
@@ -166,6 +184,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "tokyo-electron",
+    "logoUrl": "/images/company-logos/tokyo-electron.png",
     "name": "東京エレクトロン",
     "companySlug": "tokyo-electron",
     "sourceUrl": "https://companiesmarketcap.com/tokyo-electron/marketcap/",
@@ -173,6 +192,7 @@ export const rankingTimeMachineCompanies: readonly RankingCompany[] = [
   },
   {
     "id": "kla",
+    "logoUrl": "/images/company-logos/kla.png",
     "name": "KLA",
     "companySlug": "kla",
     "sourceUrl": "https://companiesmarketcap.com/kla/marketcap/",
