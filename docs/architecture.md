@@ -39,7 +39,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - 日英それぞれのルートレイアウトが `html lang`、メタデータ、ヘッダー・フッターを定義する。共通CSSと `SiteAnalytics` を利用し、各レイアウトで計測を1回だけ設置する。GA4の本番環境条件は従来どおり。
 - 複数ルートレイアウト間の遷移はフルページ遷移になる。URLから言語を決め、Cookie・リクエストヘッダー・自動リダイレクトは使わない。
 - 未登録URLは `global-not-found.tsx` で日英併記の404を返す。Next.js 16の `experimental.globalNotFound` を有効化する。各言語内の `notFound()` には言語別の404表示を持つ。本番のルーティングはVercelビルドで最終確認する。
-- 英語記事は `src/content/guides/en` の独立レジストリに置き、既存 `GuideArticle` を拡張した翻訳情報で原文更新日・翻訳日・人間の確認日を保持する。原文更新日との差は対象テストで検出する。
+- 英語記事は `src/content/guides/en` の独立レジストリに置き、既存 `GuideArticle` を拡張した翻訳情報で原文更新日・翻訳日・翻訳確認日を保持する。確認は実施者に沿って記録し、人間の確認とエージェントの確認を混同しない。原文更新日との差は対象テストで検出する。
 - 英語の公開判定は `status: published`、空でない `publishedAt` と `translation.reviewedAt` の全条件。レビュー用draftは静的生成するがnoindex、sitemap・hreflang・日本語からの言語切り替え対象外。これはアクセス制限ではないため、非公開情報は置かない。
 - 英語記事の自己参照canonicalと公開時の日英相互hreflangを生成する。日本語の記事一覧・記事数には英語版を混ぜない。英語トップと英語一覧は作らない。
 - `/en/tools/cpk` は既存の `CpkToolExperience` と子コンポーネントに `locale="en"` を渡す。未指定は日本語。数式・サンプル・状態を複製せず、翻訳は `src/data/cpk-text.ts`、英語解説・公開管理は `src/data/cpk-english.ts` に分離する。
