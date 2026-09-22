@@ -413,3 +413,34 @@ for(const role of workData.workRoles)assert.ok(workPage.includes(role.investigat
 for(const source of workData.workSources)assert.ok(workPage.includes(source.url));
 assert.ok(workPage.includes('3つの仕事を文章で読む'));
 console.log('PASS work roles: three visual panels, accessible text/SSR, published guides/sources, selection events, deduplication, simulation isolation and thin-film-only integration');
+
+for(const role of workData.assemblyWorkRoles){
+ const html=renderToStaticMarkup(React.createElement(workPanel.WorkRolePanel,{role,experience:'assembly',onRelated(){}}));
+ for(const content of [role.problem,role.investigate,role.people,role.next,'assembly-work-panel','透視の模式図'])assert.ok(html.includes(content));
+ assert.ok(!html.includes('thin-film-work-panel'));assert.equal((html.match(/<svg/g)||[]).length,3);
+ assert.ok(workData.assemblyWorkSources.some(source=>source.id===role.id));
+ assert.ok(fs.readFileSync(`src/content/guides/${role.guide.split('/').pop()}.ts`,'utf8').includes('"published"'));
+}
+const assemblyJobs=harness(true);assemblyJobs.render();
+function finishJobExperience(id){
+ const def=load(path.join(base,'data/semiconductor-experiences.ts')).experiences[id];
+ assemblyJobs.nodes(n=>n.type==='button'&&n.props.children?.[1]===def.steps[def.steps.length-1].term)[0].props.onClick();assemblyJobs.render();
+ assemblyJobs.click(def.steps[def.steps.length-1].verb);assemblyJobs.click(def.summary.button);
+}
+assemblyJobs.click('膜に形を作る');finishJobExperience('thin-film');assemblyJobs.click('加工条件を整える');
+assemblyJobs.click(thinDefinition.summary.nextLabel);
+assemblyJobs.nodes(n=>n.type==='button'&&text(n).includes('切り分け・組み立て'))[0].props.onClick();assemblyJobs.render();assemblyJobs.click('組み立てを体験する');finishJobExperience('assembly');
+assert.equal(assemblyJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);
+const assemblyJobState=plain(assemblyJobs.get());
+for(const role of workData.assemblyWorkRoles){
+ assemblyJobs.click(role.label);const panel=assemblyJobs.nodes(n=>n.type?.name==='WorkRolePanel')[0];assert.equal(panel.props.role.id,role.id);assert.equal(panel.props.experience,'assembly');panel.props.onRelated();assert.deepEqual(plain(assemblyJobs.get()),assemblyJobState);
+}
+assemblyJobs.click('組立条件を整える');
+const opened=assemblyJobs.events.filter(e=>e.name==='semiconductor_process_work_opened');assert.equal(opened.length,4);assert.equal(opened.filter(e=>e.props.experience_id==='assembly').length,3);
+for(const event of assemblyJobs.events.filter(e=>e.name.startsWith('semiconductor_process_work_')&&e.props.experience_id==='assembly'))assert.equal(event.props.version,'assembly-work-v1');
+const assemblyDef=load(path.join(base,'data/semiconductor-experiences.ts')).experiences.assembly;
+assemblyJobs.click(assemblyDef.summary.restart);finishJobExperience('assembly');assert.equal(assemblyJobs.nodes(n=>n.type?.name==='WorkRolePanel').length,0);assemblyJobs.click('組立条件を整える');assert.equal(assemblyJobs.events.filter(e=>e.name==='semiconductor_process_work_opened').length,4);assemblyJobs.unmount();
+for(const role of workData.assemblyWorkRoles)assert.ok(workPage.includes(role.investigate));
+for(const source of workData.assemblyWorkSources)assert.ok(workPage.includes(source.url));
+for(const id of ['wafer-preparation','interconnect','wafer-test','final-test'])assert.equal(workData.workLessons[id],undefined);
+console.log('PASS assembly work: distinct graphics/text, SSR/sources, published links, role selection, restart, per-experience analytics deduplication and thin-film regression');

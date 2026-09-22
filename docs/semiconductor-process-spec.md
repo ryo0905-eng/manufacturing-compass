@@ -165,3 +165,17 @@ Serverページへ静止図・8工程・出典を追加し、メタ説明・一�
 対象テストで全3役割の図・文章、公開済み関連記事、出典とSSR、選択切替、表示イベント重複防止、加工状態への非干渉、薄膜加工から離れた際の非表示を確認。既存6体験と見学コースの回帰も通過。ブラウザ・実端末・試用・導線効果・本番反映は未検証。
 
 仕事紹介追加の検証結果：`node tests/unit/semiconductor-process.cjs`通過、`npm run typecheck`は1回で通過。差分と公開禁止語を照合。ブラウザ確認・build・commit・pushは未実施。
+
+## 組立の仕事紹介（assembly-work-v1 / 2026-09-22）
+
+仕事紹介の対象を薄膜加工に加えて組立へ拡張。ほかの4体験は対象外。組立のまとめに組立条件・装置・品質の3役割を表示する。位置のずれ、接続装置の停止、封止後の内部確認を架空の困りごとにし、調べること・連携・次の確認を示す。独自の静止SVGで固定・ワイヤ接続・保護、装置と記録、外観と内部の模式図を描き分ける。固定だけで全端子が接続された描写にせず、内部図は透明な樹脂や実測検査画像ではないと説明する。
+
+役割の根拠はAmkorの公開職務説明。Vietnam CareersのAssembly Process Engineer／Customer Quality Engineer、Malaysia CareersのWire Bond Equipment Engineerと照合。条件と品質の改善、装置の保全・異常解析、部門連携を扱い、求人の募集継続や国内の統一職種名を保証しない。組立工程の固定・接続・封止の説明は既存TI出典を継承。職種記事はプロセス改善・設備・品質の公開済み記事へ接続し、組立専用記事ではないものは関連する経験の入口として案内する。
+
+`workLessons`で役割・出典・機能版を体験別に選択。表示済みキーはexperience_idとrole_idの組合せ。薄膜と組立のprocess／equipmentを互いに抑制せず、それぞれページ内1回表示を計測する。画面移動・再開始で選択を解除しても表示履歴を維持。イベント名は既存work_opened／work_related_clickedを維持し、組立はversion=assembly-work-v1・experience_id=assembly・role_id=process/equipment/quality、destinationは同じ固定分類。薄膜のthin-film-work-v1と既存6体験のsemiconductor-process-v6は変更しない。
+
+共通のボタン・可視フォーカス・44px操作領域・モバイル縦配置を使用し、再生エリアの高さや加工状態に影響させない。Serverページに全3役割の文章と出典・日付を追加。対象テストでは組立3図・文章・SSR・公開済みリンク・出典、薄膜との切替、体験別イベント重複抑制、再開始時の選択解除と履歴保持、加工状態への非干渉を確認。既存6体験・見学コース・薄膜仕事紹介の回帰も通過。
+
+ブラウザ・実端末・利用者試用・導線効果は未検証。URL、canonical、published設定、同日の更新日を維持。新規依存・API・保存は追加しない。
+
+組立仕事紹介の検証結果：対象テスト通過、`npm run typecheck`は1回で通過、`git diff --check`と公開禁止語照合を実施。ブラウザ・build・commit・pushは未実施。
