@@ -60,6 +60,8 @@ export default function IndustryMapPage() {
         </div>
         <p><strong>8領域 × 31社</strong><span>検索・絞り込み・クリックで確認</span></p>
       </header>
+      <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>
+
 
       <p className="tool-related-links"><Link href="/tools/semiconductor-process">半導体ができるまでを、動く断面図で確かめる →</Link></p>
 

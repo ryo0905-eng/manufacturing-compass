@@ -345,3 +345,9 @@ Serverページが定義・解説・出典・SEOを出力し、`CorrelationTool`
 ### 全6体験の仕事紹介（2026-09-22）
 
 `semiconductor-work.ts`に役割・架空事例・出典・更新日・関連記事を定義。`WorkRolePanel.tsx`は選択された役割を受け取る静的なSVGと文章の表示部。選択状態とページ内の表示計測抑制はProcessExplorerに置き、加工の状態遷移へ混ぜない。`workLessons`は全ExperienceIdを網羅するRecordで、体験ごとの役割・出典・版を選ぶ。残り3体験のデータは`semiconductor-work-remaining.ts`に分離し、型のみを元データから参照する。画面移動で選択を解除し、表示済みキー（体験ID＋役割ID）は保持する。薄膜と組立の図は表示部内で描き分け、配線とCMPの図は`InterconnectWorkGraphic.tsx`に分離。ウエハ準備の図は`PreparationWorkGraphic.tsx`、検査2体験は`TestingWorkGraphic.tsx`で対象の接触形状を描き分ける。Serverページにも全6体験の各3役割の文章と出典を出力。URL、canonical、sitemapの日付（同日更新）、既存6体験の計測版と再生動作を維持し、仕事紹介のイベントは別版で識別する。新規依存・API・保存は追加しない。
+
+## 外資系企業の日本の仕事探索（2026-09-22）
+
+`JapanWorkEvidence` と企業の日本紹介・Sourceは `src/data/japan-work.ts`、分類・公開条件・地域との同一記録照合・比較選択・整合検証は `src/lib/japan-work.ts` に分離する。企業IDとCompanyLocationを参照し、jobCategoriesから国内業務を補完しない。KLA横浜本社・Infineon渋谷本社を既存拠点データへ追加するが、根拠がない職種の配属先にはしない。
+
+Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示スロットを渡す。初期HTMLの全社詳細とClient Componentの探索パネルで同一内容を使う。操作状態はReactメモリのみ、外部API・永続化・新規依存はなし。日次再検証で期限表示を更新する。専用URLはcanonical・sitemap・WebPage・ItemListへ追加。既存企業ページの公開状態は変更しない。[データ範囲・計測・更新手順](./global-japan-work-spec.md)。

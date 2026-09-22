@@ -74,6 +74,8 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 
 比較UIの範囲、固定教材の選択、確認済みの保持、公開前の残項目は [UI実装記録](./ai-visual-inspection-ui.md) に記録する。
 
+- [`docs/global-japan-work-spec.md`](./global-japan-work-spec.md): 外資系半導体企業の日本の仕事探索、業務と勤務地の根拠、比較、公開・更新・計測仕様。
+
 ## 非公開文書
 
 - `.private/article-workflow.md`: 実体験記事の取材、匿名化、公開承認の必須手順

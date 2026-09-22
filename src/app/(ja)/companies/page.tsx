@@ -96,6 +96,8 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
           <Link className="button ghost" href="/compare">2社を比較する</Link>
         </div>
       </header>
+      <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>
+
 
       <section className="companies-role" aria-labelledby="companies-role-title">
         <div>

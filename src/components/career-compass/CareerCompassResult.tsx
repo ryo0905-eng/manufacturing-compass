@@ -461,6 +461,7 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
             <p>今回の職種候補を、業界構造・企業・実務スキルの順で確かめられます。</p>
           </div>
           <div className="result-related-grid">
+            <Link href="/companies/global-japan" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: "global_japan_work", destination_type: "tool" })}>外資系半導体企業の日本の仕事を探す</Link>
             {props.prioritizeLocation ? (
               <Link href="/semiconductor-map" onClick={() => trackCareerCompassEvent("career_compass_related_click", { destination_group: "japan_locations", destination_type: "location_map" })}>勤務地から半導体企業を探す</Link>
             ) : null}

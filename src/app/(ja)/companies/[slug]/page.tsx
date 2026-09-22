@@ -1,3 +1,4 @@
+import { japanWorkCompanies } from "@/data/japan-work";
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
@@ -106,6 +107,10 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
         company={company}
         segmentNames={companySegments.flatMap((segment) => segment ? [segment.name] : [])}
       />
+
+      {japanWorkCompanies.some((profile) => profile.companyId === company.id && profile.status === "published") ? (
+        <p className="tool-related-links"><Link href={`/companies/global-japan#evidence-${company.id}` as Route}>日本で確認できた仕事内容と公式の根拠を見る →</Link></p>
+      ) : null}
 
       <div className="detail-layout">
         <div className="stack">

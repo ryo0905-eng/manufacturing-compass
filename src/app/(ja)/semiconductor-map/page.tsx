@@ -136,6 +136,8 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
           <div><dt>最終確認</dt><dd>2026.09.03</dd></div>
         </dl>
       </header>
+      <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>
+
 
       <section className={styles.scope} aria-labelledby="location-map-scope-title">
         <div>

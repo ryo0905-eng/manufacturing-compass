@@ -4,6 +4,8 @@ const verifiedAt = "2026-09-03";
 const nextReviewAt = "2027-03-03";
 
 export const locationSources: LocationSource[] = [
+  { id: "JW-KLA", title: "KLA Japan オフィス所在地", url: "https://www.kla.com/careers/locations/japan", publisher: "KLA", accessedAt: "2026-09-22", supports: ["identity", "address", "location-type"] },
+  { id: "JW-INF", title: "Infineon Japan / Japan office introduction", url: "https://www.infineon.com/regional/japan", publisher: "Infineon Technologies", accessedAt: "2026-09-22", supports: ["identity", "address", "location-type", "roles"] },
   { id: "T1", title: "TSMC 2025 Annual Report", url: "https://investor.tsmc.com/static/annualReports/2025/english/index.html", publisher: "TSMC", accessedAt: verifiedAt, supports: ["products", "operational-status"] },
   { id: "T2", title: "TSMC Contact Information", url: "https://investor.tsmc.com/sites/ir/annual-report/2024/2024%20Annual%20Report-E.pdf", publisher: "TSMC", accessedAt: verifiedAt, supports: ["identity", "address"] },
   { id: "T3", title: "JASM採用情報", url: "https://www.tsmc.com/static/japanese/careers/jasm/index.html", publisher: "TSMC", accessedAt: verifiedAt, supports: ["roles", "hiring"] },
@@ -53,6 +55,22 @@ export const locationSources: LocationSource[] = [
 ];
 
 export const companyLocations: CompanyLocation[] = [
+  {
+    id: "kla-yokohama-hq", companyId: "kla", slug: "yokohama-headquarters", name: "横浜本社",
+    legalEntities: [],
+    prefectureCode: "14", prefectureSlug: "kanagawa", prefectureName: "神奈川県", municipality: "横浜市西区", address: "神奈川県横浜市西区みなとみらい3-7-1 Ocean Gate Minatomirai 11F",
+    locationTypes: ["headquarters", "office"], industryCategories: ["equipment"], processIds: [],
+    mainProducts: [], jobFamilies: [], sourceIds: ["JW-KLA"],
+    lastVerifiedAt: "2026-09-22", nextReviewAt: "2026-12-21", operationalStatus: "status-unconfirmed", contentStatus: "complete",
+  },
+  {
+    id: "infineon-shibuya", companyId: "infineon", slug: "shibuya-headquarters", name: "日本本社（品質解析機能）",
+    legalEntities: [{ legalEntityName: "Infineon Technologies Japan", relationship: "operator", sourceIds: ["JW-INF"] }],
+    prefectureCode: "13", prefectureSlug: "tokyo", prefectureName: "東京都", municipality: "渋谷区", address: "東京都渋谷区渋谷3-25-18 NBF渋谷ガーデンフロント",
+    locationTypes: ["headquarters", "office"], industryCategories: ["idm"], processIds: [],
+    mainProducts: ["品質解析による顧客支援"], jobFamilies: ["quality-reliability"], sourceIds: ["JW-INF"],
+    lastVerifiedAt: "2026-09-22", nextReviewAt: "2026-12-21", operationalStatus: "status-unconfirmed", contentStatus: "complete",
+  },
   {
     id: "tsmc-jasm-kumamoto", companyId: "tsmc", slug: "jasm-kumamoto", name: "JASM熊本サイト",
     legalEntities: [{ legalEntityName: "Japan Advanced Semiconductor Manufacturing株式会社", relationship: "operator", sourceIds: ["T1", "T2"] }],
