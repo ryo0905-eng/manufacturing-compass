@@ -333,3 +333,7 @@ Serverページが定義・解説・出典・SEOを出力し、`CorrelationTool`
 ## 改善の差を見極める
 
 `/tools/improvement-confidence` のServerページが説明・出典・SEOを出力し、Clientの操作部がメモリ内で3ケースと自由実験を扱う。`src/data/improvement-confidence.ts` に教材・公開情報、`src/lib/improvement-confidence/` に独立した統計計算・シード付き生成・純粋な状態遷移、専用コンポーネントにSVG・表・操作画面を分離。Welch区間は観測値のみから計算し、真値は振り返りだけで使う。既存DOE・工程比較の計算、新規依存、外部API、永続保存は変更・追加しない。revisionで古い操作とイベント重複を防ぎ、計算エラー時は履歴を残して停止する。[仕様と検証](./improvement-confidence-spec.md)。
+
+## 半導体工程図鑑
+
+`/tools/semiconductor-process` のServerページが説明・静止図・出典・SEOを出力し、ClientのProcessExplorerが6地点・8工程・振り返りを扱う。教材データ、純粋な形状関数と状態遷移、SVG・専用CSSを分離。RAFは再生トークンで古いコールバックを破棄し、非表示・画面外・unmountで停止・解除する。低モーションは加工後の静止形を使う。新規依存、API、動画配信、WebGL、永続保存は追加しない。[仕様](./semiconductor-process-spec.md)。

@@ -48,6 +48,9 @@ export default async function RankingPage({ params }: RankingPageProps) {
         <p>{ranking.description}</p>
       </section>
 
+      <p className="tool-related-links"><Link href="/tools/semiconductor-process">半導体ができるまでを、動く断面図で確かめる →</Link></p>
+
+
       <p className="ranking-order-note">
         掲載順は企業の優劣やおすすめ順位を示すものではありません。各社の事業内容や公開されている職種を確認するための候補リストです。
       </p>

@@ -23,7 +23,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
     "ロジック、メモリ、パワー半導体などで工程や順序が異なるため、共通する全体像へ単純化",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-08-16",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "Production Processes",
@@ -81,6 +81,10 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
     learnings: "製造工程の全体像、各工程の役割、前工程・後工程とFEOL・MOL・BEOLの違い、工程に関わる職種と企業。",
   },
   overviewBlocks: [
+    {
+      type: "links",
+      items: [{ label: "半導体ができるまでを動かして見る", href: "/tools/semiconductor-process", description: "全体像から一つの加工へ。膜をつける・模様を写す・削るを、止めたり戻したりして確かめます。" }],
+    },
     {
       type: "process-flow",
       title: "半導体が完成するまでの全体フロー",

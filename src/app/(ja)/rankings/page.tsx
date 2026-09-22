@@ -18,6 +18,9 @@ export default function RankingsPage() {
         <p>会社の優劣や順位ではなく、これまでの経験と仕事内容の接点を調べる候補として整理します。</p>
       </section>
 
+      <p className="tool-related-links"><Link href="/tools/semiconductor-process">半導体ができるまでを、動く断面図で確かめる →</Link></p>
+
+
       <section className="article-grid" aria-label="経験別の企業リスト一覧">
         {rankings.map((ranking) => (
           <Link className="article-card" href={`/rankings/${ranking.slug}`} key={ranking.slug}>

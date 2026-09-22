@@ -61,6 +61,8 @@ export default function IndustryMapPage() {
         <p><strong>8領域 × 31社</strong><span>検索・絞り込み・クリックで確認</span></p>
       </header>
 
+      <p className="tool-related-links"><Link href="/tools/semiconductor-process">半導体ができるまでを、動く断面図で確かめる →</Link></p>
+
       <IndustryAtlas companies={companySummaries} totalCompanyCount={companies.length} />
 
       <section className="section industry-supply-chain" aria-labelledby="industry-supply-chain-title">

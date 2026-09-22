@@ -96,3 +96,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - [`docs/correlation-causation-spec.md`](./correlation-causation-spec.md): 相関と因果ラボの学習手順、架空数値、無作為割付、公開状態、検証と観測方針。
 
 - [`docs/improvement-confidence-spec.md`](./improvement-confidence-spec.md): 改善の差を見極める教材の3ケース、Welch信頼区間、乱数、自由実験履歴、公開・検証仕様。
+
+- [`docs/semiconductor-process-spec.md`](./semiconductor-process-spec.md): 工程図鑑の全体像・断面・技術簡略化・再生操作・公開導線・検証。
