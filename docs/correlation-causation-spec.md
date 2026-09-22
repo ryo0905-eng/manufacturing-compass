@@ -64,6 +64,6 @@
 
 - `node tests/unit/correlation-causation.cjs`：通過。独立期待値・割付・逆転・乱数再現・状態保護・失敗停止。
 - `npm run typecheck`：1回で通過。
-- `node tests/unit/correlation-causation-ui.cjs`：両実験順・古いイベントの連打・戻る・表示不変・再挑戦・振り返り・エラー停止・計測分類、review時のページSSR・メタデータ・一覧と関連入口非掲載まで通過。sitemap読込でテストローダーがディレクトリのindex.tsを解決できず停止。ローダーを修正したが、実行ルールに従って再実行していない。published状態の統合・sitemap・末尾の図表SSR検証は未完了。
+- `node tests/unit/correlation-causation-ui.cjs`：両実験順・古いイベントの連打・戻る・表示不変・再挑戦・振り返り・エラー停止・計測分類、review時のページSSR・メタデータ・一覧と関連入口非掲載まで通過。sitemap読込でテストローダーがディレクトリのindex.tsを解決できず停止。初回はローダー修正後、実行ルールに従って再実行せず終了。その後、ユーザーの継続指示を受け、修正済みローダーで1回実行して全体完走した。review/published両状態の一覧・関連リンク・メタデータ・sitemap掲載と更新日、図表SSR、React警告なしまで通過。実ブラウザ検証ではない。
 - 変更20ファイルの禁止情報照合、CSS参照、差分確認は通過。
 - ブラウザ・dev・build・デプロイ・人間試用は未実施。実装・数値確認と、学習効果・実画面・検索公開の確認を区別する。
