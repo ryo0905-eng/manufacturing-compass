@@ -96,6 +96,7 @@ function harness(reduced=false){
   if(name==='next/link')return{default:'a'};
   if(name==='@/lib/analytics')return{trackEvent:(name,props)=>events.push({name,props})};
   if(name.endsWith('.css'))return{default:new Proxy({},{get:(_,k)=>String(k)})};
+  if(name==='./WaferPreparationDiagram')return{WaferPreparationDiagram:function WaferPreparationDiagram(){}};
   if(name==='./TestingDiagram')return{TestingDiagram:function TestingDiagram(){},TestingReadout:function TestingReadout(){}};
   if(name==='./InterconnectDiagram')return{InterconnectDiagram:function InterconnectDiagram(){}};
   if(name==='./AssemblyDiagram')return{AssemblyDiagram:function AssemblyDiagram(){}};
@@ -281,7 +282,7 @@ const wiringPage=renderToStaticMarkup(React.createElement(load(path.join(base,'a
 for(const phrase of ['配線7工程','金属を埋めて、余分な部分を磨く','CMP','lamresearch.com','fujimiinc.co.jp'])assert.ok(wiringPage.includes(phrase));
 for(const step of wiringData.interconnectSteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(s=>s.id===id));}
 for(const name of ['semiconductor-interconnect-process','semiconductor-cmp-process'])assert.ok(fs.readFileSync(`src/content/guides/${name}.ts`,'utf8').includes(data.processRoute));
-assert.equal(data.PROCESS_VERSION,'semiconductor-process-v4');
+assert.equal(data.PROCESS_VERSION,'semiconductor-process-v5');
 console.log('PASS interconnect geometry, isolation/connection, CMP/clean invariants, SSR, three-experience histories/events, playback, restart, summary handoff and published links');
 
 const testingData=load(path.join(base,'data/semiconductor-testing.ts'));
@@ -326,3 +327,39 @@ const testPage=renderToStaticMarkup(React.createElement(load(path.join(base,'app
 for(const term of ['ウエハ検査4工程','最終検査4工程','見た目が同じでも','advantest.com','電極や端子へ接触'])assert.ok(testPage.includes(term));
 for(const name of ['semiconductor-wafer-test','semiconductor-final-test'])assert.ok(fs.readFileSync(`src/content/guides/${name}.ts`,'utf8').includes(data.processRoute));
 console.log('PASS wafer/final test frames, delayed responses/results, fixed teaching example, readout SSR, independent histories, playback/switch/cancellation and source links');
+
+const preparationData=load(path.join(base,'data/semiconductor-wafer-preparation.ts'));
+const preparationModel=load(path.join(base,'lib/semiconductor-process/wafer-preparation.ts'));
+const preparationDiagram=load(path.join(base,'components/semiconductor-process/WaferPreparationDiagram.tsx'));
+const prepFrame=preparationModel.waferPreparationFrame;
+const prepWarnings=[];console.error=(...args)=>prepWarnings.push(args);
+try{
+ for(let i=0;i<8;i++){
+  const id=preparationData.waferPreparationSteps[i].id;
+  for(const p of [0,.25,.5,.75,1]){
+   const f=prepFrame(id,p);assert.deepEqual(plain(f),plain(prepFrame(id,p)));
+   for(const v of Object.values(f).filter(v=>typeof v==='number'))assert.ok(Number.isFinite(v)&&v>=0);
+   const html=renderToStaticMarkup(React.createElement(preparationDiagram.WaferPreparationDiagram,{step:id,progress:p}));assert.ok(html.includes('role="img"'));assert.ok(html.includes('<desc'));assert.ok(!html.includes('NaN'));assert.ok(html.includes('回路はまだありません'));
+  }
+  if(i<7)assert.deepEqual(plain(prepFrame(id,1)),plain(prepFrame(preparationData.waferPreparationSteps[i+1].id,0)));
+ }
+}finally{console.error=oldError;}
+assert.equal(prepWarnings.length,0,JSON.stringify(prepWarnings));
+for(const [id,p] of [['bad',0],['slice-wafer',NaN],['lap-wafer',-1],['grow-crystal',1.1]])assert.throws(()=>prepFrame(id,p));
+assert.equal(prepFrame('grow-crystal',0).melt,1);assert.equal(prepFrame('slice-wafer',0).shaped,1);
+assert.ok(prepFrame('lap-wafer',1).unevenness<prepFrame('lap-wafer',0).unevenness);assert.ok(prepFrame('lap-wafer',1).damage>0);
+assert.ok(prepFrame('remove-damage',1).thickness<prepFrame('remove-damage',0).thickness);assert.equal(prepFrame('remove-damage',1).damage,0);
+assert.equal(prepFrame('polish-wafer',1).unevenness,0);assert.equal(prepFrame('wafer-clean-check',.5).residue,0);assert.equal(prepFrame('wafer-clean-check',.5).checked,false);
+const {residue:prepResidue1,cleaned:prepCleaned1,checked:prepChecked1,...prepBefore}=prepFrame('wafer-clean-check',0);
+const {residue:prepResidue2,cleaned:prepCleaned2,checked:prepChecked2,...prepAfter}=prepFrame('wafer-clean-check',1);
+assert.deepEqual(plain(prepBefore),plain(prepAfter));assert.equal(prepChecked2,true);
+const prepUI=harness();prepUI.render();prepUI.nodes(n=>n.type==='button'&&text(n).includes('ウエハを用意'))[0].props.onClick();prepUI.render();prepUI.click('ウエハの準備を体験する');assert.equal(prepUI.get().experience,'wafer-preparation');assert.equal(prepUI.get().playing,false);
+prepUI.click('高純度のシリコンを溶かす');prepUI.tick(0);prepUI.tick(700);assert.equal(prepUI.get().progress,.35);prepUI.click('一時停止');assert.equal(prepUI.raf.size,0);prepUI.click('再開');prepUI.tick(1000);prepUI.tick(2300);assert.equal(prepUI.get().progress,1);
+for(let i=1;i<8;i++){prepUI.click('次の工程 →');assert.equal(prepUI.get().playing,true);prepUI.tick(i*3000);prepUI.tick(i*3000+2000);assert.equal(prepUI.get().step,i);}
+prepUI.click('ウエハ準備のまとめへ →');assert.equal(prepUI.get().view,'summary');prepUI.click('ウエハ準備を最初から見直す');assert.equal(prepUI.get().progress,0);assert.equal(prepUI.get().completed.length,8);assert.equal(prepUI.events.filter(e=>e.name==='semiconductor_process_started').length,1);
+prepUI.nodes(n=>n.type==='button'&&n.props.children?.[1]==='洗浄・検査')[0].props.onClick();prepUI.render();prepUI.nodes(n=>n.type==='input')[0].props.onChange({target:{value:'100'}});prepUI.render();prepUI.click('ウエハ準備のまとめへ →');prepUI.click('続けて膜に形を作る →');assert.equal(prepUI.get().experience,'thin-film');assert.equal(prepUI.get().completed.length,0);assert.equal(prepUI.get().history['wafer-preparation'].completed.length,8);prepUI.unmount();
+const preparationPage=renderToStaticMarkup(React.createElement(load(path.join(base,'app/(ja)/tools/semiconductor-process/page.tsx')).default));
+for(const term of ['ウエハ準備8工程','この丸い板は、結晶を育てるところから','sumcosi.com/products/process/','検査項目の紹介'])assert.ok(preparationPage.includes(term));
+assert.ok(fs.readFileSync('src/content/guides/semiconductor-silicon-wafer-manufacturing.ts','utf8').includes(data.processRoute));
+for(const step of preparationData.waferPreparationSteps){assert.ok(fs.existsSync(`src/content/guides/${step.guide.split('/').pop()}.ts`));for(const id of step.sourceIds)assert.ok(data.processSources.some(s=>s.id===id));}
+console.log('PASS wafer preparation endpoints/continuity, material removal vs cleaning, delayed check, SSR, eight-step playback/restart, thin-film handoff, six-experience events and source links');

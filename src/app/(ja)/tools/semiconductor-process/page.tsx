@@ -1,3 +1,5 @@
+import { waferPreparationCopy, waferPreparationSteps } from '@/data/semiconductor-wafer-preparation';
+import { WaferPreparationDiagram } from '@/components/semiconductor-process/WaferPreparationDiagram';
 import { testingCopy, testingLessons, testingModes, testingSteps } from '@/data/semiconductor-testing';
 import { TestingDiagram, TestingReadout } from '@/components/semiconductor-process/TestingDiagram';
 import { interconnectSteps, interconnectCopy } from '@/data/semiconductor-interconnect';
@@ -22,12 +24,13 @@ export default function SemiconductorProcessPage() {
     <StructuredData data={{ '@context': 'https://schema.org', '@type': 'WebApplication', name: '半導体ができるまで', description: processCopy.description, url: `${siteUrl}${processRoute}`, applicationCategory: 'EducationalApplication', operatingSystem: 'Web', inLanguage: 'ja', dateModified: processRelease.updatedAt, offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' } }}/>
     <StructuredData data={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'ホーム', item: siteUrl }, { '@type': 'ListItem', position: 2, name: '学習ツール', item: `${siteUrl}/tools` }, { '@type': 'ListItem', position: 3, name: '半導体ができるまで', item: `${siteUrl}${processRoute}` }] }}/>
     <nav className={styles.breadcrumb} aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><Link href="/tools">学習ツール</Link><span>/</span><span>半導体ができるまで</span></nav>
-    <header className={styles.hero}><p className={styles.eyebrow}>触って分かる工程図鑑 · 教育用 · 各体験 約3〜5分</p><h1>{processCopy.heading}</h1><p>膜に形を作る前工程。チップを切り分け、つなぎ、保護する後工程。<br/>加工・組立・組立前後の検査を5つの体験で動かして、ウエハから製品になる流れを確かめましょう。</p><p className={styles.small}>{processCopy.privacy}</p></header>
+    <header className={styles.hero}><p className={styles.eyebrow}>触って分かる工程図鑑 · 教育用 · 各体験 約3〜5分</p><h1>{processCopy.heading}</h1><p>膜に形を作る前工程。チップを切り分け、つなぎ、保護する後工程。<br/>ウエハ準備・加工・組立・検査を6つの体験で動かして、ウエハから製品になる流れを確かめましょう。</p><p className={styles.small}>{processCopy.privacy}</p></header>
     <ProcessExplorer/>
     <noscript><p>動かす体験にはJavaScriptが必要です。全体像と工程の解説、下の静止図はそのまま読めます。</p></noscript>
     <article className={styles.document}>
       <h2>前工程と後工程を、流れでつかむ</h2><p>前工程では、ウエハ上に素子と配線を作ります。後工程では、チップの切り分けや接続・保護、検査などを行います。配線形成を指すBEOLと、組み立てを中心とする「後工程」は同じ意味ではありません。</p>
       <details className={styles.detail}><summary>完成までの6地点を文章で読む</summary>{journey.map(item=><section key={item.id}><h3>{item.label}</h3><p>{item.body}</p></section>)}</details>
+      <h2>{waferPreparationCopy.heading}</h2><p>{waferPreparationCopy.intro}</p><div className={styles.staticExample}><WaferPreparationDiagram step="wafer-clean-check" progress={1}/></div><details className={styles.detail}><summary>ウエハ準備8工程の役割と関連記事</summary>{waferPreparationSteps.map(step=><section key={step.id}><h3>{step.verb}（{step.term}）</h3><p>{step.after}</p><p>{step.explanation}</p><Link href={step.guide}>詳しい記事を読む →</Link></section>)}</details><p>{waferPreparationCopy.limits}</p>
       <h2>露光・現像・エッチングは、別の役割</h2><p>光でレジストの性質を変え、現像でそのレジストに窓を開け、エッチングで下の膜へ形を移します。光を当てた瞬間にシリコンや下の膜が削れるわけではありません。</p>
       <div className={styles.staticExample}><ProcessDiagram step={5} progress={1}/></div>
       <details className={styles.detail}><summary>8工程の役割と関連記事</summary>{processSteps.map(step=><section key={step.id}><h3>{step.verb}（{step.term}）</h3><p>{step.after}</p><p>{step.explanation}</p><Link href={step.guide}>詳しい記事を読む →</Link></section>)}</details>

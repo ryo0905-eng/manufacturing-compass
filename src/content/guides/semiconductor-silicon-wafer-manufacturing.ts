@@ -23,7 +23,7 @@ export const semiconductorSiliconWaferManufacturingGuide: GuideArticle = {
     "Siltronicの公式情報で、CZ・FZ、ドーピング、ワイヤ切断、機械加工ダメージ除去、両面研磨、エピタキシャルウェーハを確認",
   ],
   publishedAt: "2026-07-15",
-  updatedAt: "2026-07-15",
+  updatedAt: "2026-09-22",
   sources: [
     {
       title: "Production Processes",
@@ -78,6 +78,7 @@ export const semiconductorSiliconWaferManufacturingGuide: GuideArticle = {
       "原料精製と高純度多結晶シリコン、CZ・MCZ・FZ、種結晶と単結晶育成、ドーパント・抵抗率・結晶方位、外周加工・ノッチ、ワイヤ切断、ラッピング・エッチング・研磨、洗浄・検査、エピタキシャル・アニール・SOIなどの特殊ウェーハ、代表的な欠陥と関連職種。",
   },
   overviewBlocks: [
+    { type: "links", items: [{ label: "ウエハの準備を動く図で体験する", href: "/tools/semiconductor-process", description: "結晶を育て、円板に切り出し、表面を整える8工程を確かめます。" }] },
     {
       type: "quote",
       quote:

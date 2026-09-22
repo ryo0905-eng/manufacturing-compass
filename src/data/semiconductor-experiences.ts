@@ -2,6 +2,7 @@ import { processSteps, questions, processRelated, processCopy, type ExperienceId
 import { assemblySteps, assemblyQuestions, assemblyRelated, assemblyCopy } from './semiconductor-assembly';
 import { interconnectSteps, interconnectQuestions, interconnectRelated, interconnectCopy } from './semiconductor-interconnect';
 import { testingCopy, testingLessons, testingSteps, testingQuestions, testingRelated, type TestingMode } from './semiconductor-testing';
+import { waferPreparationCopy, waferPreparationSteps, waferPreparationQuestions, waferPreparationRelated } from './semiconductor-wafer-preparation';
 export type ExperienceDefinition = {
   steps: readonly { id: string; verb: string; term: string; before: string; after: string; explanation: string; sourceIds: readonly string[]; guide: string }[];
   questions: readonly { id: string; title: string; body: string }[];
@@ -23,6 +24,11 @@ function testingDefinition(mode: TestingMode): ExperienceDefinition {
   };
 }
 export const experiences: Record<ExperienceId, ExperienceDefinition> = {
+  'wafer-preparation': {
+    steps: waferPreparationSteps, questions: waferPreparationQuestions, related: waferPreparationRelated, limits: waferPreparationCopy.limits,
+    label: 'ウエハ準備の一例', locator: '回路を作る前の板です。結晶から円板へ、見せる向きと拡大率を切り替えます。', overview: 1, nextOverview: 2,
+    summary: { eyebrow: '結晶から、回路を作る土台へ', title: '丸い板ができた。回路を作るのは、ここから。', paragraphs: ['精製済みのシリコンから単結晶を育て、薄い円板に切り出し、表面を整える流れを見ました。まだ素子や配線はありません。', '厚さと平行度を整える、加工で傷んだ層を除く、なめらかに磨く、洗って確かめる。それぞれ役割が異なります。検査項目の紹介であり、実際の合格判定ではありません。'], button: 'ウエハ準備のまとめへ →', nextLabel: '全体図で素子・配線づくりを見る →', restart: 'ウエハ準備を最初から見直す' },
+  },
   'wafer-test': testingDefinition('wafer-test'),
   'final-test': testingDefinition('final-test'),
   'thin-film': {

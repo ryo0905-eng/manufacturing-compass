@@ -336,4 +336,4 @@ Serverページが定義・解説・出典・SEOを出力し、`CorrelationTool`
 
 ## 半導体工程図鑑
 
-`/tools/semiconductor-process` のServerページが説明・静止図・出典・SEOを出力し、ClientのProcessExplorerが6地点・薄膜加工8工程・配線7工程・組立7工程・ウエハ検査4工程・最終検査4工程・体験別の振り返りを扱う。ExperienceId（thin-film／assembly／interconnect／wafer-test／final-test）で教材・進捗・計測を分離し、操作とレイアウトを共有する。体験定義表で工程・補足・関連記事・戻り先・まとめを選ぶ。組立・配線・検査の教材、純粋形状関数、SVGは専用モジュールに置く。検査2体験は図・応答表を共有し、対象への接触方法と記録を分ける。教材データ、純粋な形状関数と状態遷移、SVG・専用CSSを分離。RAFは再生トークンで古いコールバックを破棄し、非表示・画面外・unmountで停止・解除する。低モーションは加工後の静止形を使う。新規依存、API、動画配信、WebGL、永続保存は追加しない。[仕様](./semiconductor-process-spec.md)。
+`/tools/semiconductor-process` のServerページが説明・静止図・出典・SEOを出力し、ClientのProcessExplorerが6地点・ウエハ準備8工程・薄膜加工8工程・配線7工程・組立7工程・ウエハ検査4工程・最終検査4工程・体験別の振り返りを扱う。ExperienceId（wafer-preparation／thin-film／assembly／interconnect／wafer-test／final-test）で教材・進捗・計測を分離し、操作とレイアウトを共有する。体験定義表で工程・補足・関連記事・戻り先・まとめを選ぶ。ウエハ準備・組立・配線・検査の教材、純粋形状関数、SVGは専用モジュールに置く。検査2体験は図・応答表を共有し、対象への接触方法と記録を分ける。教材データ、純粋な形状関数と状態遷移、SVG・専用CSSを分離。RAFは再生トークンで古いコールバックを破棄し、非表示・画面外・unmountで停止・解除する。低モーションは加工後の静止形を使う。新規依存、API、動画配信、WebGL、永続保存は追加しない。[仕様](./semiconductor-process-spec.md)。
