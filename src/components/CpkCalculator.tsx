@@ -4,6 +4,8 @@ import { cpkText, type CpkLocale } from "@/data/cpk-text";
 
 import { useRef, useState } from "react";
 import { CapabilityHistogram } from "@/components/CapabilityHistogram";
+import { Button, FieldMessage, InputField, Notice, SelectField, SelectionButton, TextareaField } from "@/components/ui/Controls";
+import styles from "./CpkControls.module.css";
 import { CpkResultCopy } from "@/components/CpkResultCopy";
 import { capabilitySamples, initialCapabilitySample, sampleAsText, type CapabilitySample } from "@/data/cpk-samples";
 import {
@@ -165,28 +167,55 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
     <div className="capability-workspace">
       <section className="capability-input" aria-labelledby="capability-input-title">
         <div className="tool-section-heading"><h2 id="capability-input-title">{t("データ入力")}</h2>{state.activeSampleId ? <span>{t("サンプルデータで表示中")}</span> : null}</div>
-        <fieldset className="tool-segmented"><legend>{t("入力方式")}</legend><div>
-          <button aria-pressed={state.mode === "raw"} onClick={() => switchMode("raw")} type="button">{t("生データ")}</button>
-          <button aria-pressed={state.mode === "summary"} onClick={() => switchMode("summary")} type="button">{t("平均・短期標準偏差")}</button>
-        </div></fieldset>
+        <div className={styles.inputStack}>
+          <fieldset className={styles.inputModes}>
+            <legend>{t("入力方式")}</legend>
+            <div className={styles.selectionGroup}>
+              <SelectionButton selected={state.mode === "raw"} onClick={() => switchMode("raw")}>{t("生データ")}</SelectionButton>
+              <SelectionButton selected={state.mode === "summary"} onClick={() => switchMode("summary")}>{t("平均・短期標準偏差")}</SelectionButton>
+            </div>
+          </fieldset>
 
-        {state.mode === "raw" ? <>
-          <div className="sample-selector"><label htmlFor="capability-sample">{t("サンプル")}</label><select id="capability-sample" onChange={(event) => { const sample = capabilitySamples.find((item) => item.id === event.target.value); if (sample) loadSample(sample); }} value={state.activeSampleId ?? "custom"}><option disabled value="custom">{t("自分のデータ")}</option>{capabilitySamples.map((sample) => <option key={sample.id} value={sample.id}>{t(sample.label)}</option>)}</select><p>{state.activeSampleId ? t(capabilitySamples.find((sample) => sample.id === state.activeSampleId)?.description ?? "") : t("測定データを貼り付けて計算します。")}</p></div>
-          <div className={`tool-field${state.errors.data ? " has-error" : ""}`}><label htmlFor="measurement-data">{t("測定データ")}</label><textarea ref={textareaRef} id="measurement-data" aria-describedby="measurement-help measurement-count measurement-error" aria-invalid={Boolean(state.errors.data)} onChange={(event) => update({ rawData: event.target.value })} placeholder={"10.01\n9.98\n10.03"} value={state.rawData} />
-            <p id="measurement-help" className="field-status">{t("1行1値のほか、カンマ・タブ区切りにも対応します。列名と単位は除いてください。")}</p><p id="measurement-count" className="field-status">{locale === "en" ? `${parsed.values.length} measurements recognized${parsed.invalidCount ? `; ${parsed.invalidCount} values could not be read` : ""}.` : <>{parsed.values.length}件の測定値を認識しました{parsed.invalidCount ? `。${parsed.invalidCount}件の値を読み取れませんでした` : ""}。</>}</p>{state.errors.data ? <p className="field-error" id="measurement-error" role="alert">{state.errors.data}</p> : null}</div>
-        </> : <div className={`summary-fields${state.errors.summary ? " has-error" : ""}`}><div className="tool-field"><label htmlFor="summary-mean">{t("平均値")}</label><input id="summary-mean" inputMode="decimal" onChange={(event) => update({ mean: event.target.value })} value={state.mean} /></div><div className="tool-field"><label htmlFor="summary-sd">{t("短期標準偏差")}</label><input id="summary-sd" inputMode="decimal" onChange={(event) => update({ standardDeviation: event.target.value })} value={state.standardDeviation} /></div>{state.errors.summary ? <p className="field-error" role="alert">{state.errors.summary}</p> : <p className="field-status">{t("群内変動などから別途求めた短期標準偏差を入力してください。")}</p>}</div>}
+          {state.mode === "raw" ? <>
+            <SelectField id="capability-sample" label={t("サンプル")}
+              description={state.activeSampleId ? t(capabilitySamples.find((sample) => sample.id === state.activeSampleId)?.description ?? "") : t("測定データを貼り付けて計算します。")}
+              onChange={(event) => { const sample = capabilitySamples.find((item) => item.id === event.target.value); if (sample) loadSample(sample); }} value={state.activeSampleId ?? "custom"}>
+              <option disabled value="custom">{t("自分のデータ")}</option>
+              {capabilitySamples.map((sample) => <option key={sample.id} value={sample.id}>{t(sample.label)}</option>)}
+            </SelectField>
+            <div>
+              <TextareaField ref={textareaRef} id="measurement-data" label={t("測定データ")} className={styles.measurement}
+                description={t("1行1値のほか、カンマ・タブ区切りにも対応します。列名と単位は除いてください。")}
+                error={state.errors.data} aria-describedby="measurement-count"
+                onChange={(event) => update({ rawData: event.target.value })} placeholder={"10.01\n9.98\n10.03"} value={state.rawData} />
+              <FieldMessage id="measurement-count">{locale === "en" ? `${parsed.values.length} measurements recognized${parsed.invalidCount ? `; ${parsed.invalidCount} values could not be read` : ""}.` : <>{parsed.values.length}件の測定値を認識しました{parsed.invalidCount ? `。${parsed.invalidCount}件の値を読み取れませんでした` : ""}。</>}</FieldMessage>
+            </div>
+          </> : <div className={styles.fields}>
+            <InputField id="summary-mean" label={t("平均値")} inputMode="decimal" aria-invalid={Boolean(state.errors.summary)} aria-describedby="summary-message" onChange={(event) => update({ mean: event.target.value })} value={state.mean} />
+            <InputField id="summary-sd" label={t("短期標準偏差")} inputMode="decimal" aria-invalid={Boolean(state.errors.summary)} aria-describedby="summary-message" onChange={(event) => update({ standardDeviation: event.target.value })} value={state.standardDeviation} />
+            <FieldMessage id="summary-message" error={Boolean(state.errors.summary)}>{state.errors.summary ?? t("群内変動などから別途求めた短期標準偏差を入力してください。")}</FieldMessage>
+          </div>}
 
-        <div className={`specification-fields${state.errors.limits ? " has-error" : ""}`}><div className="tool-field"><label htmlFor="lsl">{t("下限規格 LSL")}</label><input id="lsl" inputMode="decimal" aria-invalid={Boolean(state.errors.limits)} onChange={(event) => update({ lsl: event.target.value })} value={state.lsl} /></div><div className="tool-field"><label htmlFor="usl">{t("上限規格 USL")}</label><input id="usl" inputMode="decimal" aria-invalid={Boolean(state.errors.limits)} onChange={(event) => update({ usl: event.target.value })} value={state.usl} /></div>{state.errors.limits ? <p className="field-error" role="alert">{state.errors.limits}</p> : <p className="field-status">{t("片側規格では、該当する規格値だけ入力してください。")}</p>}</div>
+          <div className={styles.fields}>
+            <InputField id="lsl" label={t("下限規格 LSL")} inputMode="decimal" aria-invalid={Boolean(state.errors.limits)} aria-describedby="limits-message" onChange={(event) => update({ lsl: event.target.value })} value={state.lsl} />
+            <InputField id="usl" label={t("上限規格 USL")} inputMode="decimal" aria-invalid={Boolean(state.errors.limits)} aria-describedby="limits-message" onChange={(event) => update({ usl: event.target.value })} value={state.usl} />
+            <FieldMessage id="limits-message" error={Boolean(state.errors.limits)}>{state.errors.limits ?? t("片側規格では、該当する規格値だけ入力してください。")}</FieldMessage>
+          </div>
 
-        <button className="tool-primary-button" onClick={calculate} type="button">{t("計算する")}</button>
-        <div className="tool-secondary-actions"><button onClick={startCustomData} type="button">{t("自分のデータを入力")}</button><button onClick={() => loadSample(capabilitySamples[(capabilitySamples.findIndex((sample) => sample.id === state.activeSampleId) + 1) % capabilitySamples.length])} type="button">{t("別のサンプルを試す")}</button><button onClick={startCustomData} type="button">{t("入力をクリア")}</button></div>
+          <Button variant="primary" onClick={calculate}>{t("計算する")}</Button>
+          <div className={styles.actions}>
+            <Button variant="text" onClick={startCustomData}>{t("自分のデータを入力")}</Button>
+            <Button variant="text" onClick={() => loadSample(capabilitySamples[(capabilitySamples.findIndex((sample) => sample.id === state.activeSampleId) + 1) % capabilitySamples.length])}>{t("別のサンプルを試す")}</Button>
+            <Button variant="text" onClick={startCustomData}>{t("入力をクリア")}</Button>
+          </div>
+        </div>
       </section>
 
       <section className="capability-results" aria-live="polite" aria-labelledby="capability-result-title">
         <div className="tool-section-heading"><h2 id="capability-result-title">{t("計算結果")}</h2>{state.activeSampleId ? <span>{t("サンプルデータ")}</span> : null}</div>
         {result && analysis ? <div className="result-update" key={`${result.mean}-${result.standardDeviation}-${result.performance}`}>
           <div className="primary-capability"><div><span>{labels.performance}</span><strong>{format(result.performance)}</strong></div><p>{benchmarkText(result.performance, locale)}</p></div>
-          <p className="benchmark-note">{t("1.33は一般的に用いられる目安の一つです。実際の判定では、顧客要求や社内基準を優先してください。")}</p>
+          <Notice>{t("1.33は一般的に用いられる目安の一つです。実際の判定では、顧客要求や社内基準を優先してください。")}</Notice>
           <section className="analysis-summary"><h3>{t(analysis.heading)}</h3><p>{t(analysis.summary)}</p></section>
           <div className="cpk-result-export">
             <p>{result.method === "overall" ? t("入力した全データの標本標準偏差（n−1）を使うため、結果はPp・Ppkです。") : t("入力された短期標準偏差を使うため、結果はCp・Cpkです。")}</p>

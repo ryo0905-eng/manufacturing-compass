@@ -2,6 +2,8 @@
 
 import { cpkText, type CpkLocale } from "@/data/cpk-text";
 
+import { Button, FieldMessage, TextareaField } from "@/components/ui/Controls";
+import styles from "./CpkControls.module.css";
 import { useRef, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
 import type { CapabilityMethod } from "@/lib/process-capability";
@@ -28,17 +30,15 @@ export function CpkResultCopy({ text, method, locale = "ja" }: { text: string; m
   }
 
   return (
-    <div className="cpk-result-copy">
-      <button type="button" disabled={status === "copying"} onClick={copyResult}>
+    <div className={styles.copy}>
+      <Button disabled={status === "copying"} onClick={copyResult}>
         {status === "copying" ? t("コピー中…") : t("結果をコピー")}
-      </button>
-      <p role="status">
+      </Button>
+      <FieldMessage role="status">
         {status === "success" ? t("コピーしました。メモなどに貼り付けられます。") : status === "error" ? t("自動コピーできませんでした。下のテキストを選択して、手動でコピーしてください。") : ""}
-      </p>
+      </FieldMessage>
       {status === "error" ? (
-        <label>
-          {t("コピー用の計算結果（読取専用）")}<textarea readOnly value={text} rows={8} onFocus={(event) => event.currentTarget.select()} />
-        </label>
+        <TextareaField id="cpk-copy-text" label={t("コピー用の計算結果（読取専用）")} readOnly value={text} rows={8} onFocus={(event) => event.currentTarget.select()} />
       ) : null}
     </div>
   );

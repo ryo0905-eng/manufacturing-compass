@@ -1,6 +1,6 @@
 # Design System
 
-最終更新日: 2026-09-20
+最終更新日: 2026-09-22
 
 ## デザイン原則
 
@@ -200,3 +200,17 @@ Cp・Cpk、DoE、管理図、Gage R&R、業界地図のように、操作しな�
 - 図解に代替テキストまたは本文説明を付ける
 - 折りたたみの開閉状態を支援技術で理解できるようにする
 - タップ領域、コントラスト、読み上げ順をモバイルで確認する
+
+
+## 共通UIの実装と段階移行（2026-09-22）
+
+- トークンの正本は `src/styles/tokens.css`。`globals.css` から一度読み込む。`--mc-*` に色の役割、余白、文字サイズ、角丸、操作高さを定義する。既存の `--primary` 等は最終適用値を維持する互換エイリアスとして残す。Quest・図表・旧記事用の固有値は意味を保って管理する。
+- 共通部品は `src/components/ui/Controls.tsx` とそのCSS Module。外部UIライブラリへの依存は追加しない。共通部品自身は状態や `use client` を持たず、操作する画面のClient Componentからイベントを渡す。
+- `Button` は標準button属性と `variant="primary|secondary|text"` を受け取り、既定のtypeはbutton。`ButtonLink` は同じ見た目のネイティブa要素で、href・download・外部リンク属性を受け取る。Next.jsの内部遷移や既存の計測リンクを一律に置き換えない。
+- `SelectionButton` は `selected` を必須とし、`aria-pressed`、チェック形状、下線で状態を示す。通常のボタンとしてTab・Enter・Spaceで操作し、タブUIの矢印キー操作は標榜しない。
+- `InputField`・`TextareaField`・`SelectField` は `id` と `label` を必須とし、標準HTML属性（refを含む）、`description`、`error` を受け取る。ラベル、説明、エラーのID関連付けを部品内で行う。外部の `aria-describedby` も保持する。IDは同一画面内で一意にする。
+- 複数入力に共通する説明・エラーには `FieldMessage` を一つ置き、各入力から参照する。`Notice` はinfo・warning・error・successの補助表示。色だけに頼らず、本文で注意や状態の意味を伝える。ライブ通知は呼び出し側が必要な場合にroleを指定する。
+- 最初の適用先はCpkの日英共通画面。入力、計算・学習切替、学習操作、コピー・手動コピー、注意表示を共通化。操作領域は44px以上、入力文字は16px、補足は12pxを基準にする。スライダーと図表は用途固有の実装を維持する。
+- Cpk固有の配置は `CpkControls.module.css` に分離。移行済み入力部品の旧グローバルCSSと後段の上書きを削除し、他ページの移行は個別の変更として扱う。
+- 計算ロジック、翻訳データ、イベント、両モードをマウントしたままhidden/inertで切り替える入力保持方式は維持する。URL・API・データ型の変更はない。
+- 複雑な選択やダイアログが必要になった時にshadcn/ui等を部品単位で検討する。現時点では導入しない。

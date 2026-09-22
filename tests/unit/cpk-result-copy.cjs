@@ -15,6 +15,8 @@ function load(relative, dependencies = {}, globals = {}) {
   vm.runInNewContext(code, {
     exports,
     require(name) {
+      if (name.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => String(key) }) };
+      if (name === '@/components/ui/Controls') return load('src/components/ui/Controls.tsx');
       if (name === '@/data/cpk-text') return load('src/data/cpk-text.ts');
       if (name === 'react/jsx-runtime') return { jsx: element, jsxs: element };
       if (Object.hasOwn(dependencies, name)) return dependencies[name];
@@ -24,7 +26,13 @@ function load(relative, dependencies = {}, globals = {}) {
   }, { filename });
   return exports;
 }
+const controlNames = new Set(['Button', 'ButtonLink', 'SelectionButton', 'Field', 'FieldMessage', 'InputField', 'TextareaField', 'SelectField', 'Notice']);
+function expandControl(tree) {
+  while (typeof tree?.type === 'function' && controlNames.has(tree.type.name)) tree = tree.type(tree.props);
+  return tree;
+}
 function nodes(tree, predicate) {
+  tree = expandControl(tree);
   if (!tree || typeof tree !== 'object') return [];
   if (Array.isArray(tree)) return tree.flatMap(item => nodes(item, predicate));
   return [...(predicate(tree) ? [tree] : []), ...nodes(tree.props?.children, predicate)];
@@ -129,6 +137,25 @@ async function main() {
   change('summary-sd', '0');
   press('計算する');
   assert.equal(copy(), undefined);
+  const invalid = render();
+  for (const id of ['summary-mean', 'summary-sd']) {
+    const input = nodes(invalid, node => node.type === 'input' && node.props.id === id)[0];
+    assert.equal(input.props['aria-invalid'], true);
+    assert.equal(input.props['aria-describedby'], 'summary-message');
+  }
+  assert.equal(nodes(invalid, node => node.props?.id === 'summary-message')[0].props.role, 'alert');
+  assert.equal(nodes(invalid, node => node.type === 'button' && node.props.children === '平均・短期標準偏差')[0].props['aria-pressed'], true);
+  change('summary-sd', '1');
+  assert.equal(nodes(render(), node => node.type === 'input' && node.props.id === 'summary-sd')[0].props['aria-invalid'], false);
+  press('生データ');
+  change('measurement-data', '1');
+  press('計算する');
+  const rawError = render();
+  const rawInput = nodes(rawError, node => node.type === 'textarea')[0];
+  assert.equal(rawInput.props['aria-invalid'], true);
+  for (const id of rawInput.props['aria-describedby'].split(' ')) {
+    assert.equal(nodes(rawError, node => node.props?.id === id).length, 1, `Description ${id} exists exactly once`);
+  }
   console.log('PASS: success, pending/double click, denied/unavailable clipboard, manual selection, anonymous event, visible placement, sample/raw/summary payloads, invalid input');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

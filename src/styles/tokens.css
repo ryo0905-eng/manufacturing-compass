@@ -1,0 +1,59 @@
+/* Shared UI tokens. Legacy aliases below retain their existing computed values. */
+:root {
+  --mc-surface: #ffffff;
+  --mc-surface-subtle: #f7f7f8;
+  --mc-text: #1d1d1f;
+  --mc-text-muted: #60666d;
+  --mc-border: #e5e7eb;
+  --mc-border-strong: #c9cdd2;
+  --mc-action: #1769aa;
+  --mc-action-primary: #1d1d1f;
+  --mc-action-primary-hover: #3a3a3c;
+  --mc-on-primary: #ffffff;
+  --mc-focus: #1769aa;
+  --mc-selection: #4c72b0;
+  --mc-selection-surface: #eef3fa;
+  --mc-error: #8c2f2a;
+  --mc-error-surface: #fffafa;
+  --mc-warning: #785518;
+  --mc-warning-surface: #fff8e8;
+  --mc-success: #28643e;
+  --mc-success-surface: #edf7ef;
+  --mc-space-1: 4px;
+  --mc-space-2: 8px;
+  --mc-space-3: 12px;
+  --mc-space-4: 16px;
+  --mc-space-5: 24px;
+  --mc-space-6: 32px;
+  --mc-space-7: 48px;
+  --mc-space-8: 64px;
+  --mc-text-small: 12px;
+  --mc-text-label: 13px;
+  --mc-text-body: 16px;
+  --mc-text-heading: 20px;
+  --mc-radius-small: 4px;
+  --mc-radius-control: 6px;
+  --mc-radius-panel: 8px;
+  --mc-control-height: 44px;
+
+  /* Compatibility aliases: do not redefine these in page-specific :root blocks. */
+  --background: var(--mc-surface);
+  --surface: var(--mc-surface);
+  --surface-soft: var(--mc-surface-subtle);
+  --text: var(--mc-text);
+  --muted: var(--mc-text-muted);
+  --line: var(--mc-border);
+  --primary: var(--mc-action);
+  --primary-dark: var(--mc-action-primary);
+  --accent: var(--mc-action);
+  --signal: #30b6c9;
+  --gold: #c9942e;
+  --quest-bg: #10161a;
+  --quest-panel: #152027;
+  --quest-line: rgba(76, 232, 255, 0.26);
+  --quest-green: #6ee7a8;
+  --shadow: none;
+  --blog-heading: #348fa2;
+  --blog-heading-soft: #e3f3f6;
+  --blog-highlight: #fff2bd;
+}

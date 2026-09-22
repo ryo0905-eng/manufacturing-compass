@@ -16,6 +16,10 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 `src/lib/ai-visual-inspection/` はラベルを参照しない画素処理・連結領域と、真値を扱う評価処理を分離する。オフラインゲート通過後、Worker内のONNX Runtime Web 1.22.0推論と要求管理Clientを実装。静的Workerは `sync_web.cjs` で同じTypeScriptソースから生成し、モデルは `export_web.py` が固定ハッシュを確認して出力する。Node上の実WASM数値照合は通過。モデル出力の端点誤差を `2^-23` 以内に限り補正し、超過・非有限値は拒否する。実ブラウザの一周と390px縦配置は確認済み。スライダーのラベル修正後のキーボード・連続操作確認と、実機性能確認は未完了。Server Componentページと5段階の操作UIを `/tools/ai-visual-inspection` に追加し、2026-09-22のユーザー指示でindex可能・sitemap掲載へ切り替えた。教材の固定24枚は `export_lesson.py` で書き出し、真値をWorkerから分離する。[実装記録](./ai-visual-inspection-web-runtime.md)を参照。モデルとランタイムは同一サイトの静的配信、推論は端末内。入力・判定結果・学習状態は送信・永続保存しない。固定カテゴリの既存Analyticsのみ利用する。詳しくは [仕様](./ai-visual-inspection-spec.md)。
 
+### 共通UI
+
+`src/styles/tokens.css` を日英共通の `globals.css` から読み込み、意味別の `--mc-*` トークンと既存CSS変数の互換エイリアスを一元管理する。`src/components/ui/Controls.tsx` は標準HTML属性を受け取る状態を持たない共通部品。Cpkの日英共通Client Componentsで先行利用し、配置は専用CSS Moduleへ分離する。操作・計算・計測は呼び出し側に残し、UIライブラリや新しいAPIへの依存は追加しない。部品の契約と移行ルールは `docs/design-system.md` を参照。
+
 ### 共通スタック
 
 - Next.js 16 App Router

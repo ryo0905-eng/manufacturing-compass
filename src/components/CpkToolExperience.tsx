@@ -2,6 +2,8 @@
 
 import { cpkText, type CpkLocale } from "@/data/cpk-text";
 
+import { SelectionButton } from "@/components/ui/Controls";
+import styles from "./CpkControls.module.css";
 import { useEffect, useRef, useState } from "react";
 import { CpkCalculator } from "@/components/CpkCalculator";
 import { CpkLearningSimulator } from "@/components/CpkLearningSimulator";
@@ -28,13 +30,13 @@ export function CpkToolExperience({ locale = "ja" }: { locale?: CpkLocale } = {}
 
   return (
     <section className="cpk-tool-experience" aria-label={t("Cp・Cpkツール")}>
-      <nav className="cpk-experience-tabs" aria-label={t("ツールのモード")}>
-        <button aria-pressed={view === "calculate"} onClick={() => selectView("calculate")} type="button">
-          <strong>{t("データを計算")}</strong><span>{t("手元の測定値を確認")}</span>
-        </button>
-        <button aria-pressed={view === "learn"} onClick={() => selectView("learn")} type="button">
-          <strong>{t("動かして理解")}</strong><span>{t("平均とばらつきを学ぶ")}</span>
-        </button>
+      <nav className={`${styles.selectionGroup} ${styles.modes}`} aria-label={t("ツールのモード")}>
+        <SelectionButton selected={view === "calculate"} onClick={() => selectView("calculate")}>
+          <span className={styles.modeLabel}><strong>{t("データを計算")}</strong><span>{t("手元の測定値を確認")}</span></span>
+        </SelectionButton>
+        <SelectionButton selected={view === "learn"} onClick={() => selectView("learn")}>
+          <span className={styles.modeLabel}><strong>{t("動かして理解")}</strong><span>{t("平均とばらつきを学ぶ")}</span></span>
+        </SelectionButton>
       </nav>
       <div hidden={view !== "calculate"} inert={view !== "calculate"}><CpkCalculator locale={locale} /></div>
       <div hidden={view !== "learn"} inert={view !== "learn"}><CpkLearningSimulator locale={locale} /></div>

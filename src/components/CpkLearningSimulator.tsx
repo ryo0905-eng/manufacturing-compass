@@ -2,6 +2,7 @@
 
 import { cpkText, type CpkLocale } from "@/data/cpk-text";
 
+import { Button, ButtonLink, Notice } from "@/components/ui/Controls";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { initialLearningState, learningControls, learningPresets, type LearningState } from "@/data/cpk-learning";
 import { comparisonMessage, densityDomain, learningCapability, learningReducer, normalDensity } from "@/lib/cpk-learning";
@@ -71,11 +72,11 @@ export function CpkLearningSimulator({ locale = "ja" }: { locale?: CpkLocale } =
     <section className={styles.controls} aria-labelledby="cpk-learning-controls-title">
       <h2 id="cpk-learning-controls-title">{t("条件を動かす")}</h2>
       <div className={styles.actions}>
-        <button type="button" onClick={() => { dispatch({ type: 'baseline' }); trackEvent('cpk_learning_baseline_set', locale === "en" ? { locale } : undefined); }}>{t("今の条件を比較基準にする")}</button>
-        <button type="button" onClick={() => { dispatch({ type: 'reset' }); trackEvent('cpk_learning_reset', locale === "en" ? { locale } : undefined); }}>{t("初期値に戻す")}</button>
+        <Button onClick={() => { dispatch({ type: 'baseline' }); trackEvent('cpk_learning_baseline_set', locale === "en" ? { locale } : undefined); }}>{t("今の条件を比較基準にする")}</Button>
+        <Button onClick={() => { dispatch({ type: 'reset' }); trackEvent('cpk_learning_reset', locale === "en" ? { locale } : undefined); }}>{t("初期値に戻す")}</Button>
       </div>
       <p className={styles.hint}>{t("プリセットは現在値だけを変更します。初期値に戻すと、比較基準も戻ります。")}</p>
-      <div className={styles.presets} aria-label={t("学習プリセット")}>{learningPresets.map(preset => <button type="button" key={preset.id} onClick={() => { dispatch({ type: 'preset', state: preset.state }); trackEvent('cpk_learning_preset_selected', { preset: preset.id, ...(locale === "en" ? { locale } : {}) }); }}>{t(preset.label)}</button>)}</div>
+      <div className={styles.presets} aria-label={t("学習プリセット")}>{learningPresets.map(preset => <Button key={preset.id} onClick={() => { dispatch({ type: 'preset', state: preset.state }); trackEvent('cpk_learning_preset_selected', { preset: preset.id, ...(locale === "en" ? { locale } : {}) }); }}>{t(preset.label)}</Button>)}</div>
       {learningControls.map(control => <label className={styles.slider} key={control.key} htmlFor={`learning-${control.key}`}><span><b>{t(control.label)}</b><output>{current[control.key].toFixed(2)}</output></span><input id={`learning-${control.key}`} min={control.min} max={control.max} step={control.step} type="range" value={current[control.key]} onChange={event => update(control.key, Number(event.target.value))} /></label>)}
       <p className={styles.hint}>{t("まず平均だけを動かして、CpとCpkの違いを見てみてください。")}</p>
     </section>
@@ -83,7 +84,7 @@ export function CpkLearningSimulator({ locale = "ja" }: { locale?: CpkLocale } =
       <h2 id="cpk-comparison-title">{t("比較基準から、何が変わった？")}</h2>
       <p>{comparisonMessage(baseline, current, locale)}</p>
       <table><caption>{t("条件の比較")}</caption><thead><tr><th scope="col">{t("項目")}</th><th scope="col">{t("基準")}</th><th scope="col">{t("現在")}</th></tr></thead><tbody>{learningControls.map(control => <tr key={control.key}><th scope="row">{t(control.label)}</th><td>{baseline[control.key].toFixed(2)}</td><td>{current[control.key].toFixed(2)}</td></tr>)}</tbody></table>
-      <aside><strong>{t("学習用の理論例です")}</strong><p>{t("正規分布と入力した平均・短期標準偏差を前提にしています。Cpkだけで工程の安定性や実際の規格外率を判断することはできません。1.33は品質を保証する境界ではありません。")}</p><a href="https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm" target="_blank" rel="noopener noreferrer">{t("出典：NIST 工程能力の解説")}</a><p>{t("出典確認日：2026年9月6日")}</p></aside>
+      <aside><Notice><strong>{t("学習用の理論例です")}</strong><p>{t("正規分布と入力した平均・短期標準偏差を前提にしています。Cpkだけで工程の安定性や実際の規格外率を判断することはできません。1.33は品質を保証する境界ではありません。")}</p><ButtonLink variant="text" href="https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm" target="_blank" rel="noopener noreferrer">{t("出典：NIST 工程能力の解説")}</ButtonLink><p>{t("出典確認日：2026年9月6日")}</p></Notice></aside>
     </section>
   </div>;
 }

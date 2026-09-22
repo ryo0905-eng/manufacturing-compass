@@ -46,12 +46,19 @@ function hooks() {
     react: { ...React, useState: state, useRef: initial => state({ current: initial })[0], useEffect() {}, useReducer: (reducer, initial) => { const [value, set] = state(initial); return [value, action => set(previous => reducer(previous, action))]; } },
   };
 }
+const controlNames = new Set(['Button', 'ButtonLink', 'SelectionButton', 'Field', 'FieldMessage', 'InputField', 'TextareaField', 'SelectField', 'Notice']);
+function expandControl(tree) {
+  while (typeof tree?.type === 'function' && controlNames.has(tree.type.name)) tree = tree.type(tree.props);
+  return tree;
+}
 function nodes(tree, predicate) {
+  tree = expandControl(tree);
   if (Array.isArray(tree)) return tree.flatMap(n => nodes(n, predicate));
   if (!tree || typeof tree !== 'object') return [];
   return [...(predicate(tree) ? [tree] : []), ...nodes(tree.props?.children, predicate)];
 }
 function text(tree) {
+  tree = expandControl(tree);
   if (Array.isArray(tree)) return tree.map(text).join(' ');
   if (typeof tree === 'string' || typeof tree === 'number') return String(tree);
   return tree?.props ? text(tree.props.children) : '';

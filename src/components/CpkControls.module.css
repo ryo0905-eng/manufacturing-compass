@@ -1,0 +1,19 @@
+.inputStack { display: grid; gap: var(--mc-space-3); }
+.inputModes { min-width: 0; margin: 0; padding: 0; border: 0; }
+.inputModes legend { margin-bottom: var(--mc-space-1); font-size: var(--mc-text-label); font-weight: 600; }
+.selectionGroup { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mc-space-1); padding: var(--mc-space-1); border: 1px solid var(--mc-border); border-radius: var(--mc-radius-panel); background: var(--mc-surface-subtle); }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mc-space-3); }
+.fields > p { grid-column: 1 / -1; }
+.measurement { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.actions { display: flex; flex-wrap: wrap; gap: var(--mc-space-1) var(--mc-space-2); }
+.modes { width: min(520px, 100%); margin-bottom: var(--mc-space-3); }
+.modeLabel { display: grid; gap: var(--mc-space-1); }
+.modeLabel strong { font-size: var(--mc-text-label); font-weight: 600; }
+.modeLabel span { font-size: var(--mc-text-small); font-weight: 400; }
+.copy { display: grid; gap: var(--mc-space-2); justify-items: start; }
+.copy > div { width: 100%; }
+.copy > p:empty { display: none; }
+@media (max-width: 620px) {
+  .fields { grid-template-columns: minmax(0, 1fr); }
+  .measurement { min-height: 190px; }
+}
