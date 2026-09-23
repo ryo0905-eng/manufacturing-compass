@@ -8,7 +8,8 @@ function load(file, dependencies = {}, globals = {}) {
   vm.runInNewContext(code, { exports, require: id => { if (!(id in dependencies)) throw Error(id); return dependencies[id]; }, TextEncoder, ...globals });
   return exports;
 }
-const lib = load('src/lib/tool-workspace.ts');
+const reportData = load('src/data/improvement-report.ts');
+const lib = load('src/lib/tool-workspace.ts', { '@/data/improvement-report': reportData });
 const plain = value => JSON.parse(JSON.stringify(value));
 const cpk = { mode: 'raw', rawData: '1\n2\n3', mean: '', standardDeviation: '', lsl: '-', usl: '' };
 const comparison = { nameA: '私的な条件名', nameB: '<script>alert(1)</script>', measurement: '厚さ', unit: 'nm', dataA: '1\n2', dataB: '3\n4', lower: '', upper: '1e' };
@@ -77,6 +78,7 @@ async function uiTest(locale, tool, input) {
   assert.ok(!JSON.stringify(events).includes('私的'));
 }
 (async () => {
+  await uiTest('ja', 'improvement-report', { ...comparison, ...reportData.sampleReportNotes });
   for (const locale of ['ja', 'en']) { await uiTest(locale, 'cpk', cpk); await uiTest(locale, 'process-comparison', comparison); }
   console.log('PASS: workspace round trips, unfinished inputs, byte limit, schema rejection, confirmation/cancel, download cleanup and private telemetry (mock UI).');
 })().catch(error => { console.error(error); process.exitCode = 1; });

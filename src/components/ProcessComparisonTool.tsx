@@ -1,5 +1,8 @@
 "use client";
 
+import { ImprovementReportEditor, reportAction } from "@/components/ImprovementReportEditor";
+import { emptyReportNotes, sampleReportNotes, type ReportNotes } from "@/data/improvement-report";
+
 import { ToolWorkspaceFile } from "@/components/ToolWorkspaceFile";
 
 import { PracticalToolNextSteps } from "@/components/PracticalToolNextSteps";
@@ -20,12 +23,16 @@ function record(action: "started" | "completed" | "copied" | "png_exported", loc
   try { if (locale === "en") trackEvent(`process_comparison_${action}`, { locale });
     else trackEvent(`process_comparison_${action}`); } catch { /* Analytics must not interrupt local work. */ }
 }
-export function ProcessComparisonTool({ locale = "ja" }: { locale?: ToolLocale } = {}) {
+export function ProcessComparisonTool({ locale = "ja", reportMode = false }: { locale?: ToolLocale; reportMode?: boolean } = {}) {
   const t = getToolText(locale);
   const empty = makeEmpty(locale);
+  const [reportOpen, setReportOpen] = useState(reportMode && locale === "ja");
+  const [notes, setNotes] = useState<ReportNotes>({ ...emptyReportNotes });
+  const [needsReview, setNeedsReview] = useState(false);
+  const [reportStarted, setReportStarted] = useState(false);
   const [input, setInput] = useState<ComparisonInput>(empty);
   const [result, setResult] = useState<Comparison | null>(null);
-  const journey = usePracticalToolJourney("process-comparison", locale, result, "custom");
+  const journey = usePracticalToolJourney(reportMode ? "improvement-report" : "process-comparison", locale, result, "custom");
   const [error, setError] = useState("");
   const [status, setStatus] = useState("");
   const [fallback, setFallback] = useState("");
@@ -36,6 +43,7 @@ export function ProcessComparisonTool({ locale = "ja" }: { locale?: ToolLocale }
   function change(next: ComparisonInput, source: "sample" | "custom" | "clear" = "custom") {
     if (source === "clear") journey.clear();
     else { start(); if (source === "sample") journey.sample(); else journey.start(); }
+    if (reportOpen) setNeedsReview(true);
     setInput(next); setResult(null); setError(""); setStatus(""); setFallback("");
   }
   const field = (key: keyof ComparisonInput, label: string, numeric = false) => <label>{label}<input value={input[key]} maxLength={numeric ? 100 : 40} inputMode={numeric ? "decimal" : "text"} onChange={event => change({ ...input, [key]: event.target.value })} /></label>;
@@ -57,10 +65,17 @@ export function ProcessComparisonTool({ locale = "ja" }: { locale?: ToolLocale }
     finally { exporting.current = false; setBusy(false); }
   }
   return <div className={styles.tool}>
-    <ToolWorkspaceFile tool="process-comparison" locale={locale} input={input} disabled={busy} onRestore={next => change(next)} />
+    {reportMode && <div className={styles.actions}>
+      <button type="button" onClick={() => { change({ ...empty }); setNotes({ ...emptyReportNotes }); setReportStarted(true); setNeedsReview(false); reportAction("open_editor"); }}>自分のデータで作る</button>
+      <button type="button" onClick={() => { change({ ...processComparisonSample }, "sample"); setNotes({ ...sampleReportNotes }); setResult(compareProcesses(processComparisonSample)); setReportStarted(true); setNeedsReview(false); reportAction("open_editor"); }}>架空例で試す</button>
+    </div>}
+    {reportOpen ? <ToolWorkspaceFile key="improvement-report" tool="improvement-report" locale={locale} input={{ ...input, ...notes }} disabled={busy} onRestore={next => {
+      const { reportTitle, reportDate, changeDescription, measurementConditions, interpretation, uncertainties, nextAction, ...comparison } = next;
+      change(comparison); setNotes({ reportTitle, reportDate, changeDescription, measurementConditions, interpretation, uncertainties, nextAction }); setReportStarted(true); setNeedsReview(false);
+    }} /> : <ToolWorkspaceFile key="process-comparison" tool="process-comparison" locale={locale} input={input} disabled={busy} onRestore={next => change(next)} /> }
     <form onSubmit={event => {
       event.preventDefault(); start(); journey.calculate(); setStatus(""); setFallback("");
-      try { setResult(compareProcesses(input, locale)); setError(""); record("completed", locale); }
+      try { setReportStarted(true); setResult(compareProcesses(input, locale)); setError(""); record("completed", locale); }
       catch (cause) { journey.error(); setResult(null); setError(cause instanceof Error ? cause.message : t("入力を確認してください。")); }
     }}>
       <fieldset disabled={busy}>
@@ -78,7 +93,7 @@ export function ProcessComparisonTool({ locale = "ja" }: { locale?: ToolLocale }
     </form>
     {error && <p role="alert" className={styles.error}>{error}</p>}
     {result && <section aria-labelledby="comparison-result-title">
-      <h2 ref={journey.resultRef} id="comparison-result-title">{t("2. 比較結果")}</h2>
+      <h2 ref={reportMode ? undefined : journey.resultRef} id="comparison-result-title">{t("2. 比較結果")}</h2>
       <p>{result.measurement} {t("／ 単位：")}{result.unit || t("指定なし")}{t("。数値は有効数字8桁まで表示します。")}</p>
       <div className={styles.tableWrap}><table><caption>{t("2条件の記述統計（平均差はB−A）")}</caption><thead><tr>{rows[0].map((value, index) => <th key={index} scope="col">{value}</th>)}</tr></thead><tbody>{rows.slice(1).map(row => <tr key={row[0]}><th scope="row">{row[0]}</th><td>{row[1]}</td><td>{row[2]}</td></tr>)}</tbody></table></div>
       <p>{t("規格内率は入力した測定値の割合です。母集団の歩留まりや、今後の品質を保証する値ではありません。")}</p>
@@ -90,8 +105,10 @@ export function ProcessComparisonTool({ locale = "ja" }: { locale?: ToolLocale }
       <details><summary>{t("分布図の数値を確認")}</summary><div className={styles.tableWrap}><table><caption>{t("共通区間の割合 (%)。区間は左端を含み、右端は最終区間だけ含みます。")}</caption><thead><tr><th scope="col">{t("区間番号")}</th><th scope="col">A (%)</th><th scope="col">B (%)</th></tr></thead><tbody>{result.histogram.a.map((value, index) => <tr key={index}><th scope="row">{index + 1}</th><td>{value.toFixed(4)}</td><td>{result.histogram.b[index].toFixed(4)}</td></tr>)}</tbody></table></div></details>
       <p>{t("差の有意性・同等性・因果関係は判定していません。測定方法、対象ロット、採取時期、サンプル数が比較に適しているかを確認してください。")}</p>
       <div className={styles.actions}><button type="button" disabled={busy} onClick={copy}>{t("表をコピー（Excel用）")}</button><button type="button" disabled={busy} onClick={png}>{t("図をPNGで保存")}</button></div>
+      {locale === "ja" && !reportOpen && <button type="button" onClick={() => { setReportOpen(true); setReportStarted(true); setNeedsReview(false); reportAction("open_editor"); }}>この比較を報告書にする</button>}
       <PracticalToolNextSteps tool="process-comparison" locale={locale} />
     </section>}
+    {reportOpen && (reportStarted || !reportMode) && <ImprovementReportEditor result={result} notes={notes} onChange={setNotes} needsReview={needsReview} resultRef={reportMode ? journey.resultRef : undefined} />}
     <p role="status" aria-live="polite">{status}</p>
     {fallback && <label>{t("手動コピー用の表")}<textarea readOnly rows={12} value={fallback} onFocus={event => event.currentTarget.select()} /></label>}
   </div>;

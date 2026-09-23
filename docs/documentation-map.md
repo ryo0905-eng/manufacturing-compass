@@ -102,3 +102,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - [`docs/semiconductor-process-spec.md`](./semiconductor-process-spec.md): 工程図鑑の初版範囲・全6体験の仕事紹介・おすすめ見学コース・全体像・ウエハ準備／薄膜加工／配線＋CMP／組立／ウエハ・最終検査の図・技術簡略化・共通操作・体験別計測・公開導線・検証。
 
 - [`docs/measurement-planner-spec.md`](./measurement-planner-spec.md): 平均の測定計画の計算・範囲・導線・計測・Threads素材・検証。
+
+- [`docs/improvement-report-spec.md`](./improvement-report-spec.md): 工程改善レポートの表示・計算・編集・保存互換性・印刷・計測・紹介素材・実ブラウザ検証。

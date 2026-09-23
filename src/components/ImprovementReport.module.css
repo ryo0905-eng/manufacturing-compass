@@ -1,0 +1,36 @@
+.editor { margin-top: 24px; padding: 18px; border: 1px solid var(--mc-border); border-radius: 10px; }
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: grid; gap: 4px; }
+.field :is(input, textarea) { box-sizing: border-box; width: 100%; min-width: 0; padding: 8px; min-height: 44px; font: inherit; border: 1px solid var(--mc-border); border-radius: 4px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+.actions :is(button,a) { min-height: 44px; padding: 8px 12px; font: inherit; }
+.editor :is(button,input,textarea,a):focus-visible { outline: 3px solid var(--mc-focus); outline-offset: 2px; }
+.report { background: white; color: #17212b; padding: 24px; max-width: 850px; margin: 16px auto; font: 14px/1.5 sans-serif; overflow-wrap: anywhere; border: 1px solid #cbd0d6; }
+.report * { box-sizing: border-box; }
+.report h2 { margin: 4px 0 8px; font-size: 22px; }
+.report h3 { margin: 10px 0 4px; font-size: 15px; border-bottom: 1px solid #cbd0d6; padding-bottom: 3px; }
+.report p { margin: 4px 0; white-space: pre-wrap; }
+.report header { border-bottom: 2px solid #27465b; padding-bottom: 8px; }
+.background { margin: 10px 0; }
+.comparison { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.comparison table { border-collapse: collapse; table-layout: fixed; width: 100%; }
+.comparison th, .comparison td { border-bottom: 1px solid #d5d9de; padding: 4px 6px; text-align: left; }
+.comparison img { width: 100%; height: auto; max-height: 250px; object-fit: contain; }
+.report footer { border-top: 1px solid #cbd0d6; margin-top: 12px; padding-top: 6px; font-size: 12px; }
+.printRoot { display: none; }
+@media (max-width: 640px) { .fields { grid-template-columns: 1fr; } .editor { padding: 12px; } .report { padding: 12px; font-size: 13px; } }
+@media print {
+  @page { size: A4 portrait; margin: 12mm; }
+  :global(body[data-improvement-print] > :not(#improvement-report-print-root)) { display: none !important; }
+  :global(body[data-improvement-print]) .printRoot { display: block !important; }
+  :global(body[data-improvement-print]) { margin: 0 !important; padding: 0 !important; background: white !important; }
+  .report { max-width: none; width: 100%; margin: 0; padding: 0; border: 0; font-size: 10pt; line-height: 1.35; }
+  .report h2 { font-size: 16pt; }
+  .report h3 { font-size: 11pt; }
+  .report footer { font-size: 10pt; }
+  .report section, .report header, .report footer, .background { break-inside: avoid; }
+  .comparison { grid-template-columns: 1fr; gap: 4px; }
+  .comparison img { max-height: 62mm; width: 100%; }
+  .comparison th, .comparison td { padding: 2px 5px; }
+  .report h3 { margin-top: 7px; }
+}

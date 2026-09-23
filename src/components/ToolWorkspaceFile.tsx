@@ -68,6 +68,7 @@ export function ToolWorkspaceFile<T extends WorkspaceTool>({ tool, locale, input
     <p>{en ? "The file contains your input data. It is not sent to a server. Results are not saved. Maximum file size: 2 MiB." : "このファイルには入力データが含まれます。サーバーには送信しません。計算結果は保存しません。上限2 MiB。"}</p>
     {busy && <p role="status">{en ? "Reading file…" : "ファイルを読み込んでいます…"}</p>}
     {pending && <div className={styles.confirmation} role="group" aria-label={en ? "Confirm replacement" : "入力の置き換え確認"}>
+      {tool === "improvement-report" && <p>報告欄も置き換えます。工程比較の保存ファイルでは報告欄は空になります。</p>}
       <p role="status">{en ? "Replace the current inputs? The current result will be cleared." : "現在の入力を置き換えますか？ 表示中の結果は消去されます。"}</p>
       <div className={styles.actions}>
         <button type="button" disabled={disabled} onClick={() => {

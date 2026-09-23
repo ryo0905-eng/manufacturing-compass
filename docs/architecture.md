@@ -381,3 +381,7 @@ Serverページが定義・解説・出典・SEOを出力し、`CorrelationTool`
 `JapanWorkEvidence` と企業の日本紹介・Sourceは `src/data/japan-work.ts`、分類・公開条件・地域との同一記録照合・比較選択・整合検証は `src/lib/japan-work.ts` に分離する。企業IDとCompanyLocationを参照し、jobCategoriesから国内業務を補完しない。KLA横浜本社・Infineon渋谷本社を既存拠点データへ追加するが、根拠がない職種の配属先にはしない。
 
 Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示スロットを渡す。初期HTMLの全社詳細とClient Componentの探索パネルで同一内容を使う。操作状態はReactメモリのみ、外部API・永続化・新規依存はなし。日次再検証で期限表示を更新する。専用URLはcanonical・sitemap・WebPage・ItemListへ追加。既存企業ページの公開状態は変更しない。[データ範囲・計測・更新手順](./global-japan-work-spec.md)。
+
+## 工程改善レポート（2026-09-23）
+
+`/tools/improvement-report` のServerページが完成見本・説明・SEOを表示する。`ProcessComparisonTool(reportMode)` が既存の入力・計算・分布図と報告編集を共用し、日本語の比較結果からもページ遷移なしで開く。`ImprovementReportEditor` は編集と印刷準備、`ImprovementReportPreview` は画面／印刷共通表示、`lib/improvement-report` は能力指標と観察文、`data/improvement-report` は項目定義と架空例を担う。印刷はbody直下のportalと印刷CSSでUIを除外する。workspace v1のimprovement-reportに比較入力＋報告欄を保存し、旧比較ファイルは報告書側だけ受理する。新規依存・API・永続ストレージは追加しない。[詳細](./improvement-report-spec.md)。

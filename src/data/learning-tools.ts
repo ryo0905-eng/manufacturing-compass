@@ -1,6 +1,6 @@
 import { isCorrelationPublished } from "@/data/correlation-causation";
 
-export type ToolId = "measurement-planner" | "semiconductor-process" | "improvement-confidence" | "correlation-causation" | "ai-visual-inspection" | "taguchi" | "bayesian-optimization" | "gage-rr" | "control-chart" | "yield-analysis" | "yield-dashboard" | "cpk" | "doe" | "line-balance" | "oee" | "process-comparison" | "jev";
+export type ToolId = "improvement-report" | "measurement-planner" | "semiconductor-process" | "improvement-confidence" | "correlation-causation" | "ai-visual-inspection" | "taguchi" | "bayesian-optimization" | "gage-rr" | "control-chart" | "yield-analysis" | "yield-dashboard" | "cpk" | "doe" | "line-balance" | "oee" | "process-comparison" | "jev";
 
 export const correlationLearningTool = {
   id: "correlation-causation", href: "/tools/correlation-causation", step: "14", question: "それは本当に原因か", title: "相関と因果ラボ", role: "比較方法を考える", badge: "教育用", message: "製品別に分けると、関係が逆に見える？", description: "架空の半導体加工データで、集計の逆転と無作為割付を体験します。", features: ["製品別の散布図", "比較方法を選ぶ", "実験結果を振り返る"], time: "約5分", level: "入門", preview: "correlation",
@@ -24,6 +24,7 @@ export const learningTools = [
   { id: "improvement-confidence", href: "/tools/improvement-confidence", step: "15", question: "その改善、本当に効いた？", title: "改善の差を見極める", role: "平均差と推定の幅を読む", badge: "教育用", message: "差の不確かさと、実務上ほしい改善幅を分ける", description: "架空の膜厚データで測定数を増やし、3ケースと自由実験で判断を学びます。", features: ["サンプル数・95%信頼区間", "3ケースの振り返り", "自由実験・全履歴"], time: "約5分", level: "入門", preview: "confidence" },
   { id: "semiconductor-process", href: "/tools/semiconductor-process", step: "16", question: "この丸い板が、どうやって半導体になるの？", title: "半導体ができるまで", role: "全体像と加工の変化を見る", badge: "教育用", message: "おすすめ見学コースで、ウエハから製品まで", description: "ウエハから製品までを見渡し、ウエハ準備・薄膜加工・配線とCMP・組立・ウエハ検査・最終検査の6体験で確かめます。各工程を支える仕事も図で紹介します。", features: ["6体験を巡るおすすめ見学コース", "各体験で3つの仕事を紹介", "一時停止・巻き戻し"], time: "各約3〜5分", level: "入門", preview: "fabrication" },
   { id: "measurement-planner", href: "/tools/measurement-planner", step: "17", question: "平均を知るには何個測るか", title: "平均の測定計画", role: "測定前に精度と負担を比較", badge: "新着", message: "推定幅と測定時間を、3案で比べる", description: "想定標準偏差から、平均の推定に必要な測定数の目安を計算します。", features: ["95%・正規近似", "精度と時間の3案比較", "計画のコピー"], time: "約3分", level: "基礎", preview: "measurement" },
+  { id: "improvement-report", href: "/tools/improvement-report", step: "18", question: "比較結果をどう報告するか", title: "工程改善レポート", role: "数値と考察を報告書に", badge: "新着", message: "変更前後の比較を、社内報告の1枚へ", description: "同じ画面で比較・考察の編集・印刷まで進めます。", features: ["比較表と分布図", "PDF保存・印刷", "入力保存と再開"], time: "約5分", level: "基礎", preview: "comparison" },
 ] as const;
 
 
@@ -31,6 +32,7 @@ export type ToolPurpose = "input" | "learn";
 
 // Classify actual input capabilities, not whether the subject is useful at work.
 export const toolUsage: Record<ToolId, { purpose: ToolPurpose; input: string }> = {
+  "improvement-report": { purpose: "input", input: "2条件の測定値・報告文" },
   "measurement-planner": { purpose: "input", input: "標準偏差・推定幅・測定時間" },
   "gage-rr": { purpose: "learn", input: "疑似測定データ" },
   "control-chart": { purpose: "learn", input: "生成した時系列データ" },

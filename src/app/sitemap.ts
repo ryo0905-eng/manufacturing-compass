@@ -1,3 +1,4 @@
+import { improvementReportMeta } from "@/data/improvement-report";
 import { measurementPlanner } from "@/data/measurement-planner";
 import { japanWorkRoute, japanWorkUpdatedAt } from "@/data/japan-work";
 import { rankingTimeMachineMetadata } from "@/data/ranking-time-machine";
@@ -31,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((location) => location.contentStatus === "complete")
     .reduce((latest, location) => location.lastVerifiedAt > latest ? location.lastVerifiedAt : latest, "1970-01-01");
   const staticRoutes = [
+    improvementReportMeta.route,
     measurementPlanner.route,
     rankingTimeMachineMetadata.route,
     japanWorkRoute,
@@ -72,6 +74,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === improvementReportMeta.route ? { lastModified: contentDate(improvementReportMeta.updatedAt) } : {}),
     ...(path === measurementPlanner.route ? { lastModified: contentDate(measurementPlanner.updatedAt) } : {}),
     ...(path === rankingTimeMachineMetadata.route ? { lastModified: contentDate(rankingTimeMachineMetadata.updatedAt) } : {}),
     ...(path === processRoute ? { lastModified: contentDate(processRelease.updatedAt) } : {}),
