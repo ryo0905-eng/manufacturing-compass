@@ -103,3 +103,12 @@
 .tracker a { display: inline-flex; align-items: center; min-height: 44px; }
 .share { margin-top: 8px; }
 .share input { width: 100%; min-height: 44px; font: inherit; }
+
+.historyArticle { min-width: 0; }
+.historyArticle figure { margin: 20px 0; }
+.historyArticle h3 { margin-top: 28px; }
+.historyArticle summary { cursor: pointer; min-height: 44px; padding: 12px 0; font-weight: 600; }
+.historyTableScroll { overflow-x: auto; }
+.historyTableScroll .table { min-width: 520px; table-layout: auto; }
+.historyTableScroll .table th:first-child { width: 30%; }
+.historyArticle a:focus-visible, .historyArticle summary:focus-visible { outline: 3px solid var(--mc-action); outline-offset: 3px; }

@@ -1,3 +1,4 @@
+import { RankingHistoryArticle } from "@/components/ranking-time-machine/RankingHistoryArticle";
 import { OpticalCompanies } from "@/components/OpticalCompanies";
 import { MemoryRanking } from "@/components/MemoryRanking";
 import { EquipmentSalesRanking } from "@/components/EquipmentSalesRanking";
@@ -26,6 +27,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
+        if (block.type === "ranking-history") return <RankingHistoryArticle key={`ranking-history-${index}`} kind={block.kind} sourceSlug={sourceSlug ?? ""} />;
         if (block.type === "image") {
           return (
             <figure className="guide-actual-image" key={`image-${block.src}`}>

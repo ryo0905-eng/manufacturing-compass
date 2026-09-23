@@ -213,7 +213,7 @@ for (const [event, properties] of events) {
   assert.ok(properties.year >= 2010 && properties.year <= 2025);
 }
 const related = nodes(render(), node => node.props?.eventName === 'ranking_timemachine_related_click');
-assert.equal(related.length, 5);
+assert.equal(related.length, 7);
 for (const link of related) assert.equal(link.props.eventProperties.year, 2010);
 // Switching modes stops timers, resets tracked company, and clamps the year atomically.
 function chooseMode(label) { nodes(render(), node => node.props?.children === label && typeof node.props?.onClick === 'function')[0].props.onClick(); render(); }
@@ -237,6 +237,15 @@ assert.equal(controls().index, 0); assert.equal(props('CompanyDetail').companyId
 controls().onPlay(); render(); chooseMode('半導体20社');
 assert.equal(controls().playing, false); assert.equal(props('CompanyDetail').companyId, '');
 assert.equal(timers.size, 0);
+controls().onPlay(); render(); chooseMode('日本企業10社');
+assert.equal(timers.size, 0); assert.equal(props('RankingRaceChart').animate, false);
+assert.equal(props('CompanyTracker').rows.length, 10);
+assert.equal(props('CompanyDetail').companyId, 'tokyo-electron');
+assert.equal(events.at(-1)[1].comparison_mode, 'japan');
+props('CompanyTracker').onSelect('advantest'); render();
+assert.equal(props('CompanyDetail').companyId, 'advantest');
+assert.equal(events.at(-1)[1].company, 'advantest');
+controls().onReset(); render(); assert.equal(props('CompanyDetail').companyId, 'tokyo-electron');
 for (const effect of effects) effect?.cleanup?.();
 assert.equal(listeners.size, 0); assert.equal(timers.size, 0);
 
@@ -409,3 +418,112 @@ async function testShare() {
   }
 }
 testShare().then(() => console.log('Ranking time machine: data, all comparison modes, tracking, playback, sharing, analytics, reduced motion and SSR passed. Browser layout and production delivery are not covered.')).catch(error => { console.error(error); process.exitCode = 1; });
+
+// Japan is a separate cohort: reuse TEL and preserve all three existing modes.
+const japan = load('src/data/ranking-japan.ts');
+assert.equal(japan.japanCompanies.length, 9);
+assert.equal(japan.japanSnapshots.flatMap(s => s.entries).length, 144);
+assert.equal(modes.japan.companies.length, 10);
+assert.equal(modes.japan.timeline.length, 16);
+assert.deepEqual(plain(modes.japan.timeline.map(s => s.year)), Array.from({ length: 16 }, (_, i) => 2010 + i));
+for (const snapshot of modes.japan.timeline) {
+  assert.equal(snapshot.rows.length, 10);
+  assert.equal(snapshot.rows.find(c => c.id === 'tokyo-electron').valueUsdB, at(snapshot.year, 'tokyo-electron').valueUsdB);
+  assert.equal(new Set(snapshot.rows.map(c => c.id)).size, 10);
+  for (const row of snapshot.rows) assert.ok(Number.isFinite(row.valueUsdB) && row.valueUsdB > 0);
+}
+for (const company of japan.japanCompanies) {
+  assert.ok(fs.existsSync(path.join(root, 'public', company.logoUrl)));
+  assert.ok(html.includes(company.sourceUrl));
+  if (company.companySlug) assert.equal(companyRegistry.getCompanyContentStatus(company.companySlug), 'complete');
+}
+assert.equal(japan.japanCompanies.find(c => c.id === 'screen-holdings').companySlug, undefined);
+for (const invalid of [0, -1, NaN, Infinity]) assert.throws(() => lib.rankSnapshot(modes.japan.companies, { year: 2010, entries: modes.japan.timeline[0].rows.map((row, i) => ({ companyId: row.id, valueUsdB: i ? row.valueUsdB : invalid })) }));
+assert.throws(() => lib.prepareRanking(modes.japan.companies, japan.japanSnapshots)); // Missing TEL must fail.
+const japanState = comparison.reduceComparison({ ...comparison.initialComparison, index: 10, playing: true, animate: true }, { type: 'mode', mode: 'japan' });
+assert.equal(japanState.index, 10); assert.equal(japanState.selectedId, 'tokyo-electron'); assert.equal(japanState.playing, false); assert.equal(japanState.animate, false);
+assert.equal(comparison.reduceComparison(japanState, { type: 'reset' }).index, 0);
+const japanUrl = comparison.comparisonShareUrl('https://mfg-compass.com', 'japan', 2025, 'advantest');
+assert.deepEqual(plain(comparison.readComparisonHash(japanUrl.split('#')[1])), { type: 'restore', mode: 'japan', year: 2025, selectedId: 'advantest' });
+assert.equal(comparison.readComparisonHash('#mode=japan&year=2000&company=toyota').year, 2010);
+assert.equal(comparison.readComparisonHash('#mode=japan&company=toyota').selectedId, 'tokyo-electron');
+const japanChart = renderToStaticMarkup(React.createElement(RankingRaceChart, { rows: modes.japan.timeline[0].rows, year: 2010, selectedId: '', animate: false, onSelect() {} }));
+assert.equal((japanChart.match(/data-visible="true"/g) || []).length, 10);
+
+// Independent source audit against retrieved HTML table cells, rather than generated JSON.
+if (process.env.RANKING_JAPAN_SOURCE_DIR) {
+  for (const company of japan.japanCompanies) {
+    const slug = new URL(company.sourceUrl).pathname.split('/')[1];
+    const sourceHtml = fs.readFileSync(path.join(process.env.RANKING_JAPAN_SOURCE_DIR, `japan-${slug}.html`), 'utf8');
+    const rows = [...sourceHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)].map(match => [...match[1].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map(cell => cell[1].replace(/<[^>]*>/g, '').trim()));
+    for (const snapshot of japan.japanSnapshots) {
+      const cells = rows.find(cells => cells[0] === String(snapshot.year));
+      assert.ok(cells, `${slug} ${snapshot.year}`);
+      const match = cells[1].match(/^\$([\d,.]+)\s*([BTM])$/);
+      assert.ok(match, cells[1]);
+      const expected = Number(match[1].replaceAll(',', '')) * ({ B: 1, T: 1000, M: .001 }[match[2]]);
+      assert.equal(snapshot.entries.find(e => e.companyId === company.id).valueUsdB, expected);
+    }
+  }
+  console.log('All 144 Japan values match independent source HTML table cells.');
+}
+const history = load('src/lib/ranking-history.ts');
+assert.equal(history.nvidiaIntelCrossover.year, 2020);
+for (const { winner, other, snapshot } of history.japanHighlights) {
+  assert.ok(snapshot);
+  assert.ok(snapshot.rows.find(c => c.id === winner).valueUsdB > snapshot.rows.find(c => c.id === other).valueUsdB);
+  for (const before of history.japanHistory.filter(s => s.year < snapshot.year)) assert.ok(before.rows.find(c => c.id === winner).valueUsdB <= before.rows.find(c => c.id === other).valueUsdB);
+}
+const HistoryArticle = load('src/components/ranking-time-machine/RankingHistoryArticle.tsx').RankingHistoryArticle;
+const japanArticleHtml = renderToStaticMarkup(React.createElement(HistoryArticle, { kind: 'japan', sourceSlug: 'japan-semiconductor-market-cap-history' }));
+assert.equal((japanArticleHtml.match(/<table/g) || []).length, 17);
+assert.match(japanArticleHtml, /mode=japan/);
+assert.match(japanArticleHtml, /材料/);
+for (const snapshot of history.japanHistory) for (const row of snapshot.rows) assert.ok(japanArticleHtml.includes(lib.formatMarketCap(row.valueUsdB)));
+const nvidiaArticleHtml = renderToStaticMarkup(React.createElement(HistoryArticle, { kind: 'nvidia-intel', sourceSlug: 'nvidia-intel-market-cap-history' }));
+assert.match(nvidiaArticleHtml, /<svg/); assert.match(nvidiaArticleHtml, /stroke-dasharray="8 5"/); assert.match(nvidiaArticleHtml, /2020年/);
+for (const row of history.nvidiaIntelHistory) { assert.ok(nvidiaArticleHtml.includes(lib.formatMarketCap(row.nvidia))); assert.ok(nvidiaArticleHtml.includes(lib.formatMarketCap(row.intel))); }
+const articleTree = HistoryArticle({ kind: 'nvidia-intel', sourceSlug: 'nvidia-intel-market-cap-history' });
+const entryNodes = nodes(articleTree, node => node.type?.name === 'Entry');
+assert.equal(entryNodes.length, 2);
+for (const entryNode of entryNodes) {
+  const entry = entryNode.type(entryNode.props);
+  assert.equal(entry.props.eventName, 'ranking_timemachine_entry_click');
+  assert.equal(entry.props.eventProperties.source_slug, 'nvidia-intel-market-cap-history');
+  assert.equal(entry.props.eventProperties.comparison_mode, 'semiconductor');
+  assert.equal(entry.props.eventProperties.data_kind, 'real');
+}
+const japanGuide = load('src/content/guides/japan-semiconductor-market-cap-history.ts').japanSemiconductorMarketCapHistoryGuide;
+const nvidiaGuide = load('src/content/guides/nvidia-intel-market-cap-history.ts').nvidiaIntelMarketCapHistoryGuide;
+for (const guide of [japanGuide, nvidiaGuide]) {
+  assert.equal(guide.status, 'published'); assert.equal(guide.reviewedBy, undefined);
+  assert.equal(guide.author, 'Manufacturing Compass編集部');
+  for (const id of guide.relatedCompanyIds) assert.equal(companyRegistry.getCompanyContentStatus(id), 'complete');
+}
+console.log('Japan mode, 160 company-years, article SSR, derived comparisons and entry analytics passed.');
+
+// Real guide registry, generated metadata, sitemap and complete article SSR.
+async function testHistoryPages() {
+  const pageLoad = loader({ '@/lib/format': load('src/lib/format.ts'), 'next/navigation': { notFound() { throw Error('Unexpected 404'); } } });
+  const registry = pageLoad('src/content/guides/index.ts');
+  const pageModule = pageLoad('src/app/(ja)/guides/[slug]/page.tsx');
+  const sitemap = pageLoad('src/app/sitemap.ts').default();
+  for (const guide of [japanGuide, nvidiaGuide]) {
+    assert.ok(JSON.stringify(registry).includes(guide.slug));
+    const params = Promise.resolve({ slug: guide.slug });
+    const metadata = await pageModule.generateMetadata({ params });
+    assert.equal(metadata.alternates.canonical, `/guides/${guide.slug}`);
+    assert.equal(metadata.title, guide.title);
+    assert.equal(metadata.openGraph.description, guide.description);
+    assert.ok(sitemap.some(entry => entry.url.endsWith(`/guides/${guide.slug}`)));
+    const pageHtml = renderToStaticMarkup(await pageModule.default({ params }));
+    assert.match(pageHtml, /BreadcrumbList/); assert.match(pageHtml, /"@type":"Article"/);
+    assert.ok(!pageHtml.includes('執筆・確認：RYO'));
+    assert.ok(pageHtml.includes('CompaniesMarketCap'));
+    assert.ok(pageHtml.includes('/tools/ranking-time-machine#mode='));
+    assert.ok(pageHtml.includes('/guides/semiconductor-market-cap-ranking'));
+    assert.ok(!pageHtml.includes('/companies/nvidia'));
+  }
+  console.log('Both published article routes: registry, metadata, canonical, sitemap, structured data and SSR passed.');
+}
+testHistoryPages().catch(error => { console.error(error); process.exitCode = 1; });

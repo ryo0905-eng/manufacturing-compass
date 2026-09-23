@@ -2,33 +2,36 @@ import { rankingTimeMachineCompanies, type RankingCompany, type RankingSnapshot 
 import { referenceCompanies, referenceSnapshots } from '@/data/ranking-reference';
 import { initialTimeline, prepareRanking, reduceTimeline, type TimelineAction, type TimelineState } from './ranking-time-machine';
 
-export type RankingMode = 'semiconductor' | 'global' | 'equipment';
+import { japanCompanies, japanSnapshots } from '@/data/ranking-japan';
+
+export type RankingMode = 'semiconductor' | 'global' | 'equipment' | 'japan';
 const semiconductorIds = rankingTimeMachineCompanies.map(company => company.id);
 export const rankingModes = {
+  japan: { label: '日本企業10社', companyIds: ['tokyo-electron', ...japanCompanies.map(company => company.id)], firstYear: 2010, lastYear: 2025, defaultCompany: 'tokyo-electron', scope: '選定した日本の半導体関連10社内の比較（メーカー・装置・検査・材料）' },
   semiconductor: { label: '半導体20社', companyIds: semiconductorIds, firstYear: 2010, lastYear: 2025, defaultCompany: '', scope: '装置5社を含む選定20社内の比較' },
   global: { label: '世界の大企業と比較', companyIds: [...semiconductorIds, ...referenceCompanies.map(company => company.id)], firstYear: 2014, lastYear: 2025, defaultCompany: 'toyota', scope: '半導体・装置20社とGAFAM・トヨタの選定26社内の比較' },
   equipment: { label: '製造装置5社', companyIds: ['asml', 'applied-materials', 'lam-research', 'tokyo-electron', 'kla'], firstYear: 2010, lastYear: 2025, defaultCompany: 'tokyo-electron', scope: '選定した製造装置5社内の比較（売上高ではありません）' },
 } as const;
-export const rankingModeIds: readonly RankingMode[] = ['semiconductor', 'global', 'equipment'];
+export const rankingModeIds: readonly RankingMode[] = ['semiconductor', 'global', 'equipment', 'japan'];
 export function isRankingMode(value: string | null): value is RankingMode {
   return rankingModeIds.some(mode => mode === value);
 }
 
 export function createComparisonTimelines(companies: readonly RankingCompany[], snapshots: readonly RankingSnapshot[]) {
-  const allCompanies = [...companies, ...referenceCompanies];
+  const allCompanies = [...companies, ...referenceCompanies, ...japanCompanies];
   function build(mode: RankingMode) {
     const config = rankingModes[mode];
     const ids = new Set<string>(config.companyIds);
-    const selectedCompanies = allCompanies.filter(company => ids.has(company.id));
+    const selectedCompanies = allCompanies.filter(company => ids.has(company.id)).map(company => mode === 'japan' && company.id === 'tokyo-electron' ? { ...company, category: '装置・検査' } : company);
     if (selectedCompanies.length !== ids.size) throw new Error('比較対象の企業マスターが不足しています');
     const selectedSnapshots = snapshots.filter(snapshot => snapshot.year >= config.firstYear && snapshot.year <= config.lastYear).map(snapshot => ({
       year: snapshot.year,
-      entries: [...snapshot.entries, ...(mode === 'global' ? referenceSnapshots.find(item => item.year === snapshot.year)?.entries ?? [] : [])].filter(entry => ids.has(entry.companyId)),
+      entries: [...snapshot.entries, ...(mode === 'japan' ? japanSnapshots.find(item => item.year === snapshot.year)?.entries ?? [] : []), ...(mode === 'global' ? referenceSnapshots.find(item => item.year === snapshot.year)?.entries ?? [] : [])].filter(entry => ids.has(entry.companyId)),
     }));
     if (selectedSnapshots.length !== config.lastYear - config.firstYear + 1) throw new Error('比較対象の年度が不足しています');
     return { companies: selectedCompanies, timeline: prepareRanking(selectedCompanies, selectedSnapshots) };
   }
-  return { semiconductor: build('semiconductor'), global: build('global'), equipment: build('equipment') };
+  return { semiconductor: build('semiconductor'), global: build('global'), equipment: build('equipment'), japan: build('japan') };
 }
 
 export type ComparisonState = TimelineState & { mode: RankingMode; notice: string };

@@ -4,6 +4,7 @@ export type GuideStatus = "draft" | "published";
 export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
+  | { type: "ranking-history"; kind: "japan" | "nvidia-intel" }
   | {
       type: "comparison-table";
       title: string;
@@ -299,8 +300,8 @@ export type GuideArticle = {
   category: GuideCategory;
   featured?: boolean;
   presentation: "legacy" | "structured";
-  author: "RYO";
-  reviewedBy: "RYO";
+  author: "RYO" | "Manufacturing Compass編集部";
+  reviewedBy?: "RYO";
   experienceBasis: string[];
   showIntroSummary?: boolean;
   showExperienceBasis?: boolean;

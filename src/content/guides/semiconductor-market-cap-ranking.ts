@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-09-22",
+  updatedAt: "2026-09-23",
   sources: [
     {
       title: "Largest semiconductor companies by market cap",
@@ -200,6 +200,8 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       lead: "知りたいのが企業全体の評価額ではなく、特定分野の規模や製品なら、比較対象と指標を分けて見ます。",
       paragraphs: [],
       blocks: [{ type: "links", items: [
+        { label: "日本の半導体関連10社の時価総額推移", href: "/guides/japan-semiconductor-market-cap-history", description: "2010〜2025年の固定10社を比較。現在の日本TOP10とは異なる、長期の変化を読む" },
+        { label: "NVIDIAとIntelの時価総額推移", href: "/guides/nvidia-intel-market-cap-history", description: "16年の年末値から2社の評価額と大小関係の変化を見る" },
         { label: "半導体製造装置メーカーの売上高ランキング", href: "/guides/semiconductor-equipment-sales-ranking", description: "2025暦年の装置売上高で上位10社を比較。成膜・露光・検査など、扱う工程と製品を調べる" },
         { label: "メモリメーカーランキング｜DRAM・NANDの売上シェア", href: "/guides/memory-manufacturer-ranking", description: "2026年4〜6月の製品市場別シェアを比較。DRAMとNANDを分け、企業全体の時価総額との違いを確認する" },
         { label: "光半導体メーカーを用途から比較する", href: "/guides/optical-semiconductor-manufacturers", description: "LED・レーザー・イメージセンサー・フォトダイオードの企業例を調べる。総合順位ではなく公式製品情報で比較する" },

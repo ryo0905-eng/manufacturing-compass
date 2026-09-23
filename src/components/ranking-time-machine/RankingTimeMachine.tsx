@@ -16,6 +16,8 @@ import { ComparisonShare } from './ComparisonShare';
 import styles from './ranking-time-machine.module.css';
 
 const relatedLinks = [
+  { href: '/guides/japan-semiconductor-market-cap-history', label: '日本企業10社の時価総額推移を読む' },
+  { href: '/guides/nvidia-intel-market-cap-history', label: 'NVIDIAとIntelの時価総額推移を読む' },
   { href: '/guides/semiconductor-market-cap-ranking', label: '基準日時点の時価総額ランキング' },
   { href: '/guides/semiconductor-equipment-sales-ranking', label: '装置メーカーの売上高ランキング' },
   { href: '/industry-map', label: '半導体業界地図' },

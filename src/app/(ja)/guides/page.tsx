@@ -117,7 +117,7 @@ export default function GuidesPage() {
             <h3>{featuredGuide.title}</h3>
             <p>{featuredGuide.description}</p>
             <dl>
-              <div><dt>執筆・確認</dt><dd>{featuredGuide.reviewedBy}</dd></div>
+              <div><dt>{featuredGuide.reviewedBy ? "執筆・確認" : "編集"}</dt><dd>{featuredGuide.reviewedBy ?? "Manufacturing Compass編集部"}</dd></div>
               <div><dt>公開日</dt><dd><time dateTime={featuredGuide.publishedAt}>{formatDate(featuredGuide.publishedAt)}</time></dd></div>
               <div><dt>読了時間</dt><dd>{featuredGuide.readTime}</dd></div>
             </dl>

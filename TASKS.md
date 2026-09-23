@@ -18,6 +18,12 @@
 
 ### ランキング・タイムマシン（2026-09-22）
 
+- [x] 2026-09-23：日本企業10社モードと比較記事2本を実装。追加144件をCompaniesMarketCapの取得HTMLの表セルと照合。東京エレクトロン16件を再利用。日本モード・共有・追跡・記事入口イベント・9社ロゴ・出典・内部リンクを追加。
+- [x] 検証：`RANKING_JAPAN_SOURCE_DIR=/private/tmp node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。既存392件はHEADと一致。公開禁止語の追加差分チェック通過。関連リンク件数の期待値とSSRテスト用formatモックを更新して対象テストを完了。build/dev/ブラウザ/commit/push未実施。
+- [x] 日本記事は全16年の表と端点比較・3つの年末逆転、NVIDIA対Intel記事は線形SVGと16年表を同じデータからSSR出力。公開情報記事として公開設定。人間による確認表記は付けない。
+- [ ] 本番反映後28/56日：記事別Search Console表示/クリック/検索語、記事→ツール入口、日本モード再生/選択/共有を観測。実画面・本番GA4受信・検索登録は未確認。
+
+
 - [x] 2026-09-23：比較モードを追加。半導体20社／GAFAM・トヨタを含む26社（2014〜2025年）／装置5社。新規72件を出典表記と照合し、既存320件の不変を確認。6社のロゴを取得・確認。
 - [x] モード切替時の停止・年補正、確定値の1社追跡、5行表示、共有ハッシュ復元・コピー代替、モード付き既存イベントとmode_change/shareを実装。説明・SEO・関連導線・PRD・architectureを更新。
 - [x] `RANKING_REFERENCE_SOURCE=/private/tmp/ranking-reference-source.json node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。3モードの対象・期間、圏外追跡、再生/リセット/切替、URL復元・不正値・通常アンカー、コピー成否・計測、SSRを確認。公開禁止情報の差分確認済み。

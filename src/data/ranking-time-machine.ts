@@ -21,7 +21,7 @@ export type RankingSnapshot = {
 export const rankingTimeMachineMetadata = {
   route: "/tools/ranking-time-machine",
   title: "半導体企業の時価総額ランキング推移｜2010〜2025年",
-  description: "半導体・製造装置の主要20社を、2010〜2025年の年末時価総額で比較。GAFAM・トヨタとの比較、製造装置5社への切り替えにも対応。再生・年の移動・企業選択で順位推移を確認できます。",
+  description: "半導体・製造装置の主要20社を、2010〜2025年の年末時価総額で比較。GAFAM・トヨタとの比較、製造装置5社・日本企業10社への切り替えにも対応。再生・年の移動・企業選択で順位推移を確認できます。",
   updatedAt: "2026-09-23",
   checkedAt: "2026-09-23",
   firstYear: 2010,

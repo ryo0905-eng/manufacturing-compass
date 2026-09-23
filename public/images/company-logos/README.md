@@ -39,3 +39,17 @@ CompaniesMarketCapの各社ページに掲載されたCompaniesLogo由来のPNG�
 | Amazon | amazon.png | https://companiesmarketcap.com/amazon/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/AMZN.png |
 | Meta（旧Facebook） | meta.png | https://companiesmarketcap.com/meta-platforms/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/META.png |
 | トヨタ | toyota.png | https://companiesmarketcap.com/toyota/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/TM.png |
+
+日本企業モード追加9社（2026-09-23取得、原画像を保存）。
+
+| 企業 | 保存ファイル | 掲載ページ | 取得画像 |
+| --- | --- | --- | --- |
+| アドバンテスト | advantest.png | https://companiesmarketcap.com/advantest/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/6857.T.png |
+| ディスコ | disco.png | https://companiesmarketcap.com/disco-corp/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/6146.T.png |
+| SCREENホールディングス | screen-holdings.png | https://companiesmarketcap.com/screen-holdings/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/7735.T.png |
+| レーザーテック | lasertec.png | https://companiesmarketcap.com/lasertec/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/6920.T.png |
+| ルネサス エレクトロニクス | renesas.png | https://companiesmarketcap.com/renesas-electronics/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/6723.T.png |
+| ローム | rohm.png | https://companiesmarketcap.com/rohm/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/6963.T.png |
+| 信越化学 | shin-etsu-chemical.png | https://companiesmarketcap.com/shin-etsu-chemical/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/4063.T.png |
+| SUMCO | sumco.png | https://companiesmarketcap.com/sumco-corporation/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/3436.T.png |
+| 東京応化工業 | tokyo-ohka-kogyo.png | https://companiesmarketcap.com/tokyo-ohka-kogyo/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/4186.T.png |

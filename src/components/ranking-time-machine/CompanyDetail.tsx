@@ -16,6 +16,7 @@ export function CompanyDetail({ companyId, timeline, index, mode = 'semiconducto
   const properties = { comparison_mode: mode, year, company: companyId, ranking_type: 'market_cap', data_kind: 'real' };
   return <section className={styles.panel} id="ranking-company-detail" tabIndex={-1} aria-labelledby="ranking-company-title">
     <h2 id="ranking-company-title">{row.displayName}</h2>
+    <p className={styles.small}>{row.category}{row.id === 'screen-holdings' ? ' · 持株会社全体の時価総額です。SCREEN Semiconductor Solutions単体の数値ではありません。' : ''}</p>
     <p>{year}年末：<strong>{formatMarketCap(row.valueUsdB)} 十億米ドル</strong></p>
     <dl className={styles.metrics}>
       <div><dt>表示年の順位</dt><dd>{row.rank}位</dd></div>
