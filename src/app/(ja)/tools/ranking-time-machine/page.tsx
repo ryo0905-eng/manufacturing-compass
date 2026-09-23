@@ -34,7 +34,8 @@ export default function RankingTimeMachinePage() {
     <nav className={styles.breadcrumb} aria-label="パンくず"><Link href="/">ホーム</Link><span aria-hidden="true">/</span><Link href="/tools">学習ツール</Link><span aria-hidden="true">/</span><span>ランキング・タイムマシン</span></nav>
     <header className={styles.hero}>
       <h1>半導体企業の時価総額ランキング推移</h1>
-      <p>半導体20社の推移を再生。GAFAM・トヨタとの比較や、製造装置5社・日本企業10社への切り替えもできます。</p>
+      <p>NVIDIA、Intel、TSMC…企業の順位はどう変わった？ 「再生」を押すと、年ごとの時価総額の変化を追えます。</p>
+      <p className={styles.small}>気になる年で止めて、チャートの企業をタップすると詳細を確認できます。</p>
     </header>
     <RankingTimeMachine companies={companies} snapshots={rankingTimeMachineSnapshots} />
     <noscript><p>再生・年の移動・企業選択にはJavaScriptが必要です。2010年のランキング表、以下の説明と出典はそのまま読めます。</p></noscript>

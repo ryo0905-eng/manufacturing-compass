@@ -45,14 +45,14 @@ export function RankingTimeMachine({ companies, snapshots }: { companies: readon
     if (started.current) return;
     started.current = true;
     setInitialInteraction(snapshot);
-    trackEvent('tool_step', { tool_id: 'ranking-time-machine', step: 'start', ui_version: 'entry-v1', comparison_mode: mode });
+    trackEvent('tool_step', { tool_id: 'ranking-time-machine', step: 'start', ui_version: 'mobile-v2', comparison_mode: mode });
   }
 
   useEffect(() => {
     if (!controls.current || viewed.current) return;
     return observeVisibleOnce(controls.current, () => {
       viewed.current = true;
-      trackEvent('experience_view', { tool_id: 'ranking-time-machine', surface: 'tool', ui_version: 'entry-v1' });
+      trackEvent('experience_view', { tool_id: 'ranking-time-machine', surface: 'tool', ui_version: 'mobile-v2' });
     });
   }, []);
 
@@ -61,7 +61,7 @@ export function RankingTimeMachine({ companies, snapshots }: { companies: readon
     if (initialInteraction === null || snapshot === initialInteraction || resultViewed.current || !chart.current) return;
     return observeVisibleOnce(chart.current, () => {
       resultViewed.current = true;
-      trackEvent('tool_step', { tool_id: 'ranking-time-machine', step: 'result', ui_version: 'entry-v1', comparison_mode: mode });
+      trackEvent('tool_step', { tool_id: 'ranking-time-machine', step: 'result', ui_version: 'mobile-v2', comparison_mode: mode });
     });
   }, [initialInteraction, snapshot, mode]);
 
@@ -106,7 +106,7 @@ export function RankingTimeMachine({ companies, snapshots }: { companies: readon
     <p className={styles.small}>{config.firstYear}〜{config.lastYear}年 · {config.scope} · 企業全体の時価総額<br />世界全体の上位企業を網羅したランキングではありません。<a href="#ranking-scope">対象・注意事項</a> / <a href="#ranking-sources">出典</a></p>
     {notice && <p className={styles.small} role="status">{notice}</p>}
     <div className={styles.stage}>
-      <div ref={controls}>
+      <div ref={controls} className={styles.controlsContainer}>
       <TimelineControls key={mode} years={timeline.map(item => item.year)} index={index} playing={playing}
         onPlay={() => {
           begin();
@@ -120,13 +120,14 @@ export function RankingTimeMachine({ companies, snapshots }: { companies: readon
           if (index !== 0) trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[0].year, interaction: 'reset', comparison_mode: mode });
         }}
         onYear={next => { if (next !== index) begin(); dispatch({ type: 'year', index: next }); }}
-        onYearCommit={next => trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[next].year, interaction: 'slider', comparison_mode: mode })}>
-        <CompanyTracker rows={rows} year={year} selectedId={selectedId} onSelect={selectCompany} />
-        <ComparisonShare key={`${mode}:${year}:${selectedId}`} mode={mode} year={year} selectedId={selectedId} />
-      </TimelineControls>
+        onYearCommit={next => trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[next].year, interaction: 'slider', comparison_mode: mode })} />
       </div>
       <div ref={chart} className={styles.chartContainer}>
       <RankingRaceChart key={mode} rows={rows} year={year} selectedId={selectedId} animate={animate} onSelect={selectCompany} />
+      </div>
+      <div className={styles.exploration}>
+        <CompanyTracker rows={rows} year={year} selectedId={selectedId} onSelect={selectCompany} />
+        <ComparisonShare key={`${mode}:${year}:${selectedId}`} mode={mode} year={year} selectedId={selectedId} />
       </div>
     </div>
     <CompanyDetail companyId={selectedId} timeline={timeline} index={index} mode={mode} />

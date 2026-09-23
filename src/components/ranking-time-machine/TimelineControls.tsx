@@ -1,11 +1,10 @@
 'use client';
 
-import { useRef, type ReactNode } from 'react';
+import { useRef } from 'react';
 import { Button } from '@/components/ui/Controls';
 import styles from './ranking-time-machine.module.css';
 
-export function TimelineControls({ years, index, playing, onPlay, onPause, onReset, onYear, onYearCommit, children }: {
-  children?: ReactNode;
+export function TimelineControls({ years, index, playing, onPlay, onPause, onReset, onYear, onYearCommit }: {
   years: readonly number[]; index: number; playing: boolean;
   onPlay: () => void; onPause: () => void; onReset: () => void;
   onYear: (index: number) => void; onYearCommit: (index: number) => void;
@@ -31,6 +30,5 @@ export function TimelineControls({ years, index, playing, onPlay, onPause, onRes
       onPointerUp={commit} onPointerCancel={commit} onKeyUp={commit} onBlur={commit} />
     <div className={styles.rangeEnds}><span>{years[0]}年</span><span>{years[years.length - 1]}年</span></div>
     <p id="ranking-playback-help" className={styles.small}>3秒ごとに1年進みます。年や企業を選ぶと停止します。</p>
-    {children}
   </section>;
 }

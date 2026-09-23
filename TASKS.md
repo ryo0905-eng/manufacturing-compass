@@ -16,6 +16,17 @@
 
 ## 現在の優先タスク
 
+### 成長改善・スマホ配置（2026-09-23）
+
+- [x] タイムマシンのDOM順を再生・年選択→チャート→企業追跡・共有へ変更。960px以上では左列に操作・追跡、右列にチャートを配置。冒頭に再生と企業タップの案内を追加。
+- [x] ツール側の共通計測を `mobile-v2` とし、記事入口の `entry-v1` と区別。基準期間未確保・露出監視対象の大きさ変更による比較の限界を記録。
+- [x] `node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。既存の再生・選択・共有・計測・SSRを確認。
+- [ ] 実画面・本番反映・GA4受信は未確認。dev・build・ブラウザ・commit・push未実施。
+
+変更ファイル：`RankingTimeMachine.tsx`、`TimelineControls.tsx`、`ranking-time-machine.module.css`、`src/app/(ja)/tools/ranking-time-machine/page.tsx`、`docs/PRD.md`、`docs/architecture.md`、`docs/conversion-architecture.md`、`TASKS.md`。
+
+推奨コミット：`fix: bring ranking charts closer to mobile playback controls`
+
 ### 成長改善・第1差分（2026-09-23）
 
 - [x] Cpkの日英共通UIで入力編集直後に旧結果・分布図・コピーを破棄し、再計算を案内。サンプル切替は即時結果表示を維持。
@@ -23,8 +34,9 @@
 - [x] タイムマシンの入口露出・操作部露出・初回操作・操作後の結果露出を計測。画面外・背景タブ・単なるマウント・初期URL復元を成果と扱わず、マウント中の初回イベントを重複防止。既存の詳細操作・共有イベントは維持。
 - [x] `node tests/unit/cpk-result-copy.cjs`、`node tests/unit/cpk-english.cjs`、`node tests/unit/observe-visible.cjs`、`node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）成功。計測テストはDOM監視・Reactハンドラの模擬環境であり、本番受信や実画面の検証ではない。
 - [x] 実験の定義、旧イベントとの対応、14日間の観測手順、Threads投稿案を `docs/conversion-architecture.md` に記録。
-- [ ] commit/push・本番反映、GA4受信とカスタムディメンション設定、Threads投稿、実画面確認。dev・build・ブラウザは未実施。
-- [ ] 次の差分：観測の基準を得たうえでタイムマシンのスマホ配置、Cpk・工程比較の利用計測へ広げる。
+- [x] ユーザーによるpush後、342365aの変更を公開HTML・配信JSで確認（2026-09-23）。
+- [ ] GA4受信とカスタムディメンション設定、Threads用画像または動画の作成・投稿、実画面確認。
+- [ ] Cpk・工程比較の利用計測へ広げる。
 
 変更ファイル：
 
