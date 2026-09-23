@@ -82,6 +82,16 @@ stepには、その時点の `data_source=sample/custom` を付ける。サン�
 
 追加イベントは `tool_result_related_click` の1種。固定属性 `tool_id`、`destination_tool`、`locale`、`placement=result`、`ui_version=next-steps-v1` のみで、入力・結果・企業名などを含めない。既存ページ下部の関連クリックとは区別し、ツールの初回結果到達と合算しない。クリックは遷移・利用完了の証明ではなく、遷移先のpage_viewと共通tool_stepで続きを確認する。公開後のGA4受信は未確認。
 
+## 入力ファイルによる再利用（2026-09-23、公開・実ブラウザ未確認）
+
+Cpk・工程比較の日英版の入力欄上に保存・読込を配置する。形式は `{format:"mfg-compass-workspace",version:1,tool,input}`。Cpkはmode/rawData/mean/standardDeviation/lsl/usl、工程比較はnameA/nameB/measurement/unit/dataA/dataB/lower/upperを文字列で保持（modeはraw/summary）。許可項目以外は抽出時に捨て、計算結果は保存しない。UTF-8で2 MiBまで、日英間で共通。未知バージョン・別ツール・破損・欠落・不正型は拒否し、入力を維持する。未完成の数値文字列は受け入れ、数値としての妥当性は既存の計算時に検証する。
+
+ファイル名は端末のローカル日付で `mfg-compass-{tool}-YYYY-MM-DD.json`。ファイル内の名称は翻訳せず、画面言語も変えない。読込検証後に置き換えとキャンセルを提示。確定時はcustom入力の操作開始につなぎ、再計算前に結果到達を送らない。既に同一マウントで開始・結果到達していれば既存の一回制限を維持する。
+
+イベント `tool_workspace_file` は `tool_id`・`locale`・`action=save/load`・`outcome=download_started/restored/error` の固定カテゴリのみ。保存はブラウザのダウンロード開始であり、保存先への書き込み完了ではない。読込成功は置き換え確定後。キャンセルはイベントを増やさない。ファイル名・内容・入力値・自由記述のエラーは送らない。
+
+本番受信確認後、保存と復元のセッション数、復元後の計算・結果到達を観察する。別日の復元は再利用の手掛かりだが、ファイルや個人を追跡するIDはなく、同じ人による再利用と断定しない。GA4では既存属性に加えてaction/outcomeを必要に応じてイベントスコープで登録する。公開後は日英で保存→ページ再読込→復元→再計算を確認する。
+
 ## 目的
 
 ユーザーが、ページを読んだ後に「何を理解できたか」「次に何を確認するか」を迷わない導線を作ります。転職エージェントのクリックだけをコンバージョンとしません。

@@ -1,0 +1,8 @@
+.workspace { margin: 0 0 16px; padding: 12px; border: 1px solid var(--mc-border); border-radius: 8px; background: var(--mc-surface-subtle); }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.actions button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--mc-border); border-radius: 6px; background: var(--mc-surface); color: var(--mc-text); font: inherit; cursor: pointer; }
+.actions button:disabled { opacity: .5; cursor: default; }
+.actions button:focus-visible { outline: 3px solid var(--mc-focus); outline-offset: 2px; }
+.workspace p { margin: 8px 0 0; font-size: 12px; overflow-wrap: anywhere; }
+.confirmation { margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--mc-border); }
+.confirmation .actions { margin-top: 8px; }

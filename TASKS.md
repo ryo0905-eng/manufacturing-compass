@@ -16,6 +16,18 @@
 
 ## 現在の優先タスク
 
+### 成長改善・入力保存と再開（2026-09-23）
+
+- [x] Cpk・工程比較の日英版へ共通の入力保存・読込を追加。UTF-8 2 MiBのJSON v1、入力のみ・未完成値も保存。日英間で共通、画面言語と入力名称は変更しない。
+- [x] 読込検証と置き換え確認を分離。不正ファイル・キャンセルでは現状を維持。確定時に旧結果・コピー・エラーを破棄し、明示再計算を案内。端末へのダウンロード以外の永続保存や外部送信は追加しない。
+- [x] `tool_workspace_file` は固定カテゴリのみで保存開始・復元完了・失敗を区別。保存仕様・プライバシー・計測文書を更新。
+- [x] `node tests/unit/tool-workspace.cjs`、`node tests/unit/cpk-result-copy.cjs`、`node tests/unit/cpk-english.cjs`、`node tests/unit/process-comparison.cjs`、`node tests/unit/practical-tools-english.cjs`、`node tests/unit/practical-tool-journey.cjs`を各1回実行し成功。`npm run typecheck`（1回）、`git diff --check`成功。
+- [ ] 実ブラウザでの保存→ページ再読込→復元→再計算と本番GA4受信は未確認。dev・build・commit・push未実施。
+
+変更ファイル：`src/lib/tool-workspace.ts`、`src/components/ToolWorkspaceFile.tsx`、`src/components/ToolWorkspaceFile.module.css`、`tests/unit/tool-workspace.cjs`（以上新規）、`src/components/CpkCalculator.tsx`、`src/components/ProcessComparisonTool.tsx`、`tests/unit/cpk-result-copy.cjs`、`tests/unit/process-comparison.cjs`、`src/app/(ja)/privacy/page.tsx`、`docs/PRD.md`、`docs/architecture.md`、`docs/conversion-architecture.md`、`TASKS.md`。
+
+推奨コミット：`feat: save and restore practical tool inputs locally`
+
 ### 成長改善・結果からの回遊（2026-09-23）
 
 - [x] Cpkと工程比較の結果欄に、相互の実務導線と日本語の学習導線を追加。英語は公開済み英語ページのみ。別タブ・自動データ転送なしと明記。

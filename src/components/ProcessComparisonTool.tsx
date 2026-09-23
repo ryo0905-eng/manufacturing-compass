@@ -1,5 +1,7 @@
 "use client";
 
+import { ToolWorkspaceFile } from "@/components/ToolWorkspaceFile";
+
 import { PracticalToolNextSteps } from "@/components/PracticalToolNextSteps";
 
 import { getToolText, type ToolLocale } from "@/data/practical-tool-text";
@@ -55,6 +57,7 @@ export function ProcessComparisonTool({ locale = "ja" }: { locale?: ToolLocale }
     finally { exporting.current = false; setBusy(false); }
   }
   return <div className={styles.tool}>
+    <ToolWorkspaceFile tool="process-comparison" locale={locale} input={input} disabled={busy} onRestore={next => change(next)} />
     <form onSubmit={event => {
       event.preventDefault(); start(); journey.calculate(); setStatus(""); setFallback("");
       try { setResult(compareProcesses(input, locale)); setError(""); record("completed", locale); }

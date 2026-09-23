@@ -15,7 +15,7 @@ function load(relative, dependencies = {}, globals = {}) {
   vm.runInNewContext(code, {
     exports,
     require(name) {
-      if (name === '@/components/PracticalToolNextSteps') return { PracticalToolNextSteps: 'NextSteps' }; if (name === '@/lib/use-practical-tool-journey') return load('src/lib/use-practical-tool-journey.ts', { ...dependencies, react: { ...dependencies.react, useEffect() {} }, '@/lib/observe-visible': { observeVisibleOnce() {} } }); if (name.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => String(key) }) };
+      if (name === '@/components/ToolWorkspaceFile') return { ToolWorkspaceFile: 'WorkspaceFile' }; if (name === '@/components/PracticalToolNextSteps') return { PracticalToolNextSteps: 'NextSteps' }; if (name === '@/lib/use-practical-tool-journey') return load('src/lib/use-practical-tool-journey.ts', { ...dependencies, react: { ...dependencies.react, useEffect() {} }, '@/lib/observe-visible': { observeVisibleOnce() {} } }); if (name.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => String(key) }) };
       if (name === '@/components/ui/Controls') return load('src/components/ui/Controls.tsx');
       if (name === '@/data/cpk-text') return load('src/data/cpk-text.ts');
       if (name === 'react/jsx-runtime') return { jsx: element, jsxs: element };
@@ -177,6 +177,13 @@ async function main() {
   assert.ok(copy(), 'Changing sample immediately restores its calculated copy payload');
   assert.equal(nodes(render(), node => node.type === 'Histogram').length, 1);
   assert.ok(!JSON.stringify(render()).includes('入力が変更されました。再計算してください。'));
+  nodes(render(), node => node.type === 'WorkspaceFile')[0].props.onRestore({ mode: 'summary', rawData: '', mean: '10', standardDeviation: '1', lsl: '5', usl: '15' });
+  assert.equal(copy(), undefined, 'Restoring removes the previous result and copy');
+  assert.equal(nodes(render(), node => node.type === 'Histogram').length, 0);
+  assert.equal(nodes(render(), node => node.props?.role === 'alert').length, 0);
+  assert.equal(nodes(render(), node => node.props?.id === 'summary-mean')[0].props.value, '10');
+  press('計算する');
+  assert.ok(copy(), 'Restored inputs calculate only after explicit action');
   console.log('PASS: success, pending/double click, denied/unavailable clipboard, manual selection, anonymous event, visible placement, sample/raw/summary payloads, invalid input');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

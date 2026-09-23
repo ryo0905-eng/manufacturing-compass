@@ -1,5 +1,7 @@
 "use client";
 
+import { ToolWorkspaceFile } from "@/components/ToolWorkspaceFile";
+
 import { PracticalToolNextSteps } from "@/components/PracticalToolNextSteps";
 
 import { cpkText, type CpkLocale } from "@/data/cpk-text";
@@ -178,6 +180,10 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
   return (
     <div className="capability-workspace">
       <section className="capability-input" aria-labelledby="capability-input-title">
+        <ToolWorkspaceFile tool="cpk" locale={locale} input={state} onRestore={input => {
+          journey.start();
+          setState({ ...input, resultValues: [], errors: {}, needsCalculation: true });
+        }} />
         <div className="tool-section-heading"><h2 ref={journey.inputRef} id="capability-input-title">{t("データ入力")}</h2>{state.activeSampleId ? <span>{t("サンプルデータで表示中")}</span> : null}</div>
         <div className={styles.inputStack}>
           <fieldset className={styles.inputModes}>
