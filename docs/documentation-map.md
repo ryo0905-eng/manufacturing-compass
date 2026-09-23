@@ -100,3 +100,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - [`docs/improvement-confidence-spec.md`](./improvement-confidence-spec.md): 改善の差を見極める教材の3ケース、Welch信頼区間、乱数、自由実験履歴、公開・検証仕様。
 
 - [`docs/semiconductor-process-spec.md`](./semiconductor-process-spec.md): 工程図鑑の初版範囲・全6体験の仕事紹介・おすすめ見学コース・全体像・ウエハ準備／薄膜加工／配線＋CMP／組立／ウエハ・最終検査の図・技術簡略化・共通操作・体験別計測・公開導線・検証。
+
+- [`docs/measurement-planner-spec.md`](./measurement-planner-spec.md): 平均の測定計画の計算・範囲・導線・計測・Threads素材・検証。

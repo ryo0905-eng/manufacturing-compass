@@ -40,10 +40,10 @@ function mount(tool, initialSource, failAnalytics = false) {
   };
 }
 
-for (const tool of ['cpk', 'process-comparison']) {
-  const mounted = mount(tool, tool === 'cpk' ? 'sample' : 'custom');
+for (const tool of ['cpk', 'process-comparison', 'measurement-planner']) {
+  const mounted = mount(tool, tool !== 'process-comparison' ? 'sample' : 'custom');
   const { events, observers, input, output } = mounted;
-  let journey = mounted.render(tool === 'cpk' ? { initialSample: true } : null);
+  let journey = mounted.render(tool !== 'process-comparison' ? { initialSample: true } : null);
   assert.equal(events.length, 0, 'Mount is not exposure, start or success');
   assert.equal(observers.has(output), false, 'Initial sample is not an operated result');
   observers.get(input)();

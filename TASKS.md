@@ -16,6 +16,19 @@
 
 ## 現在の優先タスク
 
+### 平均の測定計画ツール（2026-09-23）
+
+- [x] `/tools/measurement-planner` を日本語・index可能で追加。95%正規近似、想定σ固定の概算、整数切上げ・100万件上限。入力、架空例、3案比較、時間、計画コピー・手動フォールバックを実装。
+- [x] 編集時に旧結果・コピーを破棄。上限超過は丸めず、比較案だけの失敗は行単位で表示。単一平均の推定と検出力・不良判定を区別し、出典・更新日を表示。
+- [x] Cpk・工程比較の日本語結果、ツール一覧、関連教材、canonical・構造化データ・sitemap・OG画像を接続。共通計測とコピー成功イベントを追加し、初期サンプルを成果から除外。
+- [x] `node tests/unit/measurement-planner.cjs`、`node tests/unit/practical-tool-journey.cjs`、`node tests/unit/cpk-english.cjs`、`node tests/unit/practical-tools-english.cjs`を各1回実行し成功。`npm run typecheck`（1回）、`git diff --check`成功。
+- [x] `node scripts/generate-measurement-planner-card.cjs` で同じ計算からThreads/OG用1200×630 PNGを生成し目視確認。数値は246/62/16件、123/31/8分。投稿案・UTM URLを仕様書に記録。
+- [ ] 実ブラウザ操作・本番反映・GA4受信・Threads投稿は未確認/未実施。dev・build・commit・push未実施。
+
+変更ファイル：新規 `src/app/(ja)/tools/measurement-planner/page.tsx`、`src/components/MeasurementPlanner.tsx`・同CSS、`src/data/measurement-planner.ts`、`src/lib/measurement-planner.ts`、`tests/unit/measurement-planner.cjs`、`docs/measurement-planner-spec.md`、`scripts/generate-measurement-planner-card.cjs`、`public/images/measurement-planner-comparison.png`。更新 `src/app/sitemap.ts`、`src/components/PracticalToolNextSteps.tsx`、`src/components/ToolsLearningLab.tsx`、`src/data/learning-tools.ts`、`src/lib/use-practical-tool-journey.ts`、`tests/unit/practical-tool-journey.cjs`、`docs/PRD.md`、`docs/architecture.md`、`docs/conversion-architecture.md`、`docs/documentation-map.md`、`TASKS.md`。
+
+推奨コミット：`feat: add mean measurement planning tool`
+
 ### 成長改善・入力保存と再開（2026-09-23）
 
 - [x] Cpk・工程比較の日英版へ共通の入力保存・読込を追加。UTF-8 2 MiBのJSON v1、入力のみ・未完成値も保存。日英間で共通、画面言語と入力名称は変更しない。

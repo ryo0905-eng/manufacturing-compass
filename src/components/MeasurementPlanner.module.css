@@ -1,0 +1,21 @@
+.tool { display: grid; gap: 20px; }
+.panel { padding: 20px; border: 1px solid var(--mc-border); border-radius: var(--mc-radius-panel); background: var(--mc-surface); min-width: 0; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.field { display: grid; gap: 6px; font-weight: 600; }
+.field input, .field textarea { width: 100%; min-width: 0; min-height: 44px; padding: 8px; border: 1px solid var(--mc-border); border-radius: 6px; font: inherit; background: var(--mc-surface); color: var(--mc-text); box-sizing: border-box; }
+.field small { font-weight: 400; color: var(--mc-text-muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.actions button { min-height: 44px; padding: 10px 16px; border: 1px solid var(--mc-border); border-radius: 6px; font: inherit; color: var(--mc-action); background: var(--mc-surface-subtle); cursor: pointer; }
+.actions button:disabled { opacity: .6; cursor: default; }
+.tool :is(button, input, textarea, a):focus-visible { outline: 3px solid var(--mc-focus); outline-offset: 2px; }
+.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.metrics div { padding: 12px; background: var(--mc-surface-subtle); overflow-wrap: anywhere; }
+.metrics dt { font-size: 13px; }
+.metrics dd { margin: 8px 0 0; font-size: 22px; font-weight: 600; }
+.tableWrap { overflow-x: auto; }
+.tableWrap table { width: 100%; border-collapse: collapse; min-width: 580px; }
+.tableWrap th, .tableWrap td { padding: 10px; border-bottom: 1px solid var(--mc-border); text-align: left; overflow-wrap: anywhere; }
+.tableWrap caption { text-align: left; padding: 8px 0; }
+.tool nav { margin-top: 20px; }
+.tool nav a { display: inline-flex; align-items: center; min-height: 44px; }
+@media (max-width: 640px) { .fields, .metrics { grid-template-columns: 1fr; } .panel { padding: 16px; } }
