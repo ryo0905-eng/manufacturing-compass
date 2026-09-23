@@ -124,7 +124,7 @@ async function main() {
   change('summary-sd', '0'); press('Calculate'); assert.match(text(render()), /greater than zero/);
   for (const event of events) {
     assert.equal(event.props.locale, 'en');
-    assert.ok(Object.keys(event.props).every(key => ['locale', 'sample', 'input_mode', 'specification_type'].includes(key)), 'No input data in analytics');
+    assert.ok(Object.keys(event.props).every(key => ['locale', 'sample', 'input_mode', 'specification_type', 'tool_id', 'ui_version', 'step', 'data_source'].includes(key)), 'No input data in analytics');
   }
   for (const fails of [false, true]) {
     const copyState = hooks(), copied = [], copyEvents = [];

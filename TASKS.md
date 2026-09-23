@@ -16,6 +16,17 @@
 
 ## 現在の優先タスク
 
+### 成長改善・実務ツール計測（2026-09-23）
+
+- [x] Cpk・工程比較の日英UIへ入力部露出、開始、サンプル選択、計算試行、エラー、操作後の結果露出を追加。共通イベントは各段階をマウント中1回、固定カテゴリのみ送る。初期Cpkサンプルを成果から除外し、工程比較のクリアだけでは開始を数えない。
+- [x] 共通フックのモック監視テスト、Cpk結果コピー・英語UI、工程比較、実務ツール英語UIの5テスト成功。工程比較の旧イベント限定の期待値を、新しい固定カテゴリを許可するプライバシー検証へ更新して再実行。`npm run typecheck`（1回）、`git diff --check`成功。
+- [ ] 本番反映・GA4受信・カスタムディメンションdata_sourceの登録は未確認。ブラウザ・dev・build・commit・push未実施。
+
+変更ファイル：`src/lib/use-practical-tool-journey.ts`（新規）、`src/components/CpkCalculator.tsx`、`src/components/ProcessComparisonTool.tsx`、`tests/unit/practical-tool-journey.cjs`（新規）、`tests/unit/cpk-result-copy.cjs`、`tests/unit/cpk-english.cjs`、`tests/unit/process-comparison.cjs`、`tests/unit/practical-tools-english.cjs`、`docs/PRD.md`、`docs/architecture.md`、`docs/conversion-architecture.md`、`TASKS.md`。
+
+推奨コミット：`feat: measure Cpk and process comparison usage funnels`
+
+
 ### 成長改善・スマホ配置（2026-09-23）
 
 - [x] タイムマシンのDOM順を再生・年選択→チャート→企業追跡・共有へ変更。960px以上では左列に操作・追跡、右列にチャートを配置。冒頭に再生と企業タップの案内を追加。
@@ -36,7 +47,7 @@
 - [x] 実験の定義、旧イベントとの対応、14日間の観測手順、Threads投稿案を `docs/conversion-architecture.md` に記録。
 - [x] ユーザーによるpush後、342365aの変更を公開HTML・配信JSで確認（2026-09-23）。
 - [ ] GA4受信とカスタムディメンション設定、Threads用画像または動画の作成・投稿、実画面確認。
-- [ ] Cpk・工程比較の利用計測へ広げる。
+- [x] Cpk・工程比較の日英UIに共通の利用計測を追加（本番受信は未確認）。
 
 変更ファイル：
 

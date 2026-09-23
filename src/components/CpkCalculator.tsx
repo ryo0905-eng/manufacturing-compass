@@ -18,6 +18,7 @@ import {
   type CapabilityResult,
 } from "@/lib/process-capability";
 import { trackEvent } from "@/lib/analytics";
+import { usePracticalToolJourney } from "@/lib/use-practical-tool-journey";
 
 type InputMode = "raw" | "summary";
 type Errors = { data?: string; limits?: string; summary?: string };
@@ -101,31 +102,37 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const parsed = parseMeasurements(state.rawData);
   const result = state.result;
+  const journey = usePracticalToolJourney("cpk", locale, result, "sample");
   const labels = result ? metricLabels(result.method) : metricLabels(state.mode === "raw" ? "overall" : "short-term");
   const analysis = result ? analyzeCapability(result) : undefined;
   const resultText = result ? copyText(result, locale) : "";
 
   function update(patch: Partial<ToolState>) {
+    journey.start();
     setState((current) => ({ ...current, ...patch, activeSampleId: undefined, errors: {}, result: undefined, resultValues: [], needsCalculation: true }));
   }
 
   function loadSample(sample: CapabilitySample) {
+    journey.sample();
     setState(sampleState(sample));
     trackEvent("cpk_sample_changed", { sample: sample.id, ...(locale === "en" ? { locale } : {}) });
   }
 
   function startCustomData() {
+    journey.start();
     setState({ mode: "raw", rawData: "", mean: "", standardDeviation: "", lsl: "", usl: "", resultValues: [], errors: {} });
     trackEvent("cpk_custom_data_started", locale === "en" ? { locale } : undefined);
     requestAnimationFrame(() => textareaRef.current?.focus());
   }
 
   function switchMode(mode: InputMode) {
+    journey.start();
     setState((current) => ({ ...current, mode, activeSampleId: undefined, result: undefined, resultValues: [], errors: {}, needsCalculation: false }));
     trackEvent("cpk_input_mode_changed", { input_mode: mode, ...(locale === "en" ? { locale } : {}) });
   }
 
   function calculate() {
+    journey.calculate();
     const errors: Errors = {};
     const lower = optionalNumber(state.lsl);
     const upper = optionalNumber(state.usl);
@@ -153,12 +160,14 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
         }
       }
       if (Object.keys(errors).length > 0 || !nextResult) {
+        journey.error();
         setState((current) => ({ ...current, errors, result: undefined, resultValues: [] }));
         return;
       }
       setState((current) => ({ ...current, errors: {}, result: nextResult, resultValues: values, needsCalculation: false }));
       trackEvent("cpk_calculation_completed", { input_mode: state.mode, specification_type: lower !== undefined && upper !== undefined ? "two_sided" : "one_sided", ...(locale === "en" ? { locale } : {}) });
     } catch (cause) {
+      journey.error();
       const message = cause instanceof Error ? t(cause.message) : t("入力内容を確認してください。");
       setState((current) => ({ ...current, errors: state.mode === "raw" ? { data: message } : { summary: message }, result: undefined, resultValues: [] }));
     }
@@ -167,7 +176,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
   return (
     <div className="capability-workspace">
       <section className="capability-input" aria-labelledby="capability-input-title">
-        <div className="tool-section-heading"><h2 id="capability-input-title">{t("データ入力")}</h2>{state.activeSampleId ? <span>{t("サンプルデータで表示中")}</span> : null}</div>
+        <div className="tool-section-heading"><h2 ref={journey.inputRef} id="capability-input-title">{t("データ入力")}</h2>{state.activeSampleId ? <span>{t("サンプルデータで表示中")}</span> : null}</div>
         <div className={styles.inputStack}>
           <fieldset className={styles.inputModes}>
             <legend>{t("入力方式")}</legend>
@@ -213,7 +222,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
       </section>
 
       <section className="capability-results" aria-live="polite" aria-labelledby="capability-result-title">
-        <div className="tool-section-heading"><h2 id="capability-result-title">{t("計算結果")}</h2>{state.activeSampleId ? <span>{t("サンプルデータ")}</span> : null}</div>
+        <div className="tool-section-heading"><h2 ref={journey.resultRef} id="capability-result-title">{t("計算結果")}</h2>{state.activeSampleId ? <span>{t("サンプルデータ")}</span> : null}</div>
         {result && analysis ? <div className="result-update" key={`${result.mean}-${result.standardDeviation}-${result.performance}`}>
           <div className="primary-capability"><div><span>{labels.performance}</span><strong>{format(result.performance)}</strong></div><p>{benchmarkText(result.performance, locale)}</p></div>
           <Notice>{t("1.33は一般的に用いられる目安の一つです。実際の判定では、顧客要求や社内基準を優先してください。")}</Notice>

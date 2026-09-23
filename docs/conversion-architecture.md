@@ -45,6 +45,29 @@ Threadsは文章とリンクだけの投稿案を保留し、実データの2時
 
 このリンクは改修反映後に使用する。投稿内容と着地状態を合わせ、流入・開始・結果・既存の共有操作を観察する。サーバーやAnalyticsへ実データ・自由入力を送る新機能は追加しない。
 
+## 実務ツールの最小計測（2026-09-23、公開・GA4受信未確認）
+
+Cpk・工程比較の日英共通UIに `usePracticalToolJourney` を適用する。共通属性は `tool_id`（cpk / process-comparison）、`locale`、`ui_version=practical-v1`。入力値、件数、測定名、単位、エラー本文、計算結果は送らない。
+
+| イベント | 条件 | 分かること |
+| --- | --- | --- |
+| experience_view / surface=tool | 入力見出しが前景タブで25%以上露出 | 入力場所が見えた利用機会 |
+| tool_step / step=start | 初回の入力編集、入力方式変更、サンプル選択、計算。Cpkの自分のデータ入力への切替も含む | 操作開始 |
+| tool_step / step=sample | 利用者が明示的にサンプルを選択 | サンプルを使った体験 |
+| tool_step / step=calculate | 計算・比較ボタンを押す | 入力を経て計算を試みた |
+| tool_step / step=error | 計算時に検証エラーまたは計算失敗 | 入力・計算につまずいた |
+| tool_step / step=result | 操作後に生成した結果の見出しが前景タブで25%以上露出 | 結果に到達。理解や業務利用を保証しない |
+
+各段階はマウント中1回。Cpkの初期サンプル結果はstart/sample/resultに数えない。Cpkのサンプル選択は即時結果が出るのでcalculateを経由しない。工程比較のクリアだけではstartを送らない。編集・クリアで結果が消えたら未発火の結果監視も破棄する。再計算回数やエラー頻度の計測ではなく、各段階を経験したセッションを比較するための設計。
+
+stepには、その時点の `data_source=sample/custom` を付ける。サンプルへの編集はcustom。途中で切替可能なのでstartとresultのdata_source一致を結合条件にしない。初回結果後の別入力結果は再送しないため、custom比率を実務利用者の確定割合と扱わない。
+
+既存の `cpk_sample_changed`、`cpk_custom_data_started`、`cpk_input_mode_changed`、`cpk_calculation_completed`、`process_comparison_started/completed/copied/png_exported` およびCpkコピーイベントは維持する。工程比較startedはクリア操作を除外する変更あり。新しい共通イベントと加算しない。計算成功の旧イベントと、結果露出の新イベントを区別する。
+
+判断は同一セッション・同一tool_id・localeで行う。露出→開始が弱ければ説明・需要・流入の適合、開始→計算が弱ければ入力負担、errorが多ければ入力支援、計算成功→結果露出が弱ければ結果の配置を調べる。Cpkサンプル経路はsample→resultで見る。page_viewは既存GA4を使用し、露出していない訪問や少数の訪問だけで需要なしと結論しない。
+
+公開後はGA4で `data_source` もイベントスコープに登録し、日英・スマホ/PCを分ける。初期表示のみ、サンプル、独自入力の成功、入力エラー、編集による旧結果破棄を実操作し、Realtime等で受信を確認する。モック監視テストは実画面・本番受信の代替ではない。
+
 ## 目的
 
 ユーザーが、ページを読んだ後に「何を理解できたか」「次に何を確認するか」を迷わない導線を作ります。転職エージェントのクリックだけをコンバージョンとしません。

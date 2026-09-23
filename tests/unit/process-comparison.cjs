@@ -5,7 +5,7 @@ const ts = require('typescript');
 function load(file, dependencies = {}, globals = {}) {
   const exports = {};
   const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX } }).outputText;
-  vm.runInNewContext(code, { exports, require: name => { if (name === '@/data/practical-tool-text') return load('src/data/practical-tool-text.ts'); if (!(name in dependencies)) throw Error(name); return dependencies[name]; }, ...globals }, { filename: file });
+  vm.runInNewContext(code, { exports, require: name => { if (name === '@/lib/use-practical-tool-journey') return load('src/lib/use-practical-tool-journey.ts', { ...dependencies, react: { ...dependencies.react, useEffect() {} }, '@/lib/observe-visible': { observeVisibleOnce() {} } }); if (name === '@/data/practical-tool-text') return load('src/data/practical-tool-text.ts'); if (!(name in dependencies)) throw Error(name); return dependencies[name]; }, ...globals }, { filename: file });
   return exports;
 }
 const lib = load('src/lib/process-comparison.ts');
@@ -70,7 +70,10 @@ async function uiTest(clipboardFails) {
   for (const value of screenValues) assert.ok(output.includes(value));
   assert.equal(Boolean(fallback), clipboardFails);
   if (fallback) { let selected = false; fallback.props.onFocus({ currentTarget: { select() { selected = true; } } }); assert.ok(selected); }
-  assert.ok(events.every(event => event.length === 1 && /^process_comparison_(started|completed|copied|png_exported)$/.test(event[0])));
+  assert.ok(events.every(event => event[0] === 'tool_step'
+    ? event[1].tool_id === 'process-comparison' && Object.keys(event[1]).every(key => ['tool_id', 'locale', 'ui_version', 'step', 'data_source'].includes(key))
+    : event.length === 1 && /^process_comparison_(started|completed|copied|png_exported)$/.test(event[0])));
+  assert.equal(events.filter(event => event[0] === 'tool_step' && event[1].step === 'sample').length, 1);
   assert.equal(events.filter(e => e[0] === 'process_comparison_copied').length, clipboardFails ? 0 : 1);
   nodes(render(), n => n.type === 'input')[0].props.onChange({ target: { value: '新条件' } });
   assert.equal(nodes(render(), n => n.type === 'img').length, 0);

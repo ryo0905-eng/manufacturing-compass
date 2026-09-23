@@ -186,7 +186,7 @@ async function main() {
     await btn('Save chart as PNG').props.onClick();
     if (fail) assert.ok(text(render()).includes('Could not create the PNG'));
     else assert.ok(exported.includes('Shared limits:'));
-    assert.ok(events.every(e => e.props.locale === 'en' && Object.keys(e.props).length === 1));
+    assert.ok(events.every(e => e.props.locale === 'en' && Object.keys(e.props).every(key => ['locale', 'tool_id', 'ui_version', 'step', 'data_source'].includes(key))));
     nodes(render(), n => n.type === 'input')[0].props.onChange({ target: { value: 'private name' } });
     assert.equal(nodes(render(), n => n.type === 'img').length, 0);
   }
