@@ -389,3 +389,9 @@ Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示�
 ## ランキング内の企業比較（2026-09-23）
 
 対象記事だけをRankingCompanyCompareProviderで囲み、Server Componentsの記事本文・ランキング表をchildrenで渡す。表のボタン・共有状態・比較欄はClient。既存ランキングデータの固定idで世界・日本の重複企業をまとめ、数値は複製しない。分類説明はindustryMapZonesを参照する。公開地図IndustryAtlasが許可企業IDの#companyを受け付ける。新API・ページ・永続ストレージは追加しない。[仕様](./ranking-company-comparison-spec.md)。
+
+## 実務ツール案内（2026-09-23）
+
+`ToolsLearningLab` に `ToolFinder` を追加。質問・案内文は `src/data/tool-finder.ts`、純粋な分岐は `src/lib/tool-finder.ts`、操作はClient Componentと専用CSS Module。ツール名・URL・入力方式は既存 `learningTools` / `toolUsage` を参照し、台帳を複製しない。静的な入口・質問・出典は初期HTMLにも出力する。
+
+目的変更で使い方とデータを、使い方変更でデータを消去し、結果は回答から導出する。外部API・保存・追加依存はなし。見出し露出は `observeVisibleOnce`、イベントは `trackEvent` を使用。仕様・対象検証は [tool-finder-spec](./tool-finder-spec.md)。

@@ -624,6 +624,20 @@ Cp・Cpk、DoE、管理図、Gage R&Rを基礎資産として改善し、ツー�
 
 ## 完了した主要マイルストーン
 
+### 困りごとから選ぶ実務ツール案内（2026-09-23）
+
+- [x] `/tools` に最大3問・5目的の案内を追加。実データ／学習、準備不足、解析未対応を区別し、既存一覧とフィルターを維持。
+- [x] 既存ツール台帳を再利用。回答の保存・外部送信なし。回答変更で後続選択と旧結果を破棄。固定属性の露出・開始・結果・リンク計測を追加。
+- [x] NIST公式資料と入力仕様を確認。出典・更新日・メタ説明・PRD・構成・計測文書を更新。
+- [x] `node tests/unit/tool-finder.cjs`（16経路、モックUI、露出・プライバシー・SSR）、`npm run typecheck`（1回）、`git diff --check`成功。
+- [ ] 本番反映、GA4受信、実ブラウザ・実機確認。dev・build・lint・commit・push未実施。
+
+変更ファイル：`src/data/tool-finder.ts`、`src/lib/tool-finder.ts`、`src/components/ToolFinder.tsx`・同CSS、`src/components/ToolsLearningLab.tsx`、`src/app/(ja)/tools/page.tsx`、`tests/unit/tool-finder.cjs`、`docs/tool-finder-spec.md`、PRD、architecture、conversion-architecture、documentation-map、企画書、本ファイル。
+
+推奨コミット：`feat: guide users to practical tools by task`。詳細：[仕様](docs/tool-finder-spec.md)。
+
+
+
 ### 2026-09-22：工程図鑑の初版機能実装完了
 
 - ウエハ準備・ウエハ検査・最終検査に各3役割の仕事紹介を追加。これで6工程体験・おすすめ見学コース・全6体験の仕事紹介がそろった。合計18の役割紹介であり、18種類の職種分類ではない。

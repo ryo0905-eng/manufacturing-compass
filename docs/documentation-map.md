@@ -106,3 +106,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - [`docs/improvement-report-spec.md`](./improvement-report-spec.md): 工程改善レポートの表示・計算・編集・保存互換性・印刷・計測・紹介素材・実ブラウザ検証。
 
 - [`docs/ranking-company-comparison-spec.md`](./ranking-company-comparison-spec.md): ランキング内2社比較、固定ID・共有URL、業界地図の企業指定、計測、Threads素材、検証記録。
+
+- [`docs/tool-finder-spec.md`](./tool-finder-spec.md): ツール一覧の最大3問案内、分岐・未対応状態・計測・検証。

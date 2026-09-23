@@ -7,7 +7,7 @@ import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "製造業の品質管理・統計学習ツール｜無料で動かして学ぶ",
-  description: "Jev AI、工程条件の比較、Gage R&R、管理図、歩留まり解析、Cp・Cpk、実験計画法などを、数値とグラフを動かして試せる製造業向けツール集です。",
+  description: "困りごとと手元のデータから、最大3問で使うツールをご案内。工程比較、測定計画、Cp・Cpk、管理図などを無料・登録不要で使い、学べます。",
   alternates: { canonical: "/tools" },
   openGraph: {
     title: "製造業の品質管理・統計学習ラボ｜Manufacturing Compass",

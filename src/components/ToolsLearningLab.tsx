@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ToolFinder } from "@/components/ToolFinder";
 import { useEffect, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
 
@@ -55,9 +56,11 @@ export function ToolsLearningLab() {
   return <>
     <nav className="tools-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span aria-hidden="true">/</span><span>学習ツール</span></nav>
     <section className="tools-lab-hero">
-      <div className="tools-lab-hero__copy"><p className="tools-eyebrow"><span aria-hidden="true" />無料・登録不要の計算・学習ツール</p><h1>製造技術を、計算して、<br />動かして理解する。</h1><p>品質管理・統計手法と現場改善を、数値やグラフを動かしながら学び、試せます。</p><div className="tools-hero-actions"><a className="tools-primary-cta" href="#learning-roadmap">ツールを選ぶ <span aria-hidden="true">↓</span></a><a className="tools-secondary-cta" href="#tool-lab">{tools.length}個のツールを見る</a></div></div>
+      <div className="tools-lab-hero__copy"><p className="tools-eyebrow"><span aria-hidden="true" />無料・登録不要の計算・学習ツール</p><h1>製造技術を、計算して、<br />動かして理解する。</h1><p>品質管理・統計手法と現場改善を、数値やグラフを動かしながら学び、試せます。</p><div className="tools-hero-actions"><a className="tools-primary-cta" href="#tool-finder">困りごとから選ぶ <span aria-hidden="true">↓</span></a><a className="tools-secondary-cta" href="#tool-lab">{tools.length}個のツールを見る</a></div></div>
       <div className="tools-flow-visual" aria-label="測定、安定性、能力、改善の4段階"><span>測定</span><i>→</i><span>安定性</span><i>→</i><span>能力</span><i>→</i><span>改善</span><small>DATA → DECISION → ACTION</small></div>
     </section>
+
+    <ToolFinder />
 
     <section className="learning-roadmap" id="learning-roadmap" aria-labelledby="roadmap-title"><header><div><p className="section-label">TOOL ROADMAP</p><h2 id="roadmap-title">今の用事からツールを選ぶ</h2></div><p>手元のデータを使いたい方も、まず仕組みを学びたい方も、目的に合わせて選べます。</p></header><div className="tools-purpose-filter" role="group" aria-label="ツールの用途で絞り込む">{([{ id: "all", label: "すべて" }, { id: "input", label: "自分のデータ・数値で使う" }, { id: "learn", label: "教材で学ぶ" }] as const).map(option => <button type="button" key={option.id} aria-pressed={purpose === option.id} onClick={() => setPurpose(option.id)}>{option.label}（{tools.filter(tool => option.id === "all" || toolUsage[tool.id].purpose === option.id).length}）</button>)}</div><p role="status">{visibleTools.length}件を表示中。入力方法や詳しい機能は下のカードで確認できます。</p><ol>{visibleTools.map((tool) => <li key={tool.id}><span>{tool.step}</span><div><small>{tool.role}</small><h3>{tool.question}</h3><p>{tool.title}</p><Link href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "learning_roadmap")}>試す <i aria-hidden="true">→</i></Link></div></li>)}</ol></section>
 
