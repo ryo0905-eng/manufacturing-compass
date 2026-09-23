@@ -395,3 +395,9 @@ Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示�
 `ToolsLearningLab` に `ToolFinder` を追加。質問・案内文は `src/data/tool-finder.ts`、純粋な分岐は `src/lib/tool-finder.ts`、操作はClient Componentと専用CSS Module。ツール名・URL・入力方式は既存 `learningTools` / `toolUsage` を参照し、台帳を複製しない。静的な入口・質問・出典は初期HTMLにも出力する。
 
 目的変更で使い方とデータを、使い方変更でデータを消去し、結果は回答から導出する。外部API・保存・追加依存はなし。見出し露出は `observeVisibleOnce`、イベントは `trackEvent` を使用。仕様・対象検証は [tool-finder-spec](./tool-finder-spec.md)。
+
+## 不良の優先順位ボード（2026-09-23）
+
+`src/data/defect-pareto.ts` にメタ情報・架空例・注記、`src/lib/defect-pareto.ts` に2列解析・集計・TSVコピー文・SVG生成を分離。`DefectPareto.tsx` とCSS Moduleが入力・重複合算確認・結果・出力を担当し、App RouterのServer ComponentがSEO・静的解説を提供する。
+
+図は共通のSVG生成を画面と保存に使用。ユーザー由来の文字列をXMLエスケープし、制御文字を拒否。コピー表の数式開始文字には先頭アポストロフィを付ける。保存はBlobと一時URL、出力要求後にURLを解放する。非同期コピーは入力改訂番号で古い通知・フォールバック表示を抑える。外部API・新規依存・保存領域は追加しない。[仕様](./defect-pareto-spec.md)。

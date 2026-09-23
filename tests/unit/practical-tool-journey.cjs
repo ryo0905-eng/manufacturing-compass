@@ -40,7 +40,7 @@ function mount(tool, initialSource, failAnalytics = false) {
   };
 }
 
-for (const tool of ['cpk', 'process-comparison', 'measurement-planner', 'improvement-report']) {
+for (const tool of ['cpk', 'process-comparison', 'measurement-planner', 'improvement-report', 'defect-pareto']) {
   const mounted = mount(tool, tool !== 'process-comparison' ? 'sample' : 'custom');
   const { events, observers, input, output } = mounted;
   let journey = mounted.render(tool !== 'process-comparison' ? { initialSample: true } : null);

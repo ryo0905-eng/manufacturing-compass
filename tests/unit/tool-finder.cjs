@@ -49,7 +49,7 @@ for (const {id:goal} of finderGoals) {
     }
   }
 }
-assert.equal(paths,16);
+assert.equal(paths,18);
 assert.equal(findTool({goal:'comparison',mode:'learn'}).tool.id,'improvement-confidence');
 assert.match(findTool({goal:'capability',mode:'input',data:'summary'}).preparation,/短期標準偏差/);
 assert.equal(findTool(selectFinderGoal('planning')),null);

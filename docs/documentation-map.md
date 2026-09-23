@@ -108,3 +108,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - [`docs/ranking-company-comparison-spec.md`](./ranking-company-comparison-spec.md): ランキング内2社比較、固定ID・共有URL、業界地図の企業指定、計測、Threads素材、検証記録。
 
 - [`docs/tool-finder-spec.md`](./tool-finder-spec.md): ツール一覧の最大3問案内、分岐・未対応状態・計測・検証。
+
+- [`docs/defect-pareto-spec.md`](./defect-pareto-spec.md): 不良分類別パレート図の入力・合算・計算・出力・公開・検証。

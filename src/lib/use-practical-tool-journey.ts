@@ -8,7 +8,7 @@ type Source = "sample" | "custom";
 type Step = "start" | "sample" | "calculate" | "error" | "result";
 
 /** Only fixed categories leave the browser; input values and errors stay local. */
-export function usePracticalToolJourney(toolId: "cpk" | "process-comparison" | "measurement-planner" | "improvement-report", locale: "ja" | "en", result: unknown, initialSource: Source) {
+export function usePracticalToolJourney(toolId: "defect-pareto" | "cpk" | "process-comparison" | "measurement-planner" | "improvement-report", locale: "ja" | "en", result: unknown, initialSource: Source) {
   const inputRef = useRef<HTMLHeadingElement>(null);
   const resultRef = useRef<HTMLHeadingElement>(null);
   const seen = useRef(new Set<string>());

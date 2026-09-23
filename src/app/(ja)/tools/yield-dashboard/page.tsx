@@ -46,7 +46,7 @@ export default function YieldDashboardPage() {
 
       <section aria-labelledby="faq-title"><header><p className="section-label">FAQ</p><h2 id="faq-title">歩留まりダッシュボードのFAQ</h2></header><div className={styles.faq}>{faqs.map((faq) => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div></section>
 
-      <section aria-labelledby="related-title"><header><p className="section-label">NEXT LEARNING</p><h2 id="related-title">関連する品質管理・データ活用</h2><p>今回のデモは画面要件と調査の流れを学ぶものです。手元の集計、工程の安定性、能力、改善実験は専用ツールで確認できます。</p></header><nav className={styles.related} aria-label="関連ページ"><Link href="/tools/yield-analysis">手元のデータで歩留まりを解析</Link><Link href="/tools/control-chart">管理図で時間変化を学ぶ</Link><Link href="/tools/cpk">Cp・Cpkで工程能力を確認</Link><Link href="/tools/doe">確認実験の設計を学ぶ</Link><Link href="/guides/six-sigma">DMAICで改善の流れを整理</Link></nav></section>
+      <section aria-labelledby="related-title"><header><p className="section-label">NEXT LEARNING</p><h2 id="related-title">関連する品質管理・データ活用</h2><p>今回のデモは画面要件と調査の流れを学ぶものです。手元の集計、工程の安定性、能力、改善実験は専用ツールで確認できます。</p></header><nav className={styles.related} aria-label="関連ページ"><Link href="/tools/defect-pareto">手元の不良分類からパレート図を作る</Link><Link href="/tools/yield-analysis">手元のデータで歩留まりを解析</Link><Link href="/tools/control-chart">管理図で時間変化を学ぶ</Link><Link href="/tools/cpk">Cp・Cpkで工程能力を確認</Link><Link href="/tools/doe">確認実験の設計を学ぶ</Link><Link href="/guides/six-sigma">DMAICで改善の流れを整理</Link></nav></section>
     </article>
   <StatisticsCourseCta sourcePage="/tools/yield-dashboard" />
   </main>;

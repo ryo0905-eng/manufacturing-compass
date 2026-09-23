@@ -624,6 +624,19 @@ Cp・Cpk、DoE、管理図、Gage R&Rを基礎資産として改善し、ツー�
 
 ## 完了した主要マイルストーン
 
+### 不良の優先順位ボード（2026-09-23）
+
+- [x] `/tools/defect-pareto` に2列貼付け、パレート図、構成比・累積比率、同名合算確認、表コピー・SVG保存を追加。入力編集時に旧結果を破棄。合計0件は比率算出不可。
+- [x] 入力は端末内のみ。文字エスケープ・コピー先の数式対策・固定属性計測・架空例を実装。通常公開設定、canonical・構造化データ・sitemap、一覧・ツール案内・調査教材の導線を追加。
+- [x] ASQの手順と数値を確認。対象テストはSSRの説明不足を修正後に同一コマンドで成功。案内18経路と共通計測テストも成功。型チェック1回と差分・公開禁止情報チェック済み。
+- [ ] 本番反映・GA4受信・実ブラウザ／実機・実ダウンロードは未確認。dev・build・lint・commit・push未実施。
+
+変更ファイル：[実装仕様の一覧](docs/defect-pareto-spec.md)。実行：`node tests/unit/defect-pareto.cjs`（修正前後2回）、`node tests/unit/tool-finder.cjs`、`node tests/unit/practical-tool-journey.cjs`、`npm run typecheck`、`git diff --check`。
+
+推奨コミット：`feat: add defect Pareto analysis board`
+
+
+
 ### 困りごとから選ぶ実務ツール案内（2026-09-23）
 
 - [x] `/tools` に最大3問・5目的の案内を追加。実データ／学習、準備不足、解析未対応を区別し、既存一覧とフィルターを維持。

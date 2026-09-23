@@ -1,6 +1,7 @@
 import type { ToolId } from "@/data/learning-tools";
 
 export const finderGoals = [
+  { id: "defects", label: "どの不良が多いか整理したい" },
   { id: "capability", label: "規格とばらつきの関係を確認したい" },
   { id: "comparison", label: "変更前後の測定値を比べたい" },
   { id: "planning", label: "平均を知るための測定数を考えたい" },
@@ -36,6 +37,12 @@ export const finderUpdatedAt = "2026-09-23";
 export const finderSource = { title: "NIST：工程能力と前提条件", url: "https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm" };
 export type FinderAdvice = { toolId: ToolId; reason: string; preparation: string; limit: string; learn: string; secondary?: ToolId };
 export const finderAdvice: Record<FinderGoal, FinderAdvice> = {
+  defects: {
+    toolId: "defect-pareto", reason: "分類別の件数から、パレート図と構成比・累積比率を作れます。",
+    preparation: "同じ集計期間・対象の分類名と件数を2列で用意してください。",
+    limit: "入力件数の内訳を整理します。不良率・歩留まりや、重大性を含む対策順位を自動判定しません。",
+    learn: "移動先の「架空例を試す」で、件数と累積比率の図を確認できます。",
+  },
   capability: {
     toolId: "cpk", reason: "規格と測定値のばらつきの関係を整理できます。",
     preparation: "規格値と測定値、または平均と短期標準偏差を用意します。要約値の入力には、全体の標準偏差をそのまま使わないでください。",
