@@ -16,6 +16,26 @@
 
 ## 現在の優先タスク
 
+### 成長改善・第1差分（2026-09-23）
+
+- [x] Cpkの日英共通UIで入力編集直後に旧結果・分布図・コピーを破棄し、再計算を案内。サンプル切替は即時結果表示を維持。
+- [x] 時価総額記事は2010年のNVIDIA追跡、装置売上記事は2010年の装置5社・東京エレクトロンへ接続。
+- [x] タイムマシンの入口露出・操作部露出・初回操作・操作後の結果露出を計測。画面外・背景タブ・単なるマウント・初期URL復元を成果と扱わず、マウント中の初回イベントを重複防止。既存の詳細操作・共有イベントは維持。
+- [x] `node tests/unit/cpk-result-copy.cjs`、`node tests/unit/cpk-english.cjs`、`node tests/unit/observe-visible.cjs`、`node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）成功。計測テストはDOM監視・Reactハンドラの模擬環境であり、本番受信や実画面の検証ではない。
+- [x] 実験の定義、旧イベントとの対応、14日間の観測手順、Threads投稿案を `docs/conversion-architecture.md` に記録。
+- [ ] commit/push・本番反映、GA4受信とカスタムディメンション設定、Threads投稿、実画面確認。dev・build・ブラウザは未実施。
+- [ ] 次の差分：観測の基準を得たうえでタイムマシンのスマホ配置、Cpk・工程比較の利用計測へ広げる。
+
+変更ファイル：
+
+- Cpk：`src/components/CpkCalculator.tsx`、`src/data/cpk-text.ts`
+- 計測：`src/lib/observe-visible.ts`（新規）、`src/components/TrackedInternalLink.tsx`、`src/components/guide/GuideBlocks.tsx`
+- ランキング：`src/components/ranking-time-machine/RankingTimeMachine.tsx`、`src/components/ranking-time-machine/RankingHistoryArticle.tsx`、`src/components/ranking-time-machine/ranking-time-machine.module.css`、`src/content/guides/semiconductor-market-cap-ranking.ts`、`src/content/guides/semiconductor-equipment-sales-ranking.ts`
+- テスト：`tests/unit/cpk-result-copy.cjs`、`tests/unit/cpk-english.cjs`、`tests/unit/ranking-time-machine.cjs`、`tests/unit/observe-visible.cjs`（新規）
+- 文書：`docs/PRD.md`、`docs/architecture.md`、`docs/conversion-architecture.md`、`TASKS.md`
+
+推奨コミット：`fix: invalidate stale Cpk results and measure ranking journeys`
+
 ### ランキング・タイムマシン（2026-09-22）
 
 - [x] 2026-09-23：日本企業10社モードと比較記事2本を実装。追加144件をCompaniesMarketCapの取得HTMLの表セルと照合。東京エレクトロン16件を再利用。日本モード・共有・追跡・記事入口イベント・9社ロゴ・出典・内部リンクを追加。

@@ -32,6 +32,7 @@ type ToolState = {
   activeSampleId?: CapabilitySample["id"];
   result?: CapabilityResult;
   resultValues: number[];
+  needsCalculation?: boolean;
   errors: Errors;
 };
 
@@ -105,7 +106,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
   const resultText = result ? copyText(result, locale) : "";
 
   function update(patch: Partial<ToolState>) {
-    setState((current) => ({ ...current, ...patch, activeSampleId: undefined, errors: {} }));
+    setState((current) => ({ ...current, ...patch, activeSampleId: undefined, errors: {}, result: undefined, resultValues: [], needsCalculation: true }));
   }
 
   function loadSample(sample: CapabilitySample) {
@@ -120,7 +121,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
   }
 
   function switchMode(mode: InputMode) {
-    setState((current) => ({ ...current, mode, activeSampleId: undefined, result: undefined, resultValues: [], errors: {} }));
+    setState((current) => ({ ...current, mode, activeSampleId: undefined, result: undefined, resultValues: [], errors: {}, needsCalculation: false }));
     trackEvent("cpk_input_mode_changed", { input_mode: mode, ...(locale === "en" ? { locale } : {}) });
   }
 
@@ -155,7 +156,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
         setState((current) => ({ ...current, errors, result: undefined, resultValues: [] }));
         return;
       }
-      setState((current) => ({ ...current, errors: {}, result: nextResult, resultValues: values }));
+      setState((current) => ({ ...current, errors: {}, result: nextResult, resultValues: values, needsCalculation: false }));
       trackEvent("cpk_calculation_completed", { input_mode: state.mode, specification_type: lower !== undefined && upper !== undefined ? "two_sided" : "one_sided", ...(locale === "en" ? { locale } : {}) });
     } catch (cause) {
       const message = cause instanceof Error ? t(cause.message) : t("入力内容を確認してください。");
@@ -231,7 +232,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
             </dl></section>
             <section className="result-section result-checks"><h3>{t("確認候補")}</h3><ul>{analysis.checks.map((check) => <li key={check}>{t(check)}</li>)}</ul></section>
           </details>
-        </div> : <div className="empty-result"><p>{t("測定データと規格値を入力すると、ここに計算結果が表示されます。")}</p><small>{t("入力値や計算結果が外部へ送信されることはありません。")}</small></div>}
+        </div> : <div className="empty-result"><p>{t(state.needsCalculation ? "入力が変更されました。再計算してください。" : "測定データと規格値を入力すると、ここに計算結果が表示されます。")}</p><small>{t("入力値や計算結果が外部へ送信されることはありません。")}</small></div>}
       </section>
     </div>
   );

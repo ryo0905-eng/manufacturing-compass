@@ -172,26 +172,41 @@ function nodes(tree, predicate) {
 
 // Exercise actual controller handlers/effects with deterministic timers; no browser or server.
 const slots = [], effects = [], events = [], timers = new Map(), listeners = new Map();
+const funnelEvents = [], visibleCallbacks = new Map();
 let cursor = 0, nextTimer = 0, focused = 0;
 const documentStub = { hidden: false, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name), getElementById: () => ({ focus: () => focused++ }) };
 const hooks = {
   ...React,
+  useState: initial => { const slot = cursor++; if (!(slot in slots)) slots[slot] = initial; return [slots[slot], value => { slots[slot] = value; }]; },
+  useRef: initial => { const slot = cursor++; if (!(slot in slots)) slots[slot] = { current: initial }; return slots[slot]; },
   useMemo: fn => { cursor++; return fn(); },
   useReducer: (reducer, initial) => { const slot = cursor++; if (!(slot in slots)) slots[slot] = initial; return [slots[slot], action => { slots[slot] = reducer(slots[slot], action); }]; },
   useEffect: (fn, deps) => { const slot = cursor++; const old = effects[slot]; if (!old || deps.some((dep, i) => !Object.is(dep, old.deps[i]))) { old?.cleanup?.(); effects[slot] = { deps, pending: fn }; } },
 };
-const uiLoad = loader({ react: hooks, '@vercel/analytics': { track: (...args) => events.push(args) } }, {
+const uiLoad = loader({ react: hooks,
+  '@/lib/observe-visible': { observeVisibleOnce: (target, callback) => { visibleCallbacks.set(target, () => { visibleCallbacks.delete(target); callback(); }); return () => visibleCallbacks.delete(target); } },
+  '@vercel/analytics': { track: (...args) => (['experience_view', 'tool_step'].includes(args[0]) ? funnelEvents : events).push(args) } }, {
   document: documentStub, window: { location: { hash: '', origin: 'https://mfg-compass.com' }, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name), setTimeout: (fn, ms) => { assert.equal(ms, 3000); timers.set(++nextTimer, fn); return nextTimer; }, clearTimeout: id => timers.delete(id) }, requestAnimationFrame: fn => fn(),
 });
 const { RankingTimeMachine } = uiLoad('src/components/ranking-time-machine/RankingTimeMachine.tsx');
-function render() { cursor = 0; const tree = RankingTimeMachine({ companies, snapshots }); for (const effect of effects) if (effect?.pending) { effect.cleanup = effect.pending(); delete effect.pending; } return tree; }
+function render() { cursor = 0; const tree = RankingTimeMachine({ companies, snapshots }); for (const node of nodes(tree, node => node.type === 'div' && node.props.ref)) node.props.ref.current ??= {}; for (const effect of effects) if (effect?.pending) { effect.cleanup = effect.pending(); delete effect.pending; } return tree; }
 const props = name => nodes(render(), node => node.type?.name === name)[0].props;
 const controls = () => props('TimelineControls');
 function tick() { const [id, fn] = timers.entries().next().value; timers.delete(id); fn(); render(); }
 assert.equal(controls().index, 0);
 assert.equal(timers.size, 0);
+assert.equal(funnelEvents.length, 0, 'Mount alone is not exposure or use');
+assert.equal(visibleCallbacks.size, 1, 'Only controls are observed before an interaction');
+[...visibleCallbacks.values()][0]();
+assert.equal(funnelEvents[0][0], 'experience_view');
 controls().onPlay(); render(); assert.equal(timers.size, 1);
+assert.equal(funnelEvents.filter(([, p]) => p.step === 'start').length, 1);
+assert.equal(visibleCallbacks.size, 0, 'Play without a changed chart is not a result');
 tick(); assert.equal(controls().index, 1);
+assert.equal(funnelEvents.filter(([, p]) => p.step === 'result').length, 0, 'Offscreen results do not count');
+assert.equal(visibleCallbacks.size, 1);
+[...visibleCallbacks.values()][0]();
+assert.equal(funnelEvents.filter(([, p]) => p.step === 'result').length, 1);
 assert.equal(events.length, 1); // No automatic year event.
 controls().onPause(); render(); assert.equal(timers.size, 0);
 controls().onYear(5); render(); assert.equal(events.length, 2);
@@ -206,6 +221,8 @@ assert.equal(controls().index, timeline.length - 1); assert.equal(controls().pla
 tick(); assert.equal(controls().playing, false); assert.equal(timers.size, 0);
 controls().onPlay(); render(); assert.equal(controls().index, 0);
 controls().onReset(); render(); assert.equal(controls().index, 0); assert.equal(props('CompanyDetail').companyId, ''); assert.equal(timers.size, 0);
+assert.equal(funnelEvents.filter(([, p]) => p.step === 'start').length, 1, 'Replay does not duplicate first start');
+assert.equal(funnelEvents.filter(([, p]) => p.step === 'result').length, 1, 'Replay does not duplicate first result');
 for (const [event, properties] of events) {
   assert.match(event, /^ranking_timemachine_(play|pause|year_change|company_click)$/);
   assert.equal(properties.ranking_type, 'market_cap'); assert.equal(properties.data_kind, 'real');
@@ -370,6 +387,8 @@ const restoreSlots = [], restoreEffects = [], restoreListeners = new Map(), rest
 let restoreCursor = 0;
 const restoreWindow = { location: { hash: '#mode=global&year=2025&company=toyota' }, addEventListener: (key, fn) => restoreListeners.set(key, fn), removeEventListener: key => restoreListeners.delete(key) };
 const restoreHooks = { ...React,
+  useState: initial => { const slot = restoreCursor++; if (!(slot in restoreSlots)) restoreSlots[slot] = initial; return [restoreSlots[slot], value => { restoreSlots[slot] = value; }]; },
+  useRef: initial => { const slot = restoreCursor++; if (!(slot in restoreSlots)) restoreSlots[slot] = { current: initial }; return restoreSlots[slot]; },
   useMemo: fn => { restoreCursor++; return fn(); },
   useReducer: (reducer, initial) => { const slot = restoreCursor++; if (!(slot in restoreSlots)) restoreSlots[slot] = initial; return [restoreSlots[slot], action => { restoreSlots[slot] = reducer(restoreSlots[slot], action); }]; },
   useEffect: (fn, deps) => { const slot = restoreCursor++, old = restoreEffects[slot]; if (!old || deps.some((dep, i) => !Object.is(dep, old.deps[i]))) { old?.cleanup?.(); restoreEffects[slot] = { deps, pending: fn }; } },

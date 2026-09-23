@@ -77,7 +77,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
       blocks: [{ type: "links", items: [
         { label: "日本の半導体関連10社の時価総額推移", href: "/guides/japan-semiconductor-market-cap-history", description: "2010〜2025年の固定10社を比較。現在の日本TOP10とは異なる、長期の変化を読む" },
         { label: "NVIDIAとIntelの時価総額推移", href: "/guides/nvidia-intel-market-cap-history", description: "16年の年末値から2社の評価額と大小関係の変化を見る" },
-        { label: "時価総額の順位推移を動かして見る", href: "/tools/ranking-time-machine", description: "売上高とは別の指標。装置5社の2010〜2025年の時価総額を再生し、半導体20社やGAFAM・トヨタとの比較へ切り替え" },
+        { label: "装置5社の時価総額はどう変わった？", href: "/tools/ranking-time-machine#mode=equipment&year=2010&company=tokyo-electron", description: "売上高とは別の指標。東京エレクトロンを選択した状態で、装置5社の2010〜2025年の時価総額を再生できます。" },
         { label: "半導体製造装置メーカーとは", href: "/guides/semiconductor-equipment-manufacturers", description: "工程・企業・仕事内容の関係を基礎から理解する" },
         { label: "半導体業界地図", href: "/industry-map", description: "装置企業とデバイス・材料企業の関係を見る" },
         { label: "半導体企業の時価総額ランキング", href: "/guides/semiconductor-market-cap-ranking", description: "株式市場での評価額という別の指標で見る" },

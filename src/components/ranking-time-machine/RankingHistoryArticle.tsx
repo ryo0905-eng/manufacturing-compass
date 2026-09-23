@@ -8,7 +8,7 @@ function Entry({ mode, year, company, sourceSlug, placement, children }: {
   mode: 'japan' | 'semiconductor'; year: number; company: string; sourceSlug: string; placement: string; children: React.ReactNode;
 }) {
   const href = `/tools/ranking-time-machine#mode=${mode}&year=${year}&company=${company}`;
-  return <TrackedInternalLink className="button ghost" href={href as Route} eventName="ranking_timemachine_entry_click" eventProperties={{ source_slug: sourceSlug, comparison_mode: mode, year, company, placement, destination: href, ranking_type: 'market_cap', data_kind: 'real' }}>{children}</TrackedInternalLink>;
+  return <TrackedInternalLink className="button ghost" href={href as Route} eventName="ranking_timemachine_entry_click" viewEventName="experience_view" eventProperties={{ tool_id: 'ranking-time-machine', surface: 'entry', ui_version: 'entry-v1', source_slug: sourceSlug, comparison_mode: mode, year, company, placement, destination: href, ranking_type: 'market_cap', data_kind: 'real' }}>{children}</TrackedInternalLink>;
 }
 
 export function RankingHistoryArticle({ kind, sourceSlug }: { kind: 'japan' | 'nvidia-intel'; sourceSlug: string }) {

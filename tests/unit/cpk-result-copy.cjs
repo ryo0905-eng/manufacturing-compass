@@ -118,12 +118,23 @@ async function main() {
   const change = (id, value) => nodes(render(), node => node.props?.id === id)[0].props.onChange({ target: { value } });
   const press = label => nodes(render(), node => node.type === 'button' && node.props.children === label)[0].props.onClick();
   change('measurement-data', '8\n9\n10\n11\n12');
+  assert.equal(copy(), undefined, 'Editing measurements removes the old copy payload immediately');
+  assert.equal(nodes(render(), node => node.type === 'Histogram').length, 0);
+  assert.ok(JSON.stringify(render()).includes('入力が変更されました。再計算してください。'));
   change('lsl', '5');
   change('usl', '15');
   press('計算する');
   assert.match(copy().props.text, /Ppk: 1\.054/);
   assert.match(copy().props.text, /データ件数: 5/);
   assert.notEqual(copy().key, sample.key); // New content resets copy feedback via React key.
+  for (const [id, value] of [['usl', '11'], ['lsl', '4']]) {
+    change(id, value);
+    assert.equal(copy(), undefined, `${id} invalidates the result before calculating`);
+    assert.equal(nodes(render(), node => node.type === 'Histogram').length, 0);
+    press('計算する');
+    assert.match(copy().props.text, /Ppk: 0\.211/);
+  }
+  change('lsl', '5'); change('usl', '15'); press('計算する');
   press('平均・短期標準偏差');
   assert.equal(copy(), undefined);
   change('summary-mean', '10');
@@ -131,6 +142,12 @@ async function main() {
   press('計算する');
   assert.match(copy().props.text, /Cpk: 1\.667/);
   assert.equal(copy().props.method, 'short-term');
+  for (const [id, value] of [['summary-mean', '11'], ['summary-sd', '2']]) {
+    change(id, value);
+    assert.equal(copy(), undefined, `${id} invalidates the summary result`);
+    press('計算する');
+    assert.ok(copy());
+  }
   const summary = mountCopy({ writeText: async () => {} }, copy().props);
   await button(summary.render()).props.onClick();
   assert.equal(JSON.stringify(summary.events[0][1]), JSON.stringify({ method: 'short-term' }));
@@ -156,6 +173,10 @@ async function main() {
   for (const id of rawInput.props['aria-describedby'].split(' ')) {
     assert.equal(nodes(rawError, node => node.props?.id === id).length, 1, `Description ${id} exists exactly once`);
   }
+  press('別のサンプルを試す');
+  assert.ok(copy(), 'Changing sample immediately restores its calculated copy payload');
+  assert.equal(nodes(render(), node => node.type === 'Histogram').length, 1);
+  assert.ok(!JSON.stringify(render()).includes('入力が変更されました。再計算してください。'));
   console.log('PASS: success, pending/double click, denied/unavailable clipboard, manual selection, anonymous event, visible placement, sample/raw/summary payloads, invalid input');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

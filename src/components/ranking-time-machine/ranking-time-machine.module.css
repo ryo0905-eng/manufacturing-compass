@@ -22,6 +22,7 @@
 .controls input[type="range"] { display: block; width: 100%; min-height: 44px; margin: 0; accent-color: var(--mc-action); cursor: pointer; }
 .rangeEnds { display: flex; justify-content: space-between; color: var(--mc-text-muted); font-size: 12px; }
 .figure { margin: 0; --race-name-width: 140px; }
+.chartContainer { min-width: 0; }
 .figure h2 { font-size: 18px; margin-bottom: 2px; }
 .figure p { margin: 4px 0; }
 .axis { display: flex; justify-content: space-between; margin: 8px calc(5.25rem + 17px) 2px calc(2.25rem + var(--race-name-width) + 29px); font-size: 11px; font-variant-numeric: tabular-nums; color: var(--mc-text-muted); }

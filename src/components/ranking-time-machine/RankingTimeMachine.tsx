@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useReducer } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Controls';
 import { TrackedInternalLink } from '@/components/TrackedInternalLink';
 import type { RankingCompany, RankingSnapshot } from '@/data/ranking-time-machine';
-import { trackRankingTimeMachineEvent } from '@/lib/analytics';
+import { trackEvent, trackRankingTimeMachineEvent } from '@/lib/analytics';
+import { observeVisibleOnce } from '@/lib/observe-visible';
 import { rankingPlaybackInterval } from '@/lib/ranking-time-machine';
 import { createComparisonTimelines, initialComparison, rankingModeIds, rankingModes, readComparisonHash, reduceComparison, type RankingMode } from '@/lib/ranking-comparison';
 import { RankingRaceChart } from './RankingRaceChart';
@@ -32,6 +33,37 @@ export function RankingTimeMachine({ companies, snapshots }: { companies: readon
   const { timeline } = comparisons[mode];
   const config = rankingModes[mode];
   const { year, rows } = timeline[index];
+  const controls = useRef<HTMLDivElement>(null);
+  const chart = useRef<HTMLDivElement>(null);
+  const viewed = useRef(false);
+  const started = useRef(false);
+  const resultViewed = useRef(false);
+  const [initialInteraction, setInitialInteraction] = useState<string | null>(null);
+  const snapshot = `${mode}:${index}:${selectedId}`;
+
+  function begin() {
+    if (started.current) return;
+    started.current = true;
+    setInitialInteraction(snapshot);
+    trackEvent('tool_step', { tool_id: 'ranking-time-machine', step: 'start', ui_version: 'entry-v1', comparison_mode: mode });
+  }
+
+  useEffect(() => {
+    if (!controls.current || viewed.current) return;
+    return observeVisibleOnce(controls.current, () => {
+      viewed.current = true;
+      trackEvent('experience_view', { tool_id: 'ranking-time-machine', surface: 'tool', ui_version: 'entry-v1' });
+    });
+  }, []);
+
+  useEffect(() => {
+    // A restored URL or an unchanged initial chart is not an operated result.
+    if (initialInteraction === null || snapshot === initialInteraction || resultViewed.current || !chart.current) return;
+    return observeVisibleOnce(chart.current, () => {
+      resultViewed.current = true;
+      trackEvent('tool_step', { tool_id: 'ranking-time-machine', step: 'result', ui_version: 'entry-v1', comparison_mode: mode });
+    });
+  }, [initialInteraction, snapshot, mode]);
 
   useEffect(() => {
     if (!playing) return;
@@ -55,11 +87,13 @@ export function RankingTimeMachine({ companies, snapshots }: { companies: readon
   }, []);
 
   function selectCompany(id: string) {
+    if (id && id !== selectedId) begin();
     dispatch({ type: 'company', id });
     if (id) trackRankingTimeMachineEvent('ranking_timemachine_company_click', { year, company: id, comparison_mode: mode });
   }
   function changeMode(nextMode: RankingMode) {
     if (nextMode === mode) return;
+    begin();
     const next = reduceComparison(state, { type: 'mode', mode: nextMode });
     dispatch({ type: 'mode', mode: nextMode });
     trackRankingTimeMachineEvent('ranking_timemachine_mode_change', { previous_mode: mode, comparison_mode: nextMode, year: rankingModes[nextMode].firstYear + next.index });
@@ -72,22 +106,28 @@ export function RankingTimeMachine({ companies, snapshots }: { companies: readon
     <p className={styles.small}>{config.firstYear}〜{config.lastYear}年 · {config.scope} · 企業全体の時価総額<br />世界全体の上位企業を網羅したランキングではありません。<a href="#ranking-scope">対象・注意事項</a> / <a href="#ranking-sources">出典</a></p>
     {notice && <p className={styles.small} role="status">{notice}</p>}
     <div className={styles.stage}>
+      <div ref={controls}>
       <TimelineControls key={mode} years={timeline.map(item => item.year)} index={index} playing={playing}
         onPlay={() => {
+          begin();
           dispatch({ type: 'play' });
           trackRankingTimeMachineEvent('ranking_timemachine_play', { year: index === timeline.length - 1 ? timeline[0].year : year, comparison_mode: mode });
         }}
         onPause={() => { dispatch({ type: 'pause' }); trackRankingTimeMachineEvent('ranking_timemachine_pause', { year, comparison_mode: mode }); }}
         onReset={() => {
+          if (index !== 0) begin();
           dispatch({ type: 'reset' });
           if (index !== 0) trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[0].year, interaction: 'reset', comparison_mode: mode });
         }}
-        onYear={next => dispatch({ type: 'year', index: next })}
+        onYear={next => { if (next !== index) begin(); dispatch({ type: 'year', index: next }); }}
         onYearCommit={next => trackRankingTimeMachineEvent('ranking_timemachine_year_change', { year: timeline[next].year, interaction: 'slider', comparison_mode: mode })}>
         <CompanyTracker rows={rows} year={year} selectedId={selectedId} onSelect={selectCompany} />
         <ComparisonShare key={`${mode}:${year}:${selectedId}`} mode={mode} year={year} selectedId={selectedId} />
       </TimelineControls>
+      </div>
+      <div ref={chart} className={styles.chartContainer}>
       <RankingRaceChart key={mode} rows={rows} year={year} selectedId={selectedId} animate={animate} onSelect={selectCompany} />
+      </div>
     </div>
     <CompanyDetail companyId={selectedId} timeline={timeline} index={index} mode={mode} />
     <RankingTable rows={rows} year={year} selectedId={selectedId} onSelect={selectCompany} />

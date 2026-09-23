@@ -2,6 +2,7 @@ export type CpkLocale = "ja" | "en";
 
 // UI copy only. Calculations, sample values and learning state remain shared.
 export const cpkEnglishText: Record<string, string> = {
+  "入力が変更されました。再計算してください。": "Inputs have changed. Calculate again to see the updated result.",
   "Cp・Cpkツール": "Cp and Cpk tool",
   "ツールのモード": "Tool mode",
   "データを計算": "Calculate",

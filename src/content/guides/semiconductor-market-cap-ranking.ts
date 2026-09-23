@@ -136,9 +136,9 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       type: "links",
       items: [
         {
-          label: "2010〜2025年の時価総額の推移を見る",
-          href: "/tools/ranking-time-machine",
-          description: "主要20社内の順位を実データで再生。GAFAM・トヨタとの比較や製造装置5社への切り替えにも対応"
+          label: "NVIDIAの順位はどう変わった？ 2010年から動かして見る",
+          href: "/tools/ranking-time-machine#mode=semiconductor&year=2010&company=nvidia",
+          description: "再生すると年ごとの順位が変化。選定20社内でNVIDIAを追跡し、Intelなど他社と時価総額を見比べられます。"
         },
         {
           label: "世界TOP30を見る",

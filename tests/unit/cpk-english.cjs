@@ -101,6 +101,10 @@ async function main() {
   assert.match(copy(), /Ppk: 1\.331/);
   assert.doesNotMatch(copy(), japanese);
   assert.doesNotMatch(text(render()), japanese);
+  change('usl', '11');
+  assert.equal(copy(), undefined);
+  assert.match(text(render()), /Inputs have changed\. Calculate again/);
+  assert.doesNotMatch(text(render()), japanese);
   press('Use your own data');
   change('measurement-data', '8\n9\n10\n11\n12'); change('lsl', '5'); change('usl', '15'); press('Calculate');
   assert.match(copy(), /Ppk: 1\.054/);

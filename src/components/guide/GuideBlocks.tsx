@@ -10,6 +10,7 @@ import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
 import { SalaryRankingTable } from "@/components/SalaryRankingTable";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import type { GuideBlock } from "@/content/guides/types";
+import { readComparisonHash } from "@/lib/ranking-comparison";
 
 type GuideBlocksProps = {
   blocks: GuideBlock[];
@@ -689,6 +690,15 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
           return (
             <nav className="guide-link-list" aria-label={locale === "en" ? "Related pages (Japanese)" : "関連ページ"} key={`links-${index}`}>
               {block.items.map((item) => {
+                if (item.href.startsWith('/tools/ranking-time-machine')) {
+                  const comparison = readComparisonHash(item.href.slice(item.href.indexOf('#')));
+                  return <TrackedInternalLink key={item.href} href={item.href as Route}
+                    eventName="ranking_timemachine_entry_click" viewEventName="experience_view"
+                    eventProperties={{ tool_id: 'ranking-time-machine', surface: 'entry', ui_version: 'entry-v1', source_slug: sourceSlug, placement: `guide_links_${index}`, destination: item.href, comparison_mode: comparison?.mode ?? 'semiconductor', year: comparison?.year ?? 2010, company: comparison?.selectedId || undefined, ranking_type: 'market_cap', data_kind: 'real' }}>
+                    <strong>{item.label}<span aria-hidden="true">→</span></strong>
+                    <small>{item.description}</small>
+                  </TrackedInternalLink>;
+                }
                 if (item.href === "/career-priorities") {
                   return <CareerPrioritiesLink ctaLocation="guide_link_list" key={item.href}>
                     <strong>{item.label}<span aria-hidden="true">→</span></strong>

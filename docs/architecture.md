@@ -18,6 +18,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - 日本企業の詳細リンクは公開済みのものだけ。SCREEN HDには事業会社のcompanySlugを設定しない。各社のbusinessSourceUrlに公式事業情報を保持し、ロゴ原画像と取得記録を保存する。
 
 - `/tools/ranking-time-machine` のServer Componentが説明・出典・metadata・WebApplication/BreadcrumbListを提供。操作は専用Client ComponentsとCSS Moduleに分離し、新しいライブラリは使わない。
+- `observeVisibleOnce` は画面内25%以上・前景タブでの露出を監視する。記事入口の `TrackedInternalLink` は指定時だけ露出を計測し、タイムマシンは操作部露出、初回操作、操作で状態が変わった後のチャート露出をそれぞれ計測する。初期表示や共有URLの復元を操作成果と扱わない。状態・重複防止はコンポーネント内のみで、個別ユーザーIDや保存を追加しない。
 - チャートのロゴは企業マスターの `logoUrl` と `public/images/company-logos/` の静的PNGを使用。取得先・取得日は同ディレクトリのREADMEに記録する。チャートはロゴのみを表示し、`logoAspectRatio`（透明余白を除く図柄の縦横比）により、原画像を変形せず32px高・最大140px幅の枠へ収める。企業名はボタンの読み上げラベル・title、詳細・表に保持。画像なし・読み込み失敗時は文字の企業名を表示し、歴史名のAvagoにも文字を使う。
 - `src/data/ranking-time-machine.ts` は既存20社・2010〜2025年の320件、`src/data/ranking-reference.ts` は比較6社・2014〜2025年の72件と各社出典・確認日を管理。元の320件は維持し、装置5社を重複保存しない。企業ページへのリンクは存在するものだけを使う。
 - `src/lib/ranking-comparison.ts` が4モードの企業ID・期間・初期企業、年の補正、状態遷移、共有ハッシュの解析・生成を管理。対象データを抽出してから既存の厳格な検証へ渡す。全26社に2010年のデータを要求しない。モード切替は停止・補間なしとし、キー変更でチャートと時間操作を再生成して古いフレーム・入力確定状態を破棄する。
