@@ -1,5 +1,7 @@
 "use client";
 
+import { PracticalToolNextSteps } from "@/components/PracticalToolNextSteps";
+
 import { getToolText, type ToolLocale } from "@/data/practical-tool-text";
 
 import { useRef, useState } from "react";
@@ -85,6 +87,7 @@ export function ProcessComparisonTool({ locale = "ja" }: { locale?: ToolLocale }
       <details><summary>{t("分布図の数値を確認")}</summary><div className={styles.tableWrap}><table><caption>{t("共通区間の割合 (%)。区間は左端を含み、右端は最終区間だけ含みます。")}</caption><thead><tr><th scope="col">{t("区間番号")}</th><th scope="col">A (%)</th><th scope="col">B (%)</th></tr></thead><tbody>{result.histogram.a.map((value, index) => <tr key={index}><th scope="row">{index + 1}</th><td>{value.toFixed(4)}</td><td>{result.histogram.b[index].toFixed(4)}</td></tr>)}</tbody></table></div></details>
       <p>{t("差の有意性・同等性・因果関係は判定していません。測定方法、対象ロット、採取時期、サンプル数が比較に適しているかを確認してください。")}</p>
       <div className={styles.actions}><button type="button" disabled={busy} onClick={copy}>{t("表をコピー（Excel用）")}</button><button type="button" disabled={busy} onClick={png}>{t("図をPNGで保存")}</button></div>
+      <PracticalToolNextSteps tool="process-comparison" locale={locale} />
     </section>}
     <p role="status" aria-live="polite">{status}</p>
     {fallback && <label>{t("手動コピー用の表")}<textarea readOnly rows={12} value={fallback} onFocus={event => event.currentTarget.select()} /></label>}

@@ -5,7 +5,7 @@ const ts = require('typescript');
 function load(file, dependencies = {}, globals = {}) {
   const exports = {};
   const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX } }).outputText;
-  vm.runInNewContext(code, { exports, require: name => { if (name === '@/lib/use-practical-tool-journey') return load('src/lib/use-practical-tool-journey.ts', { ...dependencies, react: { ...dependencies.react, useEffect() {} }, '@/lib/observe-visible': { observeVisibleOnce() {} } }); if (name === '@/data/practical-tool-text') return load('src/data/practical-tool-text.ts'); if (!(name in dependencies)) throw Error(name); return dependencies[name]; }, ...globals }, { filename: file });
+  vm.runInNewContext(code, { exports, require: name => { if (name === '@/components/PracticalToolNextSteps') return { PracticalToolNextSteps: 'NextSteps' }; if (name === '@/lib/use-practical-tool-journey') return load('src/lib/use-practical-tool-journey.ts', { ...dependencies, react: { ...dependencies.react, useEffect() {} }, '@/lib/observe-visible': { observeVisibleOnce() {} } }); if (name === '@/data/practical-tool-text') return load('src/data/practical-tool-text.ts'); if (!(name in dependencies)) throw Error(name); return dependencies[name]; }, ...globals }, { filename: file });
   return exports;
 }
 const lib = load('src/lib/process-comparison.ts');

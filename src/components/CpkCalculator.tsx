@@ -1,5 +1,7 @@
 "use client";
 
+import { PracticalToolNextSteps } from "@/components/PracticalToolNextSteps";
+
 import { cpkText, type CpkLocale } from "@/data/cpk-text";
 
 import { useRef, useState } from "react";
@@ -241,6 +243,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
             </dl></section>
             <section className="result-section result-checks"><h3>{t("確認候補")}</h3><ul>{analysis.checks.map((check) => <li key={check}>{t(check)}</li>)}</ul></section>
           </details>
+          <PracticalToolNextSteps tool="cpk" locale={locale} />
         </div> : <div className="empty-result"><p>{t(state.needsCalculation ? "入力が変更されました。再計算してください。" : "測定データと規格値を入力すると、ここに計算結果が表示されます。")}</p><small>{t("入力値や計算結果が外部へ送信されることはありません。")}</small></div>}
       </section>
     </div>

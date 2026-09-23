@@ -15,7 +15,7 @@ function load(relative, dependencies = {}, globals = {}) {
   vm.runInNewContext(code, {
     exports,
     require(name) {
-      if (name === '@/lib/use-practical-tool-journey') return load('src/lib/use-practical-tool-journey.ts', { ...dependencies, react: { ...dependencies.react, useEffect() {} }, '@/lib/observe-visible': { observeVisibleOnce() {} } }); if (name.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => String(key) }) };
+      if (name === '@/components/PracticalToolNextSteps') return { PracticalToolNextSteps: 'NextSteps' }; if (name === '@/lib/use-practical-tool-journey') return load('src/lib/use-practical-tool-journey.ts', { ...dependencies, react: { ...dependencies.react, useEffect() {} }, '@/lib/observe-visible': { observeVisibleOnce() {} } }); if (name.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => String(key) }) };
       if (name === '@/components/ui/Controls') return load('src/components/ui/Controls.tsx');
       if (name === '@/data/cpk-text') return load('src/data/cpk-text.ts');
       if (name === 'react/jsx-runtime') return { jsx: element, jsxs: element };

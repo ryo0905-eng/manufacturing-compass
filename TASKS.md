@@ -16,6 +16,17 @@
 
 ## 現在の優先タスク
 
+### 成長改善・結果からの回遊（2026-09-23）
+
+- [x] Cpkと工程比較の結果欄に、相互の実務導線と日本語の学習導線を追加。英語は公開済み英語ページのみ。別タブ・自動データ転送なしと明記。
+- [x] `tool_result_related_click` を固定カテゴリのみで追加。初期サンプルにも表示するため、クリックを計算成功とは扱わない。
+- [x] `node tests/unit/cpk-result-copy.cjs`、`node tests/unit/cpk-english.cjs`、`node tests/unit/process-comparison.cjs`、`node tests/unit/practical-tools-english.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。追加のNode SSR確認で遷移先・英語表示・別タブ属性・英語公開ゲートを確認。
+- [ ] 実ブラウザ・本番反映・GA4受信未確認。dev・build・commit・push未実施。
+
+変更ファイル：`src/components/PracticalToolNextSteps.tsx`・同CSS（新規）、`src/components/CpkCalculator.tsx`、`src/components/ProcessComparisonTool.tsx`、`tests/unit/cpk-result-copy.cjs`、`tests/unit/process-comparison.cjs`、`docs/PRD.md`、`docs/architecture.md`、`docs/conversion-architecture.md`、`TASKS.md`。
+
+推奨コミット：`feat: connect practical tool results to next steps`
+
 ### 成長改善・ツール一覧（2026-09-23）
 
 - [x] 自分のデータ・数値を使う5ツールと教材で学ぶツールを実装に基づいて分類し、ロードマップとカードの共通フィルターを追加。入力方式を明記し、一律の「実務利用：可能」と管理図の「実務向け」を修正。
