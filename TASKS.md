@@ -624,6 +624,17 @@ Cp・Cpk、DoE、管理図、Gage R&Rを基礎資産として改善し、ツー�
 
 ## 完了した主要マイルストーン
 
+### 求人票の確認ノート（2026-09-23）
+
+- [x] 相談準備ページに8項目の記載状況確認を追加。未読・記載あり・見つからない・曖昧を区別し、途中でも質問付きノートをコピー可能。
+- [x] 既存の質問文を再利用。求人本文や個人情報の入力・保存・回答送信なし。回答変更で旧結果とコピー通知を破棄。企業比較・Career Compassから接続。
+- [x] 公式資料・出典・更新日・既存canonical・構造化データ・sitemapを確認。対象テスト（状態・モックUI・露出・CSSコンパイル・SSR）、型チェック1回、差分・禁止語確認成功。
+- [ ] 実ブラウザ・実機・本番反映・GA4受信は未確認。dev・build・lint・commit・push未実施。
+
+変更ファイル：[仕様内の一覧](docs/job-posting-note-spec.md)。実行：`node tests/unit/job-posting-note.cjs`、`npm run typecheck`、`git diff --check`。
+推奨コミット：`feat: add job posting review notes`
+
+
 ### 工程改善レポートのCSSビルドエラー修正（2026-09-23）
 
 - [x] CSS Modulesのpure制約に違反するbodyの印刷用グローバルルール2件を `src/app/globals.css` へ移動。印刷属性による条件とローカル帳票CSSを維持。

@@ -232,6 +232,7 @@ function ConsultationCTA({ agentFocus, onAgentCtaClick, onRestart, profile }: Pi
         {profile.agentTalkTrack ? <p>{profile.agentTalkTrack}</p> : null}
       </div>
       <div className="consultation-cta-actions">
+        <Link className="button ghost" href="/career-consultation#job-posting-note">求人票で確認することを整理する</Link>
         <Link className="button primary" href={`/career-agents?focus=${agentFocus}`} onClick={onAgentCtaClick}>相談先の特徴を見る</Link>
         <button className="button ghost" onClick={onRestart} type="button">回答をやり直す</button>
       </div>

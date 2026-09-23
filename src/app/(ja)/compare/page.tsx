@@ -31,6 +31,7 @@ export default function ComparePage() {
       </section>
 
       <CompareSelector companies={companies} />
+      <p>個別の求人票を見つけたら、<Link href="/career-consultation#job-posting-note">記載が曖昧な条件と、応募前に聞く質問を整理する</Link>ことができます。</p>
 
       <section className="section">
         <div className="section-header">

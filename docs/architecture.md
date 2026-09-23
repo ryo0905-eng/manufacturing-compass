@@ -401,3 +401,9 @@ Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示�
 `src/data/defect-pareto.ts` にメタ情報・架空例・注記、`src/lib/defect-pareto.ts` に2列解析・集計・TSVコピー文・SVG生成を分離。`DefectPareto.tsx` とCSS Moduleが入力・重複合算確認・結果・出力を担当し、App RouterのServer ComponentがSEO・静的解説を提供する。
 
 図は共通のSVG生成を画面と保存に使用。ユーザー由来の文字列をXMLエスケープし、制御文字を拒否。コピー表の数式開始文字には先頭アポストロフィを付ける。保存はBlobと一時URL、出力要求後にURLを解放する。非同期コピーは入力改訂番号で古い通知・フォールバック表示を抑える。外部API・新規依存・保存領域は追加しない。[仕様](./defect-pareto-spec.md)。
+
+## 求人票の確認ノート（2026-09-23）
+
+質問・選択肢は `src/data/job-posting-note.ts`、整理とコピー文は `src/lib/job-posting-note.ts`、操作は `JobPostingNote.tsx` とCSS Module。既存 `priorityItems` から共通の質問文を参照する。相談準備のServer Componentページ内へ追加し、既存canonicalとsitemap URLを継続する。
+
+native selectと明示的な作成・コピーを使用。回答変更・クリアで結果とコピー状態を無効化し、非同期コピーの通知は改訂番号で制御する。入力保存・外部API・新規依存なし。露出監視は既存 `observeVisibleOnce`、計測は固定actionのみ。[仕様](./job-posting-note-spec.md)。

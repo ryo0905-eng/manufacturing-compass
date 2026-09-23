@@ -110,3 +110,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - [`docs/tool-finder-spec.md`](./tool-finder-spec.md): ツール一覧の最大3問案内、分岐・未対応状態・計測・検証。
 
 - [`docs/defect-pareto-spec.md`](./defect-pareto-spec.md): 不良分類別パレート図の入力・合算・計算・出力・公開・検証。
+
+- [`docs/job-posting-note-spec.md`](./job-posting-note-spec.md): 相談準備内の求人票確認ノート、質問再利用・状態・コピー・プライバシー・検証。

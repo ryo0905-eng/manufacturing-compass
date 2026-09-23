@@ -370,3 +370,9 @@ Career Compass
 `usePracticalToolJourney` に `tool_id=defect-pareto` を追加。入力部の実露出、初回操作、明示サンプル、計算試行、エラー、操作後の結果露出を既存方式でマウント中各1回記録。初期画面は空欄で、架空例は明示操作のみ。重複合算の確認待ちは結果到達に数えない。
 
 追加 `pareto_action` は固定tool_idとactionだけ。`merge_confirmed` は合算の確定、`copy_success` はClipboard API成功、`svg_requested` は保存要求で、端末への保存完了ではない。分類名・件数・貼付内容・エラー文を送らない。原因調査教材への遷移は `tool_result_related_click`。本番受信は未確認。反映後14日から実データ／サンプル別の結果露出と出力操作を観測し、利用が少なければ需要未検証として扱う。
+
+## 求人票の確認ノート（2026-09-23）
+
+`job_posting_note` は `ui_version=note-v1` と固定actionのみ。view（入口の説明が25%以上・前景タブで露出）、start（初回選択）、result（明示作成後の結果見出し露出）はマウント中1回。copy_successはClipboard API成功、copy_fallbackは手動コピーへの案内、resetは明示クリアごと。初期表示・未選択の作成は成果にしない。回答変更で旧結果の露出監視を解除する。
+
+回答・項目ID・記載状況・件数・ノート本文は送信しない。コピー成功を実際の相談や応募と同一視しない。本番反映後14日から入口／開始／結果とコピーを観測し、利用が少ない場合は需要未検証と扱う。本番受信は未確認。

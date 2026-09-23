@@ -1,3 +1,4 @@
+import { jobNoteMeta } from "@/data/job-posting-note";
 import { defectPareto } from "@/data/defect-pareto";
 import { improvementReportMeta } from "@/data/improvement-report";
 import { measurementPlanner } from "@/data/measurement-planner";
@@ -76,6 +77,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
   ].map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(path === "/career-consultation" ? { lastModified: contentDate(jobNoteMeta.updatedAt) } : {}),
     ...(path === defectPareto.route ? { lastModified: contentDate(defectPareto.updatedAt) } : {}),
     ...(path === improvementReportMeta.route ? { lastModified: contentDate(improvementReportMeta.updatedAt) } : {}),
     ...(path === measurementPlanner.route ? { lastModified: contentDate(measurementPlanner.updatedAt) } : {}),
