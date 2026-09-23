@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
 
+/* Body-level print isolation belongs in global CSS, not a CSS Module. */
+@media print {
+  body[data-improvement-print] > :not(#improvement-report-print-root) { display: none !important; }
+  body[data-improvement-print] { margin: 0 !important; padding: 0 !important; background: white !important; }
+}
+
 /* Optional game entry within the practical learning hub. */
 .tools-game-entry {
   display: grid;

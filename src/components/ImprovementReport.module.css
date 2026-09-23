@@ -21,9 +21,7 @@
 @media (max-width: 640px) { .fields { grid-template-columns: 1fr; } .editor { padding: 12px; } .report { padding: 12px; font-size: 13px; } }
 @media print {
   @page { size: A4 portrait; margin: 12mm; }
-  :global(body[data-improvement-print] > :not(#improvement-report-print-root)) { display: none !important; }
   :global(body[data-improvement-print]) .printRoot { display: block !important; }
-  :global(body[data-improvement-print]) { margin: 0 !important; padding: 0 !important; background: white !important; }
   .report { max-width: none; width: 100%; margin: 0; padding: 0; border: 0; font-size: 10pt; line-height: 1.35; }
   .report h2 { font-size: 16pt; }
   .report h3 { font-size: 11pt; }

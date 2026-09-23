@@ -86,3 +86,12 @@ git diff --check
 最終の差分確認で結果露出の参照先を編集見出しからプレビュー直前へ移動した。また保存部品にツール別keyを付け、読込確認中に報告編集へ切り替えた場合に旧形式の読込待ち状態が残らないようにした。これは再度の型チェック・単体テストの対象にはしていない（各1回の制限を維持）。PDF内容・計算・保存形式には変更なし。
 
 推奨コミット：`feat: add printable process improvement reports`。commit/pushは未実施。
+
+## デプロイ時のCSSコンパイル修正（2026-09-23）
+
+VercelのWebpack buildで、`ImprovementReport.module.css` のグローバル専用セレクターがCSS Modulesのpure制約に違反して停止。body直下のレポート以外を非表示にするルールとbodyの印刷時リセットを `src/app/globals.css` の `@media print` へ移動した。印刷属性による条件と宣言は維持し、ローカル `.printRoot` の表示と帳票スタイルはCSS Moduleに残した。
+
+`node tests/unit/improvement-report-css.cjs` でNext同梱の `postcss-modules-local-by-default`（pureモード）による対象CSSのコンパイルと、グローバルルールの印刷限定・属性条件を検証し成功。`node tests/unit/improvement-report.cjs`、`git diff --check`も成功。TypeScript変更なしのため型チェックは実施せず、フルbuild・ブラウザ・commit・push・本番再デプロイも未実施。対象CSSの検証と本番ビルド全体の成否は区別する。
+
+変更ファイル：`src/components/ImprovementReport.module.css`、`src/app/globals.css`、`tests/unit/improvement-report-css.cjs`、本仕様書、`TASKS.md`。
+推奨コミット：`fix: move report print globals out of CSS module`

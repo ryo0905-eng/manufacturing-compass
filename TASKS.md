@@ -624,6 +624,16 @@ Cp・Cpk、DoE、管理図、Gage R&Rを基礎資産として改善し、ツー�
 
 ## 完了した主要マイルストーン
 
+### 工程改善レポートのCSSビルドエラー修正（2026-09-23）
+
+- [x] CSS Modulesのpure制約に違反するbodyの印刷用グローバルルール2件を `src/app/globals.css` へ移動。印刷属性による条件とローカル帳票CSSを維持。
+- [x] Next同梱のCSS Modulesプラグインを使う回帰テストを追加。`node tests/unit/improvement-report-css.cjs`、`node tests/unit/improvement-report.cjs`、`git diff --check`成功。
+- [ ] 本番再デプロイの確認。build・型チェック・ブラウザ・commit・push未実施。
+
+変更ファイル：`src/components/ImprovementReport.module.css`、`src/app/globals.css`、`tests/unit/improvement-report-css.cjs`、`docs/improvement-report-spec.md`、本ファイル。
+推奨コミット：`fix: move report print globals out of CSS module`
+
+
 ### 不良の優先順位ボード（2026-09-23）
 
 - [x] `/tools/defect-pareto` に2列貼付け、パレート図、構成比・累積比率、同名合算確認、表コピー・SVG保存を追加。入力編集時に旧結果を破棄。合計0件は比率算出不可。
