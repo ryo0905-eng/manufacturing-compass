@@ -24,6 +24,7 @@ function load(relative) {
     if (id === 'next/link') return { __esModule: true, default: props => React.createElement('a', props) };
     if (id === 'next/navigation') return { notFound() { throw new Error('NOT_FOUND'); } };
     if (id === '@/components/TrackedInternalLink') return { TrackedInternalLink: ({ eventName, eventProperties, ...props }) => React.createElement('a', props) };
+    if (id === '@/components/RankingCompanyCompare') return { RankingCompanyCompareProvider: ({ children }) => React.createElement(React.Fragment, null, children), RankingCompanyComparePanel: () => null };
     if (id === '@/components/SiteAnalytics') return { SiteAnalytics: () => React.createElement('span', { 'data-site-analytics': true }) };
     // Unrelated Japanese CTAs and interactive blocks are not part of this fixture.
     if (id.startsWith('@/components/') && ![

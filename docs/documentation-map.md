@@ -104,3 +104,5 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - [`docs/measurement-planner-spec.md`](./measurement-planner-spec.md): 平均の測定計画の計算・範囲・導線・計測・Threads素材・検証。
 
 - [`docs/improvement-report-spec.md`](./improvement-report-spec.md): 工程改善レポートの表示・計算・編集・保存互換性・印刷・計測・紹介素材・実ブラウザ検証。
+
+- [`docs/ranking-company-comparison-spec.md`](./ranking-company-comparison-spec.md): ランキング内2社比較、固定ID・共有URL、業界地図の企業指定、計測、Threads素材、検証記録。

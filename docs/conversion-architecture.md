@@ -354,3 +354,7 @@ Career Compass
 ## 工程改善レポート（2026-09-23）
 
 新ページと日本語工程比較の結果から同一画面の報告編集へ進む。新ページでは共通tool_id=improvement-reportの開始・操作後の報告表示を使い、既存比較入口ではprocess-comparisonの結果→報告編集の順序で見る。追加イベントimprovement_report_actionは固定tool_id・locale・action=open_editor/print_requested/feedback_clickだけ。ファイル保存・復元はtool_workspace_file。印刷要求をPDF保存成功として数えず、自由記述や測定値を送らない。本番反映後14日の観測と実務試用を組み合わせる。本番反映・イベント受信は未確認。[保存互換性・観測手順・検証](./improvement-report-spec.md)。
+
+## ランキング内の2社比較（2026-09-23）
+
+時価総額ランキング表→2社比較→企業詳細／企業を選択した業界地図を接続。追加イベントranking_company_compareのactionはentry_view/selection_start/result_view/related_click/copy_success。既知企業ID・選択元・遷移先種別だけ送信し、初期表示を比較利用に数えない。共有リンクの結果露出はshared_linkとして別集計。本番反映後14日を最初の観測期間とし、GA4受信は未確認。[属性・重複防止・検証](./ranking-company-comparison-spec.md)。

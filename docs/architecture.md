@@ -385,3 +385,7 @@ Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示�
 ## 工程改善レポート（2026-09-23）
 
 `/tools/improvement-report` のServerページが完成見本・説明・SEOを表示する。`ProcessComparisonTool(reportMode)` が既存の入力・計算・分布図と報告編集を共用し、日本語の比較結果からもページ遷移なしで開く。`ImprovementReportEditor` は編集と印刷準備、`ImprovementReportPreview` は画面／印刷共通表示、`lib/improvement-report` は能力指標と観察文、`data/improvement-report` は項目定義と架空例を担う。印刷はbody直下のportalと印刷CSSでUIを除外する。workspace v1のimprovement-reportに比較入力＋報告欄を保存し、旧比較ファイルは報告書側だけ受理する。新規依存・API・永続ストレージは追加しない。[詳細](./improvement-report-spec.md)。
+
+## ランキング内の企業比較（2026-09-23）
+
+対象記事だけをRankingCompanyCompareProviderで囲み、Server Componentsの記事本文・ランキング表をchildrenで渡す。表のボタン・共有状態・比較欄はClient。既存ランキングデータの固定idで世界・日本の重複企業をまとめ、数値は複製しない。分類説明はindustryMapZonesを参照する。公開地図IndustryAtlasが許可企業IDの#companyを受け付ける。新API・ページ・永続ストレージは追加しない。[仕様](./ranking-company-comparison-spec.md)。

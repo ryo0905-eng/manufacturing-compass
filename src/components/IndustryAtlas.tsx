@@ -1,5 +1,7 @@
 "use client";
 
+import { readIndustryCompanyHash } from "@/lib/industry-map-entry";
+
 import type { Route } from "next";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -79,6 +81,8 @@ export function IndustryAtlas({ companies, totalCompanyCount }: IndustryAtlasPro
   const [showCareers, setShowCareers] = useState(false);
   const [selected, setSelected] = useState<AtlasCompany | null>(null);
   const originRef = useRef<HTMLButtonElement | null>(null);
+  const [entryNotice, setEntryNotice] = useState("");
+  const restoredIds = useRef(new Set<string>());
 
   const companyForId = (id: string): AtlasCompany | undefined => {
     const company = companiesById.get(id);
@@ -109,6 +113,27 @@ export function IndustryAtlas({ companies, totalCompanyCount }: IndustryAtlasPro
       .filter((company) => matchesQuery({ ...company, sourceKind: "company-page" }, normalizedQuery))
       .slice(0, 3)
     : [];
+
+  useEffect(() => {
+    function restore() {
+      const state = readIndustryCompanyHash(window.location.hash, mapCompanies.map(company => company.id));
+      if (state.kind === "anchor") return;
+      if (state.kind === "invalid") { setSelected(null); setEntryNotice("指定された企業は地図に未収録です。地図から企業を選んでください。"); return; }
+      const company = mapCompanies.find(company => company.id === state.id)!;
+      setQuery(""); setJapaneseOnly(false); setLocationsOnly(false); setEntryNotice("");
+      originRef.current = document.querySelector<HTMLButtonElement>(`[data-atlas-company="${company.id}"] button`);
+      originRef.current?.scrollIntoView({ block: "center", behavior: "instant" });
+      setSelected(company);
+      if (!restoredIds.current.has(company.id)) {
+        restoredIds.current.add(company.id);
+        trackIndustryMapEvent("industry_map_detail_view", { node_type: "company", node_id: company.id, mode: "editorial", view: "atlas", entry_point: "shared_link" });
+      }
+    }
+    restore(); window.addEventListener("hashchange", restore);
+    return () => window.removeEventListener("hashchange", restore);
+    // The static company catalog stays fixed for this mount; filters are reset on entry.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [companiesById, supplementalById]);
 
   function openCompany(company: AtlasCompany, trigger: HTMLButtonElement) {
     originRef.current = trigger;
@@ -177,6 +202,7 @@ export function IndustryAtlas({ companies, totalCompanyCount }: IndustryAtlasPro
         </dl>
       </header>
 
+      <p role="status">{entryNotice}</p>
       <div className="industry-atlas__reading-guide" aria-label="この地図の読み方">
         <article><span>01</span><strong>設計と製造は分業</strong><p>EDA・IP、ファブレス、ファウンドリ、OSATが役割を分けます。</p></article>
         <article><span>02</span><strong>材料と装置が横断支援</strong><p>材料・製造装置・検査装置は複数の製造工程に関わります。</p></article>
@@ -245,6 +271,7 @@ export function IndustryAtlas({ companies, totalCompanyCount }: IndustryAtlasPro
             key={zone.id}
             onOpen={openCompany}
             showCareers={showCareers}
+            selectedId={selected?.id}
             zone={zone}
           />
         ))}
@@ -260,11 +287,12 @@ export function IndustryAtlas({ companies, totalCompanyCount }: IndustryAtlasPro
   );
 }
 
-function Zone({ companyForId, isVisible, onOpen, showCareers, zone }: {
+function Zone({ companyForId, isVisible, onOpen, showCareers, selectedId, zone }: {
   companyForId: (id: string) => AtlasCompany | undefined;
   isVisible: (company: AtlasCompany) => boolean;
   onOpen: (company: AtlasCompany, trigger: HTMLButtonElement) => void;
   showCareers: boolean;
+  selectedId?: string;
   zone: IndustryMapZone;
 }) {
   const zoneCompanies = [...zone.companyIds, ...zone.supplementalCompanyIds]
@@ -277,7 +305,7 @@ function Zone({ companyForId, isVisible, onOpen, showCareers, zone }: {
       <div className="industry-atlas__zone-tags">{zone.productTags.map((tag) => <span key={tag}>{tag}</span>)}</div>
       <div className="industry-atlas__companies">
         {zoneCompanies.map((company) => (
-          <article className={`industry-atlas__company${isVisible(company) ? "" : " is-muted"}`} key={company.id}>
+          <article data-atlas-company={company.id} className={`industry-atlas__company${isVisible(company) ? "" : " is-muted"}${selectedId === company.id ? " is-selected" : ""}`} key={company.id}>
             <header>
               <div>
                 {company.slug ? <Link href={`/companies/${company.slug}` as Route} onClick={() => trackIndustryMapEvent("industry_map_content_click", { company_id: company.id, destination: "company", link_location: "company_card" })}>{company.nameJa}</Link> : <strong>{company.nameJa}</strong>}
@@ -288,7 +316,7 @@ function Zone({ companyForId, isVisible, onOpen, showCareers, zone }: {
             <p>{company.summary}</p>
             <ul>{company.mainProducts.slice(0, 2).map((product) => <li key={product}>{product}</li>)}</ul>
             {company.hasPublicLocations ? <em>国内拠点情報あり</em> : null}
-            <button onClick={(event) => onOpen(company, event.currentTarget)} type="button">地図内で詳しく見る <span aria-hidden="true">→</span></button>
+            <button aria-pressed={selectedId === company.id} onClick={(event) => onOpen(company, event.currentTarget)} type="button">地図内で詳しく見る <span aria-hidden="true">→</span></button>
           </article>
         ))}
       </div>

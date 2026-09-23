@@ -21110,3 +21110,6 @@ body {
 .guide-comparison-table tbody th { min-width: 130px; }
 .guide-comparison-table small { display: block; margin-top: 6px; font-weight: 400; }
 .guide-comparison-table:focus-visible { outline: 2px solid #1769aa; outline-offset: 3px; }
+
+/* Ranking comparison deep links keep the chosen atlas card identifiable. */
+.industry-atlas__company.is-selected { outline: 2px solid #315f98; outline-offset: 2px; }

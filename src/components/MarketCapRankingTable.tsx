@@ -1,3 +1,4 @@
+import { RankingCompareButton } from "@/components/RankingCompanyCompare";
 import type { Route } from "next";
 import { MetricBarChart } from "@/components/MetricBarChart";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
@@ -51,6 +52,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
               {isWorld ? <th scope="col">国・地域</th> : null}
               <th scope="col">分類</th>
               <th scope="col">主な事業</th>
+              {sourceSlug === "semiconductor-market-cap-ranking" && <th scope="col">2社を比較</th>}
             </tr>
           </thead>
           <tbody>
@@ -81,6 +83,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
                   {isWorld ? <td>{company.country}</td> : null}
                   <td><span className="market-cap-category">{company.category}</span></td>
                   <td>{company.mainBusiness}</td>
+                  {sourceSlug === "semiconductor-market-cap-ranking" && <td><RankingCompareButton id={company.id} source={scope} /></td>}
                 </tr>
               );
             })}

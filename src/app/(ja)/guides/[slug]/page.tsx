@@ -1,3 +1,4 @@
+import { RankingCompanyCompareProvider, RankingCompanyComparePanel } from "@/components/RankingCompanyCompare";
 import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
 import type { Route } from "next";
@@ -88,7 +89,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
     guide.showExperienceBasis !== false &&
     guide.basisLabel !== "この記事の調査・編集方針";
 
-  return (
+  const content = (
     <main className="page guide-page">
       <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": guide.author === "RYO" ? "Person" : "Organization", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja", isPartOf: processSeriesIndex >= 0 ? { "@type": "CreativeWorkSeries", name: "半導体製造工程シリーズ", url: `${siteUrl}/guides#process-series-title` } : undefined, position: processSeriesIndex >= 0 ? processSeriesIndex + 1 : undefined }} />
       <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "記事・読みもの", item: `${siteUrl}/guides` }, { "@type": "ListItem", position: 3, name: guide.title, item: `${siteUrl}/guides/${guide.slug}` }] }} />
@@ -136,6 +137,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <div className="article-body">
           {guide.sections.map((section, index) => (
             <section id={section.id ?? `section-${index + 1}`} key={section.heading}>
+              {guide.slug === "semiconductor-market-cap-ranking" && section.id === "world-ranking" && <RankingCompanyComparePanel />}
               <h2>{section.heading}</h2>
               {section.lead ? <p className="guide-section-lead">{section.lead}</p> : null}
               {section.blocks ? <GuideBlocks blocks={section.blocks} sourceSlug={guide.slug} /> : null}
@@ -234,4 +236,5 @@ export default async function GuidePage({ params }: GuidePageProps) {
       </article>
     </main>
   );
+  return guide.slug === "semiconductor-market-cap-ranking" ? <RankingCompanyCompareProvider>{content}</RankingCompanyCompareProvider> : content;
 }
