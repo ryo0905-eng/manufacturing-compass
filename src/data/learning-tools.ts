@@ -8,7 +8,7 @@ export const correlationLearningTool = {
 
 export const learningTools = [
   { id: "gage-rr", href: "/tools/gage-rr", step: "01", question: "測れるか", title: "Gage R&R", role: "測定システムを評価", badge: "まず確認", message: "その測定値は、部品差を見分けられるか", description: "部品差と測定誤差を分け、信頼できるデータを集められるか確かめます。", features: ["繰返し性・再現性", "%GRR・ndc", "改善シミュレーション"], time: "5〜10分", level: "入門", preview: "gage" },
-  { id: "control-chart", href: "/tools/control-chart", step: "02", question: "工程は安定しているか", title: "管理図", role: "工程の安定性を評価", badge: "実務向け", message: "工程の異常を、規格外になる前に見つける", description: "時系列の変化と管理限界を見比べ、特殊原因のシグナルを捉えます。", features: ["I-MR・Xbar-R", "異常ルール", "原因調査の流れ"], time: "5〜10分", level: "入門", preview: "chart" },
+  { id: "control-chart", href: "/tools/control-chart", step: "02", question: "工程は安定しているか", title: "管理図", role: "工程の安定性を評価", badge: "学習用", message: "工程の異常を、規格外になる前に見つける", description: "時系列の変化と管理限界を見比べ、特殊原因のシグナルを捉えます。", features: ["I-MR・Xbar-R", "異常ルール", "原因調査の流れ"], time: "5〜10分", level: "入門", preview: "chart" },
   { id: "yield-analysis", href: "/tools/yield-analysis", step: "03", question: "歩留まりはどこで下がったか", title: "歩留まり解析", role: "低下条件を絞り込み", badge: "新着", message: "いつ・どの製品・どの装置かを分けて見る", description: "p管理図、製品・装置比較、構成比の比較から、次に調べる条件を整理します。", features: ["CSV読込", "p管理図", "製品構成の比較"], time: "5〜10分", level: "基礎", preview: "yield" },
   { id: "yield-dashboard", href: "/tools/yield-dashboard", step: "04", question: "原因候補をどこまで掘れるか", title: "歩留まり原因調査", role: "BI調査フローを体験", badge: "新着", message: "不良・ロット・工程条件・履歴を一つにつなぐ", description: "架空データから原因候補を絞り、確認実験まで学ぶ", features: ["連動フィルター", "条件・履歴比較", "確認実験"], time: "約5分", level: "基礎", preview: "yield" },
   { id: "cpk", href: "/tools/cpk", step: "05", question: "規格を満たせる能力があるか", title: "Cp・Cpk", role: "安定した工程の能力を評価", badge: "人気", message: "ばらつきだけでなく、中心のずれも評価する", description: "規格とばらつきの関係を、計算と図で確かめる", features: ["Cp・Cpk / Pp・Ppk", "ヒストグラム", "中心ずれの比較"], time: "3〜8分", level: "入門", preview: "cpk" },
@@ -25,3 +25,31 @@ export const learningTools = [
   { id: "semiconductor-process", href: "/tools/semiconductor-process", step: "16", question: "この丸い板が、どうやって半導体になるの？", title: "半導体ができるまで", role: "全体像と加工の変化を見る", badge: "教育用", message: "おすすめ見学コースで、ウエハから製品まで", description: "ウエハから製品までを見渡し、ウエハ準備・薄膜加工・配線とCMP・組立・ウエハ検査・最終検査の6体験で確かめます。各工程を支える仕事も図で紹介します。", features: ["6体験を巡るおすすめ見学コース", "各体験で3つの仕事を紹介", "一時停止・巻き戻し"], time: "各約3〜5分", level: "入門", preview: "fabrication" },
 ] as const;
 
+
+export type ToolPurpose = "input" | "learn";
+
+// Classify actual input capabilities, not whether the subject is useful at work.
+export const toolUsage: Record<ToolId, { purpose: ToolPurpose; input: string }> = {
+  "gage-rr": { purpose: "learn", input: "疑似測定データ" },
+  "control-chart": { purpose: "learn", input: "生成した時系列データ" },
+  "yield-analysis": { purpose: "input", input: "自分のCSV・サンプル" },
+  "yield-dashboard": { purpose: "learn", input: "固定の架空データ" },
+  cpk: { purpose: "input", input: "測定値・要約値・サンプル" },
+  doe: { purpose: "learn", input: "教材の条件・応答値" },
+  "bayesian-optimization": { purpose: "learn", input: "架空工程での実験" },
+  taguchi: { purpose: "learn", input: "架空工程での実験" },
+  "line-balance": { purpose: "input", input: "作業時間・工程・サンプル" },
+  oee: { purpose: "input", input: "稼働時間・生産数・サンプル" },
+  "process-comparison": { purpose: "input", input: "2条件の測定値・サンプル" },
+  jev: { purpose: "learn", input: "固定の架空報告" },
+  "ai-visual-inspection": { purpose: "learn", input: "教材の合成画像" },
+  "correlation-causation": { purpose: "learn", input: "架空工程での実験" },
+  "improvement-confidence": { purpose: "learn", input: "架空工程での実験" },
+  "semiconductor-process": { purpose: "learn", input: "加工のシミュレーション" },
+};
+
+export function readOpenedTools(value: unknown): ToolId[] {
+  if (!Array.isArray(value)) return [];
+  const publishedIds = new Set<string>(learningTools.map(tool => tool.id));
+  return [...new Set(value.filter((id): id is ToolId => typeof id === "string" && publishedIds.has(id)))];
+}

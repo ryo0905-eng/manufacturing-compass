@@ -18468,6 +18468,11 @@ body {
 .learning-roadmap li p { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
 .learning-roadmap li a { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; color: #1769aa; font-size: 12px; font-weight: 600; }
 .learning-roadmap li i { font-style: normal; }
+.tools-purpose-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.tools-purpose-filter button { min-height: 44px; padding: 8px 14px; border: 1px solid var(--mc-border); border-radius: 6px; background: var(--mc-surface); color: var(--mc-text); font: inherit; cursor: pointer; }
+.tools-purpose-filter button[aria-pressed="true"] { background: var(--mc-selection-surface); border-color: var(--mc-selection); font-weight: 600; }
+.tools-purpose-filter button:focus-visible { outline: 3px solid var(--mc-focus); outline-offset: 2px; }
+.tools-history-note { color: var(--muted); font-size: 12px; }
 .tools-progress { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: flex-end; color: var(--muted); font-size: 12px; }
 .tools-progress b { color: #1d1d1f; font-size: 20px; }
 .tools-progress button { min-height: 44px; border: 0; background: transparent; color: var(--muted); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }

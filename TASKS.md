@@ -16,6 +16,17 @@
 
 ## 現在の優先タスク
 
+### 成長改善・ツール一覧（2026-09-23）
+
+- [x] 自分のデータ・数値を使う5ツールと教材で学ぶツールを実装に基づいて分類し、ロードマップとカードの共通フィルターを追加。入力方式を明記し、一律の「実務利用：可能」と管理図の「実務向け」を修正。
+- [x] クリック記録を「体験済み」から「この一覧から開いたツール」へ訂正。ブラウザ内の履歴であり完了記録でないことを表示。不正な型・未知ID・重複を除外。ゲーム案内を選択導線の後へ移動。
+- [x] `npm run typecheck`（1回）、Nodeによる分類・不正履歴・重複・SSR全カードと表示文言の確認、`git diff --check`成功。
+- [ ] 実ブラウザ操作・本番反映は未確認。dev・build・commit・push未実施。
+
+変更ファイル：`src/data/learning-tools.ts`、`src/components/ToolsLearningLab.tsx`、`src/app/globals.css`、`docs/PRD.md`、`docs/architecture.md`、`docs/conversion-architecture.md`、`TASKS.md`。
+
+推奨コミット：`fix: clarify tool purposes and browsing history`
+
 ### 成長改善・実務ツール計測（2026-09-23）
 
 - [x] Cpk・工程比較の日英UIへ入力部露出、開始、サンプル選択、計算試行、エラー、操作後の結果露出を追加。共通イベントは各段階をマウント中1回、固定カテゴリのみ送る。初期Cpkサンプルを成果から除外し、工程比較のクリアだけでは開始を数えない。

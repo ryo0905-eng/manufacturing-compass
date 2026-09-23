@@ -10,6 +10,8 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ## 技術構成
 
+- ツール一覧：`learning-tools.ts` の `toolUsage` が全ToolIdの用途・入力方法を保持する。`ToolsLearningLab` は初期SSRで全カードを表示し、同じ用途フィルターをロードマップとカードへ適用。`mc-tools-opened-v1` は一覧から開いたIDのブラウザ内履歴として継続し、`readOpenedTools` で配列型、現行公開ID、重複を検証する。完了・実利用履歴ではない。
+
 - 実務ツール共通計測：`usePracticalToolJourney` をCpk・工程比較の日英UIから利用。固定カテゴリのみで入力部露出、開始、明示サンプル、計算試行、失敗、操作後の結果露出をマウント中各1回計測する。初期サンプルは成果に数えず、結果破棄時は監視も解除。既存イベントは詳細操作用に維持。定義は `docs/conversion-architecture.md` に記載。
 
 ### ランキング・タイムマシン
