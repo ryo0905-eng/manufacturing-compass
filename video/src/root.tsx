@@ -1,3 +1,4 @@
+import {NvidiaIntelShort} from "./compositions/NvidiaIntelShort";
 import {Composition} from "remotion";
 import {SemiconductorInspectionShort} from "./compositions/SemiconductorInspectionShort";
 
@@ -5,6 +6,7 @@ export const VIDEO_FPS = 30;
 export const VIDEO_DURATION_IN_FRAMES = 1395;
 
 export const VideoRoot = () => (
+  <>
   <Composition
     id="SemiconductorInspectionShort"
     component={SemiconductorInspectionShort}
@@ -13,4 +15,6 @@ export const VideoRoot = () => (
     width={1080}
     height={1920}
   />
+  <Composition id="NvidiaIntelShort" component={NvidiaIntelShort} durationInFrames={1260} fps={30} width={1080} height={1920} />
+  </>
 );

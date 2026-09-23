@@ -6,7 +6,9 @@
     "studio": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts SemiconductorInspectionShort output/semiconductor-inspection-short-with-audio-v4.mp4 --codec=h264 --crf=18",
     "still": "remotion still src/index.ts SemiconductorInspectionShort output/semiconductor-inspection-preview.png --frame=690",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "render:ranking": "remotion render src/index.ts NvidiaIntelShort output/nvidia-intel-short-v1.mp4 --codec=h264 --crf=18 --concurrency=4",
+    "test:ranking": "node tests/nvidia-intel.cjs"
   },
   "dependencies": {
     "@remotion/cli": "4.0.512",
