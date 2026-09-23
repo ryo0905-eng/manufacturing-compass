@@ -1,9 +1,11 @@
+import type { RankingMode } from '@/lib/ranking-comparison';
 import type { Route } from 'next';
 import { TrackedInternalLink } from '@/components/TrackedInternalLink';
 import { formatMarketCap, rankChange, type RankedCompany } from '@/lib/ranking-time-machine';
 import styles from './ranking-time-machine.module.css';
 
-export function CompanyDetail({ companyId, timeline, index }: {
+export function CompanyDetail({ companyId, timeline, index, mode = 'semiconductor' }: {
+  mode?: RankingMode;
   companyId: string; timeline: readonly { year: number; rows: readonly RankedCompany[] }[]; index: number;
 }) {
   const row = timeline[index].rows.find(company => company.id === companyId);
@@ -11,7 +13,7 @@ export function CompanyDetail({ companyId, timeline, index }: {
   const first = timeline[0].rows.find(company => company.id === companyId)!;
   const previous = index > 0 ? timeline[index - 1].rows.find(company => company.id === companyId) : undefined;
   const year = timeline[index].year;
-  const properties = { year, company: companyId, ranking_type: 'market_cap', data_kind: 'real' };
+  const properties = { comparison_mode: mode, year, company: companyId, ranking_type: 'market_cap', data_kind: 'real' };
   return <section className={styles.panel} id="ranking-company-detail" tabIndex={-1} aria-labelledby="ranking-company-title">
     <h2 id="ranking-company-title">{row.displayName}</h2>
     <p>{year}年末：<strong>{formatMarketCap(row.valueUsdB)} 十億米ドル</strong></p>
@@ -21,7 +23,7 @@ export function CompanyDetail({ companyId, timeline, index }: {
       <div><dt>{timeline[0].year}年の順位</dt><dd>{first.rank}位</dd></div>
       <div><dt>開始年から表示年</dt><dd>{rankChange(first.rank, row.rank)}</dd></div>
     </dl>
-    <p className={styles.small}>順位はすべて対象20社内。企業価値や就職先としての優劣を判定するものではありません。</p>
+    <p className={styles.small}>順位はすべて対象{timeline[index].rows.length}社内。企業価値や就職先としての優劣を判定するものではありません。</p>
     <details><summary>{timeline[0].year}〜{timeline[timeline.length - 1].year}年の順位と数値を見る</summary>
       <table className={styles.table}><caption>{row.name}の年別履歴（十億米ドル）</caption>
         <thead><tr><th scope="col">年末</th><th scope="col">順位</th><th scope="col">時価総額</th></tr></thead>

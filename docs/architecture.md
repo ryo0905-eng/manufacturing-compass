@@ -14,10 +14,13 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 - `/tools/ranking-time-machine` のServer Componentが説明・出典・metadata・WebApplication/BreadcrumbListを提供。操作は専用Client ComponentsとCSS Moduleに分離し、新しいライブラリは使わない。
 - チャートのロゴは企業マスターの `logoUrl` と `public/images/company-logos/` の静的PNGを使用。取得先・取得日は同ディレクトリのREADMEに記録する。チャートはロゴのみを表示し、`logoAspectRatio`（透明余白を除く図柄の縦横比）により、原画像を変形せず32px高・最大140px幅の枠へ収める。企業名はボタンの読み上げラベル・title、詳細・表に保持。画像なし・読み込み失敗時は文字の企業名を表示し、歴史名のAvagoにも文字を使う。
-- `src/data/ranking-time-machine.ts` は企業マスター、2010〜2025年の年次スナップショット320件、出典URL・確認日を管理する。企業IDで結び、既存企業ページへのリンクはサーバーで存在を確認する。
+- `src/data/ranking-time-machine.ts` は既存20社・2010〜2025年の320件、`src/data/ranking-reference.ts` は比較6社・2014〜2025年の72件と各社出典・確認日を管理。元の320件は維持し、装置5社を重複保存しない。企業ページへのリンクは存在するものだけを使う。
+- `src/lib/ranking-comparison.ts` が3モードの企業ID・期間・初期企業、年の補正、状態遷移、共有ハッシュの解析・生成を管理。対象データを抽出してから既存の厳格な検証へ渡す。全26社に2010年のデータを要求しない。モード切替は停止・補間なしとし、キー変更でチャートと時間操作を再生成して古いフレーム・入力確定状態を破棄する。
+- CompanyTrackerは操作パネル内で選択した1社の年末確定値・圏外状態を表示。表・詳細と選択IDを共有し、自動スクロールを行わない。チャートの表示行数・高さ・圏外判定はmin(10,対象社数)。他業界企業はisReferenceで識別し、既存の青とwarningの茶系、凡例・表の分類を使用する。
+- ComparisonShareが`#mode=global&year=2025&company=toyota`形式をコピーする。通常操作ではURLを変更せず、マウント後とhashchangeで比較用ハッシュだけを復元。通常アンカーは無視する。不正modeは半導体、年は期間内へ補正、不正企業はモード初期企業へ戻す。空companyは未選択として保持。コピー失敗時はreadOnly入力欄を表示。クライアント初期化前は半導体20社・2010年をSSRし、canonical・sitemapは既存1URL。
 - 純粋な処理で欠損・重複・非正数を拒否し、同値は同順位（1,1,3）とする。スナップショットは年の昇順・連続を要求。丸め済み時価総額は十億米ドル単位。出典を混ぜず、為替換算・欠損補間は行わない。描画用の補間値は元データに保存しない。
 - 初期2010年の表はSSR。3秒間隔のタイマーは停止・アンマウント時に破棄し、非表示タブでも停止する。年度変更時、表・詳細は確定値を反映。チャート専用の `useRankingAnimation` がrequestAnimationFrameで3秒間の線形補間を行い、数値・幅・軸を更新する。補間値の降順で順位を再計算し、位置・出入りはCSSで400ms遷移。最終年も補間が完了するまで再生状態を維持する。停止・年選択で確定値へ戻り、フレーム予約を破棄。動きを抑える設定の変更にも追従し、補間を止める。共通行高をResizeObserverで測り、名前の折り返しに対応。動きを抑える設定では遷移なし。
-- GA4/Vercelへ `ranking_timemachine_play/pause/year_change/company_click/related_click` を送る。year・ranking_type=market_cap・data_kind=real、企業操作に固定company ID、リンクにdestination。自動再生による年変更・自動停止・描画ではイベントを送らない。
+- GA4/Vercelへ既存の `ranking_timemachine_play/pause/year_change/company_click/related_click` と、新規 `ranking_timemachine_mode_change/share` を送る。全イベントにcomparison_mode・year・ranking_type=market_cap・data_kind=real、企業操作にcompany ID、リンクにdestination。モード変更にprevious_mode、共有にresult=copied/url_shownを追加。自動再生・自動停止・描画・URL復元ではイベントを送らない。
 - CompaniesMarketCapの利用規約 https://companiesmarketcap.com/terms-of-service/ 第5項の編集目的・出典明記条項を参照（2026-09-22確認）。数値を伴う業界解説として構成し、データ販売・API・CSV配信は行わない。商用利用全般の許諾があるとは記録しない。
 - 2026年途中の数値と既存ランキング記事の基準日データは別管理。Samsung等の複合企業、AVGO系列の2016年統合、現存20社を選定した範囲を公開説明に含める。
 

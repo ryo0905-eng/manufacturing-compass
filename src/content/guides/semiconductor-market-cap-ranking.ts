@@ -138,7 +138,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         {
           label: "2010〜2025年の時価総額の推移を見る",
           href: "/tools/ranking-time-machine",
-          description: "ランキング・タイムマシンで主要20社内の順位を再生。各年末の実データで比較"
+          description: "主要20社内の順位を実データで再生。GAFAM・トヨタとの比較や製造装置5社への切り替えにも対応"
         },
         {
           label: "世界TOP30を見る",

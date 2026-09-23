@@ -28,3 +28,14 @@ CompaniesMarketCapの各社ページに掲載されたCompaniesLogo由来のPNG�
 | Lam Research | lam-research.png | https://companiesmarketcap.com/lam-research/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/LRCX.png |
 | 東京エレクトロン | tokyo-electron.png | https://companiesmarketcap.com/tokyo-electron/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/8035.T.png |
 | KLA | kla.png | https://companiesmarketcap.com/kla/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/KLAC.png |
+
+追加の比較対象6社（2026-09-23取得）。歴史的な名称・ロゴの再現ではありません。
+
+| 企業 | 保存ファイル | 掲載ページ | 取得画像 |
+| --- | --- | --- | --- |
+| Apple | apple.png | https://companiesmarketcap.com/apple/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/AAPL.png |
+| Microsoft | microsoft.png | https://companiesmarketcap.com/microsoft/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/MSFT.png |
+| Alphabet（Google） | alphabet.png | https://companiesmarketcap.com/alphabet-google/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/GOOG.png |
+| Amazon | amazon.png | https://companiesmarketcap.com/amazon/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/AMZN.png |
+| Meta（旧Facebook） | meta.png | https://companiesmarketcap.com/meta-platforms/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/META.png |
+| トヨタ | toyota.png | https://companiesmarketcap.com/toyota/marketcap/ | https://companiesmarketcap.com/img/company-logos/256/TM.png |

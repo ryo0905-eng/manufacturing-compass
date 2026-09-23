@@ -18,6 +18,11 @@
 
 ### ランキング・タイムマシン（2026-09-22）
 
+- [x] 2026-09-23：比較モードを追加。半導体20社／GAFAM・トヨタを含む26社（2014〜2025年）／装置5社。新規72件を出典表記と照合し、既存320件の不変を確認。6社のロゴを取得・確認。
+- [x] モード切替時の停止・年補正、確定値の1社追跡、5行表示、共有ハッシュ復元・コピー代替、モード付き既存イベントとmode_change/shareを実装。説明・SEO・関連導線・PRD・architectureを更新。
+- [x] `RANKING_REFERENCE_SOURCE=/private/tmp/ranking-reference-source.json node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。3モードの対象・期間、圏外追跡、再生/リセット/切替、URL復元・不正値・通常アンカー、コピー成否・計測、SSRを確認。公開禁止情報の差分確認済み。
+- [ ] 比較モードの本番反映後4週間で、モード利用・再生・企業選択・共有操作を観察。ブラウザ実画面と本番GA4受信は未確認。build・devサーバー・commit・pushは未実施。
+
 - [x] 2026-09-23：チャートの企業識別をロゴのみへ変更。透明余白を除いた図柄の縦横比で拡大し、表示枠は32px高・最大140px幅。Avago・画像なし・読込失敗時は企業名を表示。読み上げラベル・title・詳細・表の企業名は維持。20画像の寸法・透明領域を確認。`node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。ブラウザ・実機確認は未実施。
 
 - [x] 2026-09-23：開始年を2010年へ拡張。2010〜2014年の実データ100件を追加し、全16年・320件を出典と照合。2010〜2015年はAvago表記。初期表・比較基準・metadata・関連導線・仕様を更新。`RANKING_SOURCE_CHECK=/private/tmp/ranking-time-machine-source-check-2010.json node tests/unit/ranking-time-machine.cjs`、`npm run typecheck`（1回）、`git diff --check`成功。公開禁止情報の差分確認済み。ブラウザ・build・commit・pushは未実施。

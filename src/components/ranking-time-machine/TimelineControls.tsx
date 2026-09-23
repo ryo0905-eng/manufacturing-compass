@@ -1,10 +1,11 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { Button } from '@/components/ui/Controls';
 import styles from './ranking-time-machine.module.css';
 
-export function TimelineControls({ years, index, playing, onPlay, onPause, onReset, onYear, onYearCommit }: {
+export function TimelineControls({ years, index, playing, onPlay, onPause, onReset, onYear, onYearCommit, children }: {
+  children?: ReactNode;
   years: readonly number[]; index: number; playing: boolean;
   onPlay: () => void; onPause: () => void; onReset: () => void;
   onYear: (index: number) => void; onYearCommit: (index: number) => void;
@@ -20,7 +21,7 @@ export function TimelineControls({ years, index, playing, onPlay, onPause, onRes
       <p className={styles.year} aria-live="polite" aria-atomic="true"><strong>{years[index]}</strong><span>年末</span></p>
       <div className={styles.actions}>
         <Button variant="primary" onClick={playing ? onPause : onPlay}>{playing ? 'Ⅱ 一時停止' : index === years.length - 1 ? '▶ 最初から再生' : '▶ 再生'}</Button>
-        <Button onClick={onReset}>最初に戻る</Button>
+        <Button onClick={onReset} aria-label="最初に戻る" title="最初に戻る">↺</Button>
       </div>
     </div>
     <label htmlFor="ranking-year">年を選ぶ</label>
@@ -30,5 +31,6 @@ export function TimelineControls({ years, index, playing, onPlay, onPause, onRes
       onPointerUp={commit} onPointerCancel={commit} onKeyUp={commit} onBlur={commit} />
     <div className={styles.rangeEnds}><span>{years[0]}年</span><span>{years[years.length - 1]}年</span></div>
     <p id="ranking-playback-help" className={styles.small}>3秒ごとに1年進みます。年や企業を選ぶと停止します。</p>
+    {children}
   </section>;
 }

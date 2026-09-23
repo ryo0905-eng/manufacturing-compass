@@ -23,7 +23,7 @@ function loader(overrides = {}, globals = {}) {
     const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
       compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
     }).outputText;
-    vm.runInNewContext(code, { exports, process: { env: { NODE_ENV: 'test' } }, ...globals, require: id => {
+    vm.runInNewContext(code, { exports, URLSearchParams, process: { env: { NODE_ENV: 'test' } }, ...globals, require: id => {
       if (id in overrides) return overrides[id];
       if (id === '@next/third-parties/google') return { sendGAEvent() { throw Error('GA must be off in tests'); } };
       if (id === '@vercel/analytics') return { track() {} };
@@ -181,7 +181,7 @@ const hooks = {
   useEffect: (fn, deps) => { const slot = cursor++; const old = effects[slot]; if (!old || deps.some((dep, i) => !Object.is(dep, old.deps[i]))) { old?.cleanup?.(); effects[slot] = { deps, pending: fn }; } },
 };
 const uiLoad = loader({ react: hooks, '@vercel/analytics': { track: (...args) => events.push(args) } }, {
-  document: documentStub, window: { setTimeout: (fn, ms) => { assert.equal(ms, 3000); timers.set(++nextTimer, fn); return nextTimer; }, clearTimeout: id => timers.delete(id) }, requestAnimationFrame: fn => fn(),
+  document: documentStub, window: { location: { hash: '', origin: 'https://mfg-compass.com' }, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name), setTimeout: (fn, ms) => { assert.equal(ms, 3000); timers.set(++nextTimer, fn); return nextTimer; }, clearTimeout: id => timers.delete(id) }, requestAnimationFrame: fn => fn(),
 });
 const { RankingTimeMachine } = uiLoad('src/components/ranking-time-machine/RankingTimeMachine.tsx');
 function render() { cursor = 0; const tree = RankingTimeMachine({ companies, snapshots }); for (const effect of effects) if (effect?.pending) { effect.cleanup = effect.pending(); delete effect.pending; } return tree; }
@@ -198,7 +198,7 @@ controls().onYear(5); render(); assert.equal(events.length, 2);
 controls().onYearCommit(5); assert.equal(events.at(-1)[1].year, 2015);
 controls().onPlay(); render();
 props('RankingRaceChart').onSelect('amd'); render();
-assert.equal(timers.size, 0); assert.equal(props('CompanyDetail').companyId, 'amd'); assert.equal(focused, 1);
+assert.equal(timers.size, 0); assert.equal(props('CompanyDetail').companyId, 'amd'); assert.equal(focused, 0);
 controls().onPlay(); render(); documentStub.hidden = true; listeners.get('visibilitychange')(); render();
 assert.equal(timers.size, 0); documentStub.hidden = false;
 controls().onYear(timeline.length - 2); render(); controls().onPlay(); render(); tick();
@@ -209,11 +209,34 @@ controls().onReset(); render(); assert.equal(controls().index, 0); assert.equal(
 for (const [event, properties] of events) {
   assert.match(event, /^ranking_timemachine_(play|pause|year_change|company_click)$/);
   assert.equal(properties.ranking_type, 'market_cap'); assert.equal(properties.data_kind, 'real');
+  assert.equal(properties.comparison_mode, 'semiconductor');
   assert.ok(properties.year >= 2010 && properties.year <= 2025);
 }
 const related = nodes(render(), node => node.props?.eventName === 'ranking_timemachine_related_click');
 assert.equal(related.length, 5);
 for (const link of related) assert.equal(link.props.eventProperties.year, 2010);
+// Switching modes stops timers, resets tracked company, and clamps the year atomically.
+function chooseMode(label) { nodes(render(), node => node.props?.children === label && typeof node.props?.onClick === 'function')[0].props.onClick(); render(); }
+controls().onPlay(); render();
+chooseMode('世界の大企業と比較');
+assert.equal(controls().years[0], 2014); assert.equal(controls().index, 0); assert.equal(timers.size, 0);
+assert.equal(props('CompanyDetail').companyId, 'toyota');
+assert.equal(props('RankingRaceChart').animate, false);
+assert.equal(props('CompanyTracker').rows.length, 26);
+assert.equal(events.at(-1)[0], 'ranking_timemachine_mode_change');
+assert.equal(events.at(-1)[1].year, 2014); assert.equal(events.at(-1)[1].previous_mode, 'semiconductor');
+const eventsBeforeNoOp = events.length;
+chooseMode('世界の大企業と比較'); assert.equal(events.length, eventsBeforeNoOp);
+controls().onYear(11); render();
+assert.equal(props('CompanyTracker').year, 2025);
+chooseMode('製造装置5社');
+assert.equal(props('RankingRaceChart').rows.length, 5); assert.equal(props('RankingRaceChart').year, 2025);
+assert.equal(props('CompanyDetail').companyId, 'tokyo-electron');
+controls().onReset(); render();
+assert.equal(controls().index, 0); assert.equal(props('CompanyDetail').companyId, 'tokyo-electron');
+controls().onPlay(); render(); chooseMode('半導体20社');
+assert.equal(controls().playing, false); assert.equal(props('CompanyDetail').companyId, '');
+assert.equal(timers.size, 0);
 for (const effect of effects) effect?.cleanup?.();
 assert.equal(listeners.size, 0); assert.equal(timers.size, 0);
 
@@ -259,4 +282,130 @@ const mediaTek = renderToStaticMarkup(React.createElement(CompanyDetail, { compa
 assert.ok(!mediaTek.includes('/companies/mediatek'));
 for (const file of ['src/content/guides/semiconductor-market-cap-ranking.ts', 'src/content/guides/semiconductor-equipment-sales-ranking.ts', 'src/app/(ja)/tools/page.tsx']) assert.ok(fs.readFileSync(path.join(root, file), 'utf8').includes('/tools/ranking-time-machine'));
 assert.match(fs.readFileSync(path.join(root, 'src/app/sitemap.ts'), 'utf8'), /rankingTimeMachineMetadata\.route/);
-console.log('Ranking time machine: data, rank ties, missing values, playback, slider commits, selection, visibility cleanup, analytics and SSR passed. Browser layout and production delivery are not covered.');
+
+
+// All modes use complete issuer/year cohorts without weakening source validation.
+const comparison = load('src/lib/ranking-comparison.ts');
+const reference = load('src/data/ranking-reference.ts');
+const modes = comparison.createComparisonTimelines(companies, snapshots);
+assert.equal(reference.referenceCompanies.length, 6);
+assert.equal(reference.referenceSnapshots.flatMap(s => s.entries).length, 72);
+assert.deepEqual(plain(reference.referenceSnapshots.map(s => s.year)), Array.from({ length: 12 }, (_, i) => 2014 + i));
+for (const [mode, count, first, length] of [['semiconductor', 20, 2010, 16], ['global', 26, 2014, 12], ['equipment', 5, 2010, 16]]) {
+  assert.equal(modes[mode].companies.length, count);
+  assert.equal(modes[mode].timeline[0].year, first);
+  assert.equal(modes[mode].timeline.length, length);
+  for (const snapshot of modes[mode].timeline) {
+    assert.equal(snapshot.rows.length, count);
+    assert.equal(new Set(snapshot.rows.map(row => row.id)).size, count);
+    for (const row of snapshot.rows) assert.ok(Number.isFinite(row.valueUsdB) && row.valueUsdB > 0);
+  }
+}
+assert.deepEqual(plain(modes.semiconductor.timeline), plain(timeline));
+assert.throws(() => comparison.createComparisonTimelines(companies.slice(1), snapshots));
+assert.throws(() => comparison.createComparisonTimelines(companies, snapshots.slice(1)));
+const globalLast = modes.global.timeline.at(-1);
+assert.equal(globalLast.rows.find(row => row.id === 'alphabet').valueUsdB, 3802); // Issuer value, not GOOG + GOOGL.
+const toyotaIndex = globalLast.rows.findIndex(row => row.id === 'toyota');
+assert.ok(toyotaIndex >= 10);
+const { CompanyTracker } = load('src/components/ranking-time-machine/CompanyTracker.tsx');
+const tracking = renderToStaticMarkup(React.createElement(CompanyTracker, { rows: globalLast.rows, year: 2025, selectedId: 'toyota', onSelect() {} }));
+assert.match(tracking, /トップ10圏外/); assert.match(tracking, /282.32/); assert.match(tracking, /2025年末の確定値/);
+assert.match(tracking, new RegExp(`${globalLast.rows[toyotaIndex].rank}位`));
+const { RankingRaceChart } = load('src/components/ranking-time-machine/RankingRaceChart.tsx');
+const equipmentHtml = renderToStaticMarkup(React.createElement(RankingRaceChart, { rows: modes.equipment.timeline[0].rows, year: 2010, selectedId: '', animate: false, onSelect() {} }));
+assert.equal((equipmentHtml.match(/data-visible="true"/g) || []).length, 5);
+assert.match(equipmentHtml, /--race-count:5/); assert.ok(!equipmentHtml.includes('上位10社'));
+const globalHtml = renderToStaticMarkup(React.createElement(RankingRaceChart, { rows: globalLast.rows, year: 2025, selectedId: 'toyota', animate: false, onSelect() {} }));
+assert.equal((globalHtml.match(/data-visible="true"/g) || []).length, 10);
+assert.match(globalHtml, /比較対象（GAFAM・トヨタ）/);
+const { RankingTable } = load('src/components/ranking-time-machine/RankingTable.tsx');
+const globalTable = renderToStaticMarkup(React.createElement(RankingTable, { rows: globalLast.rows, year: 2025, selectedId: 'toyota', onSelect() {} }));
+assert.match(globalTable, /対象26社内/); assert.match(globalTable, /比較対象（他業界）/);
+const globalDetail = renderToStaticMarkup(React.createElement(CompanyDetail, { companyId: 'toyota', timeline: modes.global.timeline, index: 11, mode: 'global' }));
+assert.match(globalDetail, /2014年の順位/); assert.match(globalDetail, /対象26社内/);
+assert.ok(!globalDetail.includes('/companies/toyota'));
+for (const company of reference.referenceCompanies) {
+  assert.ok(fs.existsSync(path.join(root, 'public', company.logoUrl)));
+  assert.ok(html.includes(company.sourceUrl));
+}
+assert.match(html, /GAFAM/); assert.match(html, /2014〜2025/);
+
+// Share URLs restore only explicit comparison hashes; document anchors stay untouched.
+assert.equal(comparison.readComparisonHash('#ranking-sources'), null);
+assert.equal(comparison.readComparisonHash(''), null);
+const shareUrl = comparison.comparisonShareUrl('https://mfg-compass.com', 'global', 2025, 'toyota');
+assert.equal(shareUrl, 'https://mfg-compass.com/tools/ranking-time-machine#mode=global&year=2025&company=toyota');
+assert.deepEqual(plain(comparison.readComparisonHash(shareUrl.slice(shareUrl.indexOf('#')))), { type: 'restore', mode: 'global', year: 2025, selectedId: 'toyota' });
+assert.deepEqual(plain(comparison.readComparisonHash('#mode=unknown&year=9999&company=unknown')), { type: 'restore', mode: 'semiconductor', year: 2025, selectedId: '' });
+assert.deepEqual(plain(comparison.readComparisonHash('#mode=global&year=2010&company=unknown')), { type: 'restore', mode: 'global', year: 2014, selectedId: 'toyota' });
+assert.equal(comparison.readComparisonHash('#mode=global&year=nope').year, 2014);
+assert.equal(comparison.readComparisonHash('#mode=global&company=').selectedId, '');
+const restored = comparison.reduceComparison({ ...comparison.initialComparison, playing: true, animate: true }, comparison.readComparisonHash('#mode=global&year=2025&company=toyota'));
+assert.equal(restored.index, 11); assert.equal(restored.playing, false); assert.equal(restored.animate, false);
+
+// Optional acquisition audit: compare all 72 values to source strings, including T -> B.
+if (process.env.RANKING_REFERENCE_SOURCE) {
+  const extracted = JSON.parse(fs.readFileSync(process.env.RANKING_REFERENCE_SOURCE, 'utf8'));
+  for (const snapshot of reference.referenceSnapshots) for (const entry of snapshot.entries) {
+    const source = extracted.find(company => company.id === entry.companyId).entries.find(item => item.year === snapshot.year);
+    const match = source.sourceText.match(/^\$([\d,.]+)\s*([TBM])$/);
+    const value = Number(match[1].replaceAll(',', '')) * ({ T: 1000, B: 1, M: .001 }[match[2]]);
+    assert.ok(Math.abs(entry.valueUsdB - value) < 1e-9);
+  }
+  console.log('All 72 reference values match source strings.');
+}
+
+// Controller URL restore must not emit manual-operation analytics.
+const restoreSlots = [], restoreEffects = [], restoreListeners = new Map(), restoreEvents = [];
+let restoreCursor = 0;
+const restoreWindow = { location: { hash: '#mode=global&year=2025&company=toyota' }, addEventListener: (key, fn) => restoreListeners.set(key, fn), removeEventListener: key => restoreListeners.delete(key) };
+const restoreHooks = { ...React,
+  useMemo: fn => { restoreCursor++; return fn(); },
+  useReducer: (reducer, initial) => { const slot = restoreCursor++; if (!(slot in restoreSlots)) restoreSlots[slot] = initial; return [restoreSlots[slot], action => { restoreSlots[slot] = reducer(restoreSlots[slot], action); }]; },
+  useEffect: (fn, deps) => { const slot = restoreCursor++, old = restoreEffects[slot]; if (!old || deps.some((dep, i) => !Object.is(dep, old.deps[i]))) { old?.cleanup?.(); restoreEffects[slot] = { deps, pending: fn }; } },
+};
+const restoredLoad = loader({ react: restoreHooks, '@vercel/analytics': { track: (...args) => restoreEvents.push(args) } }, { window: restoreWindow, document: documentStub });
+const RestoredMachine = restoredLoad('src/components/ranking-time-machine/RankingTimeMachine.tsx').RankingTimeMachine;
+function renderRestored() { restoreCursor = 0; const tree = RestoredMachine({ companies, snapshots }); for (const effect of restoreEffects) if (effect?.pending) { effect.cleanup = effect.pending(); delete effect.pending; } return tree; }
+renderRestored();
+let restoredTree = renderRestored();
+assert.equal(nodes(restoredTree, node => node.type?.name === 'CompanyTracker')[0].props.year, 2025);
+assert.equal(nodes(restoredTree, node => node.type?.name === 'CompanyTracker')[0].props.selectedId, 'toyota');
+restoreWindow.location.hash = '#ranking-sources'; restoreListeners.get('hashchange')();
+restoredTree = renderRestored();
+assert.equal(nodes(restoredTree, node => node.type?.name === 'CompanyDetail')[0].props.mode, 'global');
+restoreWindow.location.hash = '#mode=equipment&year=2011&company=asml'; restoreListeners.get('hashchange')();
+restoredTree = renderRestored();
+assert.equal(nodes(restoredTree, node => node.type?.name === 'CompanyTracker')[0].props.year, 2011);
+assert.equal(nodes(restoredTree, node => node.type?.name === 'CompanyTracker')[0].props.selectedId, 'asml');
+assert.equal(restoreEvents.length, 0);
+for (const effect of restoreEffects) effect?.cleanup?.();
+assert.equal(restoreListeners.size, 0);
+
+async function testShare() {
+  for (const succeeds of [true, false]) {
+    const shareSlots = [], shareEvents = []; let shareCursor = 0, copiedUrl = '', cleanup;
+    const shareLoad = loader({ react: { ...React,
+      useState: initial => { const slot = shareCursor++; if (!(slot in shareSlots)) shareSlots[slot] = initial; return [shareSlots[slot], value => { shareSlots[slot] = value; }]; },
+      useRef: initial => { const slot = shareCursor++; return shareSlots[slot] ?? (shareSlots[slot] = { current: initial }); },
+      useEffect: fn => { shareCursor++; cleanup = fn(); },
+    }, '@vercel/analytics': { track: (...args) => shareEvents.push(args) } }, {
+      window: { location: { origin: 'https://mfg-compass.com' } }, navigator: { clipboard: { writeText: async url => { copiedUrl = url; if (!succeeds) throw Error('Denied'); } } },
+    });
+    const Share = shareLoad('src/components/ranking-time-machine/ComparisonShare.tsx').ComparisonShare;
+    const renderShare = () => { shareCursor = 0; return Share({ mode: 'global', year: 2025, selectedId: 'toyota' }); };
+    await nodes(renderShare(), node => node.type?.name === 'Button')[0].props.onClick();
+    const resultTree = renderShare();
+    assert.equal(copiedUrl, shareUrl);
+    assert.equal(shareEvents.length, 1);
+    assert.equal(shareEvents[0][0], 'ranking_timemachine_share');
+    assert.equal(shareEvents[0][1].result, succeeds ? 'copied' : 'url_shown');
+    assert.equal(shareEvents[0][1].comparison_mode, 'global');
+    const inputs = nodes(resultTree, node => node.type === 'input');
+    assert.equal(inputs.length, succeeds ? 0 : 1);
+    if (!succeeds) { assert.equal(inputs[0].props.value, shareUrl); let selected = false; inputs[0].props.onFocus({ currentTarget: { select: () => { selected = true; } } }); assert.ok(selected); }
+    cleanup();
+  }
+}
+testShare().then(() => console.log('Ranking time machine: data, all comparison modes, tracking, playback, sharing, analytics, reduced motion and SSR passed. Browser layout and production delivery are not covered.')).catch(error => { console.error(error); process.exitCode = 1; });

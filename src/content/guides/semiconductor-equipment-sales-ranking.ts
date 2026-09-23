@@ -75,7 +75,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
       heading: "企業の規模から、工程と仕事内容へ",
       paragraphs: ["工程別の記事では、装置が何を変え、何を測るのかを説明しています。業界全体での企業の役割や、時価総額という別の指標も合わせて確認できます。"],
       blocks: [{ type: "links", items: [
-        { label: "時価総額の順位推移を動かして見る", href: "/tools/ranking-time-machine", description: "売上高とは別の指標。装置企業5社を含む主要20社の2010〜2025年を比較" },
+        { label: "時価総額の順位推移を動かして見る", href: "/tools/ranking-time-machine", description: "売上高とは別の指標。装置5社の2010〜2025年の時価総額を再生し、半導体20社やGAFAM・トヨタとの比較へ切り替え" },
         { label: "半導体製造装置メーカーとは", href: "/guides/semiconductor-equipment-manufacturers", description: "工程・企業・仕事内容の関係を基礎から理解する" },
         { label: "半導体業界地図", href: "/industry-map", description: "装置企業とデバイス・材料企業の関係を見る" },
         { label: "半導体企業の時価総額ランキング", href: "/guides/semiconductor-market-cap-ranking", description: "株式市場での評価額という別の指標で見る" },

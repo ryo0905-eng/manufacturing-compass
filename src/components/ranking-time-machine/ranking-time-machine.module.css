@@ -19,13 +19,13 @@
 .year span { color: var(--mc-text-muted); }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .controls label { display: block; margin-top: 8px; font-weight: 600; }
-.controls input { display: block; width: 100%; min-height: 44px; margin: 0; accent-color: var(--mc-action); cursor: pointer; }
+.controls input[type="range"] { display: block; width: 100%; min-height: 44px; margin: 0; accent-color: var(--mc-action); cursor: pointer; }
 .rangeEnds { display: flex; justify-content: space-between; color: var(--mc-text-muted); font-size: 12px; }
 .figure { margin: 0; --race-name-width: 140px; }
 .figure h2 { font-size: 18px; margin-bottom: 2px; }
 .figure p { margin: 4px 0; }
 .axis { display: flex; justify-content: space-between; margin: 8px calc(5.25rem + 17px) 2px calc(2.25rem + var(--race-name-width) + 29px); font-size: 11px; font-variant-numeric: tabular-nums; color: var(--mc-text-muted); }
-.race { --race-row-height: 46px; position: relative; height: calc(var(--race-row-height) * 10); list-style: none; padding: 0; margin: 0; overflow: hidden; }
+.race { --race-row-height: 46px; position: relative; height: calc(var(--race-row-height) * var(--race-count, 10)); list-style: none; padding: 0; margin: 0; overflow: hidden; }
 .raceRow { position: absolute; inset: 0 0 auto; margin: 0; transform: translateY(calc(var(--position) * var(--race-row-height))); opacity: 1; }
 .raceRow[data-visible="false"] { opacity: 0; pointer-events: none; }
 .raceButton { display: grid; grid-template-columns: 2.25rem var(--race-name-width) minmax(0, 1fr) 5.25rem; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 2px 4px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--mc-text); font: inherit; line-height: 1.5; text-align: left; cursor: pointer; }
@@ -69,7 +69,8 @@
 @media (min-width: 960px) {
   .stage { grid-template-columns: 200px minmax(0, 1fr); }
   .controlHeading { display: block; }
-  .actions { display: grid; }
+  .actions { flex-wrap: nowrap; }
+  .actions button:first-child { flex: 1; min-width: 0; }
   .controls label { margin-top: 16px; }
 }
 @media (max-width: 700px) {
@@ -91,3 +92,14 @@
 @media (prefers-reduced-motion: reduce) {
   .race[data-animate="true"] .raceRow { transition: none; }
 }
+
+.modeChoices { display: flex; flex-wrap: wrap; gap: 8px; }
+.modeChoices button[aria-pressed="true"] { background: var(--mc-selection-surface); border-color: var(--mc-selection); }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--mc-text-muted); }
+.legend span::before { content: ''; display: inline-block; width: 12px; height: 12px; margin-right: 4px; background: var(--mc-selection); }
+.legend span[data-reference="true"]::before, .raceRow[data-reference="true"] .bar { background: var(--mc-warning); }
+.tracker { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--mc-border); overflow-wrap: anywhere; }
+.tracker p { margin: 4px 0; }
+.tracker a { display: inline-flex; align-items: center; min-height: 44px; }
+.share { margin-top: 8px; }
+.share input { width: 100%; min-height: 44px; font: inherit; }

@@ -1,5 +1,7 @@
 "use client";
 
+import type { RankingMode } from '@/lib/ranking-comparison';
+
 import { sendGAEvent } from "@next/third-parties/google";
 import { track as trackVercelEvent } from "@vercel/analytics";
 
@@ -114,11 +116,13 @@ export type RankingTimeMachineEvent =
   | 'ranking_timemachine_play'
   | 'ranking_timemachine_pause'
   | 'ranking_timemachine_year_change'
-  | 'ranking_timemachine_company_click';
+  | 'ranking_timemachine_company_click'
+  | 'ranking_timemachine_mode_change'
+  | 'ranking_timemachine_share';
 
 export function trackRankingTimeMachineEvent(
   eventName: RankingTimeMachineEvent,
-  properties: { year: number; company?: string; interaction?: 'slider' | 'reset' },
+  properties: { year: number; company?: string; interaction?: 'slider' | 'reset'; comparison_mode: RankingMode; previous_mode?: RankingMode; result?: 'copied' | 'url_shown' },
 ) {
   trackEvent(eventName, { ...properties, ranking_type: 'market_cap', data_kind: 'real' });
 }
