@@ -16,6 +16,15 @@
 
 ## 現在の優先タスク
 
+### 実務ツールの入力消失防止（2026-09-24）
+
+- Cpk・工程比較の日英版、工程改善レポートのクリア／サンプル切替へ標準確認ダイアログを追加。編集・復元した非空の独自入力が実際に置き換わる場合だけ確認し、未編集の初期値・架空例、空入力、同じ値への置き換えは確認しない。
+- 測定入力と報告文を別々に保護。測定入力のみのクリアでは報告文とその保護を維持し、報告文も置き換える場合は確認文に明記。保存操作で保護を解除せず、ファイル復元の既存確認には二重確認を追加しない。
+- キャンセル時は状態と操作イベントを変更しない。画面内の保護状態のみ追加し、保存形式・計算式・外部送信項目は変更なし。
+- `node tests/unit/input-replacement.cjs`、`node tests/unit/cpk-result-copy.cjs`、`node tests/unit/cpk-english.cjs`、`node tests/unit/process-comparison.cjs`、`node tests/unit/improvement-report.cjs`、`node tests/unit/practical-tools-english.cjs`を各1回実行し成功。確認ダイアログは模擬環境で了承／キャンセルを検証。
+- `npm run typecheck`（1回）成功。ブラウザ・dev・build・commit・push未実施。本番反映は未確認。
+- 推奨コミット：`fix: confirm before replacing edited tool inputs`。
+
 ### Cpk入力の不正値を除外せず修正を促す（2026-09-24）
 
 - 日英の生データ計算は、読み取れない値が1件でもあれば停止。入力欄へフォーカスし、行番号・不正値を先頭5件まで表示（40文字超は省略、残件数を案内）。入力案内に桁区切りを含めないことを明記。

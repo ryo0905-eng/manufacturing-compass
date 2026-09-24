@@ -1,5 +1,7 @@
 "use client";
 
+import { confirmInputReplacement, wouldReplaceInput } from "@/lib/confirm-input-replacement";
+
 import { ToolWorkspaceFile } from "@/components/ToolWorkspaceFile";
 
 import { PracticalToolNextSteps } from "@/components/PracticalToolNextSteps";
@@ -111,20 +113,35 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
   const analysis = result ? analyzeCapability(result) : undefined;
   const resultText = result ? copyText(result, locale) : "";
 
+  const inputEdited = useRef(false);
+  const emptyInputs = { rawData: "", mean: "", standardDeviation: "", lsl: "", usl: "" };
+  function measurementInputs(value: ToolState) {
+    return { rawData: value.rawData, mean: value.mean, standardDeviation: value.standardDeviation, lsl: value.lsl, usl: value.usl };
+  }
+  function allowReplacement(next: ToolState) {
+    return !wouldReplaceInput(measurementInputs(state), measurementInputs(next), emptyInputs, inputEdited.current) || confirmInputReplacement(locale);
+  }
   function update(patch: Partial<ToolState>) {
+    inputEdited.current = true;
     journey.start();
     setState((current) => ({ ...current, ...patch, activeSampleId: undefined, errors: {}, result: undefined, resultValues: [], needsCalculation: true }));
   }
 
   function loadSample(sample: CapabilitySample) {
+    const next = sampleState(sample);
+    if (!allowReplacement(next)) return;
+    inputEdited.current = false;
     journey.sample();
-    setState(sampleState(sample));
+    setState(next);
     trackEvent("cpk_sample_changed", { sample: sample.id, ...(locale === "en" ? { locale } : {}) });
   }
 
   function startCustomData() {
+    const next: ToolState = { mode: "raw", ...emptyInputs, resultValues: [], errors: {} };
+    if (!allowReplacement(next)) return;
+    inputEdited.current = false;
     journey.start();
-    setState({ mode: "raw", rawData: "", mean: "", standardDeviation: "", lsl: "", usl: "", resultValues: [], errors: {} });
+    setState(next);
     trackEvent("cpk_custom_data_started", locale === "en" ? { locale } : undefined);
     requestAnimationFrame(() => textareaRef.current?.focus());
   }
@@ -182,6 +199,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
     <div className="capability-workspace">
       <section className="capability-input" aria-labelledby="capability-input-title">
         <ToolWorkspaceFile tool="cpk" locale={locale} input={state} onRestore={input => {
+          inputEdited.current = true;
           journey.start();
           setState({ ...input, resultValues: [], errors: {}, needsCalculation: true });
         }} />

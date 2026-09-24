@@ -92,7 +92,7 @@ async function main() {
   assert.match(learning.comparisonMessage({ ...initial, mean: 104 }, { ...initial, mean: 104, standardDeviation: .5 }, 'en'), /more negative/);
 
   const state = hooks(), events = [];
-  const interactive = loader(state.react, { requestAnimationFrame: callback => callback() }, events);
+  const interactive = loader(state.react, { window: { confirm: () => true }, requestAnimationFrame: callback => callback() }, events);
   const { CpkCalculator } = interactive('src/components/CpkCalculator');
   const render = () => { state.reset(); return CpkCalculator({ locale: 'en' }); };
   const press = label => nodes(render(), n => n.type === 'button' && text(n) === label)[0].props.onClick();

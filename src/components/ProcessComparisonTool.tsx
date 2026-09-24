@@ -3,6 +3,8 @@
 import { ImprovementReportEditor, reportAction } from "@/components/ImprovementReportEditor";
 import { emptyReportNotes, sampleReportNotes, type ReportNotes } from "@/data/improvement-report";
 
+import { confirmInputReplacement, wouldReplaceInput } from "@/lib/confirm-input-replacement";
+
 import { ToolWorkspaceFile } from "@/components/ToolWorkspaceFile";
 
 import { PracticalToolNextSteps } from "@/components/PracticalToolNextSteps";
@@ -39,12 +41,24 @@ export function ProcessComparisonTool({ locale = "ja", reportMode = false }: { l
   const [busy, setBusy] = useState(false);
   const started = useRef(false);
   const exporting = useRef(false);
+  const inputEdited = useRef(false);
+  const notesEdited = useRef(false);
   function start() { if (!started.current) { started.current = true; record("started", locale); } }
   function change(next: ComparisonInput, source: "sample" | "custom" | "clear" = "custom") {
+    inputEdited.current = source === "custom";
     if (source === "clear") journey.clear();
     else { start(); if (source === "sample") journey.sample(); else journey.start(); }
     if (reportOpen) setNeedsReview(true);
     setInput(next); setResult(null); setError(""); setStatus(""); setFallback("");
+  }
+  function replaceInputs(next: ComparisonInput, source: "sample" | "clear", nextNotes?: ReportNotes) {
+    const replacesNotes = !!nextNotes && Object.keys(notes).some(key => notes[key as keyof ReportNotes] !== nextNotes[key as keyof ReportNotes]);
+    const protectedInput = wouldReplaceInput(input, next, empty, inputEdited.current);
+    const protectedNotes = !!nextNotes && wouldReplaceInput(notes, nextNotes, emptyReportNotes, notesEdited.current);
+    if ((protectedInput || protectedNotes) && !confirmInputReplacement(locale, replacesNotes)) return false;
+    change(next, source);
+    if (nextNotes) { setNotes({ ...nextNotes }); notesEdited.current = false; }
+    return true;
   }
   const field = (key: keyof ComparisonInput, label: string, numeric = false) => <label>{label}<input value={input[key]} maxLength={numeric ? 100 : 40} inputMode={numeric ? "decimal" : "text"} onChange={event => change({ ...input, [key]: event.target.value })} /></label>;
   const rows = result ? comparisonRows(result, locale) : [];
@@ -66,11 +80,12 @@ export function ProcessComparisonTool({ locale = "ja", reportMode = false }: { l
   }
   return <div className={styles.tool}>
     {reportMode && <div className={styles.actions}>
-      <button type="button" onClick={() => { change({ ...empty }); setNotes({ ...emptyReportNotes }); setReportStarted(true); setNeedsReview(false); reportAction("open_editor"); }}>自分のデータで作る</button>
-      <button type="button" onClick={() => { change({ ...processComparisonSample }, "sample"); setNotes({ ...sampleReportNotes }); setResult(compareProcesses(processComparisonSample)); setReportStarted(true); setNeedsReview(false); reportAction("open_editor"); }}>架空例で試す</button>
+      <button type="button" onClick={() => { if (!replaceInputs({ ...empty }, "clear", emptyReportNotes)) return; setReportStarted(true); setNeedsReview(false); reportAction("open_editor"); }}>自分のデータで作る</button>
+      <button type="button" onClick={() => { if (!replaceInputs({ ...processComparisonSample }, "sample", sampleReportNotes)) return; setResult(compareProcesses(processComparisonSample)); setReportStarted(true); setNeedsReview(false); reportAction("open_editor"); }}>架空例で試す</button>
     </div>}
     {reportOpen ? <ToolWorkspaceFile key="improvement-report" tool="improvement-report" locale={locale} input={{ ...input, ...notes }} disabled={busy} onRestore={next => {
       const { reportTitle, reportDate, changeDescription, measurementConditions, interpretation, uncertainties, nextAction, ...comparison } = next;
+      notesEdited.current = true;
       change(comparison); setNotes({ reportTitle, reportDate, changeDescription, measurementConditions, interpretation, uncertainties, nextAction }); setReportStarted(true); setNeedsReview(false);
     }} /> : <ToolWorkspaceFile key="process-comparison" tool="process-comparison" locale={locale} input={input} disabled={busy} onRestore={next => change(next)} /> }
     <form onSubmit={event => {
@@ -81,7 +96,7 @@ export function ProcessComparisonTool({ locale = "ja", reportMode = false }: { l
       <fieldset disabled={busy}>
         <legend><span ref={journey.inputRef}>{t("1. 比較するデータを入力")}</span></legend>
         <p id="comparison-input-help">{t("1行に数値を1つ、各条件2〜10,000件。空行は無視します。見出し・単位・桁区切りを含めずに貼り付けてください。")}</p>
-        <div className={styles.actions}><button type="button" onClick={() => change({ ...processComparisonSample, nameA: t(processComparisonSample.nameA), nameB: t(processComparisonSample.nameB), measurement: t(processComparisonSample.measurement) }, "sample")}>{t("架空データで試す")}</button><button type="button" onClick={() => change({ ...empty }, "clear")}>{t("入力をクリア")}</button></div>
+        <div className={styles.actions}><button type="button" onClick={() => replaceInputs({ ...processComparisonSample, nameA: t(processComparisonSample.nameA), nameB: t(processComparisonSample.nameB), measurement: t(processComparisonSample.measurement) }, "sample")}>{t("架空データで試す")}</button><button type="button" onClick={() => replaceInputs({ ...empty }, "clear")}>{t("入力をクリア")}</button></div>
         <div className={styles.columns}>
           <div>{field("nameA", t("条件Aの名前"))}<label>{t("条件Aの測定値")}<textarea value={input.dataA} rows={9} aria-describedby="comparison-input-help" spellCheck={false} onChange={event => change({ ...input, dataA: event.target.value })} /></label></div>
           <div>{field("nameB", t("条件Bの名前"))}<label>{t("条件Bの測定値")}<textarea value={input.dataB} rows={9} aria-describedby="comparison-input-help" spellCheck={false} onChange={event => change({ ...input, dataB: event.target.value })} /></label></div>
@@ -108,7 +123,7 @@ export function ProcessComparisonTool({ locale = "ja", reportMode = false }: { l
       {locale === "ja" && !reportOpen && <button type="button" onClick={() => { setReportOpen(true); setReportStarted(true); setNeedsReview(false); reportAction("open_editor"); }}>この比較を報告書にする</button>}
       <PracticalToolNextSteps tool="process-comparison" locale={locale} />
     </section>}
-    {reportOpen && (reportStarted || !reportMode) && <ImprovementReportEditor result={result} notes={notes} onChange={setNotes} needsReview={needsReview} resultRef={reportMode ? journey.resultRef : undefined} />}
+    {reportOpen && (reportStarted || !reportMode) && <ImprovementReportEditor result={result} notes={notes} onChange={next => { notesEdited.current = true; setNotes(next); }} needsReview={needsReview} resultRef={reportMode ? journey.resultRef : undefined} />}
     <p role="status" aria-live="polite">{status}</p>
     {fallback && <label>{t("手動コピー用の表")}<textarea readOnly rows={12} value={fallback} onFocus={event => event.currentTarget.select()} /></label>}
   </div>;
