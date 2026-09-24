@@ -148,8 +148,8 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
       let nextResult: CapabilityResult | undefined;
       let values: number[] = [];
       if (state.mode === "raw") {
-        if (parsed.values.length < 2) errors.data = parsed.values.length === 1 ? t("測定値が1件だけです。2件以上入力してください。") : t("有効な測定値を2件以上入力してください。");
-        else if (parsed.invalidCount > Math.max(3, Math.ceil(parsed.values.length * 0.2))) errors.data = t("読み取れない値が多いため、データの区切りや見出しを確認してください。");
+        if (parsed.invalidCount > 0) errors.data = t("読み取れない値があるため計算できません。該当箇所を修正してください。");
+        else if (parsed.values.length < 2) errors.data = parsed.values.length === 1 ? t("測定値が1件だけです。2件以上入力してください。") : t("有効な測定値を2件以上入力してください。");
         if (!errors.data && !errors.limits) {
           values = parsed.values;
           nextResult = calculateOverallCapability(values, lower, upper);
@@ -164,6 +164,7 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
         }
       }
       if (Object.keys(errors).length > 0 || !nextResult) {
+        if (errors.data) textareaRef.current?.focus();
         journey.error();
         setState((current) => ({ ...current, errors, result: undefined, resultValues: [] }));
         return;
@@ -203,10 +204,19 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
             </SelectField>
             <div>
               <TextareaField ref={textareaRef} id="measurement-data" label={t("測定データ")} className={styles.measurement}
-                description={t("1行1値のほか、カンマ・タブ区切りにも対応します。列名と単位は除いてください。")}
-                error={state.errors.data} aria-describedby="measurement-count"
+                description={t("1行1値のほか、カンマ・タブ区切りにも対応します。列名・単位・桁区切りは除いてください。")}
+                error={state.errors.data} aria-invalid={parsed.invalidCount > 0 || Boolean(state.errors.data)} aria-describedby={`measurement-count${parsed.invalidCount ? " measurement-invalid" : ""}`}
                 onChange={(event) => update({ rawData: event.target.value })} placeholder={"10.01\n9.98\n10.03"} value={state.rawData} />
               <FieldMessage id="measurement-count">{locale === "en" ? `${parsed.values.length} measurements recognized${parsed.invalidCount ? `; ${parsed.invalidCount} values could not be read` : ""}.` : <>{parsed.values.length}件の測定値を認識しました{parsed.invalidCount ? `。${parsed.invalidCount}件の値を読み取れませんでした` : ""}。</>}</FieldMessage>
+              {parsed.invalidCount > 0 && <div id="measurement-invalid" className={styles.invalidMeasurements}>
+                <FieldMessage error>{t("読み取れない値があるため計算できません。該当箇所を修正してください。")}</FieldMessage>
+                <ul>{parsed.invalidValues.slice(0, 5).map(({ line, token }, index) => {
+                  const characters = Array.from(token);
+                  const preview = characters.length > 40 ? `${characters.slice(0, 40).join("")}…` : token;
+                  return <li key={index}>{locale === "en" ? `Line ${line}: ` : `${line}行目：`}<code>{preview}</code></li>;
+                })}</ul>
+                {parsed.invalidCount > 5 && <p>{locale === "en" ? `${parsed.invalidCount - 5} more unreadable values.` : `ほか${parsed.invalidCount - 5}件の読み取れない値があります。`}</p>}
+              </div>}
             </div>
           </> : <div className={styles.fields}>
             <InputField id="summary-mean" label={t("平均値")} inputMode="decimal" aria-invalid={Boolean(state.errors.summary)} aria-describedby="summary-message" onChange={(event) => update({ mean: event.target.value })} value={state.mean} />

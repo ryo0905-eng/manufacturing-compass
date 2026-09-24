@@ -48,9 +48,9 @@ test.describe("工程能力の計算ロジック", () => {
   });
 
   test("各区切りと不正文字を解析する", () => {
-    expect(parseMeasurements("1\n2 3\t4,5，6;7；8\n\n8")).toEqual({ values: [1, 2, 3, 4, 5, 6, 7, 8, 8], invalidCount: 0 });
-    expect(parseMeasurements("測定値\n1\nNG\n2")).toEqual({ values: [1, 2], invalidCount: 2 });
-    expect(parseMeasurements("")).toEqual({ values: [], invalidCount: 0 });
+    expect(parseMeasurements("1\n2 3\t4,5，6;7；8\n\n8")).toEqual({ values: [1, 2, 3, 4, 5, 6, 7, 8, 8], invalidCount: 0, invalidValues: [] });
+    expect(parseMeasurements("測定値\n1\nNG\n2")).toEqual({ values: [1, 2], invalidCount: 2, invalidValues: [{ line: 1, token: "測定値" }, { line: 3, token: "NG" }] });
+    expect(parseMeasurements("")).toEqual({ values: [], invalidCount: 0, invalidValues: [] });
   });
 
   test("固定サンプルの期待値が変わらない", () => {

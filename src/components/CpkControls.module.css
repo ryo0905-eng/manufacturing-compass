@@ -5,6 +5,8 @@
 .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mc-space-3); }
 .fields > p { grid-column: 1 / -1; }
 .measurement { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.invalidMeasurements { overflow-wrap: anywhere; font-size: var(--mc-text-small); }
+.invalidMeasurements ul { padding-left: var(--mc-space-3); }
 .actions { display: flex; flex-wrap: wrap; gap: var(--mc-space-1) var(--mc-space-2); }
 .modes { width: min(520px, 100%); margin-bottom: var(--mc-space-3); }
 .modeLabel { display: grid; gap: var(--mc-space-1); }

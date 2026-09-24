@@ -100,6 +100,15 @@ async function main() {
     assert.equal(selected, true);
   }
 
+  const math = load('src/lib/process-capability.ts');
+  const parsed = input => JSON.parse(JSON.stringify(math.parseMeasurements(input)));
+  assert.deepEqual(parsed('1\n2 3\t4,5，6;7；8\n\n8'), { values: [1,2,3,4,5,6,7,8,8], invalidCount: 0, invalidValues: [] });
+  assert.deepEqual(parsed(''), { values: [], invalidCount: 0, invalidValues: [] });
+  assert.deepEqual(parsed('heading\r\n1\r\n\r\nNG,2mm\r3\u2028bad\u2029Infinity'), {
+    values: [1,3], invalidCount: 5, invalidValues: [{ line: 1, token: 'heading' }, { line: 4, token: 'NG' }, { line: 4, token: '2mm' }, { line: 6, token: 'bad' }, { line: 7, token: 'Infinity' }],
+  });
+  assert.deepEqual(parsed('-1 +2e1 .5').values, [-1,20,.5]);
+
   // Exercise the actual calculator and copy payload for samples and both input modes.
   const state = hooks();
   const { CpkCalculator } = load('src/components/CpkCalculator.tsx', {
@@ -135,6 +144,34 @@ async function main() {
     assert.match(copy().props.text, /Ppk: 0\.211/);
   }
   change('lsl', '5'); change('usl', '15'); press('計算する');
+  let focused = 0;
+  nodes(render(), node => node.type === 'textarea')[0].props.ref.current = { focus() { focused++; } };
+  for (const token of ['NG', 'heading', '10mm']) {
+    change('measurement-data', `8\n\n${token}\n9\n10`);
+    assert.equal(copy(), undefined);
+    const inputTree = render();
+    const details = nodes(inputTree, node => node.props?.id === 'measurement-invalid')[0];
+    assert.match(JSON.stringify(details), /3行目/);
+    assert.match(JSON.stringify(details), /読み取れない値があるため計算できません/);
+    press('計算する');
+    assert.equal(copy(), undefined, 'Even a single unreadable value blocks calculation');
+    assert.equal(nodes(render(), node => node.type === 'Histogram').length, 0);
+  }
+  assert.equal(focused, 3, 'Invalid calculation focuses the measurements field');
+  const long = '誤'.repeat(41);
+  change('measurement-data', `8\n${long}\na b c d e f\n9`);
+  const details = nodes(render(), node => node.props?.id === 'measurement-invalid')[0];
+  assert.equal(nodes(details, node => node.type === 'li').length, 5);
+  assert.equal(nodes(details, node => node.type === 'code')[0].props.children, '誤'.repeat(40) + '…');
+  assert.match(JSON.stringify(details), /ほか2件/);
+  nodes(render(), node => node.type === 'WorkspaceFile')[0].props.onRestore({ mode: 'raw', rawData: '8\nNG\n9', mean: '', standardDeviation: '', lsl: '5', usl: '15' });
+  assert.equal(nodes(render(), node => node.props?.id === 'measurement-data')[0].props.value, '8\nNG\n9');
+  press('計算する'); assert.equal(copy(), undefined);
+  change('measurement-data', '8\n9\n10\n11\n12');
+  assert.equal(nodes(render(), node => node.props?.id === 'measurement-invalid').length, 0);
+  press('計算する'); assert.match(copy().props.text, /Ppk: 1\.054/);
+  // Unreadable raw input must not block the independent summary mode.
+  change('measurement-data', '8\nNG\n9');
   press('平均・短期標準偏差');
   assert.equal(copy(), undefined);
   change('summary-mean', '10');

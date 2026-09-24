@@ -112,10 +112,19 @@ async function main() {
   change('lsl', ''); press('Calculate');
   assert.match(copy(), /Ppu: 1\.054/);
   assert.match(copy(), /no specification midpoint/);
-  for (const [input, message] of [['10', /at least two/], ['10\n10', /identical/], ['bad bad bad bad bad 8 9', /Too many/]]) {
+  for (const [input, message] of [['10', /at least two/], ['10\n10', /identical/], ['8\nNG\n9', /Cannot calculate/], ['8 heading 9', /Cannot calculate/], ['8 10mm 9', /Cannot calculate/], ['bad bad bad bad bad 8 9', /Cannot calculate/]]) {
     change('measurement-data', input); press('Calculate');
     assert.equal(copy(), undefined); assert.match(text(render()), message); assert.doesNotMatch(text(render()), japanese);
   }
+  change('measurement-data', `8\n\n${'x'.repeat(41)}\nNG a b c d e\n9`);
+  const invalidDetails = nodes(render(), n => n.props?.id === 'measurement-invalid')[0];
+  assert.match(text(invalidDetails), /Line 3:/);
+  assert.match(text(invalidDetails), /2 more unreadable values/);
+  assert.equal(nodes(invalidDetails, n => n.type === 'li').length, 5);
+  assert.equal(nodes(invalidDetails, n => n.type === 'code')[0].props.children, 'x'.repeat(40) + '…');
+  assert.doesNotMatch(text(render()), japanese);
+  change('measurement-data', '8 9 10'); press('Calculate');
+  assert.ok(copy(), 'Corrected data calculates successfully');
   change('measurement-data', '8 9 10'); change('lsl', '15'); change('usl', '5'); press('Calculate');
   assert.match(text(render()), /USL must be greater/);
   press('Mean and within-process SD');

@@ -20,6 +20,7 @@ export type CapabilityResult = CapabilityInputs & {
 
 export type ParsedMeasurements = {
   invalidCount: number;
+  invalidValues: { line: number; token: string }[];
   values: number[];
 };
 
@@ -31,17 +32,19 @@ export type AnalysisResult = {
 };
 
 export function parseMeasurements(input: string): ParsedMeasurements {
-  const tokens = input.split(/[\s,，;；]+/).map((token) => token.trim()).filter(Boolean);
   const values: number[] = [];
-  let invalidCount = 0;
+  const invalidValues: ParsedMeasurements["invalidValues"] = [];
 
-  for (const token of tokens) {
-    const value = Number(token);
-    if (Number.isFinite(value)) values.push(value);
-    else invalidCount += 1;
-  }
+  input.split(/\r\n|[\n\r\u2028\u2029]/).forEach((line, index) => {
+    const tokens = line.split(/[\s,，;；]+/).filter(Boolean);
+    for (const token of tokens) {
+      const value = Number(token);
+      if (Number.isFinite(value)) values.push(value);
+      else invalidValues.push({ line: index + 1, token });
+    }
+  });
 
-  return { values, invalidCount };
+  return { values, invalidCount: invalidValues.length, invalidValues };
 }
 
 export function arithmeticMean(values: number[]) {
