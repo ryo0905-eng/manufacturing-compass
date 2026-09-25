@@ -7,7 +7,8 @@ function question(id: PriorityId) {
 }
 export const jobNoteMeta = {
   href: "/career-consultation#job-posting-note",
-  updatedAt: "2026-09-23",
+  updatedAt: "2026-09-26",
+  sourceCheckedAt: "2026-09-23",
   source: "https://www.hellowork.mhlw.go.jp/member/job_offer_search06.html",
 } as const;
 export const jobNoteItems = [

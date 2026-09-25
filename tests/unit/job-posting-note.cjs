@@ -22,7 +22,22 @@ function loader(overrides = {}, globals = {}) {
 }
 const load=loader();
 const {jobNoteItems,jobNoteStatuses}=load('src/data/job-posting-note');
-const {createJobNote,isJobNoteStatus}=load('src/lib/job-posting-note');
+const {createJobNote,createJobComparison,isJobNoteStatus}=load('src/lib/job-posting-note');
+assert.equal(createJobComparison({},{}),null);
+assert.equal(createJobComparison({pay:'missing'},{}),null);
+assert.equal(createJobComparison({},{pay:'written'}),null);
+const pair=createJobComparison({pay:'missing',location:'written'},{pay:'written',hours:'unclear'});
+assert.equal(pair.rows.length,8);
+assert.equal(pair.rows.find(row=>row.id==='pay').a,'missing');
+assert.equal(pair.rows.find(row=>row.id==='pay').b,'written');
+assert.deepEqual(Array.from(pair.a.questions,row=>row.id),['pay']);
+assert.deepEqual(Array.from(pair.b.questions,row=>row.id),['hours']);
+assert.equal(pair.rows.find(row=>row.id==='duties').a,'unread');
+assert.match(pair.text,/求人Aに確認すること/);assert.match(pair.text,/求人Bに確認すること/);
+assert.match(pair.text,/待遇の差や求人の優劣を示すものではありません/);
+const complete=Object.fromEntries(jobNoteItems.map(item=>[item.id,'written']));
+assert.equal(createJobComparison(complete,complete).a.questions.length,0);
+assert.equal(createJobComparison(complete,complete).b.questions.length,0);
 assert.equal(jobNoteItems.length,8);assert.equal(new Set(jobNoteItems.map(i=>i.id)).size,8);
 assert.equal(createJobNote({}),null);assert.equal(isJobNoteStatus('invented'),false);
 for(const item of jobNoteItems)for(const status of jobNoteStatuses){
@@ -59,6 +74,18 @@ async function ui(failAnalytics=false){
  const success=button('確認ノートをコピー').props.onClick();finish.resolve();await success;
  button('選択をクリア').props.onClick();render();assert.equal(nodes(render(),n=>n.type==='textarea').length,0);assert.ok(nodes(render(),n=>n.type==='select').every(n=>n.props.value==='unread'));
  if(!failAnalytics){for(const step of ['view','start','result'])assert.equal(events.filter(e=>e.props.action===step).length,1);for(const e of events){assert.equal(e.name,'job_posting_note');assert.deepEqual(Object.keys(e.props).sort(),['action','ui_version']);}}
+ button('2件を並べて確認').props.onClick();render();observers.get(entry)();
+ assert.equal(nodes(render(),n=>n.type==='select').length,16);
+ choose('pay','missing');assert.equal(nodes(render(),n=>n.props?.type==='submit')[0].props.disabled,true);
+ choose('b-pay','written');submit();render();observers.get(result)();
+ assert.match(nodes(render(),n=>n.type==='textarea')[0].props.value,/求人票2件/);
+ const oldCopy=button('確認ノートをコピー').props.onClick();button('1件を確認').props.onClick();finish.reject(Error('blocked'));await oldCopy;
+ assert.equal(nodes(render(),n=>n.type==='textarea').length,0);
+ assert.equal(nodes(render(),n=>n.type==='select'&&n.props.id==='job-note-pay')[0].props.value,'missing');
+ button('2件を並べて確認').props.onClick();
+ assert.equal(nodes(render(),n=>n.type==='select'&&n.props.id==='job-note-b-pay')[0].props.value,'written');
+ button('選択をクリア').props.onClick();assert.ok(nodes(render(),n=>n.type==='select').every(n=>n.props.value==='unread'));
+ if(!failAnalytics){const comparisonEvents=events.filter(e=>e.name==='job_posting_comparison');for(const step of ['view','start','result'])assert.equal(comparisonEvents.filter(e=>e.props.action===step).length,1);for(const e of comparisonEvents)assert.deepEqual(Object.keys(e.props).sort(),['action','ui_version']);}
 }
 (async()=>{
  await ui();await ui(true);

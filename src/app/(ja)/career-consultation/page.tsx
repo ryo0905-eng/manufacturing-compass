@@ -12,7 +12,7 @@ import { agentFocusOptions } from "@/data/affiliateLinks";
 
 export const metadata: Metadata = {
   title: "半導体転職の相談準備・求人票の確認ノート",
-  description: "半導体転職の求人票を8項目で確認し、応募前に聞く質問をノートへ。実績や希望条件の相談メモも、登録・個人情報入力なしで準備できます。",
+  description: "半導体転職の求人票を8項目で確認。2件の記載状況も並べて、応募前に聞く質問をノートへ整理できます。登録・個人情報入力なしで相談を準備。",
   alternates: { canonical: "/career-consultation" },
 };
 
@@ -73,7 +73,7 @@ export default function CareerConsultationPage() {
       <section className="section" id="job-posting-note" aria-labelledby="job-posting-note-title" style={{ scrollMarginTop: 88 }}>
         <h2 id="job-posting-note-title">求人票の確認ノート</h2>
         <JobPostingNote />
-        <details><summary>確認項目の考え方と出典</summary><p>求人票の記載を自分で読み、相談で聞きたいことを整理するための編集部のチェック項目です。希望条件を決める「転職の軸ノート」とあわせて使えます。求人票は雇用契約書ではありません。採用時の条件は書面で確認してください。</p><p>参考：<a href={jobNoteMeta.source} target="_blank" rel="noopener noreferrer">ハローワーク「求人情報の見方」</a>。項目と用語の確認日：<time dateTime={jobNoteMeta.updatedAt}>{jobNoteMeta.updatedAt}</time>。質問文は相談用の編集例です。</p></details>
+        <details><summary>確認項目の考え方と出典</summary><p>求人票の記載を自分で読み、相談で聞きたいことを整理するための編集部のチェック項目です。希望条件を決める「転職の軸ノート」とあわせて使えます。求人票は雇用契約書ではありません。採用時の条件は書面で確認してください。</p><p>参考：<a href={jobNoteMeta.source} target="_blank" rel="noopener noreferrer">ハローワーク「求人情報の見方」</a>。項目と用語の確認日：<time dateTime={jobNoteMeta.sourceCheckedAt}>{jobNoteMeta.sourceCheckedAt}</time>。質問文は相談用の編集例です。</p></details>
       </section>
 
       <section className="section" aria-labelledby="consultation-template-title">

@@ -404,6 +404,8 @@ Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示�
 
 ## 求人票の確認ノート（2026-09-23）
 
+2026-09-26：`createJobComparison` がA・Bの記載状況行と個別確認ノートを統合し、`JobPostingNote` が単一／比較モードを担当する。回答Aは従来モードと共通、Bは独立したメモリ状態。両方で1項目以上確認した場合だけ結果を返す。モード変更も改訂番号を進めてコピー通知を無効化。機能更新日と出典確認日を分離する。
+
 質問・選択肢は `src/data/job-posting-note.ts`、整理とコピー文は `src/lib/job-posting-note.ts`、操作は `JobPostingNote.tsx` とCSS Module。既存 `priorityItems` から共通の質問文を参照する。相談準備のServer Componentページ内へ追加し、既存canonicalとsitemap URLを継続する。
 
 native selectと明示的な作成・コピーを使用。回答変更・クリアで結果とコピー状態を無効化し、非同期コピーの通知は改訂番号で制御する。入力保存・外部API・新規依存なし。露出監視は既存 `observeVisibleOnce`、計測は固定actionのみ。[仕様](./job-posting-note-spec.md)。
