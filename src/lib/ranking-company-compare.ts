@@ -1,5 +1,6 @@
 import { japanSemiconductorMarketCapRanking, worldSemiconductorMarketCapRanking, type SemiconductorMarketCapCompany } from "@/data/semiconductor-market-cap";
 import { industryMapZones, type IndustryMapZoneId } from "@/data/industry-map";
+import { japanWorkCompanies, japanWorkEvidence } from "@/data/japan-work";
 
 export const rankingComparePath = "/guides/semiconductor-market-cap-ranking";
 export const comparisonCompanies = Array.from(new Map([...worldSemiconductorMarketCapRanking, ...japanSemiconductorMarketCapRanking].map(company => [company.id, company])).values());
@@ -21,6 +22,11 @@ export function comparisonMapId(company: SemiconductorMarketCapCompany) {
   return id && industryMapZones.some(zone => [...zone.companyIds, ...zone.supplementalCompanyIds].includes(id)) ? id : undefined;
 }
 export function domesticRank(id: string) { return japanSemiconductorMarketCapRanking.find(company => company.id === id)?.domesticRank; }
+// Both catalogs use the same fixed company IDs; never infer a match from names.
+export function comparisonJapanWorks(id: string) {
+  if (!comparisonCompanyById.has(id) || !japanWorkCompanies.some(company => company.companyId === id && company.status === "published")) return [];
+  return japanWorkEvidence.filter(work => work.companyId === id && work.status === "published");
+}
 export function addComparisonCompany(ids: readonly string[], id: string): { ids: string[]; notice: string } {
   if (!comparisonCompanyById.has(id) || ids.includes(id)) return { ids: [...ids], notice: "" };
   if (ids.length >= 2) return { ids: [...ids], notice: "比較は2社までです。選択中の会社を外してから追加してください。" };
@@ -38,8 +44,9 @@ export function rankingComparisonUrl(origin: string, ids: readonly string[]) {
   return `${origin}${rankingComparePath}#compare=${ids.join(",")}`;
 }
 export type CompareSource = "world" | "japan" | "example" | "shared_link";
+export type CompareDestination = "company" | "industry_map" | "japan_work";
 export type CompareAction = "entry_view" | "selection_start" | "result_view" | "related_click" | "copy_success";
-export function comparisonEventProperties(action: CompareAction, ids: readonly string[], source: CompareSource, destination?: "company" | "industry_map") {
+export function comparisonEventProperties(action: CompareAction, ids: readonly string[], source: CompareSource, destination?: CompareDestination) {
   const safeIds = ids.filter(id => comparisonCompanyById.has(id)).slice(0, 2);
   return { action, ...(action === "entry_view" ? {} : { source }), ...(safeIds[0] ? { company_a: safeIds[0] } : {}), ...(safeIds[1] ? { company_b: safeIds[1] } : {}), ...(destination ? { destination } : {}) };
 }

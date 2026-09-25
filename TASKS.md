@@ -2,6 +2,14 @@
 
 最終整理日: 2026-09-12
 
+## 2026-09-26：ランキング比較から日本の仕事へ接続
+
+- 主な事業の次に公開済みの業務を最大2件表示。共通企業IDで対応し、職種／事業機能、業務固有の勤務地、未確認事項、確認日、期限超過を併記。
+- 根拠ページの企業アンカーで折りたたみを開く。既存related_clickにdestination=japan_workを追加。比較仕様・導線文書を更新。
+- 実行：`node tests/unit/ranking-company-compare.cjs`、`npm run typecheck`（1回）、`git diff --check` は成功。`rg`で公開禁止語を検索し該当なし。
+- build・devサーバー・ブラウザ検証は未実施。本番反映・GA4受信は未確認。反映日から28日間の結果閲覧→日本の仕事への遷移を観測。commit・pushなし。
+- 推奨コミット：`feat: connect ranking comparisons to Japan work evidence`
+
 このファイルは、現在の作業と主要な完了履歴を管理します。プロダクト要件は `docs/PRD.md`、文書の役割は `docs/documentation-map.md` を正本とします。
 
 運用ルール:

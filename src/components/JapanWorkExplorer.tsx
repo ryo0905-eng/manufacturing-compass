@@ -29,6 +29,31 @@ export function JapanWorkExplorer({ companies, panels, asOf, children }: Props) 
   const compared = comparison.map((id) => published.find((company) => company.companyId === id)).filter((company) => company !== undefined);
 
   useEffect(() => {
+    function openEvidenceHash() {
+      const company = companies.find(item => item.status === "published" && item.works.some(work => work.status === "published") && window.location.hash === `#evidence-${item.companyId}`);
+      if (!company) return;
+      const details = document.getElementById(`evidence-${company.companyId}`);
+      if (!(details instanceof HTMLDetailsElement)) return;
+      details.open = true;
+      details.scrollIntoView({ block: "start", behavior: "instant" });
+      details.querySelector("summary")?.focus({ preventScroll: true });
+    }
+    function reopenEvidence(event: globalThis.MouseEvent) {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest("a") : null;
+      // A repeated click on the same fragment does not produce hashchange.
+      if (link?.getAttribute("href") === window.location.hash) openEvidenceHash();
+    }
+    openEvidenceHash();
+    window.addEventListener("hashchange", openEvidenceHash);
+    document.addEventListener("click", reopenEvidence);
+    return () => {
+      window.removeEventListener("hashchange", openEvidenceHash);
+      document.removeEventListener("click", reopenEvidence);
+    };
+  }, [companies]);
+
+  useEffect(() => {
     if (selection) {
       (window.matchMedia("(min-width: 1100px)").matches ? desktopHeading : mobileHeading).current?.focus({ preventScroll: true });
     }

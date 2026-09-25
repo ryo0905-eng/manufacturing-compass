@@ -12,6 +12,7 @@
 .cell p { margin: 6px 0; }
 .cell a { display: inline-block; margin: 5px 12px 5px 0; }
 .small { font-size: 13px; color: #52616c; }
+.work + .work { border-top: 1px dashed #d7dfe3; margin-top: 12px; padding-top: 12px; }
 .tray { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); width: min(700px,calc(100% - 24px)); z-index: 45; padding: 10px 14px; background: #fff; border: 1px solid #bacbd5; border-radius: 10px; box-shadow: 0 4px 20px #0002; }
 .tray .selection { margin: 0; }
 .tray p { margin: 5px 0; font-size: 13px; }

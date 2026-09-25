@@ -70,7 +70,7 @@
 .comparisonRows section > div > div { padding: 18px; min-width: 0; }
 .comparisonRows section > div > div + div { border-left: 1px solid var(--line); }
 .comparisonRows p { white-space: pre-line; font-size: .87rem; line-height: 1.9; overflow-wrap: anywhere; }
-.directory details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+.directory details { border-bottom: 1px solid var(--line); padding: 16px 0; scroll-margin-top: 100px; }
 .directory summary { cursor: pointer; min-height: 44px; padding: 10px 0; font-weight: 650; }
 .directory .details { max-width: 820px; }
 .pending { padding: 24px; background: #f4f6f7; border-radius: 16px; }

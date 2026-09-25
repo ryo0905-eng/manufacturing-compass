@@ -35,10 +35,20 @@
 | entry_view | 比較入口の見出しが実際に露出。マウント中1回 |
 | selection_start | 表で未選択から選び始めた時、または例を選んだ時。選択元ごとに1回 |
 | result_view | 比較結果見出しが実際に露出。選択元と順序付きペアごとに1回 |
-| related_click | 比較欄から企業詳細または業界地図へクリック |
+| related_click | 比較欄から企業詳細・業界地図・日本の仕事内容へクリック |
 | copy_success | クリップボード書き込み成功時だけ。手動コピー欄表示は含めない |
 
-属性はaction、source=world/japan/example/shared_link、company_a/company_b、destination=company/industry_mapに限定。entry_viewは選択前なのでsourceなし。表を跨いだ選択のsourceは1社目を選んだ表。共有復元はselection_startを送らず、result_viewのshared_linkで識別する。企業IDは既知のカタログから抽出し、URL全体・自由入力は送らない。コピー成功はSNS投稿成功ではない。
+属性はaction、source=world/japan/example/shared_link、company_a/company_b、destination=company/industry_map/japan_workに限定。entry_viewは選択前なのでsourceなし。表を跨いだ選択のsourceは1社目を選んだ表。共有復元はselection_startを送らず、result_viewのshared_linkで識別する。企業IDは既知のカタログから抽出し、URL全体・自由入力は送らない。コピー成功はSNS投稿成功ではない。
+
+## 日本の仕事への接続（2026-09-26）
+
+主な事業の次に「日本で確認できた仕事」を追加。ランキングと日本の仕事データの共通固定企業IDで結び、公開済み企業の公開済み業務を定義順に最大2件表示する。職種名／事業機能の区別、その業務の勤務地記述、未確認事項、確認日を併記し、会社所在地から勤務地を補完しない。既存の再確認期限判定を使用し、現在の募集状況を示さないことを明記する。未収録時は「日本での仕事内容は、この比較では未掲載です」とする。
+
+「仕事内容と根拠を見る」は `/companies/global-japan#evidence-企業ID` に移動する。遷移先は公開業務を持つ公開企業のみ受け付け、初回・hashchange・同じアンカーの再クリックで該当detailsを開き、スクロールしてsummaryへフォーカスする。無効IDや他のアンカーは変更しない。フィルター状態やランキングの比較共有URLは変更しない。
+
+リンクの計測は既存related_clickにdestination=japan_workを追加する。GA4設定の変更なし。本番反映日を起点に28日間、result_viewとjapan_workへのrelated_clickをセッション内で重複排除して観測する。少数データで収益効果を断定しない。本番反映・イベント受信は未確認。
+
+検証（2026-09-26）：`node tests/unit/ranking-company-compare.cjs` 成功。公開2社・片方のみ公開・両社未掲載、pending企業、draft/withdrawn業務の除外、共通企業ID整合、業務データの保持、期限当日／超過、japan_workのイベント属性を確認。既存の選択・共有URL・SSRの検証も成功。`npm run typecheck` は1回実行して成功、`git diff --check` 成功。公開禁止語の検索で該当なし。アンカーの初回・変更・同一リンク再クリック、無効IDの処理は静的確認のみ。build・devサーバー・ブラウザ検証は今回未実施。commit・pushなし。
 
 地図復元は既存 `industry_map_detail_view` のentry_point=shared_linkを使い、同一マウントの同じ企業は重複送信しない。GA4で新イベントの属性を分析する際は必要なイベントスコープのカスタムディメンションを登録する。企業の組み合わせは高カーディナリティになり得るため、まず操作・選択元・遷移先種別を集計する。
 

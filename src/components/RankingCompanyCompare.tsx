@@ -2,7 +2,9 @@
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { semiconductorMarketCapMeta } from "@/data/semiconductor-market-cap";
-import { addComparisonCompany, categoryExplanations, comparisonCompanyById, comparisonEventProperties, comparisonMapId, domesticRank, rankingComparisonUrl, readRankingComparisonHash, type CompareAction, type CompareSource } from "@/lib/ranking-company-compare";
+import { addComparisonCompany, categoryExplanations, comparisonCompanyById, comparisonEventProperties, comparisonJapanWorks, comparisonMapId, domesticRank, rankingComparisonUrl, readRankingComparisonHash, type CompareAction, type CompareDestination, type CompareSource } from "@/lib/ranking-company-compare";
+import { japanWorkRoute } from "@/data/japan-work";
+import { isJapanWorkReviewExpired } from "@/lib/japan-work";
 import { observeVisibleOnce } from "@/lib/observe-visible";
 import { trackEvent } from "@/lib/analytics";
 import styles from "./RankingCompanyCompare.module.css";
@@ -11,7 +13,7 @@ type Context = {
   ids: string[]; source: CompareSource; shown: boolean; notice: string;
   add: (id: string, source: CompareSource) => void; remove: (id: string) => void;
   open: () => void; example: (ids: [string,string]) => void;
-  record: (action: CompareAction, destination?: "company" | "industry_map") => void;
+  record: (action: CompareAction, destination?: CompareDestination) => void;
   heading: React.RefObject<HTMLHeadingElement | null>;
 };
 const CompareContext = createContext<Context | null>(null);
@@ -23,7 +25,7 @@ export function RankingCompanyCompareProvider({ children }: { children: ReactNod
   const [focusRequest, setFocusRequest] = useState(0);
   const heading = useRef<HTMLHeadingElement>(null);
   const seen = useRef(new Set<string>());
-  function emit(action: CompareAction, selected: readonly string[], origin: CompareSource, destination?: "company" | "industry_map") {
+  function emit(action: CompareAction, selected: readonly string[], origin: CompareSource, destination?: CompareDestination) {
     const key = action === "entry_view" ? action : `${action}:${origin}:${action === "selection_start" ? "" : selected.join(",")}`;
     if (["entry_view", "selection_start", "result_view"].includes(action)) {
       if (seen.current.has(key)) return;
@@ -88,6 +90,7 @@ export function RankingCompanyComparePanel() {
   </aside>;
 }
 function ComparisonResult({ context }: { context: Context }) {
+  const [asOf] = useState(() => new Date().toISOString().slice(0, 10));
   const [status, setStatus] = useState("");
   const [manual, setManual] = useState("");
   const [copying, setCopying] = useState(false);
@@ -107,6 +110,23 @@ function ComparisonResult({ context }: { context: Context }) {
     { title: "企業・国／地域", render: company => <p>{company.name} / {company.country}</p> },
     { title: "業界での役割", render: company => <><strong>{company.category}</strong>{categoryExplanations(company).map(zone => <p key={zone.label}>{zone.label}：{zone.description}</p>)}<small className={styles.small}>分類の一般的な説明です。各社の事業範囲は下欄も確認してください。</small></> },
     { title: "主な事業", render: company => <p>{company.mainBusiness}</p> },
+    { title: "日本で確認できた仕事", render: company => {
+      const works = comparisonJapanWorks(company.id);
+      if (!works.length) return <p>日本での仕事内容は、この比較では未掲載です。</p>;
+      return <>
+        {works.slice(0, 2).map(work => <div key={work.id} className={styles.work}>
+          <p className={styles.small}>{work.titleKind === "activity" ? "事業機能の紹介（職種名ではありません）" : "公式の職種名"}</p>
+          <p><strong>{work.officialTitle}</strong></p>
+          <p>勤務地・働く場所：{work.workplace}</p>
+          <p className={styles.small}>{work.unknowns}</p>
+          <p className={styles.small}>確認日：<time dateTime={work.checkedAt}>{work.checkedAt}</time></p>
+          {isJapanWorkReviewExpired(work, asOf) && <p className={styles.small}>再確認時期を過ぎています。前回確認時の情報です。</p>}
+        </div>)}
+        <p className={styles.small}>確認できた仕事の例です。現在の募集状況を示すものではありません。</p>
+        {works.length > 2 && <p className={styles.small}>ほか{works.length - 2}件の業務情報があります。</p>}
+        <a href={`${japanWorkRoute}#evidence-${company.id}`} onClick={() => context.record("related_click", "japan_work")}>仕事内容と根拠を見る →</a>
+      </>;
+    } },
     { title: "時価総額・順位", render: company => <><p><strong>{company.marketCapDisplay}</strong> / 世界{company.rank}位{domesticRank(company.id) ? ` / 日本${domesticRank(company.id)}位` : ""}</p><p className={styles.small}>基準日：{company.dataAsOf} / 米ドル</p><a href={company.sourceUrl}>数値の出典</a></> },
     { title: "さらに調べる", render: company => <>{company.companySlug && <a href={`/companies/${company.companySlug}`} onClick={() => context.record("related_click", "company")}>事業・仕事内容を見る →</a>}{comparisonMapId(company) && <a href={`/industry-map#company=${comparisonMapId(company)}`} onClick={() => context.record("related_click", "industry_map")}>この会社を業界地図で見る →</a>}{!company.companySlug && !comparisonMapId(company) && <p className={styles.small}>企業詳細・企業指定の地図は未収録です。</p>}</> },
   ];

@@ -4,6 +4,16 @@ const load=loader(),lib=load('src/lib/ranking-company-compare'),data=load('src/d
 const plain=x=>JSON.parse(JSON.stringify(x));
 assert.equal(data.worldSemiconductorMarketCapRanking.length,30);assert.equal(data.japanSemiconductorMarketCapRanking.length,10);assert.equal(lib.comparisonCompanies.length,38);
 const catalog=load('src/data/companies').companies;
+const japan=load('src/data/japan-work'),japanModel=load('src/lib/japan-work');
+for(const profile of japan.japanWorkCompanies){const ranked=lib.comparisonCompanyById.get(profile.companyId);if(ranked)assert.equal(catalog.find(c=>c.slug===ranked.companySlug)?.id,profile.companyId);}
+for(const [pair,expected] of [[['asml','micron'],[true,true]],[['nvidia','tsmc'],[false,true]],[['tokyo-electron','advantest'],[false,false]]])assert.deepEqual(pair.map(id=>lib.comparisonJapanWorks(id).length>0),expected);
+assert.equal(lib.comparisonJapanWorks('amd').length,0);assert.equal(lib.comparisonJapanWorks('unknown').length,0);
+const asmlWork=japan.japanWorkEvidence.find(w=>w.companyId==='asml'),asmlProfile=japan.japanWorkCompanies.find(c=>c.companyId==='asml');
+assert.equal(lib.comparisonJapanWorks('asml')[0],asmlWork); // Preserve the work-specific location and caveats.
+for(const status of ['draft','withdrawn']){asmlWork.status=status;assert.equal(lib.comparisonJapanWorks('asml').length,0);}asmlWork.status='published';
+asmlProfile.status='pending';assert.equal(lib.comparisonJapanWorks('asml').length,0);asmlProfile.status='published';
+assert.equal(japanModel.isJapanWorkReviewExpired(asmlWork,asmlWork.nextReviewAt),false);assert.equal(japanModel.isJapanWorkReviewExpired(asmlWork,'2099-01-01'),true);
+assert.deepEqual(plain(lib.comparisonEventProperties('related_click',['asml','micron'],'example','japan_work')),{action:'related_click',source:'example',company_a:'asml',company_b:'micron',destination:'japan_work'});
 for(const c of lib.comparisonCompanies){assert.match(c.id,/^[a-z0-9-]+$/);assert.equal(c.dataAsOf,data.semiconductorMarketCapMeta.dataAsOf);assert.ok(lib.categoryExplanations(c).every(z=>z.description));if(c.companySlug)assert.ok(catalog.some(x=>x.slug===c.companySlug));const id=lib.comparisonMapId(c);if(id)assert.ok(map.industryMapZones.some(z=>[...z.companyIds,...z.supplementalCompanyIds].includes(id)));}
 assert.equal(lib.comparisonMapId(lib.comparisonCompanyById.get('arm')),'arm');assert.equal(lib.comparisonMapId(lib.comparisonCompanyById.get('cxmt')),undefined);
 assert.deepEqual(plain(lib.addComparisonCompany(['tokyo-electron'],'tokyo-electron').ids),['tokyo-electron']);assert.match(lib.addComparisonCompany(['nvidia','tsmc'],'amd').notice,/2社まで/);assert.deepEqual(plain(lib.addComparisonCompany(['nvidia','tsmc'],'amd').ids),['nvidia','tsmc']);
