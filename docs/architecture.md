@@ -10,6 +10,8 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ## 技術構成
 
+- 工場プロジェクト比較：`factory-projects.ts` の静的データを記事一覧とClient Componentで共用。`factory-project-comparison.ts` が2件のID検証・出典付きコピー文を担当。GuideBlockにfactory-project-comparisonを追加し、既存記事へ組み込む。独立URL・保存・外部APIなし。[仕様](./factory-project-comparison-spec.md)。
+
 - 2026-09-23：平均の測定計画：`measurement-planner.ts` で文言・計算をdata/libに分離し、`MeasurementPlanner` が入力・明示計算・3案比較・コピーを担当。共通計測対象へ追加。SNS画像は計算を再利用する生成スクリプトで作成。仕様は `docs/measurement-planner-spec.md`。
 
 - Cpk・工程比較の保存再開：`tool-workspace.ts` がv1形式の生成・検証と許可項目の抽出を行い、`ToolWorkspaceFile` が端末ダウンロード・読込・置き換え確認を共通化する。UTF-8で2 MiB上限、日英共通、結果・生のエラー・サンプルIDは保存しない。読込失敗とキャンセルは親の入力を変更せず、確定時だけ入力を置き換えて結果・コピー・エラーを破棄する。再計算は明示操作。読込中と工程比較の出力中はファイル操作を無効にする。

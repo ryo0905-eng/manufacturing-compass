@@ -368,6 +368,8 @@ Career Compass
 
 ## ランキング内の2社比較（2026-09-23）
 
+関連する企業研究ツール（2026-09-26）：工場新設記事の5案件一覧→2案件の段階・予定比較→出典確認／比較メモコピー／企業詳細・拠点マップへ接続。factory_project_compareのstartは最初の選択、compareは比較要求であり露出や人数ではない。copy_successはClipboard API成功。固定action・source_slug・ui_versionのみ送信。独立ページや直接広告は追加しない。本番反映後28日間の利用を観測し、本番反映・受信は未確認。[仕様](./factory-project-comparison-spec.md)。
+
 2026-09-26：比較結果の主な事業の次に、既存の公開済み業務から日本の職種・勤務地・確認日を最大2件表示。`/companies/global-japan#evidence-企業ID` で対象の根拠を開く。既存ranking_company_compareのrelated_clickにdestination=japan_workを追加し、企業ペアとsourceは維持。未収録企業に勤務地を推定しない。本番反映後28日間の比較結果閲覧→日本の仕事への遷移を観測し、件数の比を人数の転換率とは扱わない。本番反映・GA4受信は未確認。
 
 時価総額ランキング表→2社比較→企業詳細／企業を選択した業界地図を接続。追加イベントranking_company_compareのactionはentry_view/selection_start/result_view/related_click/copy_success。既知企業ID・選択元・遷移先種別だけ送信し、初期表示を比較利用に数えない。共有リンクの結果露出はshared_linkとして別集計。本番反映後14日を最初の観測期間とし、GA4受信は未確認。[属性・重複防止・検証](./ranking-company-comparison-spec.md)。

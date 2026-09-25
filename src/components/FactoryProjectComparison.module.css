@@ -1,0 +1,14 @@
+.root { margin-block: 24px; padding: 20px; border: 1px solid #d7dfe3; border-radius: 12px; background: #f9fafb; min-width: 0; }
+.root p { line-height: 1.8; }
+.root :is(h3,h4,h5) { margin-block: 12px; }
+.pair { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+.pair > * { min-width: 0; overflow-wrap: anywhere; }
+.root label { display: block; font-weight: 600; }
+.root :is(select,textarea) { display: block; width: 100%; min-width: 0; box-sizing: border-box; padding: 10px; margin-top: 8px; border: 1px solid #b6c5ce; border-radius: 6px; background: white; color: #163e58; font: inherit; font-size: 16px; }
+.root button { min-height: 44px; padding: 10px 16px; margin-block: 16px; border: 1px solid #b6c5ce; border-radius: 6px; background: white; color: #163e58; font: inherit; cursor: pointer; }
+.root button:disabled { opacity: .55; cursor: default; }
+.root :is(button,select,textarea,a):focus-visible { outline: 3px solid #1673aa; outline-offset: 3px; }
+.heading { scroll-margin-top: 100px; }
+.row { border-top: 1px solid #d7dfe3; padding-block: 12px; }
+.note { color: #52616c; font-size: 14px; }
+@media (max-width:640px) { .root { padding: 16px; }.pair { grid-template-columns: 1fr; gap: 12px; }.pair > * + * { border-top: 1px dashed #d7dfe3; padding-top: 12px; } }

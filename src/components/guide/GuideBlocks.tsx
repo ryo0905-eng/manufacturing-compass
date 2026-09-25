@@ -8,6 +8,7 @@ import type { Route } from "next";
 import Image from "next/image";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
 import { SalaryRankingTable } from "@/components/SalaryRankingTable";
+import { FactoryProjectComparison } from "@/components/FactoryProjectComparison";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import type { GuideBlock } from "@/content/guides/types";
 import { readComparisonHash } from "@/lib/ranking-comparison";
@@ -28,6 +29,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
+        if (block.type === "factory-project-comparison") return <FactoryProjectComparison key={`factory-project-comparison-${index}`} />;
         if (block.type === "ranking-history") return <RankingHistoryArticle key={`ranking-history-${index}`} kind={block.kind} sourceSlug={sourceSlug ?? ""} />;
         if (block.type === "image") {
           return (

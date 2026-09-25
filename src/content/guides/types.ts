@@ -273,6 +273,9 @@ export type GuideBlock =
       type: "salary-ranking";
     }
   | {
+      type: "factory-project-comparison";
+    }
+  | {
       type: "faq";
       items: Array<{ question: string; answer: string }>;
     }

@@ -112,3 +112,4 @@ AI外観検査のWorker・WASM・配信アセットと実行確認の状態は [
 - [`docs/defect-pareto-spec.md`](./defect-pareto-spec.md): 不良分類別パレート図の入力・合算・計算・出力・公開・検証。
 
 - [`docs/job-posting-note-spec.md`](./job-posting-note-spec.md): 相談準備内の求人票確認ノート、質問再利用・状態・コピー・プライバシー・検証。
+- [`docs/factory-project-comparison-spec.md`](./factory-project-comparison-spec.md): 工場新設記事内の2案件比較、節目・予定の区別、出典・コピー・計測・確認範囲。
