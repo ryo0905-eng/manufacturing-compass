@@ -1,4 +1,5 @@
 import type { GuideArticle } from "@/content/guides/types";
+import { jobNoteMeta } from "@/data/job-posting-note";
 
 export const jobPostingSalaryRangeGuide: GuideArticle = {
   slug: "job-posting-salary-range",
@@ -24,7 +25,7 @@ export const jobPostingSalaryRangeGuide: GuideArticle = {
     "本記事はRYO本人の転職経験をもとにしています。会社名、求人レンジ、本人の年収、オファー額は公開せず、企業側の評価理由は本人の受け止めとして記載しています。",
   showCareerCtas: true,
   publishedAt: "2026-08-20",
-  updatedAt: "2026-08-20",
+  updatedAt: "2026-09-26",
   sources: [
     {
       title: "労働条件の明示",
@@ -163,6 +164,18 @@ export const jobPostingSalaryRangeGuide: GuideArticle = {
     {
       id: "range-and-written-offer",
       heading: "求人票のレンジと、最終条件の書面を分けて確認する",
+      blocks: [
+        {
+          type: "links",
+          items: [
+            {
+              label: "求人票で分からなかった待遇を、確認する質問にする",
+              href: jobNoteMeta.href,
+              description: "「給与・待遇の内訳」に記載が見つからない、意味が曖昧などの状況を選び、確認ノートを作れます。この項目だけでも利用でき、会社名・年収額の入力は不要です。回答は保存されないため、作ったノートをコピーして持ち帰れます。",
+            },
+          ],
+        },
+      ],
       paragraphs: [
         "厚生労働省は、求人票や募集要項で賃金などの労働条件を確認し、労働契約を結ぶときには労働条件通知書等で条件を確認するよう案内しています。契約時の明示事項には、賃金の決定・計算・支払方法や、会社に定めがある場合の賞与等も含まれます。",
         "求人票の年収レンジは、応募先を選ぶ段階で使う数字です。最終的に受ける条件は、オファーレターや労働条件通知書などの書面で内訳まで確認します。",

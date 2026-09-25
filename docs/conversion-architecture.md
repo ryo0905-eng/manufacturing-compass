@@ -238,6 +238,9 @@ Career Compass
 
 ### 相談先への到達と変更前後の比較
 
+- 2026-09-26：年収ランキングの企業研究4ステップと、求人票の年収レンジ記事の最終確認セクションから、既存 `/career-consultation#job-posting-note` へ直接接続。給与・待遇だけでも記載状況を選んでノートを作れること、金額入力不要を説明する。年収試算や個別オファーの推定は追加しない。記事タイトル・給与数値・出典確認日は変更せず、導線更新日だけ更新する。
+- 当該リンクは既存 `article_internal_click` の `source_slug` と `destination_path` で識別。ノートの `job_posting_note` のview/start/result/copy_successとは分け、本番反映後28日間の同一セッションの遷移・利用を確認する。クリック件数を成果や転職成約として扱わない。本番反映・受信は未確認。
+
 - `career_agents_cta_click`: 記事・企業詳細などの共通CTAから `/career-agents` へ進むクリック。`source_page` はクエリ・ハッシュを含まないページパス、`cta_location` は `shared_affiliate_cta`、`destination_path` は `/career-agents`。広告の外部クリックとは分ける。
 - 記事本文の関連リンクは既存の `article_internal_click` を維持し、`source_slug` と `destination_path` で集計する。ランキングの企業研究案内から勤務地・職種記事・待遇記事・相談先への遷移もここに含む。同じクリックで新イベントを重ねて送らない。
 - Compass結果から相談先へ進む行動は `career_compass_agent_click`、実際の広告クリエイティブのクリックは `affiliate_outbound_click`。相談先ページの閲覧・広告クリック・ASPの発生／確定成果を別々に観察する。

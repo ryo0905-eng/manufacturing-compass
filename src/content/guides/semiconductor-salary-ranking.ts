@@ -1,4 +1,5 @@
 import type { GuideArticle } from "@/content/guides/types";
+import { jobNoteMeta } from "@/data/job-posting-note";
 
 export const semiconductorSalaryRankingGuide: GuideArticle = {
   slug: "semiconductor-salary-ranking",
@@ -20,8 +21,8 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
     "平均年間給与は1万円単位の概数で表示し、持株会社と事業会社、決算期の違いを表内に明記",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-09-06",
-  basisNote: "給与データの確認日は2026年7月14日です。2026年9月6日は対象範囲・確認時点を明確にした文章の更新日で、給与数値は再調査していません。",
+  updatedAt: "2026-09-26",
+  basisNote: "給与データの確認日は2026年7月14日です。2026年9月6日に対象範囲・確認時点の説明を、2026年9月26日に求人票の確認ノートへの導線を更新しました。給与数値は再調査していません。",
   sources: [
     { title: "EDINET", url: "https://disclosure2.edinet-fsa.go.jp/", publisher: "金融庁", accessedAt: "2026-07-14" },
     { title: "有価証券報告書等", url: "https://www.disco.co.jp/jp/ir/ugc/", publisher: "ディスコ", accessedAt: "2026-07-14" },
@@ -209,6 +210,7 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "求人票の給与・待遇で、確認したいことを整理する", href: jobNoteMeta.href, description: "手元の求人票を見ながら「給与・待遇の内訳」の記載状況を選ぶと、不明点を確認する質問を作れます。給与の項目だけでも開始でき、金額・会社名の入力は不要です。" },
             { label: "半導体業界地図を見る", href: "/industry-map", description: "企業がバリューチェーンのどこを担うか確認する" },
             { label: "企業一覧を見る", href: "/companies", description: "職種、勤務地、企業分類から候補を広げる" },
             { label: "時価総額ランキング", href: "/guides/semiconductor-market-cap-ranking", description: "給与とは別の企業規模・市場評価を比較する" },
