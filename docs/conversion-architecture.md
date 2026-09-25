@@ -268,6 +268,14 @@ Career Compass
 
 ## Cpk学習比較の計測（2026-09-06）
 
+### 結果から学習への接続（2026-09-26）
+
+日本語Cpkの結果欄から「動かして理解」へ切り替えるボタンと、指標の見方へのページ内リンクを追加。教材へ切り替えても計算コンポーネントはアンマウントせず入力を保持し、測定値を教材へ転送しない。ボタンから切り替えた時は教材へスクロール・フォーカスする。教材の説明後からページ末尾の既存講座案内へ接続し、広告であることを入口にも表示する。講座CTAは1か所のみ。
+
+既存 `cpk_related_content_click` に固定の `destination=learning_simulator/reading_guide/statistics_learning`、`placement=result/learning` を使用する。教材への切替は既存 `cpk_tool_view_changed` も維持するが、入口クリックとは別の指標として扱い、合算しない。講座への外部クリックは既存 `affiliate_outbound_click`、`source_page=/tools/cpk`、`cta_location=statistics_learning_after_content` を維持。計算値・入力値は送信しない。初期サンプルからも導線は表示されるので、クリックを実データ計算完了と解釈しない。
+
+講座案内は、無料の解説・教材で確認できる範囲と、受講前にカリキュラム・前提知識を確認することを明記。未確認の講座内容・受講歴・価格を追加しない。日本語Cpk以外の教材には導線を追加しない。本番反映日から28日間、結果から教材への利用、講座案内への移動、広告クリックを分けて観測する。本番反映・GA4受信は未確認。
+
 既存のcpk_tool_view_changedは実際のモード変更時だけ送信。cpk_learning_preset_selectedは維持する。cpk_learning_control_usedは値が変わったスライダー項目をページ利用中に各1回、control（mean / standardDeviation / lsl / usl）のみ送る。cpk_learning_baseline_set、cpk_learning_resetは該当ボタン操作を記録する。切替・リセットでも操作済み項目の記録は維持し、再読込でリセットする。学習操作からcpk_calculation_completedを送らず、数値・測定データも送信しない。公開後4週間の学習モード切替・操作・基準設定を観察するが、理解度そのものとは扱わない。
 
 ## 相談準備から相談先への出口（2026-09-06）

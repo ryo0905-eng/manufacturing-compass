@@ -5,6 +5,7 @@ import { confirmInputReplacement, wouldReplaceInput } from "@/lib/confirm-input-
 import { ToolWorkspaceFile } from "@/components/ToolWorkspaceFile";
 
 import { PracticalToolNextSteps } from "@/components/PracticalToolNextSteps";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 
 import { cpkText, type CpkLocale } from "@/data/cpk-text";
 
@@ -102,7 +103,7 @@ function copyText(result: CapabilityResult, locale: CpkLocale) {
   ].filter(Boolean).join("\n");
 }
 
-export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
+export function CpkCalculator({ locale = "ja", onLearn }: { locale?: CpkLocale; onLearn?: () => void } = {}) {
   const t = (text: string) => cpkText(locale, text);
   const [state, setState] = useState<ToolState>(() => sampleState(initialCapabilitySample));
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -277,6 +278,14 @@ export function CpkCalculator({ locale = "ja" }: { locale?: CpkLocale } = {}) {
             </dl></section>
             <section className="result-section result-checks"><h3>{t("確認候補")}</h3><ul>{analysis.checks.map((check) => <li key={check}>{t(check)}</li>)}</ul></section>
           </details>
+          {locale === "ja" && <section className="result-section" aria-labelledby="cpk-result-learning-title">
+            <h3 id="cpk-result-learning-title">この結果の意味を理解する</h3>
+            <p>平均のずれとばらつきが指数にどう影響するか、教材で試せます。計算中の入力は保持し、教材へは転送しません。</p>
+            <div className={styles.actions}>
+              {onLearn && <Button variant="text" onClick={onLearn}>平均とばらつきを動かして理解する</Button>}
+              <TrackedInternalLink href="#cpk-reading-guide" eventName="cpk_related_content_click" eventProperties={{ destination: "reading_guide", placement: "result" }}>Cp・CpkとPp・Ppkの違いを読む</TrackedInternalLink>
+            </div>
+          </section>}
           <PracticalToolNextSteps tool="cpk" locale={locale} />
         </div> : <div className="empty-result"><p>{t(state.needsCalculation ? "入力が変更されました。再計算してください。" : "測定データと規格値を入力すると、ここに計算結果が表示されます。")}</p><small>{t("入力値や計算結果が外部へ送信されることはありません。")}</small></div>}
       </section>

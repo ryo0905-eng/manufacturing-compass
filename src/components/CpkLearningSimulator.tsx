@@ -1,6 +1,7 @@
 "use client";
 
 import { cpkText, type CpkLocale } from "@/data/cpk-text";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 
 import { Button, ButtonLink, Notice } from "@/components/ui/Controls";
 import { useEffect, useReducer, useRef, useState } from "react";
@@ -86,5 +87,9 @@ export function CpkLearningSimulator({ locale = "ja" }: { locale?: CpkLocale } =
       <table><caption>{t("条件の比較")}</caption><thead><tr><th scope="col">{t("項目")}</th><th scope="col">{t("基準")}</th><th scope="col">{t("現在")}</th></tr></thead><tbody>{learningControls.map(control => <tr key={control.key}><th scope="row">{t(control.label)}</th><td>{baseline[control.key].toFixed(2)}</td><td>{current[control.key].toFixed(2)}</td></tr>)}</tbody></table>
       <aside><Notice><strong>{t("学習用の理論例です")}</strong><p>{t("正規分布と入力した平均・短期標準偏差を前提にしています。Cpkだけで工程の安定性や実際の規格外率を判断することはできません。1.33は品質を保証する境界ではありません。")}</p><ButtonLink variant="text" href="https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm" target="_blank" rel="noopener noreferrer">{t("出典：NIST 工程能力の解説")}</ButtonLink><p>{t("出典確認日：2026年9月6日")}</p></Notice></aside>
     </section>
+    {locale === "ja" && <nav className="tool-related-links" aria-label="統計の基礎を学ぶ次の一歩">
+      <p>平均・標準偏差・分布を体系的に学び直したい方へ。</p>
+      <TrackedInternalLink href="#statistics-course-title" eventName="cpk_related_content_click" eventProperties={{ destination: "statistics_learning", placement: "learning" }}>動画で学ぶ選択肢を見る（広告の案内へ） →</TrackedInternalLink>
+    </nav>}
   </div>;
 }

@@ -15,6 +15,16 @@ export function CpkToolExperience({ locale = "ja" }: { locale?: CpkLocale } = {}
   const t = (text: string) => cpkText(locale, text);
   const [view, setView] = useState<ToolView>("calculate");
   const hasTrackedView = useRef(false);
+  const learningPanel = useRef<HTMLDivElement>(null);
+  const focusLearning = useRef(false);
+
+  useEffect(() => {
+    if (view === "learn" && focusLearning.current) {
+      focusLearning.current = false;
+      learningPanel.current?.scrollIntoView({ block: "start", behavior: "instant" });
+      learningPanel.current?.focus({ preventScroll: true });
+    }
+  }, [view]);
 
   useEffect(() => {
     if (hasTrackedView.current) return;
@@ -38,8 +48,12 @@ export function CpkToolExperience({ locale = "ja" }: { locale?: CpkLocale } = {}
           <span className={styles.modeLabel}><strong>{t("動かして理解")}</strong><span>{t("平均とばらつきを学ぶ")}</span></span>
         </SelectionButton>
       </nav>
-      <div hidden={view !== "calculate"} inert={view !== "calculate"}><CpkCalculator locale={locale} /></div>
-      <div hidden={view !== "learn"} inert={view !== "learn"}><CpkLearningSimulator locale={locale} /></div>
+      <div hidden={view !== "calculate"} inert={view !== "calculate"}><CpkCalculator locale={locale} onLearn={() => {
+        focusLearning.current = true;
+        trackEvent("cpk_related_content_click", { destination: "learning_simulator", placement: "result" });
+        selectView("learn");
+      }} /></div>
+      <div ref={learningPanel} tabIndex={-1} aria-label={t("平均とばらつきを学ぶ")} style={{ scrollMarginTop: 100 }} hidden={view !== "learn"} inert={view !== "learn"}><CpkLearningSimulator locale={locale} /></div>
     </section>
   );
 }
