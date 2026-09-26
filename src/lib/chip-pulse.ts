@@ -49,8 +49,14 @@ export function getDefaultPulseFilters(): PulseFilters {
   return { ...emptyFilters };
 }
 
+export function pulseRegionMatches(region: PulseCompany["region"], selectedRegion: PulseFilters["region"]) {
+  if (selectedRegion === "Global") return true;
+  if (selectedRegion === "Asia") return ["Japan", "Taiwan", "Korea", "China"].includes(region);
+  return region === selectedRegion;
+}
+
 export function companyMatchesFilters(company: PulseCompany, filters: PulseFilters) {
-  return (filters.region === "Global" || company.region === filters.region)
+  return pulseRegionMatches(company.region, filters.region)
     && (filters.category === "All" || company.category === filters.category)
     && (filters.theme === "All" || company.themes.includes(filters.theme));
 }
@@ -63,7 +69,7 @@ function tagsMatchFilters(
   item: Pick<PulseSignal, "regions" | "categories" | "themes">,
   filters: PulseFilters,
 ) {
-  return (filters.region === "Global" || item.regions.includes(filters.region))
+  return item.regions.some((region) => pulseRegionMatches(region, filters.region))
     && (filters.category === "All" || item.categories.includes(filters.category))
     && (filters.theme === "All" || item.themes.includes(filters.theme));
 }

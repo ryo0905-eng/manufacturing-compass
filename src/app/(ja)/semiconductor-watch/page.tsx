@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ChipPulseDashboard } from "@/components/chip-pulse/ChipPulseDashboard";
 import { StructuredData } from "@/components/StructuredData";
-import { pulseCompanies, pulseDisplayDate, pulseMarketCapAsOf, pulseSignals, pulseUpdatedAt } from "@/data/chip-pulse";
-import { calculatePulseKpis, formatPulseChange } from "@/lib/chip-pulse";
+import { pulseDisplayDate, pulseMarketCapAsOf, pulseUpdatedAt } from "@/data/chip-pulse";
 import { siteUrl } from "@/lib/format";
 import styles from "./page.module.css";
 
@@ -24,8 +23,6 @@ export const metadata: Metadata = {
 };
 
 export default function SemiconductorWatchPage() {
-  const headlineKpis = calculatePulseKpis(pulseCompanies, pulseSignals);
-
   return (
     <main className={styles.page}>
       <StructuredData data={{
@@ -66,11 +63,6 @@ export default function SemiconductorWatchPage() {
             <path d="M2 59 C28 58 34 47 56 49 S91 61 112 43 S149 18 169 30 S205 48 225 25 S260 13 298 6" />
             <circle cx="298" cy="6" r="4" />
           </svg>
-          <dl>
-            <div><dt>GLOBAL</dt><dd>{formatPulseChange(headlineKpis.weightedChange)}</dd></div>
-            <div><dt>LEAD THEME</dt><dd>{headlineKpis.topTheme}</dd></div>
-            <div><dt>SIGNALS</dt><dd>{headlineKpis.signalCount}</dd></div>
-          </dl>
         </aside>
       </header>
 
@@ -81,15 +73,6 @@ export default function SemiconductorWatchPage() {
       </aside>
 
       <ChipPulseDashboard />
-
-      <section className={styles.method} aria-labelledby="chip-pulse-method-title">
-        <div><p>HOW TO READ</p><h2 id="chip-pulse-method-title">ニュースを並べず、関係をたどる</h2></div>
-        <ol>
-          <li><span>01</span><strong>全体の強弱を見る</strong><p>KPIとHeatmapで、動いている企業・セクターを把握します。</p></li>
-          <li><span>02</span><strong>条件を重ねる</strong><p>地域、カテゴリ、テーマを組み合わせて、同じ材料の広がりを確認します。</p></li>
-          <li><span>03</span><strong>既存データへ進む</strong><p>企業情報、ランキング、業界地図、工場マップで背景を深掘りします。</p></li>
-        </ol>
-      </section>
     </main>
   );
 }

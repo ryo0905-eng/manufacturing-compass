@@ -10,7 +10,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ## 技術構成
 
-- Chip Pulse：`chip-pulse.ts` が企業ID、デモ騰落、シグナル、テーマ、イベントを保持し、`lib/chip-pulse.ts` が複合フィルター、KPI、依存なしの矩形分割を担当する。`/semiconductor-watch` のServer Componentがmetadata・構造化データ・注意書きを出力し、Client Componentが選択状態だけをブラウザ内で管理する。時価総額と工場案件は既存静的データを参照し、デモ値と出典付きデータを表示上も分離する。API、永続化、URL状態は追加しない。
+- Chip Pulse：`chip-pulse.ts` が企業ID、デモ騰落、シグナル、影響工程、テーマ、イベントを保持し、`lib/chip-pulse.ts` が複合フィルター、KPI、依存なしの矩形分割を担当する。`/semiconductor-watch` のServer Componentがmetadata・構造化データ・注意書きを出力し、Client Componentが選択状態だけをブラウザ内で管理する。時価総額と工場案件は既存静的データを参照し、デモ値と出典付きデータを表示上も分離する。API、永続化、URL状態は追加しない。実データ化の取得順・スナップショット境界・情報源判断は `docs/chip-pulse-data-plan.md` を参照する。
 
 - 工場プロジェクト比較：`factory-projects.ts` の静的データを記事一覧とClient Componentで共用。`factory-project-comparison.ts` が2件のID検証・出典付きコピー文を担当。GuideBlockにfactory-project-comparisonを追加し、既存記事へ組み込む。独立URL・保存・外部APIなし。[仕様](./factory-project-comparison-spec.md)。
 

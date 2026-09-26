@@ -1,9 +1,9 @@
 .page {
   display: grid;
   width: min(1180px, calc(100% - 40px));
-  gap: 14px;
+  gap: 10px;
   margin: 0 auto;
-  padding: 12px 0 72px;
+  padding: 8px 0 56px;
   color: var(--mc-text);
 }
 
@@ -13,8 +13,8 @@
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(330px, .72fr);
-  gap: clamp(32px, 6vw, 76px);
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr);
+  gap: clamp(24px, 5vw, 58px);
   align-items: center;
   overflow: hidden;
   border: 1px solid #d7e2ec;
@@ -22,13 +22,13 @@
   background:
     radial-gradient(circle at 88% 5%, rgba(92, 120, 206, .19), transparent 34%),
     linear-gradient(135deg, #f4f9fd 0%, #eef4fa 52%, #f4f1f8 100%);
-  padding: 32px 40px;
+  padding: 20px 28px;
 }
 .heroCopy > p:first-child, .method > div > p { color: #526579; font-size: 10px; font-weight: 800; letter-spacing: .13em; }
-.hero h1 { margin-top: 8px; font-size: clamp(31px, 3.8vw, 46px); letter-spacing: -.035em; line-height: 1.08; }
+.hero h1 { margin-top: 5px; font-size: clamp(29px, 3.3vw, 40px); letter-spacing: -.035em; line-height: 1.05; }
 .hero h1 span { display: block; margin-bottom: 6px; color: #315b7e; font-size: .42em; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .hero h1 em { color: #315b7e; font-style: normal; }
-.lead { max-width: 650px; margin-top: 13px; color: #52616f; font-size: 13px; line-height: 1.7; }
+.lead { max-width: 650px; margin-top: 9px; color: #52616f; font-size: 12px; line-height: 1.55; }
 
 .heroSignal {
   position: relative;
@@ -38,23 +38,18 @@
   background: linear-gradient(145deg, #17364d, #255b69);
   box-shadow: 0 18px 45px rgba(27, 65, 91, .18);
   color: #fff;
-  padding: 17px;
+  padding: 13px 15px 9px;
 }
 .signalHeading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .signalHeading > span { color: rgba(255,255,255,.58); font-size: 9px; font-weight: 800; letter-spacing: .12em; }
 .signalHeading b { display: inline-flex; align-items: center; gap: 5px; color: #a7edc9; font-size: 9px; letter-spacing: .08em; }
 .signalHeading i { width: 7px; height: 7px; border-radius: 50%; background: #61d79c; box-shadow: 0 0 0 5px rgba(97,215,156,.12); }
-.heroSignal > strong { display: block; margin-top: 13px; font-size: clamp(25px, 2.7vw, 33px); letter-spacing: -.02em; }
+.heroSignal > strong { display: block; margin-top: 10px; font-size: clamp(22px, 2.3vw, 29px); letter-spacing: -.02em; }
 .heroSignal > p { margin-top: 5px; color: rgba(255,255,255,.7); font-size: 11px; }
-.heroSignal svg { display: block; width: 100%; height: 56px; margin-top: 7px; overflow: visible; }
+.heroSignal svg { display: block; width: 100%; height: 40px; margin-top: 5px; overflow: visible; }
 .heroSignal path { fill: none; stroke: #77e0b1; stroke-width: 3; stroke-linecap: round; filter: drop-shadow(0 4px 7px rgba(119,224,177,.3)); }
 .heroSignal circle { fill: #fff; stroke: #77e0b1; stroke-width: 3; }
-.heroSignal dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,.16); padding-top: 12px; }
-.heroSignal dl div + div { border-left: 1px solid rgba(255,255,255,.14); padding-left: 12px; }
-.heroSignal dt { color: rgba(255,255,255,.5); font-size: 8px; font-weight: 700; letter-spacing: .08em; }
-.heroSignal dd { margin-top: 3px; font-size: 15px; font-weight: 750; font-variant-numeric: tabular-nums; }
-
-.demoNotice { display: grid; grid-template-columns: 150px 1fr auto; gap: 14px; align-items: center; border: 1px solid #dfd6bd; border-radius: 10px; background: #fffaf0; padding: 10px 14px; }
+.demoNotice { display: grid; grid-template-columns: 138px 1fr auto; gap: 12px; align-items: center; border: 1px solid #dfd6bd; border-radius: 9px; background: #fffaf0; padding: 7px 12px; }
 .demoNotice strong { font-size: 12px; }
 .demoNotice p { color: var(--mc-text-muted); font-size: 10px; line-height: 1.6; }
 .demoNotice dl { display: flex; gap: 16px; }
@@ -62,21 +57,11 @@
 .demoNotice dt { color: var(--mc-text-muted); font-size: 8px; text-transform: uppercase; }
 .demoNotice dd { font-size: 9px; font-weight: 650; font-variant-numeric: tabular-nums; }
 
-.method { display: grid; grid-template-columns: 280px 1fr; gap: 44px; margin-top: 36px; border-top: 1px solid var(--mc-border-strong); padding-top: 24px; }
-.method h2 { margin-top: 5px; font-size: 21px; }
-.method ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 0; list-style: none; }
-.method li { border-left: 1px solid var(--mc-border); padding-left: 14px; }
-.method li span { color: var(--mc-selection); font-size: 9px; font-weight: 800; }
-.method li strong { display: block; margin-top: 5px; font-size: 12px; }
-.method li p { margin-top: 5px; color: var(--mc-text-muted); font-size: 10px; line-height: 1.55; }
-
 @media (max-width: 760px) {
   .page { width: calc(100% - 28px); padding-top: 8px; }
-  .hero { grid-template-columns: 1fr; gap: 24px; align-items: start; border-radius: 14px; padding: 26px 18px 18px; }
+  .hero { grid-template-columns: 1fr; gap: 16px; align-items: start; border-radius: 14px; padding: 22px 18px 15px; }
   .hero h1 { font-size: 34px; }
   .heroSignal { padding: 16px; }
   .demoNotice { grid-template-columns: 1fr; gap: 4px; }
   .demoNotice dl { margin-top: 5px; }
-  .method { grid-template-columns: 1fr; gap: 18px; }
-  .method ol { grid-template-columns: 1fr; }
 }

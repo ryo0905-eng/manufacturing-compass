@@ -9,11 +9,12 @@ function sparklinePoints(values: number[]) {
 }
 
 export function ThemePulse({ themes }: { themes: PulseTheme[] }) {
+  const highlightedThemes = [...themes].sort((a, b) => b.score - a.score).slice(0, 4);
   return (
     <section className={styles.sectionPanel} aria-labelledby="theme-pulse-title">
-      <header className={styles.sectionHeading}><div><span>THEME PULSE / DEMO</span><h2 id="theme-pulse-title">テーマの温度差</h2></div><p>7観測点の方向感</p></header>
-      {themes.length > 0 ? <div className={styles.themeGrid}>
-        {themes.map((theme) => (
+      <header className={styles.sectionHeading}><div><span>THEME PULSE / DEMO</span><h2 id="theme-pulse-title">いま動く4テーマ</h2></div><p>Pulse上位 / 7観測点</p></header>
+      {highlightedThemes.length > 0 ? <div className={styles.themeGrid}>
+        {highlightedThemes.map((theme) => (
           <article className={styles[`direction_${theme.direction}`]} key={theme.id}>
             <div><span>{theme.id}</span><strong>{theme.label}</strong><p>{theme.note}</p></div>
             <svg viewBox="0 0 100 34" role="img" aria-label={`${theme.label}の7観測点の推移`}><polyline points={sparklinePoints(theme.series)} /></svg>

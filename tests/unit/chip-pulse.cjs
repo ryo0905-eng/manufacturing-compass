@@ -44,6 +44,9 @@ for (const company of data.pulseCompanies) {
 const companyIds = new Set(data.pulseCompanies.map((company) => company.id));
 for (const signal of data.pulseSignals) {
   assert.ok(signal.companyIds.every((id) => companyIds.has(id)), signal.id);
+  assert.ok(companyIds.has(signal.primaryCompanyId), signal.id);
+  assert.ok(signal.companyIds.includes(signal.primaryCompanyId), signal.id);
+  assert.ok(signal.processes.length > 0, signal.id);
   assert.ok(signal.importance >= 1 && signal.importance <= 3);
 }
 for (const event of data.pulseEvents) assert.ok(event.companyIds.every((id) => companyIds.has(id)), event.id);
@@ -60,6 +63,12 @@ assert.equal(
 );
 assert.equal(lib.filterPulseSignals(data.pulseSignals, japanEquipmentHbm, "advantest").every((signal) => signal.companyIds.includes("advantest")), true);
 assert.equal(lib.filterPulseEvents(data.pulseEvents, japanEquipmentHbm, "advantest").every((event) => event.companyIds.includes("advantest")), true);
+
+const asiaFoundry = { region: "Asia", category: "Foundry", theme: "All" };
+assert.equal(
+  lib.filterPulseCompanies(data.pulseCompanies, asiaFoundry).map((company) => company.id).sort().join(","),
+  "smic,tsmc",
+);
 
 const filteredCompanies = lib.filterPulseCompanies(data.pulseCompanies, japanEquipment);
 const filteredSignals = lib.filterPulseSignals(data.pulseSignals, japanEquipment, null);
@@ -91,4 +100,4 @@ for (let left = 0; left < layout.rects.length; left += 1) {
   }
 }
 
-console.log("Chip Pulse: data references, filters, KPIs and treemap geometry passed.");
+console.log("Chip Pulse: data references, region groups, filters, KPIs and treemap geometry passed.");

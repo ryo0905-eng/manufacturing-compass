@@ -10,6 +10,7 @@ export const pulseMarketCapAsOf = semiconductorMarketCapMeta.dataAsOf;
 
 export const pulseRegions = ["Japan", "US", "Taiwan", "Korea", "China", "Europe"] as const;
 export type PulseRegion = (typeof pulseRegions)[number];
+export type PulseRegionFilter = "Global" | "Asia" | PulseRegion;
 
 export const pulseCategories = ["Fabless", "Foundry", "Equipment", "Memory", "Materials", "IDM"] as const;
 export type PulseCategory = (typeof pulseCategories)[number];
@@ -27,10 +28,22 @@ export const pulseThemeIds = [
 export type PulseThemeId = (typeof pulseThemeIds)[number];
 
 export type PulseFilters = {
-  region: "Global" | PulseRegion;
+  region: PulseRegionFilter;
   category: "All" | PulseCategory;
   theme: "All" | PulseThemeId;
 };
+
+export const pulseProcessLabels = {
+  Design: "設計",
+  Lithography: "露光",
+  Deposition: "成膜",
+  Etch: "エッチング",
+  Metrology: "検査・計測",
+  Assembly: "後工程・実装",
+  Test: "テスト",
+  Materials: "材料",
+} as const;
+export type PulseProcess = keyof typeof pulseProcessLabels;
 
 export type PulseCompany = {
   id: string;
@@ -52,7 +65,9 @@ export type PulseSignal = {
   title: string;
   summary: string;
   impact: string;
+  primaryCompanyId: string;
   companyIds: string[];
+  processes: PulseProcess[];
   regions: PulseRegion[];
   categories: PulseCategory[];
   themes: PulseThemeId[];
@@ -93,6 +108,18 @@ export type PulseBriefLine = {
   priority: number;
 };
 
+export type PulseSnapshot = {
+  schemaVersion: 1;
+  mode: "demo" | "live";
+  asOf: string;
+  marketCapAsOf: string;
+  companies: PulseCompany[];
+  signals: PulseSignal[];
+  themes: PulseTheme[];
+  events: PulseEvent[];
+  briefLines: PulseBriefLine[];
+};
+
 const marketCapRows = [...worldSemiconductorMarketCapRanking, ...japanSemiconductorMarketCapRanking];
 
 function marketCap(id: string) {
@@ -127,16 +154,16 @@ export const pulseCompanies: PulseCompany[] = [
 ];
 
 export const pulseSignals: PulseSignal[] = [
-  { id: "micron-hbm", occurredAt: "2026-09-26T06:40:00+09:00", timeLabel: "06:40", title: "Micron：HBM増産計画を発表", summary: "AI向けメモリ需要を背景に、次世代HBMの供給能力拡大を示した想定シグナルです。", impact: "メモリ企業だけでなく、成膜・エッチング・テスト装置への波及を探索できます。", companyIds: ["micron", "sk-hynix", "advantest"], regions: ["US", "Korea", "Japan"], categories: ["Memory", "Equipment"], themes: ["AI", "HBM"], importance: 3, tone: "positive", kind: "investment" },
-  { id: "asml-regulation", occurredAt: "2026-09-26T05:55:00+09:00", timeLabel: "05:55", title: "ASML：中国向け輸出規制の観測", summary: "露光装置の輸出条件を巡る報道が装置セクターの変動要因になった想定です。", impact: "欧州装置企業と中国ファウンドリの両方に関連するため、地域横断で確認します。", companyIds: ["asml", "smic"], regions: ["Europe", "China"], categories: ["Equipment", "Foundry"], themes: ["EUV", "China", "Foundry"], importance: 3, tone: "mixed", kind: "policy" },
-  { id: "tsmc-capex", occurredAt: "2026-09-26T04:20:00+09:00", timeLabel: "04:20", title: "TSMC：設備投資計画を更新", summary: "先端プロセスと先端パッケージへの投資配分が注目された想定ニュースです。", impact: "ファウンドリから装置、検査、後工程までの関連企業を追う起点になります。", companyIds: ["tsmc", "applied-materials", "tokyo-electron", "disco"], regions: ["Taiwan", "US", "Japan"], categories: ["Foundry", "Equipment"], themes: ["AI", "EUV", "Advanced Packaging", "Foundry"], importance: 3, tone: "positive", kind: "investment" },
-  { id: "nvidia-ai-demand", occurredAt: "2026-09-26T02:35:00+09:00", timeLabel: "02:35", title: "NVIDIA：AIアクセラレーター需要が継続", summary: "データセンター投資の継続が関連企業のセンチメントを支えた想定です。", impact: "GPU単体ではなく、ファウンドリ、HBM、テストまで一連の供給網を確認します。", companyIds: ["nvidia", "tsmc", "sk-hynix", "advantest"], regions: ["US", "Taiwan", "Korea", "Japan"], categories: ["Fabless", "Foundry", "Memory", "Equipment"], themes: ["AI", "HBM", "Advanced Packaging"], importance: 3, tone: "positive", kind: "market" },
-  { id: "tel-product", occurredAt: "2026-09-25T23:10:00+09:00", timeLabel: "23:10", title: "Tokyo Electron：新プロセス装置を発表", summary: "微細化と積層化を支える新製品が材料・装置株の比較材料になった想定です。", impact: "製品発表を、対応工程と関連企業へつなげるデモケースです。", companyIds: ["tokyo-electron", "screen", "sumco"], regions: ["Japan"], categories: ["Equipment", "Materials"], themes: ["HBM", "EUV", "Advanced Packaging"], importance: 2, tone: "positive", kind: "product" },
-  { id: "china-memory", occurredAt: "2026-09-25T21:45:00+09:00", timeLabel: "21:45", title: "中国メモリ企業：供給拡大観測", summary: "中国のメモリ供給能力を巡る観測が価格見通しの重しになった想定です。", impact: "規制と供給増を分け、MemoryとChinaテーマの双方から確認します。", companyIds: ["cxmt", "micron", "sk-hynix"], regions: ["China", "US", "Korea"], categories: ["Memory"], themes: ["HBM", "China"], importance: 2, tone: "negative", kind: "market" },
-  { id: "renesas-auto", occurredAt: "2026-09-25T19:30:00+09:00", timeLabel: "19:30", title: "Renesas：車載需要の回復は緩やか", summary: "車載半導体の在庫調整が継続する想定で、AI関連との温度差が表れています。", impact: "同じ半導体業界でも、用途別に方向感が異なることを示します。", companyIds: ["renesas", "rohm"], regions: ["Japan"], categories: ["IDM"], themes: ["Automotive", "SiC"], importance: 2, tone: "negative", kind: "market" },
-  { id: "advanced-packaging", occurredAt: "2026-09-25T16:15:00+09:00", timeLabel: "16:15", title: "先端パッケージ：装置需要への波及に注目", summary: "チップレットと積層化への投資が、加工・接合・検査企業へ広がる想定です。", impact: "企業単位では見えにくい工程横断テーマとして追跡します。", companyIds: ["tsmc", "applied-materials", "disco", "advantest"], regions: ["Taiwan", "US", "Japan"], categories: ["Foundry", "Equipment"], themes: ["AI", "HBM", "Advanced Packaging"], importance: 2, tone: "positive", kind: "market" },
-  { id: "intel-foundry", occurredAt: "2026-09-25T12:40:00+09:00", timeLabel: "12:40", title: "Intel：ファウンドリ計画の進捗を説明", summary: "投資負担と顧客獲得の両面が評価材料になった想定ニュースです。", impact: "IDMとFoundryの二つの見方を持つ企業として整理します。", companyIds: ["intel"], regions: ["US"], categories: ["IDM"], themes: ["EUV", "Advanced Packaging", "Foundry"], importance: 2, tone: "mixed", kind: "earnings" },
-  { id: "sumco-wafer", occurredAt: "2026-09-25T09:05:00+09:00", timeLabel: "09:05", title: "SUMCO：ウェーハ需給の回復時期に慎重", summary: "材料側では設備稼働率と在庫の正常化が引き続き焦点という想定です。", impact: "デバイス企業の上昇と材料企業の回復速度が一致しない例として確認します。", companyIds: ["sumco"], regions: ["Japan"], categories: ["Materials"], themes: ["Automotive", "Foundry"], importance: 1, tone: "negative", kind: "market" },
+  { id: "micron-hbm", occurredAt: "2026-09-26T06:40:00+09:00", timeLabel: "06:40", title: "Micron：HBM増産計画を発表", summary: "AI向けメモリ需要を背景に、次世代HBMの供給能力拡大を示した想定シグナルです。", impact: "メモリ企業だけでなく、成膜・エッチング・テスト装置への波及を探索できます。", primaryCompanyId: "micron", companyIds: ["micron", "sk-hynix", "advantest"], processes: ["Deposition", "Etch", "Test"], regions: ["US", "Korea", "Japan"], categories: ["Memory", "Equipment"], themes: ["AI", "HBM"], importance: 3, tone: "positive", kind: "investment" },
+  { id: "asml-regulation", occurredAt: "2026-09-26T05:55:00+09:00", timeLabel: "05:55", title: "ASML：中国向け輸出規制の観測", summary: "露光装置の輸出条件を巡る報道が装置セクターの変動要因になった想定です。", impact: "欧州装置企業と中国ファウンドリの両方に関連するため、地域横断で確認します。", primaryCompanyId: "asml", companyIds: ["asml", "smic"], processes: ["Lithography"], regions: ["Europe", "China"], categories: ["Equipment", "Foundry"], themes: ["EUV", "China", "Foundry"], importance: 3, tone: "mixed", kind: "policy" },
+  { id: "tsmc-capex", occurredAt: "2026-09-26T04:20:00+09:00", timeLabel: "04:20", title: "TSMC：設備投資計画を更新", summary: "先端プロセスと先端パッケージへの投資配分が注目された想定ニュースです。", impact: "ファウンドリから装置、検査、後工程までの関連企業を追う起点になります。", primaryCompanyId: "tsmc", companyIds: ["tsmc", "applied-materials", "tokyo-electron", "disco"], processes: ["Lithography", "Deposition", "Assembly"], regions: ["Taiwan", "US", "Japan"], categories: ["Foundry", "Equipment"], themes: ["AI", "EUV", "Advanced Packaging", "Foundry"], importance: 3, tone: "positive", kind: "investment" },
+  { id: "nvidia-ai-demand", occurredAt: "2026-09-26T02:35:00+09:00", timeLabel: "02:35", title: "NVIDIA：AIアクセラレーター需要が継続", summary: "データセンター投資の継続が関連企業のセンチメントを支えた想定です。", impact: "GPU単体ではなく、ファウンドリ、HBM、テストまで一連の供給網を確認します。", primaryCompanyId: "nvidia", companyIds: ["nvidia", "tsmc", "sk-hynix", "advantest"], processes: ["Design", "Assembly", "Test"], regions: ["US", "Taiwan", "Korea", "Japan"], categories: ["Fabless", "Foundry", "Memory", "Equipment"], themes: ["AI", "HBM", "Advanced Packaging"], importance: 3, tone: "positive", kind: "market" },
+  { id: "tel-product", occurredAt: "2026-09-25T23:10:00+09:00", timeLabel: "23:10", title: "Tokyo Electron：新プロセス装置を発表", summary: "微細化と積層化を支える新製品が材料・装置株の比較材料になった想定です。", impact: "製品発表を、対応工程と関連企業へつなげるデモケースです。", primaryCompanyId: "tokyo-electron", companyIds: ["tokyo-electron", "screen", "sumco"], processes: ["Deposition", "Etch", "Materials"], regions: ["Japan"], categories: ["Equipment", "Materials"], themes: ["HBM", "EUV", "Advanced Packaging"], importance: 2, tone: "positive", kind: "product" },
+  { id: "china-memory", occurredAt: "2026-09-25T21:45:00+09:00", timeLabel: "21:45", title: "中国メモリ企業：供給拡大観測", summary: "中国のメモリ供給能力を巡る観測が価格見通しの重しになった想定です。", impact: "規制と供給増を分け、MemoryとChinaテーマの双方から確認します。", primaryCompanyId: "cxmt", companyIds: ["cxmt", "micron", "sk-hynix"], processes: ["Deposition", "Etch"], regions: ["China", "US", "Korea"], categories: ["Memory"], themes: ["HBM", "China"], importance: 2, tone: "negative", kind: "market" },
+  { id: "renesas-auto", occurredAt: "2026-09-25T19:30:00+09:00", timeLabel: "19:30", title: "Renesas：車載需要の回復は緩やか", summary: "車載半導体の在庫調整が継続する想定で、AI関連との温度差が表れています。", impact: "同じ半導体業界でも、用途別に方向感が異なることを示します。", primaryCompanyId: "renesas", companyIds: ["renesas", "rohm"], processes: ["Design", "Materials"], regions: ["Japan"], categories: ["IDM"], themes: ["Automotive", "SiC"], importance: 2, tone: "negative", kind: "market" },
+  { id: "advanced-packaging", occurredAt: "2026-09-25T16:15:00+09:00", timeLabel: "16:15", title: "先端パッケージ：装置需要への波及に注目", summary: "チップレットと積層化への投資が、加工・接合・検査企業へ広がる想定です。", impact: "企業単位では見えにくい工程横断テーマとして追跡します。", primaryCompanyId: "tsmc", companyIds: ["tsmc", "applied-materials", "disco", "advantest"], processes: ["Assembly", "Metrology", "Test"], regions: ["Taiwan", "US", "Japan"], categories: ["Foundry", "Equipment"], themes: ["AI", "HBM", "Advanced Packaging"], importance: 2, tone: "positive", kind: "market" },
+  { id: "intel-foundry", occurredAt: "2026-09-25T12:40:00+09:00", timeLabel: "12:40", title: "Intel：ファウンドリ計画の進捗を説明", summary: "投資負担と顧客獲得の両面が評価材料になった想定ニュースです。", impact: "IDMとFoundryの二つの見方を持つ企業として整理します。", primaryCompanyId: "intel", companyIds: ["intel"], processes: ["Design", "Lithography", "Assembly"], regions: ["US"], categories: ["IDM"], themes: ["EUV", "Advanced Packaging", "Foundry"], importance: 2, tone: "mixed", kind: "earnings" },
+  { id: "sumco-wafer", occurredAt: "2026-09-25T09:05:00+09:00", timeLabel: "09:05", title: "SUMCO：ウェーハ需給の回復時期に慎重", summary: "材料側では設備稼働率と在庫の正常化が引き続き焦点という想定です。", impact: "デバイス企業の上昇と材料企業の回復速度が一致しない例として確認します。", primaryCompanyId: "sumco", companyIds: ["sumco"], processes: ["Materials"], regions: ["Japan"], categories: ["Materials"], themes: ["Automotive", "Foundry"], importance: 1, tone: "negative", kind: "market" },
 ];
 
 export const pulseThemes: PulseTheme[] = [
@@ -169,3 +196,15 @@ export const pulseBriefLines: PulseBriefLine[] = [
   { id: "brief-auto", text: "車載・SiCは在庫調整が重く、AI関連との温度差が続いています。", companyIds: ["renesas", "rohm"], regions: ["Japan"], categories: ["IDM"], themes: ["Automotive", "SiC"], priority: 4 },
   { id: "brief-china", text: "中国関連は規制と供給能力拡大の二つの材料が交錯しています。", companyIds: ["smic", "naura", "cxmt", "asml"], regions: ["China", "Europe"], categories: ["Foundry", "Equipment", "Memory"], themes: ["China"], priority: 3 },
 ];
+
+export const pulseDemoSnapshot: PulseSnapshot = {
+  schemaVersion: 1,
+  mode: "demo",
+  asOf: pulseUpdatedAt,
+  marketCapAsOf: pulseMarketCapAsOf,
+  companies: pulseCompanies,
+  signals: pulseSignals,
+  themes: pulseThemes,
+  events: pulseEvents,
+  briefLines: pulseBriefLines,
+};

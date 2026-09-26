@@ -43,7 +43,7 @@ SEO は Career Compass だけへ送客するためのものではありません
 
 存在しない `/diagnosis`、`/diagnosis/result`、`/agents`、`/english` をリンク設計へ使いません。新規URLを追加する前に、既存ページとの検索意図の境界を決めます。
 
-`/semiconductor-watch` は半導体ニュース・市場動向を横断して探索するアプリを中心とし、業界構造を説明する `/industry-map`、基準日時点の数値を比較するランキング、勤務地を探す `/semiconductor-map` と検索意図を分ける。デモ段階では固定データであることを本文とdescriptionで明示し、「リアルタイム」「最新速報」を標榜しない。架空シグナルへNewsArticle構造化データや架空の出典URLを付けない。
+`/semiconductor-watch` は半導体ニュース・市場動向を横断して探索するアプリを中心とし、Past 24hでは企業・地域・テーマ・工程の関係を主情報にする。業界構造を説明する `/industry-map`、基準日時点の数値を比較するランキング、勤務地を探す `/semiconductor-map` と検索意図を分ける。デモ段階では固定データであることを本文とdescriptionで明示し、「リアルタイム」「最新速報」を標榜しない。架空シグナルへNewsArticle構造化データや架空の出典URLを付けない。
 
 ### 全国拠点ハブ
 

@@ -27,6 +27,7 @@ import {
   formatPulseChange,
   getDefaultPulseFilters,
   isDefaultPulseFilters,
+  pulseRegionMatches,
 } from "@/lib/chip-pulse";
 import { trackEvent } from "@/lib/analytics";
 import styles from "./ChipPulseDashboard.module.css";
@@ -84,7 +85,7 @@ export function ChipPulseDashboard() {
     return visibleCompanies.some((company) => company.themes.includes(theme.id));
   });
   const visibleProjects = factoryProjects.filter((project) => {
-    if (filters.region !== "Global" && filters.region !== "Japan") return false;
+    if (!pulseRegionMatches("Japan", filters.region)) return false;
     const tags = projectTags[project.id];
     if (!tags) return false;
     if (filters.category !== "All" && filters.category !== tags.category) return false;
@@ -92,10 +93,6 @@ export function ChipPulseDashboard() {
     if (selectedCompany && project.companySlug !== selectedCompany.companySlug) return false;
     return true;
   });
-  const importantSignals = [...visibleSignals]
-    .sort((a, b) => b.importance - a.importance || b.occurredAt.localeCompare(a.occurredAt))
-    .slice(0, 5);
-
   function changeFilter<Key extends keyof PulseFilters>(key: Key, requestedValue: PulseFilters[Key]) {
     const defaultValue = defaults[key];
     const value = filters[key] === requestedValue ? defaultValue : requestedValue;
@@ -114,8 +111,9 @@ export function ChipPulseDashboard() {
     trackEvent("chip_pulse_filter_change", { dimension: "all", value: "reset", result_count: pulseCompanies.length });
   }
 
-  function selectCompany(companyId: string, source: "treemap" | "list") {
+  function selectCompany(companyId: string, source: "treemap" | "list" | "signal") {
     const next = selectedCompanyId === companyId ? null : companyId;
+    if (next && !visibleCompanies.some((company) => company.id === companyId)) setFilters(getDefaultPulseFilters());
     setSelectedCompanyId(next);
     trackEvent("chip_pulse_company_select", { company_id: companyId, source, action: next ? "select" : "clear" });
   }
@@ -131,8 +129,7 @@ export function ChipPulseDashboard() {
   return (
     <div className={styles.dashboard}>
       <section className={styles.kpis} aria-label="Today's Pulse">
-        <article><span>GLOBAL PULSE</span><strong className={kpis.weightedChange !== null && kpis.weightedChange < 0 ? styles.downValue : styles.upValue}>{formatPulseChange(kpis.weightedChange)}</strong><small>対象企業の時価総額加重</small></article>
-        <article><span>JAPAN PULSE</span><strong className={kpis.japanWeightedChange !== null && kpis.japanWeightedChange < 0 ? styles.downValue : styles.upValue}>{formatPulseChange(kpis.japanWeightedChange)}</strong><small>表示中の日本企業</small></article>
+        <article><span>MARKET PULSE</span><strong className={kpis.weightedChange !== null && kpis.weightedChange < 0 ? styles.downValue : styles.upValue}>{formatPulseChange(kpis.weightedChange)}</strong><small>時価総額加重 · Japan {formatPulseChange(kpis.japanWeightedChange)}</small></article>
         <article><span>MARKET BREADTH</span><strong>{kpis.rising}<i>↑</i> / {kpis.falling}<b>↓</b></strong><small>上昇 / 下落企業</small></article>
         <article><span>FOCUS THEME</span><strong>{kpis.topTheme ?? "—"}</strong><small>関連企業が最多</small></article>
         <article><span>24H SIGNALS</span><strong>{kpis.signalCount}</strong><small>条件に合う変化</small></article>
@@ -154,45 +151,42 @@ export function ChipPulseDashboard() {
         </section>
       ) : (
         <>
+          <DailyBrief lines={briefLines} scopeLabel={scopeText(filters, selectedCompany?.name)} />
+
           <div className={styles.cockpit}>
             <MarketHeatmap companies={visibleCompanies} selectedCompanyId={activeCompanyId} onSelect={selectCompany} />
-            <aside className={styles.rightRail}>
-              <DailyBrief lines={briefLines} scopeLabel={scopeText(filters, selectedCompany?.name)} />
-              <ChangeTimeline signals={visibleSignals} onOpen={openSignal} />
-            </aside>
+            <ChangeTimeline
+              signals={visibleSignals}
+              onOpen={openSignal}
+              onCompanySelect={(companyId) => selectCompany(companyId, "signal")}
+              onRelatedClick={relatedClick}
+            />
           </div>
 
           <ThemePulse themes={visibleThemes} />
+        </>
+      )}
 
-          <section className={styles.news} aria-labelledby="important-news-title">
-            <header className={styles.sectionHeading}><div><span>IMPORTANT NEWS / DEMO</span><h2 id="important-news-title">重要な変化を、企業とテーマで読む</h2></div><p>重要度順 5件</p></header>
-            {importantSignals.length > 0 ? <div className={styles.newsGrid}>{importantSignals.map((signal) => {
-              const linkedCompany = signal.companyIds.map((id) => pulseCompanies.find((company) => company.id === id)).find((company) => company?.companySlug);
-              return <details key={signal.id} onToggle={(event) => { if (event.currentTarget.open) openSignal(signal.id); }}>
-                <summary><span>重要度 {signal.importance}</span><time dateTime={signal.occurredAt}>{signal.timeLabel}</time><h3>{signal.title}</h3><p>{signal.summary}</p><i>詳細を見る</i></summary>
-                <div><strong>なぜ見るか</strong><p>{signal.impact}</p><ul>{signal.themes.map((theme) => <li key={theme}>{theme}</li>)}</ul>{linkedCompany?.companySlug ? <Link href={`/companies/${linkedCompany.companySlug}`} onClick={() => relatedClick(`company_${linkedCompany.id}`)}>{linkedCompany.name}の企業情報 →</Link> : <Link href="/industry-map" onClick={() => relatedClick("industry_map_from_news")}>業界地図で関係を見る →</Link>}</div>
-              </details>;
-            })}</div> : <p className={styles.emptyText}>この条件に該当する重要シグナルはありません。</p>}
-          </section>
-
+      <details className={styles.secondaryData}>
+        <summary><span>予定・設備投資・関連データ</span><strong>次に起きることと背景を深掘りする</strong><i>開く ＋</i></summary>
+        <div className={styles.secondaryContent}>
           <div className={styles.lowerGrid}>
             <UpcomingEvents events={visibleEvents} />
             <InvestmentRadar projects={visibleProjects} onRelatedClick={relatedClick} />
           </div>
-        </>
-      )}
-
-      <nav className={styles.related} aria-label="Chip Pulseから詳しく調べる">
-        <header><span>GO DEEPER</span><h2>気になった動きを、既存データで深掘りする</h2></header>
-        <div>
-          <Link href="/industry-map" onClick={() => relatedClick("industry_map")}><strong>半導体業界地図</strong><span>企業と工程のつながりを見る</span></Link>
-          <Link href="/guides/semiconductor-market-cap-ranking" onClick={() => relatedClick("market_cap_ranking")}><strong>時価総額ランキング</strong><span>基準日の世界・日本企業を比較</span></Link>
-          <Link href="/guides/semiconductor-equipment-sales-ranking" onClick={() => relatedClick("equipment_ranking")}><strong>装置メーカーランキング</strong><span>売上規模と対応工程を見る</span></Link>
-          <Link href="/guides/memory-manufacturer-ranking" onClick={() => relatedClick("memory_ranking")}><strong>メモリメーカー比較</strong><span>DRAM・NANDの市場構造を見る</span></Link>
-          <Link href="/semiconductor-map" onClick={() => relatedClick("location_map")}><strong>企業・工場マップ</strong><span>国内拠点を勤務地から探す</span></Link>
-          <Link href="/companies" onClick={() => relatedClick("companies")}><strong>半導体企業一覧</strong><span>事業・職種から企業研究へ</span></Link>
+          <nav className={styles.related} aria-label="Chip Pulseから詳しく調べる">
+            <header><span>GO DEEPER</span><h2>既存データで背景を確認する</h2></header>
+            <div>
+              <Link href="/industry-map" onClick={() => relatedClick("industry_map")}><strong>半導体業界地図</strong><span>企業と工程のつながり</span></Link>
+              <Link href="/guides/semiconductor-market-cap-ranking" onClick={() => relatedClick("market_cap_ranking")}><strong>時価総額ランキング</strong><span>世界・日本企業を比較</span></Link>
+              <Link href="/guides/semiconductor-equipment-sales-ranking" onClick={() => relatedClick("equipment_ranking")}><strong>装置ランキング</strong><span>売上規模と対応工程</span></Link>
+              <Link href="/guides/memory-manufacturer-ranking" onClick={() => relatedClick("memory_ranking")}><strong>メモリ比較</strong><span>DRAM・NANDの構造</span></Link>
+              <Link href="/semiconductor-map" onClick={() => relatedClick("location_map")}><strong>企業・工場マップ</strong><span>国内拠点を探す</span></Link>
+              <Link href="/companies" onClick={() => relatedClick("companies")}><strong>半導体企業一覧</strong><span>事業・職種から企業研究</span></Link>
+            </div>
+          </nav>
         </div>
-      </nav>
+      </details>
 
       {!isDefaultPulseFilters(filters) ? <button className={styles.floatingReset} type="button" onClick={resetFilters}>条件をリセット</button> : null}
     </div>

@@ -20,6 +20,7 @@ function movementClass(change: number) {
 export function MarketHeatmap({ companies, selectedCompanyId, onSelect }: MarketHeatmapProps) {
   const { groups, rects } = layoutPulseTreemap(companies);
   const total = companies.reduce((sum, company) => sum + company.marketCapUsdB, 0);
+  const sortedCompanies = [...companies].sort((a, b) => b.marketCapUsdB - a.marketCapUsdB);
 
   function handleKeyDown(event: KeyboardEvent<SVGGElement>, companyId: string) {
     if (event.key !== "Enter" && event.key !== " ") return;
@@ -50,6 +51,7 @@ export function MarketHeatmap({ companies, selectedCompanyId, onSelect }: Market
                 role="button"
                 tabIndex={0}
               >
+                <title>{`${rect.company.name} / ${rect.company.category} / ${formatPulseChange(rect.company.changePercent)}`}</title>
                 <rect x={rect.x + 1} y={rect.y + 1} width={Math.max(0, rect.width - 2)} height={Math.max(0, rect.height - 2)} rx="3" />
                 {showName ? <text x={rect.x + 9} y={rect.y + 22}>{rect.company.shortName}</text> : null}
                 {showChange ? <text className={styles.cellChange} x={rect.x + 9} y={rect.y + 43}>{formatPulseChange(rect.company.changePercent)}</text> : null}
@@ -64,22 +66,26 @@ export function MarketHeatmap({ companies, selectedCompanyId, onSelect }: Market
           ))}
         </svg>
       </div>
-      <div className={styles.companyList} aria-label="ヒートマップ掲載企業一覧">
-        {[...companies].sort((a, b) => b.marketCapUsdB - a.marketCapUsdB).map((company) => (
-          <button
-            aria-pressed={selectedCompanyId === company.id}
-            className={movementClass(company.changePercent)}
-            key={company.id}
-            onClick={() => onSelect(company.id, "list")}
-            type="button"
-          >
-            <span><strong>{company.shortName}</strong><small>{company.category} · {company.region}</small></span>
-            <b>{formatPulseChange(company.changePercent)}</b>
+      <details className={styles.companyDirectory}>
+        <summary>小さい企業も一覧から選ぶ <span>{companies.length}社</span></summary>
+        <div className={styles.companyList} aria-label="ヒートマップ掲載企業一覧">
+          {sortedCompanies.map((company) => (
+            <button aria-pressed={selectedCompanyId === company.id} className={movementClass(company.changePercent)} key={company.id} onClick={() => onSelect(company.id, "list")} type="button">
+              <span><strong>{company.shortName}</strong><small>{company.category} · {company.region}</small></span><b>{formatPulseChange(company.changePercent)}</b>
+            </button>
+          ))}
+        </div>
+      </details>
+      <div className={`${styles.companyList} ${styles.mobileCompanyList}`} aria-label="ヒートマップ掲載企業一覧">
+        {sortedCompanies.map((company) => (
+          <button aria-pressed={selectedCompanyId === company.id} className={movementClass(company.changePercent)} key={company.id} onClick={() => onSelect(company.id, "list")} type="button">
+            <span><strong>{company.shortName}</strong><small>{company.category} · {company.region}</small></span><b>{formatPulseChange(company.changePercent)}</b>
           </button>
         ))}
       </div>
       <footer className={styles.heatmapLegend}>
-        <span><i className={styles.legendUp} />上昇</span><span><i className={styles.legendFlat} />横ばい</span><span><i className={styles.legendDown} />下落</span>
+        <div><span><i className={styles.legendUp} />上昇</span><span><i className={styles.legendFlat} />横ばい</span><span><i className={styles.legendDown} />下落</span></div>
+        <div className={styles.sectorLegend}>{groups.map((group) => <span key={group.id}>{group.id}</span>)}</div>
         <small>表示対象の合計時価総額：{total.toLocaleString("ja-JP", { maximumFractionDigits: 0 })} 十億米ドル（{companies.length}社）</small>
       </footer>
     </section>
