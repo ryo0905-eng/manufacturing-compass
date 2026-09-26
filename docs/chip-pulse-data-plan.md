@@ -15,6 +15,7 @@
 - SECのFair Accessに合わせてリクエスト間隔を125ms以上空ける。`CHIP_PULSE_SEC_USER_AGENT` は組織名と連絡先メールを含む値を運営環境だけに設定し、コードやログへ出さない。Samsung RSSへは連絡先を含まない固定の識別子を送る。
 - 出力先は公開ディレクトリではなく `.private/chip-pulse-candidates/`。`current.json` と `snapshots/YYYY-MM-DD/HHMMSS.json` を原子的に書き、全ソース失敗時は既存ファイルを更新しない。
 - 候補は全て `reviewStatus: pending`。Form番号やRSSタイトルだけで重要度・要約・関連企業を決めず、原文確認後に `src/data/chip-pulse.ts` の公開スナップショットへ反映する。
+- `npm run chip-pulse:review` は保存済みの候補と公開スナップショットの原文URLを照合し、掲載済み・確認待ちの件数と対象を表示する。異なる公式URLで同じ発表を掲載した場合のみ `chip-pulse-source-aliases.json` に対応を明記する。タイトルの類似だけで自動的に重複とは判定しない。この処理は読み取り専用で、公開データや候補履歴を書き換えない。
 - Advantestと東京エレクトロンは公式のニュースページを確認したが、今回の調査で公式RSSを確認できていない。両社の発表は引き続き公式ページから手動で候補登録する。
 
 運営者による実行例:
@@ -25,6 +26,9 @@ npm run chip-pulse:update -- --dry-run
 
 # 候補スナップショットを.privateへ保存する
 npm run chip-pulse:update
+
+# 保存済み候補の掲載済み・確認待ちを照合する（ネットワーク不要）
+npm run chip-pulse:review
 ```
 
 部分失敗時は取得できた候補を保存したうえで終了コード1とし、監視側が検知できるようにする。エラーには企業IDと有限のエラーコードだけを残し、レスポンス本文、ヘッダー、環境変数を出力しない。

@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "chip-pulse:update": "node scripts/chip-pulse-update.cjs",
+    "chip-pulse:review": "node scripts/chip-pulse-review.cjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {
