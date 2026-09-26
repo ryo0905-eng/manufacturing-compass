@@ -4,9 +4,29 @@
 
 ## 目的と現在地
 
-`/semiconductor-watch` は、ニュースを読む前に「何が変わり、どこへ波及したか」を把握する探索画面である。2026-09-26から、企業IR・SEC提出・業界団体の公式情報を手動確認した出典付き静的スナップショットを表示する。本書は次の自動取得へ進む際の境界、取得順、権利確認を定める。現段階では収集処理、外部API、永続化を実装しない。
+`/semiconductor-watch` は、ニュースを読む前に「何が変わり、どこへ波及したか」を把握する探索画面である。2026-09-26から、企業IR・SEC提出・業界団体の公式情報を手動確認した出典付き静的スナップショットを表示する。本書は次の自動取得へ進む際の境界、取得順、権利確認を定める。現段階ではSEC提出候補の収集までを実装し、候補を自動公開しない。外部DBと実行時API依存は追加しない。
 
 現行スナップショットでは、架空の日次騰落・ニュース・テーマスコア・イベントを使わない。企業マップの面積は既存の基準日付き時価総額、色は直近30日の公式シグナル件数とトーン、Theme Pulseは同じシグナルから算出する。24時間に重要更新がなければ0件と表示し、直近30日の文脈を併記する。
+
+## 実装済みの収集境界
+
+- `src/data/chip-pulse-sources.json` に、NVIDIA、AMD、Broadcom、Micron、Intel、Applied Materials、Lam Research、KLA、TSMC、ASMLの企業ID・CIK・対象Formを保持する。
+- `npm run chip-pulse:update` はSEC submissions APIを順番に取得し、8-K、10-Q、10-K、6-K、20-Fのうち指定したFormだけを直近30日候補へ正規化する。
+- SECのFair Accessに合わせてリクエスト間隔を125ms以上空ける。`CHIP_PULSE_SEC_USER_AGENT` は組織名と連絡先メールを含む値を運営環境だけに設定し、コードやログへ出さない。
+- 出力先は公開ディレクトリではなく `.private/chip-pulse-candidates/`。`current.json` と `snapshots/YYYY-MM-DD/HHMMSS.json` を原子的に書き、全ソース失敗時は既存ファイルを更新しない。
+- 候補は全て `reviewStatus: pending`。Form番号だけで重要度・要約・関連企業を決めず、原文確認後に `src/data/chip-pulse.ts` の公開スナップショットへ反映する。
+
+運営者による実行例:
+
+```bash
+# 取得件数だけ確認し、ファイルを書かない
+npm run chip-pulse:update -- --dry-run
+
+# 候補スナップショットを.privateへ保存する
+npm run chip-pulse:update
+```
+
+部分失敗時は取得できた候補を保存したうえで終了コード1とし、監視側が検知できるようにする。エラーには企業IDと有限のエラーコードだけを残し、レスポンス本文、ヘッダー、環境変数を出力しない。
 
 ## 推奨データフロー
 
@@ -21,7 +41,7 @@
 
 各シグナルは `sourceUrl`、`sourceName`、`publishedAt`、`fetchedAt`、`sourceType`、`primaryCompanyId`、`relatedCompanyIds`、`themes`、`processes`、`importance`、`evidence` を持つ。記事本文や配信元の要約をそのまま転載せず、タイトル・リンク・最小限の事実と編集部作成の短い要約を保存する。
 
-履歴は `snapshots/YYYY-MM-DD.json` を日次で不変保存し、`current.json` だけを差し替える。これにより Today / 1w / 1m / 3m と日別アーカイブへ拡張できる。履歴量と更新頻度が小さい間はオブジェクトストレージで十分で、検索・重複排除・再計算が重くなった時点でDBへ移す。
+ローカル候補履歴は `snapshots/YYYY-MM-DD/HHMMSS.json` を不変保存し、`current.json` だけを差し替える。本番保存へ進む際も同じ境界を維持し、Today / 1w / 1m / 3m と日別アーカイブへ拡張できるようにする。履歴量と更新頻度が小さい間はオブジェクトストレージで十分で、検索・重複排除・再計算が重くなった時点でDBへ移す。
 
 ## 取得・更新の段階
 

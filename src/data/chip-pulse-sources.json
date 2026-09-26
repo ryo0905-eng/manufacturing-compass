@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "companyId": "nvidia",
+      "companyName": "NVIDIA",
+      "kind": "sec-submissions",
+      "cik": "0001045810",
+      "forms": ["8-K", "10-Q", "10-K"]
+    },
+    {
+      "companyId": "amd",
+      "companyName": "AMD",
+      "kind": "sec-submissions",
+      "cik": "0000002488",
+      "forms": ["8-K", "10-Q", "10-K"]
+    },
+    {
+      "companyId": "broadcom",
+      "companyName": "Broadcom",
+      "kind": "sec-submissions",
+      "cik": "0001730168",
+      "forms": ["8-K", "10-Q", "10-K"]
+    },
+    {
+      "companyId": "micron",
+      "companyName": "Micron Technology",
+      "kind": "sec-submissions",
+      "cik": "0000723125",
+      "forms": ["8-K", "10-Q", "10-K"]
+    },
+    {
+      "companyId": "intel",
+      "companyName": "Intel",
+      "kind": "sec-submissions",
+      "cik": "0000050863",
+      "forms": ["8-K", "10-Q", "10-K"]
+    },
+    {
+      "companyId": "applied-materials",
+      "companyName": "Applied Materials",
+      "kind": "sec-submissions",
+      "cik": "0000006951",
+      "forms": ["8-K", "10-Q", "10-K"]
+    },
+    {
+      "companyId": "lam-research",
+      "companyName": "Lam Research",
+      "kind": "sec-submissions",
+      "cik": "0000707549",
+      "forms": ["8-K", "10-Q", "10-K"]
+    },
+    {
+      "companyId": "kla",
+      "companyName": "KLA",
+      "kind": "sec-submissions",
+      "cik": "0000319201",
+      "forms": ["8-K", "10-Q", "10-K"]
+    },
+    {
+      "companyId": "tsmc",
+      "companyName": "TSMC",
+      "kind": "sec-submissions",
+      "cik": "0001046179",
+      "forms": ["6-K", "20-F"]
+    },
+    {
+      "companyId": "asml",
+      "companyName": "ASML",
+      "kind": "sec-submissions",
+      "cik": "0000937966",
+      "forms": ["6-K", "20-F"]
+    }
+  ]
+}
