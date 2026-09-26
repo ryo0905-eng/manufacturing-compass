@@ -1,12 +1,13 @@
 // Operator-run collector. It discovers disclosure candidates; it never publishes them directly.
 const fs = require("node:fs");
 const path = require("node:path");
+const { createHash } = require("node:crypto");
 const { loadEnvConfig } = require("@next/env");
 
 const root = path.resolve(__dirname, "..");
 const defaultRegistryPath = path.join(root, "src/data/chip-pulse-sources.json");
 const defaultOutputDirectory = path.join(root, ".private/chip-pulse-candidates");
-const allowedSourceKinds = new Set(["sec-submissions"]);
+const allowedSourceKinds = new Set(["sec-submissions", "official-rss"]);
 
 function readRegistry(registryPath = defaultRegistryPath) {
   const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
@@ -14,19 +15,30 @@ function readRegistry(registryPath = defaultRegistryPath) {
     throw new Error("Chip Pulse source registry is invalid.");
   }
   const companyIds = new Set();
-  const ciks = new Set();
+  const locations = new Set();
   for (const source of registry.sources) {
     if (!source || typeof source.companyId !== "string" || typeof source.companyName !== "string") {
       throw new Error("Chip Pulse source registry contains an invalid company.");
     }
-    if (!allowedSourceKinds.has(source.kind) || !/^\d{10}$/.test(source.cik) || !Array.isArray(source.forms) || source.forms.length === 0) {
+    if (!allowedSourceKinds.has(source.kind)) {
       throw new Error(`Chip Pulse source registry contains an invalid source for ${source.companyId}.`);
     }
-    if (companyIds.has(source.companyId) || ciks.has(source.cik)) {
+    if (source.kind === "sec-submissions" && (!/^\d{10}$/.test(source.cik) || !Array.isArray(source.forms) || source.forms.length === 0)) {
+      throw new Error(`Chip Pulse source registry contains an invalid SEC source for ${source.companyId}.`);
+    }
+    if (source.kind === "official-rss") {
+      let feedUrl;
+      try { feedUrl = new URL(source.url); } catch { throw new Error(`Chip Pulse source registry contains an invalid RSS URL for ${source.companyId}.`); }
+      if (feedUrl.protocol !== "https:" || !Array.isArray(source.matchTerms) || source.matchTerms.length === 0 || source.matchTerms.some((term) => typeof term !== "string" || !term.trim())) {
+        throw new Error(`Chip Pulse source registry contains an invalid RSS source for ${source.companyId}.`);
+      }
+    }
+    const location = source.kind === "sec-submissions" ? source.cik : source.url;
+    if (companyIds.has(source.companyId) || locations.has(location)) {
       throw new Error(`Chip Pulse source registry contains a duplicate: ${source.companyId}.`);
     }
     companyIds.add(source.companyId);
-    ciks.add(source.cik);
+    locations.add(location);
   }
   return registry;
 }
@@ -79,6 +91,50 @@ function normalizeSecFilings(payload, source, windowStart, windowEnd) {
   return candidates;
 }
 
+function decodeXmlText(value) {
+  return value.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+    .replace(/&#(x[0-9a-f]+|\d+);/gi, (_, code) => {
+      const point = code[0].toLowerCase() === "x" ? Number.parseInt(code.slice(1), 16) : Number(code);
+      return point > 0 && point <= 0x10ffff ? String.fromCodePoint(point) : "";
+    })
+    .replace(/&(?:amp|lt|gt|quot|apos);/g, (entity) => ({ "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&apos;": "'" })[entity]);
+}
+
+function xmlField(block, field) {
+  const match = block.match(new RegExp(`<${field}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${field}>`, "i"));
+  return match ? decodeXmlText(match[1]).trim() : "";
+}
+
+function normalizeRssItems(xml, source, windowStart, windowEnd) {
+  if (typeof xml !== "string" || !/<rss\b/i.test(xml) || !/<channel\b/i.test(xml)) throw new Error("Official RSS response is invalid.");
+  const items = xml.match(/<item(?:\s[^>]*)?>[\s\S]*?<\/item>/gi) ?? [];
+  const terms = source.matchTerms.map((term) => term.toLowerCase());
+  return items.flatMap((item) => {
+    const title = xmlField(item, "title");
+    const publishedAt = xmlField(item, "pubDate");
+    const timestamp = new Date(publishedAt);
+    const categories = [...item.matchAll(/<category(?:\s[^>]*)?>([\s\S]*?)<\/category>/gi)].map((match) => decodeXmlText(match[1]).trim());
+    if (!title || Number.isNaN(timestamp.getTime()) || timestamp < windowStart || timestamp > new Date(windowEnd.getTime() + 86400000 - 1)) return [];
+    if (!terms.some((term) => `${title} ${categories.join(" ")}`.toLowerCase().includes(term))) return [];
+    let url;
+    try { url = new URL(xmlField(item, "link")); } catch { return []; }
+    if (url.protocol !== "https:" || url.hostname !== new URL(source.url).hostname) return [];
+    url.hash = "";
+    return [{
+      id: `rss-${createHash("sha256").update(url.href).digest("hex").slice(0, 20)}`,
+      companyId: source.companyId,
+      companyName: source.companyName,
+      sourceName: source.companyName,
+      sourceType: "company",
+      publishedAt: timestamp.toISOString(),
+      title,
+      categories,
+      sourceUrl: url.href,
+      reviewStatus: "pending",
+    }];
+  });
+}
+
 function safeError(error) {
   if (error?.name === "TimeoutError") return "timeout";
   if (Number.isInteger(error?.status)) return `http_${error.status}`;
@@ -102,8 +158,12 @@ async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fet
 
   for (const [sourceIndex, source] of sources.entries()) {
     try {
-      const response = await fetchImpl(secSubmissionUrl(source.cik), {
-        headers: { Accept: "application/json", "User-Agent": userAgent },
+      const isSec = source.kind === "sec-submissions";
+      const response = await fetchImpl(isSec ? secSubmissionUrl(source.cik) : source.url, {
+        headers: {
+          Accept: isSec ? "application/json" : "application/rss+xml, application/xml, text/xml",
+          "User-Agent": isSec ? userAgent : "ManufacturingCompassFeed/1.0",
+        },
         signal: AbortSignal.timeout(12000),
       });
       if (!response.ok) {
@@ -111,8 +171,13 @@ async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fet
         error.status = response.status;
         throw error;
       }
-      const payload = await response.json();
-      candidates.push(...normalizeSecFilings(payload, source, windowStart, windowEnd));
+      if (isSec) {
+        candidates.push(...normalizeSecFilings(await response.json(), source, windowStart, windowEnd));
+      } else {
+        const xml = await response.text();
+        if (xml.length > 2_000_000) throw new Error("Official RSS response is too large.");
+        candidates.push(...normalizeRssItems(xml, source, windowStart, windowEnd));
+      }
       succeeded += 1;
     } catch (error) {
       errors.push({ companyId: source.companyId, code: safeError(error) });
@@ -121,7 +186,7 @@ async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fet
   }
 
   const uniqueCandidates = [...new Map(candidates.map((candidate) => [candidate.id, candidate])).values()]
-    .sort((left, right) => right.filedAt.localeCompare(left.filedAt) || left.companyId.localeCompare(right.companyId));
+    .sort((left, right) => (right.filedAt ?? right.publishedAt).localeCompare(left.filedAt ?? left.publishedAt) || left.companyId.localeCompare(right.companyId));
   return {
     schemaVersion: 1,
     status: errors.length === 0 ? "success" : succeeded > 0 ? "partial" : "failed",
@@ -199,6 +264,7 @@ if (require.main === module) {
 module.exports = {
   collectSecCandidates,
   normalizeSecFilings,
+  normalizeRssItems,
   parseArguments,
   readRegistry,
   secFilingUrl,

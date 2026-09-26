@@ -4,17 +4,18 @@
 
 ## 目的と現在地
 
-`/semiconductor-watch` は、ニュースを読む前に「何が変わり、どこへ波及したか」を把握する探索画面である。2026-09-26から、企業IR・SEC提出・業界団体の公式情報を手動確認した出典付き静的スナップショットを表示する。本書は次の自動取得へ進む際の境界、取得順、権利確認を定める。現段階ではSEC提出候補の収集までを実装し、候補を自動公開しない。外部DBと実行時API依存は追加しない。
+`/semiconductor-watch` は、ニュースを読む前に「何が変わり、どこへ波及したか」を把握する探索画面である。2026-09-26から、企業IR・SEC提出・業界団体の公式情報を手動確認した出典付き静的スナップショットを表示する。本書は次の自動取得へ進む際の境界、取得順、権利確認を定める。現段階ではSEC提出とSamsung公式RSSの候補収集までを実装し、候補を自動公開しない。外部DBと実行時API依存は追加しない。
 
 現行スナップショットでは、架空の日次騰落・ニュース・テーマスコア・イベントを使わない。企業マップの面積は既存の基準日付き時価総額、色は直近30日の公式シグナル件数とトーン、Theme Pulseは同じシグナルから算出する。24時間に重要更新がなければ0件と表示し、直近30日の文脈を併記する。
 
 ## 実装済みの収集境界
 
-- `src/data/chip-pulse-sources.json` に、NVIDIA、AMD、Broadcom、Micron、Intel、Applied Materials、Lam Research、KLA、TSMC、ASMLの企業ID・CIK・対象Formを保持する。
-- `npm run chip-pulse:update` はSEC submissions APIを順番に取得し、8-K、10-Q、10-K、6-K、20-Fのうち指定したFormだけを直近30日候補へ正規化する。
-- SECのFair Accessに合わせてリクエスト間隔を125ms以上空ける。`CHIP_PULSE_SEC_USER_AGENT` は組織名と連絡先メールを含む値を運営環境だけに設定し、コードやログへ出さない。
+- `src/data/chip-pulse-sources.json` に、NVIDIA、AMD、Broadcom、Micron、Intel、Applied Materials、Lam Research、KLA、TSMC、ASMLの企業ID・CIK・対象Formと、Samsung公式Newsroom RSSのURL・半導体関連語を保持する。
+- `npm run chip-pulse:update` はSEC submissions APIとSamsung公式RSSを順番に取得する。SECは指定したFormを、RSSは記事タイトル・カテゴリーが半導体関連語に一致する項目だけを直近30日の候補へ正規化する。RSSの分類は候補発見用で、重要度や内容を確定しない。
+- SECのFair Accessに合わせてリクエスト間隔を125ms以上空ける。`CHIP_PULSE_SEC_USER_AGENT` は組織名と連絡先メールを含む値を運営環境だけに設定し、コードやログへ出さない。Samsung RSSへは連絡先を含まない固定の識別子を送る。
 - 出力先は公開ディレクトリではなく `.private/chip-pulse-candidates/`。`current.json` と `snapshots/YYYY-MM-DD/HHMMSS.json` を原子的に書き、全ソース失敗時は既存ファイルを更新しない。
-- 候補は全て `reviewStatus: pending`。Form番号だけで重要度・要約・関連企業を決めず、原文確認後に `src/data/chip-pulse.ts` の公開スナップショットへ反映する。
+- 候補は全て `reviewStatus: pending`。Form番号やRSSタイトルだけで重要度・要約・関連企業を決めず、原文確認後に `src/data/chip-pulse.ts` の公開スナップショットへ反映する。
+- Advantestと東京エレクトロンは公式のニュースページを確認したが、今回の調査で公式RSSを確認できていない。両社の発表は引き続き公式ページから手動で候補登録する。
 
 運営者による実行例:
 

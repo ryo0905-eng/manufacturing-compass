@@ -10,7 +10,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ## 技術構成
 
-- Chip Pulse：`chip-pulse.ts` が企業ID、原文URL付き公式シグナル、影響工程、イベント、確認時刻を公開用の静的スナップショットとして保持し、`lib/chip-pulse.ts` が複合フィルター、24時間・30日KPI、テーマ集計、企業別シグナル集計、依存なしの矩形分割を担当する。`chip-pulse-sources.json` はCIKと対象Formの収集台帳、`scripts/chip-pulse-update.cjs` はSEC提出候補だけを `.private` のcurrent＋時刻別不変JSONへ出力する運営者用処理とする。候補から公開用シグナルへの昇格は自動化しない。`/semiconductor-watch` のServer Componentがmetadata・構造化データ・鮮度表示を出力し、Client Componentが選択状態だけをブラウザ内で管理する。時価総額と工場案件は既存の基準日・出典付き静的データを参照する。外部DB、実行時API依存、URL状態は追加しない。次の取得順・スナップショット境界・情報源判断は `docs/chip-pulse-data-plan.md` を参照する。
+- Chip Pulse：`chip-pulse.ts` が企業ID、原文URL付き公式シグナル、影響工程、イベント、確認時刻を公開用の静的スナップショットとして保持し、`lib/chip-pulse.ts` が複合フィルター、24時間・30日KPI、テーマ集計、企業別シグナル集計、依存なしの矩形分割を担当する。`chip-pulse-sources.json` はSECのCIK・対象Formと公式RSSのURL・候補抽出語を持つ収集台帳、`scripts/chip-pulse-update.cjs` はSEC提出とSamsung公式RSSの候補を `.private` のcurrent＋時刻別不変JSONへ出力する運営者用処理とする。候補から公開用シグナルへの昇格は自動化しない。`/semiconductor-watch` のServer Componentがmetadata・構造化データ・鮮度表示を出力し、Client Componentが選択状態だけをブラウザ内で管理する。時価総額と工場案件は既存の基準日・出典付き静的データを参照する。外部DB、実行時API依存、URL状態は追加しない。次の取得順・スナップショット境界・情報源判断は `docs/chip-pulse-data-plan.md` を参照する。
 
 - 工場プロジェクト比較：`factory-projects.ts` の静的データを記事一覧とClient Componentで共用。`factory-project-comparison.ts` が2件のID検証・出典付きコピー文を担当。GuideBlockにfactory-project-comparisonを追加し、既存記事へ組み込む。独立URL・保存・外部APIなし。[仕様](./factory-project-comparison-spec.md)。
 

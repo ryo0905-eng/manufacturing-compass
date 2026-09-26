@@ -70,6 +70,13 @@
       "kind": "sec-submissions",
       "cik": "0000937966",
       "forms": ["6-K", "20-F"]
+    },
+    {
+      "companyId": "samsung-electronics",
+      "companyName": "Samsung Electronics",
+      "kind": "official-rss",
+      "url": "https://news.samsung.com/global/feed/rss",
+      "matchTerms": ["semiconductor", "foundry", "memory", "HBM", "DRAM", "chip", "wafer", "EUV"]
     }
   ]
 }
