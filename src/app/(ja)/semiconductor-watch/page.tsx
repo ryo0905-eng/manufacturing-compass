@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ChipPulseDashboard } from "@/components/chip-pulse/ChipPulseDashboard";
 import { StructuredData } from "@/components/StructuredData";
-import { pulseDisplayDate, pulseMarketCapAsOf, pulseUpdatedAt } from "@/data/chip-pulse";
+import { pulseCompanies, pulseDisplayDate, pulseMarketCapAsOf, pulseSignals, pulseUpdatedAt } from "@/data/chip-pulse";
+import { calculatePulseKpis, formatPulseChange } from "@/lib/chip-pulse";
 import { siteUrl } from "@/lib/format";
 import styles from "./page.module.css";
 
@@ -23,6 +24,8 @@ export const metadata: Metadata = {
 };
 
 export default function SemiconductorWatchPage() {
+  const headlineKpis = calculatePulseKpis(pulseCompanies, pulseSignals);
+
   return (
     <main className={styles.page}>
       <StructuredData data={{
@@ -50,21 +53,31 @@ export default function SemiconductorWatchPage() {
       </nav>
 
       <header className={styles.hero}>
-        <div>
+        <div className={styles.heroCopy}>
           <p>SEMICONDUCTOR INDUSTRY WATCH</p>
-          <h1><span>Chip Pulse</span>半導体業界の「今」を3分で。</h1>
+          <h1><span>Chip Pulse</span>半導体業界の「今」を<br /><em>3分で。</em></h1>
           <p className={styles.lead}>企業、セクター、地域、テーマを横断し、昨日からの変化を一枚のダッシュボードで探索します。</p>
         </div>
-        <dl>
-          <div><dt>SNAPSHOT</dt><dd>{pulseDisplayDate}</dd></div>
-          <div><dt>MARKET CAP BASIS</dt><dd>{pulseMarketCapAsOf.replaceAll("-", ".")}</dd></div>
-          <div><dt>STATUS</dt><dd>Public Prototype</dd></div>
-        </dl>
+        <aside className={styles.heroSignal} aria-label="今日の市場ムード">
+          <div className={styles.signalHeading}><span>MARKET REGIME</span><b><i /> POSITIVE</b></div>
+          <strong>AI / HBM led</strong>
+          <p>メモリとテスト装置へ上昇が波及</p>
+          <svg viewBox="0 0 300 72" role="img" aria-label="市場ムードの上向き推移を表すデモグラフ">
+            <path d="M2 59 C28 58 34 47 56 49 S91 61 112 43 S149 18 169 30 S205 48 225 25 S260 13 298 6" />
+            <circle cx="298" cy="6" r="4" />
+          </svg>
+          <dl>
+            <div><dt>GLOBAL</dt><dd>{formatPulseChange(headlineKpis.weightedChange)}</dd></div>
+            <div><dt>LEAD THEME</dt><dd>{headlineKpis.topTheme}</dd></div>
+            <div><dt>SIGNALS</dt><dd>{headlineKpis.signalCount}</dd></div>
+          </dl>
+        </aside>
       </header>
 
       <aside className={styles.demoNotice} aria-label="デモデータについて">
         <strong>操作体験用のデモです</strong>
-        <p>日次騰落、ニュース、テーマスコア、今後のイベントは固定した架空データです。速報、投資情報、AI生成要約ではありません。時価総額の面積と工場投資欄だけ、既存の基準日・出典付きデータを利用しています。</p>
+        <p>日次騰落、ニュース、テーマスコア、今後のイベントは固定した架空データです。速報、投資情報、AI生成要約ではありません。</p>
+        <dl><div><dt>Snapshot</dt><dd>{pulseDisplayDate}</dd></div><div><dt>Market cap basis</dt><dd>{pulseMarketCapAsOf.replaceAll("-", ".")}</dd></div></dl>
       </aside>
 
       <ChipPulseDashboard />

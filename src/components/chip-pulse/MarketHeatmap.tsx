@@ -10,7 +10,9 @@ type MarketHeatmapProps = {
 };
 
 function movementClass(change: number) {
+  if (change >= 2) return styles.positiveStrong;
   if (change > 0) return styles.positive;
+  if (change <= -1.2) return styles.negativeStrong;
   if (change < 0) return styles.negative;
   return styles.neutral;
 }

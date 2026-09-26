@@ -20179,8 +20179,10 @@ body {
 .home-focused__research-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .home-focused__research-grid a { padding: 20px; background: #f7f7f8; border-radius: 6px; color: inherit; }
 .home-focused__research-grid p { margin-top: 8px; font-size: 14px; }
-.home-focused__research-grid .home-focused__research-feature { grid-column: 1 / -1; border: 1px solid #c9cdd2; background: #fff; }
-.home-focused__research-grid .home-focused__research-feature strong { font-size: 18px; }
+.home-focused__research-grid .home-focused__research-feature { position: relative; grid-column: 1 / -1; overflow: hidden; border: 1px solid #c4d6e6; background: linear-gradient(110deg, #edf6fc, #f3f0f8); }
+.home-focused__research-grid .home-focused__research-feature::after { position: absolute; right: -18px; bottom: -42px; width: 150px; height: 110px; border: 24px solid rgba(75, 111, 174, .09); border-radius: 50%; content: ""; }
+.home-focused__research-grid .home-focused__research-feature strong { position: relative; z-index: 1; color: #244d70; font-size: 18px; }
+.home-focused__research-grid .home-focused__research-feature p { position: relative; z-index: 1; }
 .home-focused__career { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
 .home-focused__button { display: inline-flex; justify-content: center; align-items: center; min-height: 44px; padding: 12px 18px; border-radius: 6px; background: #1d1d1f; color: white; font-size: 14px; line-height: 1.5; }
 .home-focused p.home-focused__assurance { margin-top: 12px; font-size: 12px; }
