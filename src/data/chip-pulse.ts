@@ -153,6 +153,30 @@ export const pulseCompanies: PulseCompany[] = [
 
 export const pulseSignals: PulseSignal[] = [
   {
+    id: "tsmc-capital-appropriation-2026-09", occurredAt: "2026-09-24T00:00:00+08:00", timeLabel: "9/24",
+    title: "TSMC：先端技術・先端パッケージ等に約294億米ドルの資本配分",
+    summary: "SEC提出のForm 6-Kで、先端技術設備160.35億米ドル、先端パッケージ・成熟／特殊技術設備47.91億米ドル、不動産等86.16億米ドルの資本配分を報告しました。",
+    impact: "ファウンドリの投資意欲を、設備投資額と先端パッケージへの配分から確認できる一次情報です。",
+    primaryCompanyId: "tsmc", companyIds: ["tsmc", "asml", "applied-materials", "lam-research", "tokyo-electron", "disco"], processes: ["Lithography", "Deposition", "Assembly"], regions: ["Taiwan", "Europe", "US", "Japan"], categories: ["Foundry", "Equipment"], themes: ["AI", "Advanced Packaging", "Foundry"],
+    importance: 3, tone: "positive", kind: "investment", sourceName: "SEC / TSMC Form 6-K", sourceUrl: "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000660/tsm-monthend6kx20260924.htm", sourceType: "regulatory",
+  },
+  {
+    id: "broadcom-q3-semiconductor-solutions-2026", occurredAt: "2026-09-10T00:00:00-04:00", timeLabel: "9/10",
+    title: "Broadcom：半導体ソリューション売上がQ3に前年比127%増",
+    summary: "Form 10-Qで、2026年8月2日終了四半期の半導体ソリューション売上を208.39億米ドル、前年同期比127%増と報告しました。",
+    impact: "カスタムAIアクセラレーターとAIネットワーキングの需要を、セグメント実績で確認できます。",
+    primaryCompanyId: "broadcom", companyIds: ["broadcom"], processes: ["Design", "Assembly"], regions: ["US"], categories: ["Fabless"], themes: ["AI", "Advanced Packaging"],
+    importance: 3, tone: "positive", kind: "earnings", sourceName: "SEC / Broadcom Form 10-Q", sourceUrl: "https://www.sec.gov/Archives/edgar/data/1730168/000173016826000080/avgo-20260802.htm", sourceType: "regulatory",
+  },
+  {
+    id: "nvidia-hugging-face-acquisition-2026", occurredAt: "2026-09-03T00:00:00-04:00", timeLabel: "9/03",
+    title: "NVIDIA：Hugging Faceを約119億米ドルで買収する契約",
+    summary: "Form 8-Kで、Hugging Face買収の最終契約を公表しました。買収対価は約119億米ドル、従業員向け株式リテンションは最大約10億米ドルで、2027年前半の完了を見込んでいます。",
+    impact: "AIモデルの開発基盤とアクセラレーターの結びつきを追う、半導体周辺エコシステムのシグナルです。",
+    primaryCompanyId: "nvidia", companyIds: ["nvidia"], processes: ["Design"], regions: ["US"], categories: ["Fabless"], themes: ["AI"],
+    importance: 3, tone: "positive", kind: "investment", sourceName: "SEC / NVIDIA Form 8-K", sourceUrl: "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000078/nvda-20260902.htm", sourceType: "regulatory",
+  },
+  {
     id: "advantest-semicon-india-2026", occurredAt: "2026-09-15T00:00:00+09:00", timeLabel: "9/15",
     title: "Advantest：AI・HPC向けテスト技術をSEMICON Indiaで展示",
     summary: "V93000 EXA Scale、AI機能を持つSmarTest 8、次世代DRAM向けT5800シリーズなどを公開しました。",
@@ -227,12 +251,13 @@ export const pulseEvents: PulseEvent[] = [{
 const everyCompanyId = pulseCompanies.map((company) => company.id);
 
 export const pulseBriefLines: PulseBriefLine[] = [
-  { id: "brief-quiet-24h", text: "直近24時間に、監視中の公式ソースで重要更新は確認されていません。静かな日は0件と表示します。", companyIds: everyCompanyId, regions: [...pulseRegions], categories: [...pulseCategories], themes: [...pulseThemeIds], priority: 12 },
-  { id: "brief-high-na", text: "直近30日ではHigh NA EUVが焦点。Samsungは2028年のDRAM量産導入計画、Intelは量産利用の進捗を公表しました。", companyIds: ["samsung-electronics", "intel", "asml"], regions: ["Korea", "US", "Europe"], categories: ["IDM", "Equipment"], themes: ["EUV", "HBM", "Foundry"], priority: 11 },
-  { id: "brief-ai-chain", text: "AI投資はGPUだけでなく、ファウンドリ、メモリ、テスト装置、製造現場のAI活用へ広がっています。", companyIds: ["nvidia", "tsmc", "micron", "sk-hynix", "advantest", "samsung-electronics"], regions: ["US", "Taiwan", "Korea", "Japan"], categories: ["Fabless", "Foundry", "Memory", "Equipment", "IDM"], themes: ["AI", "HBM", "Advanced Packaging"], priority: 10 },
-  { id: "brief-tsmc", text: "TSMCの8月売上高は5,148億台湾ドル。月次の原数値から先端需要の勢いを確認できます。", companyIds: ["tsmc"], regions: ["Taiwan"], categories: ["Foundry"], themes: ["AI", "Foundry"], priority: 9 },
-  { id: "brief-equipment", text: "SEMI集計ではQ2の世界半導体製造装置売上が前年比23%増。装置投資は2四半期連続で過去最高です。", companyIds: ["asml", "applied-materials", "lam-research", "kla", "tokyo-electron", "advantest", "disco", "screen"], regions: ["US", "Japan", "Europe"], categories: ["Equipment"], themes: ["AI", "Advanced Packaging"], priority: 8 },
-  { id: "brief-sic", text: "欧州ではSi・SiC原材料の域内供給網を強化する48か月の共同プロジェクトが始動しました。", companyIds: ["renesas", "rohm", "sumco"], regions: ["Europe", "Japan"], categories: ["Materials", "IDM"], themes: ["SiC"], priority: 7 },
+  { id: "brief-quiet-24h", text: "直近24時間に、監視中の公式ソースで重要更新は確認されていません。静かな日は0件と表示します。", companyIds: everyCompanyId, regions: [...pulseRegions], categories: [...pulseCategories], themes: [...pulseThemeIds], priority: 20 },
+  { id: "brief-tsmc-capex", text: "TSMCは先端技術・先端パッケージなどへ約294億米ドルの資本配分を開示。設備投資の強さを金額で確認できます。", companyIds: ["tsmc", "asml", "applied-materials", "lam-research", "tokyo-electron", "disco"], regions: ["Taiwan", "Europe", "US", "Japan"], categories: ["Foundry", "Equipment"], themes: ["AI", "Advanced Packaging", "Foundry"], priority: 19 },
+  { id: "brief-high-na", text: "直近30日ではHigh NA EUVが焦点。Samsungは2028年のDRAM量産導入計画、Intelは量産利用の進捗を公表しました。", companyIds: ["samsung-electronics", "intel", "asml"], regions: ["Korea", "US", "Europe"], categories: ["IDM", "Equipment"], themes: ["EUV", "HBM", "Foundry"], priority: 18 },
+  { id: "brief-ai-chain", text: "AI投資はGPUだけでなく、BroadcomのカスタムAIアクセラレーター、ファウンドリ、メモリ、テスト装置へ広がっています。", companyIds: ["nvidia", "broadcom", "tsmc", "micron", "sk-hynix", "advantest", "samsung-electronics"], regions: ["US", "Taiwan", "Korea", "Japan"], categories: ["Fabless", "Foundry", "Memory", "Equipment", "IDM"], themes: ["AI", "HBM", "Advanced Packaging"], priority: 17 },
+  { id: "brief-tsmc", text: "TSMCの8月売上高は5,148億台湾ドル。月次売上と設備投資の両面から先端需要を確認できます。", companyIds: ["tsmc"], regions: ["Taiwan"], categories: ["Foundry"], themes: ["AI", "Foundry"], priority: 16 },
+  { id: "brief-equipment", text: "SEMI集計ではQ2の世界半導体製造装置売上が前年比23%増。装置投資は2四半期連続で過去最高です。", companyIds: ["asml", "applied-materials", "lam-research", "kla", "tokyo-electron", "advantest", "disco", "screen"], regions: ["US", "Japan", "Europe"], categories: ["Equipment"], themes: ["AI", "Advanced Packaging"], priority: 15 },
+  { id: "brief-sic", text: "欧州ではSi・SiC原材料の域内供給網を強化する48か月の共同プロジェクトが始動しました。", companyIds: ["renesas", "rohm", "sumco"], regions: ["Europe", "Japan"], categories: ["Materials", "IDM"], themes: ["SiC"], priority: 14 },
 ];
 
 export const pulseSnapshot: PulseSnapshot = {

@@ -84,7 +84,7 @@ const kpis = lib.calculatePulseKpis(filteredCompanies, filteredSignals);
 assert.equal(kpis.signalCount24h, 0);
 assert.equal(kpis.signalCount, filteredSignals.length);
 assert.equal(kpis.activeCompanies, 4);
-assert.equal(kpis.sourceCount, 2);
+assert.equal(kpis.sourceCount, 3);
 assert.equal(kpis.topTheme, "AI");
 assert.equal(lib.getPulseCompanyActivity("advantest", filteredSignals).count, 2);
 assert.ok(lib.buildPulseThemes(data.pulseSignals).some((theme) => theme.id === "EUV" && theme.signalCount === 2));
