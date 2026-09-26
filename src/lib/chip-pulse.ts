@@ -4,8 +4,10 @@ import type {
   PulseEvent,
   PulseFilters,
   PulseSignal,
+  PulseTheme,
   PulseThemeId,
 } from "@/data/chip-pulse";
+import { pulseThemeDefinitions, pulseUpdatedAt } from "@/data/chip-pulse";
 
 export type TreemapRect = {
   id: string;
@@ -26,14 +28,14 @@ export type TreemapGroupRect = {
 };
 
 export type PulseKpis = {
-  weightedChange: number | null;
-  japanWeightedChange: number | null;
-  rising: number;
-  falling: number;
-  unchanged: number;
-  topTheme: PulseThemeId | null;
+  signalCount24h: number;
   signalCount: number;
+  activeCompanies: number;
+  sourceCount: number;
+  topTheme: PulseThemeId | null;
 };
+
+export type PulseCompanyActivity = { count: number; score: number };
 
 type WeightedItem<T> = { id: string; value: number; item: T };
 type Bounds = { x: number; y: number; width: number; height: number };
@@ -90,29 +92,53 @@ export function filterPulseBriefLines(lines: PulseBriefLine[], filters: PulseFil
   return [...matching].sort((a, b) => b.priority - a.priority).slice(0, 3);
 }
 
-function weightedChange(companies: PulseCompany[]) {
-  const total = companies.reduce((sum, company) => sum + company.marketCapUsdB, 0);
-  if (total <= 0) return null;
-  return companies.reduce((sum, company) => sum + company.changePercent * company.marketCapUsdB, 0) / total;
-}
-
-export function calculatePulseKpis(companies: PulseCompany[], signals: PulseSignal[]): PulseKpis {
+export function calculatePulseKpis(companies: PulseCompany[], signals: PulseSignal[], asOf = pulseUpdatedAt): PulseKpis {
+  const companyIds = new Set(companies.map((company) => company.id));
   const themeCounts = new Map<PulseThemeId, number>();
-  for (const company of companies) {
-    for (const theme of company.themes) themeCounts.set(theme, (themeCounts.get(theme) ?? 0) + 1);
+  for (const signal of signals) {
+    for (const theme of signal.themes) themeCounts.set(theme, (themeCounts.get(theme) ?? 0) + 1);
   }
   const topTheme = [...themeCounts.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? null;
+  const asOfTime = new Date(asOf).getTime();
+  const dayInMs = 24 * 60 * 60 * 1000;
+  const activeCompanies = new Set(signals.flatMap((signal) => signal.companyIds).filter((id) => companyIds.has(id)));
 
   return {
-    weightedChange: weightedChange(companies),
-    japanWeightedChange: weightedChange(companies.filter((company) => company.region === "Japan")),
-    rising: companies.filter((company) => company.changePercent > 0).length,
-    falling: companies.filter((company) => company.changePercent < 0).length,
-    unchanged: companies.filter((company) => company.changePercent === 0).length,
-    topTheme,
+    signalCount24h: signals.filter((signal) => {
+      const age = asOfTime - new Date(signal.occurredAt).getTime();
+      return age >= 0 && age <= dayInMs;
+    }).length,
     signalCount: signals.length,
+    activeCompanies: activeCompanies.size,
+    sourceCount: new Set(signals.map((signal) => signal.sourceName)).size,
+    topTheme,
   };
+}
+
+export function getPulseCompanyActivity(companyId: string, signals: PulseSignal[]): PulseCompanyActivity {
+  const related = signals.filter((signal) => signal.companyIds.includes(companyId));
+  const toneWeight: Record<PulseSignal["tone"], number> = { positive: 1, negative: -1, mixed: 0, neutral: 0 };
+  return {
+    count: related.length,
+    score: related.reduce((sum, signal) => sum + toneWeight[signal.tone], 0),
+  };
+}
+
+export function buildPulseThemes(signals: PulseSignal[]): PulseTheme[] {
+  return Object.entries(pulseThemeDefinitions).flatMap(([id, definition]) => {
+    const themeId = id as PulseThemeId;
+    const matching = signals.filter((signal) => signal.themes.includes(themeId));
+    if (matching.length === 0) return [];
+    return [{
+      id: themeId,
+      label: definition.label,
+      signalCount: matching.length,
+      companyCount: new Set(matching.flatMap((signal) => signal.companyIds)).size,
+      latestAt: [...matching].sort((a, b) => b.occurredAt.localeCompare(a.occurredAt))[0].occurredAt,
+      note: definition.note,
+    }];
+  }).sort((a, b) => b.signalCount - a.signalCount || b.companyCount - a.companyCount || a.id.localeCompare(b.id));
 }
 
 function splitWeighted<T>(items: WeightedItem<T>[], bounds: Bounds): WeightedRect<T>[] {
@@ -192,9 +218,4 @@ export function layoutPulseTreemap(companies: PulseCompany[], width = 1000, heig
   });
 
   return { groups, rects };
-}
-
-export function formatPulseChange(value: number | null) {
-  if (value === null) return "—";
-  return `${value > 0 ? "+" : ""}${value.toFixed(1)}%`;
 }

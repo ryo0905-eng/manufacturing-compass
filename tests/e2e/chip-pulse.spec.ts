@@ -1,15 +1,15 @@
 import { expect, test } from "playwright/test";
 
 test.describe("Chip Pulse 半導体業界ウォッチ", () => {
-  test("公開プロトタイプ、canonical、初期ダッシュボードを表示する", async ({ page }) => {
+  test("公式情報スナップショット、canonical、初期ダッシュボードを表示する", async ({ page }) => {
     await page.goto("/semiconductor-watch");
     await expect(page.getByRole("heading", { level: 1, name: /Chip Pulse.*半導体業界の「今」を.*3分で。/ })).toBeVisible();
-    await expect(page.getByText("操作体験用のデモです")).toBeVisible();
+    await expect(page.getByText("公式情報スナップショット")).toBeVisible();
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://mfg-compass.com/semiconductor-watch");
     await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute("content", /noindex/);
-    await expect(page.getByRole("heading", { level: 2, name: "企業の強弱と規模を一枚で見る" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "昨日から変わったこと" })).toBeVisible();
-    await expect(page.getByText("MUST READ").first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "企業規模と公式シグナルを一枚で見る" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "公式発表から変わったこと" })).toBeVisible();
+    await expect(page.getByText("KEY SIGNAL").first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /重要な変化を/ })).toHaveCount(0);
   });
 
@@ -31,10 +31,11 @@ test.describe("Chip Pulse 半導体業界ウォッチ", () => {
 
   test("シグナル詳細をキーボードで開ける", async ({ page }) => {
     await page.goto("/semiconductor-watch");
-    const summary = page.locator("details").filter({ hasText: "Micron：HBM増産計画を発表" }).first().locator("summary");
+    const summary = page.locator("details").filter({ hasText: "TSMC：8月売上高は5,148億台湾ドル" }).first().locator("summary");
     await summary.focus();
     await summary.press("Enter");
-    await expect(page.getByText("メモリ企業だけでなく、成膜・エッチング・テスト装置への波及を探索できます。", { exact: true }).first()).toBeVisible();
+    await expect(page.getByText("AI・先端プロセス需要を読むうえで、観測記事ではなく月次売上の原数値を確認できます。", { exact: true }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /SEC \/ TSMC Form 6-Kの原文/ })).toBeVisible();
   });
 
   test("横方向にはみ出さず、モバイルでは企業一覧を操作できる", async ({ page }, testInfo) => {
@@ -52,7 +53,7 @@ test.describe("Chip Pulse 半導体業界ウォッチ", () => {
     try {
       await page.goto(`${baseURL}/semiconductor-watch`);
       await expect(page.getByRole("heading", { level: 1, name: /Chip Pulse/ })).toBeVisible();
-      await expect(page.getByText("操作体験用のデモです")).toBeVisible();
+      await expect(page.getByText("公式情報スナップショット")).toBeVisible();
       await expect(page.getByRole("button", { name: /NVIDIA/ }).last()).toBeVisible();
       await page.getByText("次に起きることと背景を深掘りする").click();
       await expect(page.getByRole("link", { name: /半導体業界地図/ }).first()).toBeVisible();

@@ -5,7 +5,7 @@ export function DailyBrief({ lines, scopeLabel }: { lines: PulseBriefLine[]; sco
   return (
     <section className={styles.brief} aria-labelledby="daily-brief-title">
       <header>
-        <span>10 SEC BRIEF / DEMO</span>
+        <span>10 SEC BRIEF / EDITORIAL</span>
         <h2 id="daily-brief-title">今日の3行</h2>
         <p>{scopeLabel}</p>
       </header>

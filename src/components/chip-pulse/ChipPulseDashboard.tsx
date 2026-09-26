@@ -14,17 +14,17 @@ import {
   pulseCompanies,
   pulseEvents,
   pulseSignals,
-  pulseThemes,
   type PulseFilters,
 } from "@/data/chip-pulse";
 import { factoryProjects } from "@/data/factory-projects";
 import {
+  buildPulseThemes,
   calculatePulseKpis,
   filterPulseBriefLines,
   filterPulseCompanies,
   filterPulseEvents,
   filterPulseSignals,
-  formatPulseChange,
+  getPulseCompanyActivity,
   getDefaultPulseFilters,
   isDefaultPulseFilters,
   pulseRegionMatches,
@@ -66,6 +66,10 @@ export function ChipPulseDashboard() {
 
   const activeCompanyId = selectedCompany?.id ?? null;
   const scopedCompanies = activeCompanyId ? visibleCompanies.filter((company) => company.id === activeCompanyId) : visibleCompanies;
+  const filteredSignals = useMemo(
+    () => filterPulseSignals(pulseSignals, filters, null),
+    [filters],
+  );
   const visibleSignals = useMemo(
     () => filterPulseSignals(pulseSignals, filters, activeCompanyId),
     [activeCompanyId, filters],
@@ -79,11 +83,7 @@ export function ChipPulseDashboard() {
     [activeCompanyId, filters],
   );
   const kpis = calculatePulseKpis(scopedCompanies, visibleSignals);
-  const visibleThemes = pulseThemes.filter((theme) => {
-    if (activeCompanyId) return selectedCompany?.themes.includes(theme.id);
-    if (filters.theme !== "All") return theme.id === filters.theme;
-    return visibleCompanies.some((company) => company.themes.includes(theme.id));
-  });
+  const visibleThemes = buildPulseThemes(visibleSignals);
   const visibleProjects = factoryProjects.filter((project) => {
     if (!pulseRegionMatches("Japan", filters.region)) return false;
     const tags = projectTags[project.id];
@@ -129,17 +129,17 @@ export function ChipPulseDashboard() {
   return (
     <div className={styles.dashboard}>
       <section className={styles.kpis} aria-label="Today's Pulse">
-        <article><span>MARKET PULSE</span><strong className={kpis.weightedChange !== null && kpis.weightedChange < 0 ? styles.downValue : styles.upValue}>{formatPulseChange(kpis.weightedChange)}</strong><small>時価総額加重 · Japan {formatPulseChange(kpis.japanWeightedChange)}</small></article>
-        <article><span>MARKET BREADTH</span><strong>{kpis.rising}<i>↑</i> / {kpis.falling}<b>↓</b></strong><small>上昇 / 下落企業</small></article>
-        <article><span>FOCUS THEME</span><strong>{kpis.topTheme ?? "—"}</strong><small>関連企業が最多</small></article>
-        <article><span>24H SIGNALS</span><strong>{kpis.signalCount}</strong><small>条件に合う変化</small></article>
+        <article><span>OFFICIAL / 24H</span><strong>{kpis.signalCount24h}</strong><small>{kpis.signalCount24h === 0 ? "重要更新なし" : "確認済みの重要更新"}</small></article>
+        <article><span>SIGNALS / 30D</span><strong>{kpis.signalCount}</strong><small>{kpis.sourceCount}ソースから確認</small></article>
+        <article><span>ACTIVE COMPANIES</span><strong>{kpis.activeCompanies}</strong><small>公式更新に関連する企業</small></article>
+        <article><span>FOCUS THEME</span><strong>{kpis.topTheme ?? "—"}</strong><small>公式更新が最多</small></article>
       </section>
 
       <IndustryFilters filters={filters} resultCount={visibleCompanies.length} onChange={changeFilter} onReset={resetFilters} />
 
       {selectedCompany ? (
         <aside className={styles.selectionBar} aria-live="polite">
-          <span>FOCUS</span><strong>{selectedCompany.name}</strong><small>{selectedCompany.category} · {selectedCompany.region} · {formatPulseChange(selectedCompany.changePercent)}</small>
+          <span>FOCUS</span><strong>{selectedCompany.name}</strong><small>{selectedCompany.category} · {selectedCompany.region} · 公式シグナル {getPulseCompanyActivity(selectedCompany.id, filteredSignals).count}件</small>
           {selectedCompany.companySlug ? <Link href={`/companies/${selectedCompany.companySlug}`} onClick={() => relatedClick("selected_company")}>企業情報を見る →</Link> : null}
           <button type="button" onClick={() => setSelectedCompanyId(null)}>選択を解除</button>
         </aside>
@@ -154,7 +154,7 @@ export function ChipPulseDashboard() {
           <DailyBrief lines={briefLines} scopeLabel={scopeText(filters, selectedCompany?.name)} />
 
           <div className={styles.cockpit}>
-            <MarketHeatmap companies={visibleCompanies} selectedCompanyId={activeCompanyId} onSelect={selectCompany} />
+            <MarketHeatmap companies={visibleCompanies} signals={filteredSignals} selectedCompanyId={activeCompanyId} onSelect={selectCompany} />
             <ChangeTimeline
               signals={visibleSignals}
               onOpen={openSignal}

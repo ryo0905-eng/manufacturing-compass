@@ -172,6 +172,7 @@
 .timeline > header { display: flex; align-items: end; justify-content: space-between; gap: 10px; padding: 12px 13px 10px; }
 .timeline > header p { color: var(--mc-text-muted); font-size: 9px; white-space: nowrap; }
 .timeline > header p strong { color: #a56b18; }
+.quietSignal { margin: 0 12px 10px; border: 1px solid #d7e4ed; border-radius: 7px; background: #f2f7fa; color: #4f6878; padding: 7px 9px; font-size: 9px; line-height: 1.45; }
 .timelineList { border-top: 1px solid var(--mc-border); }
 .timeline details { border-bottom: 1px solid var(--mc-border); }
 .timeline summary { display: grid; gap: 7px; padding: 10px 12px; cursor: pointer; list-style: none; transition: background 130ms ease; }
@@ -212,9 +213,11 @@
 .themeGrid article > div > span { color: var(--mc-text-muted); font-size: 7px; font-weight: 700; }
 .themeGrid article > div > strong { display: block; margin-top: 1px; font-size: 12px; }
 .themeGrid article > div > p { margin-top: 4px; color: var(--mc-text-muted); font-size: 8px; line-height: 1.35; }
-.themeGrid svg { align-self: center; width: 100%; height: 36px; overflow: visible; }
-.themeGrid polyline { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; }
-.direction_up polyline { stroke: var(--mc-success); }.direction_down polyline { stroke: var(--mc-error); }.direction_flat polyline { stroke: var(--mc-warning); }
+.themeMeter { display: flex; align-items: flex-end; justify-content: flex-end; gap: 3px; min-height: 36px; }
+.themeMeter i { width: 6px; height: 13px; border-radius: 2px 2px 0 0; background: #dbe5e1; }
+.themeMeter i:nth-child(2n) { height: 20px; }
+.themeMeter i:nth-child(3n) { height: 28px; }
+.themeMeter .themeMeterActive { background: linear-gradient(#62b990, #2e8663); }
 .themeGrid dl { display: flex; grid-column: 1 / -1; gap: 16px; border-top: 1px solid var(--mc-border); padding-top: 6px; }
 .themeGrid dl div { display: flex; align-items: baseline; gap: 4px; }
 .themeGrid dt { color: var(--mc-text-muted); font-size: 7px; text-transform: uppercase; }
@@ -238,6 +241,7 @@
 .events li div { display: grid; gap: 2px; }
 .events li span { width: fit-content; color: var(--mc-selection); font-size: 8px; font-weight: 700; }
 .events li strong { font-size: 10px; }.events li p { color: var(--mc-text-muted); font-size: 8px; }
+.events li a { color: var(--mc-action); }
 .investmentList { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--mc-border); }
 .investmentList article { padding: 10px; }
 .investmentList article + article { border-left: 1px solid var(--mc-border); }

@@ -35,7 +35,7 @@ SEO は Career Compass だけへ送客するためのものではありません
 - `/compare`, `/compare/[slug]`: 企業比較
 - `/guides`, `/guides/[slug]`: 技術・業界・キャリア記事
 - `/rankings`, `/rankings/[slug]`: 基準時点のあるランキング
-- `/semiconductor-watch`: 企業・地域・テーマを横断して業界の変化を探索する公開プロトタイプ
+- `/semiconductor-watch`: 企業・地域・テーマを横断し、公式情報スナップショットから業界の変化を探索するダッシュボード
 - `/career-agents`: エージェント比較
 - `/career-consultation`: 相談準備
 
@@ -43,7 +43,7 @@ SEO は Career Compass だけへ送客するためのものではありません
 
 存在しない `/diagnosis`、`/diagnosis/result`、`/agents`、`/english` をリンク設計へ使いません。新規URLを追加する前に、既存ページとの検索意図の境界を決めます。
 
-`/semiconductor-watch` は半導体ニュース・市場動向を横断して探索するアプリを中心とし、Past 24hでは企業・地域・テーマ・工程の関係を主情報にする。業界構造を説明する `/industry-map`、基準日時点の数値を比較するランキング、勤務地を探す `/semiconductor-map` と検索意図を分ける。デモ段階では固定データであることを本文とdescriptionで明示し、「リアルタイム」「最新速報」を標榜しない。架空シグナルへNewsArticle構造化データや架空の出典URLを付けない。
+`/semiconductor-watch` は半導体ニュース・市場動向を横断して探索するアプリを中心とし、公式シグナルでは企業・地域・テーマ・工程と原文の関係を主情報にする。業界構造を説明する `/industry-map`、基準日時点の数値を比較するランキング、勤務地を探す `/semiconductor-map` と検索意図を分ける。企業IR・規制提出・業界団体を手動確認した静的スナップショットであること、確認時刻、時価総額の基準日を本文で示し、「リアルタイム」「最新速報」を標榜しない。NewsArticle構造化データは自動収集・公開日時・訂正運用が整うまで追加しない。
 
 ### 全国拠点ハブ
 

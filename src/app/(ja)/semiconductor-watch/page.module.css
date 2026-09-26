@@ -46,22 +46,23 @@
 .signalHeading i { width: 7px; height: 7px; border-radius: 50%; background: #61d79c; box-shadow: 0 0 0 5px rgba(97,215,156,.12); }
 .heroSignal > strong { display: block; margin-top: 10px; font-size: clamp(22px, 2.3vw, 29px); letter-spacing: -.02em; }
 .heroSignal > p { margin-top: 5px; color: rgba(255,255,255,.7); font-size: 11px; }
-.heroSignal svg { display: block; width: 100%; height: 40px; margin-top: 5px; overflow: visible; }
-.heroSignal path { fill: none; stroke: #77e0b1; stroke-width: 3; stroke-linecap: round; filter: drop-shadow(0 4px 7px rgba(119,224,177,.3)); }
-.heroSignal circle { fill: #fff; stroke: #77e0b1; stroke-width: 3; }
-.demoNotice { display: grid; grid-template-columns: 138px 1fr auto; gap: 12px; align-items: center; border: 1px solid #dfd6bd; border-radius: 9px; background: #fffaf0; padding: 7px 12px; }
-.demoNotice strong { font-size: 12px; }
-.demoNotice p { color: var(--mc-text-muted); font-size: 10px; line-height: 1.6; }
-.demoNotice dl { display: flex; gap: 16px; }
-.demoNotice dl div { display: grid; gap: 2px; }
-.demoNotice dt { color: var(--mc-text-muted); font-size: 8px; text-transform: uppercase; }
-.demoNotice dd { font-size: 9px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.heroSignal > dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; overflow: hidden; margin-top: 13px; border: 1px solid rgba(255,255,255,.13); border-radius: 8px; background: rgba(255,255,255,.13); }
+.heroSignal > dl div { background: rgba(10,32,46,.32); padding: 7px 8px; }
+.heroSignal dt { color: rgba(255,255,255,.5); font-size: 7px; font-weight: 750; letter-spacing: .08em; }
+.heroSignal dd { margin-top: 2px; font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.sourceNotice { display: grid; grid-template-columns: 170px 1fr auto; gap: 12px; align-items: center; border: 1px solid #cbdbe6; border-radius: 9px; background: #f3f8fb; padding: 7px 12px; }
+.sourceNotice strong { font-size: 12px; }
+.sourceNotice p { color: var(--mc-text-muted); font-size: 10px; line-height: 1.6; }
+.sourceNotice dl { display: flex; gap: 16px; }
+.sourceNotice dl div { display: grid; gap: 2px; }
+.sourceNotice dt { color: var(--mc-text-muted); font-size: 8px; text-transform: uppercase; }
+.sourceNotice dd { font-size: 9px; font-weight: 650; font-variant-numeric: tabular-nums; }
 
 @media (max-width: 760px) {
   .page { width: calc(100% - 28px); padding-top: 8px; }
   .hero { grid-template-columns: 1fr; gap: 16px; align-items: start; border-radius: 14px; padding: 22px 18px 15px; }
   .hero h1 { font-size: 34px; }
   .heroSignal { padding: 16px; }
-  .demoNotice { grid-template-columns: 1fr; gap: 4px; }
-  .demoNotice dl { margin-top: 5px; }
+  .sourceNotice { grid-template-columns: 1fr; gap: 4px; }
+  .sourceNotice dl { margin-top: 5px; }
 }

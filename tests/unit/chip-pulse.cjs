@@ -44,12 +44,20 @@ for (const company of data.pulseCompanies) {
 const companyIds = new Set(data.pulseCompanies.map((company) => company.id));
 for (const signal of data.pulseSignals) {
   assert.ok(signal.companyIds.every((id) => companyIds.has(id)), signal.id);
-  assert.ok(companyIds.has(signal.primaryCompanyId), signal.id);
-  assert.ok(signal.companyIds.includes(signal.primaryCompanyId), signal.id);
+  if (signal.primaryCompanyId) {
+    assert.ok(companyIds.has(signal.primaryCompanyId), signal.id);
+    assert.ok(signal.companyIds.includes(signal.primaryCompanyId), signal.id);
+  }
   assert.ok(signal.processes.length > 0, signal.id);
   assert.ok(signal.importance >= 1 && signal.importance <= 3);
+  assert.match(signal.sourceUrl, /^https:\/\//, signal.id);
+  assert.ok(signal.sourceName.length > 0, signal.id);
 }
-for (const event of data.pulseEvents) assert.ok(event.companyIds.every((id) => companyIds.has(id)), event.id);
+for (const event of data.pulseEvents) {
+  assert.ok(event.companyIds.every((id) => companyIds.has(id)), event.id);
+  assert.match(event.sourceUrl, /^https:\/\//, event.id);
+}
+assert.equal(data.pulseSnapshot.mode, "source-backed");
 
 const japanEquipment = { region: "Japan", category: "Equipment", theme: "All" };
 assert.equal(
@@ -73,11 +81,13 @@ assert.equal(
 const filteredCompanies = lib.filterPulseCompanies(data.pulseCompanies, japanEquipment);
 const filteredSignals = lib.filterPulseSignals(data.pulseSignals, japanEquipment, null);
 const kpis = lib.calculatePulseKpis(filteredCompanies, filteredSignals);
-assert.equal(kpis.rising, 4);
-assert.equal(kpis.falling, 0);
+assert.equal(kpis.signalCount24h, 0);
 assert.equal(kpis.signalCount, filteredSignals.length);
-assert.ok(kpis.weightedChange > 0);
-assert.ok(kpis.japanWeightedChange > 0);
+assert.equal(kpis.activeCompanies, 4);
+assert.equal(kpis.sourceCount, 2);
+assert.equal(kpis.topTheme, "AI");
+assert.equal(lib.getPulseCompanyActivity("advantest", filteredSignals).count, 2);
+assert.ok(lib.buildPulseThemes(data.pulseSignals).some((theme) => theme.id === "EUV" && theme.signalCount === 2));
 
 const width = 1000, height = 520;
 const layout = lib.layoutPulseTreemap(data.pulseCompanies, width, height);
