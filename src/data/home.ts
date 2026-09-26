@@ -8,6 +8,7 @@ export const homeGuideSlugs = [
 ] as const;
 
 export const homeResearchLinks = [
+  { id: "semiconductor_watch", href: "/semiconductor-watch", title: "Chip Pulse｜半導体業界ウォッチ", body: "企業・地域・テーマを横断し、昨日からの変化を3分でつかむ" },
   { id: "industry_map", href: "/industry-map", title: "業界地図を見る", body: "工程と企業の役割を俯瞰する" },
   { id: "companies", href: "/companies", title: "企業を探す", body: "事業領域や職種から調べる" },
   { id: "compare", href: "/compare", title: "企業を比較する", body: "同じ比較軸で違いを確認する" },

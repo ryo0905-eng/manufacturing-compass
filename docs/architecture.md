@@ -1,6 +1,6 @@
 # Architecture
 
-最終更新日: 2026-09-22
+最終更新日: 2026-09-26
 
 ## 方針
 
@@ -9,6 +9,8 @@ Manufacturing Compass は、Next.js App Router 上で動く静的データ中心
 Career Compass、インタラクティブ実務学習ツール、業界地図の操作部分だけを Client Component で動かし、企業、ガイド、ランキング、SEO メタデータは Server Components と静的データを基本にします。中心機能はログイン、個人情報保存、外部データベース、AI API に依存しません。Jev実験ページのみ、下記の限定した外部APIを使用します。実務ツールの入力と計算はブラウザ内で完結し、生データを外部へ送信しません。
 
 ## 技術構成
+
+- Chip Pulse：`chip-pulse.ts` が企業ID、デモ騰落、シグナル、テーマ、イベントを保持し、`lib/chip-pulse.ts` が複合フィルター、KPI、依存なしの矩形分割を担当する。`/semiconductor-watch` のServer Componentがmetadata・構造化データ・注意書きを出力し、Client Componentが選択状態だけをブラウザ内で管理する。時価総額と工場案件は既存静的データを参照し、デモ値と出典付きデータを表示上も分離する。API、永続化、URL状態は追加しない。
 
 - 工場プロジェクト比較：`factory-projects.ts` の静的データを記事一覧とClient Componentで共用。`factory-project-comparison.ts` が2件のID検証・出典付きコピー文を担当。GuideBlockにfactory-project-comparisonを追加し、既存記事へ組み込む。独立URL・保存・外部APIなし。[仕様](./factory-project-comparison-spec.md)。
 

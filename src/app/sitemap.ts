@@ -1,4 +1,5 @@
 import { jobNoteMeta } from "@/data/job-posting-note";
+import { pulseUpdatedAt } from "@/data/chip-pulse";
 import { defectPareto } from "@/data/defect-pareto";
 import { improvementReportMeta } from "@/data/improvement-report";
 import { measurementPlanner } from "@/data/measurement-planner";
@@ -64,6 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/career-agents",
     "/roles",
     "/industry-map",
+    "/semiconductor-watch",
     "/semiconductor-map",
     "/companies",
     "/compare",
@@ -96,6 +98,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/career-priorities" ? { lastModified: contentDate("2026-09-06") } : {}),
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
+    ...(path === "/semiconductor-watch" ? { lastModified: new Date(pulseUpdatedAt) } : {}),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/career-agents" || path === "/semiconductor-map" ? 0.85 : 0.8,
   }));

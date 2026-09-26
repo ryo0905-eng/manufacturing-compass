@@ -1,6 +1,6 @@
 # SEO Strategy
 
-最終更新日: 2026-09-21
+最終更新日: 2026-09-26
 
 ## 役割
 
@@ -35,12 +35,15 @@ SEO は Career Compass だけへ送客するためのものではありません
 - `/compare`, `/compare/[slug]`: 企業比較
 - `/guides`, `/guides/[slug]`: 技術・業界・キャリア記事
 - `/rankings`, `/rankings/[slug]`: 基準時点のあるランキング
+- `/semiconductor-watch`: 企業・地域・テーマを横断して業界の変化を探索する公開プロトタイプ
 - `/career-agents`: エージェント比較
 - `/career-consultation`: 相談準備
 
 旧 `/companies/[slug]/career-prep` は、重複を避けるため `/companies/[slug]#career-prep` へ恒久リダイレクトします。canonical と sitemap の対象は親の企業詳細URLだけです。
 
 存在しない `/diagnosis`、`/diagnosis/result`、`/agents`、`/english` をリンク設計へ使いません。新規URLを追加する前に、既存ページとの検索意図の境界を決めます。
+
+`/semiconductor-watch` は半導体ニュース・市場動向を横断して探索するアプリを中心とし、業界構造を説明する `/industry-map`、基準日時点の数値を比較するランキング、勤務地を探す `/semiconductor-map` と検索意図を分ける。デモ段階では固定データであることを本文とdescriptionで明示し、「リアルタイム」「最新速報」を標榜しない。架空シグナルへNewsArticle構造化データや架空の出典URLを付けない。
 
 ### 全国拠点ハブ
 
