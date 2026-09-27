@@ -53,7 +53,7 @@
 .sourceNotice { display: grid; grid-template-columns: 170px 1fr auto; gap: 12px; align-items: center; border: 1px solid #cbdbe6; border-radius: 9px; background: #f3f8fb; padding: 7px 12px; }
 .sourceNotice strong { font-size: 12px; }
 .sourceNotice p { color: var(--mc-text-muted); font-size: 10px; line-height: 1.6; }
-.sourceNotice dl { display: flex; gap: 16px; }
+.sourceNotice dl { display: flex; flex-wrap: wrap; gap: 8px 16px; }
 .sourceNotice dl div { display: grid; gap: 2px; }
 .sourceNotice dt { color: var(--mc-text-muted); font-size: 8px; text-transform: uppercase; }
 .sourceNotice dd { font-size: 9px; font-weight: 650; font-variant-numeric: tabular-nums; }

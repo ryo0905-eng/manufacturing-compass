@@ -57,6 +57,9 @@ for (const event of data.pulseEvents) {
   assert.ok(event.companyIds.every((id) => companyIds.has(id)), event.id);
   assert.match(event.sourceUrl, /^https:\/\//, event.id);
 }
+for (const line of data.pulseBriefLines) {
+  assert.ok((line.signalIds ?? []).every((id) => data.pulseSignals.some((signal) => signal.id === id)), line.id);
+}
 assert.equal(data.pulseSnapshot.mode, "source-backed");
 
 const japanEquipment = { region: "Japan", category: "Equipment", theme: "All" };
@@ -88,6 +91,15 @@ assert.equal(kpis.sourceCount, 3);
 assert.equal(kpis.topTheme, "AI");
 assert.equal(lib.getPulseCompanyActivity("advantest", filteredSignals).count, 2);
 assert.ok(lib.buildPulseThemes(data.pulseSignals).some((theme) => theme.id === "EUV" && theme.signalCount === 2));
+const septemberCheck = "2026-09-27T07:39:51.087Z";
+assert.ok(lib.filterRecentPulseSignals(data.pulseSignals, septemberCheck).length > 0);
+assert.equal(lib.filterRecentPulseSignals(data.pulseSignals, "2026-11-01T00:00:00Z").length, 0);
+assert.equal(lib.filterUpcomingPulseEvents(data.pulseEvents, septemberCheck).length, 1);
+assert.equal(lib.filterUpcomingPulseEvents(data.pulseEvents, "2026-10-01T00:00:00Z").length, 0);
+assert.equal(
+  lib.filterPulseBriefLines(data.pulseBriefLines, { region: "Global", category: "All", theme: "All" }, null, [], false).map((line) => line.id).join(","),
+  "brief-quiet-24h",
+);
 
 const width = 1000, height = 520;
 const layout = lib.layoutPulseTreemap(data.pulseCompanies, width, height);

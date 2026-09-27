@@ -8,6 +8,7 @@ const {
   normalizeRssItems,
   readRegistry,
   secFilingUrl,
+  secUserAgent,
   writeSnapshotSafely,
 } = require("../../scripts/chip-pulse-update.cjs");
 
@@ -18,6 +19,9 @@ const source = {
   cik: "0001045810",
   forms: ["8-K", "10-Q", "10-K"],
 };
+assert.equal(secUserAgent("contact@example.com"), "Manufacturing Compass contact@example.com");
+assert.equal(secUserAgent("Manufacturing Compass contact@example.com"), "Manufacturing Compass contact@example.com");
+assert.throws(() => secUserAgent("invalid"), /contact email/);
 const payload = {
   filings: {
     recent: {

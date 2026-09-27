@@ -86,9 +86,29 @@ export function filterPulseEvents(events: PulseEvent[], filters: PulseFilters, s
     && (!selectedCompanyId || event.companyIds.includes(selectedCompanyId)));
 }
 
-export function filterPulseBriefLines(lines: PulseBriefLine[], filters: PulseFilters, selectedCompanyId: string | null) {
+export function filterRecentPulseSignals(signals: PulseSignal[], asOf: string, days = 30) {
+  const checkedAt = new Date(asOf).getTime();
+  return signals.filter((signal) => {
+    const age = checkedAt - new Date(signal.occurredAt).getTime();
+    return age >= 0 && age <= days * 24 * 60 * 60 * 1000;
+  });
+}
+
+export function filterUpcomingPulseEvents(events: PulseEvent[], asOf: string, days = 7) {
+  const checkedAt = new Date(asOf).getTime();
+  const todayJst = new Date(checkedAt + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const firstDay = Date.parse(`${todayJst}T00:00:00Z`);
+  return events.filter((event) => {
+    const eventDay = Date.parse(`${event.date}T00:00:00Z`);
+    return eventDay >= firstDay && eventDay < firstDay + days * 24 * 60 * 60 * 1000;
+  });
+}
+
+export function filterPulseBriefLines(lines: PulseBriefLine[], filters: PulseFilters, selectedCompanyId: string | null, signals: PulseSignal[], has24hUpdate: boolean) {
+  const signalIds = new Set(signals.map((signal) => signal.id));
   const matching = lines.filter((line) => tagsMatchFilters(line, filters)
-    && (!selectedCompanyId || line.companyIds.includes(selectedCompanyId)));
+    && (!selectedCompanyId || line.companyIds.includes(selectedCompanyId))
+    && (line.signalIds ? line.signalIds.every((id) => signalIds.has(id)) : !has24hUpdate));
   return [...matching].sort((a, b) => b.priority - a.priority).slice(0, 3);
 }
 

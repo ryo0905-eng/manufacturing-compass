@@ -17,6 +17,7 @@ import {
   type PulseFilters,
 } from "@/data/chip-pulse";
 import officialUpdates from "@/data/chip-pulse-official-updates.json";
+import refreshStatus from "@/data/chip-pulse-refresh-status.json";
 import { factoryProjects } from "@/data/factory-projects";
 import {
   buildPulseThemes,
@@ -24,7 +25,9 @@ import {
   filterPulseBriefLines,
   filterPulseCompanies,
   filterPulseEvents,
+  filterRecentPulseSignals,
   filterPulseSignals,
+  filterUpcomingPulseEvents,
   getPulseCompanyActivity,
   getDefaultPulseFilters,
   isDefaultPulseFilters,
@@ -46,6 +49,8 @@ type OfficialUpdate = {
 };
 
 const publishedOfficialUpdates: OfficialUpdate[] = officialUpdates.updates;
+const recentSignals = filterRecentPulseSignals(pulseSignals, refreshStatus.checkedAt);
+const upcomingEvents = filterUpcomingPulseEvents(pulseEvents, refreshStatus.checkedAt);
 
 const projectTags: Record<string, { category: "Foundry" | "Memory"; themes: string[] }> = {
   "jasm-1": { category: "Foundry", themes: ["Foundry"] },
@@ -80,22 +85,22 @@ export function ChipPulseDashboard() {
   const activeCompanyId = selectedCompany?.id ?? null;
   const scopedCompanies = activeCompanyId ? visibleCompanies.filter((company) => company.id === activeCompanyId) : visibleCompanies;
   const filteredSignals = useMemo(
-    () => filterPulseSignals(pulseSignals, filters, null),
+    () => filterPulseSignals(recentSignals, filters, null),
     [filters],
   );
   const visibleSignals = useMemo(
-    () => filterPulseSignals(pulseSignals, filters, activeCompanyId),
+    () => filterPulseSignals(recentSignals, filters, activeCompanyId),
     [activeCompanyId, filters],
   );
   const visibleEvents = useMemo(
-    () => filterPulseEvents(pulseEvents, filters, activeCompanyId),
+    () => filterPulseEvents(upcomingEvents, filters, activeCompanyId),
     [activeCompanyId, filters],
   );
   const briefLines = useMemo(
-    () => filterPulseBriefLines(pulseBriefLines, filters, activeCompanyId),
-    [activeCompanyId, filters],
+    () => filterPulseBriefLines(pulseBriefLines, filters, activeCompanyId, visibleSignals, filterRecentPulseSignals(visibleSignals, refreshStatus.checkedAt, 1).length > 0),
+    [activeCompanyId, filters, visibleSignals],
   );
-  const kpis = calculatePulseKpis(scopedCompanies, visibleSignals);
+  const kpis = calculatePulseKpis(scopedCompanies, visibleSignals, refreshStatus.checkedAt);
   const visibleThemes = buildPulseThemes(visibleSignals);
   const visibleProjects = factoryProjects.filter((project) => {
     if (!pulseRegionMatches("Japan", filters.region)) return false;
@@ -111,6 +116,10 @@ export function ChipPulseDashboard() {
     return company && visibleCompanies.some((entry) => entry.id === company.id)
       && (!activeCompanyId || update.companyId === activeCompanyId);
   }) : [];
+  const officialCount24h = visibleOfficialUpdates.filter((update) => {
+    const age = new Date(refreshStatus.checkedAt).getTime() - new Date(update.publishedAt).getTime();
+    return age >= 0 && age <= 24 * 60 * 60 * 1000;
+  }).length;
   function changeFilter<Key extends keyof PulseFilters>(key: Key, requestedValue: PulseFilters[Key]) {
     const defaultValue = defaults[key];
     const value = filters[key] === requestedValue ? defaultValue : requestedValue;
@@ -147,7 +156,7 @@ export function ChipPulseDashboard() {
   return (
     <div className={styles.dashboard}>
       <section className={styles.kpis} aria-label="Today's Pulse">
-        <article><span>OFFICIAL / 24H</span><strong>{kpis.signalCount24h}</strong><small>{kpis.signalCount24h === 0 ? "重要更新なし" : "確認済みの重要更新"}</small></article>
+        <article><span>OFFICIAL / 24H</span><strong>{kpis.signalCount24h + officialCount24h}</strong><small>編集済み {kpis.signalCount24h} · 自動取得 {officialCount24h}</small></article>
         <article><span>SIGNALS / 30D</span><strong>{kpis.signalCount}</strong><small>{kpis.sourceCount}ソースから確認</small></article>
         <article><span>ACTIVE COMPANIES</span><strong>{kpis.activeCompanies}</strong><small>公式更新に関連する企業</small></article>
         <article><span>FOCUS THEME</span><strong>{kpis.topTheme ?? "—"}</strong><small>公式更新が最多</small></article>
@@ -175,6 +184,7 @@ export function ChipPulseDashboard() {
             <MarketHeatmap companies={visibleCompanies} signals={filteredSignals} selectedCompanyId={activeCompanyId} onSelect={selectCompany} />
             <ChangeTimeline
               signals={visibleSignals}
+              asOf={refreshStatus.checkedAt}
               onOpen={openSignal}
               onCompanySelect={(companyId) => selectCompany(companyId, "signal")}
               onRelatedClick={relatedClick}

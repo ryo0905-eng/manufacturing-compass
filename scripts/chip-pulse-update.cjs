@@ -140,10 +140,17 @@ function safeError(error) {
   return "invalid_response";
 }
 
-async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fetchImpl = fetch, userAgent, wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)) }) {
-  if (!userAgent || !userAgent.includes("@")) {
-    throw new Error("CHIP_PULSE_SEC_USER_AGENT must include an organization name and contact email.");
+function secUserAgent(value) {
+  if (typeof value !== "string") throw new Error("CHIP_PULSE_SEC_USER_AGENT must include a contact email.");
+  const contact = value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact) && !/\S+\s+[^\s@]+@[^\s@]+\.[^\s@]+/.test(contact)) {
+    throw new Error("CHIP_PULSE_SEC_USER_AGENT must include a contact email.");
   }
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact) ? `Manufacturing Compass ${contact}` : contact;
+}
+
+async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fetchImpl = fetch, userAgent, wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)) }) {
+  const secAgent = secUserAgent(userAgent);
   if (!(asOf instanceof Date) || Number.isNaN(asOf.getTime()) || !Number.isInteger(days) || days < 1 || days > 90) {
     throw new Error("Chip Pulse collection window is invalid.");
   }
@@ -160,7 +167,7 @@ async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fet
       const response = await fetchImpl(isSec ? secSubmissionUrl(source.cik) : source.url, {
         headers: {
           Accept: isSec ? "application/json" : "application/rss+xml, application/xml, text/xml",
-          "User-Agent": isSec ? userAgent : "ManufacturingCompassFeed/1.0",
+          "User-Agent": isSec ? secAgent : "ManufacturingCompassFeed/1.0",
         },
         signal: AbortSignal.timeout(12000),
       });
@@ -266,6 +273,7 @@ module.exports = {
   parseArguments,
   readRegistry,
   secFilingUrl,
+  secUserAgent,
   secSubmissionUrl,
   writeSnapshotSafely,
 };

@@ -9,6 +9,17 @@ const signalsPath = path.join(root, "src/data/chip-pulse.ts");
 const aliasesPath = path.join(root, "src/data/chip-pulse-source-aliases.json");
 const registryPath = path.join(root, "src/data/chip-pulse-sources.json");
 const outputPath = path.join(root, "src/data/chip-pulse-official-updates.json");
+const statusPath = path.join(root, "src/data/chip-pulse-refresh-status.json");
+
+function writeJsonAtomic(target, value) {
+  const temporaryPath = `${target}.tmp-${process.pid}`;
+  try {
+    fs.writeFileSync(temporaryPath, `${JSON.stringify(value, null, 2)}\n`, { flag: "wx" });
+    fs.renameSync(temporaryPath, target);
+  } finally {
+    if (fs.existsSync(temporaryPath)) fs.unlinkSync(temporaryPath);
+  }
+}
 
 function buildOfficialUpdates(snapshot, publishedSignals, aliases, registry) {
   if (snapshot.status !== "success" || snapshot.sources?.failed !== 0) {
@@ -42,21 +53,19 @@ function main() {
   const aliases = JSON.parse(fs.readFileSync(aliasesPath, "utf8"));
   const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
   const result = buildOfficialUpdates(snapshot, signals, aliases, registry);
+  let changed = true;
   if (fs.existsSync(outputPath)) {
     const previous = JSON.parse(fs.readFileSync(outputPath, "utf8"));
-    if (JSON.stringify(previous.updates) === JSON.stringify(result.updates)) {
-      console.log(JSON.stringify({ officialUpdates: result.updates.length, changed: false }));
-      return;
-    }
+    changed = JSON.stringify(previous.updates) !== JSON.stringify(result.updates);
   }
-  const temporaryPath = `${outputPath}.tmp-${process.pid}`;
-  try {
-    fs.writeFileSync(temporaryPath, `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
-    fs.renameSync(temporaryPath, outputPath);
-  } finally {
-    if (fs.existsSync(temporaryPath)) fs.unlinkSync(temporaryPath);
-  }
-  console.log(JSON.stringify({ generatedAt: result.generatedAt, officialUpdates: result.updates.length, changed: true }));
+  if (changed) writeJsonAtomic(outputPath, result);
+  writeJsonAtomic(statusPath, {
+    schemaVersion: 1,
+    checkedAt: snapshot.generatedAt,
+    sources: snapshot.sources,
+    candidates: snapshot.candidates.length,
+  });
+  console.log(JSON.stringify({ checkedAt: snapshot.generatedAt, officialUpdates: result.updates.length, changed }));
 }
 
 if (require.main === module) {

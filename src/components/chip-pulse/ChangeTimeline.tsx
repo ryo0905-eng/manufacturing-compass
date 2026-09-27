@@ -5,7 +5,6 @@ import { useMemo, useState } from "react";
 import {
   pulseCompanies,
   pulseProcessLabels,
-  pulseUpdatedAt,
   type PulseSignal,
 } from "@/data/chip-pulse";
 import styles from "./ChipPulseDashboard.module.css";
@@ -14,18 +13,19 @@ const toneIcons: Record<PulseSignal["tone"], string> = { positive: "↑", negati
 
 type ChangeTimelineProps = {
   signals: PulseSignal[];
+  asOf: string;
   onOpen: (signalId: string) => void;
   onCompanySelect: (companyId: string) => void;
   onRelatedClick: (destination: string) => void;
 };
 
-export function ChangeTimeline({ signals, onOpen, onCompanySelect, onRelatedClick }: ChangeTimelineProps) {
+export function ChangeTimeline({ signals, asOf, onOpen, onCompanySelect, onRelatedClick }: ChangeTimelineProps) {
   const [showAll, setShowAll] = useState(false);
   const orderedSignals = useMemo(
     () => [...signals].sort((a, b) => b.importance - a.importance || b.occurredAt.localeCompare(a.occurredAt)),
     [signals],
   );
-  const asOfTime = new Date(pulseUpdatedAt).getTime();
+  const asOfTime = new Date(asOf).getTime();
   const signals24h = orderedSignals.filter((signal) => {
     const age = asOfTime - new Date(signal.occurredAt).getTime();
     return age >= 0 && age <= 24 * 60 * 60 * 1000;
