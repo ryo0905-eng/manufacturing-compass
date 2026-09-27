@@ -6,7 +6,18 @@
   "days": {
     "2026-09-27": 4
   },
-  "processed": {},
+  "processed": {
+    "sec-0001046179-26-000660": {
+      "hash": "ac679948fa65999c5e2738f30de8d53b115475143552434bd5a9b944439c5e55",
+      "state": "editor-verified",
+      "checkedAt": "2026-09-27T23:50:00.923Z"
+    },
+    "sec-0001730168-26-000080": {
+      "hash": "d53141d7b35684ec063e67c7dd641e2a522936d2cc0abc132c5302b8eb53f739",
+      "state": "editor-verified",
+      "checkedAt": "2026-09-27T23:50:00.923Z"
+    }
+  },
   "reservations": {
     "model-evaluation-20260927": {
       "reservedYen": 20,
@@ -21,6 +32,13 @@
       "end": "2026-09-26T21:00:00.000Z",
       "articleIds": [],
       "createdAt": "2026-09-27T09:23:48.556Z"
+    },
+    {
+      "date": "2026-09-28",
+      "start": "2026-09-26T21:00:00.000Z",
+      "end": "2026-09-27T21:00:00.000Z",
+      "articleIds": [],
+      "createdAt": "2026-09-27T23:50:00.923Z"
     }
   ]
 }
