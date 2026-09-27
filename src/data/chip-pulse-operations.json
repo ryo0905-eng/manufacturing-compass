@@ -3,7 +3,9 @@
   "months": {
     "2026-09": 20
   },
-  "days": { "2026-09-27": 4 },
+  "days": {
+    "2026-09-27": 4
+  },
   "processed": {},
   "reservations": {
     "model-evaluation-20260927": {
