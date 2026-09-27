@@ -16,6 +16,7 @@ import {
   pulseSignals,
   type PulseFilters,
 } from "@/data/chip-pulse";
+import officialUpdates from "@/data/chip-pulse-official-updates.json";
 import { factoryProjects } from "@/data/factory-projects";
 import {
   buildPulseThemes,
@@ -33,6 +34,18 @@ import { trackEvent } from "@/lib/analytics";
 import styles from "./ChipPulseDashboard.module.css";
 
 const defaults: PulseFilters = getDefaultPulseFilters();
+
+type OfficialUpdate = {
+  id: string;
+  companyId: string;
+  companyName: string;
+  publishedAt: string;
+  title: string;
+  label: string;
+  sourceUrl: string;
+};
+
+const publishedOfficialUpdates: OfficialUpdate[] = officialUpdates.updates;
 
 const projectTags: Record<string, { category: "Foundry" | "Memory"; themes: string[] }> = {
   "jasm-1": { category: "Foundry", themes: ["Foundry"] },
@@ -93,6 +106,11 @@ export function ChipPulseDashboard() {
     if (selectedCompany && project.companySlug !== selectedCompany.companySlug) return false;
     return true;
   });
+  const visibleOfficialUpdates = filters.theme === "All" ? publishedOfficialUpdates.filter((update) => {
+    const company = pulseCompanies.find((entry) => entry.id === update.companyId);
+    return company && visibleCompanies.some((entry) => entry.id === company.id)
+      && (!activeCompanyId || update.companyId === activeCompanyId);
+  }) : [];
   function changeFilter<Key extends keyof PulseFilters>(key: Key, requestedValue: PulseFilters[Key]) {
     const defaultValue = defaults[key];
     const value = filters[key] === requestedValue ? defaultValue : requestedValue;
@@ -162,6 +180,19 @@ export function ChipPulseDashboard() {
               onRelatedClick={relatedClick}
             />
           </div>
+
+          {visibleOfficialUpdates.length > 0 ? (
+            <section className={styles.officialFeed} aria-labelledby="official-feed-title">
+              <header><div><span>AUTO-COLLECTED / OFFICIAL</span><h2 id="official-feed-title">新しい公式発表・開示</h2></div><p>タイトル・提出種別・日時のみ自動掲載。内容は原文をご確認ください。</p></header>
+              <ul>{visibleOfficialUpdates.map((update) => (
+                <li key={update.id}>
+                  <time dateTime={update.publishedAt}>{update.publishedAt.slice(0, 10)}</time>
+                  <span>{update.companyName} · {update.label}</span>
+                  <a href={update.sourceUrl} target="_blank" rel="noreferrer">{update.title} ↗</a>
+                </li>
+              ))}</ul>
+            </section>
+          ) : null}
 
           <ThemePulse themes={visibleThemes} />
         </>

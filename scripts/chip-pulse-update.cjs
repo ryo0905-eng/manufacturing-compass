@@ -85,7 +85,6 @@ function normalizeSecFilings(payload, source, windowStart, windowEnd) {
       description: recent.primaryDocDescription?.[index] || null,
       items: recent.items?.[index] || null,
       sourceUrl: secFilingUrl(source.cik, accessionNumber, primaryDocument),
-      reviewStatus: "pending",
     });
   }
   return candidates;
@@ -130,7 +129,6 @@ function normalizeRssItems(xml, source, windowStart, windowEnd) {
       title,
       categories,
       sourceUrl: url.href,
-      reviewStatus: "pending",
     }];
   });
 }

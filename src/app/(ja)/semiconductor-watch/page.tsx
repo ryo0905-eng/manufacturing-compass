@@ -72,7 +72,7 @@ export default function SemiconductorWatchPage() {
 
       <aside className={styles.sourceNotice} aria-label="データの出典と更新について">
         <strong>公式情報スナップショット</strong>
-        <p>企業IR・規制提出・業界団体の公開情報を編集整理しています。株価速報ではなく、更新はリアルタイムではありません。各シグナルから原文を確認できます。</p>
+        <p>重要シグナルは公式情報を編集整理しています。新しい公式発表・開示はタイトルと日時のみ自動掲載し、原文へリンクします。株価速報ではなく、更新はリアルタイムではありません。</p>
         <dl><div><dt>Snapshot</dt><dd>{pulseDisplayDate}</dd></div><div><dt>Market cap basis</dt><dd>{pulseMarketCapAsOf.replaceAll("-", ".")}</dd></div></dl>
       </aside>
 

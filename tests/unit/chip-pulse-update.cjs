@@ -46,7 +46,7 @@ const normalized = normalizeSecFilings(
 );
 assert.equal(normalized.length, 1);
 assert.equal(normalized[0].form, "8-K");
-assert.equal(normalized[0].reviewStatus, "pending");
+assert.equal(Object.hasOwn(normalized[0], "reviewStatus"), false);
 assert.equal(
   normalized[0].sourceUrl,
   "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000101/nvda-20260925.htm",
@@ -67,7 +67,7 @@ const rssCandidates = normalizeRssItems(rss, rssSource, new Date("2026-08-27T00:
 assert.equal(rssCandidates.length, 1);
 assert.equal(rssCandidates[0].title, "Samsung & ASML expand semiconductor work");
 assert.equal(rssCandidates[0].sourceUrl, "https://news.samsung.com/global/example");
-assert.equal(rssCandidates[0].reviewStatus, "pending");
+assert.equal(Object.hasOwn(rssCandidates[0], "reviewStatus"), false);
 assert.throws(() => normalizeRssItems("<html></html>", rssSource, new Date(), new Date()), /invalid/);
 
 async function main() {

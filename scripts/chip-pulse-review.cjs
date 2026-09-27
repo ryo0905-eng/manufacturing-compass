@@ -64,7 +64,8 @@ function reviewCandidates(snapshot, publishedSignals, aliases) {
     byUrl.set(url, { signalId: alias.signalId, match: "confirmed-alias" });
   }
   const published = [];
-  const needsReview = [];
+  const autoExcluded = [];
+  const newOfficialUpdates = [];
   for (const candidate of snapshot.candidates) {
     const entry = {
       candidateId: candidate.id,
@@ -74,14 +75,27 @@ function reviewCandidates(snapshot, publishedSignals, aliases) {
       sourceUrl: candidate.sourceUrl,
     };
     const matched = byUrl.get(canonicalSourceUrl(candidate.sourceUrl));
-    if (matched) published.push({ ...entry, ...matched });
-    else needsReview.push(entry);
+    if (matched) {
+      published.push({ ...entry, ...matched });
+      continue;
+    }
+    const items = typeof candidate.items === "string" ? candidate.items.split(",").map((item) => item.trim()) : [];
+    if (candidate.form === "8-K" && items.includes("5.02") && items.every((item) => ["5.02", "9.01"].includes(item))) {
+      autoExcluded.push({ ...entry, reason: "governance_filing" });
+      continue;
+    }
+    if (candidate.form === "6-K" && /dividend(?:adjustment)?/i.test(candidate.primaryDocument ?? "")) {
+      autoExcluded.push({ ...entry, reason: "dividend_adjustment" });
+      continue;
+    }
+    newOfficialUpdates.push(entry);
   }
   return {
     generatedAt: snapshot.generatedAt,
-    summary: { candidates: snapshot.candidates.length, published: published.length, needsReview: needsReview.length },
+    summary: { candidates: snapshot.candidates.length, published: published.length, autoExcluded: autoExcluded.length, newOfficialUpdates: newOfficialUpdates.length },
     published,
-    needsReview,
+    autoExcluded,
+    newOfficialUpdates,
   };
 }
 

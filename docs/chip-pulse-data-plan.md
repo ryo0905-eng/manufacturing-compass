@@ -4,7 +4,7 @@
 
 ## 目的と現在地
 
-`/semiconductor-watch` は、ニュースを読む前に「何が変わり、どこへ波及したか」を把握する探索画面である。2026-09-26から、企業IR・SEC提出・業界団体の公式情報を手動確認した出典付き静的スナップショットを表示する。本書は次の自動取得へ進む際の境界、取得順、権利確認を定める。現段階ではSEC提出とSamsung公式RSSの候補収集までを実装し、候補を自動公開しない。外部DBと実行時API依存は追加しない。
+`/semiconductor-watch` は、ニュースを読む前に「何が変わり、どこへ波及したか」を把握する探索画面である。企業IR・SEC提出・業界団体の公式情報を編集した出典付き静的スナップショットに加え、SEC提出とSamsung公式RSSの新規候補は公式メタデータだけを自動掲載する。外部DBと実行時API依存は追加しない。
 
 現行スナップショットでは、架空の日次騰落・ニュース・テーマスコア・イベントを使わない。企業マップの面積は既存の基準日付き時価総額、色は直近30日の公式シグナル件数とトーン、Theme Pulseは同じシグナルから算出する。24時間に重要更新がなければ0件と表示し、直近30日の文脈を併記する。
 
@@ -14,8 +14,8 @@
 - `npm run chip-pulse:update` はSEC submissions APIとSamsung公式RSSを順番に取得する。SECは指定したFormを、RSSは記事タイトル・カテゴリーが半導体関連語に一致する項目だけを直近30日の候補へ正規化する。RSSの分類は候補発見用で、重要度や内容を確定しない。
 - SECのFair Accessに合わせてリクエスト間隔を125ms以上空ける。`CHIP_PULSE_SEC_USER_AGENT` は組織名と連絡先メールを含む値を運営環境だけに設定し、コードやログへ出さない。Samsung RSSへは連絡先を含まない固定の識別子を送る。
 - 出力先は公開ディレクトリではなく `.private/chip-pulse-candidates/`。`current.json` と `snapshots/YYYY-MM-DD/HHMMSS.json` を原子的に書き、全ソース失敗時は既存ファイルを更新しない。
-- 候補は全て `reviewStatus: pending`。Form番号やRSSタイトルだけで重要度・要約・関連企業を決めず、原文確認後に `src/data/chip-pulse.ts` の公開スナップショットへ反映する。
-- `npm run chip-pulse:review` は保存済みの候補と公開スナップショットの原文URLを照合し、掲載済み・確認待ちの件数と対象を表示する。異なる公式URLで同じ発表を掲載した場合のみ `chip-pulse-source-aliases.json` に対応を明記する。タイトルの類似だけで自動的に重複とは判定しない。この処理は読み取り専用で、公開データや候補履歴を書き換えない。
+- 収集候補に人手の承認待ち状態は付けない。`npm run chip-pulse:review` は既掲載URL、明示された別URL対応、明確に定型的な役員・配当情報を自動分類する。複数の開示項目がある提出書類は、後続の10-Qだけを理由に除外しない。残る候補は `newOfficialUpdates` とする。
+- `npm run chip-pulse:publish` は `newOfficialUpdates` の企業名・公式タイトルまたはForm・日時・原文URLだけを `src/data/chip-pulse-official-updates.json` に保存する。記事を読んだような要約、相場の方向、工程・テーマの推測は付けない。取得が部分失敗した場合は既存公開データを保持する。
 - Advantestと東京エレクトロンは公式のニュースページを確認したが、今回の調査で公式RSSを確認できていない。両社の発表は引き続き公式ページから手動で候補登録する。
 
 運営者による実行例:
@@ -27,11 +27,16 @@ npm run chip-pulse:update -- --dry-run
 # 候補スナップショットを.privateへ保存する
 npm run chip-pulse:update
 
-# 保存済み候補の掲載済み・確認待ちを照合する（ネットワーク不要）
+# 保存済み候補の自動分類結果を確認する（ネットワーク不要）
 npm run chip-pulse:review
+
+# 取得・分類・公式メタデータ掲載を一括実行する
+npm run chip-pulse:refresh
 ```
 
 部分失敗時は取得できた候補を保存したうえで終了コード1とし、監視側が検知できるようにする。エラーには企業IDと有限のエラーコードだけを残し、レスポンス本文、ヘッダー、環境変数を出力しない。
+
+`.github/workflows/chip-pulse-refresh.yml` は毎日06:17 JSTを指定して同じ取得・分類・公開処理を行い、公開用JSONの内容が変わったときだけGitHub Actionsのbotでコミットする。初回稼働にはGitHub ActionsのリポジトリSecret `CHIP_PULSE_SEC_USER_AGENT` に、`.env.local` と同じ組織名・連絡先を含む値を一度設定する必要がある。Secretがない場合は失敗し、公開JSONを変更しない。スケジュール実行とGitHub側の書き込み権限・本番反映は、ワークフローをデフォルトブランチに反映した後で確認する。GitHubのscheduled workflowは指定時刻から遅れる場合がある。
 
 ## 推奨データフロー
 

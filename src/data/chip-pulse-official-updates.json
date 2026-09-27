@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-26T01:51:42.582Z",
+  "updates": [
+    {
+      "id": "sec-0001730168-26-000076",
+      "companyId": "broadcom",
+      "companyName": "Broadcom",
+      "publishedAt": "2026-09-02",
+      "title": "BroadcomがSECへForm 8-Kを提出",
+      "label": "SEC Form 8-K",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1730168/000173016826000076/avgo-20260902.htm"
+    },
+    {
+      "id": "sec-0001628280-26-059257",
+      "companyId": "applied-materials",
+      "companyName": "Applied Materials",
+      "publishedAt": "2026-08-27",
+      "title": "Applied MaterialsがSECへForm 8-Kを提出",
+      "label": "SEC Form 8-K",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/6951/000162828026059257/amat-20260827.htm"
+    }
+  ]
+}

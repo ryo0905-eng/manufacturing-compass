@@ -17,11 +17,21 @@ const snapshot = {
   ],
 };
 const report = reviewCandidates(snapshot, signals, aliases);
-assert.deepEqual(report.summary, { candidates: 3, published: 2, needsReview: 1 });
+assert.deepEqual(report.summary, { candidates: 3, published: 2, autoExcluded: 0, newOfficialUpdates: 1 });
 assert.equal(report.published[0].match, "source-url");
 assert.equal(report.published[1].match, "confirmed-alias");
 assert.equal(report.published[1].signalId, "samsung-asml-high-na-2026");
-assert.equal(report.needsReview[0].candidateId, "unknown");
+assert.equal(report.newOfficialUpdates[0].candidateId, "unknown");
 assert.throws(() => reviewCandidates(snapshot, signals, { schemaVersion: 1, aliases: [{ sourceUrl: "https://example.com", signalId: "missing" }] }), /unknown signal/);
 
-console.log("Chip Pulse reviewer: exact URLs, confirmed aliases, pending candidates and registry validation passed.");
+const classified = reviewCandidates({ ...snapshot, candidates: [
+  { id: "governance", companyId: "lam-research", form: "8-K", filedAt: "2026-08-27", items: "5.02,9.01", sourceUrl: "https://www.sec.gov/Archives/edgar/data/707549/governance.htm" },
+  { id: "dividend", companyId: "tsmc", form: "6-K", filedAt: "2026-09-01", primaryDocument: "tsm-dividendadjustment.htm", sourceUrl: "https://www.sec.gov/Archives/edgar/data/1046179/dividend.htm" },
+  { id: "earnings", companyId: "broadcom", form: "8-K", filedAt: "2026-09-02", items: "2.02,8.01,9.01", sourceUrl: "https://www.sec.gov/Archives/edgar/data/1730168/earnings.htm" },
+  { id: "later-10q", companyId: "broadcom", form: "10-Q", filedAt: "2026-09-10", sourceUrl: "https://www.sec.gov/Archives/edgar/data/1730168/000173016826000080/avgo-20260802.htm" },
+] }, signals, aliases);
+assert.deepEqual(classified.summary, { candidates: 4, published: 1, autoExcluded: 2, newOfficialUpdates: 1 });
+assert.deepEqual(classified.autoExcluded.map((entry) => entry.reason), ["governance_filing", "dividend_adjustment"]);
+assert.equal(classified.newOfficialUpdates[0].candidateId, "earnings");
+
+console.log("Chip Pulse reviewer: exact URLs, confirmed aliases and automatic filing triage passed.");

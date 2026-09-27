@@ -13,6 +13,8 @@
     "typecheck": "tsc --noEmit",
     "chip-pulse:update": "node scripts/chip-pulse-update.cjs",
     "chip-pulse:review": "node scripts/chip-pulse-review.cjs",
+    "chip-pulse:publish": "node scripts/chip-pulse-publish.cjs",
+    "chip-pulse:refresh": "npm run chip-pulse:update && npm run chip-pulse:publish",
     "test:e2e": "playwright test"
   },
   "dependencies": {
