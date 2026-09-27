@@ -1,4 +1,4 @@
-name: Refresh Chip Pulse official updates
+name: Refresh Chip Pulse morning edition
 
 on:
   schedule:
@@ -15,8 +15,12 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     env:
       CHIP_PULSE_SEC_USER_AGENT: ${{ secrets.CHIP_PULSE_SEC_USER_AGENT }}
+      AI_GATEWAY_API_KEY: ${{ secrets.AI_GATEWAY_API_KEY }}
+      CHIP_PULSE_AI_ENABLED: ${{ vars.CHIP_PULSE_AI_ENABLED }}
+      CHIP_PULSE_BATCH_ID: run-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -26,18 +30,27 @@ jobs:
       - name: Check SEC contact configuration
         run: test -n "$CHIP_PULSE_SEC_USER_AGENT"
       - run: npm ci
-      - run: npm run chip-pulse:update
-      - run: npm run chip-pulse:publish
-      - name: Commit official metadata and check status
+      - name: Configure data commits
         run: |
-          if git diff --quiet -- src/data/chip-pulse-official-updates.json src/data/chip-pulse-refresh-status.json; then
-            echo "No new official updates or check status."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/chip-pulse-official-updates.json src/data/chip-pulse-refresh-status.json
-          git commit -m "data: refresh Chip Pulse official updates"
-          git push
-      - name: Fail monitoring when any source failed
-        run: npm run chip-pulse:check
+      - name: Reserve monthly budget before paid requests
+        run: |
+          npm run chip-pulse:reserve
+          if ! git diff --quiet -- src/data/chip-pulse-operations.json; then
+            git add src/data/chip-pulse-operations.json
+            git commit -m "data: reserve Chip Pulse editing budget"
+            git push
+          fi
+      - name: Collect and edit independently per source
+        id: refresh
+        run: npm run chip-pulse:refresh
+      - name: Persist successful sources and failure status
+        if: always() && steps.refresh.outcome != 'skipped'
+        run: |
+          git add src/data/chip-pulse-media.json src/data/chip-pulse-operations.json
+          if test -f docs/data/chip-pulse-supply-audit.json; then git add docs/data/chip-pulse-supply-audit.json; fi
+          if ! git diff --cached --quiet; then
+            git commit -m "data: refresh Chip Pulse morning edition"
+            git push
+          fi

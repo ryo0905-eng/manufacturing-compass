@@ -1,0 +1,92 @@
+{
+  "evaluatedAt": "2026-09-27T09:22:17.710Z",
+  "reservedYen": 20,
+  "pricing": [
+    {
+      "input": "0.0000001",
+      "output": "0.0000004",
+      "input_cache_read": "0.00000001",
+      "web_search": "35",
+      "maps_search": "25",
+      "service_tiers": {
+        "priority": {
+          "input": "0.00000018",
+          "output": "0.00000072",
+          "input_cache_read": "0.000000018"
+        },
+        "flex": {
+          "input": "0.00000005",
+          "output": "0.0000002"
+        }
+      },
+      "regional": {
+        "eu": {
+          "input": "0.0000001",
+          "output": "0.0000004",
+          "input_cache_read": "0.00000001"
+        },
+        "us": {
+          "input": "0.0000001",
+          "output": "0.0000004",
+          "input_cache_read": "0.00000001"
+        }
+      }
+    },
+    {
+      "input": "0.0000003",
+      "output": "0.0000025",
+      "input_cache_read": "0.00000003",
+      "web_search": "35",
+      "maps_search": "25",
+      "service_tiers": {
+        "priority": {
+          "input": "0.00000054",
+          "output": "0.0000045",
+          "input_cache_read": "0.000000054"
+        },
+        "flex": {
+          "input": "0.00000015",
+          "output": "0.00000125"
+        }
+      },
+      "regional": {
+        "eu": {
+          "input": "0.0000003",
+          "output": "0.0000025",
+          "input_cache_read": "0.00000003"
+        },
+        "us": {
+          "input": "0.0000003",
+          "output": "0.0000025",
+          "input_cache_read": "0.00000003"
+        }
+      }
+    }
+  ],
+  "results": [
+    {
+      "articleId": "tsmc-capital-appropriation-2026-09",
+      "model": "google/gemini-2.5-flash-lite",
+      "status": "failed",
+      "reason": "ungrounded_number"
+    },
+    {
+      "articleId": "tsmc-capital-appropriation-2026-09",
+      "model": "google/gemini-2.5-flash",
+      "status": "failed",
+      "reason": "ungrounded_number"
+    },
+    {
+      "articleId": "broadcom-q3-semiconductor-solutions-2026",
+      "model": "google/gemini-2.5-flash-lite",
+      "status": "failed",
+      "reason": "invalid_classification"
+    },
+    {
+      "articleId": "broadcom-q3-semiconductor-solutions-2026",
+      "model": "google/gemini-2.5-flash",
+      "status": "failed",
+      "reason": "ungrounded_number"
+    }
+  ]
+}

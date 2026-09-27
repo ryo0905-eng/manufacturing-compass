@@ -1,92 +1,34 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChipPulseDashboard } from "@/components/chip-pulse/ChipPulseDashboard";
 import { StructuredData } from "@/components/StructuredData";
-import { pulseDisplayDate, pulseEvents, pulseMarketCapAsOf, pulseSignals, pulseUpdatedAt } from "@/data/chip-pulse";
-import officialUpdates from "@/data/chip-pulse-official-updates.json";
-import refreshStatus from "@/data/chip-pulse-refresh-status.json";
+import { NewsFeed } from "@/components/chip-pulse/NewsFeed";
+import { MediaLink } from "@/components/chip-pulse/MediaLinks";
+import { media, latestArticles, editionArticles, newsDate, backgroundLinks } from "@/lib/chip-pulse-media";
 import { siteUrl } from "@/lib/format";
-import { filterRecentPulseSignals, filterUpcomingPulseEvents } from "@/lib/chip-pulse";
-import styles from "./page.module.css";
+import styles from "@/components/chip-pulse/Media.module.css";
 
-const title = "半導体業界ウォッチ Chip Pulse｜ニュース・市場・テーマを可視化";
-const description = "半導体企業の公式発表、市場テーマ、設備投資を、企業・地域・セクター横断で探索できる情報ダッシュボードです。";
-
-function formatJst(value: string) {
-  return new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(value));
-}
-
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: "/semiconductor-watch" },
-  robots: { index: true, follow: true },
-  openGraph: {
-    title,
-    description,
-    type: "website",
-    url: "/semiconductor-watch",
-  },
-};
+const title = "Chip Pulse｜半導体ニュースを、工程と背景から読む";
+const description = "半導体の公式発表を日本語で整理。設計・製造、メモリ、装置・材料、後工程の動きを、根拠と技術解説から理解するニュースメディア。";
+export const metadata: Metadata = { title, description, alternates:{canonical:"/semiconductor-watch"}, openGraph:{title,description,url:"/semiconductor-watch",type:"website"} };
 
 export default function SemiconductorWatchPage() {
-  const checkedAt = new Date(refreshStatus.lastSuccessfulAt).getTime();
-  const recentSignals = filterRecentPulseSignals(pulseSignals, refreshStatus.lastSuccessfulAt);
-  const signals24h = filterRecentPulseSignals(recentSignals, refreshStatus.lastSuccessfulAt, 1).length;
-  const officialUpdates24h = officialUpdates.updates.filter((update) => {
-    const age = checkedAt - new Date(update.publishedAt).getTime();
-    return age >= 0 && age <= 24 * 60 * 60 * 1000;
-  }).length;
-  const updates24h = signals24h + officialUpdates24h;
-  const nextEvent = filterUpcomingPulseEvents(pulseEvents, refreshStatus.lastSuccessfulAt)[0];
-
-  return (
-    <main className={styles.page}>
-      <StructuredData data={{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl },
-          { "@type": "ListItem", position: 2, name: "半導体業界ウォッチ Chip Pulse", item: `${siteUrl}/semiconductor-watch` },
-        ],
-      }} />
-      <StructuredData data={{
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        name: "Chip Pulse",
-        applicationCategory: "BusinessApplication",
-        operatingSystem: "Web",
-        description,
-        url: `${siteUrl}/semiconductor-watch`,
-        dateModified: checkedAt > new Date(pulseUpdatedAt).getTime() ? refreshStatus.lastSuccessfulAt : pulseUpdatedAt,
-        isAccessibleForFree: true,
-      }} />
-
-      <nav className={styles.breadcrumb} aria-label="パンくず">
-        <Link href="/">ホーム</Link><span aria-hidden="true">/</span><span>半導体業界ウォッチ</span>
-      </nav>
-
-      <header className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <p>半導体業界ウォッチ</p>
-          <h1><span>Chip Pulse</span>半導体業界の「今」を<br /><em>3分で。</em></h1>
-          <p className={styles.lead}>確認済みの公式ニュースから、何が起き、どの企業・工程に関係するかを毎朝3分で確認できます。</p>
-        </div>
-        <aside className={styles.heroSignal} aria-label="公式情報の確認状況">
-          <div className={styles.signalHeading}><span>公式情報の確認状況</span><b><i /> {refreshStatus.status === "success" ? "正常" : "更新遅延"}</b></div>
-          <strong>過去24時間 / {updates24h}件</strong>
-          <p>{updates24h === 0 ? "新着なし（取得失敗とは区別しています）" : `確認済みニュース ${signals24h}件・公式メタデータ ${officialUpdates24h}件`}</p>
-          <dl><div><dt>直近30日</dt><dd>{recentSignals.length + officialUpdates.updates.length}件</dd></div><div><dt>取得成功</dt><dd>{refreshStatus.sources.succeeded}/{refreshStatus.sources.attempted}</dd></div><div><dt>今後7日</dt><dd>{nextEvent ? `${nextEvent.date.slice(5)} ${nextEvent.title.split(" ")[0]}` : "確認済み予定なし"}</dd></div></dl>
-        </aside>
-      </header>
-
-      <aside className={styles.sourceNotice} aria-label="データの出典と更新について">
-        <strong>公式情報スナップショット</strong>
-        <p>重要ニュースは公式情報を編集整理しています。未編集の公式開示はタイトル・提出種別・発表日だけを掲載します。株価速報ではなく、ページ閲覧時にAIを呼び出しません。</p>
-        <dl><div><dt>最終正常更新</dt><dd>{formatJst(refreshStatus.lastSuccessfulAt)} JST</dd></div><div><dt>編集確認</dt><dd>{pulseDisplayDate}</dd></div><div><dt>時価総額の基準日</dt><dd>{pulseMarketCapAsOf.replaceAll("-", ".")}</dd></div></dl>
-      </aside>
-
-      <ChipPulseDashboard />
-    </main>
-  );
+ const highlights = editionArticles.slice(0,3);
+ const week = latestArticles.filter(a => new Date(a.publishedAt).getTime() >= new Date(media.edition.end).getTime()-7*86400000 && new Date(a.publishedAt).getTime() < new Date(media.edition.end).getTime()).slice(0,3);
+ return <main className={styles.page}><div className={styles.shell}>
+  <StructuredData data={{"@context":"https://schema.org","@type":"CollectionPage",name:title,description,url:siteUrl+"/semiconductor-watch",dateModified:media.contentUpdatedAt}} />
+  <header className={styles.masthead}><div><Link href="/semiconductor-watch" className={styles.brand}>Chip Pulse<span style={{color:"#77dfec"}}>.</span></Link><p>Manufacturing Compass / 半導体ニュース</p></div><div className={styles.issue}><strong>{newsDate(media.edition.date)} 朝刊</strong><span>内容更新 {newsDate(media.contentUpdatedAt,true)} JST</span></div></header>
+  <div className={styles.intro}><p className={styles.eyebrow}>FROM NEWS TO UNDERSTANDING</p><h1>半導体の動きを、<br />自分の知識に。</h1><p>何が起きたか。どの工程に関係するか。<br />公式発表と技術の背景から、今日の業界を読み解く。</p></div>
+  <section className={styles.brief} aria-labelledby="brief-title"><h2 id="brief-title">今日押さえること</h2><small>全体版 · 対象 {newsDate(media.edition.start,true)}〜{newsDate(media.edition.end,true)} JST</small>
+   {highlights.length ? <ol>{highlights.map(a=><li key={a.id}><MediaLink href={`/semiconductor-watch/${a.id}`} articleId={a.id} action="article">{a.summary} <span aria-hidden="true">↗</span></MediaLink></li>)}</ol>:<p className={styles.empty}>この版の対象期間に掲載できる新着要約はありません。<br /><a href="#week">今週の背景から、業界の流れを確認する →</a></p>}
+  </section>
+  {media.status.state!=="success" ? <aside className={styles.warning}>{media.status.state==="not-run" ? "新しい収集処理の稼働前です。原文を再確認した記事を掲載しています。" : media.status.state==="partial" ? "一部の情報源を更新できませんでした。取得できた新着と、前回掲載した記事を表示しています。" : "今回の取得に失敗しました。前回の版と掲載内容を表示しています。"}</aside>:null}
+  {highlights.length ? <section className={styles.section} id="important-news"><div className={styles.sectionHead}><h2>本日の注目</h2><span>全体版から {highlights.length}件</span></div><div className={styles.featured}>{highlights.map(a=><article className={styles.feature} key={a.id}><span className={styles.meta}>{newsDate(a.publishedAt)} · {a.sourceName}</span><h3><MediaLink href={`/semiconductor-watch/${a.id}`} articleId={a.id} action="article">{a.title}</MediaLink></h3><p>{a.summary}</p><MediaLink href={`/semiconductor-watch/${a.id}`} articleId={a.id} action="article">背景まで読む →</MediaLink></article>)}</div></section>:<div id="important-news" />}
+  <section className={styles.section} aria-labelledby="latest-title"><div className={styles.sectionHead}><h2 id="latest-title">最新ニュース</h2><span>発表日の新しい順 · 当日版 {editionArticles.length}件</span></div><NewsFeed articles={latestArticles.slice(0,60)} updates={media.updates.slice(0,60)} /></section>
+  <section className={styles.section} id="week"><div className={styles.sectionHead}><h2>今週の背景</h2><span>直近7日の記事と、理解を深める解説</span></div>
+   {week.map(a=><article className={styles.official} key={a.id}><span className={styles.meta}>{newsDate(a.publishedAt)}</span><h3><MediaLink href={`/semiconductor-watch/${a.id}`} articleId={a.id} action="article">{a.title} →</MediaLink></h3></article>)}
+   <div className={styles.background}>{Object.entries(backgroundLinks).map(([id,b])=><article key={id}><span className={styles.eyebrow}>背景を知る</span><h3><MediaLink href={b.href} articleId={id} action="background">{b.title} →</MediaLink></h3><p>{b.text}</p></article>)}</div>
+  </section>
+  <nav className={styles.footerLinks} aria-label="さらに調べる"><Link href="/industry-map">半導体業界地図 ↗</Link><Link href="/guides/semiconductor-market-cap-ranking">企業規模を比較 ↗</Link><Link href="/companies">企業を調べる ↗</Link></nav>
+  <details className={styles.fine}><summary>更新・出典について</summary><p>朝6時を区切りに公式情報を整理し、7時頃の更新を目指します。時刻は日本時間です。SEC資料の日時はSEC上での公表日時です。発表日しか分からない資料に時刻を補いません。自動要約は原文との照合を行いますが、重要な判断には出典もご確認ください。</p><p>取得確認：{media.status.checkedAt ? newsDate(media.status.checkedAt,true)+" JST" : "新処理の稼働前"} ／ AI要約：{media.status.ai==="success" ? "処理済み" : media.status.ai==="disabled" ? "停止中（公式リンクは更新）" : media.status.ai==="budget-stopped" ? "予算上限により停止" : "未完了（前回の記事を維持）"}</p></details>
+ </div></main>;
 }

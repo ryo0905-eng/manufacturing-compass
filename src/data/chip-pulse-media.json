@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "contentUpdatedAt": "2026-09-27T09:23:48.556Z",
+  "edition": {
+    "date": "2026-09-27",
+    "start": "2026-09-25T21:00:00.000Z",
+    "end": "2026-09-26T21:00:00.000Z",
+    "articleIds": []
+  },
+  "status": {
+    "checkedAt": "2026-09-27T09:23:48.556Z",
+    "lastSuccessfulAt": "2026-09-27T09:23:48.556Z",
+    "state": "success",
+    "sources": [
+      {
+        "id": "amkor",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "entegris",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "ase",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "globalfoundries",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "nvidia",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "amd",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "broadcom",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "micron",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "intel",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "applied-materials",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "lam-research",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "kla",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "tsmc",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      },
+      {
+        "id": "asml",
+        "state": "success",
+        "checkedAt": "2026-09-27T09:23:48.556Z",
+        "lastSuccessfulAt": "2026-09-27T09:23:48.556Z"
+      }
+    ],
+    "ai": "disabled"
+  },
+  "articles": [
+    {
+      "id": "tsmc-capital-appropriation-2026-09",
+      "sourceId": "tsmc",
+      "sourceName": "SEC / TSMC Form 6-K",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000660/tsm-monthend6kx20260924.htm",
+      "publishedAt": "2026-09-24T10:02:44.000Z",
+      "datePrecision": "instant",
+      "firstPublishedAt": "2026-09-27T09:00:37Z",
+      "updatedAt": "2026-09-27T09:00:37Z",
+      "version": 1,
+      "title": "TSMC、先端技術・先端パッケージなどの資本配分を開示",
+      "summary": "TSMCは8月の取締役会承認事項として、先端技術向け設備に160.35億米ドル、先端パッケージ・成熟／特殊技術向け設備に47.91億米ドルを報告しました。",
+      "facts": [
+        "不動産と資産計上されたリース資産への配分は86.16億米ドルです。",
+        "資料は取締役会が承認した資本配分を示しています。装置の納入や稼働開始を示すものではありません。"
+      ],
+      "unknowns": [
+        "個別の装置・材料メーカーへの発注先や発注額は、この開示では確認できません。"
+      ],
+      "fields": [
+        "design-manufacturing",
+        "packaging"
+      ],
+      "processes": [
+        "Assembly"
+      ],
+      "companyNames": [
+        "TSMC"
+      ],
+      "stage": "plan",
+      "validation": "editor-verified",
+      "evidence": [
+        {
+          "locator": "Section 4 — capital appropriations",
+          "quote": "Machinery equipment for advanced technology capacity: US$16,035 million."
+        }
+      ],
+      "relatedIds": [],
+      "history": []
+    },
+    {
+      "id": "broadcom-q3-semiconductor-solutions-2026",
+      "sourceId": "broadcom",
+      "sourceName": "SEC / Broadcom Form 10-Q",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1730168/000173016826000080/avgo-20260802.htm",
+      "publishedAt": "2026-09-09T21:56:42.000Z",
+      "datePrecision": "instant",
+      "firstPublishedAt": "2026-09-27T09:00:37Z",
+      "updatedAt": "2026-09-27T09:00:37Z",
+      "version": 1,
+      "title": "Broadcom、半導体ソリューション売上は前年同期比127%増",
+      "summary": "2026年8月2日終了四半期の半導体ソリューション売上は208.39億米ドルでした。前年同期の91.66億米ドルから127%増加しています。",
+      "facts": [
+        "会社は、カスタムAIアクセラレーターやAIネットワーキング製品を中心とする需要の強さを増収の理由として説明しています。"
+      ],
+      "unknowns": [
+        "この部門の売上から、個別の製造工程や他社への発注額は判断できません。"
+      ],
+      "fields": [
+        "design-manufacturing"
+      ],
+      "processes": [
+        "Design"
+      ],
+      "companyNames": [
+        "Broadcom"
+      ],
+      "stage": "result",
+      "validation": "editor-verified",
+      "evidence": [
+        {
+          "locator": "Management discussion — Net Revenue by Segment",
+          "quote": "Semiconductor solutions"
+        }
+      ],
+      "relatedIds": [],
+      "history": []
+    }
+  ],
+  "updates": [
+    {
+      "id": "sec-0001046179-26-000658",
+      "sourceId": "tsmc",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000658/tsm-revenue20260910.htm",
+      "title": "TSMCの公式開示（6-K）",
+      "publishedAt": "2026-09-10T10:15:36.000Z",
+      "datePrecision": "instant"
+    },
+    {
+      "id": "sec-0000950103-26-013682",
+      "sourceId": "ase",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1122411/000095010326013682/dp253117_6k.htm",
+      "title": "ASE Technologyの公式開示（6-K）",
+      "publishedAt": "2026-09-09T10:03:31.000Z",
+      "datePrecision": "instant"
+    },
+    {
+      "id": "sec-0001709048-26-000234",
+      "sourceId": "globalfoundries",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1709048/000170904826000234/a6-ksiaclean.htm",
+      "title": "GlobalFoundriesの公式開示（6-K）",
+      "publishedAt": "2026-09-08T12:31:56.000Z",
+      "datePrecision": "instant"
+    },
+    {
+      "id": "sec-0001045810-26-000078",
+      "sourceId": "nvidia",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000078/nvda-20260902.htm",
+      "title": "NVIDIAの公式開示（8-K）",
+      "publishedAt": "2026-09-03T12:03:56.000Z",
+      "datePrecision": "instant"
+    },
+    {
+      "id": "sec-0001730168-26-000076",
+      "sourceId": "broadcom",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1730168/000173016826000076/avgo-20260902.htm",
+      "title": "Broadcomの公式開示（8-K）",
+      "publishedAt": "2026-09-02T20:26:04.000Z",
+      "datePrecision": "instant"
+    }
+  ]
+}

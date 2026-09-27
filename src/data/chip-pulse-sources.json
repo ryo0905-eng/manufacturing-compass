@@ -5,11 +5,16 @@
   "providers": {
     "sec-edgar": {
       "termsUrl": "https://www.sec.gov/about/developer-resources",
-      "usage": "Public filings and submission metadata only. Declared User-Agent and no more than 10 requests per second.",
-      "storedFields": ["company", "form", "filing date", "acceptance time", "source URL", "document description"]
+      "usage": "Public filings and submission metadata. Short source-grounded summaries only. Declared User-Agent and fewer than 10 requests per second.",
+      "reusePolicyUrl": "https://www.sec.gov/files/about/webmaster-faq.htm",
+      "storedFields": ["company", "form", "filing date", "acceptance time", "source URL", "document description", "body hash", "short evidence excerpts", "Japanese factual summary"]
     }
   },
   "sources": [
+    { "companyId": "amkor", "companyName": "Amkor", "kind": "sec-submissions", "cik": "0001047127", "forms": ["8-K", "10-Q", "10-K"] },
+    { "companyId": "entegris", "companyName": "Entegris", "kind": "sec-submissions", "cik": "0001101302", "forms": ["8-K", "10-Q", "10-K"] },
+    { "companyId": "ase", "companyName": "ASE Technology", "kind": "sec-submissions", "cik": "0001122411", "forms": ["6-K", "20-F"] },
+    { "companyId": "globalfoundries", "companyName": "GlobalFoundries", "kind": "sec-submissions", "cik": "0001709048", "forms": ["6-K", "20-F"] },
     {
       "companyId": "nvidia",
       "companyName": "NVIDIA",

@@ -71,7 +71,7 @@ function normalizeSecFilings(payload, source, windowStart, windowEnd) {
     const filedDate = normalizedDate(filedAt);
     const accessionNumber = recent.accessionNumber[index];
     const primaryDocument = recent.primaryDocument?.[index];
-    if (!source.forms.includes(form) || !filedDate || filedDate < windowStart || filedDate > windowEnd) continue;
+    if (!source.forms.includes(form?.replace(/\/A$/, "")) || !filedDate || filedDate < windowStart || filedDate > windowEnd) continue;
     if (typeof accessionNumber !== "string" || typeof primaryDocument !== "string" || !primaryDocument) continue;
     candidates.push({
       id: `sec-${accessionNumber.toLowerCase()}`,

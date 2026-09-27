@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "approved": false,
+  "reason": "2026-09-27: both candidate models failed the sample publication gate; do not enable automatic summaries yet.",
+  "model": "google/gemini-2.5-flash-lite",
+  "fxVerifiedAt": null,
+  "fxYenPerUsd": null,
+  "maxYenPerUsdWithBuffer": 275
+}

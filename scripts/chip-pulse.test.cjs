@@ -19,11 +19,12 @@ Module._resolveFilename = function resolveFilename(request, parent, isMain, opti
 require.extensions[".ts"] = function transpile(module, filename) {
   const source = fs.readFileSync(filename, "utf8");
   const output = ts.transpileModule(source, {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true, jsx: ts.JsxEmit.ReactJSX },
     fileName: filename,
   }).outputText;
   module._compile(output, filename);
 };
+require.extensions[".tsx"] = require.extensions[".ts"];
 
 const {
   calculatePulseKpis,
@@ -58,6 +59,26 @@ const baseSignal = {
   sourceUrl: "https://example.com/a",
   sourceType: "company",
 };
+
+test("thumbnail onError switches the real component to the same fixed-ratio process frame", () => {
+  const React = require("react");
+  const useState = React.useState;
+  const cssLoader = require.extensions[".css"];
+  let failedSrc = null;
+  React.useState = () => [failedSrc, (value) => { failedSrc = value; }];
+  require.extensions[".css"] = (module) => { module.exports = new Proxy({}, { get: (_, key) => key === "__esModule" ? false : key }); };
+  try {
+    const { NewsThumbnail } = require("../src/components/chip-pulse/NewsThumbnail.tsx");
+    const signal = { processes: ["Design"], thumbnail: { src: "/images/chip-pulse/missing.webp", alt: "試験画像", credit: "公式", creditUrl: "https://example.com/license" } };
+    const before = NewsThumbnail({ signal });
+    assert.match(before.props.className, /newsThumbnailImage/);
+    before.props.children[0].props.onError();
+    const after = NewsThumbnail({ signal });
+    assert.match(after.props.className, /newsThumbnailProcess/);
+    assert.match(after.props.className, /newsThumbnail_design/);
+    assert.match(fs.readFileSync(path.join(root,"src/components/chip-pulse/ChipPulseDashboard.module.css"),"utf8"), /\.newsThumbnail\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*9/);
+  } finally { React.useState = useState; if (cssLoader) require.extensions[".css"] = cssLoader; else delete require.extensions[".css"]; }
+});
 
 test("KPI theme ties follow the declared theme order and zero is explicit", () => {
   const signals = [baseSignal, { ...baseSignal, id: "signal-b", themes: ["HBM"] }];
@@ -122,7 +143,7 @@ test("published news keeps traceable, non-duplicated sources and valid reference
     assert.ok(signal.companyIds.every((companyId) => companyIds.has(companyId)), `unknown company in ${signal.id}`);
     if (signal.thumbnail) {
       assert.doesNotThrow(() => assertValidPulseThumbnail(signal.thumbnail));
-      assert.ok(fs.existsSync(path.join(root, signal.thumbnail.src.slice(1))), `missing thumbnail file: ${signal.thumbnail.src}`);
+      assert.ok(fs.existsSync(path.join(root, "public", signal.thumbnail.src.slice(1))), `missing thumbnail file: ${signal.thumbnail.src}`);
     }
     signalIds.add(signal.id);
     sourceUrls.add(signal.sourceUrl);

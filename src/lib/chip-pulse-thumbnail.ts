@@ -20,7 +20,7 @@ export type PulseThumbnailPresentation =
 export function assertValidPulseThumbnail(thumbnail: PulseThumbnail) {
   const isLocalImage = thumbnail.src.startsWith(pulseThumbnailRoot)
     && !thumbnail.src.includes("..")
-    && !/[?#]/.test(thumbnail.src)
+    && !/[?#%\\\s]/.test(thumbnail.src)
     && /\.(?:avif|jpe?g|png|webp)$/i.test(thumbnail.src);
   if (!isLocalImage) throw new Error("Chip Pulse thumbnail must be a local raster image under /images/chip-pulse/.");
   if (!thumbnail.alt.trim()) throw new Error("Chip Pulse thumbnail alt text is required.");

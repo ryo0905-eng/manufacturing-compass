@@ -18,7 +18,7 @@ function ProcessArt({ process }: { process: PulseProcess | "General" }) {
   return <><path d="M94 52h132v96H94z" /><path d="M116 74h88v52h-88zM94 76H62M94 100H48M94 124H62M226 76h32M226 100h46M226 124h32" /><circle cx="160" cy="100" r="14" /></>;
 }
 
-export function NewsThumbnail({ signal }: { signal: PulseSignal }) {
+export function NewsThumbnail({ signal }: { signal: Pick<PulseSignal, "processes" | "thumbnail"> }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const presentation = resolvePulseThumbnail(signal, failedSrc === signal.thumbnail?.src);
 

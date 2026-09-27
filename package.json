@@ -15,8 +15,10 @@
     "chip-pulse:review": "node scripts/chip-pulse-review.cjs",
     "chip-pulse:publish": "node scripts/chip-pulse-publish.cjs",
     "chip-pulse:check": "node scripts/chip-pulse-check.cjs",
-    "chip-pulse:test": "node --test scripts/chip-pulse.test.cjs",
-    "chip-pulse:refresh": "npm run chip-pulse:update && npm run chip-pulse:publish && npm run chip-pulse:check",
+    "chip-pulse:test": "node --test scripts/chip-pulse.test.cjs scripts/chip-pulse-media.test.cjs",
+    "chip-pulse:reserve": "node scripts/chip-pulse-media.cjs --reserve",
+    "chip-pulse:audit": "node scripts/chip-pulse-media.cjs --audit",
+    "chip-pulse:refresh": "node scripts/chip-pulse-media.cjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {

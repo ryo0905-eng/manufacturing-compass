@@ -1,5 +1,5 @@
 import { jobNoteMeta } from "@/data/job-posting-note";
-import { pulseUpdatedAt } from "@/data/chip-pulse";
+import { media } from "@/lib/chip-pulse-media";
 import { defectPareto } from "@/data/defect-pareto";
 import { improvementReportMeta } from "@/data/improvement-report";
 import { measurementPlanner } from "@/data/measurement-planner";
@@ -98,7 +98,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/career-priorities" ? { lastModified: contentDate("2026-09-06") } : {}),
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
-    ...(path === "/semiconductor-watch" ? { lastModified: new Date(pulseUpdatedAt) } : {}),
+    ...(path === "/semiconductor-watch" ? { lastModified: new Date(media.contentUpdatedAt) } : {}),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/career-agents" || path === "/semiconductor-map" ? 0.85 : 0.8,
   }));
@@ -152,5 +152,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const, priority: 0.8,
   }));
 
-  return [...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
+  const newsRoutes = media.articles.map(article => ({ url: `${siteUrl}/semiconductor-watch/${article.id}`, lastModified: new Date(article.updatedAt) }));
+  return [...newsRoutes, ...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
 }
