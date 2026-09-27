@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { NewsThumbnail } from "@/components/chip-pulse/NewsThumbnail";
 import {
   pulseCompanies,
   pulseProcessLabels,
@@ -39,32 +40,37 @@ export function ChangeTimeline({ signals, asOf, onOpen, onCompanySelect, onRelat
       {orderedSignals.length > 0 ? (
         <div className={styles.timelineList}>
           {orderedSignals.map((signal, index) => {
+            const isFeatured = index < 3;
             const primaryCompany = pulseCompanies.find((company) => company.id === signal.primaryCompanyId);
             const relatedCompanies = signal.companyIds
               .filter((companyId) => companyId !== signal.primaryCompanyId)
               .map((companyId) => pulseCompanies.find((company) => company.id === companyId))
               .filter((company) => company !== undefined);
             return (
-              <details className={!showAll && index >= 3 ? styles.collapsedSignal : undefined} id={`signal-${signal.id}`} key={signal.id} onToggle={(event) => { if (event.currentTarget.open) onOpen(signal.id); }}>
+              <details className={[isFeatured ? styles.featuredSignal : "", !showAll && index >= 3 ? styles.collapsedSignal : ""].filter(Boolean).join(" ") || undefined} id={`signal-${signal.id}`} key={signal.id} onToggle={(event) => { if (event.currentTarget.open) onOpen(signal.id); }}>
                 <summary>
-                  <div className={styles.signalMeta}>
-                    <time dateTime={signal.occurredAt}>{signal.timeLabel}</time>
-                    {index < 3 ? <b>重要ニュース</b> : null}
+                  {isFeatured ? <NewsThumbnail signal={signal} /> : null}
+                  <div className={styles.signalSummaryBody}>
+                    <div className={styles.signalMeta}>
+                      <time dateTime={signal.occurredAt}>{signal.timeLabel}</time>
+                      {isFeatured ? <b>重要ニュース</b> : null}
+                    </div>
+                    <div className={styles.signalHeadline}>
+                      <i className={styles.tone_neutral} aria-hidden="true">公</i>
+                      <div><small>{primaryCompany?.shortName ?? signal.sourceName}</small><h3>{signal.title}</h3></div>
+                    </div>
+                    <ul className={styles.signalTags}>
+                      <li>{signal.regions[0]}</li>
+                      {signal.themes.slice(0, 2).map((theme) => <li key={theme}>{theme === "Advanced Packaging" ? "Packaging" : theme}</li>)}
+                    </ul>
                   </div>
-                  <div className={styles.signalHeadline}>
-                    <i className={styles.tone_neutral} aria-hidden="true">公</i>
-                    <div><small>{primaryCompany?.shortName ?? signal.sourceName}</small><h3>{signal.title}</h3></div>
-                  </div>
-                  <ul className={styles.signalTags}>
-                    <li>{signal.regions[0]}</li>
-                    {signal.themes.slice(0, 2).map((theme) => <li key={theme}>{theme === "Advanced Packaging" ? "Packaging" : theme}</li>)}
-                  </ul>
                 </summary>
                 <div className={styles.signalDetail}>
                   <strong>確認できた事実</strong><p>{signal.summary}</p>
                   <strong>業界への影響（編集部の見方）</strong><p>{signal.impact}</p>
                   <dl><div><dt>影響工程</dt><dd>{signal.processes.map((process) => pulseProcessLabels[process]).join(" / ")}</dd></div></dl>
                   {relatedCompanies.length > 0 ? <div className={styles.relatedCompanies}><span>関連企業</span>{relatedCompanies.map((company) => <button key={company.id} onClick={() => onCompanySelect(company.id)} type="button">{company.shortName}</button>)}</div> : null}
+                  {signal.thumbnail ? <small className={styles.thumbnailCredit}>画像出典：<a href={signal.thumbnail.creditUrl} target="_blank" rel="noreferrer">{signal.thumbnail.credit} ↗</a></small> : null}
                   <a href={signal.sourceUrl} target="_blank" rel="noreferrer">{signal.sourceName}の原文を確認 ↗</a>
                   <Link href="/industry-map" onClick={() => onRelatedClick("industry_map_from_signal")}>業界地図でつながりを見る →</Link>
                 </div>

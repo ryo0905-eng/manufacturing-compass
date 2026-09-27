@@ -34,6 +34,10 @@ const {
 } = require("../src/lib/chip-pulse.ts");
 const { pulseBriefLines, pulseCompanies, pulseSignals, pulseUpdatedAt } = require("../src/data/chip-pulse.ts");
 const { buildOfficialUpdates, buildRefreshStatus } = require("./chip-pulse-publish.cjs");
+const {
+  assertValidPulseThumbnail,
+  resolvePulseThumbnail,
+} = require("../src/lib/chip-pulse-thumbnail.ts");
 
 const baseSignal = {
   id: "signal-a",
@@ -116,6 +120,10 @@ test("published news keeps traceable, non-duplicated sources and valid reference
     assert.ok(new Date(signal.occurredAt).getTime() <= asOf, `future signal: ${signal.id}`);
     assert.ok(signal.summary.length > 0 && signal.impact.length > 0 && signal.sourceName.length > 0);
     assert.ok(signal.companyIds.every((companyId) => companyIds.has(companyId)), `unknown company in ${signal.id}`);
+    if (signal.thumbnail) {
+      assert.doesNotThrow(() => assertValidPulseThumbnail(signal.thumbnail));
+      assert.ok(fs.existsSync(path.join(root, signal.thumbnail.src.slice(1))), `missing thumbnail file: ${signal.thumbnail.src}`);
+    }
     signalIds.add(signal.id);
     sourceUrls.add(signal.sourceUrl);
   }
@@ -124,4 +132,48 @@ test("published news keeps traceable, non-duplicated sources and valid reference
     assert.ok(line.signalIds?.length, `brief without evidence: ${line.id}`);
     assert.ok(line.signalIds.every((signalId) => signalIds.has(signalId)), `unknown brief evidence: ${line.id}`);
   }
+});
+
+test("every process resolves to its own fallback thumbnail", () => {
+  const processes = ["Design", "Lithography", "Deposition", "Etch", "Metrology", "Assembly", "Test", "Materials"];
+  for (const process of processes) {
+    assert.deepEqual(resolvePulseThumbnail({ processes: [process] }), {
+      kind: "process",
+      process,
+      label: {
+        Design: "設計", Lithography: "露光", Deposition: "成膜", Etch: "エッチング",
+        Metrology: "検査・計測", Assembly: "後工程・実装", Test: "テスト", Materials: "材料",
+      }[process],
+    });
+  }
+  assert.deepEqual(resolvePulseThumbnail({ processes: [] }), { kind: "process", process: "General", label: "半導体産業" });
+});
+
+test("curated thumbnails require a local image, alt text, credit, and HTTPS evidence", () => {
+  const valid = {
+    src: "/images/chip-pulse/example.webp",
+    alt: "公式発表に掲載された製造装置",
+    credit: "Example newsroom",
+    creditUrl: "https://example.com/newsroom/article",
+  };
+  assert.doesNotThrow(() => assertValidPulseThumbnail(valid));
+  assert.throws(() => assertValidPulseThumbnail({ ...valid, src: "https://example.com/image.webp" }), /local raster image/);
+  assert.throws(() => assertValidPulseThumbnail({ ...valid, src: "/images/chip-pulse/../image.webp" }), /local raster image/);
+  assert.throws(() => assertValidPulseThumbnail({ ...valid, alt: " " }), /alt text/);
+  assert.throws(() => assertValidPulseThumbnail({ ...valid, credit: " " }), /credit is required/);
+  assert.throws(() => assertValidPulseThumbnail({ ...valid, creditUrl: "http://example.com/article" }), /HTTPS/);
+});
+
+test("a failed curated image falls back without changing the card dimensions", () => {
+  const signal = {
+    processes: ["Assembly"],
+    thumbnail: {
+      src: "/images/chip-pulse/example.png",
+      alt: "先端パッケージの公式写真",
+      credit: "Example newsroom",
+      creditUrl: "https://example.com/newsroom/article",
+    },
+  };
+  assert.equal(resolvePulseThumbnail(signal).kind, "image");
+  assert.deepEqual(resolvePulseThumbnail(signal, true), { kind: "process", process: "Assembly", label: "後工程・実装" });
 });

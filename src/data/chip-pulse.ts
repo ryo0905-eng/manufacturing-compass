@@ -61,6 +61,14 @@ export type PulseSignal = {
   sourceName: string;
   sourceUrl: string;
   sourceType: "company" | "regulatory" | "industry";
+  thumbnail?: PulseThumbnail;
+};
+
+export type PulseThumbnail = {
+  src: string;
+  alt: string;
+  credit: string;
+  creditUrl: string;
 };
 
 export type PulseTheme = {
