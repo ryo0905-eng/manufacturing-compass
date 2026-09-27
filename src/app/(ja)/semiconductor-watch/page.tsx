@@ -30,15 +30,15 @@ export const metadata: Metadata = {
 };
 
 export default function SemiconductorWatchPage() {
-  const checkedAt = new Date(refreshStatus.checkedAt).getTime();
-  const recentSignals = filterRecentPulseSignals(pulseSignals, refreshStatus.checkedAt);
-  const signals24h = filterRecentPulseSignals(recentSignals, refreshStatus.checkedAt, 1).length;
+  const checkedAt = new Date(refreshStatus.lastSuccessfulAt).getTime();
+  const recentSignals = filterRecentPulseSignals(pulseSignals, refreshStatus.lastSuccessfulAt);
+  const signals24h = filterRecentPulseSignals(recentSignals, refreshStatus.lastSuccessfulAt, 1).length;
   const officialUpdates24h = officialUpdates.updates.filter((update) => {
     const age = checkedAt - new Date(update.publishedAt).getTime();
     return age >= 0 && age <= 24 * 60 * 60 * 1000;
   }).length;
   const updates24h = signals24h + officialUpdates24h;
-  const nextEvent = filterUpcomingPulseEvents(pulseEvents, refreshStatus.checkedAt)[0];
+  const nextEvent = filterUpcomingPulseEvents(pulseEvents, refreshStatus.lastSuccessfulAt)[0];
 
   return (
     <main className={styles.page}>
@@ -58,7 +58,7 @@ export default function SemiconductorWatchPage() {
         operatingSystem: "Web",
         description,
         url: `${siteUrl}/semiconductor-watch`,
-        dateModified: checkedAt > new Date(pulseUpdatedAt).getTime() ? refreshStatus.checkedAt : pulseUpdatedAt,
+        dateModified: checkedAt > new Date(pulseUpdatedAt).getTime() ? refreshStatus.lastSuccessfulAt : pulseUpdatedAt,
         isAccessibleForFree: true,
       }} />
 
@@ -68,22 +68,22 @@ export default function SemiconductorWatchPage() {
 
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p>SEMICONDUCTOR INDUSTRY WATCH</p>
+          <p>半導体業界ウォッチ</p>
           <h1><span>Chip Pulse</span>半導体業界の「今」を<br /><em>3分で。</em></h1>
-          <p className={styles.lead}>企業、セクター、地域、テーマを横断し、昨日からの変化を一枚のダッシュボードで探索します。</p>
+          <p className={styles.lead}>確認済みの公式ニュースから、何が起き、どの企業・工程に関係するかを毎朝3分で確認できます。</p>
         </div>
         <aside className={styles.heroSignal} aria-label="公式情報の確認状況">
-          <div className={styles.signalHeading}><span>OFFICIAL SOURCE CHECK</span><b><i /> VERIFIED</b></div>
-          <strong>24h / {updates24h === 0 ? "QUIET" : `${updates24h} UPDATES`}</strong>
-          <p>{updates24h === 0 ? "直近24時間に新しい公式更新はありません" : `編集済みシグナル ${signals24h}件・自動取得 ${officialUpdates24h}件`}</p>
-          <dl><div><dt>30 DAYS</dt><dd>{recentSignals.length + officialUpdates.updates.length} updates</dd></div><div><dt>MONITORED</dt><dd>{refreshStatus.sources.succeeded} sources</dd></div><div><dt>NEXT</dt><dd>{nextEvent ? `${nextEvent.date.slice(5)} ${nextEvent.title.split(" ")[0]}` : "予定なし"}</dd></div></dl>
+          <div className={styles.signalHeading}><span>公式情報の確認状況</span><b><i /> {refreshStatus.status === "success" ? "正常" : "更新遅延"}</b></div>
+          <strong>過去24時間 / {updates24h}件</strong>
+          <p>{updates24h === 0 ? "新着なし（取得失敗とは区別しています）" : `確認済みニュース ${signals24h}件・公式メタデータ ${officialUpdates24h}件`}</p>
+          <dl><div><dt>直近30日</dt><dd>{recentSignals.length + officialUpdates.updates.length}件</dd></div><div><dt>取得成功</dt><dd>{refreshStatus.sources.succeeded}/{refreshStatus.sources.attempted}</dd></div><div><dt>今後7日</dt><dd>{nextEvent ? `${nextEvent.date.slice(5)} ${nextEvent.title.split(" ")[0]}` : "確認済み予定なし"}</dd></div></dl>
         </aside>
       </header>
 
       <aside className={styles.sourceNotice} aria-label="データの出典と更新について">
         <strong>公式情報スナップショット</strong>
-        <p>重要シグナルは公式情報を編集整理しています。新しい公式発表・開示はタイトルと日時のみ自動掲載し、原文へリンクします。株価速報ではなく、更新はリアルタイムではありません。</p>
-        <dl><div><dt>Source check</dt><dd>{formatJst(refreshStatus.checkedAt)} JST</dd></div><div><dt>Editorial</dt><dd>{pulseDisplayDate}</dd></div><div><dt>Market cap</dt><dd>{pulseMarketCapAsOf.replaceAll("-", ".")}</dd></div></dl>
+        <p>重要ニュースは公式情報を編集整理しています。未編集の公式開示はタイトル・提出種別・発表日だけを掲載します。株価速報ではなく、ページ閲覧時にAIを呼び出しません。</p>
+        <dl><div><dt>最終正常更新</dt><dd>{formatJst(refreshStatus.lastSuccessfulAt)} JST</dd></div><div><dt>編集確認</dt><dd>{pulseDisplayDate}</dd></div><div><dt>時価総額の基準日</dt><dd>{pulseMarketCapAsOf.replaceAll("-", ".")}</dd></div></dl>
       </aside>
 
       <ChipPulseDashboard />

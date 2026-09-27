@@ -1,5 +1,14 @@
 {
   "schemaVersion": 1,
+  "collectionCadence": "daily-around-07:00-Asia/Tokyo",
+  "candidateLimit": 120,
+  "providers": {
+    "sec-edgar": {
+      "termsUrl": "https://www.sec.gov/about/developer-resources",
+      "usage": "Public filings and submission metadata only. Declared User-Agent and no more than 10 requests per second.",
+      "storedFields": ["company", "form", "filing date", "acceptance time", "source URL", "document description"]
+    }
+  },
   "sources": [
     {
       "companyId": "nvidia",
@@ -70,13 +79,6 @@
       "kind": "sec-submissions",
       "cik": "0000937966",
       "forms": ["6-K", "20-F"]
-    },
-    {
-      "companyId": "samsung-electronics",
-      "companyName": "Samsung Electronics",
-      "kind": "official-rss",
-      "url": "https://news.samsung.com/global/feed/rss",
-      "matchTerms": ["semiconductor", "foundry", "memory", "HBM", "DRAM", "chip", "wafer", "EUV"]
     }
   ]
 }

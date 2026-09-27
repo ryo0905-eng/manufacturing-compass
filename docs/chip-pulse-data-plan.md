@@ -1,22 +1,23 @@
 # Chip Pulse リアルデータ化方針
 
-最終更新日: 2026-09-26
+最終更新日: 2026-09-27
 
 ## 目的と現在地
 
-`/semiconductor-watch` は、ニュースを読む前に「何が変わり、どこへ波及したか」を把握する探索画面である。企業IR・SEC提出・業界団体の公式情報を編集した出典付き静的スナップショットに加え、SEC提出とSamsung公式RSSの新規候補は公式メタデータだけを自動掲載する。外部DBと実行時API依存は追加しない。
+`/semiconductor-watch` は、確認済みニュースから「何が変わり、どこへ波及したか」を3分で把握する探索画面である。企業IR・SEC提出・業界団体の公式情報を編集した出典付き静的スナップショットに加え、SEC提出の新規候補は公式メタデータだけを自動掲載する。外部DB、実行時API、閲覧時のAI呼び出しは追加しない。
 
-現行スナップショットでは、架空の日次騰落・ニュース・テーマスコア・イベントを使わない。企業マップの面積は既存の基準日付き時価総額、色は直近30日の公式シグナル件数とトーン、Theme Pulseは同じシグナルから算出する。24時間・30日・今後7日間の表示範囲は `chip-pulse-refresh-status.json` の最終正常確認時刻を基準に計算し、古いシグナル・終了済みイベント・根拠が範囲外になった編集サマリーを表示しない。
+現行スナップショットでは、架空の日次騰落・ニュース・テーマスコア・イベントを使わない。企業マップの面積は既存の基準日付き時価総額、色は直近30日の確認済みニュース件数、テーマ欄も同じニュース件数から算出する。24時間・30日・今後7日間の表示範囲は `chip-pulse-refresh-status.json` の最終正常確認時刻を基準に計算し、古いニュース・終了済みイベント・根拠が範囲外になった編集サマリーを表示しない。
 
 ## 実装済みの収集境界
 
-- `src/data/chip-pulse-sources.json` に、NVIDIA、AMD、Broadcom、Micron、Intel、Applied Materials、Lam Research、KLA、TSMC、ASMLの企業ID・CIK・対象Formと、Samsung公式Newsroom RSSのURL・半導体関連語を保持する。
-- `npm run chip-pulse:update` はSEC submissions APIとSamsung公式RSSを順番に取得する。SECは指定したFormを、RSSは記事タイトル・カテゴリーが半導体関連語に一致する項目だけを直近30日の候補へ正規化する。RSSの分類は候補発見用で、重要度や内容を確定しない。
-- SECのFair Accessに合わせてリクエスト間隔を125ms以上空ける。`CHIP_PULSE_SEC_USER_AGENT` は連絡先メール、または組織名と連絡先メールを運営環境だけに設定する。メールだけの場合、送信時に `Manufacturing Compass` を付加する。値はコードやログへ出さず、Samsung RSSへは連絡先を含まない固定の識別子を送る。
-- 出力先は公開ディレクトリではなく `.private/chip-pulse-candidates/`。`current.json` と `snapshots/YYYY-MM-DD/HHMMSS.json` を原子的に書き、全ソース失敗時は既存ファイルを更新しない。
+- `src/data/chip-pulse-sources.json` に、NVIDIA、AMD、Broadcom、Micron、Intel、Applied Materials、Lam Research、KLA、TSMC、ASMLの企業ID・CIK・対象Form、取得頻度、SECの利用条件URL、保存項目、1回あたりの候補上限を保持する。
+- `npm run chip-pulse:update` はSEC submissions APIを順番に取得し、指定Formを直近30日の候補へ正規化する。外部文書は信頼できない入力として扱い、本文内の指示を実行せず、許可したメタデータ項目だけを読む。
+- SECのFair Accessに合わせてリクエスト間隔を125ms以上空ける。`CHIP_PULSE_SEC_USER_AGENT` は連絡先メール、または組織名と連絡先メールを運営環境だけに設定する。メールだけの場合、送信時に `Manufacturing Compass` を付加する。値はコードやログへ出さない。
+- 出力先は公開ディレクトリではなく `.private/chip-pulse-candidates/`。全試行を `last-attempt.json`、一部でも成功した候補を `current.json` と `snapshots/YYYY-MM-DD/HHMMSS.json` へ原子的に書く。全ソース失敗時は正常候補を上書きしない。
 - 収集候補に人手の承認待ち状態は付けない。`npm run chip-pulse:review` は既掲載URL、明示された別URL対応、明確に定型的な役員・配当情報を自動分類する。複数の開示項目がある提出書類は、後続の10-Qだけを理由に除外しない。残る候補は `newOfficialUpdates` とする。
-- `npm run chip-pulse:publish` は `newOfficialUpdates` の企業名・公式タイトルまたはForm・日時・原文URLだけを `src/data/chip-pulse-official-updates.json` に保存する。記事を読んだような要約、相場の方向、工程・テーマの推測は付けない。取得が部分失敗した場合は既存公開データを保持する。
-- Advantestと東京エレクトロンは公式のニュースページを確認したが、今回の調査で公式RSSを確認できていない。両社の発表は引き続き公式ページから手動で候補登録する。
+- `npm run chip-pulse:publish` は、全取得成功時だけ `newOfficialUpdates` の企業名・Form・発表日・原文URLを `src/data/chip-pulse-official-updates.json` に保存する。記事を読んだような要約、相場の方向、工程・テーマの推測は付けない。部分失敗・全失敗時は公開ニュースを保持し、`chip-pulse-refresh-status.json` へ試行結果と前回正常時刻を分けて記録する。
+- Advantest、東京エレクトロン、SEMI等は公式ページを手動確認して編集ニュースへ登録する。確認できないRSSや非公式APIは仮定しない。
+- Samsung Global NewsroomのRSSは実在するが、2026-09-27確認時の利用規約がコンテンツ利用を個人・情報提供・非商用に限定しているため、商用サイトの自動取得元から外した。Samsung関連の発表を扱う場合は、SEC提出または利用条件を確認できる共同発表元を優先する。
 
 運営者による実行例:
 
@@ -34,9 +35,9 @@ npm run chip-pulse:review
 npm run chip-pulse:refresh
 ```
 
-部分失敗時は取得できた候補を保存したうえで終了コード1とし、監視側が検知できるようにする。エラーには企業IDと有限のエラーコードだけを残し、レスポンス本文、ヘッダー、環境変数を出力しない。
+部分失敗時は取得できた候補を保存し、公開ニュースは更新しない。`chip-pulse:check` が終了コード1を返して監視側が検知する。エラーには企業IDと有限のエラーコードだけを残し、レスポンス本文、ヘッダー、環境変数を出力しない。
 
-`.github/workflows/chip-pulse-refresh.yml` は毎日06:17 JSTを指定して同じ取得・分類・公開処理を行い、公式更新JSONの変更と最終正常確認時刻をGitHub Actionsのbotでコミットする。初回稼働にはGitHub ActionsのリポジトリSecret `CHIP_PULSE_SEC_USER_AGENT` に、`.env.local` と同じ連絡先メール（組織名を含めてもよい）を一度設定する必要がある。Secretがない場合は失敗し、公開JSONを変更しない。スケジュール実行とGitHub側の書き込み権限・本番反映は、ワークフローをデフォルトブランチに反映した後で確認する。GitHubのscheduled workflowは指定時刻から遅れる場合がある。
+`.github/workflows/chip-pulse-refresh.yml` は毎日06:17 JSTを指定して同じ取得・分類・公開処理を行い、公式更新JSONと試行状態をGitHub Actionsのbotでコミットした後、部分失敗・全失敗を監視エラーにする。初回稼働にはGitHub ActionsのリポジトリSecret `CHIP_PULSE_SEC_USER_AGENT` に連絡先メール（組織名を含めてもよい）を一度設定する必要がある。Secretがない場合は失敗し、公開JSONを変更しない。スケジュール実行とGitHub側の書き込み権限・本番反映は、ワークフローをデフォルトブランチに反映した後で確認する。GitHubのscheduled workflowは指定時刻から遅れる場合がある。
 
 ## 推奨データフロー
 
@@ -49,7 +50,7 @@ npm run chip-pulse:refresh
   → Chip Pulse（取得失敗時は直近正常版と鮮度を表示）
 ```
 
-各シグナルは `sourceUrl`、`sourceName`、`publishedAt`、`fetchedAt`、`sourceType`、`primaryCompanyId`、`relatedCompanyIds`、`themes`、`processes`、`importance`、`evidence` を持つ。記事本文や配信元の要約をそのまま転載せず、タイトル・リンク・最小限の事実と編集部作成の短い要約を保存する。
+編集ニュースは `sourceUrl`、`sourceName`、出典が示す発表日時を入れる `occurredAt`、`sourceType`、`primaryCompanyId`、直接確認できる関連企業、テーマ、工程、事実要約、編集部の見方を持つ。取得日時を `occurredAt` に代用しない。記事本文や配信元の要約をそのまま転載せず、タイトル・リンク・最小限の事実と編集部作成の短い要約を保存する。
 
 ローカル候補履歴は `snapshots/YYYY-MM-DD/HHMMSS.json` を不変保存し、`current.json` だけを差し替える。本番保存へ進む際も同じ境界を維持し、Today / 1w / 1m / 3m と日別アーカイブへ拡張できるようにする。履歴量と更新頻度が小さい間はオブジェクトストレージで十分で、検索・重複排除・再計算が重くなった時点でDBへ移す。
 
@@ -57,10 +58,10 @@ npm run chip-pulse:refresh
 
 ### Phase 1: 無料または既存費用内で検証
 
-- 企業公式RSSが明示されている企業と、SEC EDGAR、EDINETの開示情報を対象にする。
+- 現在はSEC EDGARを自動取得対象にする。企業公式RSSとEDINETは、利用条件・認証・表示範囲を確認できたものから追加する。
 - RSSがない企業は自動スクレイピングせず、重要企業だけ公式URLを人手で登録する。
 - 企業ID辞書とキーワード規則でテーマ・工程・関連企業を付与し、3行まとめは根拠シグナルからテンプレート生成する。
-- 朝1回、前日終値と24時間シグナルをまとめてスナップショット化する。ニュース毎時更新は運用価値を確認してから追加する。
+- 朝1回、24時間の公式更新候補をスナップショット化する。ニュース毎時更新や株価データは運用価値と再表示権を確認してから追加する。
 - 市場データは現行の基準日データまたは手動更新を維持し、商用表示権が不明な無料APIを本番に入れない。
 
 ### Phase 2: 自動更新と品質管理
@@ -82,7 +83,7 @@ npm run chip-pulse:refresh
 
 | 候補 | 無料性・用途 | 公開利用上の判断 |
 | --- | --- | --- |
-| 企業公式IR / Newsroom RSS | NVIDIA、Intelなど一部企業が公式RSSを提供。タイトル、日時、リンクの検知に向く | フィードの存在だけで転載許諾とは見なさない。ソース別規約を確認し、原文転載ではなくリンクと独自要約を使う |
+| 企業公式IR / Newsroom RSS | NVIDIA、Intelなど一部企業が公式RSSを提供。タイトル、日時、リンクの検知に向く | フィードの存在だけで転載許諾とは見なさない。利用条件が商用利用と自動取得に適合するソースだけ採用する。Samsung Global Newsroomは今回不採用 |
 | [SEC EDGAR APIs / RSS](https://www.sec.gov/about/developer-resources) | APIキー不要。米国企業の8-K、10-Q、10-K、6-K等を取得できる | 政府作成コンテンツと公開提出書類は再利用可能と案内されている。User-Agentを明示し、全体で毎秒10リクエスト以下のFair Accessを守る |
 | EDINET API | 日本企業の法定開示。APIによる二次利用を想定 | 金融庁は営利目的を含む二次利用が可能と明示。APIキー、利用規約、訂正書類の扱いを実装前に再確認する |
 | OpenDART | 韓国企業の法定開示。登録後にAPIを利用 | 企業カバレッジ拡大候補。公開表示・保存・翻訳の範囲は利用規約を案件ごとに確認する |

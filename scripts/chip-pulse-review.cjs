@@ -70,7 +70,7 @@ function reviewCandidates(snapshot, publishedSignals, aliases) {
     const entry = {
       candidateId: candidate.id,
       companyId: candidate.companyId,
-      date: candidate.filedAt ?? candidate.publishedAt,
+      date: candidate.acceptedAt ?? candidate.filedAt ?? candidate.publishedAt,
       title: candidate.title ?? candidate.description ?? candidate.form ?? "Untitled filing",
       sourceUrl: candidate.sourceUrl,
     };

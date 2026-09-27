@@ -1,6 +1,15 @@
 # TASKS
 
-最終整理日: 2026-09-12
+最終整理日: 2026-09-27
+
+## 2026-09-27：Chip Pulseを確認済みニュース中心へ改善
+
+- `/semiconductor-watch` を「今日の3行→2つのニュース入口→フィルター→重要ニュース／未編集の公式更新→市場規模データ」の順に変更。3行から根拠ニュースへ移動でき、事実要約と編集部の見方を分離。
+- KPIは過去24時間の新着件数と直近30日の最多テーマだけに整理。全体集計固定、同数時は定義順、0件表示を明記。市場マップは株価方向ではなく公式更新件数で着色し、時価総額の基準日・単位・出典を表示。
+- 自動取得は利用条件を確認したSEC EDGARの10社に限定。Samsung Newsroom RSSは非商用利用制限のため除外。候補上限120件、重複URL、前回正常データ保護、成功／一部失敗／全失敗の状態分離を実装。
+- `npm run chip-pulse:refresh` で10/10ソース成功・6候補を確認。`npm run chip-pulse:test` は6件成功、`npm run typecheck` は1回成功、`git diff --check` 成功。PC実Chromiumと390px Chromiumで表示、テーマカード→AI絞り込み、根拠ニュース、モバイルの読み順を確認。
+- コード実装とローカル取得は完了。本番のGitHub Actions定期実行・bot commit・Vercel反映は未確認。commit・push未実施。
+- 推奨コミット：`feat: make Chip Pulse a source-backed daily news brief`
 
 ## 2026-09-26：工場プロジェクトの2件比較
 

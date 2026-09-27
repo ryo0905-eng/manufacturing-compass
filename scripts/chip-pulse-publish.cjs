@@ -5,6 +5,7 @@ const { extractPublishedSignals, reviewCandidates } = require("./chip-pulse-revi
 
 const root = path.resolve(__dirname, "..");
 const candidatePath = path.join(root, ".private/chip-pulse-candidates/current.json");
+const attemptPath = path.join(root, ".private/chip-pulse-candidates/last-attempt.json");
 const signalsPath = path.join(root, "src/data/chip-pulse.ts");
 const aliasesPath = path.join(root, "src/data/chip-pulse-source-aliases.json");
 const registryPath = path.join(root, "src/data/chip-pulse-sources.json");
@@ -47,25 +48,39 @@ function buildOfficialUpdates(snapshot, publishedSignals, aliases, registry) {
   };
 }
 
+function buildRefreshStatus(snapshot, previousStatus) {
+  const previousSuccess = previousStatus?.lastSuccessfulAt ?? previousStatus?.checkedAt ?? null;
+  const successful = snapshot.status === "success" && snapshot.sources?.failed === 0;
+  const lastSuccessfulAt = successful ? snapshot.generatedAt : previousSuccess;
+  if (!lastSuccessfulAt) throw new Error("A failed refresh cannot replace the last successful timestamp.");
+  return {
+    schemaVersion: 2,
+    status: snapshot.status,
+    lastAttemptAt: snapshot.generatedAt,
+    lastSuccessfulAt,
+    sources: snapshot.sources,
+    candidates: snapshot.candidates.length,
+    errors: Array.isArray(snapshot.errors) ? snapshot.errors : [],
+  };
+}
+
 function main() {
-  const snapshot = JSON.parse(fs.readFileSync(candidatePath, "utf8"));
+  const snapshot = JSON.parse(fs.readFileSync(fs.existsSync(attemptPath) ? attemptPath : candidatePath, "utf8"));
   const signals = extractPublishedSignals(fs.readFileSync(signalsPath, "utf8"));
   const aliases = JSON.parse(fs.readFileSync(aliasesPath, "utf8"));
   const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
-  const result = buildOfficialUpdates(snapshot, signals, aliases, registry);
-  let changed = true;
-  if (fs.existsSync(outputPath)) {
-    const previous = JSON.parse(fs.readFileSync(outputPath, "utf8"));
-    changed = JSON.stringify(previous.updates) !== JSON.stringify(result.updates);
+  const previousStatus = fs.existsSync(statusPath) ? JSON.parse(fs.readFileSync(statusPath, "utf8")) : null;
+  const successful = snapshot.status === "success" && snapshot.sources?.failed === 0;
+  let changed = false;
+  let officialUpdates = fs.existsSync(outputPath) ? JSON.parse(fs.readFileSync(outputPath, "utf8")) : { schemaVersion: 1, generatedAt: previousStatus?.lastSuccessfulAt, updates: [] };
+  if (successful) {
+    const result = buildOfficialUpdates(snapshot, signals, aliases, registry);
+    changed = JSON.stringify(officialUpdates.updates) !== JSON.stringify(result.updates);
+    if (changed) writeJsonAtomic(outputPath, result);
+    officialUpdates = result;
   }
-  if (changed) writeJsonAtomic(outputPath, result);
-  writeJsonAtomic(statusPath, {
-    schemaVersion: 1,
-    checkedAt: snapshot.generatedAt,
-    sources: snapshot.sources,
-    candidates: snapshot.candidates.length,
-  });
-  console.log(JSON.stringify({ checkedAt: snapshot.generatedAt, officialUpdates: result.updates.length, changed }));
+  writeJsonAtomic(statusPath, buildRefreshStatus(snapshot, previousStatus));
+  console.log(JSON.stringify({ status: snapshot.status, lastAttemptAt: snapshot.generatedAt, officialUpdates: officialUpdates.updates.length, changed, preserved: !successful }));
 }
 
 if (require.main === module) {
@@ -75,4 +90,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { buildOfficialUpdates };
+module.exports = { buildOfficialUpdates, buildRefreshStatus };

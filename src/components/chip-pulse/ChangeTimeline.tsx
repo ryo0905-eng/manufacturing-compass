@@ -9,8 +9,6 @@ import {
 } from "@/data/chip-pulse";
 import styles from "./ChipPulseDashboard.module.css";
 
-const toneIcons: Record<PulseSignal["tone"], string> = { positive: "↑", negative: "↓", mixed: "±", neutral: "→" };
-
 type ChangeTimelineProps = {
   signals: PulseSignal[];
   asOf: string;
@@ -30,33 +28,31 @@ export function ChangeTimeline({ signals, asOf, onOpen, onCompanySelect, onRelat
     const age = asOfTime - new Date(signal.occurredAt).getTime();
     return age >= 0 && age <= 24 * 60 * 60 * 1000;
   });
-  const displayedSignals = showAll ? orderedSignals : orderedSignals.slice(0, 3);
 
   return (
-    <section className={styles.timeline} aria-labelledby="change-timeline-title">
+    <section className={styles.timeline} id="important-news" aria-labelledby="change-timeline-title">
       <header>
-        <div><span>OFFICIAL SIGNALS / 30D</span><h2 id="change-timeline-title">公式発表から変わったこと</h2></div>
-        <p><strong>24h {signals24h.length}件</strong> / 30d {signals.length}件</p>
+        <div><span>確認済みニュース / 直近30日</span><h2 id="change-timeline-title">重要ニュース</h2></div>
+        <p><strong>24時間 {signals24h.length}件</strong> / 30日 {signals.length}件</p>
       </header>
       {signals.length > 0 && signals24h.length === 0 ? <p className={styles.quietSignal}>直近24時間は重要更新なし。直近30日の文脈を表示しています。</p> : null}
-      {displayedSignals.length > 0 ? (
+      {orderedSignals.length > 0 ? (
         <div className={styles.timelineList}>
-          {displayedSignals.map((signal, index) => {
+          {orderedSignals.map((signal, index) => {
             const primaryCompany = pulseCompanies.find((company) => company.id === signal.primaryCompanyId);
             const relatedCompanies = signal.companyIds
               .filter((companyId) => companyId !== signal.primaryCompanyId)
               .map((companyId) => pulseCompanies.find((company) => company.id === companyId))
               .filter((company) => company !== undefined);
             return (
-              <details key={signal.id} onToggle={(event) => { if (event.currentTarget.open) onOpen(signal.id); }}>
+              <details className={!showAll && index >= 3 ? styles.collapsedSignal : undefined} id={`signal-${signal.id}`} key={signal.id} onToggle={(event) => { if (event.currentTarget.open) onOpen(signal.id); }}>
                 <summary>
                   <div className={styles.signalMeta}>
                     <time dateTime={signal.occurredAt}>{signal.timeLabel}</time>
-                    {index < 3 ? <b>KEY SIGNAL</b> : null}
-                    <span aria-label={`重要度 ${signal.importance}`}>{"●".repeat(signal.importance)}</span>
+                    {index < 3 ? <b>重要ニュース</b> : null}
                   </div>
                   <div className={styles.signalHeadline}>
-                    <i className={styles[`tone_${signal.tone}`]} aria-hidden="true">{toneIcons[signal.tone]}</i>
+                    <i className={styles.tone_neutral} aria-hidden="true">公</i>
                     <div><small>{primaryCompany?.shortName ?? signal.sourceName}</small><h3>{signal.title}</h3></div>
                   </div>
                   <ul className={styles.signalTags}>
@@ -65,8 +61,8 @@ export function ChangeTimeline({ signals, asOf, onOpen, onCompanySelect, onRelat
                   </ul>
                 </summary>
                 <div className={styles.signalDetail}>
-                  <p>{signal.summary}</p>
-                  <strong>なぜ見るか</strong><p>{signal.impact}</p>
+                  <strong>確認できた事実</strong><p>{signal.summary}</p>
+                  <strong>業界への影響（編集部の見方）</strong><p>{signal.impact}</p>
                   <dl><div><dt>影響工程</dt><dd>{signal.processes.map((process) => pulseProcessLabels[process]).join(" / ")}</dd></div></dl>
                   {relatedCompanies.length > 0 ? <div className={styles.relatedCompanies}><span>関連企業</span>{relatedCompanies.map((company) => <button key={company.id} onClick={() => onCompanySelect(company.id)} type="button">{company.shortName}</button>)}</div> : null}
                   <a href={signal.sourceUrl} target="_blank" rel="noreferrer">{signal.sourceName}の原文を確認 ↗</a>
@@ -75,7 +71,7 @@ export function ChangeTimeline({ signals, asOf, onOpen, onCompanySelect, onRelat
               </details>
             );
           })}
-          {signals.length > 3 ? <button className={styles.showSignals} onClick={() => setShowAll((current) => !current)} type="button">{showAll ? "主要3件に戻す" : `残り${signals.length - 3}件を表示`}</button> : null}
+          {signals.length > 3 ? <button className={styles.showSignals} onClick={() => setShowAll((current) => !current)} type="button">{showAll ? "重要3件に戻す" : `その他のニュース ${signals.length - 3}件を表示`}</button> : null}
         </div>
       ) : <p className={styles.emptyText}>この条件に該当する公式シグナルはありません。</p>}
     </section>

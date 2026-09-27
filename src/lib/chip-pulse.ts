@@ -33,6 +33,8 @@ export type PulseKpis = {
   activeCompanies: number;
   sourceCount: number;
   topTheme: PulseThemeId | null;
+  topThemes: PulseThemeId[];
+  topThemeCount: number;
 };
 
 export type PulseCompanyActivity = { count: number; score: number };
@@ -118,8 +120,11 @@ export function calculatePulseKpis(companies: PulseCompany[], signals: PulseSign
   for (const signal of signals) {
     for (const theme of signal.themes) themeCounts.set(theme, (themeCounts.get(theme) ?? 0) + 1);
   }
-  const topTheme = [...themeCounts.entries()]
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? null;
+  const topThemeCount = Math.max(0, ...themeCounts.values());
+  const topThemes = topThemeCount === 0
+    ? []
+    : (Object.keys(pulseThemeDefinitions) as PulseThemeId[]).filter((theme) => themeCounts.get(theme) === topThemeCount);
+  const topTheme = topThemes[0] ?? null;
   const asOfTime = new Date(asOf).getTime();
   const dayInMs = 24 * 60 * 60 * 1000;
   const activeCompanies = new Set(signals.flatMap((signal) => signal.companyIds).filter((id) => companyIds.has(id)));
@@ -133,6 +138,8 @@ export function calculatePulseKpis(companies: PulseCompany[], signals: PulseSign
     activeCompanies: activeCompanies.size,
     sourceCount: new Set(signals.map((signal) => signal.sourceName)).size,
     topTheme,
+    topThemes,
+    topThemeCount,
   };
 }
 

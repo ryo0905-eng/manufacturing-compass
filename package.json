@@ -14,7 +14,9 @@
     "chip-pulse:update": "node scripts/chip-pulse-update.cjs",
     "chip-pulse:review": "node scripts/chip-pulse-review.cjs",
     "chip-pulse:publish": "node scripts/chip-pulse-publish.cjs",
-    "chip-pulse:refresh": "npm run chip-pulse:update && npm run chip-pulse:publish",
+    "chip-pulse:check": "node scripts/chip-pulse-check.cjs",
+    "chip-pulse:test": "node --test scripts/chip-pulse.test.cjs",
+    "chip-pulse:refresh": "npm run chip-pulse:update && npm run chip-pulse:publish && npm run chip-pulse:check",
     "test:e2e": "playwright test"
   },
   "dependencies": {

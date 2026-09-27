@@ -14,25 +14,30 @@
 
 .kpis {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
 }
 
-.kpis article {
+.kpis button {
   position: relative;
+  display: block;
   min-width: 0;
   overflow: hidden;
   border: 1px solid rgba(186, 201, 214, .82);
   border-radius: 11px;
   background: rgba(255, 255, 255, .9);
   box-shadow: 0 5px 15px rgba(40, 68, 88, .05);
+  color: inherit;
   padding: 12px 14px 11px 16px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-.kpis article::before { position: absolute; inset: 0 auto 0 0; width: 3px; background: #36a477; content: ""; }
-.kpis article:nth-child(2)::before { background: linear-gradient(#36a477 0 50%, #d05e5a 50%); }
-.kpis article:nth-child(3)::before { background: #725fb5; }
-.kpis article:nth-child(4)::before { background: #cf9438; }
+.kpis button::before { position: absolute; inset: 0 auto 0 0; width: 3px; background: #36a477; content: ""; }
+.kpis button:nth-child(2)::before { background: #725fb5; }
+.kpis button:hover { border-color: #8faec7; background: #fff; }
+.kpis button:disabled { cursor: default; opacity: .72; }
 .kpis span, .panelHeading span, .sectionHeading span, .brief header > span, .timeline header span, .filterHeading span, .zeroState > span, .related header > span {
   color: var(--mc-text-muted);
   font-size: 9px;
@@ -44,6 +49,10 @@
 .kpis strong i { color: var(--mc-success); }
 .kpis strong b { color: var(--mc-error); }
 .kpis small { display: block; margin-top: 4px; color: var(--mc-text-muted); font-size: 9px; }
+.kpiNote, .scopeNote { color: var(--mc-text-muted); font-size: 9px; line-height: 1.5; }
+.kpiNote { margin: -4px 3px 0; }
+.scopeNote { margin: -2px 4px 0; }
+.refreshWarning { display: flex; flex-wrap: wrap; gap: 4px 10px; border: 1px solid #e4c98d; border-radius: 9px; background: #fff8e7; color: #75551f; padding: 9px 11px; font-size: 10px; line-height: 1.5; }
 .upValue { color: var(--mc-success); }
 .downValue { color: var(--mc-error); }
 
@@ -116,6 +125,8 @@
 .brief li { display: grid; grid-template-columns: 8px 1fr; gap: 7px; align-items: start; border-left: 1px solid rgba(255,255,255,.16); padding: 3px 14px; }
 .brief li i { width: 5px; height: 5px; margin-top: 6px; border-radius: 50%; background: #7be0b2; box-shadow: 0 0 0 4px rgba(123,224,178,.1); }
 .brief li p { font-size: 11px; line-height: 1.5; }
+.briefLinks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.briefLinks a { color: #c9f1df; font-size: 9px; font-weight: 700; text-underline-offset: 2px; }
 
 .cockpit { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(330px, 1fr); gap: 10px; align-items: stretch; }
 .heatmapPanel, .timeline, .sectionPanel, .events, .investments, .related { border: 1px solid rgba(190, 204, 216, .82); border-radius: 13px; background: #fff; box-shadow: 0 7px 20px rgba(40, 68, 88, .055); }
@@ -134,8 +145,7 @@
 .heatmapCell .cellChange { font-size: 12px; font-weight: 600; }
 .heatmapCell:hover { filter: brightness(1.13) saturate(1.08); }
 .heatmapCell:focus-visible rect { stroke: #fff; stroke-width: 4; }
-.positiveStrong rect { fill: #169b67; }.positive rect { fill: #387e68; }
-.negativeStrong rect { fill: #c34e53; }.negative rect { fill: #9d5d5e; }.neutral rect { fill: #62717d; }
+.signalStrong rect { fill: #216da1; }.signalActive rect { fill: #497f9f; }.neutral rect { fill: #62717d; }
 .selectedCell rect { stroke: #fff; stroke-width: 5; filter: drop-shadow(0 0 7px rgba(255,255,255,.42)); }
 .dimmedCell { opacity: .27; }
 .groupOutline { pointer-events: none; }
@@ -156,14 +166,13 @@
 .companyList strong { overflow: hidden; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
 .companyList small { overflow: hidden; color: rgba(255,255,255,.52); font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
 .companyList b { flex: 0 0 auto; font-size: 10px; font-variant-numeric: tabular-nums; }
-.companyList .positive b { color: #6fd3a8; }.companyList .negative b { color: #f09699; }
-.companyList .positiveStrong b { color: #78e6b6; }.companyList .negativeStrong b { color: #ff9296; }
+.companyList .signalActive b { color: #9bd7ff; }.companyList .signalStrong b { color: #bce5ff; }
 .mobileCompanyList { display: none; }
 .heatmapLegend { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 8px 11px 10px; color: rgba(255,255,255,.6); font-size: 8px; }
 .heatmapLegend > div { display: flex; flex-wrap: wrap; gap: 9px; }
 .heatmapLegend span { display: inline-flex; align-items: center; gap: 4px; }
 .heatmapLegend i { width: 7px; height: 7px; border-radius: 2px; }
-.legendUp { background: #35bd87; }.legendFlat { background: #82919d; }.legendDown { background: #e06368; }
+.legendSignalStrong { background: #216da1; }.legendSignal { background: #497f9f; }.legendFlat { background: #82919d; }
 .sectorLegend { justify-content: center; }
 .sectorLegend span { border: 1px solid rgba(255,255,255,.15); border-radius: 999px; padding: 2px 6px; }
 .heatmapLegend small { font-size: 8px; text-align: right; }
@@ -185,6 +194,8 @@
 .quietSignal { margin: 0 12px 10px; border: 1px solid #d7e4ed; border-radius: 7px; background: #f2f7fa; color: #4f6878; padding: 7px 9px; font-size: 9px; line-height: 1.45; }
 .timelineList { border-top: 1px solid var(--mc-border); }
 .timeline details { border-bottom: 1px solid var(--mc-border); }
+.timeline .collapsedSignal { display: none; }
+.timeline .collapsedSignal:target { display: block; scroll-margin-top: 150px; }
 .timeline summary { display: grid; gap: 7px; padding: 10px 12px; cursor: pointer; list-style: none; transition: background 130ms ease; }
 .timeline summary:hover { background: #f7fafc; }
 .timeline details[open] summary { background: #f3f7fb; }
@@ -233,6 +244,13 @@
 .themeGrid dt { color: var(--mc-text-muted); font-size: 7px; text-transform: uppercase; }
 .themeGrid dd { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
 
+.marketSection { display: grid; gap: 8px; border-top: 1px solid #c9d5de; padding-top: 16px; }
+.marketSection > header { display: flex; align-items: end; justify-content: space-between; gap: 18px; padding-inline: 3px; }
+.marketSection > header span { color: var(--mc-selection); font-size: 9px; font-weight: 800; letter-spacing: .1em; }
+.marketSection > header h2 { margin-top: 2px; font-size: 18px; }
+.marketSection > header p { max-width: 470px; color: var(--mc-text-muted); font-size: 10px; line-height: 1.5; text-align: right; }
+.heatmapLegend a { color: #b9dcf3; }
+
 .secondaryData { overflow: hidden; border: 1px solid #c8d5df; border-radius: 11px; background: rgba(255,255,255,.82); }
 .secondaryData > summary { display: grid; grid-template-columns: 170px 1fr auto; align-items: center; gap: 14px; min-height: 58px; padding: 10px 14px; cursor: pointer; list-style: none; }
 .secondaryData > summary span { color: var(--mc-selection); font-size: 9px; font-weight: 800; letter-spacing: .08em; }
@@ -277,7 +295,7 @@
 .zeroState button { margin-top: 14px; }
 .floatingReset { position: fixed; right: 18px; bottom: 18px; z-index: 6; box-shadow: 0 8px 22px rgba(29,29,31,.2); }
 
-.filterGroups button:focus-visible, .advancedFilters button:focus-visible, .moreFilters:focus-visible, .filterHeading button:focus-visible, .selectionBar button:focus-visible, .companyList button:focus-visible, .relatedCompanies button:focus-visible, .showSignals:focus-visible, .zeroState button:focus-visible, .floatingReset:focus-visible, .secondaryData > summary:focus-visible { outline: 2px solid var(--mc-focus); outline-offset: 2px; }
+.kpis button:focus-visible, .filterGroups button:focus-visible, .advancedFilters button:focus-visible, .moreFilters:focus-visible, .filterHeading button:focus-visible, .selectionBar button:focus-visible, .companyList button:focus-visible, .relatedCompanies button:focus-visible, .showSignals:focus-visible, .zeroState button:focus-visible, .floatingReset:focus-visible, .secondaryData > summary:focus-visible { outline: 2px solid var(--mc-focus); outline-offset: 2px; }
 
 @media (max-width: 1040px) {
   .cockpit { grid-template-columns: minmax(0, 1.32fr) minmax(310px, 1fr); }
@@ -300,7 +318,7 @@
 @media (max-width: 640px) {
   .dashboard { gap: 8px; margin-inline: -7px; border-radius: 13px; padding: 7px; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .kpis article { padding: 11px 10px 10px 13px; }
+  .kpis button { min-height: 108px; padding: 11px 10px 10px 13px; }
   .filters { display: block; }
   .filterHeading { display: flex; flex-wrap: wrap; align-items: center; border-right: 0; border-bottom: 1px solid var(--mc-border); }
   .filterHeading div { flex: 1 1 150px; }
@@ -316,6 +334,8 @@
   .brief { grid-template-columns: 1fr; gap: 8px; padding: 13px; }
   .brief ul { gap: 0; }
   .brief li { border-top: 1px solid rgba(255,255,255,.14); border-left: 0; padding: 8px 2px; }
+  .marketSection > header { align-items: start; flex-direction: column; gap: 5px; }
+  .marketSection > header p { text-align: left; }
   .heatmapDesktop, .companyDirectory { display: none; }
   .mobileCompanyList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 360px; overflow-y: auto; margin-top: 0; padding-top: 1px; scrollbar-width: thin; }
   .companyList button { min-height: 50px; }

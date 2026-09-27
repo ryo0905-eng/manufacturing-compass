@@ -1,10 +1,13 @@
 {
-  "schemaVersion": 1,
-  "checkedAt": "2026-09-27T07:52:48.657Z",
+  "schemaVersion": 2,
+  "status": "success",
+  "lastAttemptAt": "2026-09-27T08:16:26.450Z",
+  "lastSuccessfulAt": "2026-09-27T08:16:26.450Z",
   "sources": {
-    "attempted": 11,
-    "succeeded": 11,
+    "attempted": 10,
+    "succeeded": 10,
     "failed": 0
   },
-  "candidates": 8
+  "candidates": 6,
+  "errors": []
 }

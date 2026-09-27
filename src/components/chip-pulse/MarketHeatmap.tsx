@@ -1,5 +1,6 @@
 import type { KeyboardEvent } from "react";
 import type { PulseCompany, PulseSignal } from "@/data/chip-pulse";
+import { semiconductorMarketCapMeta } from "@/data/semiconductor-market-cap";
 import { getPulseCompanyActivity, layoutPulseTreemap } from "@/lib/chip-pulse";
 import styles from "./ChipPulseDashboard.module.css";
 
@@ -12,18 +13,13 @@ type MarketHeatmapProps = {
 
 function movementClass(activity: { count: number; score: number }) {
   if (activity.count === 0) return styles.neutral;
-  if (activity.score >= 2) return styles.positiveStrong;
-  if (activity.score > 0) return styles.positive;
-  if (activity.score <= -2) return styles.negativeStrong;
-  if (activity.score < 0) return styles.negative;
-  return styles.neutral;
+  if (activity.count >= 3) return styles.signalStrong;
+  return styles.signalActive;
 }
 
 function activityLabel(activity: { count: number; score: number }) {
   if (activity.count === 0) return "更新なし";
-  if (activity.score > 0) return `${activity.count}件・前向き`;
-  if (activity.score < 0) return `${activity.count}件・注意`;
-  return `${activity.count}件・中立`;
+  return `公式更新 ${activity.count}件`;
 }
 
 export function MarketHeatmap({ companies, signals, selectedCompanyId, onSelect }: MarketHeatmapProps) {
@@ -38,10 +34,10 @@ export function MarketHeatmap({ companies, signals, selectedCompanyId, onSelect 
   }
 
   return (
-    <section className={styles.heatmapPanel} aria-labelledby="pulse-heatmap-title">
+    <section className={styles.heatmapPanel} id="market-map" aria-labelledby="pulse-heatmap-title">
       <header className={styles.panelHeading}>
-        <div><span>COMPANY SIGNAL MAP</span><h2 id="pulse-heatmap-title">企業規模と公式シグナルを一枚で見る</h2></div>
-        <p>面積：時価総額 / 色：直近30日の発表トーン</p>
+        <div><span>市場規模データ（株価ではありません）</span><h2 id="pulse-heatmap-title">企業規模と公式更新を一枚で見る</h2></div>
+        <p>面積：{semiconductorMarketCapMeta.dataAsOf.replaceAll("-", ".")}時点の時価総額 / 色：直近30日の公式更新件数</p>
       </header>
       <div className={styles.heatmapDesktop}>
         <svg viewBox="0 0 1000 520" role="img" aria-label={`${companies.length}社の時価総額と直近30日の公式シグナルを示すヒートマップ`}>
@@ -96,9 +92,9 @@ export function MarketHeatmap({ companies, signals, selectedCompanyId, onSelect 
         })}
       </div>
       <footer className={styles.heatmapLegend}>
-        <div><span><i className={styles.legendUp} />前向き</span><span><i className={styles.legendFlat} />更新なし・中立</span><span><i className={styles.legendDown} />注意</span></div>
+        <div><span><i className={styles.legendSignalStrong} />3件以上</span><span><i className={styles.legendSignal} />1〜2件</span><span><i className={styles.legendFlat} />更新なし</span></div>
         <div className={styles.sectorLegend}>{groups.map((group) => <span key={group.id}>{group.id}</span>)}</div>
-        <small>表示対象の合計時価総額：{total.toLocaleString("ja-JP", { maximumFractionDigits: 0 })} 十億米ドル（{companies.length}社）</small>
+        <small>表示対象：{total.toLocaleString("ja-JP", { maximumFractionDigits: 0 })} 十億米ドル（{companies.length}社）・<a href={semiconductorMarketCapMeta.sourceUrl} target="_blank" rel="noreferrer">出典 ↗</a></small>
       </footer>
     </section>
   );

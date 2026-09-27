@@ -1,0 +1,127 @@
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const Module = require("node:module");
+const path = require("node:path");
+const test = require("node:test");
+const ts = require("typescript");
+
+const root = path.resolve(__dirname, "..");
+const originalResolveFilename = Module._resolveFilename;
+Module._resolveFilename = function resolveFilename(request, parent, isMain, options) {
+  if (request.startsWith("@/")) {
+    const resolved = path.join(root, "src", request.slice(2));
+    if (fs.existsSync(resolved)) return resolved;
+    if (fs.existsSync(`${resolved}.ts`)) return `${resolved}.ts`;
+  }
+  return originalResolveFilename.call(this, request, parent, isMain, options);
+};
+
+require.extensions[".ts"] = function transpile(module, filename) {
+  const source = fs.readFileSync(filename, "utf8");
+  const output = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
+    fileName: filename,
+  }).outputText;
+  module._compile(output, filename);
+};
+
+const {
+  calculatePulseKpis,
+  filterPulseBriefLines,
+  filterPulseSignals,
+  filterRecentPulseSignals,
+  getDefaultPulseFilters,
+} = require("../src/lib/chip-pulse.ts");
+const { pulseBriefLines, pulseCompanies, pulseSignals, pulseUpdatedAt } = require("../src/data/chip-pulse.ts");
+const { buildOfficialUpdates, buildRefreshStatus } = require("./chip-pulse-publish.cjs");
+
+const baseSignal = {
+  id: "signal-a",
+  occurredAt: "2026-09-27T06:00:00Z",
+  timeLabel: "9/27",
+  title: "A",
+  summary: "事実",
+  impact: "見方",
+  companyIds: ["company-a"],
+  processes: ["Design"],
+  regions: ["Japan"],
+  categories: ["Fabless"],
+  themes: ["AI"],
+  importance: 3,
+  tone: "neutral",
+  kind: "product",
+  sourceName: "Official",
+  sourceUrl: "https://example.com/a",
+  sourceType: "company",
+};
+
+test("KPI theme ties follow the declared theme order and zero is explicit", () => {
+  const signals = [baseSignal, { ...baseSignal, id: "signal-b", themes: ["HBM"] }];
+  const tied = calculatePulseKpis([], signals, "2026-09-27T07:00:00Z");
+  assert.equal(tied.topTheme, "AI");
+  assert.deepEqual(tied.topThemes, ["AI", "HBM"]);
+  assert.equal(tied.topThemeCount, 1);
+
+  const empty = calculatePulseKpis([], [], "2026-09-27T07:00:00Z");
+  assert.equal(empty.topTheme, null);
+  assert.equal(empty.topThemeCount, 0);
+});
+
+test("the rolling 24-hour window uses instants consistently across JST boundaries", () => {
+  const asOf = "2026-09-27T07:00:00Z"; // 2026-09-27 16:00 JST
+  const signals = [
+    { ...baseSignal, id: "boundary", occurredAt: "2026-09-26T07:00:00Z" },
+    { ...baseSignal, id: "outside", occurredAt: "2026-09-26T06:59:59.999Z" },
+    { ...baseSignal, id: "future", occurredAt: "2026-09-27T07:00:00.001Z" },
+  ];
+  assert.deepEqual(filterRecentPulseSignals(signals, asOf, 1).map((signal) => signal.id), ["boundary"]);
+});
+
+test("filters and the daily brief do not invent rows for an empty result", () => {
+  const filters = { ...getDefaultPulseFilters(), theme: "HBM" };
+  assert.equal(filterPulseSignals([baseSignal], filters, null).length, 0);
+  assert.equal(filterPulseBriefLines([], filters, null, [], false).length, 0);
+});
+
+test("partial and failed refreshes preserve the previous successful timestamp", () => {
+  const previous = { schemaVersion: 2, lastSuccessfulAt: "2026-09-26T22:00:00Z" };
+  for (const status of ["partial", "failed"]) {
+    const result = buildRefreshStatus({
+      status,
+      generatedAt: "2026-09-27T22:00:00Z",
+      sources: { attempted: 10, succeeded: status === "partial" ? 9 : 0, failed: status === "partial" ? 1 : 10 },
+      candidates: [],
+      errors: [{ companyId: "company-a", code: "timeout" }],
+    }, previous);
+    assert.equal(result.status, status);
+    assert.equal(result.lastSuccessfulAt, previous.lastSuccessfulAt);
+    assert.equal(result.lastAttemptAt, "2026-09-27T22:00:00Z");
+  }
+});
+
+test("official metadata publication refuses incomplete collection", () => {
+  assert.throws(() => buildOfficialUpdates({ status: "partial", sources: { failed: 1 } }, [], { schemaVersion: 1, aliases: [] }, { sources: [] }), /incomplete/);
+});
+
+test("published news keeps traceable, non-duplicated sources and valid references", () => {
+  const signalIds = new Set();
+  const sourceUrls = new Set();
+  const companyIds = new Set(pulseCompanies.map((company) => company.id));
+  const asOf = new Date(pulseUpdatedAt).getTime();
+
+  for (const signal of pulseSignals) {
+    assert.ok(!signalIds.has(signal.id), `duplicate signal id: ${signal.id}`);
+    assert.ok(!sourceUrls.has(signal.sourceUrl), `duplicate source URL: ${signal.sourceUrl}`);
+    assert.equal(new URL(signal.sourceUrl).protocol, "https:");
+    assert.ok(new Date(signal.occurredAt).getTime() <= asOf, `future signal: ${signal.id}`);
+    assert.ok(signal.summary.length > 0 && signal.impact.length > 0 && signal.sourceName.length > 0);
+    assert.ok(signal.companyIds.every((companyId) => companyIds.has(companyId)), `unknown company in ${signal.id}`);
+    signalIds.add(signal.id);
+    sourceUrls.add(signal.sourceUrl);
+  }
+
+  for (const line of pulseBriefLines) {
+    assert.ok(line.signalIds?.length, `brief without evidence: ${line.id}`);
+    assert.ok(line.signalIds.every((signalId) => signalIds.has(signalId)), `unknown brief evidence: ${line.id}`);
+  }
+});

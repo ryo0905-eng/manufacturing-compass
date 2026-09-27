@@ -4,8 +4,8 @@ import {
   worldSemiconductorMarketCapRanking,
 } from "@/data/semiconductor-market-cap";
 
-export const pulseUpdatedAt = "2026-09-26T10:30:00+09:00";
-export const pulseDisplayDate = "2026.09.26 10:30 JST";
+export const pulseUpdatedAt = "2026-09-27T17:13:00+09:00";
+export const pulseDisplayDate = "2026.09.27 17:13 JST";
 export const pulseMarketCapAsOf = semiconductorMarketCapMeta.dataAsOf;
 
 export const pulseRegions = ["Japan", "US", "Taiwan", "Korea", "China", "Europe"] as const;
@@ -109,12 +109,12 @@ export type PulseSnapshot = {
 };
 
 export const pulseThemeDefinitions: Record<PulseThemeId, { label: string; note: string }> = {
-  AI: { label: "AI Compute", note: "AIインフラ、製造、テストに関する公式更新" },
-  HBM: { label: "HBM", note: "HBM・次世代DRAMに関する公式更新" },
-  EUV: { label: "EUV", note: "High NA EUVと露光エコシステムの動き" },
-  "Advanced Packaging": { label: "Advanced Packaging", note: "先端実装・後工程の公式更新" },
-  SiC: { label: "SiC", note: "SiC材料・パワー半導体の公式更新" },
-  Automotive: { label: "Automotive", note: "車載半導体に関する公式更新" },
+  AI: { label: "AI関連", note: "AIインフラ、製造、テストに関する公式更新" },
+  HBM: { label: "HBM（広帯域メモリ）", note: "HBM・次世代DRAMに関する公式更新" },
+  EUV: { label: "EUV（極端紫外線露光）", note: "High NA EUVと露光エコシステムの動き" },
+  "Advanced Packaging": { label: "先端パッケージ", note: "先端実装・後工程の公式更新" },
+  SiC: { label: "SiC（炭化ケイ素）", note: "SiC材料・パワー半導体の公式更新" },
+  Automotive: { label: "車載", note: "車載半導体に関する公式更新" },
   China: { label: "China", note: "中国市場・規制に関する公式更新" },
   Foundry: { label: "Foundry", note: "ファウンドリと先端プロセスの動き" },
 };
@@ -157,8 +157,8 @@ export const pulseSignals: PulseSignal[] = [
     id: "tsmc-capital-appropriation-2026-09", occurredAt: "2026-09-24T00:00:00+08:00", timeLabel: "9/24",
     title: "TSMC：先端技術・先端パッケージ等に約294億米ドルの資本配分",
     summary: "SEC提出のForm 6-Kで、先端技術設備160.35億米ドル、先端パッケージ・成熟／特殊技術設備47.91億米ドル、不動産等86.16億米ドルの資本配分を報告しました。",
-    impact: "ファウンドリの投資意欲を、設備投資額と先端パッケージへの配分から確認できる一次情報です。",
-    primaryCompanyId: "tsmc", companyIds: ["tsmc", "asml", "applied-materials", "lam-research", "tokyo-electron", "disco"], processes: ["Lithography", "Deposition", "Assembly"], regions: ["Taiwan", "Europe", "US", "Japan"], categories: ["Foundry", "Equipment"], themes: ["AI", "Advanced Packaging", "Foundry"],
+    impact: "TSMCの投資意欲を、設備投資額と先端パッケージへの配分から確認できる一次情報です。個別の装置・材料企業への発注は、この提出だけでは確認できません。",
+    primaryCompanyId: "tsmc", companyIds: ["tsmc"], processes: ["Assembly"], regions: ["Taiwan"], categories: ["Foundry"], themes: ["AI", "Advanced Packaging", "Foundry"],
     importance: 3, tone: "positive", kind: "investment", sourceName: "SEC / TSMC Form 6-K", sourceUrl: "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000660/tsm-monthend6kx20260924.htm", sourceType: "regulatory",
   },
   {
@@ -205,17 +205,9 @@ export const pulseSignals: PulseSignal[] = [
     id: "nvidia-australia-ai-infrastructure-2026", occurredAt: "2026-09-09T00:00:00+10:00", timeLabel: "9/09",
     title: "NVIDIA：豪州AIインフラを2027年までに最大2GWへ",
     summary: "豪州のデータセンター事業者らと、NVIDIA DSXを使うAIファクトリー向け容量を2027年までに最大2GW拡張すると発表しました。",
-    impact: "GPUだけでなく、先端ロジック・実装・メモリへ続くAI設備需要の裾野を示します。",
-    primaryCompanyId: "nvidia", companyIds: ["nvidia", "tsmc", "sk-hynix", "micron"], processes: ["Design", "Assembly", "Test"], regions: ["US", "Taiwan", "Korea"], categories: ["Fabless", "Foundry", "Memory"], themes: ["AI", "HBM", "Advanced Packaging"],
+    impact: "AI計算基盤の設備容量がどこまで拡張される計画かを確認できます。個別の半導体サプライヤーへの需要量は、この発表だけでは断定できません。",
+    primaryCompanyId: "nvidia", companyIds: ["nvidia"], processes: ["Design"], regions: ["US"], categories: ["Fabless"], themes: ["AI"],
     importance: 3, tone: "positive", kind: "investment", sourceName: "NVIDIA", sourceUrl: "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Expands-AI-Infrastructure-Capacity-in-Partnership-With-Australias-Data-Center-Ecosystem/default.aspx", sourceType: "company",
-  },
-  {
-    id: "samsung-mistral-semiconductor-ai-2026", occurredAt: "2026-09-09T00:00:00+09:00", timeLabel: "9/09",
-    title: "Samsung：半導体設計・製造へオンプレミスAIを導入",
-    summary: "Mistral AIと提携し、機密性の高い半導体データを社内で扱うAIモデルを設計・製造工程へ導入すると発表しました。",
-    impact: "欠陥検出、装置最適化、歩留まり安定化にAIを使う、製造現場側の具体的な動きです。",
-    primaryCompanyId: "samsung-electronics", companyIds: ["samsung-electronics"], processes: ["Design", "Metrology"], regions: ["Korea"], categories: ["IDM"], themes: ["AI", "Foundry"],
-    importance: 2, tone: "positive", kind: "product", sourceName: "Samsung Electronics", sourceUrl: "https://news.samsung.com/global/samsung-and-mistral-ai-announce-strategic-partnership-for-intelligence-driven-semiconductor-infrastructure", sourceType: "company",
   },
   {
     id: "samsung-asml-high-na-2026", occurredAt: "2026-09-08T00:00:00+09:00", timeLabel: "9/08",
@@ -238,7 +230,7 @@ export const pulseSignals: PulseSignal[] = [
     title: "SEMI：世界の半導体製造装置売上はQ2に前年比23%増",
     summary: "2026年Q2の世界半導体製造装置売上は405.3億米ドル。前年同期比23%増、前四半期比11%増で、2四半期連続の過去最高となりました。",
     impact: "個別企業の発表を、装置市場全体の実績値と照合するための基準になります。",
-    companyIds: ["asml", "applied-materials", "lam-research", "kla", "tokyo-electron", "advantest", "disco", "screen"], processes: ["Lithography", "Deposition", "Etch", "Metrology", "Test"], regions: ["US", "Japan", "Europe"], categories: ["Equipment"], themes: ["AI", "Advanced Packaging"],
+    companyIds: [], processes: ["Lithography", "Deposition", "Etch", "Metrology", "Test"], regions: ["US", "Japan", "Europe"], categories: ["Equipment"], themes: ["AI", "Advanced Packaging"],
     importance: 3, tone: "positive", kind: "market", sourceName: "SEMI", sourceUrl: "https://www.semi.org/en/semi-press-release/global-semiconductor-equipment-billings-increased-23-percent-year-over-year-in-q2-2026-semi-reports", sourceType: "industry",
   },
 ];
@@ -249,16 +241,13 @@ export const pulseEvents: PulseEvent[] = [{
   sourceUrl: "https://investors.micron.com/news/press-release/2026/Micron-Technology-to-Report-Fiscal-Fourth-Quarter-Results-on-September-30-2026/default.aspx",
 }];
 
-const everyCompanyId = pulseCompanies.map((company) => company.id);
-
 export const pulseBriefLines: PulseBriefLine[] = [
-  { id: "brief-quiet-24h", text: "直近24時間に、監視中の公式ソースで重要更新は確認されていません。静かな日は0件と表示します。", companyIds: everyCompanyId, regions: [...pulseRegions], categories: [...pulseCategories], themes: [...pulseThemeIds], priority: 20 },
-  { id: "brief-tsmc-capex", text: "TSMCは先端技術・先端パッケージなどへ約294億米ドルの資本配分を開示。設備投資の強さを金額で確認できます。", signalIds: ["tsmc-capital-appropriation-2026-09"], companyIds: ["tsmc", "asml", "applied-materials", "lam-research", "tokyo-electron", "disco"], regions: ["Taiwan", "Europe", "US", "Japan"], categories: ["Foundry", "Equipment"], themes: ["AI", "Advanced Packaging", "Foundry"], priority: 19 },
+  { id: "brief-tsmc-capex", text: "TSMCは先端技術・先端パッケージなどへ約294億米ドルの資本配分を開示。個別の発注先は、この提出だけでは確認できません。", signalIds: ["tsmc-capital-appropriation-2026-09"], companyIds: ["tsmc"], regions: ["Taiwan"], categories: ["Foundry"], themes: ["AI", "Advanced Packaging", "Foundry"], priority: 19 },
   { id: "brief-high-na", text: "直近30日ではHigh NA EUVが焦点。Samsungは2028年のDRAM量産導入計画、Intelは量産利用の進捗を公表しました。", signalIds: ["samsung-asml-high-na-2026", "intel-asml-high-na-2026"], companyIds: ["samsung-electronics", "intel", "asml"], regions: ["Korea", "US", "Europe"], categories: ["IDM", "Equipment"], themes: ["EUV", "HBM", "Foundry"], priority: 18 },
-  { id: "brief-ai-chain", text: "AI投資はGPUだけでなく、BroadcomのカスタムAIアクセラレーター、ファウンドリ、メモリ、テスト装置へ広がっています。", signalIds: ["broadcom-q3-semiconductor-solutions-2026", "nvidia-australia-ai-infrastructure-2026", "advantest-semicon-india-2026"], companyIds: ["nvidia", "broadcom", "tsmc", "micron", "sk-hynix", "advantest", "samsung-electronics"], regions: ["US", "Taiwan", "Korea", "Japan"], categories: ["Fabless", "Foundry", "Memory", "Equipment", "IDM"], themes: ["AI", "HBM", "Advanced Packaging"], priority: 17 },
+  { id: "brief-ai-chain", text: "AI関連の公式更新は、Broadcomの半導体売上、豪州のAIインフラ計画、Advantestのテスト装置展示にまたがっています。", signalIds: ["broadcom-q3-semiconductor-solutions-2026", "nvidia-australia-ai-infrastructure-2026", "advantest-semicon-india-2026"], companyIds: ["nvidia", "broadcom", "advantest"], regions: ["US", "Japan"], categories: ["Fabless", "Equipment"], themes: ["AI", "HBM", "Advanced Packaging"], priority: 17 },
   { id: "brief-tsmc", text: "TSMCの8月売上高は5,148億台湾ドル。月次売上と設備投資の両面から先端需要を確認できます。", signalIds: ["tsmc-august-revenue-2026", "tsmc-capital-appropriation-2026-09"], companyIds: ["tsmc"], regions: ["Taiwan"], categories: ["Foundry"], themes: ["AI", "Foundry"], priority: 16 },
-  { id: "brief-equipment", text: "SEMI集計ではQ2の世界半導体製造装置売上が前年比23%増。装置投資は2四半期連続で過去最高です。", signalIds: ["semi-equipment-billings-q2-2026"], companyIds: ["asml", "applied-materials", "lam-research", "kla", "tokyo-electron", "advantest", "disco", "screen"], regions: ["US", "Japan", "Europe"], categories: ["Equipment"], themes: ["AI", "Advanced Packaging"], priority: 15 },
-  { id: "brief-sic", text: "欧州ではSi・SiC原材料の域内供給網を強化する48か月の共同プロジェクトが始動しました。", signalIds: ["semi-resilient-sic-2026"], companyIds: ["renesas", "rohm", "sumco"], regions: ["Europe", "Japan"], categories: ["Materials", "IDM"], themes: ["SiC"], priority: 14 },
+  { id: "brief-equipment", text: "SEMI集計ではQ2の世界半導体製造装置売上が前年比23%増。装置市場全体の集計で、個社実績ではありません。", signalIds: ["semi-equipment-billings-q2-2026"], companyIds: [], regions: ["US", "Japan", "Europe"], categories: ["Equipment"], themes: ["AI", "Advanced Packaging"], priority: 15 },
+  { id: "brief-sic", text: "欧州ではSi・SiC原材料の域内供給網を強化する48か月の共同プロジェクトが始動しました。", signalIds: ["semi-resilient-sic-2026"], companyIds: [], regions: ["Europe"], categories: ["Materials"], themes: ["SiC"], priority: 14 },
 ];
 
 export const pulseSnapshot: PulseSnapshot = {

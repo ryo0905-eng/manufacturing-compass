@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T07:39:51.087Z",
+  "generatedAt": "2026-09-27T08:16:26.450Z",
   "updates": [
     {
       "id": "sec-0001730168-26-000076",
       "companyId": "broadcom",
       "companyName": "Broadcom",
-      "publishedAt": "2026-09-02",
+      "publishedAt": "2026-09-02T20:26:04.000Z",
       "title": "BroadcomがSECへForm 8-Kを提出",
       "label": "SEC Form 8-K",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1730168/000173016826000076/avgo-20260902.htm"

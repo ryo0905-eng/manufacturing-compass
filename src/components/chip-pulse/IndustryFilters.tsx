@@ -26,11 +26,11 @@ const advancedGroups = [
 ];
 
 const labels: Record<string, string> = {
-  Global: "Global", All: "すべて", Japan: "Japan", US: "US", Asia: "Asia",
-  Taiwan: "Taiwan", Korea: "Korea", China: "China", Europe: "Europe",
-  Fabless: "Fabless", Foundry: "Foundry", Equipment: "Equipment", Memory: "Memory",
-  Materials: "Materials", IDM: "IDM", AI: "AI", HBM: "HBM", EUV: "EUV",
-  "Advanced Packaging": "Packaging", SiC: "SiC", Automotive: "Automotive",
+  Global: "全地域", All: "すべて", Japan: "日本", US: "米国", Asia: "アジア",
+  Taiwan: "台湾", Korea: "韓国", China: "中国", Europe: "欧州",
+  Fabless: "ファブレス", Foundry: "ファウンドリ", Equipment: "製造装置", Memory: "メモリ",
+  Materials: "材料", IDM: "IDM", AI: "AI", HBM: "HBM", EUV: "EUV",
+  "Advanced Packaging": "先端実装", SiC: "SiC", Automotive: "車載",
 };
 
 type FilterGroup = (typeof quickGroups)[number] | (typeof advancedGroups)[number];
@@ -66,7 +66,7 @@ export function IndustryFilters({ filters, resultCount, onChange, onReset }: Ind
     <section className={styles.filters} aria-label="ダッシュボード全体の絞り込み">
       <div className={styles.filterHeading}>
         <div><span>EXPLORE</span><strong>全体を絞り込む</strong></div>
-        <p aria-live="polite"><strong>{resultCount}</strong>社</p>
+        <p aria-live="polite"><strong>{resultCount}</strong>件</p>
         <button type="button" onClick={onReset}>解除</button>
       </div>
       <div className={styles.filterBody}>
@@ -77,7 +77,7 @@ export function IndustryFilters({ filters, resultCount, onChange, onReset }: Ind
           onClick={() => setShowMore((current) => !current)}
           type="button"
         >
-          {showMore ? "詳細を閉じる" : "More filters"}{advancedActive ? " · 選択中" : ""}
+          {showMore ? "詳細を閉じる" : "詳細条件"}{advancedActive ? " · 選択中" : ""}
         </button>
         {showMore ? <div className={styles.advancedFilters}>{advancedGroups.map(renderGroup)}</div> : null}
       </div>

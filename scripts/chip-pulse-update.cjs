@@ -14,6 +14,9 @@ function readRegistry(registryPath = defaultRegistryPath) {
   if (registry?.schemaVersion !== 1 || !Array.isArray(registry.sources) || registry.sources.length === 0) {
     throw new Error("Chip Pulse source registry is invalid.");
   }
+  if (!Number.isInteger(registry.candidateLimit) || registry.candidateLimit < 1 || registry.candidateLimit > 500) {
+    throw new Error("Chip Pulse source registry has an invalid candidate limit.");
+  }
   const companyIds = new Set();
   const locations = new Set();
   for (const source of registry.sources) {
@@ -149,9 +152,9 @@ function secUserAgent(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact) ? `Manufacturing Compass ${contact}` : contact;
 }
 
-async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fetchImpl = fetch, userAgent, wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)) }) {
+async function collectSecCandidates({ sources, asOf = new Date(), days = 30, candidateLimit = 120, fetchImpl = fetch, userAgent, wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)) }) {
   const secAgent = secUserAgent(userAgent);
-  if (!(asOf instanceof Date) || Number.isNaN(asOf.getTime()) || !Number.isInteger(days) || days < 1 || days > 90) {
+  if (!(asOf instanceof Date) || Number.isNaN(asOf.getTime()) || !Number.isInteger(days) || days < 1 || days > 90 || !Number.isInteger(candidateLimit) || candidateLimit < 1 || candidateLimit > 500) {
     throw new Error("Chip Pulse collection window is invalid.");
   }
   const windowEnd = new Date(Date.UTC(asOf.getUTCFullYear(), asOf.getUTCMonth(), asOf.getUTCDate()));
@@ -191,7 +194,8 @@ async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fet
   }
 
   const uniqueCandidates = [...new Map(candidates.map((candidate) => [candidate.id, candidate])).values()]
-    .sort((left, right) => (right.filedAt ?? right.publishedAt).localeCompare(left.filedAt ?? left.publishedAt) || left.companyId.localeCompare(right.companyId));
+    .sort((left, right) => (right.filedAt ?? right.publishedAt).localeCompare(left.filedAt ?? left.publishedAt) || left.companyId.localeCompare(right.companyId))
+    .slice(0, candidateLimit);
   return {
     schemaVersion: 1,
     status: errors.length === 0 ? "success" : succeeded > 0 ? "partial" : "failed",
@@ -202,6 +206,13 @@ async function collectSecCandidates({ sources, asOf = new Date(), days = 30, fet
     candidates: uniqueCandidates,
     errors,
   };
+}
+
+function writeAttempt(snapshot, outputDirectory = defaultOutputDirectory) {
+  fs.mkdirSync(outputDirectory, { recursive: true });
+  const target = path.join(outputDirectory, "last-attempt.json");
+  writeJsonAtomic(target, snapshot);
+  return target;
 }
 
 function writeJsonAtomic(target, value) {
@@ -245,18 +256,23 @@ async function main() {
   const snapshot = await collectSecCandidates({
     sources: registry.sources,
     days: options.days,
+    candidateLimit: registry.candidateLimit,
     userAgent: process.env.CHIP_PULSE_SEC_USER_AGENT,
   });
-  if (snapshot.status === "failed") throw new Error("All SEC sources failed. Existing snapshot was preserved.");
-  const paths = options.dryRun ? null : writeSnapshotSafely(snapshot, options.outputDirectory);
+  let paths = null;
+  let attemptPath = null;
+  if (!options.dryRun) {
+    attemptPath = writeAttempt(snapshot, options.outputDirectory);
+    if (snapshot.status !== "failed") paths = writeSnapshotSafely(snapshot, options.outputDirectory);
+  }
   console.log(JSON.stringify({
     status: snapshot.status,
     sources: snapshot.sources,
     candidates: snapshot.candidates.length,
     dryRun: options.dryRun,
     currentPath: paths ? path.relative(root, paths.currentPath) : null,
+    attemptPath: attemptPath ? path.relative(root, attemptPath) : null,
   }));
-  if (snapshot.status === "partial") process.exitCode = 1;
 }
 
 if (require.main === module) {
@@ -275,5 +291,6 @@ module.exports = {
   secFilingUrl,
   secUserAgent,
   secSubmissionUrl,
+  writeAttempt,
   writeSnapshotSafely,
 };

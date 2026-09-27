@@ -26,7 +26,8 @@ jobs:
       - name: Check SEC contact configuration
         run: test -n "$CHIP_PULSE_SEC_USER_AGENT"
       - run: npm ci
-      - run: npm run chip-pulse:refresh
+      - run: npm run chip-pulse:update
+      - run: npm run chip-pulse:publish
       - name: Commit official metadata and check status
         run: |
           if git diff --quiet -- src/data/chip-pulse-official-updates.json src/data/chip-pulse-refresh-status.json; then
@@ -38,3 +39,5 @@ jobs:
           git add src/data/chip-pulse-official-updates.json src/data/chip-pulse-refresh-status.json
           git commit -m "data: refresh Chip Pulse official updates"
           git push
+      - name: Fail monitoring when any source failed
+        run: npm run chip-pulse:check
