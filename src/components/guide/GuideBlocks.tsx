@@ -692,6 +692,14 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
           return (
             <nav className="guide-link-list" aria-label={locale === "en" ? "Related pages (Japanese)" : "関連ページ"} key={`links-${index}`}>
               {block.items.map((item) => {
+                if (item.href.startsWith("https://")) {
+                  return (
+                    <a href={item.href} key={item.href}>
+                      <strong>{item.label}<span aria-hidden="true">→</span></strong>
+                      <small>{item.description}</small>
+                    </a>
+                  );
+                }
                 if (item.href.startsWith('/tools/ranking-time-machine')) {
                   const comparison = readComparisonHash(item.href.slice(item.href.indexOf('#')));
                   return <TrackedInternalLink key={item.href} href={item.href as Route}

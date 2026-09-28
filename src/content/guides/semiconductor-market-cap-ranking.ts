@@ -20,8 +20,20 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-09-23",
+  updatedAt: "2026-09-28",
   sources: [
+    {
+      title: "日経業界地図 2027年版（紹介書籍の書誌情報）",
+      url: "https://bookplus.nikkei.com/atcl/catalog/26/07/29/02721/",
+      publisher: "日経BOOKプラス",
+      accessedAt: "2026-09-28",
+    },
+    {
+      title: "会社四季報 業界地図2027年版（紹介書籍の書誌情報）",
+      url: "https://str.toyokeizai.net/magazine/gyoukai/",
+      publisher: "東洋経済新報社",
+      accessedAt: "2026-09-28",
+    },
     {
       title: "Largest semiconductor companies by market cap",
       url: "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/",
@@ -192,6 +204,31 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       paragraphs: [
         "日本1位は東京エレクトロンで世界20位、2位はアドバンテストで世界21位です。日本TOP10では、東京エレクトロン、アドバンテスト、ディスコ、レーザーテック、SCREEN、KOKUSAI ELECTRICの6社を装置または検査・計測装置へ分類しました。",
         "ルネサスとロームは半導体デバイスを扱うIDM、SUMCOはシリコンウェーハ、MARUWAはセラミック材料・電子部品を扱います。キオクシアやソシオネクストなど著名企業でも、基準データのカテゴリや順位によって今回のTOP10へ入らない場合があります。編集判断でカテゴリ外の企業を追加していません。",
+      ],
+    },
+    {
+      id: "industry-map-books",
+      heading: "業界全体を見渡したいときに読む2冊",
+      lead: "私は『日経業界地図』と『「会社四季報」業界地図』を毎年読んでいて、2027年版も読みました。どちらも業界の全体像を視覚的につかめるところが好きです。色使いやデザインも読みやすく、見ていて楽しい。ランキングや業界の景況感も調べる手がかりになり、業界研究がかなり進むと感じています。",
+      blocks: [
+        {
+          type: "links",
+          items: [
+            {
+              label: "『日経業界地図 2027年版』をAmazonで見る",
+              href: "https://www.amazon.co.jp/dp/4296127284",
+              description: "日本経済新聞社 編／日本経済新聞出版。2027年版には、半導体の製造工程や材料・製造装置企業を紹介する特集もあります。",
+            },
+            {
+              label: "『「会社四季報」業界地図 2027年版』をAmazonで見る",
+              href: "https://www.amazon.co.jp/dp/4492973362",
+              description: "東洋経済新報社。企業同士の関係や業界の動向を、地図の形で調べられる一冊です。",
+            },
+          ],
+        },
+      ],
+      paragraphs: [
+        "上の2つは通常の商品リンクです。アフィリエイトリンクではありません。",
       ],
     },
     {
