@@ -14,6 +14,9 @@ export const metadata: Metadata = {
 export default function EnglishLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-5654143694136087" />
+      </head>
       <body>
         <div className="site-shell">
           <header className="site-header">
