@@ -23,7 +23,9 @@ type GuidePageProps = {
 };
 
 export function generateStaticParams() {
-  return beginnerGuides.map((guide) => ({ slug: guide.slug }));
+  // The ranking has its own root layout to isolate session replay from input tools.
+  return beginnerGuides.filter((guide) => guide.slug !== "semiconductor-market-cap-ranking")
+    .map((guide) => ({ slug: guide.slug }));
 }
 
 export async function generateMetadata({ params }: GuidePageProps): Promise<Metadata> {

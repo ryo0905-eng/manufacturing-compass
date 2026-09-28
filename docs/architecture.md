@@ -250,6 +250,10 @@ video/docs/                 制作フロー、公開記録、計測ログ
 
 ## Analytics
 
+- Clarityの限定導入（2026-09-28）：`(ranking)` の独立root layoutで `/guides/semiconductor-market-cap-ranking` を静的ルートとして扱う。日本語シェル・記事描画・メタデータ生成は既存実装を再利用し、動的ガイドのgenerateStaticParamsからこのslugだけ除く。OG/X画像は同じ生成関数で維持。root layout間のフルページ遷移により録画処理が他ページのDOMを観測することを防ぐ。
+- `VERCEL_ENV=production` かつ `NEXT_PUBLIC_CLARITY_PROJECT_ID` 設定時のみ `ClarityConsent` を表示。本番ホスト・対象path・クエリなしを追加確認し、明示同意が保存されている場合だけタグを取得。consentv2はanalytics_Storage=granted/ad_Storage=deniedをタグ取得前にキューへ追加する。共通SiteAnalyticsにはClarityを入れない。
+- 本文はdata-clarity-maskでマスク。選択と有効期限のみlocalStorageに180日保存。撤回はdenied通知・stop・当サイトCookie削除に加えて対象URLの `?clarity=off` へフル遷移（このURLではタグを取得しない）。別タブでの撤回・期限切れ・BFCache復元も確認。GA4/Vercelの既存同意管理とは別。手順・未確認事項は `docs/clarity-pilot.md`。
+
 - Vercel Analytics を常時利用する
 - GA4 は `NEXT_PUBLIC_GA_MEASUREMENT_ID` がある本番環境だけで有効にする
 - イベントは `src/lib/analytics.ts` に集約する

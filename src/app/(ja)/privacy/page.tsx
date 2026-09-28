@@ -70,6 +70,14 @@ export default function PrivacyPage() {
           </p>
         </article>
 
+        <article id="clarity">
+          <h2>ランキング記事の操作記録（Microsoft Clarity）</h2>
+          <p>半導体メーカーの時価総額ランキング記事では、読みやすさや関連リンクの配置を改善するため、同意した方に限りMicrosoft Clarityを利用します。閲覧ページのURL、端末・ブラウザ情報、クリック、スクロールなどをMicrosoftへ送信し、ヒートマップと操作の再生で確認します。Cookieなどの技術も利用します。</p>
+          <p>同意前や拒否後はClarityを読み込みません。記事本文の文字はマスキングし、Career Compass、相談メモ、測定・計算ツール、お問い合わせページは操作記録の対象にしません。ランキングから他ページへ移る際はページ全体を読み直し、記録処理を引き継がない構成です。</p>
+          <p>同意・拒否の選択と有効期限だけを、このブラウザのlocalStorageに180日間保存します。この記事の上部にある「操作記録の設定を変更」から撤回できます。撤回時はClarityの同意を取り消し、当サイトのClarity Cookieを削除して、記録しないページへ再読み込みします。撤回前に送信した記録が自動的に削除されるという意味ではありません。</p>
+          <p>広告用ストレージへの同意は付与しません。Microsoftでの情報の取り扱いは<a href="https://www.microsoft.com/ja-jp/privacy/privacystatement">Microsoftのプライバシーステートメント</a>をご確認ください。この設定はClarityに対するもので、GA4・Vercel Analyticsの設定とは別です。同意しなくてもサイトの機能を利用できます。</p>
+        </article>
+
         <article>
           <h2>お問い合わせフォームについて</h2>
           <p>

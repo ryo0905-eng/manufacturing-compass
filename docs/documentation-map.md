@@ -46,6 +46,7 @@
 | [`docs/role-map-validation.md`](./role-map-validation.md) | 公開β版のイベント・問い合わせ・根拠レビューによる運用検証 | 継続・修正・停止、職務群の拡張を判断する時 |
 | [`docs/role-map-mvp-spec.md`](./role-map-mvp-spec.md) | 4職務群β版と、検証通過後の8職務群への拡張仕様 | 着手条件・データ・UI・検証仕様を更新する時 |
 | [`docs/monetization.md`](./monetization.md) | 広告・アフィリエイト運用原則 | 提携状態や広告運用方針を変えた時 |
+| [`docs/clarity-pilot.md`](./clarity-pilot.md) | ランキング記事限定のClarity・同意・本番設定・検証 | 対象、記録範囲、同意管理、運用確認を変えた時 |
 | [`docs/roadmap.md`](./roadmap.md) | フェーズ単位の方向性 | 優先順位やフェーズを見直した時 |
 | [`TASKS.md`](../TASKS.md) | 完了履歴と具体的な未完了作業 | 作業を開始・完了・保留した時 |
 

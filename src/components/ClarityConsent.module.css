@@ -1,0 +1,6 @@
+.consent { margin: 16px auto; width: min(740px, calc(100% - 32px)); padding: 16px; border: 1px solid #c9d5df; border-radius: 12px; background: #f7fafc; color: #243b4d; font-size: 14px; line-height: 1.7; }
+.consent p { margin: 8px 0; }
+.consent a { text-decoration: underline; text-underline-offset: 3px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.consent button { min-height: 44px; padding: 8px 14px; border: 1px solid #8196a6; border-radius: 8px; background: #fff; color: #243b4d; font: inherit; cursor: pointer; }
+.consent :is(a, button):focus-visible { outline: 3px solid #1673aa; outline-offset: 3px; }
