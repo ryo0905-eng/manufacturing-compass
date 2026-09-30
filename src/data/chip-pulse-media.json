@@ -1,100 +1,100 @@
 {
   "schemaVersion": 1,
-  "contentUpdatedAt": "2026-09-29T01:01:49.132Z",
+  "contentUpdatedAt": "2026-09-30T00:31:24.531Z",
   "edition": {
-    "date": "2026-09-29",
-    "start": "2026-09-27T21:00:00.000Z",
-    "end": "2026-09-28T21:00:00.000Z",
+    "date": "2026-09-30",
+    "start": "2026-09-28T21:00:00.000Z",
+    "end": "2026-09-29T21:00:00.000Z",
     "articleIds": []
   },
   "status": {
-    "checkedAt": "2026-09-29T01:01:49.132Z",
-    "lastSuccessfulAt": "2026-09-29T01:01:49.132Z",
+    "checkedAt": "2026-09-30T00:31:24.531Z",
+    "lastSuccessfulAt": "2026-09-30T00:31:24.531Z",
     "state": "success",
     "sources": [
       {
         "id": "amkor",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "entegris",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "ase",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "globalfoundries",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "nvidia",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "amd",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "broadcom",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "micron",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "intel",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "applied-materials",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "lam-research",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "kla",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "tsmc",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       },
       {
         "id": "asml",
         "state": "success",
-        "checkedAt": "2026-09-29T01:01:49.132Z",
-        "lastSuccessfulAt": "2026-09-29T01:01:49.132Z"
+        "checkedAt": "2026-09-30T00:31:24.531Z",
+        "lastSuccessfulAt": "2026-09-30T00:31:24.531Z"
       }
     ],
     "ai": "disabled"
@@ -186,7 +186,7 @@
       "sourceName": "SEC EDGAR",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000182/amd-20260926.htm",
       "title": "AMDの公式開示（8-K）",
-      "publishedAt": "2026-09-28T16:16:47.000Z",
+      "publishedAt": "2026-09-28T20:16:47.000Z",
       "datePrecision": "instant"
     },
     {
