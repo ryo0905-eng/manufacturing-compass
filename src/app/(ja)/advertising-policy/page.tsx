@@ -29,6 +29,18 @@ export default function AdvertisingPolicyPage() {
           </p>
         </article>
 
+        <article id="amazon-associate-disclosure">
+          <h2>Amazonの商品・サービスの紹介</h2>
+          <p>
+            当サイトでは、もしもアフィリエイトを通じて、Amazon.co.jpの商品やサービスへのアフィリエイトリンクを掲載する場合があります。
+            Amazonのアソシエイトとして、Manufacturing Compassは適格販売により収入を得ています。
+          </p>
+          <p>
+            Amazonへの通常リンクとアフィリエイトリンクを区別し、アフィリエイトリンクにはリンク付近で広告であることを明示します。
+            詳細は<Link href="/privacy#amazon-associate-disclosure">プライバシーポリシー</Link>をご確認ください。
+          </p>
+        </article>
+
         <article>
           <h2>掲載基準</h2>
           <ul>
@@ -55,6 +67,8 @@ export default function AdvertisingPolicyPage() {
             をご確認ください。
           </p>
         </article>
+
+        <p className="legal-updated-at">最終改定日：2026年9月30日</p>
       </section>
     </main>
   );

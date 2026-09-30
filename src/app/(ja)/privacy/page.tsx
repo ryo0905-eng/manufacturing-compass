@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "プライバシーポリシー",
   description:
-    "Manufacturing Compass における個人情報、アクセス解析、Cookie、広告配信、外部リンクの取り扱いについて説明します。",
+    "Manufacturing Compass における個人情報、アクセス解析、Cookie、アフィリエイト広告、外部リンクの取り扱いについて説明します。",
   alternates: { canonical: "/privacy" },
 };
 
@@ -95,6 +95,7 @@ export default function PrivacyPage() {
           <h2>Cookie と広告について</h2>
           <p>
             当サイトでは、アフィリエイト広告やアクセス解析のために Cookie 等の技術が利用される場合があります。
+            広告リンクを経由して外部サイトへ移動した場合、広告主やアフィリエイトサービス提供者は、成果の計測や不正防止などのために Cookie 等を利用する場合があります。
             Cookie はブラウザ設定により無効化できますが、一部機能が正しく動作しない場合があります。
           </p>
         </article>
@@ -102,8 +103,24 @@ export default function PrivacyPage() {
         <article>
           <h2>第三者配信サービス</h2>
           <p>
-            当サイトは現在、アクセストレードを通じてアフィリエイト広告を利用しています。
-            広告主およびアクセストレードが取得する情報は、それぞれのプライバシーポリシーに従って管理されます。
+            当サイトは、アクセストレード、もしもアフィリエイト、Udemy のアフィリエイトプログラムなどを通じて、アフィリエイト広告を掲載する場合があります。
+            広告主および各サービス提供者が取得する情報は、それぞれのプライバシーポリシーに従って管理されます。
+            もしもアフィリエイトにおける情報の取り扱いは、
+            <a href="https://www.moshimo.co.jp/company/privacy" rel="noopener noreferrer" target="_blank">株式会社もしものプライバシーポリシー</a>
+            をご確認ください。
+          </p>
+        </article>
+
+        <article id="amazon-associate-disclosure">
+          <h2>Amazonアソシエイト・プログラムについて</h2>
+          <p>
+            当サイトでは、Amazon.co.jpの商品やサービスへのリンクを、アフィリエイトリンクとして掲載する場合があります。
+            Amazonのアソシエイトとして、Manufacturing Compassは適格販売により収入を得ています。
+          </p>
+          <p>
+            Amazonアソシエイト・プログラムの取り扱いは、
+            <a href="https://affiliate.amazon.co.jp/help/operating/agreement/" rel="noopener noreferrer" target="_blank">Amazonアソシエイト・プログラム運営規約</a>
+            をご確認ください。Amazonリンクが広告である場合は、リンク付近でも広告・アフィリエイトリンクであることを明示します。
           </p>
         </article>
 
@@ -115,6 +132,8 @@ export default function PrivacyPage() {
             よりご連絡ください。
           </p>
         </article>
+
+        <p className="legal-updated-at">最終改定日：2026年9月30日</p>
       </section>
     </main>
   );
