@@ -35,6 +35,9 @@ const data = load("src/data/chip-pulse");
 const lib = load("src/lib/chip-pulse");
 const { companies } = load("src/data/companies");
 
+assert.equal(data.pulseMarketCapAsOf, "2026-10-01");
+assert.equal(data.pulseCompanies.find((company) => company.id === "nvidia").marketCapUsdB, 5486);
+assert.equal(data.pulseCompanies.find((company) => company.id === "tokyo-electron").marketCapUsdB, 171.02);
 assert.equal(new Set(data.pulseCompanies.map((company) => company.id)).size, data.pulseCompanies.length);
 assert.ok(data.pulseCompanies.length >= 20);
 assert.ok(data.pulseCompanies.every((company) => company.marketCapUsdB > 0));
@@ -86,10 +89,10 @@ const filteredSignals = lib.filterPulseSignals(data.pulseSignals, japanEquipment
 const kpis = lib.calculatePulseKpis(filteredCompanies, filteredSignals);
 assert.equal(kpis.signalCount24h, 0);
 assert.equal(kpis.signalCount, filteredSignals.length);
-assert.equal(kpis.activeCompanies, 4);
-assert.equal(kpis.sourceCount, 3);
+assert.equal(kpis.activeCompanies, 1);
+assert.equal(kpis.sourceCount, 2);
 assert.equal(kpis.topTheme, "AI");
-assert.equal(lib.getPulseCompanyActivity("advantest", filteredSignals).count, 2);
+assert.equal(lib.getPulseCompanyActivity("advantest", filteredSignals).count, 1);
 assert.ok(lib.buildPulseThemes(data.pulseSignals).some((theme) => theme.id === "EUV" && theme.signalCount === 2));
 const septemberCheck = "2026-09-27T07:39:51.087Z";
 assert.ok(lib.filterRecentPulseSignals(data.pulseSignals, septemberCheck).length > 0);
@@ -98,7 +101,7 @@ assert.equal(lib.filterUpcomingPulseEvents(data.pulseEvents, septemberCheck).len
 assert.equal(lib.filterUpcomingPulseEvents(data.pulseEvents, "2026-10-01T00:00:00Z").length, 0);
 assert.equal(
   lib.filterPulseBriefLines(data.pulseBriefLines, { region: "Global", category: "All", theme: "All" }, null, [], false).map((line) => line.id).join(","),
-  "brief-quiet-24h",
+  "",
 );
 
 const width = 1000, height = 520;

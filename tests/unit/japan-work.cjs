@@ -36,10 +36,20 @@ const data = load('src/data/japan-work.ts');
 const model = load('src/lib/japan-work.ts');
 const { companies, getCompanyContentStatus } = load('src/data/companies.ts');
 const { companyLocations } = load('src/data/company-locations.ts');
+const companyLocationModel = load('src/lib/company-locations.ts');
 const views = data.japanWorkCompanies.map((profile) => ({ ...profile, name: profile.companyId, slug: profile.companyId, works: data.japanWorkEvidence.filter((work) => work.companyId === profile.companyId && work.status === 'published') }));
 const errors = model.validateJapanWorkEvidence(data.japanWorkEvidence, companies.map((c) => c.id), data.japanWorkSources.map((s) => s.id), companyLocations, data.japanWorkCategories.map((c) => c.id));
 assert.equal(errors.length, 0, errors.join('\n'));
-assert.equal(load('src/lib/company-locations.ts').validateCompanyLocationData().length, 0);
+assert.equal(companyLocationModel.validateCompanyLocationData().length, 0);
+const octoberMicronOpening = companyLocationModel.getHiringSignals('2026-10-01').find((signal) => signal.id === 'micron-hiroshima-2026-09');
+assert.equal(octoberMicronOpening.status, 'official-opening-confirmed');
+assert.equal(octoberMicronOpening.checkedAt, '2026-10-01');
+assert.equal(octoberMicronOpening.careerUrl, 'https://careers.micron.com/careers/job/39099654');
+assert.equal(companyLocationModel.getEffectiveHiringSignal(octoberMicronOpening, '2026-10-31').status, 'official-opening-confirmed');
+assert.equal(companyLocationModel.getEffectiveHiringSignal(octoberMicronOpening, '2026-11-01').status, 'review-expired');
+const generalCareerPage = companyLocationModel.getHiringSignals('2026-11-01').find((signal) => signal.id === 'micron-hashimoto-2026-09');
+assert.equal(generalCareerPage.status, 'career-page-available');
+assert.equal(generalCareerPage.checkedAt, '2026-09-03');
 for (const profile of data.japanWorkCompanies) {
   assert.ok(companies.some((c) => c.id === profile.companyId));
   if (profile.status === 'published') {

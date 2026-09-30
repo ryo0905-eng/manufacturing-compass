@@ -1,7 +1,8 @@
 import type { HiringSignal } from "@/types/company-location";
 
-const checkedAt = "2026-09-03";
-const openingExpiresAt = "2026-10-03";
+const openingCheckedAt = "2026-10-01";
+const careerPageCheckedAt = "2026-09-03";
+const openingExpiresAt = "2026-10-31";
 const careerPageExpiresAt = "2026-12-03";
 
 export const hiringSignals: HiringSignal[] = [
@@ -13,7 +14,7 @@ export const hiringSignals: HiringSignal[] = [
     careerUrl: "https://www.tsmc.com/static/japanese/careers/jasm/index.html",
     roleLabels: ["製造", "プロセス", "品質", "CIM"],
     sourceId: "T3",
-    checkedAt,
+    checkedAt: openingCheckedAt,
     expiresAt: openingExpiresAt,
   },
   {
@@ -24,7 +25,7 @@ export const hiringSignals: HiringSignal[] = [
     careerUrl: "https://ro.careers.tsmc.com/job/Yokohama-%E3%82%AD%E3%83%A3%E3%83%AA%E3%82%A2%E6%8E%A1%E7%94%A8%E3%80%80%E5%8D%8A%E5%B0%8E%E4%BD%93%E8%A8%AD%E8%A8%88%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%EF%BC%8F%E3%83%9E%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%A3%E3%83%BC-14/776378910/",
     roleLabels: ["半導体設計エンジニア／マネージャー"],
     sourceId: "T5",
-    checkedAt,
+    checkedAt: openingCheckedAt,
     expiresAt: openingExpiresAt,
   },
   {
@@ -32,10 +33,10 @@ export const hiringSignals: HiringSignal[] = [
     companyId: "micron",
     locationId: "micron-hiroshima",
     status: "official-opening-confirmed",
-    careerUrl: "https://careers.micron.com/careers/job/38677515",
-    roleLabels: ["プロセス・設備"],
+    careerUrl: "https://careers.micron.com/careers/job/39099654",
+    roleLabels: ["CVD・PVDプロセス／設備"],
     sourceId: "M4",
-    checkedAt,
+    checkedAt: openingCheckedAt,
     expiresAt: openingExpiresAt,
   },
   {
@@ -46,7 +47,7 @@ export const hiringSignals: HiringSignal[] = [
     careerUrl: "https://careers.micron.com/careers",
     roleLabels: [],
     sourceId: "M5",
-    checkedAt,
+    checkedAt: careerPageCheckedAt,
     expiresAt: careerPageExpiresAt,
   },
   ...["tel-miyagi-taiwa", "tel-yamanashi-fujii", "tel-kumamoto-koshi", "tel-tokyo-fuchu"].map(
@@ -58,7 +59,7 @@ export const hiringSignals: HiringSignal[] = [
       careerUrl: "https://careers-tel.jp/description/",
       roleLabels: [],
       sourceId: "E6",
-      checkedAt,
+      checkedAt: careerPageCheckedAt,
       expiresAt: careerPageExpiresAt,
     }),
   ),
@@ -70,7 +71,7 @@ export const hiringSignals: HiringSignal[] = [
     careerUrl: "https://kioxia.jposting.net/u/job.phtml?job_code=722",
     roleLabels: ["量産前工程ユニットプロセス"],
     sourceId: "K5",
-    checkedAt,
+    checkedAt: openingCheckedAt,
     expiresAt: openingExpiresAt,
   },
   ...["kioxia-yokohama", "kioxia-tokyo-hq"].map(
@@ -82,7 +83,7 @@ export const hiringSignals: HiringSignal[] = [
       careerUrl: "https://www.kioxia.com/ja-jp/job.html",
       roleLabels: [],
       sourceId: "K6",
-      checkedAt,
+      checkedAt: careerPageCheckedAt,
       expiresAt: careerPageExpiresAt,
     }),
   ),
@@ -95,7 +96,7 @@ export const hiringSignals: HiringSignal[] = [
       careerUrl: "https://www.screen.co.jp/recruit_info/recruit_career",
       roleLabels: [],
       sourceId: "S4",
-      checkedAt,
+      checkedAt: careerPageCheckedAt,
       expiresAt: careerPageExpiresAt,
     }),
   ),
@@ -108,7 +109,7 @@ export const hiringSignals: HiringSignal[] = [
       careerUrl: "https://www.advantest.com/ja/about/career-jp/career/",
       roleLabels: [],
       sourceId: "A5",
-      checkedAt,
+      checkedAt: careerPageCheckedAt,
       expiresAt: careerPageExpiresAt,
     }),
   ),
@@ -120,7 +121,7 @@ export const hiringSignals: HiringSignal[] = [
     careerUrl: "https://jobs.renesas.com/",
     roleLabels: [],
     sourceId: "R5",
-    checkedAt,
+    checkedAt: careerPageCheckedAt,
     expiresAt: careerPageExpiresAt,
   },
   {
@@ -132,7 +133,7 @@ export const hiringSignals: HiringSignal[] = [
     careerUrl: "https://jobs.renesas.com/job/takasaki-toyosu-principle-package-engineer-in-takasaki-japan-jid-6348",
     roleLabels: ["パワーMOSFET向けパッケージ開発・信頼性・解析"],
     sourceId: "R4",
-    checkedAt,
+    checkedAt: openingCheckedAt,
     expiresAt: openingExpiresAt,
   },
   ...["rohm-kyoto-hq-factory", "rohm-hamamatsu"].map(
@@ -144,7 +145,7 @@ export const hiringSignals: HiringSignal[] = [
       careerUrl: "https://job.axol.jp/hy/uf/c/rohm/contents/%E3%83%AD%E3%83%BC%E3%83%A0%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%82%AD%E3%83%A3%E3%83%AA%E3%82%A2%E6%8E%A1%E7%94%A8%E5%8B%9F%E9%9B%86%E8%A6%81%E9%A0%85.pdf",
       roleLabels: [],
       sourceId: "H3",
-      checkedAt,
+      checkedAt: careerPageCheckedAt,
       expiresAt: careerPageExpiresAt,
     }),
   ),
@@ -157,7 +158,7 @@ export const hiringSignals: HiringSignal[] = [
       careerUrl: "https://www.socionext.com/jp/recruit/career/index.html",
       roleLabels: ["SoC・IP開発", "テスト技術", "デバイス評価"],
       sourceId: "N2",
-      checkedAt,
+      checkedAt: openingCheckedAt,
       expiresAt: openingExpiresAt,
     }),
   ),
@@ -170,7 +171,7 @@ export const hiringSignals: HiringSignal[] = [
       careerUrl: "https://www.sumcosi.com/recruit/",
       roleLabels: [],
       sourceId: "U4",
-      checkedAt,
+      checkedAt: openingCheckedAt,
       expiresAt: openingExpiresAt,
     }),
   ),

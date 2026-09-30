@@ -14,15 +14,15 @@ export type SemiconductorSalaryCompany = {
 };
 
 export const semiconductorSalaryMeta = {
-  retrievedAt: "2026-07-14",
+  retrievedAt: "2026-10-01",
   unit: "万円（1万円単位の概数）",
   definition: "有価証券報告書の提出会社・単体",
   scope: "日本上場の主要半導体関連企業20社",
 } as const;
 
 export const semiconductorSalaryRanking: SemiconductorSalaryCompany[] = [
-  { rank: 1, name: "ディスコ", ticker: "6146", annualSalaryManYen: 1880, employees: 3687, averageAge: 37.2, fiscalPeriod: "2026年3月期", category: "製造装置", companyType: "事業会社", companySlug: "disco", sourceUrl: "https://www.disco.co.jp/jp/ir/ugc/" },
-  { rank: 2, name: "レーザーテック", ticker: "6920", annualSalaryManYen: 1681, employees: 516, averageAge: 40.1, fiscalPeriod: "2025年6月期", category: "検査・計測装置", companyType: "事業会社", companySlug: "lasertec", sourceUrl: "https://www.lasertec.co.jp/ir/data/securities.html" },
+  { rank: 1, name: "レーザーテック", ticker: "6920", annualSalaryManYen: 1881, employees: 534, averageAge: 40.1, fiscalPeriod: "2026年6月期", category: "検査・計測装置", companyType: "事業会社", companySlug: "lasertec", sourceUrl: "https://www.lasertec.co.jp/ir/data/securities.html" },
+  { rank: 2, name: "ディスコ", ticker: "6146", annualSalaryManYen: 1880, employees: 3687, averageAge: 37.2, fiscalPeriod: "2026年3月期", category: "製造装置", companyType: "事業会社", companySlug: "disco", sourceUrl: "https://www.disco.co.jp/jp/ir/ugc/" },
   { rank: 3, name: "東京エレクトロン", ticker: "8035", annualSalaryManYen: 1380, employees: 2309, averageAge: 43.1, fiscalPeriod: "2026年3月期", category: "製造装置", companyType: "事業会社", companySlug: "tokyo-electron", sourceUrl: "https://www.tel.co.jp/ir/library/fs/index.html" },
   { rank: 4, name: "キオクシアホールディングス", ticker: "285A", annualSalaryManYen: 1307, employees: 140, averageAge: 46.2, fiscalPeriod: "2026年3月期", category: "メモリ", companyType: "持株会社", companySlug: "kioxia", sourceUrl: "https://www.kioxia-holdings.com/ja-jp/ir/library.html", note: "持株会社140人の平均。最大人員会社のキオクシア株式会社は942万円。" },
   { rank: 5, name: "アドバンテスト", ticker: "6857", annualSalaryManYen: 1098, employees: 2033, averageAge: 45.7, fiscalPeriod: "2026年3月期", category: "検査・計測装置", companyType: "事業会社", companySlug: "advantest", sourceUrl: "https://www.advantest.com/ja/investors/ir-library/report/" },
@@ -35,7 +35,7 @@ export const semiconductorSalaryRanking: SemiconductorSalaryCompany[] = [
   { rank: 12, name: "ソシオネクスト", ticker: "6526", annualSalaryManYen: 959, employees: 2111, averageAge: 50.6, fiscalPeriod: "2026年3月期", category: "ファブレス", companyType: "事業会社", companySlug: "socionext", sourceUrl: "https://www.socionext.com/jp/ir/" },
   { rank: 13, name: "信越化学工業", ticker: "4063", annualSalaryManYen: 898, employees: 4059, averageAge: 40.8, fiscalPeriod: "2026年3月期", category: "半導体材料", companyType: "事業会社", sourceUrl: "https://www.shinetsu.co.jp/jp/ir/ir-data/ir-securities/" },
   { rank: 14, name: "フジミインコーポレーテッド", ticker: "5384", annualSalaryManYen: 892, employees: 911, averageAge: 41.9, fiscalPeriod: "2026年3月期", category: "半導体材料", companyType: "事業会社", sourceUrl: "https://www.fujimiinc.co.jp/ir/library/" },
-  { rank: 15, name: "TOPPANホールディングス", ticker: "7911", annualSalaryManYen: 868, employees: 1430, averageAge: 42.8, fiscalPeriod: "2026年3月期", category: "フォトマスク等", companyType: "持株会社", sourceUrl: "https://www.holdings.toppan.com/ja/ir/library/securities.html", note: "持株会社の平均。開示されたTOPPAN株式会社の平均は780万円。" },
+  { rank: 15, name: "TOPPANホールディングス", ticker: "7911", annualSalaryManYen: 868, employees: 1430, averageAge: 42.8, fiscalPeriod: "2026年3月期", category: "フォトマスク等", companyType: "持株会社", sourceUrl: "https://www.holdings.toppan.com/ja/ir/material/report.html", note: "持株会社の平均。開示されたTOPPAN株式会社の平均は780万円。" },
   { rank: 16, name: "JX金属", ticker: "5016", annualSalaryManYen: 830, employees: 3250, averageAge: 41.5, fiscalPeriod: "2026年3月期", category: "半導体材料", companyType: "事業会社", sourceUrl: "https://www.jx-nmm.com/ir/securities.html" },
   { rank: 17, name: "堀場製作所", ticker: "6856", annualSalaryManYen: 820, employees: 1573, averageAge: 42.8, fiscalPeriod: "2025年12月期", category: "計測装置", companyType: "事業会社", sourceUrl: "https://www.horiba.com/jpn/company/investor-relations/ir-library/" },
   { rank: 18, name: "ニコン", ticker: "7731", annualSalaryManYen: 798, employees: 4656, averageAge: 41.9, fiscalPeriod: "2026年3月期", category: "露光装置・光学", companyType: "事業会社", companySlug: "nikon", sourceUrl: "https://www.jp.nikon.com/company/ir/ir_library/sr/" },

@@ -2,9 +2,9 @@ import type { GuideArticle } from "@/content/guides/types";
 
 export const semiconductorMarketCapRankingGuide: GuideArticle = {
   slug: "semiconductor-market-cap-ranking",
-  title: "半導体メーカー世界ランキング【2026年9月】時価総額TOP30・日本TOP10",
+  title: "半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本TOP10",
   description:
-    "2026年9月6日基準の半導体メーカー・関連企業の世界時価総額TOP30と日本TOP10。対象、出典、専業・非専業、売上高との違いを明記し、各社の業界での役割まで解説します。",
+    "2026年10月1日基準の半導体メーカー・関連企業の世界時価総額TOP30と日本TOP10。対象、出典、専業・非専業、売上高との違いを明記し、各社の業界での役割まで解説します。",
   targetQuery: "半導体企業 時価総額ランキング",
   searchIntent:
     "世界と日本の半導体関連企業を最新の時価総額で比較し、各社の業界内での役割、企業分類、売上高との違い、転職時の見方を理解したい",
@@ -15,12 +15,12 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   reviewedBy: "RYO",
   basisLabel: "この記事の調査範囲",
   experienceBasis: [
-    "CompaniesMarketCapのSemiconductorsカテゴリから、2026年9月6日確認時点の世界上位30社を同時取得",
+    "CompaniesMarketCapのSemiconductorsカテゴリから、2026年10月1日確認時点の世界上位30社を同時取得",
     "同じカテゴリの掲載順位から国・地域がJapanの企業を抽出し、日本企業上位10社を作成",
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-09-28",
+  updatedAt: "2026-10-01",
   sources: [
     {
       title: "日経業界地図 2027年版（紹介書籍の書誌情報）",
@@ -38,7 +38,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       title: "Largest semiconductor companies by market cap",
       url: "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/",
       publisher: "CompaniesMarketCap",
-      accessedAt: "2026-09-06",
+      accessedAt: "2026-10-01",
     },
     {
       title: "About CXMT",
@@ -47,16 +47,28 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       accessedAt: "2026-08-16",
     },
     {
-      title: "About Us",
-      url: "https://www.coherent.com/company/about-us",
-      publisher: "Coherent",
-      accessedAt: "2026-08-16",
+      title: "About Astera Labs",
+      url: "https://www.asteralabs.com/about/",
+      publisher: "Astera Labs",
+      accessedAt: "2026-10-01",
+    },
+    {
+      title: "Overview",
+      url: "https://www.umc.com/en/About/about_overview",
+      publisher: "UMC",
+      accessedAt: "2026-10-01",
+    },
+    {
+      title: "Wafer Handling System",
+      url: "https://www.rorze.com/en/products_category/wafer-transfer-system/",
+      publisher: "RORZE",
+      accessedAt: "2026-10-01",
     },
     {
       title: "NVIDIA Market Cap & Net Worth",
       url: "https://stockanalysis.com/stocks/nvda/market-cap/",
       publisher: "Stock Analysis / Nasdaq Data Link",
-      accessedAt: "2026-09-06",
+      accessedAt: "2026-10-01",
     },
     {
       title: "NVIDIA in Brief",
@@ -140,7 +152,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   readTime: "約18分",
   intro: {
     problem: "半導体企業のランキングを見ても、設計会社、製造会社、装置会社がなぜ同じ表に並ぶのか分かりにくくありませんか。",
-    conclusion: "2026年9月6日確認時点ではNVIDIAが首位です。ただし、時価総額だけでなく各社が設計・製造・装置・後工程のどこを担うかを合わせて見ます。",
+    conclusion: "2026年10月1日確認時点ではNVIDIAが首位です。ただし、時価総額だけでなく各社が設計・製造・装置・後工程のどこを担うかを合わせて見ます。",
     learnings: "世界TOP30、日本TOP10、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
   },
   overviewBlocks: [
@@ -179,7 +191,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "world-ranking",
       heading: "半導体メーカー・関連企業の世界時価総額ランキングTOP30",
-      lead: "2026年9月6日確認時点の上位3社は、NVIDIA、TSMC、Broadcomです。",
+      lead: "2026年10月1日確認時点の上位3社は、NVIDIA、TSMC、Broadcomです。",
       blocks: [
         { type: "market-cap-ranking", scope: "world" },
         {
@@ -202,8 +214,8 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       lead: "同じデータセットから日本企業を抽出すると、製造装置と検査・計測装置の企業が多く入ります。",
       blocks: [{ type: "market-cap-ranking", scope: "japan" }],
       paragraphs: [
-        "日本1位は東京エレクトロンで世界20位、2位はアドバンテストで世界21位です。日本TOP10では、東京エレクトロン、アドバンテスト、ディスコ、レーザーテック、SCREEN、KOKUSAI ELECTRICの6社を装置または検査・計測装置へ分類しました。",
-        "ルネサスとロームは半導体デバイスを扱うIDM、SUMCOはシリコンウェーハ、MARUWAはセラミック材料・電子部品を扱います。キオクシアやソシオネクストなど著名企業でも、基準データのカテゴリや順位によって今回のTOP10へ入らない場合があります。編集判断でカテゴリ外の企業を追加していません。",
+        "日本1位は東京エレクトロンで世界20位、2位はアドバンテストで世界21位です。日本TOP10では、東京エレクトロン、アドバンテスト、ディスコ、レーザーテック、SCREEN、KOKUSAI ELECTRIC、ローツェの7社を装置または検査・計測装置へ分類しました。",
+        "ルネサスとロームは半導体デバイスを扱うIDM、SUMCOはシリコンウェーハ、ローツェはウェーハ搬送ロボットやEFEMなどの製造装置を扱います。キオクシアやソシオネクストなど著名企業でも、基準データのカテゴリや順位によって今回のTOP10へ入らない場合があります。編集判断でカテゴリ外の企業を追加していません。",
       ],
     },
     {
@@ -253,7 +265,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           type: "cards",
           columns: 4,
           items: [
-            { label: "DATE", title: "2026年9月6日", body: "9月6日に出典へ掲載されていた値を使用。各市場の取引日・更新時刻は異なる" },
+            { label: "DATE", title: "2026年10月1日", body: "10月1日に出典へ掲載されていた値を使用。各市場の取引日・更新時刻は異なる" },
             { label: "SOURCE", title: "同時点の1データ", body: "CompaniesMarketCapのSemiconductorsカテゴリを基準に統一" },
             { label: "SCOPE", title: "上場企業のみ", body: "客観的な時価総額を持たない未上場企業は対象外" },
             { label: "CHECK", title: "重複を除外", body: "同一企業、二重上場、ADRと現地株式を別企業として数えない" },
@@ -283,11 +295,11 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
             { label: "3位", title: "Broadcom｜ファブレス", body: "ネットワーク、サーバー、ストレージ、無線接続などの半導体に加え、インフラソフトウェアも展開する企業です。ランキングの時価総額は半導体事業だけの評価ではありません。AIデータセンターでは演算チップだけでなく、高速なデータ接続やネットワークも重要な領域です。" },
             { label: "4位", title: "Samsung Electronics｜IDM・総合電機", body: "メモリ、System LSI、ファウンドリを含むDevice Solutions事業を持ち、電子機器など半導体以外の事業も展開します。設計から製造までを幅広く持つIDMとして整理していますが、表の時価総額は半導体部門だけではなくSamsung Electronics全体の数値です。" },
             { label: "5位", title: "Micron Technology｜メモリ・IDM", body: "DRAM、NAND、HBM、SSDなどメモリとストレージを中心に設計・製造する企業です。ロジック半導体のファブレス企業とは異なり、メモリ量産のプロセス、設備、品質、歩留まりが事業の中核にあります。需要と市況の変動が順位へ反映される場合もあります。" },
-            { label: "6位", title: "SK hynix｜メモリ・IDM", body: "DRAM、NAND、HBMを中心とする韓国のメモリメーカーです。メモリは設計だけでなく量産能力、プロセス統合、設備、歩留まり、品質が競争力へ直結しやすい領域です。同じ上位企業でも、ファブレス企業とは技術職の構成が大きく異なります。" },
-            { label: "7位", title: "AMD｜ファブレス", body: "データセンター、PC、ゲーム、組み込み向けのCPU、GPU、アクセラレーターを開発する企業です。NVIDIAと同じファブレスに分類できますが、製品ポートフォリオと対象市場は同一ではありません。日本での求人を見る場合も、本社の全事業ではなく日本法人の担当機能を確認します。" },
+            { label: "6位", title: "AMD｜ファブレス", body: "データセンター、PC、ゲーム、組み込み向けのCPU、GPU、アクセラレーターを開発する企業です。NVIDIAと同じファブレスに分類できますが、製品ポートフォリオと対象市場は同一ではありません。日本での求人を見る場合も、本社の全事業ではなく日本法人の担当機能を確認します。" },
+            { label: "7位", title: "SK hynix｜メモリ・IDM", body: "DRAM、NAND、HBMを中心とする韓国のメモリメーカーです。メモリは設計だけでなく量産能力、プロセス統合、設備、歩留まり、品質が競争力へ直結しやすい領域です。同じ上位企業でも、ファブレス企業とは技術職の構成が大きく異なります。" },
             { label: "8位", title: "ASML｜製造装置", body: "半導体回路のパターン形成に使うEUV・DUV露光装置を設計・製造します。半導体そのものを販売する会社ではなく、チップメーカーが量産するための装置、ソフトウェア、サービスを提供します。機械、電気、光学、制御、ソフトウェア、フィールドサポートが交わる企業です。" },
-            { label: "9位", title: "CXMT｜メモリ・IDM", body: "DRAMの設計、研究開発、製造、販売を行う中国のメモリ企業です。今回の基準データでは時価総額上位へ入っていますが、順位だけで量産能力や市場シェアを推定しません。" },
-            { label: "10位", title: "Intel｜IDM・ファウンドリ", body: "CPUやデータセンター向け製品の設計・製造に加え、外部顧客向けの製造事業にも取り組む企業です。設計と自社工場を持つIDMであり、ファウンドリ機能もあります。職務は製品開発、プロセス開発、製造、受託製造のどこに属するかを分けて見ます。" },
+            { label: "9位", title: "Intel｜IDM・ファウンドリ", body: "CPUやデータセンター向け製品の設計・製造に加え、外部顧客向けの製造事業にも取り組む企業です。設計と自社工場を持つIDMであり、ファウンドリ機能もあります。職務は製品開発、プロセス開発、製造、受託製造のどこに属するかを分けて見ます。" },
+            { label: "10位", title: "CXMT｜メモリ・IDM", body: "DRAMの設計、研究開発、製造、販売を行う中国のメモリ企業です。今回の基準データでは時価総額上位へ入っていますが、順位だけで量産能力や市場シェアを推定しません。" },
           ],
         },
       ],
@@ -355,15 +367,16 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           type: "cards",
           columns: 2,
           items: [
-            { label: "AI", title: "AI計算基盤に関わる企業が上位", body: "首位NVIDIAに加え、ネットワーク半導体のBroadcom、CPU・GPUのAMD、メモリのMicronとSK hynixが上位7社に入っています。AI向け半導体は演算チップだけでなく、メモリと接続技術を含む構造です。" },
+            { label: "AI", title: "AI計算基盤に関わる企業が上位", body: "首位NVIDIAに加え、ネットワーク半導体のBroadcom、CPU・GPUのAMD、メモリのMicronとSK hynixが上位7社に入っています。29位にはAIインフラ向け接続半導体のAstera Labsも入りました。" },
             { label: "ROLE", title: "設計企業と製造企業が同時に評価", body: "1位のNVIDIAはファブレス、2位のTSMCはファウンドリです。製造を持たない設計企業と、顧客製品を量産する製造企業が隣り合い、分業による産業構造が順位へ表れています。" },
-            { label: "REGION", title: "TOP30の半数が米国企業", body: "本社所在地ベースでは米国が15社です。中国4社、台湾3社、韓国・日本・オランダが各2社、英国・ドイツが各1社でした。製造拠点や売上地域は本社所在地と一致するとは限りません。" },
-            { label: "JAPAN", title: "日本は装置・検査領域が目立つ", body: "世界TOP30に入った日本企業は東京エレクトロンとアドバンテストで、どちらも装置関連です。日本TOP10でも6社を製造装置または検査・計測装置へ分類でき、材料ではSUMCOとMARUWAが入っています。" },
+            { label: "REGION", title: "TOP30の半数が米国企業", body: "本社所在地ベースでは米国が15社です。中国と台湾が各4社、韓国と日本が各2社、オランダ・英国・ドイツが各1社でした。製造拠点や売上地域は本社所在地と一致するとは限りません。" },
+            { label: "JAPAN", title: "日本は装置・検査領域が目立つ", body: "世界TOP30に入った日本企業は東京エレクトロンとアドバンテストで、どちらも装置関連です。日本TOP10でもローツェを含む7社を製造装置または検査・計測装置へ分類でき、材料ではSUMCOが入っています。" },
           ],
         },
       ],
       paragraphs: [
-        "これらは2026年9月6日確認時点の構成です。株価変動で順位は入れ替わります。また、現在の時価総額から将来の株価、売上、採用数を予測することはできません。",
+        "今回の更新では、29位にAstera Labs、30位にUMCが入り、NXPとCoherentがTOP30から外れました。Astera LabsはAIラック向けの接続半導体、UMCはロジックや特殊プロセスを扱うファウンドリで、同じ時価総額表でも役割は異なります。",
+        "これらは2026年10月1日確認時点の構成です。株価変動で順位は入れ替わります。また、現在の時価総額から将来の株価、売上、採用数を予測することはできません。",
       ],
     },
     {
@@ -440,7 +453,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         {
           type: "faq",
           items: [
-            { question: "世界で時価総額が最も大きい半導体企業は？", answer: "2026年9月6日確認時点のCompaniesMarketCap SemiconductorsカテゴリではNVIDIAが1位で、時価総額は約5.56兆ドルです。株価で変動するため、これは基準日時点の参考値です。" },
+            { question: "世界で時価総額が最も大きい半導体企業は？", answer: "2026年10月1日確認時点のCompaniesMarketCap SemiconductorsカテゴリではNVIDIAが1位で、時価総額は約5.49兆ドルです。別ソースの9月30日終値ベースでは約5.51兆ドルで、取得時刻などにより差があります。" },
             { question: "日本で時価総額が最も大きい半導体関連企業は？", answer: "同じデータセットでは東京エレクトロンが日本1位、世界20位です。半導体製造装置メーカーで、半導体そのものを製造する企業ではありません。" },
             { question: "NVIDIAとTSMCは何が違う？", answer: "NVIDIAはGPUなどを設計するファブレス企業、TSMCは顧客が設計した半導体を製造するファウンドリです。設計と製造で、半導体産業の異なる役割を担います。" },
             { question: "半導体製造装置メーカーもランキングに含まれる？", answer: "含まれます。本記事はCompaniesMarketCapのSemiconductorsカテゴリを基準に、ASML、Applied Materials、東京エレクトロンなど装置企業も対象としています。" },
@@ -455,7 +468,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "sources-method",
       heading: "出典・調査方法とデータ更新日",
-      lead: "ランキングの基準日とデータ確認日は2026年9月6日です。",
+      lead: "ランキングの基準日とデータ確認日は2026年10月1日です。",
       blocks: [
         {
           type: "note",
@@ -471,7 +484,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "summary",
       heading: "まとめ｜順位より先に、半導体業界での役割を見る",
-      lead: "2026年9月6日確認時点の時価総額上位はNVIDIA、TSMC、Broadcomでした。",
+      lead: "2026年10月1日確認時点の時価総額上位はNVIDIA、TSMC、Broadcomでした。",
       blocks: [
         {
           type: "cards",

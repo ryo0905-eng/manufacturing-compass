@@ -3,9 +3,9 @@ import { jobNoteMeta } from "@/data/job-posting-note";
 
 export const semiconductorSalaryRankingGuide: GuideArticle = {
   slug: "semiconductor-salary-ranking",
-  title: "半導体企業の平均年収ランキング｜日本の主要20社・2026年7月確認",
+  title: "半導体企業の平均年収ランキング｜日本の主要20社・2026年10月確認",
   description:
-    "2026年7月14日までに確認した有価証券報告書をもとに、日本の主要半導体関連企業20社の平均年間給与を比較。対象人数・平均年齢・決算期・持株会社と事業会社の違いを併記し、求人票の提示年収との違いを解説します。",
+    "2026年10月1日までに確認した有価証券報告書をもとに、日本の主要半導体関連企業20社の平均年間給与を比較。対象人数・平均年齢・決算期・持株会社と事業会社の違いを併記し、求人票の提示年収との違いを解説します。",
   targetQuery: "半導体企業 年収ランキング",
   searchIntent:
     "日本の半導体メーカー、製造装置、検査・計測、材料企業の平均年収を同じ公開資料で比較し、転職先選びで数字をどう読むべきか知りたい",
@@ -17,30 +17,30 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
   basisLabel: "この記事の調査範囲",
   experienceBasis: [
     "日本上場の主要な半導体メーカー、製造装置、検査・計測、材料関連企業20社を対象に選定",
-    "2026年7月14日までに確認できた各社の直近有価証券報告書から、提出会社単体の平均年間給与、対象人数、平均年齢を確認",
+    "2026年10月1日までに確認できた各社の直近有価証券報告書から、提出会社単体の平均年間給与、対象人数、平均年齢を確認",
     "平均年間給与は1万円単位の概数で表示し、持株会社と事業会社、決算期の違いを表内に明記",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-09-26",
-  basisNote: "給与データの確認日は2026年7月14日です。2026年9月6日に対象範囲・確認時点の説明を、2026年9月26日に求人票の確認ノートへの導線を更新しました。給与数値は再調査していません。",
+  updatedAt: "2026-10-01",
+  basisNote: "給与データは2026年10月1日に対象20社の公式IR一覧と直近有価証券報告書の対象期を再確認しました。レーザーテックの2026年6月期開示を反映し、順位を更新しています。求人票の確認ノートへの導線は2026年9月26日に更新しました。",
   sources: [
-    { title: "EDINET", url: "https://disclosure2.edinet-fsa.go.jp/", publisher: "金融庁", accessedAt: "2026-07-14" },
-    { title: "有価証券報告書等", url: "https://www.disco.co.jp/jp/ir/ugc/", publisher: "ディスコ", accessedAt: "2026-07-14" },
-    { title: "有価証券報告書等", url: "https://www.lasertec.co.jp/ir/data/securities.html", publisher: "レーザーテック", accessedAt: "2026-07-14" },
-    { title: "有価証券報告書等", url: "https://www.tel.co.jp/ir/library/fs/index.html", publisher: "東京エレクトロン", accessedAt: "2026-07-14" },
-    { title: "IRライブラリー", url: "https://www.kioxia-holdings.com/ja-jp/ir/library.html", publisher: "キオクシアホールディングス", accessedAt: "2026-07-14" },
-    { title: "有価証券報告書等", url: "https://www.advantest.com/ja/investors/ir-library/report/", publisher: "アドバンテスト", accessedAt: "2026-07-14" },
-    { title: "IRライブラリ", url: "https://www.screen.co.jp/ir/library", publisher: "SCREENホールディングス", accessedAt: "2026-07-14" },
-    { title: "2026年3月期 有価証券報告書", url: "https://www.socionext.com/jp/ir/pdf/sn_ir20260623_01j.pdf", publisher: "ソシオネクスト", accessedAt: "2026-07-14" },
-    { title: "有価証券報告書・半期報告書", url: "https://www.shinetsu.co.jp/jp/ir/ir-data/ir-securities/", publisher: "信越化学工業", accessedAt: "2026-07-14" },
-    { title: "第24期 有価証券報告書", url: "https://www.renesas.com/ja/document/rep/annual-securities-report-2025", publisher: "ルネサス エレクトロニクス", accessedAt: "2026-07-14" },
-    { title: "2026年3月期 有価証券報告書", url: "https://www.towajapan.co.jp/jp/wp-content/uploads/sites/2/2026/06/2025FYaccount.pdf", publisher: "TOWA", accessedAt: "2026-07-14" },
-    { title: "従業員指標", url: "https://disclosure.catr.jp/metrics", publisher: "開示情報データベース", accessedAt: "2026-07-14" },
+    { title: "EDINET", url: "https://disclosure2.edinet-fsa.go.jp/", publisher: "金融庁", accessedAt: "2026-10-01" },
+    { title: "有価証券報告書等", url: "https://www.disco.co.jp/jp/ir/ugc/", publisher: "ディスコ", accessedAt: "2026-10-01" },
+    { title: "2026年6月期 有価証券報告書", url: "https://www.lasertec.co.jp/ir/data/securities.html", publisher: "レーザーテック", accessedAt: "2026-10-01" },
+    { title: "有価証券報告書等", url: "https://www.tel.co.jp/ir/library/fs/index.html", publisher: "東京エレクトロン", accessedAt: "2026-10-01" },
+    { title: "IRライブラリー", url: "https://www.kioxia-holdings.com/ja-jp/ir/library.html", publisher: "キオクシアホールディングス", accessedAt: "2026-10-01" },
+    { title: "有価証券報告書等", url: "https://www.advantest.com/ja/investors/ir-library/report/", publisher: "アドバンテスト", accessedAt: "2026-10-01" },
+    { title: "IRライブラリ", url: "https://www.screen.co.jp/ir/library", publisher: "SCREENホールディングス", accessedAt: "2026-10-01" },
+    { title: "2026年3月期 有価証券報告書", url: "https://www.socionext.com/jp/ir/pdf/sn_ir20260623_01j.pdf", publisher: "ソシオネクスト", accessedAt: "2026-10-01" },
+    { title: "有価証券報告書・半期報告書", url: "https://www.shinetsu.co.jp/jp/ir/ir-data/ir-securities/", publisher: "信越化学工業", accessedAt: "2026-10-01" },
+    { title: "第24期 有価証券報告書", url: "https://www.renesas.com/ja/document/rep/annual-securities-report-2025", publisher: "ルネサス エレクトロニクス", accessedAt: "2026-10-01" },
+    { title: "2026年3月期 有価証券報告書", url: "https://www.towajapan.co.jp/jp/wp-content/uploads/sites/2/2026/06/2025FYaccount.pdf", publisher: "TOWA", accessedAt: "2026-10-01" },
+    { title: "従業員指標", url: "https://disclosure.catr.jp/metrics", publisher: "開示情報データベース", accessedAt: "2026-10-01" },
   ],
   readTime: "約16分",
   intro: {
     problem: "半導体企業は年収が高いと聞いても、会社ごとの違いや、その数字が自分にも当てはまるのか分かりにくくありませんか。",
-    conclusion: "日本の主要な半導体関連20社について、有価証券報告書の提出会社単体の平均年間給与を比べます。2026年7月14日までの確認では装置・検査関連企業が上位ですが、応募職種の提示年収とは異なります。",
+    conclusion: "日本の主要な半導体関連20社について、有価証券報告書の提出会社単体の平均年間給与を比べます。2026年10月1日確認ではレーザーテックが首位ですが、応募職種の提示年収とは異なります。",
     learnings: "主要20社の順位、平均年収が高くなる背景、持株会社の注意点、海外企業の調べ方、転職時の給与比較の手順。",
   },
   overviewBlocks: [
@@ -53,12 +53,12 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
   sections: [
     {
       id: "ranking",
-      heading: "日本の半導体関連20社の平均年間給与｜2026年7月確認",
-      lead: "今回選定した20社では、ディスコ、レーザーテック、東京エレクトロンが上位3社です。",
+      heading: "日本の半導体関連20社の平均年間給与｜2026年10月確認",
+      lead: "今回選定した20社では、レーザーテック、ディスコ、東京エレクトロンが上位3社です。",
       blocks: [{ type: "salary-ranking" }],
       paragraphs: [
         "ランキングは、日本上場の主要な半導体メーカー、製造装置、検査・計測、材料関連企業20社を編集部が選び、各社の直近有価証券報告書に記載された提出会社単体の平均年間給与を並べたものです。国内の全半導体関連企業を網羅した順位ではありません。",
-        "平均年間給与は1万円単位の概数で表示しています。決算期が異なるため、2025年6月期、2025年12月期、2026年2月期、2026年3月期の直近開示が混在します。古い数字を新しい数字へ推計することはしていません。",
+        "平均年間給与は1万円単位の概数で表示しています。決算期が異なるため、2025年12月期、2026年2月期、2026年3月期、2026年6月期の直近開示が混在します。古い数字を新しい数字へ推計することはしていません。",
       ],
     },
     {
@@ -73,7 +73,7 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
             { label: "SOURCE", title: "有価証券報告書", body: "金融庁EDINETと各社IRで直近の開示を確認" },
             { label: "SCOPE", title: "提出会社・単体", body: "連結グループ全従業員の平均ではない" },
             { label: "INCLUDED", title: "賞与等を含む", body: "多くの企業は賞与や基準外賃金を含むと注記" },
-            { label: "DATE", title: "2026年7月14日確認", body: "各社の決算期は表へ個別に掲載" },
+            { label: "DATE", title: "2026年10月1日確認", body: "各社の決算期は表へ個別に掲載" },
           ],
         },
         {
@@ -95,8 +95,8 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
           type: "cards",
           columns: 2,
           items: [
-            { label: "1位", title: "ディスコ", body: "2026年3月期の提出会社平均は約1,880万円です。有価証券報告書では賞与と基準外賃金を含むとされ、前年度からの増減率も開示されています。職群や等級で水準が異なるため、全員がこの金額を受け取る意味ではありません。" },
-            { label: "2位", title: "レーザーテック", body: "2025年6月期の提出会社平均は約1,681万円です。単体従業員516人の平均で、賞与と時間外手当などを含みます。検査・計測装置という高付加価値領域の企業ですが、職種別の給与は有報の全社平均だけでは分かりません。" },
+            { label: "1位", title: "レーザーテック", body: "2026年6月期の提出会社平均は約1,881万円です。単体従業員534人の平均で、賞与と時間外手当などを含みます。検査・計測装置という高付加価値領域の企業ですが、職種別の給与は有報の全社平均だけでは分かりません。" },
+            { label: "2位", title: "ディスコ", body: "2026年3月期の提出会社平均は約1,880万円です。有価証券報告書では賞与と基準外賃金を含むとされ、前年度からの増減率も開示されています。職群や等級で水準が異なるため、全員がこの金額を受け取る意味ではありません。" },
             { label: "3位", title: "東京エレクトロン", body: "2026年3月期の提出会社平均は約1,380万円です。同社の開示では賞与と基準外賃金を含み、株式報酬費用は除くと説明されています。業績変動によって賞与部分が動く可能性を考えて読みます。" },
             { label: "上位の共通点", title: "高付加価値と変動報酬", body: "半導体製造装置は技術難度が高く、世界市場で競争する企業が多い領域です。一方、平均年間給与が高い年でも、その全額が毎年固定されるとは限りません。固定部分と業績連動部分を分けることが重要です。" },
           ],
@@ -230,7 +230,7 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
         {
           type: "faq",
           items: [
-            { question: "日本で平均年収が最も高い半導体関連企業はどこですか？", answer: "今回選定した主要20社では、2026年3月期のディスコが約1,880万円で1位です。国内全企業を網羅した順位ではなく、有価証券報告書の提出会社単体の平均である点に注意してください。" },
+            { question: "日本で平均年収が最も高い半導体関連企業はどこですか？", answer: "今回選定した主要20社では、2026年6月期のレーザーテックが約1,881万円で1位です。国内全企業を網羅した順位ではなく、有価証券報告書の提出会社単体の平均である点に注意してください。" },
             { question: "半導体企業はすべて平均年収が高いですか？", answer: "一律ではありません。事業分野、利益率、賞与制度、従業員構成、平均年齢によって差があります。同じ企業内でも職種や等級で給与は異なります。" },
             { question: "有価証券報告書の平均年間給与には賞与が含まれますか？", answer: "多くの企業は賞与や基準外賃金を含むと注記しています。ただし詳細な定義は企業ごとに異なるため、各社の有価証券報告書の注記を確認してください。" },
             { question: "平均年収と求人票の想定年収が違うのはなぜですか？", answer: "平均年収は提出会社の全対象従業員を集計した過去の平均です。求人票は特定の職種、勤務地、経験、等級を想定したレンジなので、対象が異なります。" },

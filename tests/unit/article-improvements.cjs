@@ -21,6 +21,12 @@ function load(relative) {
   }).outputText;
   function localRequire(id) {
     if (id.endsWith('.css')) return {};
+    if (id.endsWith('.json')) {
+      const jsonPath = id.startsWith('@/')
+        ? path.join(root, 'src', id.slice(2))
+        : path.resolve(path.dirname(filename), id);
+      return JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+    }
     if (id === 'next/link') return { __esModule: true, default: props => React.createElement('a', props) };
     if (id === 'next/navigation') return { notFound() { throw new Error('NOT_FOUND'); } };
     if (id === '@/components/TrackedInternalLink') return { TrackedInternalLink: ({ eventName, eventProperties, ...props }) => React.createElement('a', props) };
@@ -41,6 +47,8 @@ function load(relative) {
 async function main() {
   const efem = load('src/content/guides/semiconductor-wafer-handling-efem-manufacturers').semiconductorWaferHandlingEfemManufacturersGuide;
   const ranking = load('src/content/guides/semiconductor-market-cap-ranking').semiconductorMarketCapRankingGuide;
+  const salary = load('src/content/guides/semiconductor-salary-ranking').semiconductorSalaryRankingGuide;
+  const salaryData = load('src/data/semiconductor-salary');
   const { cpkLowCausesGuide: cpk, cpkLowExamples } = load('src/content/guides/cpk-low-causes');
   const { calculateCapability } = load('src/lib/process-capability');
   for (const example of cpkLowExamples) {
@@ -67,7 +75,10 @@ async function main() {
       if (block.type === 'links') for (const item of block.items) {
         if (item.href.startsWith('#')) assert.ok(ids.includes(item.href.slice(1)), item.href);
         if (item.href.startsWith('/guides/')) assert.ok(load('src/content/guides/index').getGuideBySlug(item.href.slice('/guides/'.length)), item.href);
-        if (item.href.startsWith('/tools/')) assert.ok(fs.existsSync(path.join(root, 'src/app/(ja)', item.href, 'page.tsx')), item.href);
+        if (item.href.startsWith('/tools/')) {
+          const toolPath = item.href.split(/[?#]/, 1)[0];
+          assert.ok(fs.existsSync(path.join(root, 'src/app/(ja)', toolPath, 'page.tsx')), item.href);
+        }
       }
     }
   }
@@ -82,9 +93,25 @@ async function main() {
   const ids = ranking.sections.map(section => section.id);
   assert.deepEqual(JSON.parse(JSON.stringify(ids.slice(0, 2))), ['world-ranking', 'japan-ranking']);
   assert.ok(ids.indexOf('japan-ranking') < ids.indexOf('top-ten'));
-  assert.equal(ranking.sources[0].accessedAt, '2026-09-06');
-  assert.ok(ranking.description.includes('2026年9月6日'));
-  assert.equal(ranking.overviewBlocks[0].items.length, 4);
+  assert.equal(ranking.sources.find(source => source.publisher === 'CompaniesMarketCap').accessedAt, '2026-10-01');
+  assert.ok(ranking.description.includes('2026年10月1日'));
+  assert.equal(ranking.overviewBlocks[0].items.length, 5);
+  assert.equal(salary.title, '半導体企業の平均年収ランキング｜日本の主要20社・2026年10月確認');
+  assert.equal(salary.updatedAt, '2026-10-01');
+  assert.equal(salaryData.semiconductorSalaryMeta.retrievedAt, '2026-10-01');
+  assert.equal(salaryData.semiconductorSalaryRanking.length, 20);
+  assert.deepEqual(JSON.parse(JSON.stringify(salaryData.semiconductorSalaryRanking.slice(0, 3).map(company => company.name))), ['レーザーテック', 'ディスコ', '東京エレクトロン']);
+  assert.deepEqual(JSON.parse(JSON.stringify(salaryData.semiconductorSalaryRanking.map(company => company.rank))), Array.from({ length: 20 }, (_, index) => index + 1));
+  assert.ok(salaryData.semiconductorSalaryRanking.every((company, index, companies) => index === 0 || companies[index - 1].annualSalaryManYen >= company.annualSalaryManYen));
+  assert.equal(new Set(salaryData.semiconductorSalaryRanking.map(company => company.name)).size, 20);
+  assert.equal(new Set(salaryData.semiconductorSalaryRanking.map(company => company.ticker)).size, 20);
+  assert.deepEqual(JSON.parse(JSON.stringify(salaryData.semiconductorSalaryRanking[0])), {
+    rank: 1, name: 'レーザーテック', ticker: '6920', annualSalaryManYen: 1881, employees: 534,
+    averageAge: 40.1, fiscalPeriod: '2026年6月期', category: '検査・計測装置', companyType: '事業会社',
+    companySlug: 'lasertec', sourceUrl: 'https://www.lasertec.co.jp/ir/data/securities.html',
+  });
+  const salaryCards = salary.sections.find(section => section.id === 'top-companies').blocks[0].items;
+  assert.deepEqual(JSON.parse(JSON.stringify(salaryCards.slice(0, 3).map(card => card.title))), ['レーザーテック', 'ディスコ', '東京エレクトロン']);
   const en = load('src/content/guides/en').englishGuides[0];
   assert.equal(en.translation.pendingSourceUpdatedAt, efem.updatedAt);
   assert.equal(en.translation.sourceUpdatedAt, '2026-09-01');
@@ -103,6 +130,13 @@ async function main() {
   assert.ok(html.includes('"@type":"Article"') && html.includes('"@type":"FAQPage"'));
   assert.ok(html.includes('href="/tools/cpk"'));
   assert.ok(html.includes('模式図'));
+  const salaryHtml = renderToStaticMarkup(await publishedPage.default({ params: Promise.resolve({ slug: salary.slug }) }));
+  assert.ok(salaryHtml.includes('レーザーテック') && salaryHtml.includes('1,881万円') && salaryHtml.includes('2026年10月確認'));
+  assert.ok(salaryHtml.includes('"dateModified":"2026-10-01"'));
+  const rankingSitemapEntry = load('src/app/sitemap').default().find(item => item.url.endsWith(`/guides/${ranking.slug}`));
+  assert.equal(rankingSitemapEntry.lastModified.toISOString(), '2026-09-30T15:00:00.000Z');
+  const salarySitemapEntry = load('src/app/sitemap').default().find(item => item.url.endsWith(`/guides/${salary.slug}`));
+  assert.equal(salarySitemapEntry.lastModified.toISOString(), '2026-09-30T15:00:00.000Z');
   let tool = load('src/app/(ja)/tools/cpk/page').default;
   assert.ok(renderToStaticMarkup(React.createElement(tool)).includes('href="/guides/cpk-low-causes"'));
 
