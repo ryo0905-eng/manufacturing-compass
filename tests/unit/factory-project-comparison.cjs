@@ -36,11 +36,11 @@ for(const p of factoryProjects){
 }
 for(const ids of [['',''],['unknown','jasm-1'],['jasm-1','jasm-1'],['jasm-1','unknown']])assert.equal(getFactoryProjectPair(...ids),null);
 const pair=getFactoryProjectPair('jasm-1','jasm-2');
-assert.match(pair[0].actual,/2024/);assert.match(pair[1].planned,/未確認/);
+assert.match(pair[0].actual,/2024/);assert.match(pair[1].planned,/2028/);
 const micron=factoryProjects.find(p=>p.id==='micron-hiroshima-cleanroom');
-assert.match(micron.planned,/装置搬入/);assert.match(micron.planned,/量産開始日ではありません/);assert.match(micron.note,/再確認待ち/);
+assert.match(micron.planned,/装置搬入/);assert.match(micron.planned,/量産開始日ではありません/);assert.match(micron.note,/量産開始日ではありません/);
 const text=factoryProjectComparisonText(getFactoryProjectPair('rapidus-iim','micron-hiroshima-cleanroom'));
-for(const word of ['A：','B：','試作','予定','再確認待ち','確認日：','https://','求人'])assert.ok(text.includes(word),word);
+for(const word of ['A：','B：','試作','予定','量産開始日ではありません','確認日：','https://','求人'])assert.ok(text.includes(word),word);
 const guide=load('src/content/guides/japan-semiconductor-factory-projects').japanSemiconductorFactoryProjectsGuide;
 const blocks=guide.sections.find(s=>s.id==='projects').blocks;
 assert.equal(blocks[0].rows.length,5);assert.equal(blocks[1].type,'factory-project-comparison');

@@ -6576,6 +6576,7 @@ select {
 }
 
 .companies-role h2,
+.companies-japan h2,
 .companies-taxonomy h2,
 .companies-adjacent h2 {
   margin: 6px 0 10px;
@@ -6584,6 +6585,7 @@ select {
 }
 
 .companies-role p,
+.companies-japan header > p:last-child,
 .companies-taxonomy header > p:last-child,
 .companies-adjacent header > p:last-child {
   margin: 0;
@@ -6600,6 +6602,52 @@ select {
 .companies-role aside p {
   margin-top: 7px;
   font-size: 14px;
+}
+
+.companies-japan__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.companies-japan__grid > section {
+  min-width: 0;
+  border: 1px solid var(--directory-border);
+  border-radius: 8px;
+  background: #fff;
+  padding: 20px;
+}
+
+.companies-japan__grid h3 {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+.companies-japan__grid h3 span {
+  flex: none;
+  color: #697176;
+  font-size: 12px;
+}
+
+.companies-japan__grid ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.companies-japan__grid a {
+  color: #1769aa;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .companies-taxonomy > div,
@@ -6792,6 +6840,7 @@ select {
 }
 
 @media (max-width: 800px) {
+  .companies-japan__grid,
   .companies-taxonomy > div,
   .companies-adjacent > div,
   .companies-next-links {
@@ -6810,6 +6859,7 @@ select {
 @media (max-width: 560px) {
   .companies-hero__facts,
   .companies-role,
+  .companies-japan__grid,
   .companies-taxonomy > div,
   .companies-adjacent > div,
   .companies-next-links,

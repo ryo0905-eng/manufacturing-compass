@@ -119,6 +119,7 @@ export default function IndustryMapPage() {
 
       <nav className="companies-next-links" aria-label="半導体業界の主要な企業研究ページ">
         <Link href="/semiconductor-map"><strong>日本の半導体企業・工場マップ</strong><span>都道府県と職種から国内拠点を探す</span></Link>
+        <Link href="/guides/japan-semiconductor-factory-projects"><strong>日本の半導体工場の新設・増設一覧</strong><span>主要5案件の場所、稼働状況、今後の予定を確認する</span></Link>
         <Link href="/segments/fabless"><strong>ファブレス企業一覧</strong><span>日本・海外の設計企業と主力分野を見る</span></Link>
         <Link href="/guides/semiconductor-foundry"><strong>ファウンドリとは</strong><span>ファブレス・IDM・OSATとの違いを見る</span></Link>
         <Link href="/companies"><strong>半導体メーカー・企業一覧</strong><span>分野、地域、職種から企業を探す</span></Link>

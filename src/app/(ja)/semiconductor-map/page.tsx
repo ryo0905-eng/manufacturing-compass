@@ -77,6 +77,9 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
   const researchCount = locations.filter((location) =>
     location.locationTypes.some((type) => type === "research-development" || type === "design-center"),
   ).length;
+  const verifiedDates = [...new Set(locations.map((location) => location.lastVerifiedAt))].sort();
+  const firstVerifiedAt = verifiedDates[0]?.replaceAll("-", ".");
+  const lastVerifiedAt = verifiedDates.at(-1)?.replaceAll("-", ".");
   const params = await searchParams;
   const prefectureParam = firstValue(params.prefecture);
   const locationTypeParam = firstValue(params.type) as LocationType | undefined;
@@ -133,7 +136,7 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
           <div><dt>掲載企業</dt><dd>{companyCount}社</dd></div>
           <div><dt>国内拠点</dt><dd>{locations.length}拠点</dd></div>
           <div><dt>都道府県</dt><dd>{prefectureCount}</dd></div>
-          <div><dt>最終確認</dt><dd>2026.09.03</dd></div>
+          <div><dt>拠点の確認日</dt><dd>{firstVerifiedAt ?? "掲載なし"}{firstVerifiedAt && lastVerifiedAt !== firstVerifiedAt ? <><br />〜{lastVerifiedAt}</> : null}</dd></div>
         </dl>
       </header>
       <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>

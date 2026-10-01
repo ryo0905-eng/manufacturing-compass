@@ -8,6 +8,14 @@ import { siteUrl } from "@/lib/format";
 
 const japaneseCompanyCount = companies.filter((company) => company.headquartersCountry === "日本").length;
 const overseasCompanyCount = companies.length - japaneseCompanyCount;
+const japaneseCompaniesBySegment = segments
+  .map((segment) => ({
+    segment,
+    companies: companies.filter((company) =>
+      company.headquartersCountry === "日本" && company.industrySegments.includes(segment.id),
+    ),
+  }))
+  .filter(({ companies: groupedCompanies }) => groupedCompanies.length > 0);
 
 export const metadata: Metadata = {
   title: `半導体メーカー・企業一覧【2026年版】世界・日本の${companies.length}社`,
@@ -90,6 +98,7 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
           <div><dt>企業分類</dt><dd>{segments.length}分野</dd></div>
         </dl>
         <div className="actions">
+          <Link className="button ghost" href="#japanese-companies">日本企業を分野別に見る</Link>
           <Link className="button ghost" href="/semiconductor-map">日本の拠点から探す</Link>
           <Link className="button ghost" href="/industry-map">業界構造を地図で見る</Link>
           <Link className="button ghost" href="/segments/fabless">ファブレス企業一覧を見る</Link>
@@ -112,6 +121,28 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
           <strong>業界地図との使い分け</strong>
           <p><Link href="/industry-map">半導体業界地図</Link>は工程と企業間の関係を理解するページ、この企業一覧は条件から企業を検索・比較するページです。</p>
         </aside>
+      </section>
+
+      <section className="companies-japan" id="japanese-companies" aria-labelledby="companies-japan-title">
+        <header>
+          <p className="section-label">日本に本社がある掲載企業</p>
+          <h2 id="companies-japan-title">日本の半導体メーカー・関連企業一覧</h2>
+          <p>掲載している日本企業{japaneseCompanyCount}社を分野別にまとめました。複数の分野を担う企業は、それぞれの分野に掲載しています。</p>
+        </header>
+        <div className="companies-japan__grid">
+          {japaneseCompaniesBySegment.map(({ segment, companies: groupedCompanies }) => (
+            <section key={segment.id} aria-labelledby={`japanese-${segment.id}`}>
+              <h3 id={`japanese-${segment.id}`}>{segment.name}<span>{groupedCompanies.length}社</span></h3>
+              <ul>
+                {groupedCompanies.map((company) => (
+                  <li key={company.id}>
+                    <Link href={`/companies/${company.slug}` as Route}>{company.nameJa}</Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       </section>
 
       <section className="companies-taxonomy" aria-labelledby="companies-taxonomy-title">
