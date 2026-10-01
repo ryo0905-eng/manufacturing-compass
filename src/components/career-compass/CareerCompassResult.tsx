@@ -6,6 +6,7 @@ import { salaryMethodology } from "@/data/salary-methodology";
 import type { Company } from "@/types/content";
 import { ResultCareerRoute, type ResultCareerRouteStage } from "@/components/career-compass/ResultCareerRoute";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
+import { CareerFeedback } from "@/components/career-compass/CareerFeedback";
 import { trackCareerCompassEvent, trackEvent } from "@/lib/analytics";
 
 type ScoreModule = { label: string; value: string; score: number };
@@ -451,7 +452,10 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
     <div className="quiz-result-shell">
       <article className="career-result-experience">
         <ResultHero currentRole={props.currentRole} profile={props.profile} />
-        <TodayQuest action={props.profile.todayQuest} reason={props.profile.bottlenecks[0]} resultType={props.profile.id} />
+        <div className="career-result-action-feedback">
+          <TodayQuest action={props.profile.todayQuest} reason={props.profile.bottlenecks[0]} resultType={props.profile.id} />
+          {props.profile.todayQuest ? <CareerFeedback /> : null}
+        </div>
         <ResultReasoning profile={props.profile} />
         <ExperienceTranslation items={props.profile.semiconductorTranslation} />
         <CareerRoadmap currentRole={props.currentRole} profile={props.profile} roadmap={props.roadmap} />

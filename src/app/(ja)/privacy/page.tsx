@@ -64,6 +64,7 @@ export default function PrivacyPage() {
           </p>
           <p>
             当サイトは、氏名、メールアドレス、自由記述の内容を Google Analytics 4 へ送信しません。
+            Career Compassの簡易フィードバックでは、選んだ固定の回答・任意の理由と、設置箇所・画面版をアクセス解析へ送信します。このフィードバックのイベントに診断回答や結果タイプは含めません。
             Google Analytics による計測は、ブラウザ設定または
             <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer" target="_blank">Google Analytics オプトアウト アドオン</a>
             により無効化できます。

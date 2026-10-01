@@ -20374,6 +20374,11 @@ body {
 }
 
 /* Career Compass result: quiet, action-first presentation. */
+.career-result-action-feedback {
+  display: grid;
+  gap: 16px;
+}
+
 .career-result-experience {
   --result-page-title: 40px;
   --result-section-title: 28px;
