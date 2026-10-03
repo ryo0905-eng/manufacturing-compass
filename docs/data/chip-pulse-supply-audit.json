@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T00:32:39.213Z",
+  "generatedAt": "2026-10-03T23:48:19.739Z",
   "windowStart": "2026-09-03T00:00:00.000Z",
   "windowEnd": "2026-10-03T00:00:00.000Z",
   "status": "success",
@@ -98,22 +98,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-04",
-    "end": "2026-10-03",
+    "start": "2026-09-05",
+    "end": "2026-10-04",
     "days": [
-      {
-        "date": "2026-09-04",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-05",
         "candidates": 0,
@@ -490,19 +477,32 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-10-04",
+        "candidates": 0,
+        "deduplicated": 0,
+        "bodies": 0,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-09-27",
-        "end": "2026-10-03",
+        "start": "2026-09-28",
+        "end": "2026-10-04",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-20",
-        "end": "2026-09-26",
+        "start": "2026-09-21",
+        "end": "2026-09-27",
         "publishable": 1,
         "fields": [
           "design-manufacturing",
@@ -510,14 +510,14 @@
         ]
       },
       {
-        "start": "2026-09-13",
-        "end": "2026-09-19",
+        "start": "2026-09-14",
+        "end": "2026-09-20",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-06",
-        "end": "2026-09-12",
+        "start": "2026-09-07",
+        "end": "2026-09-13",
         "publishable": 1,
         "fields": [
           "design-manufacturing"
