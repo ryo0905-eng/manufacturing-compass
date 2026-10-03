@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-02T00:51:00.658Z",
-  "windowStart": "2026-09-02T00:00:00.000Z",
-  "windowEnd": "2026-10-02T00:00:00.000Z",
+  "generatedAt": "2026-10-03T00:32:39.213Z",
+  "windowStart": "2026-09-03T00:00:00.000Z",
+  "windowEnd": "2026-10-03T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -94,36 +94,13 @@
       "eligible": false,
       "fields": [],
       "state": "metadata"
-    },
-    {
-      "id": "sec-0001730168-26-000076",
-      "sourceId": "broadcom",
-      "publishedAt": "2026-09-02T20:26:04.000Z",
-      "datePrecision": "instant",
-      "body": true,
-      "eligible": false,
-      "fields": [],
-      "state": "metadata"
     }
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-03",
-    "end": "2026-10-02",
+    "start": "2026-09-04",
+    "end": "2026-10-03",
     "days": [
-      {
-        "date": "2026-09-03",
-        "candidates": 2,
-        "deduplicated": 2,
-        "bodies": 2,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-04",
         "candidates": 0,
@@ -500,19 +477,32 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-10-03",
+        "candidates": 0,
+        "deduplicated": 0,
+        "bodies": 0,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-09-26",
-        "end": "2026-10-02",
+        "start": "2026-09-27",
+        "end": "2026-10-03",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-19",
-        "end": "2026-09-25",
+        "start": "2026-09-20",
+        "end": "2026-09-26",
         "publishable": 1,
         "fields": [
           "design-manufacturing",
@@ -520,14 +510,14 @@
         ]
       },
       {
-        "start": "2026-09-12",
-        "end": "2026-09-18",
+        "start": "2026-09-13",
+        "end": "2026-09-19",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-05",
-        "end": "2026-09-11",
+        "start": "2026-09-06",
+        "end": "2026-09-12",
         "publishable": 1,
         "fields": [
           "design-manufacturing"
