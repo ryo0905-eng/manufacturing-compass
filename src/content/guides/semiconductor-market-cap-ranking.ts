@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-10-01",
+  updatedAt: "2026-10-03",
   sources: [
     {
       title: "日経業界地図 2027年版（紹介書籍の書誌情報）",
@@ -231,16 +231,12 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
               href: "https://www.amazon.co.jp/dp/4296127284",
               description: "日本経済新聞社 編／日本経済新聞出版。2027年版には、半導体の製造工程や材料・製造装置企業を紹介する特集もあります。",
             },
-            {
-              label: "『「会社四季報」業界地図 2027年版』をAmazonで見る",
-              href: "https://www.amazon.co.jp/dp/4492973362",
-              description: "東洋経済新報社。企業同士の関係や業界の動向を、地図の形で調べられる一冊です。",
-            },
           ],
         },
+        { type: "moshimo-book-link", product: "shikiho-industry-map-2027" },
       ],
       paragraphs: [
-        "上の2つは通常の商品リンクです。アフィリエイトリンクではありません。",
+        "『日経業界地図 2027年版』へのリンクは通常の商品リンクです。『「会社四季報」業界地図 2027年版』の購入先は広告・アフィリエイトリンクです。",
       ],
     },
     {
