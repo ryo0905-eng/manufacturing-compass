@@ -42,3 +42,54 @@ export const shikihoIndustryMap2027 = {
     s: "s",
   },
 } as const;
+
+export const nikkeiIndustryMap2027 = {
+  id: "dOnE9",
+  productId: "nikkei-industry-map-2027",
+  title: "『日経業界地図 2027年版』",
+  card: {
+    n: "日経業界地図 2027年版 [ 日本経済新聞社 ]",
+    b: "",
+    t: "",
+    d: "https://thumbnail.image.rakuten.co.jp",
+    c_p: "",
+    p: ["/@0_mall/book/cabinet/7283/9784296127283_1_4.jpg"],
+    u: { u: "https://item.rakuten.co.jp/book/18711661/", t: "rakuten", r_v: "" },
+    v: "2.1",
+    b_l: [
+      {
+        id: 1,
+        u_tx: "楽天市場で見る",
+        u_bc: "#f76956",
+        u_url: "https://item.rakuten.co.jp/book/18711661/",
+        a_id: 5801384,
+        p_id: 54,
+        pl_id: 27059,
+        pc_id: 54,
+        s_n: "rakuten",
+        u_so: 1,
+      },
+      {
+        id: 2,
+        u_tx: "Amazonで見る",
+        u_bc: "#f79256",
+        u_url: "https://www.amazon.co.jp/s/ref=nb_sb_noss_1?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&url=search-alias%3Daps&field-keywords=%E6%97%A5%E7%B5%8C%E6%A5%AD%E7%95%8C%E5%9C%B0%E5%9B%B3%202027%E5%B9%B4%E7%89%88%20%5B%20%E6%97%A5%E6%9C%AC%E7%B5%8C%E6%B8%88%E6%96%B0%E8%81%9E%E7%A4%BE%20%5D",
+        a_id: 5801388,
+        p_id: 170,
+        pl_id: 27060,
+        pc_id: 185,
+        s_n: "amazon",
+        u_so: 2,
+      },
+    ],
+    eid: "dOnE9",
+    s: "s",
+  },
+} as const;
+
+export const moshimoBookAffiliates = {
+  "nikkei-industry-map-2027": nikkeiIndustryMap2027,
+  "shikiho-industry-map-2027": shikihoIndustryMap2027,
+} as const;
+
+export type MoshimoBookProduct = keyof typeof moshimoBookAffiliates;

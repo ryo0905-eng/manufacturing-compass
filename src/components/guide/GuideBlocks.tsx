@@ -31,7 +31,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
     <div className="guide-blocks">
       {blocks.map((block, index) => {
         if (block.type === "factory-project-comparison") return <FactoryProjectComparison key={`factory-project-comparison-${index}`} />;
-        if (block.type === "moshimo-book-link") return <MoshimoBookLink key={`moshimo-book-link-${block.product}`} />;
+        if (block.type === "moshimo-book-link") return <MoshimoBookLink key={`moshimo-book-link-${block.product}`} product={block.product} />;
         if (block.type === "ranking-history") return <RankingHistoryArticle key={`ranking-history-${index}`} kind={block.kind} sourceSlug={sourceSlug ?? ""} />;
         if (block.type === "image") {
           return (

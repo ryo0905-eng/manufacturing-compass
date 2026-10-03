@@ -283,7 +283,7 @@ export type GuideBlock =
       type: "links";
       items: Array<{ label: string; href: string; description: string }>;
     }
-  | { type: "moshimo-book-link"; product: "shikiho-industry-map-2027" };
+  | { type: "moshimo-book-link"; product: "nikkei-industry-map-2027" | "shikiho-industry-map-2027" };
 
 export type GuideSection = {
   id?: string;

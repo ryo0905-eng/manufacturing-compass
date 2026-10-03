@@ -1,21 +1,23 @@
 "use client";
 
 import { useEffect, useRef, type MouseEvent } from "react";
-import { shikihoIndustryMap2027 } from "@/data/book-affiliates";
+import { moshimoBookAffiliates, type MoshimoBookProduct } from "@/data/book-affiliates";
 import { trackEvent } from "@/lib/analytics";
 
-const book = shikihoIndustryMap2027;
-const embedScript = `
+function makeEmbedScript(card: object) {
+  return `
 (function(b,c,f,g,a,d,e){b.MoshimoAffiliateObject=a;
 b[a]=b[a]||function(){arguments.currentScript=c.currentScript
 ||c.scripts[c.scripts.length-2];(b[a].q=b[a].q||[]).push(arguments)};
 c.getElementById(a)||(d=c.createElement(f),d.src=g,
 d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
 (window,document,"script","https://dn.msmstatic.com/site/cardlink/bundle.js?20220329","msmaflink");
-msmaflink(${JSON.stringify(book.card)});
+msmaflink(${JSON.stringify(card)});
 `;
+}
 
-export function MoshimoBookLink() {
+export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {
+  const book = moshimoBookAffiliates[product];
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,12 +40,12 @@ export function MoshimoBookLink() {
     if (!wrapper.dataset.moshimoInitialized) {
       wrapper.dataset.moshimoInitialized = "true";
       const script = document.createElement("script");
-      script.textContent = embedScript;
+      script.textContent = makeEmbedScript(book.card);
       document.body.appendChild(script);
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [book]);
 
   function handleClick(event: MouseEvent<HTMLDivElement>) {
     const target = event.target;
