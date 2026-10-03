@@ -20,7 +20,7 @@ export const memoryManufacturerRankingGuide: GuideArticle = {
     "NANDの対象が上場主要5社であることを明記し、未掲載企業の順位やシェアは推測しない",
   ],
   publishedAt: "2026-09-18",
-  updatedAt: "2026-09-20",
+  updatedAt: "2026-10-03",
   sources: [
     ...memoryMarketIds.map((id) => ({ title: memoryMarkets[id].source.title, url: memoryMarkets[id].source.url, publisher: "TrendForce", accessedAt: memoryRankingMeta.checkedAt })),
     { title: "What is an SSD?", url: "https://www.micron.com/about/micron-glossary/solid-state-drives", publisher: "Micron", accessedAt: "2026-09-18" },
@@ -74,6 +74,7 @@ export const memoryManufacturerRankingGuide: GuideArticle = {
         "例えばMicronとキオクシアを調べる場合、まずどのメモリ市場の話かを確認すると、企業情報を読み分けやすくなります。売上順位は業界を把握する入口として使い、仕事内容や募集条件は個別に確認してください。",
       ],
       blocks: [{ type: "links", items: [
+        { label: "4社の決算・IRを読む", href: "/semiconductor-watch/earnings", description: "キオクシア、Micron、SK hynix、Samsungの業績と会社見通しを原資料で確認する" },
         { label: "Micronの企業情報", href: "/companies/micron", description: "製品・事業とキャリア準備の情報を確認する" },
         { label: "キオクシアの企業情報", href: "/companies/kioxia", description: "フラッシュメモリ事業とキャリア準備の情報を確認する" },
         { label: "半導体業界地図", href: "/industry-map", description: "メモリ・装置・材料の企業の関係を見る" },

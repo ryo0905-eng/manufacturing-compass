@@ -8,9 +8,12 @@ const original = require('../../src/data/earnings-snapshot.json');
 
 function copy(value) { return JSON.parse(JSON.stringify(value)); }
 
-test('the five published releases have traceable metrics and common themes', () => {
-  assert.equal(original.releases.length, 5);
+test('equipment and memory releases have traceable metrics and common themes', () => {
+  assert.equal(original.releases.length, 9);
   assert.deepEqual(validateSnapshot(original), []);
+  assert.equal(original.releases.filter((release) => release.segment === 'memory').length, 4);
+  assert.equal(original.releases.find((release) => release.companyId === 'samsung-electronics').financialScope.startsWith('DS部門'), true);
+  assert.equal(original.releases.find((release) => release.companyId === 'samsung-electronics').metrics.revenueYoY.status, 'unretrieved');
   assert.equal(original.releases.find((release) => release.companyId === 'kla').metrics.operatingIncome.status, 'unretrieved');
   assert.equal(original.releases.find((release) => release.companyId === 'tokyo-electron').period.kind, 'quarter');
 });
@@ -53,7 +56,7 @@ test('corrected release needs a new version and a valid update archives the old 
   assert.throws(() => publishSnapshot({ candidatePath, destinationPath, historyDir }), /higher version/);
   candidate.releases[0].version += 1;
   fs.writeFileSync(candidatePath, JSON.stringify(candidate));
-  assert.equal(publishSnapshot({ candidatePath, destinationPath, historyDir }), 5);
+  assert.equal(publishSnapshot({ candidatePath, destinationPath, historyDir }), 9);
   assert.equal(JSON.parse(fs.readFileSync(destinationPath, 'utf8')).releases[0].version, candidate.releases[0].version);
   assert.equal(fs.readdirSync(historyDir).length, 1);
 });

@@ -14,8 +14,13 @@ test("決算一覧・根拠・比較をPCとスマートフォンで読める", 
     await expect(page.getByText("1社の決算を表示中")).toBeVisible();
     await expect(page.getByText("未取得", { exact: true }).first()).toBeVisible();
     await page.getByLabel("企業", { exact: true }).selectOption("all");
+    await page.getByLabel("事業領域", { exact: true }).selectOption("memory");
+    await expect(page.getByText("4社の決算を表示中")).toBeVisible();
+    await page.getByLabel("企業", { exact: true }).selectOption("samsung-electronics");
+    await expect(page.getByText("DS部門（半導体。メモリ専業ではない）")).toBeVisible();
+    await page.getByLabel("事業領域", { exact: true }).selectOption("all");
     await page.getByLabel("テーマ", { exact: true }).selectOption("HBM");
-    await expect(page.getByText("1社の決算を表示中")).toBeVisible();
+    await expect(page.getByText("3社の決算を表示中")).toBeVisible();
     await page.goto("/semiconductor-watch/earnings/tokyo-electron");
     await expect(page.getByRole("heading", { name: "主要数値" })).toBeVisible();
     await expect(page.getByText("上方修正", { exact: false })).toBeVisible();
@@ -26,6 +31,11 @@ test("決算一覧・根拠・比較をPCとスマートフォンで読める", 
     await page.getByRole("button", { name: "選んだ企業を比較する" }).click();
     await expect(page.getByText("3社の最新発表を表示しています。")).toBeVisible();
     await expect(page.locator("article").filter({ hasText: "KLA" })).toContainText("未取得");
+    await page.getByRole("button", { name: "メモリ関連" }).click();
+    await expect(page.locator("article").filter({ hasText: "キオクシア" })).toBeVisible();
+    await page.getByLabel("サムスン電子", { exact: true }).check();
+    await page.getByRole("button", { name: "選んだ企業を比較する" }).click();
+    await expect(page.locator("article").filter({ hasText: "サムスン電子" })).toContainText("DS部門");
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
   expect(errors).toEqual([]);

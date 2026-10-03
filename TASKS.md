@@ -1,5 +1,10 @@
 # TASKS
 
+## 2026-10-03：決算・IRにメモリ関連4社を追加
+
+- 既存企業IDと公式決算資料を照合し、キオクシア、Micron、SK hynix、サムスン電子の各社最新発表を静的スナップショットへ追加。製造装置／メモリ関連の絞り込み・2〜3社比較を分け、SamsungのDS部門数値と韓国企業の十億ウォン単位を明示。メモリメーカー記事から決算への導線を追加。
+- `npm run earnings:check`、`node --test tests/unit/earnings.cjs`（4件）、`npm run typecheck`、変更ファイル限定lint、`git diff --check` を確認。ブラウザ実画面と本番計測は未確認。build・commit・pushは未実施。推奨コミット：`feat: add memory makers to earnings watch`。
+
 最終整理日: 2026-10-03
 
 ## 2026-10-03：業界ウォッチに装置メーカー5社の決算・IRを追加

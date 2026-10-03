@@ -64,6 +64,9 @@
 .nextStep a { white-space:nowrap; font-weight:650; }
 .related { display:flex; flex-wrap:wrap; gap:20px; padding:24px 0; margin-top:42px; border-top:1px solid #343d44; color:#b8c6cd; font-size:13px; }
 .notice { border-left:3px solid #77dfec; background:#182126; padding:16px 20px; line-height:1.8; color:#c9d3d9; font-size:14px; margin-bottom:24px; }
+.compareGroups { display:flex; flex-wrap:wrap; gap:8px; }
+.compareGroups button { min-height:44px; padding:9px 16px; border:1px solid #53616a; border-radius:7px; color:#d1d9df; background:#1b2429; font:inherit; cursor:pointer; }
+.compareGroups button[aria-pressed="true"] { border-color:#77dfec; color:#77dfec; background:#17383e; }
 .selector { display:flex; flex-wrap:wrap; gap:8px; margin:22px 0; }
 .choice { display:flex; align-items:center; gap:8px; border:1px solid #53616a; padding:10px 13px; border-radius:7px; cursor:pointer; font-size:14px; }
 .choice:has(input:checked) { background:#17383e; border-color:#77dfec; }

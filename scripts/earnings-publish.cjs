@@ -21,9 +21,10 @@ function validateSnapshot(data) {
     const prefix = release.companyId;
     if (ids.has(release.id) || companies.has(prefix)) errors.push(`${prefix}: duplicate id or companyId`);
     ids.add(release.id); companies.add(prefix); releaseByCompany.set(prefix, release);
+    if (!['equipment', 'memory'].includes(release.segment) || (release.financialScope !== undefined && (typeof release.financialScope !== 'string' || !release.financialScope))) errors.push(`${prefix}: segment or financial scope is invalid`);
     if (!isDate(release.announcedAt) || !isDate(release.checkedAt) || release.checkedAt < release.announcedAt || release.checkedAt > data.updatedAt || !Number.isInteger(release.version) || release.version < 1) errors.push(`${prefix}: dates/version are invalid`);
     if (!isObject(release.period) || !['quarter', 'cumulative', 'full-year'].includes(release.period.kind) || !isDate(release.period.end) || (release.period.start !== null && !isDate(release.period.start)) || (release.period.start && release.period.start > release.period.end) || typeof release.period.label !== 'string') errors.push(`${prefix}: period is invalid`);
-    if (!['USD', 'EUR', 'JPY'].includes(release.currency) || release.unit !== 'million' || typeof release.accountingStandard !== 'string') errors.push(`${prefix}: currency, unit or accounting standard is invalid`);
+    if (!['USD', 'EUR', 'JPY', 'KRW'].includes(release.currency) || !['million', 'billion'].includes(release.unit) || (release.unit === 'billion' && release.currency !== 'KRW') || typeof release.accountingStandard !== 'string') errors.push(`${prefix}: currency, unit or accounting standard is invalid`);
     if (!Array.isArray(release.documents) || release.documents.length === 0) { errors.push(`${prefix}: documents are missing`); continue; }
     const documentIds = new Set();
     for (const document of release.documents) {
@@ -100,12 +101,12 @@ function publishSnapshot({ candidatePath, destinationPath = publicPath, historyD
 
 function printCandidates(snapshot) {
   const updates = JSON.parse(fs.readFileSync(path.join(root, 'src/data/chip-pulse-official-updates.json'), 'utf8')).updates;
-  const watched = new Set(['asml', 'applied-materials', 'lam-research', 'kla']);
+  const watched = new Set(['asml', 'applied-materials', 'lam-research', 'kla', 'micron']);
   const released = new Map(snapshot.releases.map((release) => [release.companyId, release.announcedAt]));
   const candidates = updates.filter((update) => watched.has(update.companyId) && update.publishedAt.slice(0, 10) > (released.get(update.companyId) ?? ''));
   console.log(`Newer SEC filing metadata candidates: ${candidates.length}`);
   for (const update of candidates) console.log(`${update.companyId} ${update.publishedAt.slice(0, 10)} ${update.label} ${update.sourceUrl}`);
-  console.log('Tokyo Electron: check the official IR calendar manually. SEC metadata is discovery only; earnings facts still need source review.');
+  console.log('Tokyo Electron, Kioxia, SK hynix and Samsung: check official IR manually. SEC metadata is discovery only; earnings facts still need source review.');
 }
 
 if (require.main === module) {

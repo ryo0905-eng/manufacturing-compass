@@ -10,7 +10,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ## 技術構成
 
-決算・IRは `src/data/earnings-snapshot.json` の5社の公式資料照合済みスナップショットを `src/lib/earnings.ts` から読む。`/semiconductor-watch/earnings` と企業別詳細はServer Componentを基本とし、絞り込み・2〜3社の選択のみClient Componentで行う。資料・数値・要点は出典IDと箇所を保持する。`scripts/earnings-publish.cjs` が候補を検証し、前回版を非公開アーカイブへ保存してから原子的に公開版を更新する。SECの既存提出メタデータは候補発見のみで、数値抽出や要約は手動確認する。詳細は `docs/earnings-ir-operations.md`。
+決算・IRは `src/data/earnings-snapshot.json` の装置5社・メモリ関連4社の公式資料照合済みスナップショットを `src/lib/earnings.ts` から読む。`/semiconductor-watch/earnings` と企業別詳細はServer Componentを基本とし、絞り込み・事業領域別の2〜3社選択のみClient Componentで行う。資料・数値・要点は出典IDと箇所を保持する。`scripts/earnings-publish.cjs` が候補を検証し、前回版を非公開アーカイブへ保存してから原子的に公開版を更新する。SECの既存提出メタデータは候補発見のみで、数値抽出や要約は手動確認する。詳細は `docs/earnings-ir-operations.md`。
 
 Chip Pulse朝刊への移行：公開記事・版・状態は静的JSON、処理済みハッシュと費用予約はGit管理の運用台帳で永続化する。ActionsだけがVercel AI Gateway経由で公開提出資料を処理し、ページは保存結果のみを読む。記事詳細はServer Component、一覧の分野選択だけClient Componentとする。仕様・運用境界は `docs/chip-pulse-media.md`。下記Chip Pulseの従来構成は互換用データと旧部品として保持する。
 

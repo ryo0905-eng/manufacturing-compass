@@ -5,6 +5,7 @@
     {
       "id": "asml-2026-q2",
       "companyId": "asml",
+      "segment": "equipment",
       "business": "露光装置・保守とアップグレード",
       "announcedAt": "2026-07-15",
       "checkedAt": "2026-10-03",
@@ -49,6 +50,7 @@
     {
       "id": "applied-materials-2026-q3",
       "companyId": "applied-materials",
+      "segment": "equipment",
       "business": "成膜・エッチング・材料工学・先端実装",
       "announcedAt": "2026-08-13",
       "checkedAt": "2026-10-03",
@@ -92,6 +94,7 @@
     {
       "id": "lam-research-2026-june",
       "companyId": "lam-research",
+      "segment": "equipment",
       "business": "成膜・エッチング・洗浄と顧客サポート",
       "announcedAt": "2026-07-29",
       "checkedAt": "2026-10-03",
@@ -135,6 +138,7 @@
     {
       "id": "kla-2026-q4",
       "companyId": "kla",
+      "segment": "equipment",
       "business": "工程管理・検査・計測",
       "announcedAt": "2026-07-28",
       "checkedAt": "2026-10-03",
@@ -177,6 +181,7 @@
     {
       "id": "tokyo-electron-2027-q1",
       "companyId": "tokyo-electron",
+      "segment": "equipment",
       "business": "半導体製造装置・成膜・エッチング・洗浄",
       "announcedAt": "2026-07-30",
       "checkedAt": "2026-10-03",
@@ -216,6 +221,540 @@
       "themes": ["AI", "設備投資"],
       "editorialNote": "上期予想の改定と、まだ公表していない通期予想を混同しない。",
       "unverified": ["半導体製造装置事業の製品別売上は非開示。", "2027年3月期の通期予想はこの資料では未公表。"]
+    },
+    {
+      "id": "micron-2026-q4",
+      "companyId": "micron",
+      "segment": "memory",
+      "business": "DRAM・NAND・ストレージ",
+      "announcedAt": "2026-09-30",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": {
+        "label": "2026年度第4四半期",
+        "kind": "quarter",
+        "start": null,
+        "end": "2026-09-03"
+      },
+      "currency": "USD",
+      "unit": "million",
+      "accountingStandard": "US GAAP",
+      "documents": [
+        {
+          "id": "release",
+          "title": "Fiscal Fourth-Quarter and Full-Year 2026 Results",
+          "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+          "kind": "html"
+        }
+      ],
+      "metrics": {
+        "revenue": {
+          "status": "reported",
+          "value": 54229,
+          "source": {
+            "documentId": "release",
+            "locator": "Quarterly Financial Results / FQ4-26 Revenue"
+          }
+        },
+        "operatingIncome": {
+          "status": "reported",
+          "value": 43751,
+          "source": {
+            "documentId": "release",
+            "locator": "Quarterly Financial Results / FQ4-26 GAAP Operating income"
+          }
+        },
+        "revenueYoY": {
+          "status": "reported",
+          "value": 379.3,
+          "calculation": "(54,229 - 11,315) ÷ 11,315 × 100、小数第1位に丸め",
+          "source": {
+            "documentId": "release",
+            "locator": "Quarterly Financial Results / FQ4-26・FQ4-25 Revenue"
+          }
+        }
+      },
+      "highlights": [
+        {
+          "text": "売上高は前年同期の113.15億米ドルから542.29億米ドルへ増加。GAAP営業利益は437.51億米ドル。",
+          "source": {
+            "documentId": "release",
+            "locator": "Quarterly Financial Results / GAAP"
+          }
+        },
+        {
+          "text": "クラウドメモリとデータセンター向けの両事業部で、前四半期から売上高が増えた。",
+          "source": {
+            "documentId": "release",
+            "locator": "Quarterly Business Unit Financial Results"
+          }
+        },
+        {
+          "text": "会社は2027年度第1四半期の売上高を615億米ドル±15億米ドルと予想。",
+          "source": {
+            "documentId": "release",
+            "locator": "Business Outlook / FQ1-27 Revenue"
+          }
+        }
+      ],
+      "growth": [
+        {
+          "text": "クラウドメモリ事業の売上高は前四半期の137.69億米ドルから162.83億米ドル、コア・データセンター事業は115.24億米ドルから180.02億米ドルへ増えた。",
+          "source": {
+            "documentId": "release",
+            "locator": "Quarterly Business Unit Financial Results"
+          }
+        }
+      ],
+      "weakness": [
+        {
+          "text": "開示された4事業部の売上高は、いずれも前四半期を上回った。製品別の弱さはこの発表から特定しない。",
+          "source": {
+            "documentId": "release",
+            "locator": "Quarterly Business Unit Financial Results"
+          }
+        }
+      ],
+      "concerns": [
+        {
+          "text": "会社は次四半期の見通しについて顧客需要や投資計画などの不確実性を示している。見通しは実績ではない。",
+          "source": {
+            "documentId": "release",
+            "locator": "Forward-Looking Statements"
+          }
+        }
+      ],
+      "outlook": [
+        {
+          "text": "2027年度第1四半期の売上高予想は615億米ドル±15億米ドル。これは単四半期の会社予想。",
+          "source": {
+            "documentId": "release",
+            "locator": "Business Outlook / FQ1-27"
+          }
+        }
+      ],
+      "change": {
+        "text": "売上高は前四半期の414.56億米ドルから542.29億米ドルへ増えた。",
+        "source": {
+          "documentId": "release",
+          "locator": "Quarterly Financial Results / FQ4-26・FQ3-26 Revenue"
+        },
+        "basis": "2026年度第3四半期"
+      },
+      "forecastRevision": {
+        "status": "unverified",
+        "target": "2027年度第1四半期",
+        "text": "比較可能な前回予想を確認していないため、改定方向は判定しない。"
+      },
+      "themes": [
+        "AI",
+        "データセンター",
+        "設備投資"
+      ],
+      "editorialNote": "メモリメーカーの連結実績と、装置メーカーの設備投資需要を同じ売上分類として扱わない。",
+      "unverified": [
+        "この発表本文ではHBM単独の売上高を確認できない。"
+      ]
+    },
+    {
+      "id": "kioxia-2027-q1",
+      "companyId": "kioxia",
+      "segment": "memory",
+      "business": "NANDフラッシュ・SSD",
+      "announcedAt": "2026-07-31",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": {
+        "label": "2027年3月期第1四半期",
+        "kind": "quarter",
+        "start": "2026-04-01",
+        "end": "2026-06-30"
+      },
+      "currency": "JPY",
+      "unit": "million",
+      "accountingStandard": "IFRS",
+      "documents": [
+        {
+          "id": "tanshin",
+          "title": "2027年3月期 第1四半期決算短信",
+          "url": "https://ssl4.eir-parts.net/doc/285A/tdnet/2859905/00.pdf",
+          "kind": "pdf"
+        }
+      ],
+      "metrics": {
+        "revenue": {
+          "status": "reported",
+          "value": 1767117,
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.1 / 連結経営成績・売上収益"
+          }
+        },
+        "operatingIncome": {
+          "status": "reported",
+          "value": 1270017,
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.1 / IFRS営業利益（Non-GAAP営業利益とは別）"
+          }
+        },
+        "revenueYoY": {
+          "status": "reported",
+          "value": 415.5,
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.1 / 連結経営成績・売上収益前年同期比"
+          }
+        }
+      },
+      "highlights": [
+        {
+          "text": "売上収益は前年同期比415.5%増の1兆7,671億円。IFRS営業利益は1兆2,700億円。",
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.1 / 連結経営成績"
+          }
+        },
+        {
+          "text": "SSD・ストレージ向け売上が前四半期の6,003億円から1兆1,747億円に増えた。",
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.5 / 前四半期比較表"
+          }
+        },
+        {
+          "text": "会社はデータセンター向け需要の継続を見込み、次の単四半期も増収増益を予想。",
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.8 / 第2四半期の見通し"
+          }
+        }
+      ],
+      "growth": [
+        {
+          "text": "会社は生成AI向けデータセンター需要による販売単価の上昇、出荷量の増加、為替改善を増収要因として挙げた。",
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.6 / 経営成績の説明"
+          }
+        }
+      ],
+      "weakness": [
+        {
+          "text": "スマートフォン・PC向け需要は堅調と説明される。用途別に弱い分野は資料から特定できない。",
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.4 / 市場環境、p.5 / 用途別売上"
+          }
+        }
+      ],
+      "concerns": [
+        {
+          "text": "営業利益には訴訟損失引当金と株式報酬費用が減少要因として含まれる。調整後のNon-GAAP営業利益とは区別する。",
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.5 / 利益の調整項目と説明"
+          }
+        }
+      ],
+      "outlook": [
+        {
+          "text": "2027年3月期第2四半期の単四半期売上収益を2兆3,900億円、IFRS営業利益を1兆8,900億円と予想。",
+          "source": {
+            "documentId": "tanshin",
+            "locator": "p.8 / 第2四半期の見通し"
+          }
+        }
+      ],
+      "change": {
+        "text": "売上収益は前四半期の1兆29億円から1兆7,671億円へ増加。",
+        "source": {
+          "documentId": "tanshin",
+          "locator": "p.5 / 前四半期比較表"
+        },
+        "basis": "2026年1〜3月の単四半期"
+      },
+      "forecastRevision": {
+        "status": "unverified",
+        "target": "2027年3月期第2四半期",
+        "text": "比較可能な前回予想を確認していないため、改定方向は判定しない。"
+      },
+      "themes": [
+        "AI",
+        "データセンター",
+        "NAND"
+      ],
+      "editorialNote": "キオクシアの用途別伸びはSSD・ストレージに大きい。HBMメーカーの増収要因と同一視しない。",
+      "unverified": [
+        "通期予想の改定方向は確認していない。"
+      ]
+    },
+    {
+      "id": "sk-hynix-2026-q2",
+      "companyId": "sk-hynix",
+      "segment": "memory",
+      "business": "DRAM・HBM・NAND",
+      "announcedAt": "2026-07-29",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": {
+        "label": "2026年第2四半期（発表時点の暫定値）",
+        "kind": "quarter",
+        "start": "2026-04-01",
+        "end": "2026-06-30"
+      },
+      "currency": "KRW",
+      "unit": "billion",
+      "accountingStandard": "K-IFRS",
+      "documents": [
+        {
+          "id": "release",
+          "title": "2Q26 Financial Results",
+          "url": "https://news.skhynix.com/en/q2-2026-business-results/",
+          "kind": "html"
+        }
+      ],
+      "metrics": {
+        "revenue": {
+          "status": "reported",
+          "value": 79318.7,
+          "source": {
+            "documentId": "release",
+            "locator": "2Q26 Financial Results / Revenue、十億ウォン"
+          }
+        },
+        "operatingIncome": {
+          "status": "reported",
+          "value": 60542.6,
+          "source": {
+            "documentId": "release",
+            "locator": "2Q26 Financial Results / Operating Profit、十億ウォン"
+          }
+        },
+        "revenueYoY": {
+          "status": "reported",
+          "value": 257,
+          "source": {
+            "documentId": "release",
+            "locator": "2Q26 Financial Results / Revenue YoY"
+          }
+        }
+      },
+      "highlights": [
+        {
+          "text": "売上高は79.3187兆ウォンで前年同期比257%増、営業利益は60.5426兆ウォン。",
+          "source": {
+            "documentId": "release",
+            "locator": "2Q26 Financial Results / K-IFRS"
+          }
+        },
+        {
+          "text": "会社はAIサーバー向け高付加価値メモリとDRAM・NAND価格上昇を業績要因として説明した。",
+          "source": {
+            "documentId": "release",
+            "locator": "業績要因の説明"
+          }
+        },
+        {
+          "text": "HBM4の量産出荷を第2四半期に始め、下半期に生産を増やす計画。",
+          "source": {
+            "documentId": "release",
+            "locator": "HBM4の出荷・生産計画"
+          }
+        }
+      ],
+      "growth": [
+        {
+          "text": "HBM、AIサーバー向けDRAM、eSSDを中心とする販売構成と、DRAM・NANDの価格上昇を会社が挙げた。",
+          "source": {
+            "documentId": "release",
+            "locator": "業績要因の説明"
+          }
+        }
+      ],
+      "weakness": [
+        {
+          "text": "DRAM・NANDはいずれも価格が前四半期から上昇。製品別の売上額や弱い事業はこの発表では示されない。",
+          "source": {
+            "documentId": "release",
+            "locator": "業績要因、2Q26 Financial Results"
+          }
+        }
+      ],
+      "concerns": [
+        {
+          "text": "需要に対して供給能力が制約になると説明。設備投資は顧客需要と投資効率を見ながら段階的に進める方針。",
+          "source": {
+            "documentId": "release",
+            "locator": "供給能力と設備投資の説明"
+          }
+        }
+      ],
+      "outlook": [
+        {
+          "text": "HBM4を下半期に増産し、NANDの321層品の構成比も高める計画。業績の定量予想はこの発表では確認できない。",
+          "source": {
+            "documentId": "release",
+            "locator": "HBM4・NAND・設備投資の見通し"
+          }
+        }
+      ],
+      "change": {
+        "text": "売上高は前四半期の52.5763兆ウォンから79.3187兆ウォンに増加。",
+        "source": {
+          "documentId": "release",
+          "locator": "2Q26 Financial Results / 2Q26・1Q26"
+        },
+        "basis": "2026年第1四半期"
+      },
+      "forecastRevision": {
+        "status": "unpublished",
+        "target": "通期売上高予想",
+        "text": "今回確認した発表では定量予想を確認できない。"
+      },
+      "themes": [
+        "AI",
+        "HBM",
+        "NAND",
+        "データセンター",
+        "設備投資"
+      ],
+      "editorialNote": "HBMとNANDの両方に言及するが、製品別の利益額は開示されていない。",
+      "unverified": [
+        "発表時点では四半期数値は暫定値で、レビュー完了前。",
+        "製品別の売上高・利益額と通期定量予想は未取得。"
+      ]
+    },
+    {
+      "id": "samsung-electronics-2026-q2",
+      "companyId": "samsung-electronics",
+      "segment": "memory",
+      "business": "半導体DS部門（メモリ・System LSI・ファウンドリ）",
+      "announcedAt": "2026-07-30",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": {
+        "label": "2026年第2四半期",
+        "kind": "quarter",
+        "start": "2026-04-01",
+        "end": "2026-06-30"
+      },
+      "currency": "KRW",
+      "unit": "billion",
+      "accountingStandard": "K-IFRS",
+      "documents": [
+        {
+          "id": "release",
+          "title": "Second Quarter 2026 Results",
+          "url": "https://news.samsung.com/global/samsung-electronics-announces-second-quarter-2026-results",
+          "kind": "html"
+        }
+      ],
+      "financialScope": "DS部門（半導体。メモリ専業ではない）",
+      "metrics": {
+        "revenue": {
+          "status": "reported",
+          "value": 127500,
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / consolidated revenue、127.5兆ウォン"
+          }
+        },
+        "operatingIncome": {
+          "status": "reported",
+          "value": 89200,
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / operating profit、89.2兆ウォン"
+          }
+        },
+        "revenueYoY": {
+          "status": "unretrieved",
+          "reason": "DS部門の前年同期比は今回確認した発表から確定できない"
+        }
+      },
+      "highlights": [
+        {
+          "text": "半導体を含むDS部門の売上高は127.5兆ウォン、営業利益は89.2兆ウォン。メモリ単独の数値ではない。",
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / revenue and operating profit"
+          }
+        },
+        {
+          "text": "メモリ事業はサーバー向け需要と価格上昇を背景に四半期の売上・営業利益が過去最高と説明。",
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / Memory Business"
+          }
+        },
+        {
+          "text": "会社はHBM4販売拡大とHBM4E試作品出荷を報告した。",
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / Memory Business、HBM4・HBM4E"
+          }
+        }
+      ],
+      "growth": [
+        {
+          "text": "会社はAIサーバー向け需要、高付加価値製品、メモリ価格の上昇をメモリ事業の成長要因として挙げた。",
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / Memory Business"
+          }
+        }
+      ],
+      "weakness": [
+        {
+          "text": "DS内のSystem LSIは中国のモバイル需要の弱さに言及。DS全体の数値からメモリ単独の弱さは特定できない。",
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / System LSI Business"
+          }
+        }
+      ],
+      "concerns": [
+        {
+          "text": "会社はモバイル・PC需要の一部鈍化と、増産努力後も供給制約が続く見通しを示した。",
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / Memory Business outlook"
+          }
+        }
+      ],
+      "outlook": [
+        {
+          "text": "2026年下半期はサーバー向けDRAM、eSSD、HBM需要が伸びると会社は予想。これは会社の見通しであり実績ではない。",
+          "source": {
+            "documentId": "release",
+            "locator": "DS Division / Memory Business outlook"
+          }
+        }
+      ],
+      "change": {
+        "text": "DS部門の売上高は前四半期比56%増と会社が報告。",
+        "source": {
+          "documentId": "release",
+          "locator": "冒頭 / DS Division QoQ sales"
+        },
+        "basis": "2026年第1四半期・DS部門"
+      },
+      "forecastRevision": {
+        "status": "unpublished",
+        "target": "DS部門の通期売上高予想",
+        "text": "今回確認した発表では定量予想を確認できない。"
+      },
+      "themes": [
+        "AI",
+        "HBM",
+        "データセンター"
+      ],
+      "editorialNote": "Samsungの主要数値はDS部門で、スマートフォン等を含む全社連結でもメモリ事業単独でもない。",
+      "unverified": [
+        "メモリ事業単独の売上高・営業利益はこの発表では未取得。",
+        "DS部門売上高の前年同期比は未取得。"
+      ]
     }
   ],
   "commonThemes": [
@@ -230,6 +769,28 @@
         { "companyId": "lam-research", "source": { "documentId": "release", "locator": "CEO comment" } },
         { "companyId": "kla", "source": { "documentId": "release", "locator": "CEO comment" } },
         { "companyId": "tokyo-electron", "source": { "documentId": "tanshin", "locator": "p.3 / 経営成績の概況" } }
+      ]
+    },
+    {
+      "id": "memory-ai-demand",
+      "title": "AI向けサーバー需要がメモリ各社の説明に登場",
+      "summary": "キオクシアはSSD向けの販売単価、SK hynixとSamsungはDRAM・HBMなど、Micronはデータセンター向け事業を中心に説明する。同じ製品の売上を示すものではない。",
+      "theme": "AI",
+      "evidence": [
+        { "companyId": "kioxia", "source": { "documentId": "tanshin", "locator": "p.6 / データセンター向け需要と増収要因" } },
+        { "companyId": "micron", "source": { "documentId": "release", "locator": "Quarterly Business Unit Financial Results、CEO comment" } },
+        { "companyId": "sk-hynix", "source": { "documentId": "release", "locator": "業績要因の説明" } },
+        { "companyId": "samsung-electronics", "source": { "documentId": "release", "locator": "DS Division / Memory Business" } }
+      ]
+    },
+    {
+      "id": "hbm-supply",
+      "title": "HBMの増産と供給制約を注視",
+      "summary": "SK hynixとSamsungがHBM4の供給拡大に言及する。両社の出荷段階や数値の対象範囲は異なり、製品別の売上額はこの資料から比較できない。",
+      "theme": "HBM",
+      "evidence": [
+        { "companyId": "sk-hynix", "source": { "documentId": "release", "locator": "HBM4量産出荷と下半期増産計画" } },
+        { "companyId": "samsung-electronics", "source": { "documentId": "release", "locator": "DS Division / HBM4 sales and HBM4E samples" } }
       ]
     },
     {

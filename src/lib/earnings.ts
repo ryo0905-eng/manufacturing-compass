@@ -9,13 +9,15 @@ export type EarningsMetric =
 export type EarningsRelease = {
   id: string;
   companyId: string;
+  segment: "equipment" | "memory";
   business: string;
+  financialScope?: string;
   announcedAt: string;
   checkedAt: string;
   version: number;
   period: { label: string; kind: "quarter" | "cumulative" | "full-year"; start: string | null; end: string };
-  currency: "EUR" | "USD" | "JPY";
-  unit: "million";
+  currency: "EUR" | "USD" | "JPY" | "KRW";
+  unit: "million" | "billion";
   accountingStandard: string;
   documents: { id: string; title: string; url: string; kind: "html" | "pdf" }[];
   metrics: { revenue: EarningsMetric; operatingIncome: EarningsMetric; revenueYoY: EarningsMetric };
@@ -43,6 +45,13 @@ export const earningsUpdatedAt = data.updatedAt;
 export const earningsReleases = [...data.releases].sort((a, b) => b.announcedAt.localeCompare(a.announcedAt));
 export const commonEarningsThemes = data.commonThemes;
 export const earningsThemeOptions = [...new Set(earningsReleases.flatMap((release) => release.themes))];
+export const earningsSegmentName = (segment: EarningsRelease["segment"]) => segment === "memory" ? "メモリ関連" : "製造装置";
+export const earningsFinancialScope = (release: EarningsRelease) => release.financialScope ?? "連結全体";
+export const earningsUnitName = (release: EarningsRelease) => {
+  const unit = release.unit === "billion" ? "十億" : "百万";
+  const currency = { EUR: "ユーロ", USD: "米ドル", JPY: "円", KRW: "ウォン" }[release.currency];
+  return `${unit}${currency}`;
+};
 
 export function getEarningsRelease(companyId: string) {
   return earningsReleases.find((release) => release.companyId === companyId);
@@ -66,8 +75,10 @@ export function earningsSourceHref(release: EarningsRelease, source: EarningsSou
 
 export function earningsMetricText(metric: EarningsMetric, release: EarningsRelease, percentage = false) {
   if (metric.status !== "reported") return metric.status === "unpublished" ? "未公表" : "未取得";
-  const value = new Intl.NumberFormat("ja-JP", { maximumFractionDigits: percentage ? 1 : 3 }).format(metric.value);
-  if (percentage) return `${metric.value > 0 ? "+" : ""}${value}%`;
-  const unit = release.currency === "JPY" ? "百万円" : release.currency === "EUR" ? "百万ユーロ" : "百万米ドル";
-  return `${value} ${unit}`;
+  if (percentage) return `${metric.value > 0 ? "+" : ""}${new Intl.NumberFormat("ja-JP", { maximumFractionDigits: 1 }).format(metric.value)}%`;
+  if (release.currency === "KRW" && release.unit === "billion" && Math.abs(metric.value) >= 1000) {
+    return `${new Intl.NumberFormat("ja-JP", { maximumFractionDigits: 4 }).format(metric.value / 1000)} 兆ウォン`;
+  }
+  const value = new Intl.NumberFormat("ja-JP", { maximumFractionDigits: 3 }).format(metric.value);
+  return `${value} ${earningsUnitName(release)}`;
 }
