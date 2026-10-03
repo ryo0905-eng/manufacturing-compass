@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StructuredData } from "@/components/StructuredData";
 import { ArticleView, MediaLink } from "@/components/chip-pulse/MediaLinks";
+import { EarningsInternalLink } from "@/components/earnings/EarningsLinks";
 import { media, newsDate, newsFields, backgroundLinks, type NewsField } from "@/lib/chip-pulse-media";
 import { pulseProcessLabels } from "@/data/chip-pulse";
 import { siteUrl } from "@/lib/format";
@@ -32,6 +33,7 @@ export default async function NewsDetail({params}:{params:Promise<{slug:string}>
    <h2>出典と確認方法</h2><p><MediaLink href={a.sourceUrl} articleId={a.id} action="source">{a.sourceName}の原文を読む ↗</MediaLink></p><p>{a.validation==="editor-verified" ? "原文を編集時に照合した記事です。" : "AIによる事実要約です。数値・根拠箇所・表現を自動照合しています。"} 原文の予測・計画と実績を区別してお読みください。</p>
    {a.evidence.map((e,i)=><div key={i}><span className={styles.meta}>{e.locator}</span><blockquote>{e.quote}</blockquote></div>)}
    {a.relatedIds.length ? <><h2>関連する発表</h2>{a.relatedIds.map(id=>media.articles.find(a=>a.id===id)).filter(a=>!!a).map(r=><p key={r.id}><Link href={`/semiconductor-watch/${r.id}`}>{r.title}</Link></p>)}</>:null}
+   <h2>業績と事業の動きを確かめる</h2><p>半導体装置メーカー5社の決算・IRでは、業績、成長要因、会社見通しを公式資料に沿って整理しています。</p><p><EarningsInternalLink href="/semiconductor-watch/earnings" destination="earnings_hub">決算・IRを見る →</EarningsInternalLink></p>
    {a.history.length ? <details><summary>更新履歴（第{a.version}版）</summary>{a.history.map(h=><p key={h.version}>第{h.version}版 · {newsDate(h.updatedAt,true)}：{h.title}</p>)}</details>:null}
   </article>
  </div></main>;

@@ -41,6 +41,7 @@
 | [`docs/semiconductor-location-map-implementation-plan.md`](./semiconductor-location-map-implementation-plan.md) | 拠点マップの実装順序、変更ファイル、検証、公開ゲート | 公開判断後の実装作業を分割・確認する時 |
 | [`docs/chip-pulse-data-plan.md`](./chip-pulse-data-plan.md) | Chip Pulseの実データ化、履歴、情報源、権利確認、段階導入 | 取得元、更新頻度、保存・要約方式を判断する時 |
 | [`docs/chip-pulse-media.md`](./chip-pulse-media.md) | Chip Pulse朝刊の現行実装、供給監査、自動編集の公開ゲートと費用 | 日次収集・記事・媒体UIを変更する時 |
+| [`docs/earnings-ir-operations.md`](./earnings-ir-operations.md) | 決算・IRの初期対象、出典、更新と訂正の手順 | 決算データや公開範囲を変更する時 |
 | [`docs/conversion-architecture.md`](./conversion-architecture.md) | 現行導線と CTA の役割 | 主要導線や計測イベントを変えた時 |
 | [`docs/role-map-pilot.md`](./role-map-pilot.md) | 半導体職種マップの4職務群・根拠台帳・業務選択票・結果カード | 出典、対応付け、試用モデルを更新する時 |
 | [`docs/role-map-validation.md`](./role-map-validation.md) | 公開β版のイベント・問い合わせ・根拠レビューによる運用検証 | 継続・修正・停止、職務群の拡張を判断する時 |

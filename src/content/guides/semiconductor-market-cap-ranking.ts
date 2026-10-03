@@ -202,6 +202,14 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           href: "/industry-map",
           ctaLocation: "world_ranking_after_table",
         },
+        {
+          type: "link-callout",
+          title: "時価総額の先にある業績と見通し",
+          description: "主要装置メーカー5社の決算を、対象期間と原資料を確認しながら読み比べます。",
+          label: "決算・IRを見る",
+          href: "/semiconductor-watch/earnings",
+          ctaLocation: "world_ranking_after_table",
+        },
       ],
       paragraphs: [
         "本記事では、半導体そのものを設計・製造する企業だけでなく、製造装置、検査・計測装置、EDA、半導体IP、OSATなども含めています。同じ『半導体企業』でも、顧客、設備、収益構造、技術職の役割は異なります。",

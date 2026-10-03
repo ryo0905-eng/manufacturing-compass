@@ -80,6 +80,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
         { label: "装置5社の時価総額はどう変わった？", href: "/tools/ranking-time-machine#mode=equipment&year=2010&company=tokyo-electron", description: "売上高とは別の指標。東京エレクトロンを選択した状態で、装置5社の2010〜2025年の時価総額を再生できます。" },
         { label: "半導体製造装置メーカーとは", href: "/guides/semiconductor-equipment-manufacturers", description: "工程・企業・仕事内容の関係を基礎から理解する" },
         { label: "半導体業界地図", href: "/industry-map", description: "装置企業とデバイス・材料企業の関係を見る" },
+        { label: "装置メーカー5社の決算・IR", href: "/semiconductor-watch/earnings", description: "足元の業績と会社見通しを、各社の原資料で確認する" },
         { label: "半導体企業の時価総額ランキング", href: "/guides/semiconductor-market-cap-ranking", description: "株式市場での評価額という別の指標で見る" },
       ] }],
     },

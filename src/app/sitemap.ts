@@ -1,5 +1,6 @@
 import { jobNoteMeta } from "@/data/job-posting-note";
 import { media } from "@/lib/chip-pulse-media";
+import { earningsReleases, earningsUpdatedAt } from "@/lib/earnings";
 import { defectPareto } from "@/data/defect-pareto";
 import { improvementReportMeta } from "@/data/improvement-report";
 import { measurementPlanner } from "@/data/measurement-planner";
@@ -66,6 +67,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/roles",
     "/industry-map",
     "/semiconductor-watch",
+    "/semiconductor-watch/earnings",
+    "/semiconductor-watch/earnings/compare",
     "/semiconductor-map",
     "/companies",
     "/compare",
@@ -99,6 +102,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
     ...(path === "/semiconductor-watch" ? { lastModified: new Date(media.contentUpdatedAt) } : {}),
+    ...(path === "/semiconductor-watch/earnings" || path === "/semiconductor-watch/earnings/compare" ? { lastModified: contentDate(earningsUpdatedAt) } : {}),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/career-agents" || path === "/semiconductor-map" ? 0.85 : 0.8,
   }));
@@ -153,5 +157,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const newsRoutes = media.articles.map(article => ({ url: `${siteUrl}/semiconductor-watch/${article.id}`, lastModified: new Date(article.updatedAt) }));
-  return [...newsRoutes, ...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
+  const earningsRoutes = earningsReleases.map(release => ({ url: `${siteUrl}/semiconductor-watch/earnings/${release.companyId}`, lastModified: contentDate(release.checkedAt) }));
+  return [...newsRoutes, ...earningsRoutes, ...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
 }

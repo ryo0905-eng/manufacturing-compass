@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-03",
+  "releases": [
+    {
+      "id": "asml-2026-q2",
+      "companyId": "asml",
+      "business": "露光装置・保守とアップグレード",
+      "announcedAt": "2026-07-15",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": { "label": "2026年第2四半期", "kind": "quarter", "start": null, "end": "2026-06-28" },
+      "currency": "EUR",
+      "unit": "million",
+      "accountingStandard": "US GAAP",
+      "documents": [
+        { "id": "release", "title": "Q2 2026 financial results", "url": "https://investor.asml.com/news-releases/news-release-details/q2-2026-financial-results", "kind": "html" },
+        { "id": "statement", "title": "Financial statements US GAAP Q2 2026", "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026048235/financialstatementsusgaa.htm", "kind": "html" }
+      ],
+      "metrics": {
+        "revenue": { "status": "reported", "value": 9326.5, "source": { "documentId": "statement", "locator": "p.3 / Consolidated Statements of Operations, Total net sales" } },
+        "operatingIncome": { "status": "reported", "value": 3456.1, "source": { "documentId": "statement", "locator": "p.3 / Income from operations" } },
+        "revenueYoY": { "status": "reported", "value": 21.3, "calculation": "(9,326.5 - 7,691.7) ÷ 7,691.7 × 100、少数第1位に丸め", "source": { "documentId": "statement", "locator": "p.3 / 2026・2025年のTotal net sales" } }
+      },
+      "highlights": [
+        { "text": "売上高は前年同期比約21.3%増。保守・アップグレード売上も前四半期から増えた。", "source": { "documentId": "statement", "locator": "p.3 / Total net sales、Net service and field option sales" } },
+        { "text": "会社は想定を上回る保守関連売上を、今回の売上と粗利率が予想を上回った主因と説明した。", "source": { "documentId": "release", "locator": "CEO statement and outlook" } },
+        { "text": "2026年通期売上高の会社予想は430億〜450億ユーロへ引き上げられた。", "source": { "documentId": "release", "locator": "冒頭・CEO statement and outlook" } }
+      ],
+      "growth": [
+        { "text": "保守・アップグレード売上が前四半期の2,488百万ユーロから2,762百万ユーロに増えた。", "source": { "documentId": "release", "locator": "Q1/Q2表・Installed Base Management sales" } },
+        { "text": "会社はAI関連投資による先端ロジック・メモリ需要と顧客の能力増強計画を挙げた。", "source": { "documentId": "release", "locator": "CEO statement and outlook" } }
+      ],
+      "weakness": [
+        { "text": "中古露光装置の販売台数は前四半期の12台から5台に減った。売上高への影響額はこの表からは分からない。", "source": { "documentId": "release", "locator": "Q1/Q2表・Used lithography systems sold" } }
+      ],
+      "concerns": [
+        { "text": "需要見通しは顧客の投資計画と装置の受注・売上計上時期に左右される。会社はこれらを将来予想のリスクとして挙げている。", "source": { "documentId": "release", "locator": "Forward looking statements / risks" } }
+      ],
+      "outlook": [
+        { "text": "会社は2026年第3四半期の売上高を110億〜120億ユーロ、通期売上高を430億〜450億ユーロと予想する。", "source": { "documentId": "release", "locator": "CEO statement and outlook" } }
+      ],
+      "change": { "text": "前四半期比で売上高は8,767百万ユーロから9,326百万ユーロへ増加。これは前年同期比とは別の比較。", "basis": "2026年第1四半期", "source": { "documentId": "release", "locator": "Q1/Q2表・Total net sales" } },
+      "forecastRevision": { "status": "up", "target": "2026年通期売上高", "text": "前回の360億〜400億ユーロから430億〜450億ユーロへ引き上げ。", "source": { "documentId": "release", "locator": "冒頭・2026年通期見通し" }, "previousSource": { "documentId": "previous", "locator": "Q1 2026 financial results / 2026年通期見通し", "url": "https://investor.asml.com/news-releases/news-release-details/q1-2026-financial-results" } },
+      "themes": ["AI", "EUV", "設備投資"],
+      "editorialNote": "売上増には新規装置だけでなく、稼働済み装置向けサービスの伸びも寄与した。",
+      "unverified": ["地域別売上を今回の業績変化の原因としては扱わない。"]
+    },
+    {
+      "id": "applied-materials-2026-q3",
+      "companyId": "applied-materials",
+      "business": "成膜・エッチング・材料工学・先端実装",
+      "announcedAt": "2026-08-13",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": { "label": "2026年度第3四半期", "kind": "quarter", "start": null, "end": "2026-07-26" },
+      "currency": "USD",
+      "unit": "million",
+      "accountingStandard": "US GAAP",
+      "documents": [
+        { "id": "release", "title": "Third Quarter 2026 Results", "url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-third-quarter-2026-results", "kind": "html" }
+      ],
+      "metrics": {
+        "revenue": { "status": "reported", "value": 9115, "source": { "documentId": "release", "locator": "Results Summary / Revenue" } },
+        "operatingIncome": { "status": "reported", "value": 3075, "source": { "documentId": "release", "locator": "Unaudited Consolidated Statements of Operations / Income from operations" } },
+        "revenueYoY": { "status": "reported", "value": 25, "source": { "documentId": "release", "locator": "Results Summary / Revenue、前年7,302百万米ドル" } }
+      },
+      "highlights": [
+        { "text": "売上高は91.15億米ドルで前年同期比25%増、GAAP営業利益は約30.8億米ドル。", "source": { "documentId": "release", "locator": "Third Quarter Results、Results Summary" } },
+        { "text": "半導体システム部門の売上高は前年の55.64億米ドルから70.40億米ドルに増えた。", "source": { "documentId": "release", "locator": "Third Quarter Reportable Segment Information" } },
+        { "text": "会社は2026暦年の半導体システム部門の売上期待をさらに引き上げたと説明した。", "source": { "documentId": "release", "locator": "CEO comment / Third Quarter Results" } }
+      ],
+      "growth": [
+        { "text": "会社はDRAM、先端ファウンドリ・ロジック、先端実装で下半期の売上成長を見込む。", "source": { "documentId": "release", "locator": "CFO comment / Third Quarter Results" } },
+        { "text": "HBMや先端実装に向けた新しい装置を発表した。製品発表と当四半期の売上計上は区別する。", "source": { "documentId": "release", "locator": "Recent Highlights / New Products and Technologies" } }
+      ],
+      "weakness": [
+        { "text": "半導体システム部門内のFlash向け構成比は前年同期の9%から7%へ低下。ただし構成比の低下はFlash向け売上額の減少を意味しない。", "source": { "documentId": "release", "locator": "Third Quarter Reportable Segment Information / Flash memory" } }
+      ],
+      "concerns": [
+        { "text": "次四半期の会社予想は幅を持つ見通しであり、DRAMなどの需要見込みが実績になるかは未確定。", "source": { "documentId": "release", "locator": "Business Outlook、Forward-looking statements" } }
+      ],
+      "outlook": [
+        { "text": "2026年度第4四半期の売上高は102.5億米ドルを中心に上下5億米ドルと予想。", "source": { "documentId": "release", "locator": "Business Outlook" } }
+      ],
+      "change": { "text": "前年同期の売上高73.02億米ドルから91.15億米ドルへ増加。部門別の過年度数値は会社が当期の区分へ組み替えている。", "basis": "2025年度第3四半期", "source": { "documentId": "release", "locator": "Results Summary、Reportable Segment Information注記" } },
+      "forecastRevision": { "status": "unverified", "target": "2026年度第4四半期売上高", "text": "比較可能な前回予想を確認していないため、上方・据え置き・下方を判定しない。" },
+      "themes": ["AI", "HBM", "先端実装", "設備投資"],
+      "editorialNote": "連結売上と半導体システム部門売上を分けて読む必要がある。",
+      "unverified": ["製品別の当四半期売上への寄与額は未確認。"]
+    },
+    {
+      "id": "lam-research-2026-june",
+      "companyId": "lam-research",
+      "business": "成膜・エッチング・洗浄と顧客サポート",
+      "announcedAt": "2026-07-29",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": { "label": "2026年6月終了四半期", "kind": "quarter", "start": null, "end": "2026-06-28" },
+      "currency": "USD",
+      "unit": "million",
+      "accountingStandard": "US GAAP",
+      "documents": [
+        { "id": "release", "title": "June 2026 Quarter Financial Results", "url": "https://investor.lamresearch.com/2026-07-29-Lam-Research-Corporation-Reports-Financial-Results-for-the-Quarter-Ended-June-28,-2026", "kind": "html" }
+      ],
+      "metrics": {
+        "revenue": { "status": "reported", "value": 6722.238, "source": { "documentId": "release", "locator": "Condensed Consolidated Statements of Operations / Revenue、単位千米ドル" } },
+        "operatingIncome": { "status": "reported", "value": 2513.488, "source": { "documentId": "release", "locator": "Condensed Consolidated Statements of Operations / GAAP Operating income、単位千米ドル" } },
+        "revenueYoY": { "status": "reported", "value": 30.0, "calculation": "(6,722.238 - 5,171.393) ÷ 5,171.393 × 100、少数第1位に丸め", "source": { "documentId": "release", "locator": "Revenue disaggregation / 2026年6月と2025年6月" } }
+      },
+      "highlights": [
+        { "text": "売上高は67.22億米ドルで前年同期比約30.0%増。", "source": { "documentId": "release", "locator": "Revenue disaggregation" } },
+        { "text": "システム売上、顧客サポート等の売上はともに前年同期を上回った。", "source": { "documentId": "release", "locator": "Revenue disaggregation / 2026年6月と2025年6月" } },
+        { "text": "次の2026年9月終了四半期の売上高を81億米ドル±4億米ドルと予想した。", "source": { "documentId": "release", "locator": "Outlook" } }
+      ],
+      "growth": [
+        { "text": "システム売上は前年同期の34.38億米ドルから42.50億米ドル、顧客サポート等は17.34億米ドルから24.72億米ドルへ増えた。", "source": { "documentId": "release", "locator": "Revenue disaggregation" } },
+        { "text": "会社はAI関連需要と製造工程の複雑化を成長の背景に挙げた。", "source": { "documentId": "release", "locator": "CEO comment / US GAAP Financial Results後" } }
+      ],
+      "weakness": [
+        { "text": "開示されたシステム売上と顧客サポート等はともに前年同期比で増加。エッチング・成膜別の弱さはこの資料で特定できない。", "source": { "documentId": "release", "locator": "Revenue disaggregation" } }
+      ],
+      "concerns": [
+        { "text": "日本向け出荷の一部は顧客検収まで売上計上されず、出荷と当期売上は一致しない。", "source": { "documentId": "release", "locator": "Balance Sheet and Cash Flow Results / Deferred revenue" } }
+      ],
+      "outlook": [
+        { "text": "2026年9月終了四半期の売上高を81億米ドル±4億米ドル、GAAP営業利益率を39.5%±1ポイントと予想する。", "source": { "documentId": "release", "locator": "Outlook" } }
+      ],
+      "change": { "text": "前四半期の売上高58.41億米ドルから67.22億米ドルに増加。前年同期比とは異なる比較。", "basis": "2026年3月終了四半期", "source": { "documentId": "release", "locator": "Key Financial Data / June 2026 and March 2026" } },
+      "forecastRevision": { "status": "unverified", "target": "2026年9月終了四半期", "text": "比較可能な前回予想を確認していないため、改定方向は表示しない。" },
+      "themes": ["AI", "設備投資"],
+      "editorialNote": "売上の伸びを新規装置だけの成果と読まない。サービス・改修等も増えている。",
+      "unverified": ["エッチングと成膜それぞれの当四半期売上は、この資料から確認していない。"]
+    },
+    {
+      "id": "kla-2026-q4",
+      "companyId": "kla",
+      "business": "工程管理・検査・計測",
+      "announcedAt": "2026-07-28",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": { "label": "2026年度第4四半期", "kind": "quarter", "start": null, "end": "2026-06-30" },
+      "currency": "USD",
+      "unit": "million",
+      "accountingStandard": "US GAAP",
+      "documents": [
+        { "id": "release", "title": "Fiscal 2026 Fourth Quarter and Full Year Results", "url": "https://ir.kla.com/news-events/press-releases/detail/518/kla-corporation-reports-fiscal-2026-fourth-quarter-and-full", "kind": "html" }
+      ],
+      "metrics": {
+        "revenue": { "status": "reported", "value": 3658, "source": { "documentId": "release", "locator": "GAAP Results / Q4 FY2026 Total Revenues" } },
+        "operatingIncome": { "status": "unretrieved", "reason": "確認した決算発表の要約表から営業利益を確定できていない" },
+        "revenueYoY": { "status": "reported", "value": 15.2, "calculation": "(3,658 - 3,175) ÷ 3,175 × 100、少数第1位に丸め", "source": { "documentId": "release", "locator": "GAAP Results / Q4 FY2026・Q4 FY2025 Total Revenues" } }
+      },
+      "highlights": [
+        { "text": "四半期売上高は36.58億米ドルで前年同期比約15.2%増。", "source": { "documentId": "release", "locator": "GAAP Results" } },
+        { "text": "会社は先端ロジック、メモリの複雑化が工程管理の需要を押し上げると説明した。", "source": { "documentId": "release", "locator": "CEO comment" } },
+        { "text": "次四半期の売上高予想は40億米ドル±2億米ドル。", "source": { "documentId": "release", "locator": "First Quarter Fiscal 2027 Guidance" } }
+      ],
+      "growth": [
+        { "text": "会社はAI関連の先端ロジック・メモリに加え、先端実装を工程管理装置の機会と説明した。", "source": { "documentId": "release", "locator": "CEO comment" } }
+      ],
+      "weakness": [
+        { "text": "発表資料の主要表では全社売上の増加を確認できるが、事業別の弱い領域はこの要約から特定できない。", "source": { "documentId": "release", "locator": "GAAP Results、CEO comment" } }
+      ],
+      "concerns": [
+        { "text": "中国向け販売には輸出規制や通商政策の変化がリスクとして挙げられている。", "source": { "documentId": "release", "locator": "Forward-Looking Statements / risks" } }
+      ],
+      "outlook": [
+        { "text": "会社は2027年度第1四半期の売上高を40億米ドル±2億米ドルと予想する。", "source": { "documentId": "release", "locator": "First Quarter Fiscal 2027 Guidance" } }
+      ],
+      "change": { "text": "前年同期の売上高31.75億米ドルから36.58億米ドルに増加。", "basis": "2025年度第4四半期", "source": { "documentId": "release", "locator": "GAAP Results / Q4 FY2026・Q4 FY2025" } },
+      "forecastRevision": { "status": "unverified", "target": "2027年度第1四半期", "text": "比較可能な前回予想を確認していないため、改定方向は表示しない。" },
+      "themes": ["AI", "先端実装", "中国"],
+      "editorialNote": "売上の増加と、会社が見込む工程管理需要の背景を分けて読む。",
+      "unverified": ["営業利益は未取得。", "先端実装の個別売上寄与額は未取得。"]
+    },
+    {
+      "id": "tokyo-electron-2027-q1",
+      "companyId": "tokyo-electron",
+      "business": "半導体製造装置・成膜・エッチング・洗浄",
+      "announcedAt": "2026-07-30",
+      "checkedAt": "2026-10-03",
+      "version": 1,
+      "period": { "label": "2027年3月期第1四半期", "kind": "quarter", "start": "2026-04-01", "end": "2026-06-30" },
+      "currency": "JPY",
+      "unit": "million",
+      "accountingStandard": "日本基準",
+      "documents": [
+        { "id": "tanshin", "title": "2027年3月期 第1四半期決算短信", "url": "https://www.tel.com/ir/library/report/i242su0000000goz-att/fy27q1tanshin-e.pdf", "kind": "pdf" },
+        { "id": "presentation", "title": "FY2027 Q1 Presentation", "url": "https://www.tel.com/ir/library/report/i242su0000000goz-att/fy27q1presentations-e.pdf", "kind": "pdf" }
+      ],
+      "metrics": {
+        "revenue": { "status": "reported", "value": 732388, "source": { "documentId": "tanshin", "locator": "p.1 / 連結経営成績、売上高" } },
+        "operatingIncome": { "status": "reported", "value": 211407, "source": { "documentId": "tanshin", "locator": "p.1 / 連結経営成績、営業利益" } },
+        "revenueYoY": { "status": "reported", "value": 33.3, "source": { "documentId": "tanshin", "locator": "p.1 / 連結経営成績、前年同期比" } }
+      },
+      "highlights": [
+        { "text": "第1四半期の売上高は7,323.88億円で前年同期比33.3%増、営業利益は2,114.07億円。", "source": { "documentId": "tanshin", "locator": "p.1 / 連結経営成績" } },
+        { "text": "会社はAI用途の半導体向け設備投資の増加を市場背景として説明した。", "source": { "documentId": "tanshin", "locator": "p.3 / 経営成績の概況" } },
+        { "text": "2027年3月期上期の売上高・営業利益予想を引き上げた。通期予想はこの時点で未公表。", "source": { "documentId": "tanshin", "locator": "p.2、p.5 / 上期予想と改定表" } }
+      ],
+      "growth": [
+        { "text": "会社はAIサーバー需要とAI用途の半導体向け設備投資拡大を事業環境として挙げた。", "source": { "documentId": "tanshin", "locator": "p.3 / 経営成績の概況" } }
+      ],
+      "weakness": [
+        { "text": "半導体製造装置の単一セグメントで、製品別業績は決算短信に記載されない。弱い製品領域は断定できない。", "source": { "documentId": "tanshin", "locator": "p.3 / セグメント情報に関する記述" } }
+      ],
+      "concerns": [
+        { "text": "半導体メーカーの設備投資計画の調整が上期予想の改定要因として記されている。個別顧客や装置別への影響額は開示されていない。", "source": { "documentId": "tanshin", "locator": "p.4–5 / 業績予想の修正" } }
+      ],
+      "outlook": [
+        { "text": "上期の売上高予想は1兆6,200億円、営業利益予想は4,580億円。通期予想は第2四半期発表時に開示予定。", "source": { "documentId": "tanshin", "locator": "p.2、p.5 / 2027年3月期上期予想" } }
+      ],
+      "change": { "text": "2027年3月期上期売上高予想は従来の1兆5,700億円から1兆6,200億円へ改定。", "basis": "2026年4月30日公表の上期予想", "source": { "documentId": "tanshin", "locator": "p.5 / Previous Forecast・Revised Forecast" } },
+      "forecastRevision": { "status": "up", "target": "2027年3月期上期予想", "text": "売上高1兆5,700億円→1兆6,200億円、営業利益4,310億円→4,580億円。", "source": { "documentId": "tanshin", "locator": "p.5 / Previous Forecast・Revised Forecast" } },
+      "themes": ["AI", "設備投資"],
+      "editorialNote": "上期予想の改定と、まだ公表していない通期予想を混同しない。",
+      "unverified": ["半導体製造装置事業の製品別売上は非開示。", "2027年3月期の通期予想はこの資料では未公表。"]
+    }
+  ],
+  "commonThemes": [
+    {
+      "id": "ai-investment",
+      "title": "AI関連投資が装置需要の説明に登場",
+      "summary": "複数社がAI関連の顧客投資を需要背景として挙げた。ただし対象工程と当期売上への寄与は企業ごとに異なる。",
+      "theme": "AI",
+      "evidence": [
+        { "companyId": "asml", "source": { "documentId": "release", "locator": "CEO statement and outlook" } },
+        { "companyId": "applied-materials", "source": { "documentId": "release", "locator": "CEO comment / Third Quarter Results" } },
+        { "companyId": "lam-research", "source": { "documentId": "release", "locator": "CEO comment" } },
+        { "companyId": "kla", "source": { "documentId": "release", "locator": "CEO comment" } },
+        { "companyId": "tokyo-electron", "source": { "documentId": "tanshin", "locator": "p.3 / 経営成績の概況" } }
+      ]
+    },
+    {
+      "id": "advanced-packaging",
+      "title": "先端実装を成長機会として説明",
+      "summary": "Applied MaterialsとKLAが先端実装に言及する。前者は装置群、後者は工程管理の機会として説明しており、同じ売上分類ではない。",
+      "theme": "先端実装",
+      "evidence": [
+        { "companyId": "applied-materials", "source": { "documentId": "release", "locator": "CFO comment、Recent Highlights" } },
+        { "companyId": "kla", "source": { "documentId": "release", "locator": "CEO comment" } }
+      ]
+    }
+  ]
+}

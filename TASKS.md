@@ -1,6 +1,13 @@
 # TASKS
 
-最終整理日: 2026-10-01
+最終整理日: 2026-10-03
+
+## 2026-10-03：業界ウォッチに装置メーカー5社の決算・IRを追加
+
+- ASML、Applied Materials、Lam Research、KLA、東京エレクトロンの公式資料を照合し、各社最新発表の要点・実績・見通し・出典を静的スナップショットへ登録。一覧、企業詳細、2〜3社比較と共通テーマを追加。対象期間・通貨・会計基準を表示し、同一期間比較と混同させない。
+- ニュース、企業詳細、既存比較、ランキング、業界地図から接続。canonical、構造化データ、sitemap、既存Analytics計測を追加。SECは提出候補の発見のみ、数値と要約は手動確認。候補の検証後に前回版を保存して公開JSONを原子的に置き換える更新コマンドを追加。手順は `docs/earnings-ir-operations.md`。
+- `node --test tests/unit/earnings.cjs` 4件、`npm run earnings:check`、`git diff --check` は成功。対象ファイルのlintは1回成功したが、その後の軽微な変更は再実行していない。`npm run typecheck` は型判別の2件で失敗し修正したが、回数制限により再実行していない。Playwrightはsandboxの `127.0.0.1:3100` bind権限エラーでdevサーバーを起動できず、PC・スマートフォンの実画面確認は未完了。build・commit・pushは未実施。
+- KLAの営業利益は初期資料で未取得と表示。本番反映・イベント受信は未確認。推奨コミット：`feat: add source-backed earnings to Chip Pulse`
 
 ## 2026-10-01：Career Compassの1タップフィードバック
 

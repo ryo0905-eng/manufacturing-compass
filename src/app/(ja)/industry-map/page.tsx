@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { IndustryAtlas } from "@/components/IndustryAtlas";
+import { EarningsInternalLink } from "@/components/earnings/EarningsLinks";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { companies, getCareerInfo, segments } from "@/data/companies";
@@ -61,6 +62,7 @@ export default function IndustryMapPage() {
         <p><strong>8領域 × 31社</strong><span>検索・絞り込み・クリックで確認</span></p>
       </header>
       <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>
+      <p className="tool-related-links"><EarningsInternalLink href="/semiconductor-watch/earnings" destination="earnings_hub">装置メーカー5社の決算から、事業の変化を読む →</EarningsInternalLink></p>
 
 
       <p className="tool-related-links"><Link href="/tools/semiconductor-process">半導体ができるまでを、動く断面図で確かめる →</Link></p>

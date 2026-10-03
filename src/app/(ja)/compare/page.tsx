@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CompareSelector } from "@/components/CompareSelector";
+import { EarningsInternalLink } from "@/components/earnings/EarningsLinks";
 import { companies } from "@/data/companies";
 import { companyCompareSlug, getDefaultComparePairs } from "@/lib/format";
 
@@ -31,6 +32,7 @@ export default function ComparePage() {
       </section>
 
       <CompareSelector companies={companies} />
+      <p className="tool-related-links"><EarningsInternalLink href="/semiconductor-watch/earnings/compare" destination="compare">装置メーカー5社の決算・IRを2〜3社で比較する →</EarningsInternalLink></p>
       <p>個別の求人票を見つけたら、<Link href="/career-consultation#job-posting-note">記載が曖昧な条件と、応募前に聞く質問を整理する</Link>ことができます。</p>
 
       <section className="section">
