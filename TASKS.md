@@ -1,11 +1,19 @@
 # TASKS
 
+## 2026-10-04：転職の軸ノートを会話ガイドへ刷新
+
+- `/career-priorities` の冒頭を短くし、最初の一問から「転職全体の軸」と「半導体の仕事・働き方」に分岐。既存の `#priorities`・`#workstyle` を維持し、両分岐の回答は切替中だけ端末内で保持する。
+- 固定ルールの短い返答と段階的な選択肢、編集できる回答履歴、次に確認する一問を先頭に置いた結果カードを実装。既存の質問・本人の確認状況・コピー用メモは詳細表示へ移した。AI、自由入力、回答保存・送信は追加していない。
+- 既存イベントを`conversation-v2`で区別し、canonical・sitemap掲載を維持して更新日を変更。PRD・architecture・seo・conversion文書を更新。
+- 対象単体テスト2件、`npm run typecheck`（1回）、変更対象lint（1回）、`git diff --check`、公開禁止語照合は成功。後続の軽微なイベント重複防止と冒頭文言の修正は型・lint未再実行。`npm run dev` はsandboxのポートbind権限エラー（`0.0.0.0:3000`、EPERM）で起動できず、再試行していない。新UIの実ブラウザ・スマホ・本番GA4受信・本番反映は未確認。build・commit・pushは未実施。
+- 推奨コミット：`feat: redesign career priorities as guided conversation`
+
 ## 2026-10-03：決算・IRにメモリ関連4社を追加
 
 - 既存企業IDと公式決算資料を照合し、キオクシア、Micron、SK hynix、サムスン電子の各社最新発表を静的スナップショットへ追加。製造装置／メモリ関連の絞り込み・2〜3社比較を分け、SamsungのDS部門数値と韓国企業の十億ウォン単位を明示。メモリメーカー記事から決算への導線を追加。
 - `npm run earnings:check`、`node --test tests/unit/earnings.cjs`（4件）、`npm run typecheck`、変更ファイル限定lint、`git diff --check` を確認。ブラウザ実画面と本番計測は未確認。build・commit・pushは未実施。推奨コミット：`feat: add memory makers to earnings watch`。
 
-最終整理日: 2026-10-03
+最終整理日: 2026-10-04
 
 ## 2026-10-03：業界ウォッチに装置メーカー5社の決算・IRを追加
 

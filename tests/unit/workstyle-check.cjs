@@ -9,7 +9,7 @@ function load(file) {
   vm.runInNewContext(code, { exports, require: name => load(path.resolve(path.dirname(file), name + '.ts')) }, { filename: file });
   return exports;
 }
-const { emptyWorkstyleNote: empty, getWorkstyleCards: cards, updateWorkstyleSelection: select, buildWorkstyleNote: build } = load(path.resolve(__dirname, '../../src/lib/workstyle-check.ts'));
+const { emptyWorkstyleNote: empty, getWorkstyleCards: cards, getWorkstyleNextStep: nextStep, updateWorkstyleSelection: select, buildWorkstyleNote: build } = load(path.resolve(__dirname, '../../src/lib/workstyle-check.ts'));
 assert.equal(cards(empty).length, 0);
 const unknown = select(empty, [], { night: 'learn' });
 assert.equal(cards(unknown)[0].role, '職種は未定');
@@ -18,6 +18,10 @@ const pair = select(empty, ['process', 'field'], { travel: 'learn', night: 'avoi
 assert.equal(cards(pair).length, 4);
 assert.equal(cards(pair)[0].condition, '夜勤');
 assert.notEqual(cards(pair)[0].question, cards(pair)[1].question);
+assert.equal(nextStep(pair, 'night').questions.length, 2);
+assert.equal(nextStep(pair, 'travel').label, '出張');
+assert.equal(nextStep(pair, 'night').posting, '勤務時間・交替制・担当業務');
+assert.match(build(pair, 'travel'), /最初に確かめる条件：出張/);
 const marked = { ...pair, confirmations: { 'process:night': 'fits', 'field:night': 'conflicts' }, excluded: ['process:night'] };
 assert.match(build(marked), /本人の確認状況/);
 assert.doesNotMatch(build(marked), /量産対応と工程開発の業務割合/);
@@ -28,6 +32,7 @@ assert.equal(changed.excluded.length, 0);
 assert.doesNotMatch(build(changed), /条件を満たす/);
 const removed = select(marked, pair.roles, { travel: 'learn' });
 assert.equal(Object.keys(removed.confirmations).length, 0);
+assert.equal(nextStep(removed, 'night').label, '出張');
 const restored = select(removed, pair.roles, pair.conditions);
 assert.equal(restored.confirmations['process:night'], undefined);
 const importance = select(marked, pair.roles, { ...pair.conditions, night: 'conditional' });
@@ -37,4 +42,4 @@ assert.equal(select(empty, ['process', 'process', 'maintenance', 'field'], { nig
 assert.equal(Object.keys(select(empty, [], { night: 'avoid', call: 'learn', travel: 'learn', cleanroom: 'learn' }).conditions).length, 3);
 const allExcluded = { ...pair, excluded: cards(pair).map(card => card.id) };
 assert.match(build(allExcluded), /質問は選んでいません/);
-console.log('PASS: unknown role, comparison, priority, note attribution, selection cleanup, bounds, empty questions');
+console.log('PASS: unknown role, comparison, primary question, note attribution, selection cleanup, bounds, empty questions');

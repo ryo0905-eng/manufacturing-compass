@@ -1,22 +1,26 @@
 import type { Metadata } from 'next';
 import { CareerPrioritiesWorkspace } from '@/components/CareerPrioritiesWorkspace';
+import styles from '@/components/CareerPrioritiesNote.module.css';
 
 export const metadata: Metadata = {
   title: '転職の優先順位・譲れない条件を整理する｜転職の軸ノート',
-  description: '転職で変えたいこと・残したいことから、今の仮の優先順位と、求人票・面接で確認したい質問を整理します。',
+  description: '短い質問に答えながら、転職で大切にしたいことや半導体の仕事・働き方を整理。求人票や面談で次に確認する一問を見つけます。',
   alternates: { canonical: '/career-priorities' },
-  openGraph: { title: '転職の優先順位・譲れない条件を整理する｜転職の軸ノート', description: '勤務地・仕事内容・待遇などの希望から、仮の優先順位と面接で確認したい質問を整理。ログイン不要で、相談メモをコピーできます。', url: '/career-priorities', type: 'website' },
+  openGraph: { title: '転職の優先順位・譲れない条件を整理する｜転職の軸ノート', description: '短い質問を選ぶだけで、今の優先条件と次に確認する一問を整理。ログイン不要で相談メモをコピーできます。', url: '/career-priorities', type: 'website' },
 };
 
 export default function CareerPrioritiesPage() {
   return <main className="page">
-    <header style={{ maxWidth: 720, margin: '0 auto 24px' }}>
-      <p className="section-label">CAREER NOTE</p>
+    <header className={styles.pageHeader}>
+      <p className="section-label">CAREER GUIDE · 約3分</p>
       <h1>転職の軸ノート</h1>
-      <p>転職の優先順位・譲れない条件を整理する</p>
-      <p>勤務地、仕事内容、給与・待遇、働き方、職場文化。変えたいことと残したいことから、求人票を読む軸と面接で確認する質問をまとめます。優先順位がまだ決まっていなくても使えます。</p>
-      <p>半導体の仕事を検討中なら、職種と夜勤・呼び出し・転勤・出張・クリーンルーム勤務の気になる条件から、確認する質問を比較できます。職種だけで勤務条件を断定せず、現職に残る・応募を見送る判断にも使えるメモを作ります。</p>
+      <p>気になることを選ぶだけ。固定ルールのガイドが、次に確認する一問を整理します。</p>
     </header>
     <CareerPrioritiesWorkspace />
+    <section className={styles.pageInfo} aria-labelledby="priority-about-title">
+      <h2 id="priority-about-title">このガイドでできること</h2>
+      <p>転職全体の軸では、勤務地・仕事内容・待遇・働き方・職場文化から、変えたいことと残したいことを整理します。半導体の仕事・働き方では、職種と夜勤・出張などの条件から、求人票や面談で聞く質問を作ります。</p>
+      <p>返答と質問は編集上の固定ルールです。AIによる診断や、個別求人の勤務条件の判定ではありません。回答は保存・送信されず、相談メモは自分でコピーして持ち帰れます。</p>
+    </section>
   </main>;
 }

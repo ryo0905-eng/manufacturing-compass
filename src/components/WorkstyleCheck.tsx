@@ -4,100 +4,174 @@ import { useRef, useState } from 'react';
 import type { Route } from 'next';
 import { TrackedInternalLink } from './TrackedInternalLink';
 import { workstyleRoles, workstyleConditions, concernLevels, confirmationLabels, workstyleBasis, type WorkstyleRole, type WorkstyleCondition, type ConcernLevel } from '@/data/workstyle-check';
-import { buildWorkstyleNote, emptyWorkstyleNote, getWorkstyleCards, updateWorkstyleSelection, type WorkstyleNote } from '@/lib/workstyle-check';
+import { buildWorkstyleNote, emptyWorkstyleNote, getWorkstyleCards, getWorkstyleNextStep, updateWorkstyleSelection, type WorkstyleNote } from '@/lib/workstyle-check';
 import { trackEvent } from '@/lib/analytics';
 import styles from './CareerPrioritiesNote.module.css';
 
+const uiVersion = 'conversation-v2';
+const stepLabels = ['気になる仕事', '勤務条件', '最初の確認', '次の一歩'];
+
 export function WorkstyleCheck() {
+  const [step, setStep] = useState(0);
   const [note, setNote] = useState<WorkstyleNote>(emptyWorkstyleNote);
-  const [result, setResult] = useState(false);
-  const [copyStatus, setCopyStatus] = useState('');
+  const [primary, setPrimary] = useState<WorkstyleCondition | null>(null);
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const started = useRef(false);
   const completed = useRef(false);
-  const resultHeading = useRef<HTMLHeadingElement>(null);
+  const reached = useRef(new Set<number>());
   const revision = useRef(0);
+  const heading = useRef<HTMLHeadingElement>(null);
   const cards = getWorkstyleCards(note);
-  const output = buildWorkstyleNote(note);
+  const nextStep = getWorkstyleNextStep(note, primary);
+  const output = buildWorkstyleNote(note, primary);
+  const selectedConditions = workstyleConditions.filter(condition => note.conditions[condition.id]);
+
+  function start() {
+    if (started.current) return;
+    started.current = true;
+    trackEvent('workstyle_check_start', { ui_version: uiVersion });
+  }
+
   function edit(next: WorkstyleNote) {
     revision.current += 1;
     setNote(next);
-    setCopyStatus('');
-    if (!started.current) { started.current = true; trackEvent('workstyle_check_start'); }
+    setCopyStatus('idle');
   }
-  function select(roles: WorkstyleRole[], conditions: WorkstyleNote['conditions'], changed: 'role' | 'condition') {
-    edit(updateWorkstyleSelection(note, roles, conditions));
-    if (result) trackEvent('workstyle_check_compare', { changed });
+
+  function navigate(next: number) {
+    setStep(next);
+    if (!reached.current.has(next)) {
+      reached.current.add(next);
+      if (next === 3 && !completed.current) {
+        completed.current = true;
+        trackEvent('workstyle_check_complete', { ui_version: uiVersion });
+      }
+    }
+    requestAnimationFrame(() => heading.current?.focus());
   }
+
+  function selectRoles(roles: WorkstyleRole[]) {
+    start();
+    edit(updateWorkstyleSelection(note, roles, note.conditions));
+    if (completed.current) trackEvent('workstyle_check_compare', { changed: 'role', ui_version: uiVersion });
+  }
+
   function toggleCondition(id: WorkstyleCondition) {
+    start();
     const conditions = { ...note.conditions };
-    if (conditions[id]) delete conditions[id]; else conditions[id] = 'learn';
-    select(note.roles, conditions, 'condition');
+    if (conditions[id]) delete conditions[id];
+    else if (Object.keys(conditions).length < 3) conditions[id] = 'learn';
+    const next = updateWorkstyleSelection(note, note.roles, conditions);
+    edit(next);
+    if (!next.conditions[primary ?? id]) setPrimary(workstyleConditions.find(condition => next.conditions[condition.id])?.id ?? null);
+    else if (!primary) setPrimary(id);
+    if (completed.current) trackEvent('workstyle_check_compare', { changed: 'condition', ui_version: uiVersion });
   }
+
+  function setConcern(level: ConcernLevel) {
+    const id = nextStep.id;
+    if (!id) return;
+    edit(updateWorkstyleSelection(note, note.roles, { ...note.conditions, [id]: level }));
+    if (completed.current) trackEvent('workstyle_check_compare', { changed: 'condition', ui_version: uiVersion });
+  }
+
   async function copy() {
     const currentRevision = revision.current;
     try {
       await navigator.clipboard.writeText(output);
-      if (revision.current === currentRevision) setCopyStatus('success');
-      trackEvent('workstyle_check_copy');
-    } catch { if (revision.current === currentRevision) setCopyStatus('error'); }
+      if (revision.current === currentRevision) {
+        setCopyStatus('success');
+        trackEvent('workstyle_check_copy', { ui_version: uiVersion });
+      }
+    } catch {
+      if (revision.current === currentRevision) setCopyStatus('error');
+    }
   }
+
+  const reply = step === 0
+    ? note.roles.length ? '選んだ仕事について、気になる条件を一緒に整理します。' : '職種が未定でも、共通の確認質問から始められます。'
+    : step === 1
+      ? selectedConditions.length ? '気になる条件を' + selectedConditions.length + '件選びました。実際の条件は求人ごとに確かめましょう。' : '夜勤や出張など、まず知りたいことを選んでください。'
+      : step === 2
+        ? '「' + nextStep.label + '」を最初の確認テーマにします。' : '職種名だけで勤務条件は決まりません。求人ごとに確かめましょう。';
+
   return <div className={styles.workspace}>
-    <p>生産技術・設備保全などの経験があり、半導体の仕事を調べ始めた方へ。気になる条件から、求人票・面接で確かめたい質問を作ります。</p>
-    <p className={styles.hint}>職種名だけで働き方は決まりません。会社・部署・拠点・雇用形態によって違います。記載がない条件も「なし」とは判断しません。</p>
-    <fieldset className={styles.choice}><legend><strong>1. 気になる仕事（最大2つ）</strong></legend>
-      <div className={styles.picks}>{workstyleRoles.map(role => <button key={role.id} aria-pressed={note.roles.includes(role.id)} disabled={note.roles.length >= 2 && !note.roles.includes(role.id)} onClick={() => select(note.roles.includes(role.id) ? note.roles.filter(id => id !== role.id) : [...note.roles, role.id], note.conditions, 'role')}>{role.label}<small className={styles.roleDescription}>{role.description}</small></button>)}</div>
-      <button aria-pressed={!note.roles.length} onClick={() => select([], note.conditions, 'role')}>まだ分からない・上記以外（共通質問へ）</button>
-    </fieldset>
-    <fieldset className={styles.choice}><legend><strong>2. 気になる条件（最大3つ）</strong></legend>
-      <div className={styles.picks}>{workstyleConditions.map(condition => <button key={condition.id} aria-pressed={!!note.conditions[condition.id]} disabled={Object.keys(note.conditions).length >= 3 && !note.conditions[condition.id]} onClick={() => toggleCondition(condition.id)}>{condition.label}</button>)}</div>
-      {workstyleConditions.filter(condition => note.conditions[condition.id]).map(condition => <fieldset className={styles.flexibility} key={condition.id}><legend>{condition.label}</legend><div className={styles.options}>{(Object.keys(concernLevels) as ConcernLevel[]).map(level => <button key={level} aria-pressed={note.conditions[condition.id] === level} onClick={() => select(note.roles, { ...note.conditions, [condition.id]: level }, 'condition')}>{concernLevels[level]}</button>)}</div></fieldset>)}
-      <p className={styles.hint}>迷う項目は「まず知りたい」で進めます。住所・年収・勤務先の入力は不要です。</p>
-    </fieldset>
-    {!result && <button className={styles.primary} disabled={!cards.length} onClick={() => {
-      setResult(true);
-      if (!completed.current) { completed.current = true; trackEvent('workstyle_check_complete'); }
-      requestAnimationFrame(() => resultHeading.current?.focus());
-    }}>確認事項を比較する</button>}
-    {result && <section aria-labelledby="workstyle-result-title">
-      <h3 id="workstyle-result-title" ref={resultHeading} tabIndex={-1} className={styles.heading}>3. 聞くことの違いを比べる</h3>
-      <p>上の仕事・条件を変えると質問も変わります。すべて編集上の確認提案です。実際の勤務条件や適性を判定したものではありません。</p>
-      <p className={styles.hint} role="status">{cards.length ? `${cards.length}件の確認事項。各職種で検討中の求人を一つずつ想定してください。別の求人を調べるときは確認状況を未確認に戻してください。` : '気になる条件を一つ選ぶと、確認事項が表示されます。'}</p>
-      {!!cards.length && <button onClick={() => edit({ ...note, confirmations: {} })}>確認状況をすべて未確認に戻す</button>}
-      {workstyleConditions.filter(condition => cards.some(card => card.id.endsWith(`:${condition.id}`))).sort((a, b) => Number(note.conditions[b.id] === 'avoid') - Number(note.conditions[a.id] === 'avoid')).map(condition => <section className={styles.question} key={condition.id}>
-        <h4>{condition.label} · {concernLevels[note.conditions[condition.id]!]}</h4>
-        <p className={styles.hint}>求人票で見る項目：{condition.posting}</p>
-        <div className={styles.workstyleComparison}>{cards.filter(card => card.id.endsWith(`:${condition.id}`)).map(card => <div className={styles.rankCard} key={card.id}>
-          <strong>{card.role}</strong>
-          <label className={styles.check}><input type="checkbox" checked={!note.excluded.includes(card.id)} onChange={() => edit({ ...note, excluded: note.excluded.includes(card.id) ? note.excluded.filter(id => id !== card.id) : [...note.excluded, card.id] })} /><span>{card.question}<small className={styles.roleDescription}>チェックした質問をメモに含めます</small></span></label>
-          <fieldset className={styles.flexibility}><legend>本人の確認状況（サイトによる確認ではありません）</legend><div className={styles.options}>{(Object.keys(confirmationLabels) as Array<keyof typeof confirmationLabels>).map(status => <button key={status} aria-pressed={(note.confirmations[card.id] ?? 'unknown') === status} onClick={() => edit({ ...note, confirmations: { ...note.confirmations, [card.id]: status } })}>{confirmationLabels[status]}</button>)}</div></fieldset>
-        </div>)}</div>
-      </section>)}
-      {!!cards.length && <>
-        <h3>確認メモを持ち帰る</h3>
-        <p>確認した求人名・確認日・回答者は、コピー後に手元で追記してください。現職の担当や勤務条件を確認する、応募を保留・見送るためにも使えます。</p>
-        <button className={styles.primary} onClick={copy}>確認メモをコピー</button>
-        <p role="status">{copyStatus === 'success' ? 'コピーしました。手元のメモに貼り付けて使えます。' : copyStatus === 'error' ? '自動コピーできませんでした。下の文章を選択してコピーしてください。' : ''}</p>
-        <label className={styles.manual}>コピー用テキスト<textarea readOnly value={output} rows={12} onFocus={event => event.currentTarget.select()} /></label>
-        <section className={styles.question}><h3>必要なことを、もう少し確認する</h3>
-          <p className={styles.hint}>移動前にメモをコピーしてください。回答は移動先に引き継がれません。</p>
-          <ul>
-            {workstyleRoles.filter(role => note.roles.includes(role.id)).filter((role, index, all) => all.findIndex(other => other.href === role.href) === index).map(role => <li key={role.id}><TrackedInternalLink href={role.href as Route} eventName="workstyle_check_related_click" eventProperties={{ destination_type: 'article' }}>仕事内容と経験の接点を調べる：{role.label}</TrackedInternalLink></li>)}
-            {!note.roles.length && <li><TrackedInternalLink href="/industry-map" eventName="workstyle_check_related_click" eventProperties={{ destination_type: 'industry_map' }}>業界地図で仕事のつながりを調べる</TrackedInternalLink></li>}
-            <li><TrackedInternalLink href="/semiconductor-map" eventName="workstyle_check_related_click" eventProperties={{ destination_type: 'location_map' }}>国内拠点と公式採用情報を調べる（希望勤務地への配属保証ではありません）</TrackedInternalLink></li>
-            <li><TrackedInternalLink href="/compare" eventName="workstyle_check_related_click" eventProperties={{ destination_type: 'compare' }}>企業の事業・仕事内容を比較する</TrackedInternalLink></li>
-            <li><TrackedInternalLink href="/career-consultation" eventName="workstyle_check_related_click" eventProperties={{ destination_type: 'consultation' }}>公開情報で分からなかった質問を相談用に整理する</TrackedInternalLink></li>
-          </ul>
-          <p className={styles.hint}>相談サービスを使う場合も、希望職種・地域が支援対象かを先に確認してください。現職に残るか、応募するかは今決める必要はありません。</p>
-        </section>
-      </>}
-    </section>}
-    <details className={styles.group}><summary>質問の根拠と、分からないこと</summary>
-      <p>質問は編集上の提案です。一般的な発生頻度や運営者の体験を示すものではなく、各質問にある業務・当番の存在を保証しません。</p>
-      <p>参考例として、SCKの募集要項は職種による交替勤務と勤務地の変更可能性を明示しています。これだけでは、あなたが検討している求人や配属先の条件は分かりません。</p>
-      <p><a href={workstyleBasis.source.url} target="_blank" rel="noopener noreferrer">{workstyleBasis.source.title}</a>（確認日：{workstyleBasis.source.checkedAt}）</p>
-      <p className={styles.hint}>{workstyleBasis.source.scope} 出張・呼び出し・クリーンルームの質問を裏付ける資料ではありません。根拠がない勤務条件は断定せず、確認質問だけを表示します。</p>
-      <p className={styles.hint}>質問の更新日：{workstyleBasis.updatedAt}／次回確認予定：{workstyleBasis.nextReviewAt}</p>
+    <div className={styles.progressLine} aria-label={'進み具合 ' + (step + 1) + '/4'}>
+      <span>半導体の仕事・働き方</span><span>{step + 1} / 4</span>
+      <div className={styles.progressTrack}><span style={{ width: ((step + 1) * 25) + '%' }} /></div>
+    </div>
+    {step > 0 && <nav className={styles.history} aria-label="前の回答を編集">
+      {stepLabels.slice(0, step).map((label, index) => <button key={label} onClick={() => navigate(index)}><span>{label}</span><strong>{index === 0 ? note.roles.length ? note.roles.map(id => workstyleRoles.find(role => role.id === id)?.label).join('・') : '職種は未定' : index === 1 ? selectedConditions.length + '件の条件' : nextStep.label}</strong><small>編集</small></button>)}
+    </nav>}
+    <section className={styles.conversation} aria-labelledby="workstyle-question">
+      <div className={styles.guideMark} aria-hidden="true">MC</div>
+      <div className={styles.guideBody}>
+        <p className={styles.guideName}>Manufacturing Compass ガイド</p>
+        <h2 id="workstyle-question" ref={heading} tabIndex={-1}>{step === 0 ? 'どんな仕事が気になる？' : step === 1 ? '働き方で気になることは？' : step === 2 ? '何から確かめたい？' : '次の一歩が見えてきました'}</h2>
+        <p className={styles.guideReply} aria-live="polite">{reply}</p>
+      </div>
+    </section>
+
+    {step === 0 && <>
+      <div className={styles.roleGrid}>{workstyleRoles.map(role => <button key={role.id} aria-pressed={note.roles.includes(role.id)} disabled={note.roles.length >= 2 && !note.roles.includes(role.id)} onClick={() => selectRoles(note.roles.includes(role.id) ? note.roles.filter(id => id !== role.id) : [...note.roles, role.id])}><strong>{role.label}</strong><small>{role.description}</small></button>)}</div>
+      <button className={styles.quietButton} onClick={() => { start(); selectRoles([]); navigate(1); }}>まだ分からない →</button>
+    </>}
+
+    {step === 1 && <>
+      <p className={styles.fieldHint}>最大3つ。職種を選ばなくても進めます。</p>
+      <div className={styles.choiceGrid}>{workstyleConditions.map(condition => <button key={condition.id} aria-pressed={!!note.conditions[condition.id]} disabled={selectedConditions.length >= 3 && !note.conditions[condition.id]} onClick={() => toggleCondition(condition.id)}>{condition.label}</button>)}</div>
+    </>}
+
+    {step === 2 && <>
+      <p className={styles.fieldHint}>最初に求人票で確かめたいものを一つ選んでください。</p>
+      <div className={styles.choiceGrid}>{selectedConditions.map(condition => <button key={condition.id} aria-pressed={nextStep.id === condition.id} onClick={() => { revision.current += 1; setCopyStatus('idle'); setPrimary(condition.id); }}>{condition.label}</button>)}</div>
+      <fieldset className={styles.flexQuestion}><legend>「{nextStep.label}」について、今の気持ちは？</legend><div className={styles.segmented}>{(Object.keys(concernLevels) as ConcernLevel[]).map(level => <button key={level} aria-pressed={nextStep.id ? note.conditions[nextStep.id] === level : false} onClick={() => setConcern(level)}>{concernLevels[level]}</button>)}</div></fieldset>
+    </>}
+
+    {step === 3 && <div className={styles.resultStack}>
+      <section className={styles.nextCard} aria-labelledby="workstyle-next-title">
+        <p className={styles.cardKicker}>NEXT STEP · 次に確かめること</p>
+        <h3 id="workstyle-next-title">{nextStep.label}を、求人票と面談で確認する</h3>
+        <p className={styles.checkTarget}>求人票で見る項目：{nextStep.posting}</p>
+        <div className={styles.mainQuestions}>{nextStep.questions.map(card => <p key={card.id}><strong>{card.role}</strong>{card.question}</p>)}</div>
+      </section>
+      <section className={styles.summaryCard} aria-label="今の整理">
+        <p className={styles.cardKicker}>YOUR NOTE · 気になる条件</p>
+        <div className={styles.chips}>{selectedConditions.map(condition => <span key={condition.id}>{condition.label} · {concernLevels[note.conditions[condition.id]!]}</span>)}</div>
+        <p>この質問は確認の提案です。実際の勤務条件や適性の判定ではありません。</p>
+      </section>
+      <button className={styles.primary} onClick={copy}>確認メモをコピー</button>
+      <p className={styles.copyStatus} role="status">{copyStatus === 'success' ? 'コピーしました。求人名・確認日などは手元で追記してください。' : copyStatus === 'error' ? 'コピーできませんでした。下の詳細から文章を選択してください。' : ''}</p>
+      <details className={styles.details}><summary>すべての質問と確認状況を見る</summary>
+        <div className={styles.detailsBody}>
+          <button className={styles.quietButton} onClick={() => edit({ ...note, confirmations: {} })}>確認状況を未確認に戻す</button>
+          {cards.map(card => <div className={styles.detailQuestion} key={card.id}>
+            <strong>{card.role} · {card.condition}</strong>
+            <p>{card.question}</p>
+            <label className={styles.inlineCheck}><input type="checkbox" checked={!note.excluded.includes(card.id)} onChange={() => edit({ ...note, excluded: note.excluded.includes(card.id) ? note.excluded.filter(id => id !== card.id) : [...note.excluded, card.id] })} />メモに含める</label>
+            <div className={styles.segmented} role="group" aria-label={card.role + '・' + card.condition + 'の本人の確認状況'}>{(Object.keys(confirmationLabels) as Array<keyof typeof confirmationLabels>).map(status => <button key={status} aria-pressed={(note.confirmations[card.id] ?? 'unknown') === status} onClick={() => edit({ ...note, confirmations: { ...note.confirmations, [card.id]: status } })}>{confirmationLabels[status]}</button>)}</div>
+          </div>)}
+          <label>コピー用テキスト<textarea readOnly value={output} rows={12} onFocus={event => event.currentTarget.select()} /></label>
+        </div>
+      </details>
+      <div className={styles.nextLinks}><p>仕事内容から調べる</p>
+        {workstyleRoles.filter(role => note.roles.includes(role.id)).filter((role, index, all) => all.findIndex(other => other.href === role.href) === index).map(role => <TrackedInternalLink key={role.id} href={role.href as Route} eventName="workstyle_check_related_click" eventProperties={{ destination_type: 'article', ui_version: uiVersion }}>{role.label}の記事 ↗</TrackedInternalLink>)}
+        {!note.roles.length && <TrackedInternalLink href="/industry-map" eventName="workstyle_check_related_click" eventProperties={{ destination_type: 'industry_map', ui_version: uiVersion }}>業界地図を見る ↗</TrackedInternalLink>}
+        <TrackedInternalLink href="/career-consultation" eventName="workstyle_check_related_click" eventProperties={{ destination_type: 'consultation', ui_version: uiVersion }}>質問を相談用に整理する ↗</TrackedInternalLink>
+      </div>
+    </div>}
+
+    <nav className={styles.navigation} aria-label="会話を進める">
+      {step > 0 && <button onClick={() => navigate(step - 1)}>戻って直す</button>}
+      {step === 0 && <button className={styles.primary} onClick={() => navigate(1)}>次へ</button>}
+      {step === 1 && <button className={styles.primary} disabled={!selectedConditions.length} onClick={() => navigate(2)}>次へ</button>}
+      {step === 2 && <button className={styles.primary} onClick={() => navigate(3)}>次の一歩を見る</button>}
+    </nav>
+    <details className={styles.sourceDetails}><summary>質問の根拠と限界</summary>
+      <p>質問は編集上の提案です。職種だけで夜勤・出張などの有無や頻度は分かりません。</p>
+      <p>参考例：<a href={workstyleBasis.source.url} target="_blank" rel="noopener noreferrer">{workstyleBasis.source.title}</a>（確認日：{workstyleBasis.source.checkedAt}）。{workstyleBasis.source.scope}</p>
+      <p>質問の更新日：{workstyleBasis.updatedAt}／次回確認予定：{workstyleBasis.nextReviewAt}</p>
     </details>
-    <p className={styles.privacy}>回答と確認メモは、このページを開いている間だけ保持し、保存・送信しません。再読み込みで消えます。開始・結果到達・比較操作・コピー・関連ページへの移動のみ匿名で計測し、選んだ条件や確認状況は送りません。</p>
+    <p className={styles.privacy}>回答は保存・送信されず、再読み込みで消えます。操作のみ匿名で計測します。</p>
   </div>;
 }

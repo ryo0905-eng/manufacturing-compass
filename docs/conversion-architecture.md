@@ -260,18 +260,18 @@ Career Compass
 
 ## 転職の軸ノートの計測
 
-トップ、企業比較、関連3記事、相談準備ページに入口を設ける。ノート完成後はコピーを優先し、企業比較・相談先一覧への内部リンクを示す。回答は引き継がず、移動前のコピーを案内する。入口の本番反映日から4週間、入口クリック→開始→完成→コピーを観察し、少数なら期間を延長する。
+トップ、企業比較、関連3記事、相談準備ページに入口を設ける。会話ガイドの結果では次に確認する一問を先に示し、相談メモのコピーと企業比較・相談先一覧への内部リンクを続ける。回答は引き継がず、移動前のコピーを案内する。本番反映日から4週間、入口クリック→開始→結果到達→コピー・次のリンクを観察し、少数なら期間を延長する。旧UIと会話UIは同じ画面到達数として単純比較しない。
 
 - `career_priorities_cta_view`: リンクの50%以上が画面内に入った時に、リンクのマウント・遷移元ごとに1回送る。画面に入ったことの指標であり、読了や理解を意味しない。
 - `career_priorities_cta_click`: 共通リンクのクリック。viewと同じ `source_page`（クエリ・ハッシュなし）と `cta_location` を付与。既存の相談準備入口もイベント名・位置値を維持する。
 - 導線位置は `home_career_route`、`compare_hero`、`comparison_after_companies`、`guide_link_list`、`guide_after_article`、`consultation_after_topics`。記事ごとはsource_pageで分ける。既存記事のリンクから別イベントを重ねて送らない。
 - `career_priorities_next_click`: 完成後の内部リンク。`destination_type` は `compare` または `career_agents` のみ。
-- `career_priorities_start`: 初めて希望または「まだ具体的に分からない」を選択したとき。
-- `career_priorities_step`: 4画面それぞれの初回到達。`step_number`（1〜4）のみ付与。
-- `career_priorities_complete`: ノート画面の初回到達。
+- `career_priorities_start`: 初めて分野・希望または「まだ具体的に分からない」を選択したとき。
+- `career_priorities_step`: 会話の各段階への初回到達。`step_number`（1〜4）と`ui_version=conversation-v2`を付与し、旧4画面の段階値とは分ける。
+- `career_priorities_complete`: 結果カードへの初回到達。
 - `career_priorities_copy`: クリップボード書込み成功時。
 
-開始・画面到達・完成はマウント中に重複送信しない。再読込は新しい利用として扱う。回答、順位、条件区分、選択質問、ノート本文は送信しない。GAオプトアウト中の確認操作でGA受信は検証できないため、実送信検証は別途テスト環境で行う。
+開始・画面到達・完成はマウント中に重複送信しない。会話UIの内部イベントには固定の`ui_version=conversation-v2`を付ける。再読込は新しい利用として扱う。回答、順位、条件区分、選択質問、ノート本文は送信しない。GAオプトアウト中の確認操作でGA受信は検証できないため、実送信検証は別途テスト環境で行う。
 
 2026-09-06の検索公開・導線拡大後は、本番反映日を起点に4週間、入口別のview・clickと開始・完成・コピーを観察する。入口イベントと開始後のイベントはGAのセッション内の順序で確認し、回答や流入情報を保存しない。新しい表示イベントには変更前の基準値がない。
 
@@ -301,7 +301,7 @@ Career Compass
 
 ランキング記事・企業研究リストの読後 → `/career-priorities#workstyle` → 職種と条件の比較 → 確認メモのコピー → 必要な記事・企業比較・拠点マップ・相談準備。質問のコピーを主操作とし、直接の広告や相談サービスの自動推薦は行わない。相談準備以降の広告クリックは既存イベントで別に集計する。
 
-イベントは `workstyle_check_entry`（cta_location、ランキングのみsource_page）、`workstyle_check_start`（最初の入力）、`workstyle_check_complete`（最初の結果到達）、`workstyle_check_compare`（結果表示後のrole/condition操作）、`workstyle_check_copy`（成功時）、`workstyle_check_related_click`（destination_type）。開始・結果到達はマウント中に1回。本人の確認状況・回答値は送らない。entryはクリックであり表示回数ではない。検索直入の流入元は既存ページビューと照合し、hashだけでSEO流入を分離できるとは扱わない。
+イベントは `workstyle_check_entry`（cta_location、ランキングのみsource_page）、`workstyle_check_start`（最初の入力）、`workstyle_check_complete`（結果カード初回到達）、`workstyle_check_compare`（結果到達後のrole/condition操作）、`workstyle_check_copy`（成功時）、`workstyle_check_related_click`（destination_type）。会話UI内のイベントは固定の`ui_version=conversation-v2`を付ける。開始・結果到達はマウント中に1回。本人の確認状況・回答値は送らない。entryはクリックであり表示回数ではない。検索直入の流入元は既存ページビューと照合し、hashだけでSEO流入を分離できるとは扱わない。
 
 本番で受信確認後、4週間の実数・入口別遷移・開始/完了・コピーを観察する。コピーは活用の代理指標で成果保証ではない。少数アクセスでは率の優劣を断定せず、対象者5人程度で質問の有用性と勤務条件の誤認がないかを確認する。企業別求人条件DBは導入せず、質問・参照資料は四半期ごとに見直す。
 

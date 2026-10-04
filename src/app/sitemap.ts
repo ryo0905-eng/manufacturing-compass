@@ -98,7 +98,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/labs/jev" ? { lastModified: contentDate("2026-09-20") } : {}),
     ...(path === "/games/process-engineer-survival" ? { lastModified: contentDate("2026-09-20") } : {}),
     ...(path === "/roles" ? { lastModified: contentDate("2026-09-17") } : {}),
-    ...(path === "/career-priorities" ? { lastModified: contentDate("2026-09-06") } : {}),
+    ...(path === "/career-priorities" ? { lastModified: contentDate("2026-10-04") } : {}),
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
     ...(path === "/semiconductor-watch" ? { lastModified: new Date(media.contentUpdatedAt) } : {}),

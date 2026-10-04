@@ -15,16 +15,29 @@ export function getWorkstyleCards(note: WorkstyleNote) {
     question: role.id === 'unknown' ? condition.common : condition.questions[role.id],
   })));
 }
+export function getWorkstyleNextStep(note: WorkstyleNote, primary: WorkstyleCondition | null) {
+  const condition = workstyleConditions.find(item => item.id === primary && note.conditions[item.id])
+    ?? workstyleConditions.find(item => note.conditions[item.id]);
+  const questions = condition ? getWorkstyleCards(note).filter(card => card.condition === condition.label) : [];
+  return {
+    id: condition?.id ?? null,
+    label: condition?.label ?? '気になる条件',
+    posting: condition?.posting ?? '仕事内容・勤務条件',
+    questions,
+  };
+}
 export function updateWorkstyleSelection(note: WorkstyleNote, roles: WorkstyleRole[], conditions: WorkstyleNote['conditions']): WorkstyleNote {
   const next = { ...note, roles: [...new Set(roles)].slice(0, 2), conditions: Object.fromEntries(Object.entries(conditions).filter(([, value]) => value).slice(0, 3)) };
   const ids = new Set(getWorkstyleCards(next).map(card => card.id));
   return { ...next, excluded: note.excluded.filter(id => ids.has(id)), confirmations: Object.fromEntries(Object.entries(note.confirmations).filter(([id]) => ids.has(id))) };
 }
-export function buildWorkstyleNote(note: WorkstyleNote) {
+export function buildWorkstyleNote(note: WorkstyleNote, primary: WorkstyleCondition | null = null) {
   const cards = getWorkstyleCards(note);
+  const first = getWorkstyleNextStep(note, primary);
   return [
     '半導体の仕事・働き方｜確認メモ',
     '検討する仕事：' + (note.roles.length ? workstyleRoles.filter(role => note.roles.includes(role.id)).map(role => role.label).join('／') : 'まだ分からない'),
+    '最初に確かめる条件：' + first.label,
     '重視する条件\n' + (workstyleConditions.filter(condition => note.conditions[condition.id]).map(condition => `・${condition.label}：${concernLevels[note.conditions[condition.id]!]}`).join('\n') || 'まだ選んでいません'),
     '求人・現職の条件についての本人の確認状況（サイトが確認した事実ではありません）\n' + cards.map(card => `・${card.role}／${card.condition}：${confirmationLabels[note.confirmations[card.id] ?? 'unknown']}`).join('\n'),
     '持ち帰る質問（編集上の確認提案）\n' + (cards.filter(card => !note.excluded.includes(card.id)).map(card => `【${card.role}／${card.condition}】\n求人票で見る項目：${card.posting}\n${card.question}`).join('\n\n') || '質問は選んでいません。'),

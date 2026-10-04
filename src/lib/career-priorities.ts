@@ -18,6 +18,15 @@ export function setChoice(note: PriorityNote, id: PriorityId, intent: Intent): P
   return { ...note, choices, flexibility, priorities: note.priorities.filter(key => key !== id), questions: note.questions.filter(key => key !== id) };
 }
 
+export function getPriorityNextStep(note: PriorityNote) {
+  const id = note.priorities.find(candidate => note.choices[candidate])
+    ?? priorityItems.find(item => note.choices[item.id])?.id;
+  const item = priorityItems.find(candidate => candidate.id === id);
+  return item
+    ? { label: item.label, question: item.question, action: '求人票で確認し、分からなければ面談で聞いてみましょう。' }
+    : { label: 'まだ決まっていない', question: '次に見る求人で、魅力に感じる点と気になる点は何ですか？', action: '求人を一つ見て、二つの気づきをメモしましょう。' };
+}
+
 export function buildPriorityNote(note: PriorityNote): string {
   const selected = priorityItems.filter(item => note.choices[item.id]);
   const priorities = note.priorities.filter(id => note.choices[id]);

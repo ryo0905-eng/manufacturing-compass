@@ -1,139 +1,197 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TrackedInternalLink } from '@/components/TrackedInternalLink';
 import { priorityGroups, priorityItems, flexibilityLabels, type PriorityId, type Flexibility, type Intent } from '@/data/career-priorities';
-import { buildPriorityNote, emptyPriorityNote, setChoice, type PriorityNote } from '@/lib/career-priorities';
+import { buildPriorityNote, emptyPriorityNote, getPriorityNextStep, setChoice, type PriorityNote } from '@/lib/career-priorities';
 import { trackEvent } from '@/lib/analytics';
 import styles from './CareerPrioritiesNote.module.css';
 
-const steps = ['希望', '優先順位', '質問', 'ノート'];
-const headings = ['変えたいこと。残したいこと。', '今回、大切にしたいこと', '次の面談で、確かめたいこと', '私の転職の軸'];
+type GroupId = typeof priorityGroups[number]['id'];
+const uiVersion = 'conversation-v2';
+const stepLabels = ['気になる分野', '具体的な希望', '大切なこと', '次の一歩'];
 
-export function CareerPrioritiesNote() {
-  const [step, setStep] = useState(-1);
+export function CareerPrioritiesNote({ active }: { active: boolean }) {
+  const [step, setStep] = useState(0);
+  const [groups, setGroups] = useState<GroupId[]>([]);
   const [note, setNote] = useState<PriorityNote>(emptyPriorityNote);
   const [unknown, setUnknown] = useState(false);
   const [copyStatus, setCopyStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const heading = useRef<HTMLHeadingElement>(null);
   const started = useRef(false);
   const reached = useRef(new Set<number>());
+  const revision = useRef(0);
   const selected = priorityItems.filter(item => note.choices[item.id]);
-  const ordered = [...note.priorities, ...selected.map(item => item.id).filter(id => !note.priorities.includes(id))];
+  const primary = note.priorities.find(id => note.choices[id]);
+  const nextStep = getPriorityNextStep(note);
   const output = buildPriorityNote(note);
 
-  function start() {
-    if (!started.current) {
-      started.current = true;
-      trackEvent('career_priorities_start');
+  useEffect(() => {
+    if (active && !reached.current.has(0)) {
+      reached.current.add(0);
+      trackEvent('career_priorities_step', { step_number: 1, ui_version: uiVersion });
     }
+  }, [active]);
+
+  function start() {
+    if (started.current) return;
+    started.current = true;
+    trackEvent('career_priorities_start', { ui_version: uiVersion });
   }
+
+  function changeNote(next: PriorityNote) {
+    revision.current += 1;
+    setNote(next);
+    setCopyStatus('idle');
+  }
+
   function navigate(next: number) {
     setStep(next);
-    setCopyStatus('idle');
     if (!reached.current.has(next)) {
       reached.current.add(next);
-      trackEvent('career_priorities_step', { step_number: next + 1 });
-      if (next === 3) trackEvent('career_priorities_complete');
+      trackEvent('career_priorities_step', { step_number: next + 1, ui_version: uiVersion });
+      if (next === 3) trackEvent('career_priorities_complete', { ui_version: uiVersion });
     }
     requestAnimationFrame(() => heading.current?.focus());
   }
-  function choose(id: PriorityId, intent: Intent) {
+
+  function toggleGroup(id: GroupId) {
     start();
     setUnknown(false);
-    setNote(current => setChoice(current, id, intent));
-  }
-  function togglePriority(id: PriorityId) {
-    setNote(current => {
-      const flexibility = { ...current.flexibility };
-      if (current.priorities.includes(id)) {
-        delete flexibility[id];
-        return { ...current, flexibility, priorities: current.priorities.filter(key => key !== id) };
+    if (groups.includes(id)) {
+      const group = priorityGroups.find(candidate => candidate.id === id);
+      let next = note;
+      for (const item of group?.items ?? []) {
+        const intent = next.choices[item.id];
+        if (intent) next = setChoice(next, item.id, intent);
       }
-      if (current.priorities.length >= 3) return current;
-      return { ...current, priorities: [...current.priorities, id], flexibility: { ...flexibility, [id]: 'unsure' } };
-    });
-  }
-  function move(id: PriorityId, direction: number) {
-    setNote(current => {
-      const priorities = [...current.priorities];
-      const index = priorities.indexOf(id);
-      const target = index + direction;
-      if (index < 0 || target < 0 || target >= priorities.length) return current;
-      [priorities[index], priorities[target]] = [priorities[target], priorities[index]];
-      return { ...current, priorities };
-    });
-  }
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(output);
-      setCopyStatus('success');
-      trackEvent('career_priorities_copy');
-    } catch {
-      setCopyStatus('error');
+      changeNote(next);
+      setGroups(current => current.filter(value => value !== id));
+    } else if (groups.length < 2) {
+      setGroups(current => [...current, id]);
     }
   }
 
+  function toggleItem(id: PriorityId) {
+    start();
+    const intent = note.choices[id];
+    if (!intent && selected.length >= 3) return;
+    const next = setChoice(note, id, intent ?? 'change');
+    changeNote({ ...next, questions: next.choices[id] ? [...next.questions, id] : next.questions });
+  }
+
+  function chooseIntent(id: PriorityId, intent: Intent) {
+    if (note.choices[id] === intent) return;
+    changeNote(setChoice(note, id, intent));
+  }
+
+  function choosePrimary(id: PriorityId) {
+    changeNote({ ...note, priorities: [id], flexibility: { [id]: note.flexibility[id] ?? 'unsure' }, unordered: false });
+  }
+
+  function chooseUnknown() {
+    start();
+    setUnknown(true);
+    setGroups([]);
+    changeNote(emptyPriorityNote);
+    navigate(3);
+  }
+
+  async function copy() {
+    const currentRevision = revision.current;
+    try {
+      await navigator.clipboard.writeText(output);
+      if (revision.current === currentRevision) {
+        setCopyStatus('success');
+        trackEvent('career_priorities_copy', { ui_version: uiVersion });
+      }
+    } catch {
+      if (revision.current === currentRevision) setCopyStatus('error');
+    }
+  }
+
+  const reply = step === 0
+    ? groups.length ? 'まずは「' + groups.map(id => priorityGroups.find(group => group.id === id)?.label).join('」と「') + '」から考えてみましょう。' : '選ぶのは最大2分野。まだ決まっていなくても進めます。'
+    : step === 1
+      ? selected.length ? '気になる希望を' + selected.length + '件選びました。あとから変えられます。' : '今の気持ちに近いものを、最大3つ選んでください。'
+      : step === 2
+        ? primary ? '「' + priorityItems.find(item => item.id === primary)?.label + '」を最初に確かめる軸にします。' : 'いちばん先に確かめたいことを一つ選びましょう。'
+        : '答えは仮の整理です。求人を見ながら変えて大丈夫です。';
+
   return <div className={styles.workspace}>
-    {step < 0 ? <section className={styles.welcome}>
-      <p className={styles.intro}>次の仕事で、変えたいこと。残したいこと。<br />まだ決まっていなくても大丈夫です。</p>
-      <p>希望を選んで、今の仮の優先順位と、求人票・面接で確認したい質問を一枚のノートにまとめます。活動途中の見直しにも使えます。</p>
-      <ul className={styles.facts}><li>目安3〜5分</li><li>ログイン不要</li><li>回答の保存なし</li></ul>
-      <button className={styles.primary} onClick={() => navigate(0)}>今の気持ちから整理する</button>
-    </section> : <>
-      <ol className={styles.progress} aria-label="ノート作成の進み具合">{steps.map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined}><span>{index + 1}</span>{label}</li>)}</ol>
-      <h2 ref={heading} tabIndex={-1} className={styles.heading}>{headings[step]}</h2>
-      {step === 0 && <>
-        <p>気になる分野を開いて選んでください。全部埋める必要はありません。同じボタンを押すと選択を解除できます。</p>
-        {priorityGroups.map(group => <details className={styles.group} key={group.id}>
-          <summary>{group.label}<small>{group.items.filter(item => note.choices[item.id]).length}件選択</small></summary>
-          {group.items.map(item => <fieldset className={styles.choice} key={item.id}>
-            <legend>{item.label}</legend>
-            <div className={styles.options}>{(['change', 'keep'] as const).map(intent => <button key={intent} aria-pressed={note.choices[item.id] === intent} onClick={() => choose(item.id, intent)}>{intent === 'change' ? '今回変えたい' : '次も残したい'}</button>)}</div>
-          </fieldset>)}
-        </details>)}
-        <button className={styles.unknown} aria-pressed={unknown} onClick={() => { start(); setUnknown(current => !current); setNote(emptyPriorityNote); }}>まだ具体的に分からない</button>
-        <aside className={styles.selection} aria-live="polite"><strong>選んだこと · {selected.length}件</strong>{selected.length ? <ul>{selected.map(item => <li key={item.id}>{item.label}<small>{note.choices[item.id] === 'change' ? '変えたい' : '残したい'}</small></li>)}</ul> : <p>{unknown ? '今は探索中。それも大切な出発点です。' : '気になるものから、一つずつ。'}</p>}</aside>
-      </>}
-      {step === 1 && <>
-        <p>特に大切にしたいことを最大3つ選びます。1つでも、まだ選べなくても大丈夫です。</p>
-        <div className={styles.picks}>{selected.map(item => <button key={item.id} aria-pressed={note.priorities.includes(item.id)} disabled={note.priorities.length >= 3 && !note.priorities.includes(item.id)} onClick={() => togglePriority(item.id)}>{note.priorities.includes(item.id) ? '✓ ' : '＋ '}{item.label}</button>)}</div>
-        {!selected.length && <p className={styles.selection}>今は優先順位を探索中です。次の求人で、魅力と気になる点を一つずつ探してみましょう。</p>}
-        <label className={styles.check}><input type="checkbox" checked={note.unordered} onChange={event => setNote(current => ({ ...current, unordered: event.target.checked }))} />順位はまだ決めない</label>
-        <p className={styles.hint}>順位と、どこまで譲れるかは別です。「まだ迷う」のまま進めます。</p>
-        <ol className={styles.ranking}>{note.priorities.map((id, index) => <li key={id} className={styles.rankCard}>
-          <div className={styles.rankTitle}><strong>{note.unordered ? '' : `${index + 1}. `}{priorityItems.find(item => item.id === id)!.label}</strong>
-            {!note.unordered && <div className={styles.arrows}><button disabled={index === 0} aria-label={`${priorityItems.find(item => item.id === id)!.label}を上へ`} onClick={() => move(id, -1)}>↑</button><button disabled={index === note.priorities.length - 1} aria-label={`${priorityItems.find(item => item.id === id)!.label}を下へ`} onClick={() => move(id, 1)}>↓</button></div>}
-          </div>
-          <fieldset className={styles.flexibility}><legend>どこまで譲れる？</legend><div className={styles.options}>{(Object.keys(flexibilityLabels) as Flexibility[]).map(value => <button key={value} aria-pressed={(note.flexibility[id] ?? 'unsure') === value} onClick={() => setNote(current => ({ ...current, flexibility: { ...current.flexibility, [id]: value } }))}>{flexibilityLabels[value]}</button>)}</div></fieldset>
-        </li>)}</ol>
-      </>}
-      {step === 2 && <>
-        <p>希望を、確かめるための質問に。メモに残したいものだけ選んでください。</p>
-        {ordered.map(id => { const item = priorityItems.find(candidate => candidate.id === id)!; return <section className={styles.question} key={id}><h3>{item.label}</h3><p className={styles.hint}>求人票で分からなければ、面談でこう聞けます。</p><label className={styles.check}><input type="checkbox" checked={note.questions.includes(id)} onChange={() => setNote(current => ({ ...current, questions: current.questions.includes(id) ? current.questions.filter(key => key !== id) : [...current.questions, id] }))} />{item.question}</label></section>; })}
-        {!ordered.length && <p className={styles.selection}>質問は後から考えても大丈夫です。今の状態をノートにまとめましょう。</p>}
-      </>}
-      {step === 3 && <>
-        <p>今の仮まとめです。求人紹介や面接で考えが変わったら、また見直せます。</p>
-        <div className={styles.paper}>{output.split('\n\n').map((section, index) => <p key={index}>{section}</p>)}</div>
-        <button className={styles.primary} onClick={copy}>ノートをコピー</button>
-        <p role="status">{copyStatus === 'success' ? 'コピーしました。手元のメモに貼り付けて使えます。' : copyStatus === 'error' ? '自動コピーができませんでした。下の文章を選択してコピーしてください。' : ''}</p>
-        {copyStatus === 'error' && <label className={styles.manual}>コピー用テキスト<textarea readOnly value={output} onFocus={event => event.currentTarget.select()} rows={12} /></label>}
-        <p className={styles.hint}>選択肢になかった希望は、コピー後に手元で追記できます。</p>
-        <section className={styles.question} aria-labelledby="note-next-title">
-          <h3 id="note-next-title">整理した軸を、次の確認に使う</h3>
-          <p className={styles.hint}>移動する前にノートをコピーしてください。回答やノートは、移動先には引き継がれません。</p>
-          <ul>
-            <li><TrackedInternalLink href="/compare" eventName="career_priorities_next_click" eventProperties={{ destination_type: "compare" }}>この軸で企業を比較する</TrackedInternalLink></li>
-            <li><TrackedInternalLink href="/career-agents" eventName="career_priorities_next_click" eventProperties={{ destination_type: "career_agents" }}>希望条件を相談する相手を探す</TrackedInternalLink></li>
-          </ul>
-        </section>
-      </>}
-      <nav className={styles.navigation} aria-label="画面の移動">
-        {step > 0 ? <button onClick={() => navigate(step - 1)}>{step === 3 ? '戻って見直す' : '戻る'}</button> : <span />}
-        {step < 3 && <button className={styles.primary} disabled={step === 0 && !selected.length && !unknown} onClick={() => navigate(step + 1)}>{step === 2 ? 'ノートにまとめる' : '次へ'}</button>}
-      </nav>
+    <div className={styles.progressLine} aria-label={'進み具合 ' + (step + 1) + '/4'}>
+      <span>転職全体の軸</span><span>{step + 1} / 4</span>
+      <div className={styles.progressTrack}><span style={{ width: ((step + 1) * 25) + '%' }} /></div>
+    </div>
+    {step > 0 && <nav className={styles.history} aria-label="前の回答を編集">
+      {stepLabels.slice(0, unknown && step === 3 ? 1 : step).map((label, index) => <button key={label} onClick={() => navigate(index)}><span>{label}</span><strong>{index === 0 ? groups.length ? groups.map(id => priorityGroups.find(group => group.id === id)?.label).join('・') : '未定' : index === 1 ? selected.length ? selected.length + '件の希望' : '未定' : primary ? priorityItems.find(item => item.id === primary)?.label : '未定'}</strong><small>編集</small></button>)}
+    </nav>}
+    <section className={styles.conversation} aria-labelledby="priority-question">
+      <div className={styles.guideMark} aria-hidden="true">MC</div>
+      <div className={styles.guideBody}>
+        <p className={styles.guideName}>Manufacturing Compass ガイド</p>
+        <h2 id="priority-question" ref={heading} tabIndex={-1}>{step === 0 ? '次の仕事で、何が気になる？' : step === 1 ? '具体的には、どんな希望？' : step === 2 ? 'まず何を確かめたい？' : '次の一歩が見えてきました'}</h2>
+        <p className={styles.guideReply} aria-live="polite">{reply}</p>
+      </div>
+    </section>
+
+    {step === 0 && <>
+      <div className={styles.choiceGrid}>
+        {priorityGroups.map(group => <button key={group.id} aria-pressed={groups.includes(group.id)} disabled={groups.length >= 2 && !groups.includes(group.id)} onClick={() => toggleGroup(group.id)}><span>{group.label}</span><small>{group.items.length}つの視点</small></button>)}
+      </div>
+      <button className={styles.quietButton} onClick={chooseUnknown}>まだ具体的には分からない →</button>
     </>}
-    <p className={styles.privacy}>回答とノートは保存・送信されません。再読み込みやページを閉じると消えるため、最後にコピーしてください。改善のため、開始・画面到達・完成・コピーの操作のみ匿名で計測します。</p>
+
+    {step === 1 && <>
+      <p className={styles.fieldHint}>選んだ分野から、今の気持ちに近いものを最大3つ。</p>
+      <div className={styles.itemGroups}>{priorityGroups.filter(group => groups.includes(group.id)).map(group => <fieldset key={group.id}><legend>{group.label}</legend><div className={styles.choiceGrid}>{group.items.map(item => <button key={item.id} aria-pressed={!!note.choices[item.id]} disabled={selected.length >= 3 && !note.choices[item.id]} onClick={() => toggleItem(item.id)}>{item.label}</button>)}</div></fieldset>)}</div>
+      <button className={styles.quietButton} onClick={chooseUnknown}>まだ決められない →</button>
+    </>}
+
+    {step === 2 && <>
+      <p className={styles.fieldHint}>それぞれ「変えたい」「残したい」を選び、最初に確かめたいものを一つ決めます。</p>
+      <div className={styles.intentList}>{selected.map(item => <div className={styles.intentCard} key={item.id}>
+        <strong>{item.label}</strong>
+        <div className={styles.segmented} role="group" aria-label={item.label + 'について'}>
+          <button aria-pressed={note.choices[item.id] === 'change'} onClick={() => chooseIntent(item.id, 'change')}>変えたい</button>
+          <button aria-pressed={note.choices[item.id] === 'keep'} onClick={() => chooseIntent(item.id, 'keep')}>残したい</button>
+        </div>
+        <button className={styles.pickPrimary} aria-pressed={primary === item.id} onClick={() => choosePrimary(item.id)}>{primary === item.id ? '✓ 最初に確かめる' : '最初に確かめる'}</button>
+      </div>)}</div>
+      {primary && <fieldset className={styles.flexQuestion}><legend>「{priorityItems.find(item => item.id === primary)?.label}」は、どこまで譲れる？</legend><div className={styles.segmented}>{(Object.keys(flexibilityLabels) as Flexibility[]).map(value => <button key={value} aria-pressed={(note.flexibility[primary] ?? 'unsure') === value} onClick={() => changeNote({ ...note, flexibility: { ...note.flexibility, [primary]: value } })}>{flexibilityLabels[value]}</button>)}</div></fieldset>}
+    </>}
+
+    {step === 3 && <div className={styles.resultStack}>
+      <section className={styles.nextCard} aria-labelledby="priority-next-title">
+        <p className={styles.cardKicker}>NEXT STEP · 次に確かめること</p>
+        <h3 id="priority-next-title">{nextStep.question}</h3>
+        <p>{nextStep.action}</p>
+      </section>
+      <section className={styles.summaryCard} aria-label="今の整理">
+        <p className={styles.cardKicker}>YOUR NOTE · 今の仮まとめ</p>
+        <h3>{unknown ? '軸は、これから見つければ大丈夫' : nextStep.label}</h3>
+        <div className={styles.chips}>{selected.map(item => <span key={item.id}>{item.label} · {note.choices[item.id] === 'change' ? '変えたい' : '残したい'}</span>)}{!selected.length && <span>まだ決まっていない</span>}</div>
+      </section>
+      <button className={styles.primary} onClick={copy}>相談メモをコピー</button>
+      <p className={styles.copyStatus} role="status">{copyStatus === 'success' ? 'コピーしました。手元のメモに貼り付けて使えます。' : copyStatus === 'error' ? 'コピーできませんでした。下の詳細から文章を選択してください。' : ''}</p>
+      <details className={styles.details}><summary>すべての質問と相談メモを見る</summary>
+        <div className={styles.detailsBody}>
+          {selected.map(item => <p key={item.id}><strong>{item.label}</strong><br />{item.question}</p>)}
+          <label>コピー用テキスト<textarea readOnly value={output} rows={12} onFocus={event => event.currentTarget.select()} /></label>
+        </div>
+      </details>
+      <div className={styles.nextLinks}><p>確認先を探す</p>
+        <TrackedInternalLink href="/compare" eventName="career_priorities_next_click" eventProperties={{ destination_type: 'compare', ui_version: uiVersion }}>企業比較を見る ↗</TrackedInternalLink>
+        <TrackedInternalLink href="/career-agents" eventName="career_priorities_next_click" eventProperties={{ destination_type: 'career_agents', ui_version: uiVersion }}>相談先を探す ↗</TrackedInternalLink>
+      </div>
+    </div>}
+
+    <nav className={styles.navigation} aria-label="会話を進める">
+      {step > 0 && <button onClick={() => navigate(step === 3 && unknown ? 0 : step - 1)}>戻って直す</button>}
+      {step === 0 && <button className={styles.primary} disabled={!groups.length} onClick={() => navigate(1)}>次へ</button>}
+      {step === 1 && <button className={styles.primary} disabled={!selected.length} onClick={() => navigate(2)}>次へ</button>}
+      {step === 2 && <button className={styles.primary} disabled={!primary} onClick={() => navigate(3)}>次の一歩を見る</button>}
+    </nav>
+    <p className={styles.privacy}>回答は保存・送信されず、再読み込みで消えます。操作のみ匿名で計測します。</p>
   </div>;
 }
