@@ -1,5 +1,6 @@
 import snapshot from "@/data/chip-pulse-media.json";
 import type { PulseProcess, PulseThumbnail } from "@/data/chip-pulse";
+import type { WatchVisual } from "./watch-types";
 
 export const newsFields = {
   all: "すべて", equipment: "装置・材料", "design-manufacturing": "設計・製造",
@@ -14,6 +15,7 @@ export type NewsArticle = {
   validation: string; evidence: { locator: string; quote: string }[];
   relatedIds: string[]; history: { version: number; updatedAt: string; title: string; summary: string }[];
   thumbnail?: PulseThumbnail; sourceCheck?: "changed";
+  visual?: WatchVisual;
 };
 export type NewsUpdate = { id: string; sourceId: string; sourceName: string; sourceUrl: string; title: string; publishedAt: string; datePrecision: string };
 export type MediaSnapshot = {

@@ -157,6 +157,11 @@ function mergeSnapshot(previous, snapshot, sources, now, articles = previous.art
   if (JSON.stringify([previous.articles,previous.updates]) !== JSON.stringify([next.articles,next.updates])) next.contentUpdatedAt = now;
   return next;
 }
+function retainVerifiedArticle(article, previousHash, currentHash) {
+  if (article?.validation !== 'editor-verified') return false;
+  if (previousHash && previousHash !== currentHash) article.sourceCheck = 'changed';
+  return true;
+}
 async function main() {
   loadEnvConfig(root, true, { info(){}, error(){} });
   const now = new Date().toISOString(), ops = read(opsPath);
@@ -186,8 +191,7 @@ async function main() {
       row.body = docs.length>0;
       const bodyHash = hash(JSON.stringify(docs));
       const old = ops.processed[candidate.id];
-      if (existing?.validation==='editor-verified') {
-        if(old?.hash && old.hash!==bodyHash) existing.sourceCheck='changed';
+      if (retainVerifiedArticle(existing, old?.hash, bodyHash)) {
         row.eligible=existing.sourceCheck!=='changed';row.fields=existing.fields;row.state=row.eligible?'editor-verified':'source-changed';
         if(!auditOnly)ops.processed[candidate.id]={hash:bodyHash,state:row.state,checkedAt:now};
         continue;
@@ -220,4 +224,4 @@ async function main() {
   if(snapshot.status!=='success')process.exitCode=1;
 }
 if(require.main===module)main().catch(()=>{console.error('Chip Pulse refresh failed; inspect source configuration. No fabricated fallback.');process.exitCode=1;});
-module.exports={editionWindow,inEdition,excluded,publication,assertSecUrl,htmlText,fetchDocument,reserve,validateDraft,edit,mergeSnapshot,priceAllowed,ask,save,aiApproved,supplyReport};
+module.exports={editionWindow,inEdition,excluded,publication,assertSecUrl,htmlText,fetchDocument,reserve,validateDraft,edit,mergeSnapshot,retainVerifiedArticle,priceAllowed,ask,save,aiApproved,supplyReport};

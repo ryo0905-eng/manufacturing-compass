@@ -1,5 +1,6 @@
 import { jobNoteMeta } from "@/data/job-posting-note";
 import { media } from "@/lib/chip-pulse-media";
+import { articleWatchItem, watchUpdatedAt } from "@/lib/watch";
 import { earningsReleases, earningsUpdatedAt } from "@/lib/earnings";
 import { defectPareto } from "@/data/defect-pareto";
 import { improvementReportMeta } from "@/data/improvement-report";
@@ -101,7 +102,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/career-priorities" ? { lastModified: contentDate("2026-10-04") } : {}),
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
-    ...(path === "/semiconductor-watch" ? { lastModified: new Date(media.contentUpdatedAt) } : {}),
+    ...(path === "/semiconductor-watch" ? { lastModified: new Date(watchUpdatedAt) } : {}),
     ...(path === "/semiconductor-watch/earnings" || path === "/semiconductor-watch/earnings/compare" ? { lastModified: contentDate(earningsUpdatedAt) } : {}),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/career-agents" || path === "/semiconductor-map" ? 0.85 : 0.8,
@@ -156,7 +157,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const, priority: 0.8,
   }));
 
-  const newsRoutes = media.articles.map(article => ({ url: `${siteUrl}/semiconductor-watch/${article.id}`, lastModified: new Date(article.updatedAt) }));
+  const newsRoutes = media.articles.map(article => ({ url: `${siteUrl}/semiconductor-watch/${article.id}`, lastModified: new Date(articleWatchItem(article).updatedAt) }));
   const earningsRoutes = earningsReleases.map(release => ({ url: `${siteUrl}/semiconductor-watch/earnings/${release.companyId}`, lastModified: contentDate(release.checkedAt) }));
   return [...newsRoutes, ...earningsRoutes, ...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
 }

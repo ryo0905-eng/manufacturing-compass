@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentUpdatedAt": "2026-10-03T00:32:39.213Z",
+  "contentUpdatedAt": "2026-10-04T12:33:37.392Z",
   "edition": {
     "date": "2026-10-04",
     "start": "2026-10-02T21:00:00.000Z",
@@ -8,93 +8,93 @@
     "articleIds": []
   },
   "status": {
-    "checkedAt": "2026-10-03T23:48:19.739Z",
-    "lastSuccessfulAt": "2026-10-03T23:48:19.739Z",
+    "checkedAt": "2026-10-04T11:52:43.718Z",
+    "lastSuccessfulAt": "2026-10-04T11:52:43.718Z",
     "state": "success",
     "sources": [
       {
         "id": "amkor",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "entegris",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "ase",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "globalfoundries",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "nvidia",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "amd",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "broadcom",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "micron",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "intel",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "applied-materials",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "lam-research",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "kla",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "tsmc",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       },
       {
         "id": "asml",
         "state": "success",
-        "checkedAt": "2026-10-03T23:48:19.739Z",
-        "lastSuccessfulAt": "2026-10-03T23:48:19.739Z"
+        "checkedAt": "2026-10-04T11:52:43.718Z",
+        "lastSuccessfulAt": "2026-10-04T11:52:43.718Z"
       }
     ],
     "ai": "disabled"
@@ -177,6 +177,187 @@
       ],
       "relatedIds": [],
       "history": []
+    },
+    {
+      "id": "sec-0000002488-26-000182",
+      "sourceId": "amd",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000182/amd-20260926.htm",
+      "title": "AMD、World Labsの買収契約を締結。完了とは区別して読む",
+      "publishedAt": "2026-09-28T20:16:47.000Z",
+      "datePrecision": "instant",
+      "version": 1,
+      "summary": "AMDは2026年9月26日、World Labsの全持分を取得する契約を締結しました。対価は約82億米ドル相当のAMD株式で支払う予定です。",
+      "facts": [
+        "株式数は買収完了日に先立つ一定期間の株価に基づいて決まるため、開示時点では未確定です。"
+      ],
+      "unknowns": [
+        "この資料だけでは、買収の完了日や半導体製品・製造工程への具体的な効果は確認できません。"
+      ],
+      "fields": [
+        "design-manufacturing"
+      ],
+      "processes": [],
+      "companyNames": [
+        "AMD"
+      ],
+      "stage": "plan",
+      "evidence": [
+        {
+          "locator": "Item 3.02 / Merger Agreement",
+          "quote": "to acquire all of the equity interests in World Labs Technologies, Inc."
+        },
+        {
+          "locator": "Item 3.02 / Merger Agreement",
+          "quote": "approximately $8.2 billion"
+        }
+      ],
+      "relatedIds": [],
+      "visual": {
+        "kind": "stage",
+        "label": "買収の現在地",
+        "values": [
+          {
+            "label": "確認できたこと",
+            "value": "買収契約を締結",
+            "active": true
+          },
+          {
+            "label": "今後",
+            "value": "買収完了はこの資料では未確認"
+          }
+        ],
+        "note": "契約締結と買収完了は別の段階です。"
+      },
+      "validation": "editor-verified",
+      "firstPublishedAt": "2026-10-04T11:55:47.535Z",
+      "updatedAt": "2026-10-04T11:55:47.535Z",
+      "history": []
+    },
+    {
+      "id": "sec-0001046179-26-000658",
+      "sourceId": "tsmc",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000658/tsm-revenue20260910.htm",
+      "title": "TSMCの8月売上が増加。月次実績と設備投資を分けて読む",
+      "publishedAt": "2026-09-10T10:15:36.000Z",
+      "datePrecision": "instant",
+      "version": 1,
+      "summary": "TSMCの2026年8月の連結売上高は約5,148.1億台湾ドル。前月比10.1%増、前年同月比53.3%増でした。",
+      "facts": [
+        "対象は2026年8月の月次売上です。四半期決算や利益の実績ではありません。"
+      ],
+      "unknowns": [
+        "この月次資料から、顧客別・製品別の売上や装置メーカーへの発注額は確認できません。"
+      ],
+      "fields": [
+        "design-manufacturing"
+      ],
+      "processes": [],
+      "companyNames": [
+        "TSMC"
+      ],
+      "stage": "result",
+      "evidence": [
+        {
+          "locator": "TSMC August 2026 Revenue Report",
+          "quote": "revenue for August 2026 was approximately NT$514.81 billion"
+        },
+        {
+          "locator": "TSMC August 2026 Revenue Report",
+          "quote": "an increase of 53.3 percent from August 2025"
+        }
+      ],
+      "relatedIds": [
+        "tsmc-capital-appropriation-2026-09"
+      ],
+      "visual": {
+        "kind": "metric",
+        "label": "2026年8月 / 連結売上高",
+        "values": [
+          {
+            "label": "前年同月比",
+            "value": "+53.3%",
+            "active": true
+          },
+          {
+            "label": "前月比",
+            "value": "+10.1%"
+          }
+        ],
+        "note": "台湾ドル建て。利益や受注の増減を示す指標ではありません。"
+      },
+      "validation": "editor-verified",
+      "firstPublishedAt": "2026-10-04T11:55:47.535Z",
+      "updatedAt": "2026-10-04T11:55:47.535Z",
+      "history": []
+    },
+    {
+      "id": "sec-0000950103-26-013682",
+      "sourceId": "ase",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1122411/000095010326013682/dp253117_6k.htm",
+      "title": "ASEの後工程事業、8月売上は前年同月比53.1%増",
+      "publishedAt": "2026-09-09T10:03:31.000Z",
+      "datePrecision": "instant",
+      "version": 2,
+      "summary": "ASEは2026年8月の組立・テスト・材料事業（ATM）の売上高を512.87億台湾ドルと公表しました。前年同月比53.1%増、前月比7.9%増です。",
+      "facts": [
+        "数値は未監査です。ATM事業の売上であり、ASE全社の連結売上とは範囲が異なります。",
+        "前年同月比53.1%は会社公表値です。表の金額（51,287百万台湾ドルと33,510百万台湾ドル）から再計算すると約53.0%となり、差の理由はこの資料では確認できません。"
+      ],
+      "unknowns": [
+        "この資料だけでは、先端パッケージ単独の売上や、増収に寄与した個別顧客は確認できません。"
+      ],
+      "fields": [
+        "packaging"
+      ],
+      "processes": [
+        "Assembly",
+        "Test"
+      ],
+      "companyNames": [
+        "ASE Technology"
+      ],
+      "stage": "result",
+      "evidence": [
+        {
+          "locator": "ATM net revenues (unaudited) / NT$ Million",
+          "quote": "Net revenues for ATM assembly, testing and material business are as follows:"
+        },
+        {
+          "locator": "ATM net revenues (unaudited) / NT$ Million",
+          "quote": "51,287 47,524 33,510 +7.9% +53.1%"
+        }
+      ],
+      "relatedIds": [],
+      "visual": {
+        "kind": "metric",
+        "label": "2026年8月 / ATM事業売上高",
+        "values": [
+          {
+            "label": "前年同月比",
+            "value": "+53.1%",
+            "active": true
+          },
+          {
+            "label": "前月比",
+            "value": "+7.9%"
+          }
+        ],
+        "note": "台湾ドル建て・未監査。増減率は会社公表値。表の金額からの再計算では前年比約53.0%です。先端パッケージ単独の数値ではありません。"
+      },
+      "validation": "editor-verified",
+      "firstPublishedAt": "2026-10-04T11:55:47.535Z",
+      "updatedAt": "2026-10-04T12:33:37.392Z",
+      "history": [
+        {
+          "version": 1,
+          "updatedAt": "2026-10-04T11:55:47.535Z",
+          "title": "ASEの後工程事業、8月売上は前年同月比53.1%増",
+          "summary": "ASEは2026年8月の組立・テスト・材料事業（ATM）の売上高を512.87億台湾ドルと公表しました。前年同月比53.1%増、前月比7.9%増です。"
+        }
+      ]
     }
   ],
   "updates": [
@@ -190,48 +371,12 @@
       "datePrecision": "instant"
     },
     {
-      "id": "sec-0000002488-26-000182",
-      "sourceId": "amd",
-      "sourceName": "SEC EDGAR",
-      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/2488/000000248826000182/amd-20260926.htm",
-      "title": "AMDの公式開示（8-K）",
-      "publishedAt": "2026-09-28T20:16:47.000Z",
-      "datePrecision": "instant"
-    },
-    {
-      "id": "sec-0001046179-26-000658",
-      "sourceId": "tsmc",
-      "sourceName": "SEC EDGAR",
-      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000658/tsm-revenue20260910.htm",
-      "title": "TSMCの公式開示（6-K）",
-      "publishedAt": "2026-09-10T10:15:36.000Z",
-      "datePrecision": "instant"
-    },
-    {
-      "id": "sec-0000950103-26-013682",
-      "sourceId": "ase",
-      "sourceName": "SEC EDGAR",
-      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1122411/000095010326013682/dp253117_6k.htm",
-      "title": "ASE Technologyの公式開示（6-K）",
-      "publishedAt": "2026-09-09T10:03:31.000Z",
-      "datePrecision": "instant"
-    },
-    {
       "id": "sec-0001709048-26-000234",
       "sourceId": "globalfoundries",
       "sourceName": "SEC EDGAR",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1709048/000170904826000234/a6-ksiaclean.htm",
       "title": "GlobalFoundriesの公式開示（6-K）",
       "publishedAt": "2026-09-08T12:31:56.000Z",
-      "datePrecision": "instant"
-    },
-    {
-      "id": "sec-0001045810-26-000078",
-      "sourceId": "nvidia",
-      "sourceName": "SEC EDGAR",
-      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000078/nvda-20260902.htm",
-      "title": "NVIDIAの公式開示（8-K）",
-      "publishedAt": "2026-09-03T12:03:56.000Z",
       "datePrecision": "instant"
     }
   ]

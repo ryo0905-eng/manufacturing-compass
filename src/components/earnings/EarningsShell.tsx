@@ -10,7 +10,7 @@ export function EarningsShell({ children }: { children: ReactNode }) {
       <small>決算データ確認日：{earningsUpdatedAt.replaceAll("-", "/")}</small>
     </header>
     <nav className={styles.topNav} aria-label="業界ウォッチの分野">
-      <Link href="/semiconductor-watch">ニュース</Link>
+      <Link href="/semiconductor-watch">業界ウォッチ</Link>
       <Link href="/semiconductor-watch/earnings">決算・IR</Link>
       <Link href="/semiconductor-watch/earnings/compare">企業比較</Link>
     </nav>

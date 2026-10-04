@@ -1,6 +1,6 @@
 # Architecture
 
-最終更新日: 2026-10-01
+最終更新日: 2026-10-04
 
 ## 方針
 
@@ -12,7 +12,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 決算・IRは `src/data/earnings-snapshot.json` の装置5社・メモリ関連4社の公式資料照合済みスナップショットを `src/lib/earnings.ts` から読む。`/semiconductor-watch/earnings` と企業別詳細はServer Componentを基本とし、絞り込み・事業領域別の2〜3社選択のみClient Componentで行う。資料・数値・要点は出典IDと箇所を保持する。`scripts/earnings-publish.cjs` が候補を検証し、前回版を非公開アーカイブへ保存してから原子的に公開版を更新する。SECの既存提出メタデータは候補発見のみで、数値抽出や要約は手動確認する。詳細は `docs/earnings-ir-operations.md`。
 
-Chip Pulse朝刊への移行：公開記事・版・状態は静的JSON、処理済みハッシュと費用予約はGit管理の運用台帳で永続化する。ActionsだけがVercel AI Gateway経由で公開提出資料を処理し、ページは保存結果のみを読む。記事詳細はServer Component、一覧の分野選択だけClient Componentとする。仕様・運用境界は `docs/chip-pulse-media.md`。下記Chip Pulseの従来構成は互換用データと旧部品として保持する。
+業界ウォッチ（2026-10-04）：`src/lib/watch.ts` がニュースJSON・決算JSON・工場データをIDで結び、`watch-editorial.json` の確認日・版・背景・探索先と合成する。トップ・詳細・図はServer Componentを基本に、`NewsFeed` のテーマ選択と `MediaLinks` の計測だけをクライアントで動かす。`#theme=…` の履歴復元と旧 `#signal-{id}` を保持。編集公開は `scripts/chip-pulse-editor-publish.cjs` で照合・前回版保存・原子的更新。日次収集は確認付き本文を保持し、元資料変更時は背景を無効化する。AI公開の承認はfalseのまま。現行UI・編集仕様は `docs/semiconductor-watch-editorial.md`、既存AI台帳と処理境界は `docs/chip-pulse-media.md`。下記の従来ダッシュボード部品は互換用に保持する。
 
 - Chip Pulse：`chip-pulse.ts` が企業ID、原文URL付き編集ニュース、事実要約、編集部の見方、影響工程、確認時刻を公開用の静的スナップショットとして保持し、`lib/chip-pulse.ts` が複合フィルター、最終正常更新時刻を基準とした24時間・30日・今後7日間の表示範囲、テーマ件数、企業別公式更新件数、依存なしの矩形分割を担当する。重要3件のサムネイルは先頭工程からローカル描画し、任意の公式画像は確認済みローカルファイルと出典だけを許可する。`chip-pulse-sources.json` はSECのCIK・対象Form・利用条件・候補上限を持つ収集台帳、`scripts/chip-pulse-update.cjs` はSEC提出候補を `.private` の最終試行、current、時刻別不変JSONへ出力する。`scripts/chip-pulse-review.cjs` は公開済みURL・別URL対応・定型除外規則で候補を自動分類し、`scripts/chip-pulse-publish.cjs` は全取得成功時だけ新しい公式メタデータを更新し、失敗時は前回公開データを保持したまま試行状態を記録する。ダッシュボードは編集ニュース、未編集の公式メタデータ、市場規模データを分けて表示する。`/semiconductor-watch` のServer Componentがmetadata・構造化データ・鮮度表示を出力し、Client Componentが選択状態だけをブラウザ内で管理する。時価総額と工場案件は既存の基準日・出典付き静的データを参照する。外部DB、閲覧時API、閲覧時AI、URL状態は追加しない。次の取得順・スナップショット境界・情報源判断は `docs/chip-pulse-data-plan.md` を参照する。
 

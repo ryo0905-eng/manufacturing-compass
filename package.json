@@ -17,11 +17,12 @@
     "chip-pulse:check": "node scripts/chip-pulse-check.cjs",
     "earnings:check": "node scripts/earnings-publish.cjs --check",
     "earnings:publish": "node scripts/earnings-publish.cjs",
-    "chip-pulse:test": "node --test scripts/chip-pulse.test.cjs scripts/chip-pulse-media.test.cjs",
+    "chip-pulse:test": "node --test scripts/chip-pulse.test.cjs scripts/chip-pulse-media.test.cjs tests/unit/watch.cjs",
     "chip-pulse:reserve": "node scripts/chip-pulse-media.cjs --reserve",
     "chip-pulse:audit": "node scripts/chip-pulse-media.cjs --audit",
     "chip-pulse:refresh": "node scripts/chip-pulse-media.cjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "chip-pulse:editor": "node scripts/chip-pulse-editor-publish.cjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.9",

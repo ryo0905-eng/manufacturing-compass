@@ -1,0 +1,242 @@
+{
+  "updatedAt": "2026-10-04T12:33:37.392Z",
+  "highlights": [
+    "earnings:micron-2026-q4",
+    "article:sec-0000002488-26-000182",
+    "article:sec-0000950103-26-013682"
+  ],
+  "articles": {
+    "tsmc-capital-appropriation-2026-09": {
+      "version": 1,
+      "checkedAt": "2026-10-04T11:57:35.747200Z",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000660/tsm-monthend6kx20260924.htm"
+      ],
+      "companyIds": [
+        "tsmc"
+      ],
+      "primaryTopic": "investment",
+      "topics": [
+        "investment",
+        "design",
+        "packaging"
+      ],
+      "reason": "設備投資は、どの工程へ資金を配分するかを見る入口です。承認額と実際の設備納入・稼働を分けて追います。",
+      "termIds": [
+        "plan",
+        "packaging"
+      ],
+      "links": [
+        {
+          "href": "/companies/tsmc",
+          "label": "TSMCの受託製造の役割を見る",
+          "destination": "company"
+        },
+        {
+          "href": "/industry-map#company=tsmc",
+          "label": "業界地図でTSMCの位置を見る",
+          "destination": "industry_map"
+        },
+        {
+          "href": "/guides/semiconductor-packaging-process",
+          "label": "先端パッケージにつながる工程を知る",
+          "destination": "guide"
+        }
+      ],
+      "statusLabel": "資本配分を承認",
+      "sourceTitle": "TSMC Form 6-K — Capital Appropriations"
+    },
+    "broadcom-q3-semiconductor-solutions-2026": {
+      "version": 1,
+      "checkedAt": "2026-10-04T11:57:35.747200Z",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1730168/000173016826000080/avgo-20260802.htm"
+      ],
+      "companyIds": [
+        "broadcom"
+      ],
+      "primaryTopic": "ai-memory",
+      "topics": [
+        "ai-memory",
+        "design"
+      ],
+      "reason": "AI需要という言葉が、どの会社のどの事業に現れたかを確認する材料です。他社の受注増へ直接結びつけずに読みます。",
+      "termIds": [
+        "fabless",
+        "segment"
+      ],
+      "links": [
+        {
+          "href": "/companies/broadcom",
+          "label": "Broadcomの事業と製品を調べる",
+          "destination": "company"
+        },
+        {
+          "href": "/segments/fabless",
+          "label": "設計企業の役割を比べる",
+          "destination": "industry_map"
+        },
+        {
+          "href": "/guides/semiconductor-market-cap-ranking",
+          "label": "基準日付きの企業規模を比べる",
+          "destination": "ranking"
+        }
+      ],
+      "sourceTitle": "Broadcom Form 10-Q — Semiconductor Solutions"
+    },
+    "sec-0000002488-26-000182": {
+      "version": 1,
+      "checkedAt": "2026-10-04T11:57:35.747200Z",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/2488/000000248826000182/amd-20260926.htm"
+      ],
+      "companyIds": [
+        "amd"
+      ],
+      "primaryTopic": "design",
+      "topics": [
+        "design"
+      ],
+      "reason": "半導体企業の動きには製品や工場以外の企業買収もあります。まず契約で決まったことと、完了後に確認することを切り分けます。",
+      "termIds": [
+        "agreement",
+        "fabless"
+      ],
+      "links": [
+        {
+          "href": "/companies/amd",
+          "label": "AMDの事業を調べる",
+          "destination": "company"
+        },
+        {
+          "href": "/industry-map#company=amd",
+          "label": "業界地図でAMDの役割を見る",
+          "destination": "industry_map"
+        },
+        {
+          "href": "/compare/amd-vs-nvidia",
+          "label": "AMDとNVIDIAの事業・職種を比べる",
+          "destination": "compare"
+        }
+      ],
+      "statusLabel": "買収契約を締結",
+      "sourceTitle": "AMD Form 8-K — Agreement and Plan of Merger"
+    },
+    "sec-0001046179-26-000658": {
+      "version": 1,
+      "checkedAt": "2026-10-04T11:57:35.747200Z",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000658/tsm-revenue20260910.htm"
+      ],
+      "companyIds": [
+        "tsmc"
+      ],
+      "primaryTopic": "design",
+      "topics": [
+        "design"
+      ],
+      "reason": "月ごとの実績は、受託製造の動きを追う材料になります。設備投資の承認とは対象期間と意味が違うため、別々に読みます。",
+      "termIds": [
+        "monthly",
+        "foundry"
+      ],
+      "links": [
+        {
+          "href": "/companies/tsmc",
+          "label": "TSMCの受託製造の役割を見る",
+          "destination": "company"
+        },
+        {
+          "href": "/industry-map#company=tsmc",
+          "label": "業界地図でTSMCの位置を見る",
+          "destination": "industry_map"
+        },
+        {
+          "href": "/guides/semiconductor-foundry",
+          "label": "ファウンドリの仕組みを知る",
+          "destination": "guide"
+        }
+      ],
+      "sourceTitle": "TSMC Form 6-K — August 2026 Revenue Report"
+    },
+    "sec-0000950103-26-013682": {
+      "version": 2,
+      "checkedAt": "2026-10-04T12:33:37.392Z",
+      "sourceUrls": [
+        "https://www.sec.gov/Archives/edgar/data/1122411/000095010326013682/dp253117_6k.htm"
+      ],
+      "companyIds": [],
+      "primaryTopic": "packaging",
+      "topics": [
+        "packaging"
+      ],
+      "reason": "後工程の動きを売上から追う入口です。全社、ATM事業、先端パッケージという集計範囲の違いに注目します。",
+      "termIds": [
+        "packaging",
+        "monthly"
+      ],
+      "links": [
+        {
+          "href": "/industry-map#company=ase",
+          "label": "業界地図でASEの役割を見る",
+          "destination": "industry_map"
+        },
+        {
+          "href": "/guides/semiconductor-packaging-process",
+          "label": "組立・検査の工程を知る",
+          "destination": "guide"
+        },
+        {
+          "href": "/guides/semiconductor-packaging-equipment-manufacturers",
+          "label": "後工程を支える装置メーカーを見る",
+          "destination": "guide"
+        }
+      ],
+      "sourceTitle": "ASE Technology Holding Form 6-K — August 2026 Net Revenues"
+    }
+  },
+  "terms": {
+    "foundry": {
+      "label": "ファウンドリとは？",
+      "text": "顧客が設計した半導体の製造を受託する事業です。設計する企業との役割の違いから読むと、発表の位置づけが分かります。",
+      "href": "/guides/semiconductor-foundry"
+    },
+    "packaging": {
+      "label": "後工程では何をする？",
+      "text": "加工済みのウエハからチップを切り出し、接続・封止・検査を経て製品にします。売上が後工程全体か、先端実装だけかも確認します。",
+      "href": "/guides/semiconductor-packaging-process"
+    },
+    "monthly": {
+      "label": "月次売上と決算の違いは？",
+      "text": "月次売上は1か月間の売上の情報です。利益や四半期全体の実績を示すとは限りません。対象期間と集計範囲を合わせて読みます。",
+      "href": "/semiconductor-watch/earnings"
+    },
+    "plan": {
+      "label": "投資承認は稼働開始？",
+      "text": "投資の承認、設備の発注、建設、試作、量産は異なる段階です。実績と今後の計画を分けて確認します。",
+      "href": "/guides/japan-semiconductor-factory-projects"
+    },
+    "fabless": {
+      "label": "ファブレスとは？",
+      "text": "自社で製造工場を持たず、半導体の設計を中心に担う企業です。製品開発と製造委託先の活動を分けて理解できます。",
+      "href": "/segments/fabless"
+    },
+    "agreement": {
+      "label": "買収契約の締結で何が決まる？",
+      "text": "取得の条件について合意した段階です。買収完了や事業への効果とは区別し、条件と未確定事項を原資料で確認します。",
+      "href": "/semiconductor-watch/sec-0000002488-26-000182"
+    },
+    "segment": {
+      "label": "会社全体と事業別の売上の違いは？",
+      "text": "複数の事業を持つ会社では、半導体事業の動きと会社全体の動きが異なることがあります。数値の対象となる事業と期間を確認します。",
+      "href": "/semiconductor-watch/earnings"
+    }
+  },
+  "sourceDestinations": {
+    "sec-0000723125-26-000018": {
+      "href": "/semiconductor-watch/earnings/micron",
+      "label": "Micronの決算要点と根拠を読む",
+      "destination": "earnings"
+    }
+  }
+}
