@@ -104,6 +104,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/tools/gage-rr`: 交差型Gage R&Rで部品差、繰返し性、再現性、%GRR、ndcを学ぶ
 - `/tools/line-balance`: 工程別の作業時間を山積み表示し、タクト超過と再配分前後を比較する
 - `/tools/oee`: OEEの内訳と、停止・性能・良品率の改善による推定良品数を比較する
+- `/games/palm-fab`: Server Componentの専用ページと遅延読込するClient Component、SVGの固定配置工場。`src/lib/palm-fab/simulation.ts` に固定時間刻みの生産・搬送・待ち行列・保存検証を分離し、バランス値は `src/data/palm-fab.ts` に置く。試作中はnoindexでsitemap非掲載
 - `/games/process-engineer-survival`: Phaserの工場フロアとReactのイベントUIを組み合わせ、製造トラブルの判断をコミカルに体験する。ゲーム状態はブラウザメモリだけに保持する
 
 `/diagnosis` と `/diagnosis/result` は存在しません。Career Compass の結果は URL を分けず、クライアント側の状態として同じページに表示します。
