@@ -13,18 +13,35 @@ function load(file, dependencies = {}) {
 const data = load('src/data/palm-fab.ts');
 const fab = load('src/lib/palm-fab/simulation.ts', { '@/data/palm-fab': data });
 
+async function assertFitsViewport(page, label, selectors) {
+  const metrics = await page.evaluate(() => ({
+    width: innerWidth, height: innerHeight,
+    scrollWidth: document.documentElement.scrollWidth,
+    scrollHeight: document.documentElement.scrollHeight,
+  }));
+  assert.ok(metrics.scrollWidth <= metrics.width + 1, `${label}: horizontal page scroll ${JSON.stringify(metrics)}`);
+  assert.ok(metrics.scrollHeight <= metrics.height + 1, `${label}: vertical page scroll ${JSON.stringify(metrics)}`);
+  for (const selector of selectors) {
+    const box = await selector.boundingBox();
+    assert.ok(box && box.x >= -1 && box.y >= -1 && box.x + box.width <= metrics.width + 1 && box.y + box.height <= metrics.height + 1,
+      `${label}: required control outside viewport ${JSON.stringify(box)}`);
+  }
+}
+
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const origin = process.env.PALM_FAB_ORIGIN || 'http://localhost:3107';
-  for (const [device, viewport] of Object.entries({ mobile: { width: 390, height: 844 }, desktop: { width: 1440, height: 900 } })) {
+  for (const [device, viewport] of Object.entries({ compactMobile: { width: 360, height: 640 }, mobile: { width: 390, height: 844 }, compactDesktop: { width: 1280, height: 720 }, desktop: { width: 1440, height: 900 } })) {
     const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
     await page.goto(`${origin}/games/palm-fab`, { waitUntil: 'networkidle' });
     await page.getByRole('button', { name: /検査装置 レベル1/ }).waitFor();
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${device} overflow`);
+    await assertFitsViewport(page, device, [page.getByRole('region', { name: '出荷目標' }), page.getByRole('region', { name: '装置の詳細' }), page.getByRole('button', { name: /検査装置 レベル1/ }), page.getByRole('button', { name: '一時停止' }), page.getByRole('button', { name: 'リセット' })]);
     await page.screenshot({ path: `/tmp/palm-fab-${device}.png`, fullPage: true });
     await page.getByRole('button', { name: /検査装置 レベル1/ }).click();
     assert.ok((await page.getByRole('region', { name: '装置の詳細' }).innerText()).includes('13.0 秒'));
     assert.equal(await page.getByRole('button', { name: /検査をアップグレード/ }).isEnabled(), false);
+    await assertFitsViewport(page, `${device} shortage`, [page.getByRole('region', { name: '出荷目標' }), page.getByRole('button', { name: /検査をアップグレード/ })]);
+    assert.ok(await page.getByRole('region', { name: '装置の詳細' }).evaluate(element => element.scrollHeight <= element.clientHeight + 1), `${device}: detail panel scrolls`);
     await page.getByRole('button', { name: /一時停止/ }).click();
     await page.reload({ waitUntil: 'networkidle' });
     await page.getByRole('button', { name: /再開/ }).waitFor();
@@ -35,6 +52,20 @@ const fab = load('src/lib/palm-fab/simulation.ts', { '@/data/palm-fab': data });
     assert.ok((await page.locator('main').innerText()).includes('累計出荷\n0'));
     await page.close();
     console.log(`${device}: layout, selection, shortage, pause/save/reload and reset passed`);
+  }
+  for (const [scenario, state] of [
+    ['affordable', { ...fab.newFab(), coins: 60, paused: true }],
+    ['max-level', { ...fab.newFab(), machines: { ...fab.newFab().machines, inspect: { level: 4, case: null, remaining: 0 } }, paused: true }],
+  ]) {
+    const page = await browser.newPage({ viewport: { width: 360, height: 640 }, deviceScaleFactor: 1 });
+    await page.addInitScript(({ key, value }) => localStorage.setItem(key, value), { key: fab.SAVE_KEY, value: JSON.stringify(state) });
+    await page.goto(`${origin}/games/palm-fab`, { waitUntil: 'networkidle' });
+    await page.getByRole('button', { name: /検査装置 レベル/ }).click();
+    const control = scenario === 'affordable' ? page.getByRole('button', { name: /検査をアップグレード/ }) : page.getByText('この装置は最大レベルです');
+    await assertFitsViewport(page, scenario, [page.getByRole('region', { name: '出荷目標' }), control]);
+    if (scenario === 'affordable') assert.equal(await control.isEnabled(), true);
+    await page.screenshot({ path: `/tmp/palm-fab-${scenario}.png`, fullPage: true });
+    await page.close();
   }
   const congested = fab.advanceFab(fab.newFab(), 120);
   const improved = fab.advanceFab(fab.buyUpgrade(congested, 'inspect'), 90);
@@ -53,4 +84,4 @@ const fab = load('src/lib/palm-fab/simulation.ts', { '@/data/palm-fab': data });
   }
   console.log('congested and improved scene screenshots match simulation queues');
   await browser.close();
-})().catch(error => { console.error(error); process.exitCode = 1; });
+})().catch(error => { console.error(error); process.exit(1); });

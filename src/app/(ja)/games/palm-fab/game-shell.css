@@ -1,3 +1,4 @@
 body:has([data-palm-fab-page]) { background: #173c51; }
+body:has([data-palm-fab-page]) .site-shell { height: 100svh; height: 100dvh; min-height: 0; overflow: hidden; }
 body:has([data-palm-fab-page]) .site-shell > header,
 body:has([data-palm-fab-page]) .site-shell > footer { display: none; }

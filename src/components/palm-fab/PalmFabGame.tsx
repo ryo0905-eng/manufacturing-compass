@@ -102,29 +102,32 @@ export default function PalmFabGame() {
       <div className={styles.hud}>
         <div className={styles.stat}><span>🟡 ゲーム内資金</span><strong>◉ {state.coins.toLocaleString()}</strong></div>
         <div className={styles.stat}><span>🔵 累計出荷</span><strong>{state.shipped.toLocaleString()} <small>枚</small></strong></div>
-        <div className={styles.actions}><button type="button" onClick={() => setState(current => ({ ...current, paused: !current.paused }))}>{state.paused ? "▶ 再開" : "Ⅱ 一時停止"}</button><button type="button" onClick={reset}>↺ リセット</button></div>
+        <div className={styles.actions}><button type="button" aria-label={state.paused ? "再開" : "一時停止"} onClick={() => setState(current => ({ ...current, paused: !current.paused }))}><span aria-hidden="true">{state.paused ? "▶" : "Ⅱ"}</span><span className={styles.actionLabel}> {state.paused ? "再開" : "一時停止"}</span></button><button type="button" aria-label="リセット" onClick={reset}><span aria-hidden="true">↺</span><span className={styles.actionLabel}> リセット</span></button></div>
       </div>
     </div>
     <div className={styles.layout}>
       <div className={styles.factory}>
         <PalmFabScene state={state} selected={selected} onSelect={setSelected} reducedMotion={reducedMotion} mobile={mobile} />
         <div className={styles.factoryHeading}><span className={styles.liveDot} /> <span>FAB 01 · {state.paused ? "一時停止中" : "稼働中"}</span></div>
-        <div className={styles.hint} role="status">{hint(state)}</div>
       </div>
+      <div className={styles.controls}>
       <section className={styles.goal} aria-label="出荷目標">
         <div className={styles.goalIcon} aria-hidden="true">▤</div>
         <div className={styles.goalBody}><div className={styles.sectionTop}><span>MISSION · つぎの目標</span><strong>{goal.toLocaleString()} 枚出荷</strong></div><div className={styles.progress}><span style={{ width: `${Math.min(100, (state.shipped - previousGoal) / (goal - previousGoal) * 100)}%` }} /></div><p>{state.shipped.toLocaleString()} / {goal.toLocaleString()} 枚 · ケース1つで{fabBalance.wafersPerCase}枚</p></div>
+        <div className={styles.hint} role="status">{hint(state)}</div>
       </section>
       <section className={styles.panel} aria-label="装置の詳細">
         {selected && selectedMachine ? <>
           <div className={styles.sectionTop}><span>SELECTED MACHINE</span><strong>⚙ {name}装置 <small>Lv.{selectedMachine.level}</small></strong></div>
           <div className={styles.panelBody}><p className={styles.role}>{fabBalance.machines[selected].role}</p>
           <div className={styles.detailGrid}><div><span>いまの処理時間</span><strong>{duration(selected, selectedMachine.level).toFixed(1)} 秒 / ケース</strong></div><div><span>強化後</span><strong>{cost === null ? "最大レベル" : `${duration(selected, selectedMachine.level + 1).toFixed(1)} 秒 / ケース`}</strong></div></div>
+          <p className={styles.mobileEffect}>処理 <strong>{duration(selected, selectedMachine.level).toFixed(1)} 秒</strong> → <strong>{cost === null ? "最大レベル" : `${duration(selected, selectedMachine.level + 1).toFixed(1)} 秒`}</strong> / ケース</p>
           {cost === null ? <p className={styles.maxed}>この装置は最大レベルです</p> : <><button className={styles.upgrade} type="button" disabled={!canBuy} onClick={upgrade}>⬆ {name}をアップグレード <span>◉ {cost}</span></button>{!canBuy && <p className={styles.shortage}>資金があと {cost - state.coins} 必要です。出荷で増えます。</p>}</>}
           </div>
         </> : <><div className={styles.sectionTop}><span>SELECT A MACHINE</span><strong>⚙ 装置をタップ</strong></div><div className={styles.panelBody}><p className={styles.role}>装置を選んで、処理速度と強化費用を確認しよう。</p><div className={styles.quickSelect}>{machineIds.map(id => <button type="button" key={id} onClick={() => setSelected(id)}>{fabBalance.machines[id].name}</button>)}</div></div></>}
       </section>
-      <p className={styles.note}>製造工程と資金は遊びやすく簡略化した架空の設定です。進行状況はこのブラウザ内に保存されます。</p>
+      <p className={styles.note}><span className={styles.noteLong}>製造工程と資金は遊びやすく簡略化した架空の設定です。進行状況はこのブラウザ内に保存されます。</span><span className={styles.noteShort}>工程・資金は架空／進行はブラウザ内に保存</span></p>
+      </div>
     </div>
     {notice && <div className={styles.notice} role="status">✦ {notice}</div>}
   </div>;

@@ -57,12 +57,11 @@ export function PalmFabScene({ state, selected, onSelect, reducedMotion, mobile 
   const robotY = robotFrom[1] + (robotTo[1] - robotFrom[1]) * fraction;
   const sceneWidth = mobile ? 620 : 1000;
   const sceneHeight = mobile ? 670 : 680;
-  return <svg className={styles.scene} viewBox={`0 0 ${sceneWidth} ${sceneHeight}`} role="group" aria-label="加工、洗浄、検査、出荷の順にケースが流れる工場。装置を選んで強化できます">
+  return <svg className={styles.scene} viewBox={`0 0 ${sceneWidth} ${sceneHeight}`} preserveAspectRatio="xMidYMid meet" role="group" aria-label="加工、洗浄、検査、出荷の順にケースが流れる工場。装置を選んで強化できます">
     <defs>
       <linearGradient id="laneGlow" x1="0" x2="1"><stop stopColor="#e9d15e" stopOpacity=".55" /><stop offset=".6" stopColor="#65e5d3" stopOpacity=".65" /><stop offset="1" stopColor="#ffd46a" stopOpacity=".55" /></linearGradient>
       <radialGradient id="dockGlow"><stop stopColor="#ffedab" stopOpacity=".8" /><stop offset="1" stopColor="#ffedab" stopOpacity="0" /></radialGradient>
     </defs>
-    <image href={`${assets}/cleanroom.webp`} x="0" y="0" width={sceneWidth} height={sceneHeight} preserveAspectRatio="xMidYMin slice" />
     <rect width={sceneWidth} height={sceneHeight} fill="#d5f0f2" opacity=".06" pointerEvents="none" />
     <path d="M121 301 C197 307 291 298 382 296 S487 324 449 370 S366 448 264 523 S169 541 111 539" fill="none" stroke="#ffffff" strokeWidth="36" strokeLinecap="round" opacity=".47" pointerEvents="none" />
     <path d="M121 301 C197 307 291 298 382 296 S487 324 449 370 S366 448 264 523 S169 541 111 539" fill="none" stroke="url(#laneGlow)" strokeWidth="4" strokeDasharray="12 13" pointerEvents="none" />
