@@ -6650,6 +6650,14 @@ select {
   text-underline-offset: 3px;
 }
 
+.companies-japan__products {
+  display: block;
+  color: #697176;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
 .companies-taxonomy > div,
 .companies-adjacent > div {
   display: grid;

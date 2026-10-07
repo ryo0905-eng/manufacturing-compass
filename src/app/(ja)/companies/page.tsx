@@ -17,13 +17,16 @@ const japaneseCompaniesBySegment = segments
   }))
   .filter(({ companies: groupedCompanies }) => groupedCompanies.length > 0);
 
+const pageTitle = "日本・世界の半導体メーカー・関連企業一覧【2026年版】";
+const pageDescription = `日本に本社がある${japaneseCompanyCount}社を含む、半導体メーカー・関連企業全${companies.length}社の掲載一覧。半導体製品、製造装置、材料などの分野別に、主力製品・国内拠点・職種を調べ、企業詳細や比較へ進めます。`;
+
 export const metadata: Metadata = {
-  title: `半導体メーカー・企業一覧【2026年版】世界・日本の${companies.length}社`,
-  description: `世界・日本の半導体メーカー・関連企業${companies.length}社を、IDM、ファブレス、ファウンドリ、製造装置、材料など分野別に整理。事業、製品、国内拠点、職種から検索・比較できます。`,
+  title: pageTitle,
+  description: pageDescription,
   alternates: { canonical: "/companies" },
   openGraph: {
-    title: `半導体メーカー・企業一覧【2026年版】世界・日本の${companies.length}社`,
-    description: "半導体企業を分野と本社地域で絞り込み、事業・製品・職種を比較できる企業研究ハブです。",
+    title: pageTitle,
+    description: pageDescription,
     type: "website",
     url: "/companies",
   },
@@ -88,7 +91,8 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
         <p className="section-label">2026年版・公開情報から企業研究</p>
         <h1>半導体メーカー・企業一覧</h1>
         <p>
-          世界・日本の半導体関連企業を、設計、製造、装置、材料などの役割で整理した一覧です。
+          日本に本社がある{japaneseCompanyCount}社を含む、掲載企業全{companies.length}社の一覧です。
+          半導体製品、製造装置、材料などの役割で整理しており、日本・世界の全企業を網羅したものではありません。
           会社名だけでなく、主力製品、日本拠点、職種を検索し、企業詳細や比較へ進めます。
         </p>
         <dl className="companies-hero__facts" aria-label="掲載範囲">
@@ -105,23 +109,6 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
           <Link className="button ghost" href="/compare">2社を比較する</Link>
         </div>
       </header>
-      <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>
-
-
-      <section className="companies-role" aria-labelledby="companies-role-title">
-        <div>
-          <p className="section-label">このページの役割</p>
-          <h2 id="companies-role-title">企業名から探す前に、分野の違いを押さえる</h2>
-          <p>
-            半導体企業は、同じ市場で一律に競う会社ではありません。設計する企業、受託製造する企業、
-            自社で設計・製造する企業、製造装置や材料を供給する企業に分かれます。
-          </p>
-        </div>
-        <aside>
-          <strong>業界地図との使い分け</strong>
-          <p><Link href="/industry-map">半導体業界地図</Link>は工程と企業間の関係を理解するページ、この企業一覧は条件から企業を検索・比較するページです。</p>
-        </aside>
-      </section>
 
       <section className="companies-japan" id="japanese-companies" aria-labelledby="companies-japan-title">
         <header>
@@ -137,12 +124,30 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
                 {groupedCompanies.map((company) => (
                   <li key={company.id}>
                     <Link href={`/companies/${company.slug}` as Route}>{company.nameJa}</Link>
+                    <span className="companies-japan__products">{company.mainProducts.slice(0, 2).join(" / ")}</span>
                   </li>
                 ))}
               </ul>
             </section>
           ))}
         </div>
+      </section>
+
+      <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>
+
+      <section className="companies-role" aria-labelledby="companies-role-title">
+        <div>
+          <p className="section-label">このページの役割</p>
+          <h2 id="companies-role-title">企業名から探す前に、分野の違いを押さえる</h2>
+          <p>
+            半導体企業は、同じ市場で一律に競う会社ではありません。設計する企業、受託製造する企業、
+            自社で設計・製造する企業、製造装置や材料を供給する企業に分かれます。
+          </p>
+        </div>
+        <aside>
+          <strong>業界地図との使い分け</strong>
+          <p><Link href="/industry-map">半導体業界地図</Link>は工程と企業間の関係を理解するページ、この企業一覧は条件から企業を検索・比較するページです。</p>
+        </aside>
       </section>
 
       <section className="companies-taxonomy" aria-labelledby="companies-taxonomy-title">

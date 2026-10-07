@@ -3,7 +3,7 @@ import { opticalCompanies, opticalMeta } from "@/data/optical-semiconductor";
 
 export const opticalSemiconductorManufacturersGuide: GuideArticle = {
   slug: opticalMeta.sourceSlug,
-  title: "光半導体メーカー比較｜LED・レーザー・イメージセンサーを用途から探す",
+  title: "光半導体メーカー一覧・比較｜LED・レーザー・イメージセンサー",
   description: "日亜化学、ams OSRAM、ソニー、浜松ホトニクス、ローム、onsemiの光半導体を用途で比較。LED・半導体レーザー・イメージセンサー・フォトダイオードの図解と切り替え一覧から、各社の公式製品情報を確認できます。",
   targetQuery: "光半導体 メーカー",
   searchIntent: "光半導体の主要メーカーと製品分野を知り、用途に合う企業を調べたい",
@@ -17,7 +17,7 @@ export const opticalSemiconductorManufacturersGuide: GuideArticle = {
   showCareerCtas: false,
   experienceBasis: ["各社の公式製品情報をもとに、発光・受光の用途別に製品例を整理"],
   publishedAt: "2026-09-18",
-  updatedAt: "2026-09-20",
+  updatedAt: "2026-10-07",
   sources: opticalCompanies.flatMap(company => company.products.map(product => ({
     title: product.name, url: product.url, publisher: company.name, accessedAt: opticalMeta.checkedAt,
   }))),
@@ -27,6 +27,11 @@ export const opticalSemiconductorManufacturersGuide: GuideArticle = {
     conclusion: "まずLED・半導体レーザー・イメージセンサー・フォトダイオードの役割を分け、各社の製品情報を確認します。",
     learnings: "6社の製品例、発光と受光の違い、ランキングを読むときの比較条件が分かります。",
   },
+  overviewBlocks: [{
+    type: "note",
+    title: "この一覧の対象と、ランキングとの違い",
+    body: "LED・半導体レーザー・イメージセンサー・フォトダイオードについて、公式製品情報を確認した6社の企業例を用途別に紹介します。網羅的なメーカー一覧ではありません。同じ期間・同じ製品範囲の売上で比較できる資料を揃えていないため、光半導体メーカーの総合順位や市場シェアは示していません。",
+  }],
   sections: [
     { id: "companies", heading: "用途から光半導体メーカーを探す", lead: "用途を選ぶと、光と電気の関係を示す図と企業の製品例が切り替わります。", paragraphs: [], blocks: [{ type: "optical-companies" }] },
     { id: "devices", heading: "光半導体とは？光を出す素子と、受け取る素子", paragraphs: [

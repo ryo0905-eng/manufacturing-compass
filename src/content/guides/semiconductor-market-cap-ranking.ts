@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-10-03",
+  updatedAt: "2026-10-07",
   sources: [
     {
       title: "日経業界地図 2027年版（紹介書籍の書誌情報）",
@@ -183,6 +183,11 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           label: "メモリの売上シェアで比較",
           href: "/guides/memory-manufacturer-ranking",
           description: "DRAMとNANDを分けて製品市場のシェアを見る"
+        },
+        {
+          label: "光半導体メーカーを用途別に比較",
+          href: "/guides/optical-semiconductor-manufacturers",
+          description: "LED・レーザー・イメージセンサーなどの企業例を確認。光半導体の総合順位ではありません"
         }
       ]
     }
