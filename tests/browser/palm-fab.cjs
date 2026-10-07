@@ -33,7 +33,13 @@ async function assertFitsViewport(page, label, selectors) {
   const origin = process.env.PALM_FAB_ORIGIN || 'http://localhost:3107';
   for (const [device, viewport] of Object.entries({ compactMobile: { width: 360, height: 640 }, mobile: { width: 390, height: 844 }, compactDesktop: { width: 1280, height: 720 }, desktop: { width: 1440, height: 900 } })) {
     const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
-    await page.goto(`${origin}/games/palm-fab`, { waitUntil: 'networkidle' });
+    const response = await page.goto(`${origin}/games/palm-fab`, { waitUntil: 'networkidle' });
+    if (device === 'compactMobile') {
+      const html = await response.text();
+      assert.match(html, /<h1[^>]*>手のひら半導体工場/, 'game title is server-rendered');
+      assert.ok(html.includes('検査待ち'), 'factory status is server-rendered');
+      assert.equal(html.includes('工場を準備しています'), false, 'page does not expose only a loading message');
+    }
     await page.getByRole('button', { name: /検査装置 レベル1/ }).waitFor();
     await assertFitsViewport(page, device, [page.getByRole('region', { name: '出荷目標' }), page.getByRole('region', { name: '装置の詳細' }), page.getByRole('button', { name: /検査装置 レベル1/ }), page.getByRole('button', { name: '一時停止' }), page.getByRole('button', { name: 'リセット' })]);
     await page.screenshot({ path: `/tmp/palm-fab-${device}.png`, fullPage: true });

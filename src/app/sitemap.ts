@@ -98,7 +98,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/tools/bayesian-optimization" ? { lastModified: contentDate(bayesianRelease.updatedAt) } : {}),
     ...(path === "/tools/process-comparison" ? { lastModified: contentDate("2026-09-16") } : {}),
     ...(path === "/labs/jev" ? { lastModified: contentDate("2026-09-20") } : {}),
-    ...(path === "/games/palm-fab" ? { lastModified: contentDate("2026-10-05") } : {}),
+    ...(path === "/games/palm-fab" ? { lastModified: contentDate("2026-10-07") } : {}),
     ...(path === "/games/process-engineer-survival" ? { lastModified: contentDate("2026-09-20") } : {}),
     ...(path === "/roles" ? { lastModified: contentDate("2026-09-17") } : {}),
     ...(path === "/career-priorities" ? { lastModified: contentDate("2026-10-04") } : {}),

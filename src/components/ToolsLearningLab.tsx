@@ -57,19 +57,20 @@ export function ToolsLearningLab() {
   return <>
     <nav className="tools-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span aria-hidden="true">/</span><span>学習ツール</span></nav>
     <section className="tools-lab-hero">
-      <div className="tools-lab-hero__copy"><p className="tools-eyebrow"><span aria-hidden="true" />無料・登録不要の計算・学習ツール</p><h1>製造技術を、計算して、<br />動かして理解する。</h1><p>品質管理・統計手法と現場改善を、数値やグラフを動かしながら学び、試せます。</p><div className="tools-hero-actions"><a className="tools-primary-cta" href="#tool-finder">困りごとから選ぶ <span aria-hidden="true">↓</span></a><a className="tools-secondary-cta" href="#tool-lab">{tools.length}個のツールを見る</a></div></div>
+      <div className="tools-lab-hero__copy"><p className="tools-eyebrow"><span aria-hidden="true" />無料・登録不要の計算・学習ツール</p><h1>製造技術を、計算して、<br />動かして理解する。</h1><p>品質管理・統計手法と現場改善を、数値やグラフを動かしながら学び、試せます。</p><div className="tools-hero-actions"><a className="tools-primary-cta" href="#tool-finder">困りごとから選ぶ <span aria-hidden="true">↓</span></a><a className="tools-secondary-cta" href="#tool-lab">{tools.length}個のツールを見る</a><Link className="tools-secondary-cta" href="/games/palm-fab">工場ゲームで遊ぶ →</Link></div></div>
       <div className="tools-flow-visual" aria-label="測定、安定性、能力、改善の4段階"><span>測定</span><i>→</i><span>安定性</span><i>→</i><span>能力</span><i>→</i><span>改善</span><small>DATA → DECISION → ACTION</small></div>
     </section>
+
+    <aside className="tools-game-entry">
+      <div><p className="section-label">COZY FACTORY GAME</p><h2>手のひら半導体工場</h2><p>小さな工場で加工・洗浄・検査の流れを眺め、たまったケースを見つけて装置を強化。出荷が増えていく様子を楽しむ、登録不要のブラウザゲームです。</p></div>
+      <Link href="/games/palm-fab">手のひら半導体工場で遊ぶ <span aria-hidden="true">→</span></Link>
+    </aside>
 
     <ToolFinder />
 
     <section className="learning-roadmap" id="learning-roadmap" aria-labelledby="roadmap-title"><header><div><p className="section-label">TOOL ROADMAP</p><h2 id="roadmap-title">今の用事からツールを選ぶ</h2></div><p>手元のデータを使いたい方も、まず仕組みを学びたい方も、目的に合わせて選べます。</p></header><div className="tools-purpose-filter" role="group" aria-label="ツールの用途で絞り込む">{([{ id: "all", label: "すべて" }, { id: "input", label: "自分のデータ・数値で使う" }, { id: "learn", label: "教材で学ぶ" }] as const).map(option => <button type="button" key={option.id} aria-pressed={purpose === option.id} onClick={() => setPurpose(option.id)}>{option.label}（{tools.filter(tool => option.id === "all" || toolUsage[tool.id].purpose === option.id).length}）</button>)}</div><p role="status">{visibleTools.length}件を表示中。入力方法や詳しい機能は下のカードで確認できます。</p><ol>{visibleTools.map((tool) => <li key={tool.id}><span>{tool.step}</span><div><small>{tool.role}</small><h3>{tool.question}</h3><p>{tool.title}</p><Link href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "learning_roadmap")}>試す <i aria-hidden="true">→</i></Link></div></li>)}</ol></section>
 
     <section className="tools-lab-directory" id="tool-lab" aria-labelledby="tools-title"><header><div><p className="section-label">INTERACTIVE TOOLS</p><h2 id="tools-title">入力方法と機能を見比べる</h2></div><div className="tools-progress" aria-live="polite"><span>この一覧から開いたツール：<b>{opened.length}</b> / {tools.length}</span>{opened.length > 0 && <button onClick={resetProgress} type="button">閲覧履歴を消す</button>}</div></header><p className="tools-history-note">履歴はこのブラウザ内に保存します。操作や学習の完了を示すものではありません。</p><div className="tools-card-grid">{visibleTools.map((tool) => <article className="learning-tool-card" key={tool.id}><header><div><span>{tool.step} / {tool.role}</span><h3>{tool.title}</h3></div><em>{tool.badge}</em></header><MiniPreview type={tool.preview} title={tool.title}/><strong className="tool-card-message">{tool.message}</strong><p>{tool.description}</p><ul>{tool.features.map(feature => <li key={feature}>{feature}</li>)}</ul><dl><div><dt>所要時間</dt><dd>{tool.time}</dd></div><div><dt>難易度</dt><dd>{tool.level}</dd></div><div><dt>入力・データ</dt><dd>{toolUsage[tool.id].input}</dd></div></dl><footer><Link className="tool-card-primary" href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "tool_card_cta")}>すぐ試す <span aria-hidden="true">→</span></Link></footer></article>)}</div></section>
-    <aside className="tools-game-entry">
-      <div><p className="section-label">COZY FACTORY GAME</p><h2>手のひら半導体工場</h2><p>小さな工場で加工・洗浄・検査の流れを眺め、たまったケースを見つけて装置を強化。出荷が増えていく様子を楽しむ、登録不要のブラウザゲームです。</p></div>
-      <Link href="/games/palm-fab">手のひら半導体工場で遊ぶ <span aria-hidden="true">→</span></Link>
-    </aside>
     <aside className="tools-game-entry">
       <div><p className="section-label">FACTORY INVESTIGATION PROTOTYPE</p><h2>2台の異常。原因は1つ？</h2><p>観察・比較試験・対策で、良品が流れる工場を取り戻す原因調査ゲーム。稼働90秒＋時間制限のない調査で、生産技術の判断を体験します。</p></div>
       <Link href="/games/process-engineer-survival">製造技術者サバイバルで遊ぶ <span aria-hidden="true">→</span></Link>
