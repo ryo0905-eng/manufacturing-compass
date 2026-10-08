@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-07T00:46:26.052Z",
-  "windowStart": "2026-09-07T00:00:00.000Z",
-  "windowEnd": "2026-10-07T00:00:00.000Z",
+  "generatedAt": "2026-10-08T01:03:13.801Z",
+  "windowStart": "2026-09-08T00:00:00.000Z",
+  "windowEnd": "2026-10-08T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -84,7 +84,7 @@
     {
       "id": "sec-0001709048-26-000234",
       "sourceId": "globalfoundries",
-      "publishedAt": "2026-09-08T12:31:56.000Z",
+      "publishedAt": "2026-09-08T16:31:56.000Z",
       "datePrecision": "instant",
       "body": true,
       "eligible": false,
@@ -94,27 +94,14 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-08",
-    "end": "2026-10-07",
+    "start": "2026-09-09",
+    "end": "2026-10-08",
     "days": [
       {
-        "date": "2026-09-08",
-        "candidates": 1,
-        "deduplicated": 1,
-        "bodies": 1,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
-      {
         "date": "2026-09-09",
-        "candidates": 1,
-        "deduplicated": 1,
-        "bodies": 1,
+        "candidates": 2,
+        "deduplicated": 2,
+        "bodies": 2,
         "publishable": 1,
         "fields": {
           "equipment": 0,
@@ -486,38 +473,51 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-10-08",
+        "candidates": 0,
+        "deduplicated": 0,
+        "bodies": 0,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-01",
-        "end": "2026-10-07",
+        "start": "2026-10-02",
+        "end": "2026-10-08",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-24",
-        "end": "2026-09-30",
-        "publishable": 2,
+        "start": "2026-09-25",
+        "end": "2026-10-01",
+        "publishable": 1,
+        "fields": [
+          "design-manufacturing"
+        ]
+      },
+      {
+        "start": "2026-09-18",
+        "end": "2026-09-24",
+        "publishable": 1,
         "fields": [
           "design-manufacturing",
           "packaging"
         ]
       },
       {
-        "start": "2026-09-17",
-        "end": "2026-09-23",
+        "start": "2026-09-11",
+        "end": "2026-09-17",
         "publishable": 0,
         "fields": []
-      },
-      {
-        "start": "2026-09-10",
-        "end": "2026-09-16",
-        "publishable": 2,
-        "fields": [
-          "design-manufacturing"
-        ]
       }
     ],
     "targetMet": false
