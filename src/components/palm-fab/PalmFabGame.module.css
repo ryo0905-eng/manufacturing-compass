@@ -105,3 +105,17 @@
 @media (max-width: 460px) { .brand h1 { font-size: 24px; }.goal .sectionTop span { font-size: 9px; } }
 @media (max-width: 800px) and (max-height: 620px) { .controls { height: calc(min(230px, 41dvh) + env(safe-area-inset-bottom)); }.brand h1 { font-size: 21px; } }
 @media (prefers-reduced-motion: reduce) { .progress span { transition: none; }.machine:hover { filter: none; }.chamberGlow { animation: none; } }
+
+.brandLinks { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 14px; }
+.help { font-size: 12px; color: #e2f6ff; }
+.help summary { cursor: pointer; padding: 6px 2px; text-decoration: underline; }
+.help summary:focus-visible, .help a:focus-visible { outline: 3px solid #e6b300; outline-offset: 2px; }
+.help[open] { position: fixed; z-index: 20; inset: 12px; width: min(680px, calc(100% - 24px)); height: fit-content; max-height: calc(100dvh - 24px); overflow: auto; margin: auto; border: 2px solid #8daeb9; border-radius: 16px; padding: 12px 20px; background: #fff; color: #19394a; box-shadow: 0 8px 60px #061e2add; font-size: 14px; line-height: 1.7; }
+.help[open] summary { position: sticky; top: -12px; min-height: 44px; display: flex; align-items: center; background: #fff; font-weight: 700; }
+.helpBody h2 { font-size: 22px; margin: 12px 0; }
+.helpBody h3 { font-size: 17px; margin: 20px 0 8px; }
+.helpBody p { margin: 8px 0; }
+.helpBody ol { padding-left: 22px; }
+.helpBody nav { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: 20px; }
+.helpBody a { color: #065e80; text-decoration: underline; }
+@media (max-width: 800px) { .help { font-size: 11px; } .help summary { padding: 5px 2px; } .help[open] { padding: 10px 14px; } }

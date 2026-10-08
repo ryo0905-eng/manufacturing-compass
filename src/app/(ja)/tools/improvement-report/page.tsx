@@ -15,6 +15,7 @@ export default function ImprovementReportPage() {
     <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "学習ツール", item: `${siteUrl}/tools` }, { "@type": "ListItem", position: 3, name: "工程改善レポート", item: `${siteUrl}${meta.route}` }] }} />
     <nav aria-label="パンくず"><Link href="/tools">計算・学習ツール</Link> / 工程改善レポート</nav>
     <header className="mini-app-hero"><div><h1>工程改善レポート</h1><p>変更前後の測定値から、数値・分布図・考察を社内報告にまとめます。登録不要、入力は端末内で処理します。</p></div></header>
+    <section aria-label="報告書を作る手順"><h2>比較結果に、自分の考察を加えて完成する</h2><p>自分のデータ、または架空例で開始 → 2条件を比較 → タイトル・変更内容・測定条件・考察・次の確認を記述 → 印刷・PDF保存へ進みます。自動の観察文と本人の記述を分け、数値だけでは決められない条件や残る疑問を記録できます。</p><p><Link href="/tools/process-comparison">数値と分布の比較、Excel用コピー・PNG保存から始める</Link>場合は工程条件の比較へ。移動先へ入力を自動転送するリンクではありません。</p></section>
     <section aria-label="完成レポートの見本"><h2>この1枚を、あなたのデータで</h2><p>以下は教材用の架空例です。自分のデータでも、比較から印刷・PDF保存まで同じ画面で進められます。</p>
       {/* Static, public sample only. User report images never go through image optimization. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}

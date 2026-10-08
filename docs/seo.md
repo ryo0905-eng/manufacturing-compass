@@ -241,3 +241,11 @@ SEO は Career Compass だけへ送客するためのものではありません
 - `/guides/cpk-low-causes` の中心意図は「Cpk 低い 原因」「Cp 高い Cpk 低い」。架空例で結果の読み方を扱い、計算意図は `/tools/cpk`、改善活動の全体像は `/guides/six-sigma` が担う。需要量は未検証。同一クエリの重複が続く場合は役割と導線を見直す。
 - 新記事は2026-09-21の運営者の公開承認によりpublishedへ切替済み。本番反映日は別途記録する。既存レジストリからcanonical、Article/FAQ、一覧、sitemapへ反映し、Cpkツールと関連記事の公開条件付きリンクを有効にする。
 - 既存2記事は改修反映前後の同条件28日でクエリ・表示・クリック・内部遷移セッションを確認する。新記事は公開14日後に登録、28・56日後に検索語・流入とCpkへの遷移を確認する。article_tool_clickとcpk_related_content_clickを使い、内部遷移を検索獲得数に足さない。
+
+### 2026-10-08：比較・企業検索のURL品質
+
+- 企業比較は既知の異なる2社だけを受け付け、不正な組を404、逆順を既存の代表URLへ恒久転送する。metadata・profile・リンク・sitemapは共通正規化を使う。
+- 編集済み比較は比較意義・違い・確認質問・両社の出典を持たせ、企業単体のcomplete/draftとは独立して検索品質を判断する。未編集の自由比較は閲覧可能なnoindex, followとし、代表URLcanonicalを持つ。
+- `/companies`のquery指定URLは、空結果や空文字を含め基本一覧と分けてnoindex, followにする。canonicalは基本一覧、sitemapも基本一覧のみ。検索機能と内部導線は維持する。
+- noindexは検索登録の制御であり、非公開化やAdSense審査除外を保証しない。検索実績未取得・GSC未掲載を流入なしとみなさず、固有価値があるページは改善を優先する。
+- 個別URLの判断、根拠、検証範囲と未完了事項は [AdSense公開ページ監査](./adsense-content-audit.md) を参照する。

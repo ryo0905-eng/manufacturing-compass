@@ -27,6 +27,7 @@ export type WatchArticleEditorial = {
   sourceTitle: string;
   primaryTopic: WatchTopic; topics: WatchTopic[]; reason: string;
   termIds: string[]; links: WatchLink[]; statusLabel?: string;
+  readingPoints?: Array<{ label: string; body: string }>; readingUpdatedAt?: string;
 };
 export type WatchEditorial = {
   updatedAt: string;

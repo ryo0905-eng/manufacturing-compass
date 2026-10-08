@@ -18,7 +18,8 @@ export default function ProcessComparisonPage() {
   return <main className={styles.page}>
     <StructuredData data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "工程条件の比較ツール", url: `${siteUrl}/tools/process-comparison`, applicationCategory: "BusinessApplication", operatingSystem: "Web", inLanguage: "ja", offers: { "@type": "Offer", price: "0", priceCurrency: "JPY" }, dateModified: "2026-09-16" }} />
     <nav className={styles.nav} aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><Link href="/tools">実務ツール</Link><span>/ 工程条件の比較</span></nav>
-    <header><h1>工程条件の比較ツール</h1><p>変更前後や装置A・Bの測定値を比較し、報告資料に使える表と分布図を作ります。</p><p className={styles.privacy}><strong>登録不要・ブラウザ内で計算</strong><br />測定値・条件名・計算結果は保存せず、サーバー・Analytics・外部APIへ送信しません。ページを離れると入力は失われます。</p></header>
+    <header><h1>工程条件の比較ツール</h1><p>変更前後や装置A・Bの測定値を比較し、報告資料に使える表と分布図を作ります。</p><p className={styles.privacy}><strong>登録不要・ブラウザ内で計算</strong><br />測定値・条件名・計算結果はサーバー・Analytics・外部APIへ送信しません。自動保存は行いません。再開したい場合は「入力ファイルを保存」で端末へ保存してください。保存しないままページを離れると入力は失われます。</p></header>
+    <section aria-label="工程比較でできること"><h2>まず数値と分布を比較する</h2><p>条件A・Bの測定値を入力 → 平均・ばらつき・共通軸の分布を比較 → 表をExcel用にコピー、図をPNGで保存できます。考察までまとめたい場合は、比較結果の「この比較を報告書にする」で編集へ進めます。</p><p><Link href="/tools/improvement-report">報告書の見本と、考察・印刷を中心にした工程改善レポートを見る</Link></p></section>
     <PracticalToolLanguageLink id="process-comparison" locale="ja" />
     <ProcessComparisonTool />
     <nav className={styles.nav} aria-label="関連ツール"><Link href="/tools/improvement-confidence">平均差と推定の幅を体験する</Link>{isCorrelationPublished() && <Link href={correlationRoute}>相関と因果の違いを体験する</Link>}<Link href="/tools/cpk">規格に対する工程能力を確認する</Link><Link href="/tools/doe">実験計画法を学ぶ</Link><Link href="/tools/control-chart">時系列の安定性を学ぶ</Link></nav>

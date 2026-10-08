@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CompanyComparisonSummary } from "@/components/CompanyComparisonSummary";
 import { StructuredData } from "@/components/StructuredData";
-import { getCompanyComparisonProfile } from "@/data/company-comparisons";
-import { companies, getCareerInfo } from "@/data/companies";
+import { getCompanyComparisonProfile, isComparisonIndexable } from "@/data/company-comparisons";
+import { getCareerInfo } from "@/data/companies";
 import { comparePairs } from "@/data/editorial";
-import { companyCompareSlug, getCompaniesFromCompareSlug, siteUrl } from "@/lib/format";
+import { companyCompareSlug, normalizeCompanyComparison, siteUrl } from "@/lib/format";
 
 type CompareDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -20,16 +20,15 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: CompareDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const comparedCompanies = getCompaniesFromCompareSlug(slug);
+  const { slug: requestedSlug } = await params;
+  const comparison = normalizeCompanyComparison(requestedSlug);
+  if (!comparison) notFound();
+  const { slug, companies: comparedCompanies } = comparison;
   const comparisonProfile = getCompanyComparisonProfile(slug);
-
-  if (comparedCompanies.length < 2) {
-    return {};
-  }
 
   if (comparisonProfile) {
     return {
+      robots: isComparisonIndexable(slug) ? undefined : { index: false, follow: true },
       title: comparisonProfile.title,
       description: comparisonProfile.description,
       alternates: {
@@ -45,12 +44,13 @@ export async function generateMetadata({ params }: CompareDetailPageProps): Prom
   }
 
   return {
+    robots: { index: false, follow: true },
     title: `${comparedCompanies.map((company) => company.nameJa).join(" vs ")} 比較`,
-    description: `${comparedCompanies.map((company) => company.nameJa).join(" と ")}を、事業領域、職種、英語必要度、キャリア準備ポイントで比較します。`,
+    description: `${comparedCompanies.map((company) => company.nameJa).join(" と ")}を、事業領域、主力製品、職種の研究キーワードを比較します。未編集の自由比較です。`,
     alternates: { canonical: `/compare/${slug}` },
     openGraph: {
       title: `${comparedCompanies.map((company) => company.nameJa).join(" vs ")} 比較`,
-      description: `${comparedCompanies.map((company) => company.nameJa).join(" と ")}の事業領域、職種、日本拠点、準備ポイントを比較します。`,
+      description: `${comparedCompanies.map((company) => company.nameJa).join(" と ")}の事業領域、主力製品、職種の研究キーワードを比較します。`,
       type: "article",
       url: `/compare/${slug}`,
     },
@@ -58,14 +58,14 @@ export async function generateMetadata({ params }: CompareDetailPageProps): Prom
 }
 
 export default async function CompareDetailPage({ params }: CompareDetailPageProps) {
-  const { slug } = await params;
-  const comparedCompanies = getCompaniesFromCompareSlug(slug);
+  const { slug: requestedSlug } = await params;
+  const comparison = normalizeCompanyComparison(requestedSlug);
+  if (!comparison) notFound();
+  const { slug, companies: comparedCompanies } = comparison;
+  if (requestedSlug !== slug) permanentRedirect(`/compare/${slug}`);
   const comparisonProfile = getCompanyComparisonProfile(slug);
 
-  if (comparedCompanies.length < 2) {
-    notFound();
-  }
-
+  const hasCareerInfo = comparedCompanies.some(company => getCareerInfo(company.id));
   const comparisonEntries = comparedCompanies.map((company) => ({ company, career: getCareerInfo(company.id) }));
 
   return (
@@ -123,6 +123,7 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
               <article key={entry.companyId}>
                 <h3>{company.nameJa}：公式情報で確認できること</h3>
                 <p>{entry.facts}</p>
+                {entry.sourceScope ? <p className="disclosure">{entry.sourceScope}</p> : null}
                 <ul className="source-list">
                   {entry.sources.map((source) => (
                     <li key={source.url}><a className="text-link" href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> — {source.publisher}／確認日 {source.accessedAt}</li>
@@ -143,6 +144,9 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
         </section>
       ) : null}
 
+      {!comparisonProfile ? <p className="disclosure">自由に選んだ2社の企業DBを並べています。この組み合わせ固有の解説は未編集です。下の出典と企業詳細を確認し、仕事内容の比較条件をそろえてください。</p> : null}
+      {!hasCareerInfo ? <p className="disclosure">両社の企業別キャリア準備情報は未整備です。事業・製品の比較{comparisonProfile?.research ? "と上の確認質問" : "と企業ごとの出典"}を入口にし、応募条件や半年後の準備を推測で補いません。</p> : null}
+      <p className="disclosure">企業DBの比較表と、今回確認した事業・製品情報は確認日が異なります。下の出典に各確認日を表示しています。拠点の記載は配属先を、職種キーワードは現在の募集を保証しません。</p>
       <section className="comparison-table-wrap" aria-label="企業比較表">
         <table className="comparison-table">
           <thead>
@@ -173,19 +177,14 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
               ))}
             </tr>
             <tr>
-              <th>募集職種の例</th>
+              <th>職種の研究キーワード（募集状況ではありません）</th>
               {comparedCompanies.map((company) => (
                 <td key={company.id}>{company.jobCategories.join(" / ")}</td>
               ))}
             </tr>
+            {hasCareerInfo ? <>
             <tr>
-              <th>英語必要度</th>
-              {comparedCompanies.map((company) => (
-                <td key={company.id}>{company.englishRequirement}</td>
-              ))}
-            </tr>
-            <tr>
-              <th>今狙いやすい背景</th>
+              <th>経験との接点（編集上の提案）</th>
               {comparedCompanies.map((company) => {
                 const career = getCareerInfo(company.id);
                 return <td key={company.id}>{career?.suitableBackgrounds.join(" / ") ?? "掲載データなし（推測で補完していません）"}</td>;
@@ -198,24 +197,14 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
                 return <td key={company.id}>{career?.preparationActions6Months.join(" / ") ?? "掲載データなし（推測で補完していません）"}</td>;
               })}
             </tr>
+            </> : null}
           </tbody>
         </table>
       </section>
 
-      <section className="section">
-        <div className="company-grid">
-          {comparedCompanies.map((company) => (
-            <article className="company-card" key={company.id}>
-              <p className="eyebrow">{company.businessModel}</p>
-              <h2>{company.nameJa}</h2>
-              <p>{company.careerSummary}</p>
-              <Link className="text-link" href={`/companies/${company.slug}` as Route}>
-                詳細を見る
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
+      <nav className="actions" aria-label="比較した企業の詳細">
+        {comparedCompanies.map(company => <Link className="text-link" key={company.id} href={`/companies/${company.slug}` as Route}>{company.nameJa}の企業情報・準備ポイントを見る</Link>)}
+      </nav>
 
       <section className="cta-panel" aria-labelledby="comparison-priorities-title">
         <h2 id="comparison-priorities-title">2社の違いを、自分が大切にしたい条件で見る</h2>
@@ -223,8 +212,7 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
         <CareerPrioritiesLink className="button primary" ctaLocation="comparison_after_companies">転職の軸ノートで整理する</CareerPrioritiesLink>
       </section>
 
-      {comparisonProfile ? (
-        <section className="section" aria-labelledby="comparison-sources-title">
+      <section className="section" aria-labelledby="comparison-sources-title">
           <div className="section-header">
             <div>
               <p className="section-label">公式情報</p>
@@ -251,7 +239,6 @@ export default async function CompareDetailPage({ params }: CompareDetailPagePro
             ))}
           </div>
         </section>
-      ) : null}
 
       <AffiliateCta title="比較した企業に近いキャリアを相談する" />
     </main>

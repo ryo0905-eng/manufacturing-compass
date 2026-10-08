@@ -54,6 +54,9 @@ export const comparePairs = [
   ["micron", "kioxia"],
 ];
 
+// Existing effective URLs observed in Search Console; keep their representative order.
+export const canonicalComparePairs = [...comparePairs, ["onsemi", "renesas"], ["tsmc", "samsung-electronics"]];
+
 export function getRankingBySlug(slug: string) {
   return rankings.find((ranking) => ranking.slug === slug);
 }

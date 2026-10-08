@@ -44,7 +44,18 @@
         }
       ],
       "statusLabel": "資本配分を承認",
-      "sourceTitle": "TSMC Form 6-K — Capital Appropriations"
+      "sourceTitle": "TSMC Form 6-K — Capital Appropriations",
+      "readingPoints": [
+        {
+          "label": "承認から稼働までの時系列",
+          "body": "今回の対象は取締役会が承認した資本配分です。先端技術向け設備、先端パッケージ・成熟／特殊技術向け設備、不動産・リース資産を分け、発注・納入・稼働のどの段階まで次の発表が進んだかを追います。"
+        },
+        {
+          "label": "月次売上と合わせて読む",
+          "body": "同社の8月売上は月間の実績、資本配分は将来の設備に関する承認です。売上増をこの投資の成果とは結び付けず、別の時点・指標として読みます。"
+        }
+      ],
+      "readingUpdatedAt": "2026-10-08"
     },
     "broadcom-q3-semiconductor-solutions-2026": {
       "version": 1,
@@ -82,7 +93,18 @@
           "destination": "ranking"
         }
       ],
-      "sourceTitle": "Broadcom Form 10-Q — Semiconductor Solutions"
+      "sourceTitle": "Broadcom Form 10-Q — Semiconductor Solutions",
+      "readingPoints": [
+        {
+          "label": "比較する事業範囲",
+          "body": "ここで読むのは半導体ソリューション事業の四半期売上です。会社全体の売上や、月次売上を公表する製造企業の数値とは対象範囲・期間が異なります。前年同期比でも同じ事業範囲を確認します。"
+        },
+        {
+          "label": "設計から製造へのつながり",
+          "body": "会社が挙げるAIアクセラレーターとネットワーキングは計算・データ転送の役割です。この需要説明だけで、製造委託先や装置メーカーごとの受注増を確定することはできません。"
+        }
+      ],
+      "readingUpdatedAt": "2026-10-08"
     },
     "sec-0000002488-26-000182": {
       "version": 1,
@@ -114,13 +136,24 @@
           "destination": "industry_map"
         },
         {
-          "href": "/compare/amd-vs-nvidia",
+          "href": "/compare/nvidia-vs-amd",
           "label": "AMDとNVIDIAの事業・職種を比べる",
           "destination": "compare"
         }
       ],
       "statusLabel": "買収契約を締結",
-      "sourceTitle": "AMD Form 8-K — Agreement and Plan of Merger"
+      "sourceTitle": "AMD Form 8-K — Agreement and Plan of Merger",
+      "readingPoints": [
+        {
+          "label": "契約日・公表日・完了日",
+          "body": "9月26日の契約締結とSEC上の9月28日の公表を分けて読みます。この資料は買収完了の報告ではありません。完了時期と、条件が満たされたかを後続の公式発表で確認します。"
+        },
+        {
+          "label": "事業比較の扱い",
+          "body": "株式を使う買収の契約は、新製品の発売や工場の量産開始とは異なる動きです。対価の株式数が未確定の段階で、ソフトウェアと半導体の統合成果やNVIDIAとの競争力への影響を推定しないようにします。"
+        }
+      ],
+      "readingUpdatedAt": "2026-10-08"
     },
     "sec-0001046179-26-000658": {
       "version": 1,
@@ -157,7 +190,18 @@
           "destination": "guide"
         }
       ],
-      "sourceTitle": "TSMC Form 6-K — August 2026 Revenue Report"
+      "sourceTitle": "TSMC Form 6-K — August 2026 Revenue Report",
+      "readingPoints": [
+        {
+          "label": "前月比と前年同月比",
+          "body": "前月比は直前の月からの変化、前年同月比は1年前の同じ月からの変化です。どちらも8月の売上を読む指標で、利益率や四半期全体の成長を直接示すものではありません。"
+        },
+        {
+          "label": "投資承認との時間差",
+          "body": "同社の資本配分記事と合わせて、販売の実績と設備投資の承認を分けて追います。発表日が近いことだけで、新設備が当月の増収に寄与したとは判断できません。"
+        }
+      ],
+      "readingUpdatedAt": "2026-10-08"
     },
     "sec-0000950103-26-013682": {
       "version": 2,
@@ -192,7 +236,18 @@
           "destination": "guide"
         }
       ],
-      "sourceTitle": "ASE Technology Holding Form 6-K — August 2026 Net Revenues"
+      "sourceTitle": "ASE Technology Holding Form 6-K — August 2026 Net Revenues",
+      "readingPoints": [
+        {
+          "label": "TSMCの月次売上との比較条件",
+          "body": "TSMCの8月連結売上と同じ月でも、ASEの記事の対象はATM事業です。ともに台湾ドル表示というだけで規模の順位や伸び率の優劣を決めず、全社と事業別の集計範囲をそろえます。"
+        },
+        {
+          "label": "後工程と先端実装の範囲",
+          "body": "ATMは組立・テスト・材料の範囲です。この総額を先端パッケージだけの売上として読まないようにします。内訳の後続開示と、会社公表の伸び率と金額からの再計算との差を確認します。"
+        }
+      ],
+      "readingUpdatedAt": "2026-10-08"
     }
   },
   "terms": {
@@ -218,7 +273,7 @@
     },
     "fabless": {
       "label": "ファブレスとは？",
-      "text": "自社で製造工場を持たず、半導体の設計を中心に担う企業です。製品開発と製造委託先の活動を分けて理解できます。",
+      "text": "半導体の企画・設計を中心に、ウェーハ量産を主に外部へ委託する事業モデルです。研究開発・評価設備の保有とは分け、製品開発と製造委託先の活動を区別して読みます。",
       "href": "/segments/fabless"
     },
     "agreement": {

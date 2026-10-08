@@ -95,7 +95,25 @@ export default function PalmFabGame() {
   return <div className={styles.game}>
     <div className={styles.topbar}>
       <div className={styles.brand}>
-        <Link href="/" className={styles.homeLink}>✦ Manufacturing Compass</Link>
+        <div className={styles.brandLinks}><Link href="/" className={styles.homeLink}>✦ Manufacturing Compass</Link>
+        <details className={styles.help}>
+          <summary>遊び方・保存について</summary>
+          <div className={styles.helpBody}>
+            <h2>工場の流れを見て、詰まりを改善する</h2>
+            <p>ケースは自動で流れます。装置をタップすると、処理時間と強化費用を確認できます。出荷で得たゲーム内資金を使って装置を強化し、画面の出荷目標を目指しましょう。ケース1つは{fabBalance.wafersPerCase}枚、出荷ごとに資金が{fabBalance.coinsPerCase}増えます。</p>
+            <h3>加工 → 洗浄 → 検査 → 出荷</h3>
+            <ol><li>加工：ウェーハに模様を作る役割を1台にまとめています。</li><li>洗浄：加工後のウェーハをきれいにします。</li><li>検査：完成前の状態を確かめます。</li><li>出荷：ロボットがケースを運ぶと、累計出荷と資金が増えます。</li></ol>
+            <h3>検査待ちを改善すると？</h3>
+            <p>初期の検査は1ケース{fabBalance.machines.inspect.seconds[0]}秒で、加工や洗浄より遅く、検査前にケースが並びます。資金{fabBalance.machines.inspect.costs[0]}で検査をLv.2にすると、次の処理から{fabBalance.machines.inspect.seconds[1]}秒になります。待ち行列が短くなるか観察し、次は加工・洗浄・搬送のどこが詰まるかを見てください。強化した割合と同じだけ出荷が増えるとは限りません。</p>
+            <h3>現実の工場との違い</h3>
+            <p>現実の半導体製造は多くの工程を繰り返します。このゲームは3種類の装置と1台の搬送ロボットに簡略化しています。不良品、装置故障、製造レシピ、実際の検査判定は再現しません。処理時間、費用、収入、枚数は遊ぶための架空設定で、工場の生産計画や投資判断には使えません。</p>
+            <h3>保存・再開・リセット</h3>
+            <p>進行状況は約2秒ごととページを離れる際に、同じブラウザの保存領域へ自動保存します。同じブラウザで開くと復元します。別端末・別ブラウザとは同期しません。保存が禁止されている環境や、ブラウザのデータを削除した場合は進行を引き継げません。</p>
+            <p>別タブへ移るなど画面が非表示になると一時停止します。戻ったら「再開」を押してください。閉じている間の出荷や資金は増えません。「リセット」は確認後に現在の進行と保存を初期状態へ置き換えます。説明を読む間も稼働するため、ゆっくり読む場合は先に「一時停止」を押せます。</p>
+            <nav aria-label="ゲームの関連情報"><Link href="/tools/semiconductor-process">現実の工程を学ぶ</Link><Link href="/about">運営者情報</Link><Link href="/privacy">プライバシーポリシー</Link></nav>
+            <p>説明更新日：2026-10-08。上の「遊び方・保存について」を押すと閉じます。</p>
+          </div>
+        </details></div>
         <h1>手のひら半導体工場 <span aria-hidden="true">◉</span></h1>
         <p>小さな一歩で、未来をつくる</p>
       </div>

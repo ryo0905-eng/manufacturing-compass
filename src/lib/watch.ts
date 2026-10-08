@@ -23,7 +23,7 @@ export function articleWatchItem(article: NewsArticle): WatchItem {
     id: `article:${article.id}`, kind: "article", href: `/semiconductor-watch/${article.id}`,
     title: article.title, summary: article.summary, reason: entry?.reason,
     companyNames: article.companyNames, date: article.publishedAt, dateLabel: article.sourceName.includes("SEC") ? "SEC公表" : "発表",
-    updatedAt: [article.updatedAt, entry?.checkedAt ?? ""].sort().at(-1)!,
+    updatedAt: [article.updatedAt, entry?.checkedAt ?? "", entry?.readingUpdatedAt ? `${entry.readingUpdatedAt}T00:00:00+09:00` : ""].sort().at(-1)!,
     updateLabel: article.version > 1 ? `内容改訂・第${article.version}版` : "掲載・背景編集",
     primaryTopic: entry?.primaryTopic ?? topics[0] ?? "design", topics,
     status: entry?.statusLabel ?? stageLabels[article.stage] ?? "公式発表", visual: article.visual,

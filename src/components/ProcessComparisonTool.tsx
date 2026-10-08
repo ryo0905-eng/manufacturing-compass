@@ -94,7 +94,7 @@ export function ProcessComparisonTool({ locale = "ja", reportMode = false }: { l
       catch (cause) { journey.error(); setResult(null); setError(cause instanceof Error ? cause.message : t("入力を確認してください。")); }
     }}>
       <fieldset disabled={busy}>
-        <legend><span ref={journey.inputRef}>{t("1. 比較するデータを入力")}</span></legend>
+        <legend><span ref={journey.inputRef}>{reportMode && locale === "ja" ? "1. 報告書に使う変更前後のデータを入力" : t("1. 比較するデータを入力")}</span></legend>
         <p id="comparison-input-help">{t("1行に数値を1つ、各条件2〜10,000件。空行は無視します。見出し・単位・桁区切りを含めずに貼り付けてください。")}</p>
         <div className={styles.actions}><button type="button" onClick={() => replaceInputs({ ...processComparisonSample, nameA: t(processComparisonSample.nameA), nameB: t(processComparisonSample.nameB), measurement: t(processComparisonSample.measurement) }, "sample")}>{t("架空データで試す")}</button><button type="button" onClick={() => replaceInputs({ ...empty }, "clear")}>{t("入力をクリア")}</button></div>
         <div className={styles.columns}>
@@ -103,7 +103,7 @@ export function ProcessComparisonTool({ locale = "ja", reportMode = false }: { l
         </div>
         <div className={styles.columns}>{field("measurement", t("測定項目（任意）"))}{field("unit", t("共通の単位（任意）"))}{field("lower", t("下限規格 LSL（任意）"), true)}{field("upper", t("上限規格 USL（任意）"), true)}</div>
         <p>{t("両条件で同じ測定項目・単位を使ってください。規格は片側だけでも入力でき、境界値は規格内に数えます。")}</p>
-        <button className={styles.primary} type="submit">{t("2条件を比較する")}</button>
+        <button className={styles.primary} type="submit">{reportMode && locale === "ja" ? "2条件を比較し、報告書の編集へ進む" : t("2条件を比較する")}</button>
       </fieldset>
     </form>
     {error && <p role="alert" className={styles.error}>{error}</p>}

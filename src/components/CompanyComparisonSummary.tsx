@@ -24,10 +24,10 @@ export function CompanyComparisonSummary({ entries }: CompanyComparisonSummaryPr
       label: "主な職種",
       values: entries.map(({ company }) => company.jobCategories.slice(0, 4)),
     },
-    {
-      label: "向いている経験",
-      values: entries.map(({ career }) => career?.suitableBackgrounds.slice(0, 2) ?? ["掲載データなし"]),
-    },
+    ...(entries.some(({ career }) => career) ? [{
+      label: "経験との接点（編集上の提案）",
+      values: entries.map(({ career }) => career?.suitableBackgrounds.slice(0, 2) ?? ["企業別キャリア情報は整理中"]),
+    }] : []),
   ];
 
   return (

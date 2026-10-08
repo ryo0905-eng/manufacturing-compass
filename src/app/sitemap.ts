@@ -19,8 +19,9 @@ import { englishGuides, isEnglishGuidePublished } from "@/content/guides/en";
 import { englishCpkRelease, isEnglishCpkPublished } from "@/data/cpk-english";
 import { companies, isCompanyIndexable, segments } from "@/data/companies";
 import { companyLocations } from "@/data/company-locations";
-import { beginnerGuides, comparePairs, rankings } from "@/data/editorial";
+import { beginnerGuides, canonicalComparePairs, rankings } from "@/data/editorial";
 import { companyCompareSlug, siteUrl } from "@/lib/format";
+import { getCompanyComparisonProfile, isComparisonIndexable } from "@/data/company-comparisons";
 
 function contentDate(date: string) {
   return new Date(`${date}T00:00:00+09:00`);
@@ -98,7 +99,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/tools/bayesian-optimization" ? { lastModified: contentDate(bayesianRelease.updatedAt) } : {}),
     ...(path === "/tools/process-comparison" ? { lastModified: contentDate("2026-09-16") } : {}),
     ...(path === "/labs/jev" ? { lastModified: contentDate("2026-09-20") } : {}),
-    ...(path === "/games/palm-fab" ? { lastModified: contentDate("2026-10-07") } : {}),
+    ...(path === "/games/palm-fab" ? { lastModified: contentDate("2026-10-08") } : {}),
     ...(path === "/games/process-engineer-survival" ? { lastModified: contentDate("2026-09-20") } : {}),
     ...(path === "/roles" ? { lastModified: contentDate("2026-09-17") } : {}),
     ...(path === "/career-priorities" ? { lastModified: contentDate("2026-10-04") } : {}),
@@ -119,12 +120,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const segmentRoutes = segments.map((segment) => ({
     url: `${siteUrl}/segments/${segment.slug}`,
+    ...(segment.id === "materials" ? { lastModified: contentDate("2026-10-08") } : {}),
     changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 
-  const compareRoutes = comparePairs.map((ids) => ({
+  const compareRoutes = canonicalComparePairs.filter((ids) => isComparisonIndexable(companyCompareSlug(ids))).map((ids) => ({
     url: `${siteUrl}/compare/${companyCompareSlug(ids)}`,
+    lastModified: contentDate(getCompanyComparisonProfile(companyCompareSlug(ids))!.research!.updatedAt),
     changeFrequency: "monthly" as const,
     priority: 0.65,
   }));
@@ -138,6 +141,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const rankingRoutes = rankings.map((ranking) => ({
     url: `${siteUrl}/rankings/${ranking.slug}`,
+    lastModified: contentDate("2026-10-08"),
     changeFrequency: "monthly" as const,
     priority: 0.66,
   }));

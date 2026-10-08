@@ -1,5 +1,5 @@
 import { companies, getCareerInfo } from "@/data/companies";
-import { comparePairs } from "@/data/editorial";
+import { canonicalComparePairs, comparePairs } from "@/data/editorial";
 import type { Company } from "@/types/content";
 
 export const siteUrl = "https://mfg-compass.com";
@@ -9,14 +9,27 @@ export function cx(...classes: Array<string | false | null | undefined>) {
 }
 
 export function companyCompareSlug(companyIds: string[]) {
-  return companyIds.join("-vs-");
+  const comparison = normalizeCompanyComparison(companyIds.join("-vs-"));
+  if (!comparison) throw new Error("Comparison requires exactly two different known company IDs");
+  return comparison.slug;
+}
+
+export function normalizeCompanyComparison(slug: string): { slug: string; companies: [Company, Company] } | null {
+  const ids = slug.split("-vs-");
+  if (ids.length !== 2 || ids[0] === ids[1]) return null;
+  const first = companies.find((company) => company.id === ids[0]);
+  const second = companies.find((company) => company.id === ids[1]);
+  if (!first || !second) return null;
+  // Preserve the published editorial URLs. Other pairs use stable catalog order.
+  const preferred = canonicalComparePairs.find((pair) => pair.includes(first.id) && pair.includes(second.id));
+  const ordered: [Company, Company] = preferred
+    ? (preferred[0] === first.id ? [first, second] : [second, first])
+    : (companies.indexOf(first) < companies.indexOf(second) ? [first, second] : [second, first]);
+  return { slug: ordered.map((company) => company.id).join("-vs-"), companies: ordered };
 }
 
 export function getCompaniesFromCompareSlug(slug: string) {
-  const ids = slug.split("-vs-");
-  return ids
-    .map((id) => companies.find((company) => company.id === id))
-    .filter((company): company is Company => Boolean(company));
+  return normalizeCompanyComparison(slug)?.companies ?? [];
 }
 
 export function getDefaultComparePairs() {

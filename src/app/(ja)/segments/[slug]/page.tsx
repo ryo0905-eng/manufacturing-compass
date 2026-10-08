@@ -7,6 +7,8 @@ import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { CompanyCard } from "@/components/CompanyCard";
 import { StructuredData } from "@/components/StructuredData";
 import { companies, segments } from "@/data/companies";
+import { materialsNavigation } from "@/data/materials-navigation";
+import { getGuideBySlug } from "@/content/guides";
 import { siteUrl } from "@/lib/format";
 
 type SegmentPageProps = {
@@ -23,6 +25,12 @@ export async function generateMetadata({ params }: SegmentPageProps): Promise<Me
 
   if (!segment) {
     return {};
+  }
+
+  if (segment.id === "materials") {
+    const title = "半導体材料の分類と役割｜ウェーハ・ガス・薬液・レジストから探す";
+    const description = "半導体材料を工程と役割から調べる入口。ウェーハ、高純度ガス、薬液、フォトレジスト、CMPスラリーの解説と企業研究へつなぎ、掲載範囲と比較条件を示します。";
+    return { title, description, alternates: { canonical: "/segments/materials" }, openGraph: { title, description, type: "website", url: "/segments/materials" } };
   }
 
   if (segment.id === "fabless") {
@@ -128,7 +136,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
       </nav>
       <section className="page-hero">
         <p className="eyebrow">{segment.shortName}</p>
-        <h1>{isFabless ? `ファブレス企業一覧【2026年版】日本・海外${segmentCompanies.length}社` : `${segment.name}の半導体企業`}</h1>
+        <h1>{isFabless ? `ファブレス企業一覧【2026年版】日本・海外${segmentCompanies.length}社` : segment.id === "materials" ? "半導体材料の分類と役割" : `${segment.name}の半導体企業`}</h1>
         <p>{segment.description}</p>
         {isFabless ? <p>「工場を持たない」は、主にウェーハ量産を外部へ委託するという意味です。研究開発・評価設備を持つ場合や、事業によって製造形態が異なる場合もあります。</p> : null}
         {isFabless ? <div className="actions"><Link className="button ghost" href="/guides/semiconductor-foundry">ファウンドリとの違いを見る</Link><Link className="button ghost" href="/industry-map">半導体業界地図で位置を見る</Link></div> : null}
@@ -137,6 +145,22 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         {segment.id === "equipment" ? <Link className="text-link" href="/guides/semiconductor-equipment-manufacturers">製造工程別の装置と主要メーカーを図解で見る</Link> : null}
         {segment.id === "materials" ? <Link className="text-link" href="/guides/semiconductor-silicon-wafer-manufacturers">シリコンウェーハの製造工程と主要メーカーを図解で見る</Link> : null}
       </section>
+
+      {segment.id === "materials" ? <section className="home-section" aria-labelledby="materials-title">
+        <h2 id="materials-title">材料の役割から調べる</h2>
+        <p>材料は基板、工程で使うガス・液体、パターン形成、研磨などで役割が異なります。以下は当サイトの公開解説への入口です。企業DBの掲載はSUMCOの1社で、材料メーカー全体の一覧ではありません。金属材料、封止材、各種化合物基板などは、この入口では網羅していません。</p>
+        <div className="company-grid">{materialsNavigation.map(material => {
+          const guide = getGuideBySlug(material.slug);
+          if (!guide) return null;
+          return <article className="info-card" key={material.slug}>
+            <h3>{material.name}</h3><p>{material.role}</p>
+            <p><strong>比較するとき：</strong>{material.point}</p>
+            <Link className="text-link" href={`/guides/${material.slug}` as Route}>{material.name}の種類・メーカー・出典を見る</Link>
+            <p className="disclosure">解説更新日：{guide.updatedAt}。企業公式の根拠と確認日は各解説に掲載。</p>
+          </article>;
+        })}</div>
+        <p className="disclosure">入口の編集更新日：2026-10-08。材料や工程の記述はリンク先の既存解説に基づきます。全記事の出典を本日再確認したという意味ではありません。</p>
+      </section> : null}
 
       <section className="segment-detail-grid" aria-label={`${segment.name}の概要`}>
         <div>

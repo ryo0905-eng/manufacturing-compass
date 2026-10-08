@@ -11,7 +11,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { companies, getCareerInfo, getCompanyBySlug, getSegmentById, isCompanyIndexable } from "@/data/companies";
 import { filterCompanyLocations } from "@/lib/company-locations";
 import { getEarningsRelease } from "@/lib/earnings";
-import { siteUrl } from "@/lib/format";
+import { companyCompareSlug, siteUrl } from "@/lib/format";
 import type { LocationType } from "@/types/company-location";
 
 type CompanyPageProps = {
@@ -69,7 +69,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
   const compareHref = (featuredComparisonTarget
     ? "/compare/asml-vs-tokyo-electron"
     : compareTarget
-      ? `/compare/${company.id}-vs-${compareTarget.id}`
+      ? `/compare/${companyCompareSlug([company.id, compareTarget.id])}`
       : "/compare") as Route;
   const compareLabel = featuredComparisonTarget
     ? `${featuredComparisonTarget}との違いを見る`

@@ -20,7 +20,7 @@ const japaneseCompaniesBySegment = segments
 const pageTitle = "日本・世界の半導体メーカー・関連企業一覧【2026年版】";
 const pageDescription = `日本に本社がある${japaneseCompanyCount}社を含む、半導体メーカー・関連企業全${companies.length}社の掲載一覧。半導体製品、製造装置、材料などの分野別に、主力製品・国内拠点・職種を調べ、企業詳細や比較へ進めます。`;
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   alternates: { canonical: "/companies" },
@@ -33,8 +33,13 @@ export const metadata: Metadata = {
 };
 
 type CompaniesPageProps = {
-  searchParams: Promise<{ query?: string }>;
+  searchParams: Promise<{ query?: string | string[] }>;
 };
+
+export async function generateMetadata({ searchParams }: CompaniesPageProps): Promise<Metadata> {
+  const params = await searchParams;
+  return { ...baseMetadata, robots: params.query !== undefined ? { index: false, follow: true } : undefined };
+}
 
 const adjacentAreas = [
   {
@@ -58,7 +63,8 @@ const adjacentAreas = [
 ] as const;
 
 export default async function CompaniesPage({ searchParams }: CompaniesPageProps) {
-  const { query = "" } = await searchParams;
+  const params = await searchParams;
+  const query = typeof params.query === "string" ? params.query : params.query?.[0] ?? "";
 
   return (
     <main className="page companies-page">

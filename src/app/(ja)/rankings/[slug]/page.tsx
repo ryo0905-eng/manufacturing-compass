@@ -4,7 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { AffiliateCta } from "@/components/AffiliateCta";
-import { CompanyCard } from "@/components/CompanyCard";
+import { careerResearchLists } from "@/data/career-research-lists";
+import { companyResearch } from "@/data/company-research";
+import { getCareerInfo } from "@/data/companies";
 import { getRankingBySlug, getRankingCompanies, rankings } from "@/data/editorial";
 
 type RankingPageProps = {
@@ -64,13 +66,23 @@ export default async function RankingPage({ params }: RankingPageProps) {
         ))}
       </section>
 
+      <p>以下の対象職種と経験の接点は、当サイトの企業研究の提案です。一般的な製品・職種紹介と、現在募集中の求人は区別してください。日本の中途募集、勤務地、英語要件は未確認のため、各社の公式採用情報で応募時に照合します。</p>
+      <p className="disclosure">リスト編集更新日：2026-10-08。製品情報と既存の職種情報の確認日は各項目に表示しています。</p>
       <section className="ranking-list" aria-label="企業リスト">
-        {rankingCompanies.map((company) => (
+        {rankingCompanies.map((company) => {
+          const point = careerResearchLists[ranking.slug]?.[company.id];
+          const research = companyResearch[company.id];
+          const career = getCareerInfo(company.id);
+          const jobSources = company.sources.filter(source => /career|jobs|職種|採用|engineering|open positions/i.test(source.title));
+          return (
           <article className="ranking-item" key={company.id}>
             <div>
               <p className="eyebrow">{company.businessModel}</p>
               <h2>{company.nameJa}</h2>
-              <p>{company.careerSummary}</p>
+              {research ? <><h3>公式情報で確認できる事業</h3><p>{research.facts}</p><p className="disclosure"><a className="text-link" href={research.source.url} target="_blank" rel="noopener noreferrer">{research.source.publisher}：{research.source.title}</a>／確認日：{research.source.accessedAt}</p>{research.sourceScope ? <p className="disclosure">{research.sourceScope}</p> : null}</> : null}
+              {point ? <><h3>対象職種・経験との接点（編集上の提案）</h3><p><strong>職種の研究候補：</strong>{point.roles}</p><p>{point.connection}</p><p><strong>確認する質問：</strong>{point.question}</p></> : null}
+              {career ? <p className="disclosure">既存の職種・準備情報の確認日：{career.lastUpdated}。新卒向け職種紹介や過去の求人を含み、現在の中途募集を示すものではありません。</p> : <p className="disclosure">企業別キャリア情報は整理中です。上記の候補職種を、この企業の募集済み職種として確認したものではありません。</p>}
+              <ul className="source-list">{jobSources.map(source => <li key={source.url}><a className="text-link" href={source.url} target="_blank" rel="noopener noreferrer">{source.title}（職種・募集条件の確認先）</a>／既存データ確認日：{source.accessedAt}</li>)}</ul>
               <div className="actions">
                 <Link className="text-link" href={`/companies/${company.slug}` as Route}>
                   企業詳細
@@ -81,21 +93,7 @@ export default async function RankingPage({ params }: RankingPageProps) {
               </div>
             </div>
           </article>
-        ))}
-      </section>
-
-      <section className="section">
-        <div className="section-header">
-          <div>
-            <p className="eyebrow">掲載企業</p>
-            <h2>一覧でも見る</h2>
-          </div>
-        </div>
-        <div className="company-grid">
-          {rankingCompanies.slice(0, 3).map((company) => (
-            <CompanyCard company={company} key={company.id} />
-          ))}
-        </div>
+        ); })}
       </section>
 
       <section className="section">
