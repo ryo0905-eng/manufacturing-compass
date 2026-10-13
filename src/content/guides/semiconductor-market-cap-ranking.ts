@@ -20,7 +20,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-10-07",
+  updatedAt: "2026-10-13",
   sources: [
     {
       title: "日経業界地図 2027年版（紹介書籍の書誌情報）",
@@ -152,18 +152,13 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   readTime: "約18分",
   intro: {
     problem: "半導体企業のランキングを見ても、設計会社、製造会社、装置会社がなぜ同じ表に並ぶのか分かりにくくありませんか。",
-    conclusion: "2026年10月1日確認時点ではNVIDIAが首位です。ただし、時価総額だけでなく各社が設計・製造・装置・後工程のどこを担うかを合わせて見ます。",
+    conclusion: "2026年10月1日確認時点の上位3社は、NVIDIA、TSMC、Broadcomです。半導体メーカー・関連企業を企業全体の時価総額で比較し、世界TOP30と日本TOP10を紹介します。",
     learnings: "世界TOP30、日本TOP10、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
   },
   overviewBlocks: [
     {
       type: "links",
       items: [
-        {
-          label: "NVIDIAの順位はどう変わった？ 2010年から動かして見る",
-          href: "/tools/ranking-time-machine#mode=semiconductor&year=2010&company=nvidia",
-          description: "再生すると年ごとの順位が変化。選定20社内でNVIDIAを追跡し、Intelなど他社と時価総額を見比べられます。"
-        },
         {
           label: "世界TOP30を見る",
           href: "#world-ranking",
@@ -173,6 +168,11 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           label: "日本TOP10を見る",
           href: "#japan-ranking",
           description: "同じデータ基準で抽出した日本企業の順位を確認"
+        },
+        {
+          label: "NVIDIAの順位はどう変わった？ 2010年から動かして見る",
+          href: "/tools/ranking-time-machine#mode=semiconductor&year=2010&company=nvidia",
+          description: "再生すると年ごとの順位が変化。選定20社内でNVIDIAを追跡し、Intelなど他社と時価総額を見比べられます。"
         },
         {
           label: "製造装置の売上高で比較",
