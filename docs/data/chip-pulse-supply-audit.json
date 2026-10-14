@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14T00:20:36.883Z",
+  "generatedAt": "2026-10-14T23:58:00.263Z",
   "windowStart": "2026-09-14T00:00:00.000Z",
   "windowEnd": "2026-10-14T00:00:00.000Z",
   "status": "success",
@@ -11,9 +11,39 @@
   "errors": [],
   "rows": [
     {
+      "id": "sec-0001628280-26-065813",
+      "sourceId": "asml",
+      "publishedAt": "2026-10-14T10:01:18.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0001101302-26-000154",
+      "sourceId": "entegris",
+      "publishedAt": "2026-10-14T11:05:09.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0001709048-26-000252",
+      "sourceId": "globalfoundries",
+      "publishedAt": "2026-10-14T12:31:15.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
       "id": "sec-0000950103-26-015458",
       "sourceId": "ase",
-      "publishedAt": "2026-10-13T10:04:28.000Z",
+      "publishedAt": "2026-10-13T14:04:28.000Z",
       "datePrecision": "instant",
       "body": true,
       "eligible": false,
@@ -78,22 +108,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-15",
-    "end": "2026-10-14",
+    "start": "2026-09-16",
+    "end": "2026-10-15",
     "days": [
-      {
-        "date": "2026-09-15",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-16",
         "candidates": 0,
@@ -460,6 +477,19 @@
       },
       {
         "date": "2026-10-14",
+        "candidates": 3,
+        "deduplicated": 3,
+        "bodies": 3,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
+      },
+      {
+        "date": "2026-10-15",
         "candidates": 0,
         "deduplicated": 0,
         "bodies": 0,
@@ -475,31 +505,33 @@
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-08",
-        "end": "2026-10-14",
+        "start": "2026-10-09",
+        "end": "2026-10-15",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-01",
-        "end": "2026-10-07",
+        "start": "2026-10-02",
+        "end": "2026-10-08",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-24",
-        "end": "2026-09-30",
-        "publishable": 2,
+        "start": "2026-09-25",
+        "end": "2026-10-01",
+        "publishable": 1,
+        "fields": [
+          "design-manufacturing"
+        ]
+      },
+      {
+        "start": "2026-09-18",
+        "end": "2026-09-24",
+        "publishable": 1,
         "fields": [
           "design-manufacturing",
           "packaging"
         ]
-      },
-      {
-        "start": "2026-09-17",
-        "end": "2026-09-23",
-        "publishable": 0,
-        "fields": []
       }
     ],
     "targetMet": false
