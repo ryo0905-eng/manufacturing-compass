@@ -1,100 +1,100 @@
 {
   "schemaVersion": 1,
-  "contentUpdatedAt": "2026-10-14T23:58:00.263Z",
+  "contentUpdatedAt": "2026-10-15T23:42:41.163Z",
   "edition": {
-    "date": "2026-10-15",
-    "start": "2026-10-13T21:00:00.000Z",
-    "end": "2026-10-14T21:00:00.000Z",
+    "date": "2026-10-16",
+    "start": "2026-10-14T21:00:00.000Z",
+    "end": "2026-10-15T21:00:00.000Z",
     "articleIds": []
   },
   "status": {
-    "checkedAt": "2026-10-14T23:58:00.263Z",
-    "lastSuccessfulAt": "2026-10-14T23:58:00.263Z",
+    "checkedAt": "2026-10-15T23:42:41.163Z",
+    "lastSuccessfulAt": "2026-10-15T23:42:41.163Z",
     "state": "success",
     "sources": [
       {
         "id": "amkor",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "entegris",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "ase",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "globalfoundries",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "nvidia",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "amd",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "broadcom",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "micron",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "intel",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "applied-materials",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "lam-research",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "kla",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "tsmc",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       },
       {
         "id": "asml",
         "state": "success",
-        "checkedAt": "2026-10-14T23:58:00.263Z",
-        "lastSuccessfulAt": "2026-10-14T23:58:00.263Z"
+        "checkedAt": "2026-10-15T23:42:41.163Z",
+        "lastSuccessfulAt": "2026-10-15T23:42:41.163Z"
       }
     ],
     "ai": "disabled"
@@ -362,12 +362,21 @@
   ],
   "updates": [
     {
+      "id": "sec-0001046179-26-000726",
+      "sourceId": "tsmc",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000726/tsm-20261015x6k.htm",
+      "title": "TSMCの公式開示（6-K）",
+      "publishedAt": "2026-10-15T10:40:56.000Z",
+      "datePrecision": "instant"
+    },
+    {
       "id": "sec-0001709048-26-000252",
       "sourceId": "globalfoundries",
       "sourceName": "SEC EDGAR",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1709048/000170904826000252/a2026-10form6xk.htm",
       "title": "GlobalFoundriesの公式開示（6-K）",
-      "publishedAt": "2026-10-14T12:31:15.000Z",
+      "publishedAt": "2026-10-14T16:31:15.000Z",
       "datePrecision": "instant"
     },
     {
@@ -376,7 +385,7 @@
       "sourceName": "SEC EDGAR",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1101302/000110130226000154/entg-20261014.htm",
       "title": "Entegrisの公式開示（8-K）",
-      "publishedAt": "2026-10-14T11:05:09.000Z",
+      "publishedAt": "2026-10-14T15:05:09.000Z",
       "datePrecision": "instant"
     },
     {
@@ -385,7 +394,7 @@
       "sourceName": "SEC EDGAR",
       "sourceUrl": "https://www.sec.gov/Archives/edgar/data/937966/000162828026065813/form6-kquarterlyfilings.htm",
       "title": "ASMLの公式開示（6-K）",
-      "publishedAt": "2026-10-14T10:01:18.000Z",
+      "publishedAt": "2026-10-14T14:01:18.000Z",
       "datePrecision": "instant"
     },
     {

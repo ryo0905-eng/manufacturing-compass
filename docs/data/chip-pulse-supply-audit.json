@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-14T23:58:00.263Z",
-  "windowStart": "2026-09-14T00:00:00.000Z",
-  "windowEnd": "2026-10-14T00:00:00.000Z",
+  "generatedAt": "2026-10-15T23:42:41.163Z",
+  "windowStart": "2026-09-15T00:00:00.000Z",
+  "windowEnd": "2026-10-15T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -11,9 +11,19 @@
   "errors": [],
   "rows": [
     {
+      "id": "sec-0001046179-26-000726",
+      "sourceId": "tsmc",
+      "publishedAt": "2026-10-15T10:40:56.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
       "id": "sec-0001628280-26-065813",
       "sourceId": "asml",
-      "publishedAt": "2026-10-14T10:01:18.000Z",
+      "publishedAt": "2026-10-14T14:01:18.000Z",
       "datePrecision": "instant",
       "body": true,
       "eligible": false,
@@ -23,7 +33,7 @@
     {
       "id": "sec-0001101302-26-000154",
       "sourceId": "entegris",
-      "publishedAt": "2026-10-14T11:05:09.000Z",
+      "publishedAt": "2026-10-14T15:05:09.000Z",
       "datePrecision": "instant",
       "body": true,
       "eligible": false,
@@ -33,7 +43,7 @@
     {
       "id": "sec-0001709048-26-000252",
       "sourceId": "globalfoundries",
-      "publishedAt": "2026-10-14T12:31:15.000Z",
+      "publishedAt": "2026-10-14T16:31:15.000Z",
       "datePrecision": "instant",
       "body": true,
       "eligible": false,
@@ -108,22 +118,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-16",
-    "end": "2026-10-15",
+    "start": "2026-09-17",
+    "end": "2026-10-16",
     "days": [
-      {
-        "date": "2026-09-16",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-17",
         "candidates": 0,
@@ -477,6 +474,19 @@
       },
       {
         "date": "2026-10-14",
+        "candidates": 1,
+        "deduplicated": 1,
+        "bodies": 1,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
+      },
+      {
+        "date": "2026-10-15",
         "candidates": 3,
         "deduplicated": 3,
         "bodies": 3,
@@ -489,7 +499,7 @@
         }
       },
       {
-        "date": "2026-10-15",
+        "date": "2026-10-16",
         "candidates": 0,
         "deduplicated": 0,
         "bodies": 0,
@@ -505,28 +515,28 @@
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-09",
-        "end": "2026-10-15",
+        "start": "2026-10-10",
+        "end": "2026-10-16",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-02",
-        "end": "2026-10-08",
+        "start": "2026-10-03",
+        "end": "2026-10-09",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-25",
-        "end": "2026-10-01",
+        "start": "2026-09-26",
+        "end": "2026-10-02",
         "publishable": 1,
         "fields": [
           "design-manufacturing"
         ]
       },
       {
-        "start": "2026-09-18",
-        "end": "2026-09-24",
+        "start": "2026-09-19",
+        "end": "2026-09-25",
         "publishable": 1,
         "fields": [
           "design-manufacturing",
