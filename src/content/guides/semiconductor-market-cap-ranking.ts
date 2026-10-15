@@ -20,19 +20,19 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-10-13",
+  updatedAt: "2026-10-15",
   sources: [
     {
       title: "日経業界地図 2027年版（紹介書籍の書誌情報）",
       url: "https://bookplus.nikkei.com/atcl/catalog/26/07/29/02721/",
       publisher: "日経BOOKプラス",
-      accessedAt: "2026-09-28",
+      accessedAt: "2026-10-14",
     },
     {
       title: "会社四季報 業界地図2027年版（紹介書籍の書誌情報）",
       url: "https://str.toyokeizai.net/magazine/gyoukai/",
       publisher: "東洋経済新報社",
-      accessedAt: "2026-09-28",
+      accessedAt: "2026-10-14",
     },
     {
       title: "Largest semiconductor companies by market cap",
@@ -199,6 +199,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       lead: "2026年10月1日確認時点の上位3社は、NVIDIA、TSMC、Broadcomです。",
       blocks: [
         { type: "market-cap-ranking", scope: "world" },
+        { type: "book-affiliate-entry" },
         {
           type: "link-callout",
           title: "ランキングに出てくる企業は、どんな役割？",
@@ -234,16 +235,12 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "industry-map-books",
       heading: "業界全体を見渡したいときに読む2冊",
-      lead: "私は『日経業界地図』と『「会社四季報」業界地図』を毎年読んでいて、2027年版も読みました。どちらも業界の全体像を視覚的につかめるところが好きです。色使いやデザインも読みやすく、見ていて楽しい。ランキングや業界の景況感も調べる手がかりになり、業界研究がかなり進むと感じています。",
+      lead: "私は『日経業界地図』と『「会社四季報」業界地図』を毎年読んでいて、2027年版も読みました。どちらも業界の全体像を視覚的につかめるところが好きです。",
       blocks: [
         { type: "moshimo-book-link", product: "nikkei-industry-map-2027" },
         { type: "moshimo-book-link", product: "shikiho-industry-map-2027" },
       ],
-      paragraphs: [
-        "『日経業界地図 2027年版』には、半導体の製造工程や材料・製造装置企業を紹介する特集もあります。",
-        "『「会社四季報」業界地図 2027年版』は、企業同士の関係や業界の動向を地図の形で調べられます。",
-        "上の2冊の購入先は広告・アフィリエイトリンクです。",
-      ],
+      paragraphs: [],
     },
     {
       id: "compare-by-field",

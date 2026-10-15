@@ -399,3 +399,15 @@ Career Compass
 `job_posting_note` は `ui_version=note-v1` と固定actionのみ。view（入口の説明が25%以上・前景タブで露出）、start（初回選択）、result（明示作成後の結果見出し露出）はマウント中1回。copy_successはClipboard API成功、copy_fallbackは手動コピーへの案内、resetは明示クリアごと。初期表示・未選択の作成は成果にしない。回答変更で旧結果の露出監視を解除する。
 
 回答・項目ID・記載状況・件数・ノート本文は送信しない。コピー成功を実際の相談や応募と同一視しない。本番反映後14日から入口／開始／結果とコピーを観測し、利用が少ない場合は需要未検証と扱う。本番受信は未確認。
+
+## ランキング記事の書籍導線（2026-10-15）
+
+世界表直後の短い入口は `article_internal_click` を使い、`source_slug`・`source_page=semiconductor-market-cap-ranking`、`destination_path=#industry-map-books`、`cta_location=world_ranking_after_table`、`ui_version=books-v1` を送る。同一ページ内の移動であり、購入先クリックと合算しない。通常操作では移動先をフォーカス可能にしてキーボードの読み順をつなぎ、修飾キーによる別タブ操作は維持する。
+
+書籍カードは `book_affiliate_state` に `action=ready/view/unavailable`、固定の `product_id`、`source_page=semiconductor-market-cap-ranking`、`cta_location=industry_map_books`、`ui_version=books-v1` を送る。readyは発行データに対応する購入先リンクの生成、viewはその後に購入先領域が前景で25%以上露出した時、unavailableはマウント後10秒未生成の場合。各actionは商品ごと・マウント中1回。unavailableは恒久的な故障ではなく、後からready/viewへ進める。生成リンクがなくなった場合は露出監視を解除し、10秒の待機を再開する。再訪は新しいマウントとして扱う。
+
+`affiliate_outbound_click` は既存名を維持し、`service_id=moshimo`、`product_id`、`retailer=amazon/rakuten/unknown`、同じsource_page・cta_location・ui_versionを送る。カード内の購入先だけを対象とし、発行済みのURLまたはもしもの生成クリックURLの広告ID・プログラムIDを照合する。既知の広告IDに対し販売先を特定できない時だけunknownとし、その他のリンクは送信しない。表示ラベルだけで販売先を推定せず、完全なURL・書名・自由記述・識別子をイベントへ追加しない。広告コードと遷移先は書き換えない。
+
+GA4の分析には `product_id`・`retailer` をイベントスコープで用意し、既存の `action`・`source_page`・`cta_location`・`ui_version` を使う。属性登録の保存と、本番で属性値が利用できることは別に確認する。検証で本番GA4・Vercel Analyticsへの送信、ASP広告クリック、本人購入を発生させない。
+
+本番掲載と属性値の取得を確認できた日をDとし、D+1〜D+14を初回観察期間とする。商品別のready・view・購入先クリック、ASPのサイト／販売先別クリック・発生・承認を同じ対象期間で別々に記録する。同一セッションの露出からクリックが読める場合だけ経路を確認し、イベント数の単純な比率をユニーク転換率としない。初回掲載日・本番反映日が未確認のまま過去28日全体を掲載後の期間にしない。ASPはログイン後に読み取り照合し、未取得を0として埋めない。

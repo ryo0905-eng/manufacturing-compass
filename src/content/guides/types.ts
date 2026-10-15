@@ -4,6 +4,7 @@ export type GuideStatus = "draft" | "published";
 export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
+  | { type: "book-affiliate-entry" }
   | { type: "ranking-history"; kind: "japan" | "nvidia-intel" }
   | {
       type: "comparison-table";

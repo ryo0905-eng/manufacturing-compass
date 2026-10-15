@@ -1,5 +1,16 @@
 # TASKS
 
+## 2026-10-15：ランキング記事の書籍導線・表示状態・計測を改善
+
+- 世界TOP30直後に既存書籍紹介への短い入口を追加。移動先へのキーボードフォーカスを接続し、日本TOP10後の2冊それぞれの紹介文と読む目的を購入先より先に表示。既存の読書体験と広告コード・購入先を維持し、Amazonが書名検索であることを明示。編集日は10-15、実際に再確認した書籍出典は10-14。ランキング数値・タイトル・canonical・公開状態は維持。
+- 外部カードの準備完了・実露出・10秒未生成を区別し、遅延時の再読み込み案内、遅れて生成された際の復帰、JavaScript無効時の案内を追加。購入先だけを生成URLと発行データで判別し、固定属性で計測。GA4のproduct_id・retailerをイベントスコープで登録し、再読込後の保存を確認。属性値の本番受信は未確認。
+- `node tests/unit/book-affiliates.cjs`、`node tests/unit/observe-visible.cjs`、`npm run typecheck`を各1回実行し成功。書籍テストは埋め込み・タイマー・露出を模擬。最終の軽微な表示・フォーカス調整後は再単体テストせず、最終型チェックとPC操作を確認。390pxのDOM幅確認は調整前に成功し、最終フォーカスの390px確認は未完了。
+- `git diff --check`と変更対象の公開禁止情報照合は成功。発行済みカードデータ・購入先URL、記事の識別情報・公開状態・ランキング出典は変更前と機械照合し、一致を確認。
+- ローカルPCで紹介先への移動とフォーカス・Tab順、実画面の遅延案内を確認。確認用Chromeは購入カード配信元をERR_BLOCKED_BY_CLIENTで遮断しており、実カードの正常表示は未確認。本番カードも壊れているとは断定しない。GA4タグ非設置をローカルDOMで確認し、本番イベント送信・広告クリック・本人購入なし。dev起動はsandboxのbind制限で初回失敗し、昇格起動後は各確認を3分以内で終了・停止済み。ブラウザ接続の待機が長引いた後、差分と型を再確認して完了。build・lint・commit・pushなし。
+- 変更：`src/content/guides/semiconductor-market-cap-ranking.ts`・`types.ts`、`src/components/guide/GuideBlocks.tsx`・`MoshimoBookLink.tsx`・`BookAffiliateEntry.tsx`・`MoshimoBookLink.module.css`、`src/data/book-affiliates.ts`、`src/lib/book-affiliates.ts`、`tests/unit/book-affiliates.cjs`、`docs/architecture.md`・`monetization.md`・`conversion-architecture.md`、本記録。非公開記録・設定確認画像は`.private/`に保存。
+- 本番反映・属性値の受信・ASP照合は未確認。もしもは未ログイン。確認後の14日観測を仕様に記載し、観測開始日は未確定。commit・pushは運営者が行う。
+- 推奨コミット：`feat: improve ranking book affiliate journey`
+
 ## 2026-10-13：時価総額ランキングの冒頭を改善
 
 - 冒頭の結論へ既存基準日時点の上位3社と企業全体の時価総額という比較基準をまとめ、入口リンクを世界TOP30→日本TOP10→過去の推移→分野別比較の順へ変更。編集日のみ更新。

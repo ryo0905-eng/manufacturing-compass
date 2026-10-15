@@ -58,6 +58,8 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ### 共通UI
 
+ランキングの書籍導線は `BookAffiliateEntry` がページ内移動とフォーカスを担当し、`MoshimoBookLink` がローカル書籍データの紹介文と既存のもしも埋め込みを表示する。`src/lib/book-affiliates.ts` が生成された購入先URLの判別、表示準備・遅延・露出の監視と解除を担当する。発行済み広告データは維持し、状態・クリックは固定カテゴリの既存Analytics経由で送る。新しい保存先や閲覧時のサーバーAPIは追加しない。イベントと公開後の確認は `docs/conversion-architecture.md`、編集・広告方針は `docs/monetization.md` を参照する。
+
 `src/styles/tokens.css` を日英共通の `globals.css` から読み込み、意味別の `--mc-*` トークンと既存CSS変数の互換エイリアスを一元管理する。`src/components/ui/Controls.tsx` は標準HTML属性を受け取る状態を持たない共通部品。Cpkの日英共通Client Componentsで先行利用し、配置は専用CSS Moduleへ分離する。操作・計算・計測は呼び出し側に残し、UIライブラリや新しいAPIへの依存は追加しない。部品の契約と移行ルールは `docs/design-system.md` を参照。
 
 ### 共通スタック

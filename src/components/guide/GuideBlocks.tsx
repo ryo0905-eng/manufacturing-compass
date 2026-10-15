@@ -11,6 +11,7 @@ import { SalaryRankingTable } from "@/components/SalaryRankingTable";
 import { FactoryProjectComparison } from "@/components/FactoryProjectComparison";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { MoshimoBookLink } from "@/components/guide/MoshimoBookLink";
+import { BookAffiliateEntry } from "@/components/guide/BookAffiliateEntry";
 import type { GuideBlock } from "@/content/guides/types";
 import { readComparisonHash } from "@/lib/ranking-comparison";
 
@@ -30,6 +31,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
+        if (block.type === "book-affiliate-entry") return <BookAffiliateEntry sourceSlug={sourceSlug} key={`book-entry-${index}`} />;
         if (block.type === "factory-project-comparison") return <FactoryProjectComparison key={`factory-project-comparison-${index}`} />;
         if (block.type === "moshimo-book-link") return <MoshimoBookLink key={`moshimo-book-link-${block.product}`} product={block.product} />;
         if (block.type === "ranking-history") return <RankingHistoryArticle key={`ranking-history-${index}`} kind={block.kind} sourceSlug={sourceSlug ?? ""} />;

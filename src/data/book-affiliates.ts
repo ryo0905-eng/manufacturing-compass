@@ -3,6 +3,8 @@ export const shikihoIndustryMap2027 = {
   id: "7D4jD",
   productId: "shikiho-industry-map-2027",
   title: "『「会社四季報」業界地図 2027年版』",
+  description: "企業同士の関係や、業界の動向を地図の形で調べられます。",
+  purpose: "半導体以外の業界も含め、企業のつながりを広く見渡したい方へ。",
   card: {
     n: "「会社四季報」業界地図　2027年版 [ 東洋経済新報社 ]",
     b: "",
@@ -47,6 +49,8 @@ export const nikkeiIndustryMap2027 = {
   id: "dOnE9",
   productId: "nikkei-industry-map-2027",
   title: "『日経業界地図 2027年版』",
+  description: "半導体の製造工程と、材料・製造装置企業を紹介する特集があります。",
+  purpose: "ランキングに出てくる企業を、工程や役割と結びつけて調べたい方へ。",
   card: {
     n: "日経業界地図 2027年版 [ 日本経済新聞社 ]",
     b: "",
