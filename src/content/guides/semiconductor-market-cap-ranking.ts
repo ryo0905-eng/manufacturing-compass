@@ -171,8 +171,8 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         },
         {
           label: "NVIDIAの順位はどう変わった？ 2010年から動かして見る",
-          href: "/tools/ranking-time-machine#mode=semiconductor&year=2010&company=nvidia",
-          description: "再生すると年ごとの順位が変化。選定20社内でNVIDIAを追跡し、Intelなど他社と時価総額を見比べられます。"
+          href: "#ranking-time-machine-preview",
+          description: "この記事の中で再生・年選択を試せます。選定20社内でNVIDIAの順位と時価総額の変化を追えます。"
         },
         {
           label: "製造装置の売上高で比較",
@@ -199,6 +199,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       lead: "2026年10月1日確認時点の上位3社は、NVIDIA、TSMC、Broadcomです。",
       blocks: [
         { type: "market-cap-ranking", scope: "world" },
+        { type: "ranking-time-machine-preview" },
         { type: "book-affiliate-entry" },
         {
           type: "link-callout",

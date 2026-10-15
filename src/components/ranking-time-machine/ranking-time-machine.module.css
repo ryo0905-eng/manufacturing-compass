@@ -117,3 +117,39 @@
 .historyTableScroll .table { min-width: 520px; table-layout: auto; }
 .historyTableScroll .table th:first-child { width: 30%; }
 .historyArticle a:focus-visible, .historyArticle summary:focus-visible { outline: 3px solid var(--mc-action); outline-offset: 3px; }
+
+.articlePreview { display: grid; gap: 12px; min-width: 0; padding: 16px; border: 1px solid var(--mc-border); border-radius: var(--mc-radius-panel); background: var(--mc-surface); scroll-margin-top: 96px; }
+.articlePreview, .articlePreview * { box-sizing: border-box; }
+.articlePreview.articlePreview.articlePreview h3 { margin: 0; font-size: 20px; line-height: 1.5; }
+.articlePreview.articlePreview.articlePreview p { margin: 0; font-size: 14px; line-height: 1.7; }
+.articlePreview.articlePreview p.small { font-size: 12px; color: var(--mc-text-muted); }
+.articlePreview .figure h4 { margin: 0 0 4px; font-size: 17px; }
+.articlePreview.articlePreview .race { padding: 0; margin: 0; }
+.articlePreview.articlePreview .raceRow { max-width: none; padding: 0; margin: 0; }
+.articlePreview :is(button, input, a):focus-visible { outline: 3px solid var(--mc-focus); outline-offset: 3px; }
+.articlePreview .controlHeading { display: flex; }
+.articlePreview .controls.controls { padding: 12px; border: 1px solid var(--mc-border); border-radius: var(--mc-radius-panel); background: var(--mc-surface-subtle); }
+.articlePreview .year { gap: 8px; }
+.articlePreview .year strong { font-size: 36px; }
+.articlePreview .actions { flex-wrap: wrap; }
+.articlePreview > a { justify-self: start; max-width: 100%; white-space: normal; }
+.inlineTracker { display: grid; gap: 4px; padding: 12px; background: var(--mc-selection-surface); border-radius: 8px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.readonlyRow.readonlyRow { cursor: default; }
+.readonlyRow.readonlyRow:hover { background: transparent; }
+.readonlyRow[data-highlighted="true"] { background: var(--mc-selection-surface); border-color: var(--mc-selection); }
+.rowArtwork { display: contents; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+/* Article columns can be narrow even on a desktop viewport. */
+.articlePreview .raceButton { grid-template-columns: 2rem minmax(0, 1fr) 5.5rem; gap: 4px 8px; min-height: 60px; }
+.articlePreview .race { --race-row-height: 62px; }
+.articlePreview .rank { grid-column: 1; grid-row: 1 / 3; }
+.articlePreview .companyIdentity { grid-column: 2 / 4; grid-row: 1; }
+.articlePreview .track { grid-column: 2; grid-row: 2; height: 14px; }
+.articlePreview .value { grid-column: 3; grid-row: 2; }
+.articlePreview .axis { margin-left: calc(2rem + 13px); margin-right: calc(5.5rem + 13px); }
+@media (max-width: 400px) {
+  .articlePreview { padding: 12px; }
+  .articlePreview .controls.controls, .articlePreview .figure { padding: 8px; }
+  .articlePreview .raceButton { grid-template-columns: 1.75rem minmax(0, 1fr) 4.75rem; gap: 4px; }
+  .articlePreview .axis { margin-left: calc(1.75rem + 9px); margin-right: calc(4.75rem + 9px); }
+}

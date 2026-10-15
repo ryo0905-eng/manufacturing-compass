@@ -4,10 +4,11 @@ import { useRef } from 'react';
 import { Button } from '@/components/ui/Controls';
 import styles from './ranking-time-machine.module.css';
 
-export function TimelineControls({ years, index, playing, onPlay, onPause, onReset, onYear, onYearCommit }: {
+export function TimelineControls({ years, index, playing, onPlay, onPause, onReset, onYear, onYearCommit, idPrefix = 'ranking', helpText = '3秒ごとに1年進みます。年や企業を選ぶと停止します。' }: {
   years: readonly number[]; index: number; playing: boolean;
   onPlay: () => void; onPause: () => void; onReset: () => void;
   onYear: (index: number) => void; onYearCommit: (index: number) => void;
+  idPrefix?: string; helpText?: string;
 }) {
   const pending = useRef<number | null>(null);
   function commit() {
@@ -23,12 +24,12 @@ export function TimelineControls({ years, index, playing, onPlay, onPause, onRes
         <Button onClick={onReset} aria-label="最初に戻る" title="最初に戻る">↺</Button>
       </div>
     </div>
-    <label htmlFor="ranking-year">年を選ぶ</label>
-    <input id="ranking-year" type="range" min={0} max={years.length - 1} step={1} value={index}
-      aria-valuetext={`${years[index]}年末`} aria-describedby="ranking-playback-help"
+    <label htmlFor={`${idPrefix}-year`}>年を選ぶ</label>
+    <input id={`${idPrefix}-year`} type="range" min={0} max={years.length - 1} step={1} value={index}
+      aria-valuetext={`${years[index]}年末`} aria-describedby={`${idPrefix}-playback-help`}
       onChange={event => { const next = Number(event.target.value); pending.current = next; onYear(next); }}
       onPointerUp={commit} onPointerCancel={commit} onKeyUp={commit} onBlur={commit} />
     <div className={styles.rangeEnds}><span>{years[0]}年</span><span>{years[years.length - 1]}年</span></div>
-    <p id="ranking-playback-help" className={styles.small}>3秒ごとに1年進みます。年や企業を選ぶと停止します。</p>
+    <p id={`${idPrefix}-playback-help`} className={styles.small}>{helpText}</p>
   </section>;
 }

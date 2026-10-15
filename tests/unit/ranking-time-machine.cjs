@@ -18,6 +18,11 @@ function loader(overrides = {}, globals = {}) {
       file += fs.existsSync(file + '.tsx') ? '.tsx' : '.ts';
     }
     if (cache.has(file)) return cache.get(file);
+    if (file.endsWith('.json')) {
+      const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+      cache.set(file, data);
+      return data;
+    }
     const exports = {};
     cache.set(file, exports);
     const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
@@ -306,7 +311,8 @@ assert.match(firstDetail, /変化なし/);
 assert.equal((detail.match(/<tr[ >]/g) || []).length, 17);
 const mediaTek = renderToStaticMarkup(React.createElement(CompanyDetail, { companyId: 'mediatek', timeline, index: 0 }));
 assert.ok(!mediaTek.includes('/companies/mediatek'));
-for (const file of ['src/content/guides/semiconductor-market-cap-ranking.ts', 'src/content/guides/semiconductor-equipment-sales-ranking.ts', 'src/app/(ja)/tools/page.tsx']) assert.ok(fs.readFileSync(path.join(root, file), 'utf8').includes('/tools/ranking-time-machine'));
+assert.ok(fs.readFileSync(path.join(root, 'src/content/guides/semiconductor-market-cap-ranking.ts'), 'utf8').includes('#ranking-time-machine-preview'));
+for (const file of ['src/content/guides/semiconductor-equipment-sales-ranking.ts', 'src/app/(ja)/tools/page.tsx']) assert.ok(fs.readFileSync(path.join(root, file), 'utf8').includes('/tools/ranking-time-machine'));
 assert.match(fs.readFileSync(path.join(root, 'src/app/sitemap.ts'), 'utf8'), /rankingTimeMachineMetadata\.route/);
 
 

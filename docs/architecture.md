@@ -1,6 +1,6 @@
 # Architecture
 
-最終更新日: 2026-10-04
+最終更新日: 2026-10-15
 
 ## 方針
 
@@ -31,6 +31,8 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - 実務ツール共通計測：`usePracticalToolJourney` をCpk・工程比較の日英UIから利用。固定カテゴリのみで入力部露出、開始、明示サンプル、計算試行、失敗、操作後の結果露出をマウント中各1回計測する。初期サンプルは成果に数えず、結果破棄時は監視も解除。既存イベントは詳細操作用に維持。定義は `docs/conversion-architecture.md` に記載。
 
 ### ランキング・タイムマシン
+
+- 2026-10-15：`GuideBlock`の`ranking-time-machine-preview`を`GuideBlocks`から専用Client Componentへ接続する。既存の20社静的データ・`prepareRanking`・`reduceTimeline`・再生間隔・アニメーションを再利用し、4比較モードを組み立てるフル画面は読み込まない。記事内はURLを読み書きせず、表示年付きの既存専用URLへリンクする。初期チャート・出典・NVIDIA追跡をSSRし、ロゴはlazy、失敗時は企業名へ戻す。`RankingRaceChart`のarticle表示は非操作行・固有見出し、`TimelineControls`は固有ID・説明を受け取り、専用画面の既定値は維持する。画面外・背景タブで停止し、自動再開しない。登録・DB・外部API・保存機能は追加しない。
 
 - 日本モード（2026-09-23追加）は `ranking-japan.ts` の9社144件と既存東京エレクトロン16件を合成。既存392件と3モードの対象は維持。`RankingMode`にjapanを追加し、共有ハッシュ・計測・停止/リセットは共通実装を使用する。
 - `ranking-history.ts` は同じランキングから記事用の端点比較・年末逆転を計算。`RankingHistoryArticle` は日本の年別表と2社の線形SVG/16年表をServer Componentで出力。GuideBlockのranking-historyで既存記事テンプレートに接続する。新規2記事は既存registryからmetadata/canonical/Article/BreadcrumbList/sitemapへ反映する。

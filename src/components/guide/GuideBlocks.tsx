@@ -1,4 +1,5 @@
 import { RankingHistoryArticle } from "@/components/ranking-time-machine/RankingHistoryArticle";
+import { RankingTimeMachinePreview } from "@/components/ranking-time-machine/RankingTimeMachinePreview";
 import { OpticalCompanies } from "@/components/OpticalCompanies";
 import { MemoryRanking } from "@/components/MemoryRanking";
 import { EquipmentSalesRanking } from "@/components/EquipmentSalesRanking";
@@ -31,6 +32,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
+        if (block.type === "ranking-time-machine-preview") return <RankingTimeMachinePreview key={`ranking-preview-${index}`} />;
         if (block.type === "book-affiliate-entry") return <BookAffiliateEntry sourceSlug={sourceSlug} key={`book-entry-${index}`} />;
         if (block.type === "factory-project-comparison") return <FactoryProjectComparison key={`factory-project-comparison-${index}`} />;
         if (block.type === "moshimo-book-link") return <MoshimoBookLink key={`moshimo-book-link-${block.product}`} product={block.product} />;

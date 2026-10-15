@@ -1,5 +1,17 @@
 # TASKS
 
+## 2026-10-15：時価総額ランキング記事内にタイムマシン簡易版を追加
+
+- 世界TOP30表直後・書籍入口より前に配置し、冒頭リンクをページ内へ接続。2010年末・停止状態から再生／一時停止・年選択・リセットを提供。既存20社データ・順位計算・再生・チャートを再利用し、上位10社と圏外でも読めるNVIDIAの年末確定値を表示する。現在のTOP30との対象・時点の違い、補間表示、出典・元データ確認日を明記。
+- 企業行は非操作表示、記事内ロゴはlazy・失敗時は企業名へ戻す。初期チャート・リンク・説明をSSRし、URLの読み書きなし。専用ページへ表示年・NVIDIA選択を引き継ぎ、画面外・背景タブでは停止し自動再開しない。既存2社比較・他記事の専用ページ入口・canonical・検索公開設定・市場データは維持。
+- 記事内の露出・開始・結果を既存イベントの`surface=article_inline`・`ui_version=inline-v1`で区別し、詳細画面へのクリックは`placement=inline_open_full`で識別。初期表示・無変更・一時停止だけでは利用扱いにせず、マウント中の重複を抑える。PRD・architecture・conversion-architectureを更新。
+- `node tests/unit/ranking-time-machine-preview.cjs`を1回実行し成功。初期SSR、全16年の順位・数値一致、停止・年変更・最終年・リセット、画面外／背景タブ停止、復帰時の非再生、URL非干渉・引き継ぎ、画像失敗、露出と初回操作・結果の重複抑制を確認。ブラウザ・本番受信の代用とはしない。
+- `node tests/unit/ranking-company-compare.cjs`を1回実行し成功。記事SSR・既存比較・canonicalを確認。過去の編集日固定assertを記事データとの整合確認へ変更した。`npm run typecheck`を1回実行し成功。
+- `node tests/unit/ranking-time-machine.cjs`は1回実行し失敗。主要な再生・比較・共有・計測・reduced-motionとSSRの検証は通過後、記事／sitemap連携でテストローダーがJSONをTSとして処理し`media.articles is not iterable`となった。ローダーにJSON読込を追加済み。再実行制限に従い再検証せず、全体成功とは扱わない。
+- 各検証は180秒の上限付きで実施。build・lint・dev・ブラウザ・commit・pushなし。本番反映・GA4受信は未確認。受信確認後14日・28日に同一セッションの露出→開始→結果と専用ページ移動を観測する。
+- 変更：新規`RankingTimeMachinePreview.tsx`と`tests/unit/ranking-time-machine-preview.cjs`、既存`RankingRaceChart.tsx`・`TimelineControls.tsx`・`CompanyLogo.tsx`・共通CSS Module、記事データ・GuideBlock型・GuideBlocks、既存対象テスト2件、上記3仕様書と本記録。
+- 推奨コミット：`feat: embed ranking time machine preview in ranking article`
+
 ## 2026-10-15：ランキング記事の書籍導線・表示状態・計測を改善
 
 - 世界TOP30直後に既存書籍紹介への短い入口を追加。移動先へのキーボードフォーカスを接続し、日本TOP10後の2冊それぞれの紹介文と読む目的を購入先より先に表示。既存の読書体験と広告コード・購入先を維持し、Amazonが書名検索であることを明示。編集日は10-15、実際に再確認した書籍出典は10-14。ランキング数値・タイトル・canonical・公開状態は維持。
