@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CareerResultPreview } from "@/components/CareerResultPreview";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CareerCompassLink } from "@/components/CareerCompassLink";
@@ -50,13 +51,25 @@ export default function Home() {
     <main className="home-focused">
       <StructuredData data={{ "@context": "https://schema.org", "@type": "WebSite", name: "Manufacturing Compass", url: siteUrl, inLanguage: "ja" }} />
       <section className="home-focused__hero" aria-labelledby="home-title">
-        <h1 id="home-title">{title}</h1>
-        <p>{description}</p>
+        <div className="home-focused__hero-copy">
+          <h1 id="home-title">{title}</h1>
+          <p>{description}</p>
+        </div>
         <nav className="home-focused__entry-grid" aria-label="目的から選ぶ">
           <HomeLink href="/tools" section="hero" destination="tools" purpose="technology">技術を学ぶ・使う<span aria-hidden="true">→</span></HomeLink>
           <HomeLink href="/industry-map" section="hero" destination="industry_map" purpose="industry">企業・業界を調べる<span aria-hidden="true">→</span></HomeLink>
           <CareerCompassLink ctaLocation="home_hero_purpose" ctaVariant="purpose_entry_v1" sourcePage="/">キャリアを整理する<span aria-hidden="true">→</span></CareerCompassLink>
         </nav>
+        <div className="home-focused__hero-visual" aria-hidden="true">
+          <Image
+            src="/images/home/semiconductor-hero.png"
+            alt=""
+            width={1536}
+            height={1024}
+            sizes="(max-width: 720px) 216px, (max-width: 1120px) 40vw, 420px"
+            loading="eager"
+          />
+        </div>
       </section>
 
       <section className="home-focused__section" aria-labelledby="home-tools-title">

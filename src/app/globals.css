@@ -20207,12 +20207,16 @@ body {
 .home-focused h2 { font-size: 26px; line-height: 1.45; font-weight: 600; }
 .home-focused h3 { font-size: 18px; font-weight: 600; }
 .home-focused p { color: #60666d; font-size: 16px; line-height: 1.8; }
-.home-focused__hero > p { max-width: 720px; margin-top: 20px; }
+.home-focused__hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); grid-template-areas: "copy visual" "entry entry"; gap: 28px 32px; align-items: center; }
+.home-focused__hero-copy { grid-area: copy; min-width: 0; }
+.home-focused__hero-copy > p { max-width: 720px; margin-top: 20px; }
+.home-focused__hero-visual { grid-area: visual; min-width: 0; width: 100%; aspect-ratio: 3 / 2; }
+.home-focused__hero-visual img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .home-focused__section { margin-top: 64px; }
 .home-focused__heading { margin-bottom: 24px; }
 .home-focused__heading p { margin-top: 12px; }
 .home-focused__entry-grid, .home-focused__tool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.home-focused__entry-grid { margin-top: 28px; }
+.home-focused__entry-grid { grid-area: entry; }
 .home-focused__entry-grid a { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 64px; padding: 16px; border: 1px solid #e5e7eb; border-radius: 6px; color: #1d1d1f; font-size: 15px; font-weight: 600; }
 .home-focused__entry-grid a span, .home-focused__research-grid strong span { color: #1769aa; }
 .home-focused a:focus-visible { outline: 2px solid #1769aa; outline-offset: 4px; }
@@ -20422,6 +20426,8 @@ body {
   .home-focused { width: calc(100% - 28px); padding: 36px 0 64px; }
   .home-focused h1 { font-size: 32px; }
   .home-focused h2 { font-size: 24px; }
+  .home-focused__hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "entry" "visual"; gap: 24px; }
+  .home-focused__hero-visual { height: 144px; aspect-ratio: auto; }
   .home-focused__section { margin-top: 48px; }
   .home-focused__entry-grid, .home-focused__tool-grid, .home-focused__research-grid, .home-focused__article-grid { grid-template-columns: 1fr; }
   .home-focused__entry-grid { gap: 8px; }
