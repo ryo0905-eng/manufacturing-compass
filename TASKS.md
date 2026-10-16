@@ -1,5 +1,16 @@
 # TASKS
 
+## 2026-10-17：業界ウォッチを企業の動きを触って調べる画面へ刷新
+
+- トップを白地の売上前年比グラフ＋選択企業の要点へ全面再設計。主要12社を事業区分順・全社共通の線形軸で表示し、5テーマと企業選択に連動。対象期・事業範囲・未取得・確認状態を残し、独自スコアや過去推移は追加していない。
+- 企業パネルは要点1件、IDで関連付けた直近ニュース最大2件、次回決算と詳細導線。テーマ全体のニュースは企業選択から独立し、5件＋展開に整理。予定・過去掲載・背景・収集情報は折りたたみへ移動。全社の数値・決算・原資料リンクをSSRし、旧アンカーとhash履歴を維持。
+- スマホでは企業選択から要点へフォーカス・移動し、選び直す操作で選択行へ戻る。選択済み企業を再度押す場合も移動する。選択状態の読み上げ、キーボード操作、180msの遷移、reduced-motionに対応。新規依存・閲覧時取得・AI・保存を追加せず、日次データ形式と反映権限は維持。
+- `npm run watch:test`：26件成功。初回成功後に上記フォーカス処理の小修正とテストを加え、同じコマンドで最終26件も成功。実データの数値・出典・対象範囲、ゼロ／負値／大きな値／欠損、企業ID関連付け、決算との重複、確認失敗・古い確認、0件、初期HTML、旧アンカー一意性、選択・履歴・イベント・スマホのフォーカス処理を検証。操作はフック／DOM模擬であり実ブラウザ検証ではない。
+- `npm run typecheck`は175秒監視付きで最大1回、成功。その後のコード変更は既存フォーカス処理の実行順と戻り先の小修正のみで、型チェックは再実行していない。`git diff --check`と変更ファイルの公開禁止語照合も確認。各検証は3分以内。
+- E2E仕様を新しい図・企業選択・テーマ・戻る・旧記事・JavaScriptなしの導線へ更新したが、ランナー・実ブラウザ・実端末・本番計測は未確認。dev・build・lint・commit・pushは実行していない。
+- 変更ファイル：`src/app/(ja)/semiconductor-watch/page.tsx`、`src/components/chip-pulse/WatchExplorer.tsx`・`WatchExplorer.module.css`・`MediaLinks.tsx`、`src/lib/watch.ts`・`watch-types.ts`・`watch-explorer.ts`、`tests/unit/watch-explorer.cjs`、`tests/e2e/chip-pulse.spec.ts`、`package.json`、`docs/PRD.md`・`architecture.md`・`design-system.md`・`semiconductor-watch-editorial.md`・`conversion-architecture.md`・`seo.md`、本記録。
+- 推奨コミット：`feat: redesign semiconductor watch around interactive company exploration`
+
 ## 2026-10-16：watch／earningsの一覧・発表予定・日次更新を改善
 
 - watchを「直近7日の主な動き→今後14日の公式予定→重複を除いた直近30日→背景解説・過去掲載」に再構成。元の公表日で範囲を選び、確認日の変更だけで新着にしない。新着なし、取得失敗、原文確認待ち、処理済みへの接続を区別し、旧アンカーとテーマhashを維持。

@@ -1,6 +1,6 @@
 # Architecture
 
-最終更新日: 2026-10-16
+最終更新日: 2026-10-17
 
 ## 方針
 
@@ -12,7 +12,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 決算・IRは `src/data/earnings-snapshot.json` の12社を `src/lib/earnings.ts` から読む。設計・受託製造・IDMを分類に追加し、TWDを通貨として保持する。企業一覧を初期HTMLへ出力し、絞り込み・hash履歴だけClient Componentで処理する。比較は装置・メモリの2群。原資料の確認日と内容更新日を分け、数値の出典・計算根拠を保持する。決算候補の検証、非公開アーカイブ、原子的更新は既存publisherを使う。
 
-業界ウォッチ（2026-10-16）：`watch.ts`でニュース・決算・工場情報を合成する。直近7日と30日は元資料の公表日で選び、工場の状況確認を新着発表へ混ぜない。冒頭と一覧の重複を除き、古い項目は旧アンカー付きの過去掲載へ残す。`watch-calendar.json`は12社の最新確認・取得日時、予定、補足発表、候補の処理判断を保持し、watch/earningsで共有。`watch-data.cjs`が出典・日付・参照を検証し、予定変更時の前回版を.privateへ保存する。日次更新の専用worktree・ロック・固定データだけのcommit/pushは`watch-daily.cjs`。閲覧時API・AI・DBは追加しない。詳細は `docs/watch-daily-operations.md`。
+業界ウォッチ（2026-10-17）：`watch.ts`で企業ID・数値型の売上前年比・出典・確認状態・次回決算を表示モデルへ合成し、決算と同じ原資料のニュースは重複させない。版と出典が一致する記事編集情報の企業IDを優先し、なければ既知の発表元IDへ戻す。`watch-explorer.ts`はテーマ・企業選択のhash検証、発表日順の初期選択、全社共通の線形軸、30日間のニュースと企業ID関連付けを担う。`WatchExplorer`はHTML/CSSの選択可能な棒グラフ、要点パネル、テーマニュースをSSRし、選択・履歴復元・展開だけをクライアントで動かす。旧記事アンカーは展開して復元し、企業ごとの決算・原資料リンクを初期HTMLに残す。専用CSS Moduleで既存記事詳細から表示を分離する。`watch-calendar.json`は12社の最新確認・予定・候補判断を共有し、更新検証は`watch-data.cjs`、日次の専用worktree・固定データだけのcommit/pushは`watch-daily.cjs`を維持する。閲覧時API・AI・DB・新規依存は追加しない。詳細は `docs/semiconductor-watch-editorial.md` と `docs/watch-daily-operations.md`。
 
 
 旧構成の記録（2026-10-04、現行は上記）：`src/lib/watch.ts` がニュースJSON・決算JSON・工場データをIDで結び、`watch-editorial.json` の確認日・版・背景・探索先と合成する。トップ・詳細・図はServer Componentを基本に、`NewsFeed` のテーマ選択と `MediaLinks` の計測だけをクライアントで動かす。`#theme=…` の履歴復元と旧 `#signal-{id}` を保持。編集公開は `scripts/chip-pulse-editor-publish.cjs` で照合・前回版保存・原子的更新。日次収集は確認付き本文を保持し、元資料変更時は背景を無効化する。AI公開の承認はfalseのまま。現行UI・編集仕様は `docs/semiconductor-watch-editorial.md`、既存AI台帳と処理境界は `docs/chip-pulse-media.md`。下記の従来ダッシュボード部品は互換用に保持する。

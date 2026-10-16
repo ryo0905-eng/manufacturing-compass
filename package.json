@@ -27,7 +27,7 @@
     "watch:queue": "node scripts/watch-data.cjs --queue",
     "watch:calendar": "node scripts/watch-data.cjs",
     "watch:daily": "node scripts/watch-daily.cjs",
-    "watch:test": "node --test tests/unit/earnings.cjs tests/unit/watch.cjs tests/unit/watch-daily.cjs"
+    "watch:test": "node --test tests/unit/earnings.cjs tests/unit/watch.cjs tests/unit/watch-daily.cjs tests/unit/watch-explorer.cjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.9",

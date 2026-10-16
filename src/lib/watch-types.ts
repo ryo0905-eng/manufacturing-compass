@@ -16,7 +16,7 @@ export type WatchVisual = {
 };
 export type WatchItem = {
   id: string; kind: "article" | "earnings" | "factory"; href: string;
-  title: string; summary: string; reason?: string; companyNames: string[];
+  title: string; summary: string; reason?: string; companyNames: string[]; companyIds: string[];
   date: string; dateLabel: string; updatedAt: string; updateLabel: string;
   primaryTopic: WatchTopic; topics: WatchTopic[]; status: string;
   visual?: WatchVisual; changed?: boolean;

@@ -433,3 +433,8 @@ GA4の分析には `product_id`・`retailer` をイベントスコープで用�
 ## 業界ウォッチ・決算の再訪導線（2026-10-16）
 
 時価総額・メモリ・装置ランキング→決算一覧→企業別決算→企業・技術解説の順で理解を深める。工場記事は設備投資テーマへ接続する。既存chip_pulse_read/filter/article_viewとearnings_*イベントをdaily-v1で区別し、予定の原資料リンクはplacement=schedule。記事内のリンクは既存article_internal_click等を維持する。GA4カスタム属性の登録・本番受信・同一セッションの導線・7日以内の別日再訪は未確認。独自IDを追加せず、取得できない値を0と扱わない。
+
+
+## 業界ウォッチの企業探索（2026-10-17）
+
+トップだけを`explorer-v2`で識別する。テーマ変更は`chip_pulse_filter_change`の`dimension=theme`、`result_count`は図の対象企業数。企業選択は`chip_pulse_company_select`の`source=chart`・`action=select`。詳細・原資料は既存`chip_pulse_read`のdestination_typeとplacementを維持し、MediaLinkへ画面版を渡す。初期選択・履歴復元では操作イベントを発火しない。記事詳細と決算画面の既存イベント版は変更しない。受信・詳細遷移・再訪の本番計測は未確認で、独自IDは追加しない。

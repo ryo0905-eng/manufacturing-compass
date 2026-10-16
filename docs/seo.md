@@ -253,3 +253,6 @@ watchは最近の業界の変化と公式発表予定、earningsは主要12社�
 - `/companies`のquery指定URLは、空結果や空文字を含め基本一覧と分けてnoindex, followにする。canonicalは基本一覧、sitemapも基本一覧のみ。検索機能と内部導線は維持する。
 - noindexは検索登録の制御であり、非公開化やAdSense審査除外を保証しない。検索実績未取得・GSC未掲載を流入なしとみなさず、固有価値があるページは改善を優先する。
 - 個別URLの判断、根拠、検証範囲と未完了事項は [AdSense公開ページ監査](./adsense-content-audit.md) を参照する。
+
+
+2026-10-17のwatchトップ再設計では、売上前年比グラフから企業の決算・発表へ進む検索入口を提供する。12社の掲載期・事業範囲・数値・原資料リンクとニュースを初期HTMLへ出力し、過去掲載は折りたたみ内で保持する。canonical、CollectionPage、記事詳細のNewsArticle、sitemapのURLは維持。テーマと企業はhashで扱い、検索条件別ページを作らない。リアルタイムや複数期の業績推移とは表現しない。
