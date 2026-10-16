@@ -19,7 +19,10 @@
 .help { margin: -12px 0 0 44px; color: var(--muted); }
 .categoryList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .category { min-width: 0; margin: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 18px; }
-.category legend { padding: 0 6px; color: var(--primary-dark); font-weight: 750; }
+.category legend { max-width: 100%; padding: 0 6px; color: var(--primary-dark); font-weight: 750; }
+.categoryHeading { display: flex; align-items: center; gap: 12px; }
+.categoryHeading > span { min-width: 0; }
+.categoryImage { display: block; flex: 0 0 auto; width: 72px; height: 48px; border-radius: 4px; background: #fff; object-fit: contain; }
 .optionList { display: grid; gap: 8px; }
 .option,.optionSelected { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; align-items: start; border: 1px solid var(--line); border-radius: 9px; padding: 12px; cursor: pointer; transition: border-color .15s, background .15s; }
 .optionSelected { border-color: #68a5b1; background: #eef8f9; }

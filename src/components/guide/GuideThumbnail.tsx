@@ -1,5 +1,7 @@
+import Image from "next/image";
 import { guideCategoryDetails } from "@/content/guides/categories";
 import type { GuideArticle } from "@/content/guides/types";
+import { guideThumbnailImages } from "@/data/editorial-visuals";
 
 type GuideVisualTheme = "ai" | "experience" | "knowhow" | "data" | "route" | "global" | "process";
 
@@ -28,6 +30,22 @@ type GuideThumbnailProps = Pick<GuideArticle, "category" | "slug" | "title"> & {
 };
 
 export function GuideThumbnail({ category, compact = false, slug, title }: GuideThumbnailProps) {
+  const image = guideThumbnailImages[slug];
+
+  if (image) {
+    return (
+      <div className="guide-thumbnail guide-thumbnail--image" aria-hidden="true">
+        <Image
+          src={image}
+          alt=""
+          fill
+          sizes={compact ? "(max-width: 720px) calc(100vw - 28px), 360px" : "(max-width: 720px) calc(100vw - 40px), 520px"}
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+
   const theme = getTheme({ category, slug });
 
   return (

@@ -91,7 +91,17 @@ export default function Home() {
       </section>
 
       <section className="home-focused__section" aria-labelledby="home-research-title">
-        <header className="home-focused__heading"><h2 id="home-research-title">半導体の企業・業界を調べる</h2><p>業界全体のつながりから、気になる企業や製品の違いまで確認できます。</p></header>
+        <header className="home-focused__heading home-focused__research-heading">
+          <div><h2 id="home-research-title">半導体の企業・業界を調べる</h2><p>業界全体のつながりから、気になる企業や製品の違いまで確認できます。</p></div>
+          <Image
+            src="/images/home/semiconductor-industry.png"
+            alt=""
+            width={1536}
+            height={1024}
+            sizes="(max-width: 720px) 180px, 240px"
+            loading="lazy"
+          />
+        </header>
         <nav className="home-focused__research-grid" aria-label="企業・業界研究の入口">
           {homeResearchLinks.map((item) => <HomeLink className={item.id === "semiconductor_watch" ? "home-focused__research-feature" : undefined} href={item.href} key={item.id} section="research" destination={item.id} purpose="industry"><strong>{item.title}<span aria-hidden="true"> →</span></strong><p>{item.body}</p></HomeLink>)}
         </nav>

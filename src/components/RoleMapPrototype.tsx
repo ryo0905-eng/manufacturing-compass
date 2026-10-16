@@ -2,7 +2,9 @@
 
 import { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { roleMapCategoryLabels, roleMapProfiles, roleMapResponsibilities } from '@/data/role-map-prototype';
+import { roleCategoryImages } from '@/data/editorial-visuals';
 import { findRoleMapMatches } from '@/lib/role-map';
 import { trackRoleMapEvent } from '@/lib/analytics';
 import type { ResponsibilityCategory, ResponsibilityId, RoleMapMatch } from '@/types/role-map';
@@ -105,7 +107,12 @@ export function RoleMapPrototype() {
         <div className={styles.categoryList}>
           {categories.map((category) => (
             <fieldset key={category} className={styles.category}>
-              <legend>{roleMapCategoryLabels[category]}</legend>
+              <legend>
+                <span className={styles.categoryHeading}>
+                  <span>{roleMapCategoryLabels[category]}</span>
+                  <Image className={styles.categoryImage} src={roleCategoryImages[category]} alt="" width={72} height={48} sizes="72px" loading="lazy" />
+                </span>
+              </legend>
               <div className={styles.optionList}>
                 {roleMapResponsibilities.filter((item) => item.category === category).map((item) => (
                   <label key={item.id} className={selectedSet.has(item.id) ? styles.optionSelected : styles.option}>
