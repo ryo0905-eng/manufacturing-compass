@@ -4,6 +4,7 @@ import { readIndustryCompanyHash } from "@/lib/industry-map-entry";
 
 import type { Route } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   industryMapCareers,
@@ -15,6 +16,7 @@ import {
   type IndustryMapZone,
 } from "@/data/industry-map";
 import { trackEvent } from "@/lib/analytics";
+import { industryZoneImages } from "@/data/editorial-visuals";
 
 type CompanySummary = {
   id: string;
@@ -301,7 +303,11 @@ function Zone({ companyForId, isVisible, onOpen, showCareers, selectedId, zone }
   const careers = zone.careerIds.map((id) => industryMapCareers.find((career) => career.id === id)).filter((career) => career !== undefined).slice(0, 2);
   return (
     <section className={`industry-atlas__zone industry-atlas__zone--${zone.id}`} id={`industry-zone-${zone.id}`}>
-      <header><p>{zone.labelEn}</p><h3>{zone.label}</h3><span>{zoneCompanies.length}社</span><small>{zone.description}</small></header>
+      <header>
+        <div className="industry-atlas__zone-title"><p>{zone.labelEn}</p><h3>{zone.label}</h3><span>{zoneCompanies.length}社</span></div>
+        <Image className="industry-atlas__zone-image" src={industryZoneImages[zone.id]} alt="" width={72} height={48} sizes="72px" loading="lazy" />
+        <small>{zone.description}</small>
+      </header>
       <div className="industry-atlas__zone-tags">{zone.productTags.map((tag) => <span key={tag}>{tag}</span>)}</div>
       <div className="industry-atlas__companies">
         {zoneCompanies.map((company) => (

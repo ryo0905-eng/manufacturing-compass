@@ -1,6 +1,7 @@
-import Link from "next/link";
 import type { Route } from "next";
 import type { Company } from "@/types/content";
+import { CompanyCardLogo } from "@/components/CompanyCardLogo";
+import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 
 type CompanyCardProps = {
   company: Company;
@@ -19,7 +20,7 @@ export function CompanyCard({ company }: CompanyCardProps) {
           <h3>{company.nameJa}</h3>
           <p className="company-name">{company.name}</p>
         </div>
-        <span className="company-card__visual" aria-hidden="true"><i /><i /><i /></span>
+        <CompanyCardLogo companyId={company.id} name={company.name} />
       </div>
       <p className="company-card__summary">{company.summary}</p>
       <dl className="company-card__facts">
@@ -29,9 +30,9 @@ export function CompanyCard({ company }: CompanyCardProps) {
       </dl>
       <footer className="company-card__footer">
         <span>{primarySegment.toUpperCase()}</span>
-        <Link className="text-link" href={`/companies/${company.slug}` as Route}>
+        <TrackedInternalLink className="text-link" href={`/companies/${company.slug}` as Route} eventName="companies_company_open" eventProperties={{ company_id: company.id, placement: "company_card", ui_version: "directory-visuals-v1" }}>
           企業詳細を見る <i aria-hidden="true">→</i>
-        </Link>
+        </TrackedInternalLink>
       </footer>
     </article>
   );

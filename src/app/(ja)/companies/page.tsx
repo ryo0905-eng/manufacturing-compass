@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { FilterableCompanies } from "@/components/FilterableCompanies";
+import { CompanySearchJump } from "@/components/CompanySearchJump";
 import { StructuredData } from "@/components/StructuredData";
 import { companies, segments } from "@/data/companies";
+import { companySegmentImages } from "@/data/editorial-visuals";
 import { siteUrl } from "@/lib/format";
 
 const japaneseCompanyCount = companies.filter((company) => company.headquartersCountry === "日本").length;
@@ -101,6 +104,7 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
           半導体製品、製造装置、材料などの役割で整理しており、日本・世界の全企業を網羅したものではありません。
           会社名だけでなく、主力製品、日本拠点、職種を検索し、企業詳細や比較へ進めます。
         </p>
+        <CompanySearchJump />
         <dl className="companies-hero__facts" aria-label="掲載範囲">
           <div><dt>掲載企業</dt><dd>{companies.length}社</dd></div>
           <div><dt>日本企業</dt><dd>{japaneseCompanyCount}社</dd></div>
@@ -165,10 +169,13 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
         <div>
           {segments.map((segment) => {
             const segmentCompanies = companies.filter((company) => company.industrySegments.includes(segment.id));
+            const image = companySegmentImages[segment.id];
             return (
               <article key={segment.id}>
-                <span>{segment.shortName}</span>
-                <h3>{segment.name}</h3>
+                <div className="companies-taxonomy__heading">
+                  <div><span>{segment.shortName}</span><h3>{segment.name}</h3></div>
+                  {image ? <Image src={image} alt="" width={96} height={64} sizes="96px" loading="lazy" /> : null}
+                </div>
                 <p>{segment.description}</p>
                 <small>{segmentCompanies.length}社を掲載</small>
                 <ul className="companies-taxonomy__companies" aria-label={`${segment.name}の掲載企業`}>

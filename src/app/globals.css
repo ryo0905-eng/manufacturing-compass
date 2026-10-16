@@ -6678,13 +6678,20 @@ select {
   padding: 20px;
 }
 
-.companies-taxonomy article > span,
+.companies-taxonomy__heading span,
 .companies-taxonomy article small {
   color: #697176;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.05em;
 }
+
+.companies-taxonomy__heading { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 12px; align-items: center; width: 100%; margin-bottom: 7px; }
+.companies-taxonomy__heading > div { min-width: 0; }
+.companies-taxonomy__heading img { display: block; width: 96px; height: 64px; object-fit: contain; }
+.companies-search-jump { margin-top: 20px; }
+#company-search { scroll-margin-top: 88px; }
+#company-search:focus-visible { outline: 2px solid #1769aa; outline-offset: 4px; }
 
 .companies-taxonomy article h3,
 .companies-adjacent article h3 {
@@ -7047,27 +7054,6 @@ select {
   margin: 3px 0 0;
   color: var(--muted);
   font-size: 10px;
-}
-
-.company-card__visual {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  flex: 0 0 auto;
-  padding: 5px;
-  border: 1px solid color-mix(in srgb, var(--company-accent) 36%, transparent);
-  transform: rotate(45deg);
-}
-
-.company-card__visual i {
-  border: 1px solid var(--company-accent);
-  background: color-mix(in srgb, var(--company-accent) 10%, transparent);
-}
-
-.company-card__visual i:first-child {
-  grid-column: 1 / -1;
 }
 
 .company-card__summary {
@@ -20130,10 +20116,12 @@ body {
 .industry-atlas__zone--equipment { grid-area: equipment; --zone-accent:#53719a; --zone-bg:#f0f5fa; }
 .industry-atlas__zone--inspection { grid-area: inspection; --zone-accent:#9a596c; --zone-bg:#faf1f4; }
 
-.industry-atlas__zone > header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; margin-bottom: 8px; padding-bottom: 9px; border-bottom: 2px solid var(--zone-accent); }
+.industry-atlas__zone > header { display: grid; grid-template-columns: minmax(0, 1fr) 72px; gap: 2px 8px; align-items: start; margin-bottom: 8px; padding-bottom: 9px; border-bottom: 2px solid var(--zone-accent); }
+.industry-atlas__zone-title { display: grid; min-width: 0; gap: 2px; }
+.industry-atlas__zone-image { display: block; width: 72px; height: 48px; border-radius: 4px; background: #fff; object-fit: contain; }
 .industry-atlas__zone > header p { grid-column: 1; margin: 0; color: var(--zone-accent); font-size: 8px; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
 .industry-atlas__zone > header h3 { grid-column: 1; margin: 0; font-size: 17px; line-height: 1.35; }
-.industry-atlas__zone > header > span { grid-column: 2; grid-row: 1 / 3; align-self: center; color: var(--zone-accent); font-size: 11px; font-weight: 750; }
+.industry-atlas__zone-title > span { color: var(--zone-accent); font-size: 11px; font-weight: 750; }
 .industry-atlas__zone > header small { grid-column: 1 / -1; margin-top: 3px; color: #59616a; font-size: 10px; line-height: 1.6; }
 .industry-atlas__zone-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .industry-atlas__zone-tags span { border: 1px solid color-mix(in srgb, var(--zone-accent) 28%, #e1e5e8); border-radius: 999px; background: rgba(255,255,255,.7); padding: 2px 6px; color: #59616a; font-size: 8px; }

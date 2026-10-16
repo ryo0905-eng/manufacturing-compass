@@ -42,7 +42,7 @@ export function FilterableCompanies({ companies, initialQuery = "", segments }: 
   }
 
   return (
-    <section className="interactive-panel" aria-labelledby="company-search-title">
+    <section className="interactive-panel" id="company-search" tabIndex={-1} aria-labelledby="company-search-title">
       <div className="toolbar">
         <div>
           <p className="eyebrow">企業データベース</p>
