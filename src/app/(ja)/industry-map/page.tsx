@@ -6,9 +6,8 @@ import { IndustryAtlas } from "@/components/IndustryAtlas";
 import { EarningsInternalLink } from "@/components/earnings/EarningsLinks";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
-import { companies, getCareerInfo, segments } from "@/data/companies";
+import { companies, segments } from "@/data/companies";
 import { industryMapFields } from "@/data/industry-map";
-import { getPublicCompanyLocations } from "@/lib/company-locations";
 import { siteUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -24,22 +23,6 @@ export const metadata: Metadata = {
 };
 
 export default function IndustryMapPage() {
-  const companiesWithPublicLocations = new Set(getPublicCompanyLocations().map((location) => location.companyId));
-  const companySummaries = companies.map((company) => ({
-    id: company.id,
-    slug: company.slug,
-    name: company.name,
-    nameJa: company.nameJa,
-    summary: company.summary,
-    headquartersCountry: company.headquartersCountry,
-    businessModel: company.businessModel,
-    mainProducts: company.mainProducts,
-    jobCategories: company.jobCategories,
-    hasPublicLocations: companiesWithPublicLocations.has(company.id),
-    hasCareerPreparation: Boolean(getCareerInfo(company.id)),
-    lastUpdated: company.lastUpdated,
-  }));
-
   return (
     <main className="page industry-map-page">
       <StructuredData data={{
@@ -61,13 +44,12 @@ export default function IndustryMapPage() {
         </div>
         <p><strong>8領域 × 31社</strong><span>検索・絞り込み・クリックで確認</span></p>
       </header>
+      <IndustryAtlas companies={companies} />
+
       <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>
       <p className="tool-related-links"><EarningsInternalLink href="/semiconductor-watch/earnings" destination="earnings_hub">装置メーカー5社の決算から、事業の変化を読む →</EarningsInternalLink></p>
 
-
       <p className="tool-related-links"><Link href="/tools/semiconductor-process">半導体ができるまでを、動く断面図で確かめる →</Link></p>
-
-      <IndustryAtlas companies={companySummaries} totalCompanyCount={companies.length} />
 
       <section className="section industry-supply-chain" aria-labelledby="industry-supply-chain-title">
         <div className="industry-map-directory-heading">
@@ -76,42 +58,17 @@ export default function IndustryMapPage() {
           <p>地図の工程に関わる企業と、その役割を領域ごとに整理しています。材料・装置は複数工程を支え、検査・計測も工程の途中で行われます。以下は作業順ではなく、気になる領域から読むための一覧です。</p>
         </div>
         <ul>
-          {industryMapFields.map((stage) => {
-            const stageCompanies = stage.companyIds
-              .map((id) => companies.find((company) => company.id === id))
-              .filter((company) => company !== undefined);
-
-            return (
-              <li id={`supply-chain-${stage.id}`} key={stage.id}>
-                <div>
-                  <h3>{stage.title}</h3>
-                  <p>{stage.description}</p>
-                  <p className="industry-supply-chain__company-label">{stage.companyLabel}</p>
-                  <ul aria-label={stage.companyLabel}>
-                    {stageCompanies.map((company) => (
-                      <li key={company.id}>
-                        <TrackedInternalLink
-                          eventName="industry_map_category_click"
-                          eventProperties={{ category: stage.id, destination: "company" }}
-                          href={`/companies/${company.slug}` as Route}
-                        >
-                          {company.nameJa}<small>{company.headquartersCountry === "日本" ? "日本" : "海外"}</small>
-                        </TrackedInternalLink>
-                      </li>
-                    ))}
-                  </ul>
-                  <TrackedInternalLink
-                    className="text-link"
-                    eventName="industry_map_category_click"
-                    eventProperties={{ category: stage.id, destination: "guide" }}
-                    href={stage.guideHref}
-                  >
-                    {stage.guideLabel} <span aria-hidden="true">→</span>
-                  </TrackedInternalLink>
-                </div>
-              </li>
-            );
-          })}
+          {industryMapFields.map((stage) => (
+            <li id={`supply-chain-${stage.id}`} key={stage.id}>
+              <div>
+                <h3>{stage.title}</h3>
+                <p>{stage.description}</p>
+                <TrackedInternalLink className="text-link" eventName="industry_map_category_click" eventProperties={{ category: stage.id, destination: "guide" }} href={stage.guideHref}>
+                  {stage.guideLabel} <span aria-hidden="true">→</span>
+                </TrackedInternalLink>
+              </div>
+            </li>
+          ))}
         </ul>
         <aside>
           <strong>企業名や職種から探す場合</strong>
@@ -145,26 +102,16 @@ export default function IndustryMapPage() {
         </div>
         <div className="segment-map">
           {segments.map((segment) => {
-            const relatedCompanies = companies.filter((company) => segment.relatedCompanyIds.includes(company.id));
-
             const displayName = segment.id === "idm" ? "IDM（設計・製造）" : segment.name;
 
             return (
               <article className="segment-card" key={segment.id}>
                 <p className="section-label">{segment.shortName}</p>
-                <h2>{displayName}</h2>
+                <h3>{displayName}</h3>
                 <p>{segment.description}{segment.id === "idm" ? " ここでは主にアナログ・パワー分野の企業を掲載しています。" : ""}</p>
                 <Link className="text-link" href={`/segments/${segment.slug}` as Route}>
                   {displayName}を詳しく見る
                 </Link>
-                <strong>代表企業</strong>
-                <ul className="tag-list">
-                  {relatedCompanies.map((company) => (
-                    <li key={company.id}>
-                      <Link href={`/companies/${company.slug}` as Route}>{company.nameJa}</Link>
-                    </li>
-                  ))}
-                </ul>
               </article>
             );
           })}

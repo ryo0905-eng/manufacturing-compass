@@ -25,6 +25,7 @@
 | [`docs/architecture.md`](./architecture.md) | 実装構造とデータフロー | ルート、データ配置、外部サービスを変えた時 |
 | [`docs/database.md`](./database.md) | 静的データ設計と将来の永続化条件 | 型や保存方針を変えた時 |
 | [`docs/seo.md`](./seo.md) | 検索意図、URL、内部リンク、更新方針 | コンテンツ構造や検索戦略を変えた時 |
+| [`docs/company-explorer-spec.md`](./company-explorer-spec.md) | 業界地図・企業一覧の共通ロゴカード、検索、概要、互換性と計測 | 企業探索の表示・検索・ロゴ・SEO導線を変更する時 |
 | [`docs/content-guideline.md`](./content-guideline.md) | 公開コンテンツ共通の編集原則 | 出典・表現・CTA 基準を変えた時 |
 | [`docs/article-workflow.md`](./article-workflow.md) | 記事種別ごとの公開制作フロー | 記事制作工程を変えた時 |
 | [`video/docs/short-video-workflow.md`](../video/docs/short-video-workflow.md) | 公開記事からショート動画を作る標準手順 | 動画の構成、音声基準、公開手順を変えた時 |

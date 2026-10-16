@@ -192,6 +192,8 @@ video/docs/                 制作フロー、公開記録、計測ログ
 
 ## 業界地図のデータフロー
 
+2026-10-17：IndustryAtlasとFilterableCompaniesはServer Componentとして、CompanyExplorerItemを組み立てて共通のCompanyExplorerへ渡す。主領域の追加対応は`src/data/company-explorer.ts`、組み立てと検索は`src/lib/company-explorer.ts`に置く。31社の固定ゾーンと37社の領域別一覧で、検索・ロゴカード・native dialog・計測文脈を共通化。元のCompany・セグメント分類と公開URLを維持し、必要な概要・出典を渡す。ランキングの履歴データをロゴのために読み込まない。[詳細](./company-explorer-spec.md)。
+
 ```text
 静的な領域・役割・既存企業参照・出典付き簡易企業・職種の接点
   → Server Componentから必要な企業概要だけを渡す

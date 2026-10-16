@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { FilterableCompanies } from "@/components/FilterableCompanies";
 import { CompanySearchJump } from "@/components/CompanySearchJump";
 import { StructuredData } from "@/components/StructuredData";
 import { companies, segments } from "@/data/companies";
-import { companySegmentImages } from "@/data/editorial-visuals";
 import { siteUrl } from "@/lib/format";
 
 const japaneseCompanyCount = companies.filter((company) => company.headquartersCountry === "日本").length;
@@ -120,6 +118,8 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
         </div>
       </header>
 
+      <FilterableCompanies companies={companies} initialQuery={query} segments={segments} />
+
       <section className="companies-japan" id="japanese-companies" aria-labelledby="companies-japan-title">
         <header>
           <p className="section-label">日本に本社がある掲載企業</p>
@@ -148,7 +148,7 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
       <section className="companies-role" aria-labelledby="companies-role-title">
         <div>
           <p className="section-label">このページの役割</p>
-          <h2 id="companies-role-title">企業名から探す前に、分野の違いを押さえる</h2>
+          <h2 id="companies-role-title">企業の役割を踏まえて比較する</h2>
           <p>
             半導体企業は、同じ市場で一律に競う会社ではありません。設計する企業、受託製造する企業、
             自社で設計・製造する企業、製造装置や材料を供給する企業に分かれます。
@@ -164,27 +164,17 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
         <header>
           <p className="section-label">分野別に理解する</p>
           <h2 id="companies-taxonomy-title">掲載企業の6分類</h2>
-          <p>分類を選ぶと、役割の説明と該当企業をまとめたページへ移動できます。</p>
+          <p>製品・事業分野をさらに調べる場合は、各分類の解説へ進めます。</p>
         </header>
         <div>
           {segments.map((segment) => {
             const segmentCompanies = companies.filter((company) => company.industrySegments.includes(segment.id));
-            const image = companySegmentImages[segment.id];
             return (
               <article key={segment.id}>
                 <div className="companies-taxonomy__heading">
                   <div><span>{segment.shortName}</span><h3>{segment.name}</h3></div>
-                  {image ? <Image src={image} alt="" width={96} height={64} sizes="96px" loading="lazy" /> : null}
                 </div>
-                <p>{segment.description}</p>
                 <small>{segmentCompanies.length}社を掲載</small>
-                <ul className="companies-taxonomy__companies" aria-label={`${segment.name}の掲載企業`}>
-                  {segmentCompanies.map((company) => (
-                    <li key={company.id}>
-                      <Link href={`/companies/${company.slug}` as Route}>{company.nameJa}</Link>
-                    </li>
-                  ))}
-                </ul>
                 <Link href={`/segments/${segment.slug}` as Route}>{segment.name}の企業を見る <span aria-hidden="true">→</span></Link>
               </article>
             );
@@ -207,8 +197,6 @@ export default async function CompaniesPage({ searchParams }: CompaniesPageProps
           ))}
         </div>
       </section>
-
-      <FilterableCompanies companies={companies} initialQuery={query} segments={segments} />
 
       <nav className="companies-next-links" aria-label="企業研究を深めるページ">
         <Link href="/semiconductor-map"><strong>日本の半導体企業・工場マップ</strong><span>都道府県、拠点種別、職種から働く場所を探す</span></Link>

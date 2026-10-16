@@ -22,6 +22,8 @@
   transform: translateY(-50%);
 }
 
+.logo.compact { max-width: 100%; }
+
 .initials {
   display: grid;
   width: 100%;
@@ -37,4 +39,5 @@
 
 @media (max-width: 720px) {
   .logo { --logo-height: 32px; width: 88px; }
+  .logo.compact { width: 96px; }
 }

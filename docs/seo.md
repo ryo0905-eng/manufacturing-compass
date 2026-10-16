@@ -29,6 +29,10 @@ SEO は Career Compass だけへ送客するためのものではありません
 
 ## 現行URL
 
+### 企業探索の共通化（2026-10-17）
+
+`/industry-map`は分業と企業間の一般的な役割、`/companies`は全掲載企業の条件検索を中心にする。領域別ロゴカード・検索・概要だけを共通化し、同じ本文の複製にしない。地図下部の重複企業リストと一覧の分類紹介を整理し、日本企業一覧・アンカー・実在企業リンクを残す。タイトル・説明・自己参照canonical・通常URLのindex・検索条件付き企業一覧のnoindex・sitemapを維持し、転送やcanonical統合はしない。会社名とリンクは初期HTMLに出す。[仕様](./company-explorer-spec.md)。
+
 - `/career-compass`: 現在地チェック
 - `/industry-map`, `/segments/[slug]`: 業界構造
 - `/companies`, `/companies/[slug]`: 企業研究と企業別キャリア準備
