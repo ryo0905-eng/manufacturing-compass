@@ -4,9 +4,12 @@ import { notFound } from "next/navigation";
 import { StructuredData } from "@/components/StructuredData";
 import { EarningsInternalLink, EarningsSourceLink, EarningsView } from "@/components/earnings/EarningsLinks";
 import { EarningsShell } from "@/components/earnings/EarningsShell";
-import { earningsCompanyName, earningsCompanySlug, earningsFinancialScope, earningsMetricText, earningsReleases, earningsSegmentName, earningsSourceHref, earningsUnitName, getEarningsRelease, type EarningsRelease, type EarningsStatement } from "@/lib/earnings";
+import { earningsBackground, earningsCompanyName, earningsCompanySlug, earningsFinancialScope, earningsMetricText, earningsReleases, earningsSegmentName, earningsSourceHref, earningsUnitName, getEarningsRelease, type EarningsRelease, type EarningsStatement } from "@/lib/earnings";
+import { earningsFreshness, nextCompanyEvent, watchCalendar, watchEventDate } from "@/lib/watch-calendar";
 import { siteUrl } from "@/lib/format";
 import styles from "@/components/earnings/Earnings.module.css";
+
+export const revalidate = 3600;
 
 type Props = { params: Promise<{ companyId: string }> };
 export function generateStaticParams() { return earningsReleases.map((release) => ({ companyId: release.companyId })); }
@@ -28,12 +31,19 @@ export default async function EarningsDetailPage({ params }: Props) {
   if (!release) notFound();
   const name = earningsCompanyName(companyId);
   const revision = release.forecastRevision;
+  const now = new Date().toISOString();
+  const freshness = earningsFreshness(release, now);
+  const nextEvent = nextCompanyEvent(companyId, now);
+  const calendar = nextEvent ?? watchCalendar.events.find(event => event.companyId === companyId && event.kind === "earnings");
+  const background = earningsBackground(release);
+  const comparable = release.segment === "equipment" || release.segment === "memory";
   return <EarningsShell>
     <EarningsView companyId={companyId} />
-    <StructuredData data={{ "@context": "https://schema.org", "@type": "WebPage", name: `${name}の決算・IR要点`, url: `${siteUrl}/semiconductor-watch/earnings/${companyId}`, dateModified: release.checkedAt, citation: release.documents.map((document) => document.url) }} />
+    <StructuredData data={{ "@context": "https://schema.org", "@type": "WebPage", name: `${name}の決算・IR要点`, url: `${siteUrl}/semiconductor-watch/earnings/${companyId}`, dateModified: release.contentUpdatedAt ?? release.checkedAt, citation: release.documents.map((document) => document.url) }} />
     <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "業界ウォッチ", item: `${siteUrl}/semiconductor-watch` }, { "@type": "ListItem", position: 2, name: "決算・IR", item: `${siteUrl}/semiconductor-watch/earnings` }, { "@type": "ListItem", position: 3, name, item: `${siteUrl}/semiconductor-watch/earnings/${companyId}` }] }} />
     <article className={styles.detail}>
-      <header className={styles.hero}><p className={styles.eyebrow}>EARNINGS DETAIL / {earningsSegmentName(release.segment)} / {release.business}</p><h1>{name}の決算を読む</h1><p>{release.period.label} · {release.period.start ? `${release.period.start}〜` : "期首未取得 / 終了日 "}{release.period.end}</p><small>発表 {release.announcedAt} · 情報確認 {release.checkedAt} · データ第{release.version}版</small></header>
+      <header className={styles.hero}><p className={styles.eyebrow}>EARNINGS DETAIL / {earningsSegmentName(release.segment)} / {release.business}</p><h1>{name}の決算を読む</h1><p>{release.period.label} · {release.period.start ? `${release.period.start}〜` : "期首未取得 / 終了日 "}{release.period.end}</p><small>発表 {release.announcedAt} · 数値確認 {release.checkedAt} · 内容更新 {release.contentUpdatedAt ?? release.checkedAt} · データ第{release.version}版</small></header>
+      <aside className={styles.notice}><p>{freshness.text}{freshness.check?.checkedAt ? `（${freshness.check.checkedAt.slice(0, 10)}確認）` : ""}</p>{freshness.check?.latestSourceUrl && freshness.state === "pending" ? <EarningsSourceLink href={freshness.check.latestSourceUrl} companyId={companyId} documentId="latest">確認中の新しい原資料 ↗</EarningsSourceLink> : null}{freshness.check?.notice ? <p><EarningsSourceLink href={freshness.check.notice.sourceUrl} companyId={companyId} documentId="notice">{freshness.check.notice.text} ↗</EarningsSourceLink></p> : null}<p>次回決算：{calendar ? <EarningsSourceLink href={calendar.sourceUrl} companyId={companyId} documentId="calendar">{calendar.date && !nextEvent ? "予定日経過・結果確認中" : watchEventDate(calendar)} ↗</EarningsSourceLink> : "未確認"}</p></aside>
       <div className={styles.detailLayout}>
         <div>
           <section className={styles.brief}><p className={styles.eyebrow}>THREE POINTS</p><h2>今回の決算で押さえること</h2><EvidenceList release={release} items={release.highlights} /></section>
@@ -44,9 +54,9 @@ export default async function EarningsDetailPage({ params }: Props) {
           <section className={styles.section}><p className={styles.eyebrow}>CHANGE / INTERPRETATION</p><h2>前回からの変化</h2><p>{release.change.text}</p><p className={styles.fine}>比較元：{release.change.basis} · <EarningsSourceLink href={earningsSourceHref(release, release.change.source) ?? "#"} companyId={companyId} documentId={release.change.source.documentId}>{release.change.source.locator} ↗</EarningsSourceLink></p><h3>サイトの横断的な見方</h3><p className={styles.editorial}>{release.editorialNote}</p><p className={styles.fine}>この見方は原資料の数値と会社説明を整理した編集上の解釈です。</p></section>
           <section className={styles.section}><p className={styles.eyebrow}>SOURCES / COVERAGE</p><h2>資料と未確認の範囲</h2><ul className={styles.sourceList}>{release.documents.map((document) => <li key={document.id}><EarningsSourceLink href={document.url} companyId={companyId} documentId={document.id}>{document.title} ↗</EarningsSourceLink><small>{document.kind.toUpperCase()}</small></li>)}</ul><ul className={styles.unknowns}>{release.unverified.map((item) => <li key={item}>{item}</li>)}</ul></section>
         </div>
-        <aside className={styles.sidePanel}><p className={styles.eyebrow}>NEXT READING</p><h2>数字から企業研究へ</h2><p>決算で伸びた領域と、調べたい職種・国内拠点が同じ事業範囲か確かめましょう。業績の変化だけで採用状況は判断できません。</p><EarningsInternalLink href={`/companies/${earningsCompanySlug(companyId)}`} companyId={companyId} destination="company">事業・仕事内容を見る →</EarningsInternalLink><EarningsInternalLink href={`/companies/${earningsCompanySlug(companyId)}#career-prep`} companyId={companyId} destination="company_career_prep">キャリア準備を見る →</EarningsInternalLink><EarningsInternalLink href={release.segment === "equipment" ? "/industry-map#industry-zone-equipment" : "/industry-map"} companyId={companyId} destination="industry_map">業界地図で役割を確認 →</EarningsInternalLink><EarningsInternalLink href="/semiconductor-watch" companyId={companyId} destination="news">関連ニュースを探す →</EarningsInternalLink><EarningsInternalLink href="/semiconductor-watch/earnings/compare" companyId={companyId} destination="compare">他社と比較する →</EarningsInternalLink></aside>
+        <aside className={styles.sidePanel}><p className={styles.eyebrow}>NEXT READING</p><h2>数字から企業研究へ</h2><p>決算で伸びた領域と、調べたい職種・国内拠点が同じ事業範囲か確かめましょう。業績の変化だけで採用状況は判断できません。</p><EarningsInternalLink href={`/companies/${earningsCompanySlug(companyId)}`} companyId={companyId} destination="company">事業・仕事内容を見る →</EarningsInternalLink><EarningsInternalLink href={`/companies/${earningsCompanySlug(companyId)}#career-prep`} companyId={companyId} destination="company_career_prep">キャリア準備を見る →</EarningsInternalLink><EarningsInternalLink href={release.segment === "equipment" ? "/industry-map#industry-zone-equipment" : "/industry-map"} companyId={companyId} destination="industry_map">業界地図で役割を確認 →</EarningsInternalLink><EarningsInternalLink href="/semiconductor-watch" companyId={companyId} destination="news">関連ニュースを探す →</EarningsInternalLink>{comparable ? <EarningsInternalLink href="/semiconductor-watch/earnings/compare" companyId={companyId} destination="compare">近い事業の他社と比較する →</EarningsInternalLink> : <EarningsInternalLink href="/semiconductor-watch/earnings" companyId={companyId} destination="list">主要企業の決算一覧 →</EarningsInternalLink>}</aside>
       </div>
-      <nav className={styles.related}><Link href="/semiconductor-watch/earnings">決算一覧へ戻る</Link><Link href={release.segment === "equipment" ? "/guides/semiconductor-equipment-sales-ranking" : "/guides/memory-manufacturer-ranking"}>{release.segment === "equipment" ? "装置メーカーの役割と規模を見る" : "メモリメーカーの違いを見る"}</Link></nav>
+      <nav className={styles.related}><Link href="/semiconductor-watch/earnings">決算一覧へ戻る</Link><Link href={background.href}>{background.label}</Link></nav>
     </article>
   </EarningsShell>;
 }

@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-16T13:40:12Z",
+  "companies": [
+    {
+      "companyId": "asml",
+      "sourceUrl": "https://investor.asml.com/news/press-releases",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-10-14",
+      "latestSourceUrl": "https://investor.asml.com/news-releases/news-release-details/asml-reports-eu11.7-billion-total-net-sales-and-eu5.0-billion-net-income-q3-2026",
+      "state": "verified"
+    },
+    {
+      "companyId": "applied-materials",
+      "sourceUrl": "https://ir.appliedmaterials.com/news-releases",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-08-13",
+      "latestSourceUrl": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-third-quarter-2026-results",
+      "state": "verified"
+    },
+    {
+      "companyId": "lam-research",
+      "sourceUrl": "https://investor.lamresearch.com/2026-07-29-Lam-Research-Corporation-Reports-Financial-Results-for-the-Quarter-Ended-June-28,-2026",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-07-29",
+      "latestSourceUrl": "https://investor.lamresearch.com/2026-07-29-Lam-Research-Corporation-Reports-Financial-Results-for-the-Quarter-Ended-June-28,-2026",
+      "state": "verified"
+    },
+    {
+      "companyId": "kla",
+      "sourceUrl": "https://ir.kla.com/news-events/press-releases",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-07-28",
+      "latestSourceUrl": "https://ir.kla.com/news-events/press-releases/detail/518/kla-corporation-reports-fiscal-2026-fourth-quarter-and-full",
+      "state": "verified"
+    },
+    {
+      "companyId": "tokyo-electron",
+      "sourceUrl": "https://www.tel.com/ir/calendar/",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-07-30",
+      "latestSourceUrl": "https://www.tel.com/ir/library/report/i242su0000000goz-att/fy27q1tanshin-e.pdf",
+      "state": "verified"
+    },
+    {
+      "companyId": "micron",
+      "sourceUrl": "https://investors.micron.com/financials/quarterly-results/default.aspx",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-09-30",
+      "latestSourceUrl": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+      "state": "pending",
+      "note": "掲載期の数値は原資料で再照合。最新一覧の動的部分を取得できず、さらに新しい決算の有無は再確認中。"
+    },
+    {
+      "companyId": "kioxia",
+      "sourceUrl": "https://www.kioxia-holdings.com/ja-jp/ir/library/data.html",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-07-31",
+      "latestSourceUrl": "https://links.sgx.com/1.0.0/corporate-announcements/DOATO9EIE4EEQ2Y8/898078_Earnings-Release-FY2026-1Q-EN.pdf",
+      "state": "verified"
+    },
+    {
+      "companyId": "sk-hynix",
+      "sourceUrl": "https://news.skhynix.com/en/category/ir/",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-07-29",
+      "latestSourceUrl": "https://news.skhynix.com/en/q2-2026-business-results/",
+      "state": "verified"
+    },
+    {
+      "companyId": "samsung-electronics",
+      "sourceUrl": "https://www.samsung.com/global/ir/financial-information/earnings-release/",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-07-30",
+      "latestSourceUrl": "https://news.samsung.com/global/samsung-electronics-announces-second-quarter-2026-results",
+      "state": "verified",
+      "notice": {
+        "announcedAt": "2026-10-08",
+        "sourceUrl": "https://news.samsung.com/global/samsung-electronics-announces-earnings-guidance-for-third-quarter-2026",
+        "text": "第3四半期の全社速報を公表。掲載数値は第2四半期のDS部門で、速報とは対象範囲が異なります。"
+      }
+    },
+    {
+      "companyId": "nvidia",
+      "sourceUrl": "https://investor.nvidia.com/financial-info/financial-reports/default.aspx",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-08-26",
+      "latestSourceUrl": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027",
+      "state": "verified"
+    },
+    {
+      "companyId": "tsmc",
+      "sourceUrl": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/526b65af7305df2dde6b9ece6812b1fdf1e49f9b/3Q26%20EarningsRelease.pdf",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-10-15",
+      "latestSourceUrl": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-10/526b65af7305df2dde6b9ece6812b1fdf1e49f9b/3Q26%20EarningsRelease.pdf",
+      "state": "verified"
+    },
+    {
+      "companyId": "intel",
+      "sourceUrl": "https://www.intc.com/financial-info/financial-results",
+      "retrievedAt": "2026-10-16T13:40:12Z",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "latestAnnouncedAt": "2026-07-23",
+      "latestSourceUrl": "https://www.intc.com/news-events/press-releases/detail/1776/intel-reports-second-quarter-2026-financial-results",
+      "state": "verified"
+    }
+  ],
+  "events": [
+    {
+      "id": "asml-next-earnings",
+      "companyId": "asml",
+      "kind": "earnings",
+      "period": "次回決算",
+      "date": null,
+      "timezone": "Europe/Amsterdam",
+      "sourceUrl": "https://investor.asml.com/financial-events",
+      "status": "unverified",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "applied-materials-next-earnings",
+      "companyId": "applied-materials",
+      "kind": "earnings",
+      "period": "2026年度第4四半期",
+      "date": "2026-11-12",
+      "timezone": "America/Los_Angeles",
+      "sourceUrl": "https://ir.appliedmaterials.com/events",
+      "status": "scheduled",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "tentative": true
+    },
+    {
+      "id": "lam-research-next-earnings",
+      "companyId": "lam-research",
+      "kind": "earnings",
+      "period": "2026年9月終了四半期",
+      "date": "2026-10-21",
+      "timezone": "America/Los_Angeles",
+      "sourceUrl": "https://investor.lamresearch.com/events?item=105",
+      "status": "scheduled",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "kla-next-earnings",
+      "companyId": "kla",
+      "kind": "earnings",
+      "period": "2027年度第1四半期",
+      "date": "2026-10-28",
+      "timezone": "America/Los_Angeles",
+      "sourceUrl": "https://ir.kla.com/news-events/press-releases/detail/522/kla-announces-first-quarter-fiscal-year-2027-earnings-date",
+      "status": "scheduled",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "tokyo-electron-next-earnings",
+      "companyId": "tokyo-electron",
+      "kind": "earnings",
+      "period": "2027年3月期第2四半期",
+      "date": "2026-10-30",
+      "timezone": "Asia/Tokyo",
+      "sourceUrl": "https://www.tel.com/ir/calendar/",
+      "status": "scheduled",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "micron-next-earnings",
+      "companyId": "micron",
+      "kind": "earnings",
+      "period": "次回決算",
+      "date": null,
+      "timezone": "America/Los_Angeles",
+      "sourceUrl": "https://investors.micron.com/events-and-presentations/",
+      "status": "unverified",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "kioxia-next-earnings",
+      "companyId": "kioxia",
+      "kind": "earnings",
+      "period": "次回決算",
+      "date": null,
+      "timezone": "Asia/Tokyo",
+      "sourceUrl": "https://www.kioxia-holdings.com/ja-jp/ir/calendar.html",
+      "status": "unpublished",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "sk-hynix-next-earnings",
+      "companyId": "sk-hynix",
+      "kind": "earnings",
+      "period": "次回決算",
+      "date": null,
+      "timezone": "Asia/Seoul",
+      "sourceUrl": "https://news.skhynix.com/en/category/ir/",
+      "status": "unverified",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "samsung-electronics-next-earnings",
+      "companyId": "samsung-electronics",
+      "kind": "earnings",
+      "period": "2026年第3四半期",
+      "date": "2026-10-29",
+      "timezone": "Asia/Seoul",
+      "sourceUrl": "https://www.samsung.com/global/ir/ir-events-presentations/events/",
+      "status": "scheduled",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "nvidia-next-earnings",
+      "companyId": "nvidia",
+      "kind": "earnings",
+      "period": "次回決算",
+      "date": null,
+      "timezone": "America/Los_Angeles",
+      "sourceUrl": "https://investor.nvidia.com/events-and-presentations/events-and-presentations/default.aspx",
+      "status": "unverified",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "intel-next-earnings",
+      "companyId": "intel",
+      "kind": "earnings",
+      "period": "2026年第3四半期",
+      "date": "2026-10-29",
+      "timezone": "America/Los_Angeles",
+      "sourceUrl": "https://www.intel.com/content/www/us/en/newsroom/news/corporate/intel-reports-third-quarter-2026-financial-results.html",
+      "status": "scheduled",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "tsmc-next-earnings",
+      "companyId": "tsmc",
+      "kind": "earnings",
+      "period": "次回決算",
+      "date": null,
+      "timezone": "Asia/Taipei",
+      "sourceUrl": "https://investor.tsmc.com/english/financial-calendar",
+      "status": "unpublished",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    },
+    {
+      "id": "tsmc-2026-october-revenue",
+      "companyId": "tsmc",
+      "kind": "monthly",
+      "period": "2026年10月 月次売上",
+      "date": "2026-11-10",
+      "timezone": "Asia/Taipei",
+      "sourceUrl": "https://investor.tsmc.com/english/financial-calendar",
+      "status": "scheduled",
+      "checkedAt": "2026-10-16T13:40:12Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "sec-0001046179-26-000726",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000726/tsm-20261015x6k.htm",
+      "status": "linked",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "href": "/semiconductor-watch/earnings/tsmc",
+      "note": "同じ対象期の決算詳細へ集約。新規ニュースとして重複掲載しない。"
+    },
+    {
+      "id": "sec-0001709048-26-000252",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1709048/000170904826000252/a2026-10form6xk.htm",
+      "status": "recheck",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "note": "候補の原文確認待ち。収集だけでは本文を掲載しない。"
+    },
+    {
+      "id": "sec-0001101302-26-000154",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1101302/000110130226000154/entg-20261014.htm",
+      "status": "recheck",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "note": "候補の原文確認待ち。収集だけでは本文を掲載しない。"
+    },
+    {
+      "id": "sec-0001628280-26-065813",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/937966/000162828026065813/form6-kquarterlyfilings.htm",
+      "status": "linked",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "href": "/semiconductor-watch/earnings/asml",
+      "note": "同じ対象期の決算詳細へ集約。新規ニュースとして重複掲載しない。"
+    },
+    {
+      "id": "sec-0000950103-26-015458",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1122411/000095010326015458/dp254866_6k.htm",
+      "status": "recheck",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "note": "候補の原文確認待ち。収集だけでは本文を掲載しない。"
+    },
+    {
+      "id": "sec-0000723125-26-000023",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000023/mu-20260903.htm",
+      "status": "linked",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "href": "/semiconductor-watch/earnings/micron",
+      "note": "同じ対象期の決算詳細へ集約。新規ニュースとして重複掲載しない。"
+    },
+    {
+      "id": "sec-0001046179-26-000680",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000680/tsm-revenue20261008.htm",
+      "status": "recheck",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "note": "候補の原文確認待ち。収集だけでは本文を掲載しない。"
+    },
+    {
+      "id": "sec-0000723125-26-000018",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/723125/000072312526000018/mu-20260930.htm",
+      "status": "linked",
+      "checkedAt": "2026-10-16T13:40:12Z",
+      "href": "/semiconductor-watch/earnings/micron",
+      "note": "同じ対象期の決算詳細へ集約。新規ニュースとして重複掲載しない。"
+    }
+  ]
+}

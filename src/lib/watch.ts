@@ -4,6 +4,7 @@ import { factoryProjects } from "@/data/factory-projects";
 import { industryMapZones } from "@/data/industry-map";
 import { media, type NewsArticle } from "./chip-pulse-media";
 import { earningsReleases, earningsCompanyName, earningsFinancialScope, earningsMetricText } from "./earnings";
+import { watchCalendar } from "./watch-calendar";
 import { type WatchEditorial, type WatchItem, type WatchTopic, type WatchVisual } from "./watch-types";
 
 export const watchEditorial = editorialData as WatchEditorial;
@@ -23,7 +24,7 @@ export function articleWatchItem(article: NewsArticle): WatchItem {
     id: `article:${article.id}`, kind: "article", href: `/semiconductor-watch/${article.id}`,
     title: article.title, summary: article.summary, reason: entry?.reason,
     companyNames: article.companyNames, date: article.publishedAt, dateLabel: article.sourceName.includes("SEC") ? "SEC公表" : "発表",
-    updatedAt: [article.updatedAt, entry?.checkedAt ?? "", entry?.readingUpdatedAt ? `${entry.readingUpdatedAt}T00:00:00+09:00` : ""].sort().at(-1)!,
+    updatedAt: article.updatedAt,
     updateLabel: article.version > 1 ? `内容改訂・第${article.version}版` : "掲載・背景編集",
     primaryTopic: entry?.primaryTopic ?? topics[0] ?? "design", topics,
     status: entry?.statusLabel ?? stageLabels[article.stage] ?? "公式発表", visual: article.visual,
@@ -45,7 +46,7 @@ export function articleProcessVisual(article: NewsArticle): WatchVisual {
 }
 
 const earningsItems: WatchItem[] = earningsReleases.map(release => {
-  const primaryTopic: WatchTopic = release.segment === "memory" ? "ai-memory" : "equipment";
+  const primaryTopic: WatchTopic = release.segment === "memory" || release.segment === "fabless" ? "ai-memory" : release.segment === "equipment" ? "equipment" : "design";
   const topics: WatchTopic[] = [primaryTopic];
   if (release.themes.some(t => ["AI","HBM"].includes(t)) && !topics.includes("ai-memory")) topics.push("ai-memory");
   if (release.themes.includes("先端実装")) topics.push("packaging");
@@ -54,7 +55,7 @@ const earningsItems: WatchItem[] = earningsReleases.map(release => {
   return {
     id: `earnings:${release.id}`, kind: "earnings", href: `/semiconductor-watch/earnings/${release.companyId}`,
     title: `${name}の決算：事業の動きと見通しを読む`, summary: release.highlights[0]?.text ?? release.business,
-    reason: release.editorialNote, companyNames: [name], date: release.announcedAt, dateLabel: "決算発表", updatedAt: release.checkedAt, updateLabel: "決算資料を確認",
+    reason: release.editorialNote, companyNames: [name], date: release.announcedAt, dateLabel: "決算発表", updatedAt: release.contentUpdatedAt ?? release.checkedAt, updateLabel: "決算内容を更新",
     primaryTopic, topics, status: release.period.label,
     visual: { kind: "metric", label: `${release.period.label} / ${earningsFinancialScope(release)}`,
       values: [{ label: "売上高の前年同期比", value: earningsMetricText(release.metrics.revenueYoY, release, true), active: true }, { label: "対象事業", value: release.business }],
@@ -72,7 +73,7 @@ const projectItems: WatchItem[] = factoryProjects.map(project => ({
 
 export const watchItems: WatchItem[] = [...media.articles.map(articleWatchItem), ...earningsItems, ...projectItems];
 export const watchHighlights = watchEditorial.highlights.flatMap(id => watchItems.find(item => item.id === id && !item.changed) ?? []).slice(0,3);
-export const watchUpdatedAt = [watchEditorial.updatedAt, media.contentUpdatedAt, ...watchItems.map(item => item.updatedAt)].sort((a,b) => Date.parse(a)-Date.parse(b)).at(-1)!;
+export const watchUpdatedAt = [watchEditorial.updatedAt, media.contentUpdatedAt, watchCalendar.updatedAt, ...watchItems.map(item => item.updatedAt)].sort((a,b) => Date.parse(a)-Date.parse(b)).at(-1)!;
 export const watchChanges = [...watchItems].sort((a,b) => Date.parse(b.updatedAt)-Date.parse(a.updatedAt) || a.id.localeCompare(b.id)).slice(0,8);
 
 export function getArticleCompanies(article: NewsArticle) {
@@ -83,4 +84,11 @@ export function isWatchMapTarget(href: string) {
   if (!href.startsWith("/industry-map#company=")) return true;
   const id = href.split("=")[1];
   return industryMapZones.some(zone => [...zone.companyIds, ...zone.supplementalCompanyIds].includes(id));
+}
+
+// Collection-only and background-check timestamps never make old news new.
+export function recentWatchItems(items: WatchItem[], now: string, days: number) {
+  const cutoff = Date.parse(now) - days * 86_400_000;
+  return items.filter(item => item.kind !== "factory" && Date.parse(item.date) >= cutoff && Date.parse(item.date) <= Date.parse(now))
+    .sort((a, b) => Date.parse(b.date) - Date.parse(a.date) || a.id.localeCompare(b.id));
 }

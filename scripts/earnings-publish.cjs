@@ -1,13 +1,14 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
+const { checkRedaction } = require('./public-content-check.cjs');
 
 const root = path.resolve(__dirname, '..');
 const publicPath = path.join(root, 'src/data/earnings-snapshot.json');
 const archiveDir = path.join(root, '.private/earnings-snapshots');
 
-function isDate(value) { return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`)); }
-function isHttps(value) { try { return new URL(value).protocol === 'https:'; } catch { return false; } }
+function isDate(value) { return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value; }
+function isHttps(value) { try { const url = new URL(value); return url.protocol === 'https:' && !url.username && !url.password; } catch { return false; } }
 function isObject(value) { return value !== null && typeof value === 'object' && !Array.isArray(value); }
 
 function validateSnapshot(data) {
@@ -21,10 +22,11 @@ function validateSnapshot(data) {
     const prefix = release.companyId;
     if (ids.has(release.id) || companies.has(prefix)) errors.push(`${prefix}: duplicate id or companyId`);
     ids.add(release.id); companies.add(prefix); releaseByCompany.set(prefix, release);
-    if (!['equipment', 'memory'].includes(release.segment) || (release.financialScope !== undefined && (typeof release.financialScope !== 'string' || !release.financialScope))) errors.push(`${prefix}: segment or financial scope is invalid`);
+    if (!['equipment', 'memory', 'fabless', 'foundry', 'idm'].includes(release.segment) || (release.financialScope !== undefined && (typeof release.financialScope !== 'string' || !release.financialScope))) errors.push(`${prefix}: segment or financial scope is invalid`);
     if (!isDate(release.announcedAt) || !isDate(release.checkedAt) || release.checkedAt < release.announcedAt || release.checkedAt > data.updatedAt || !Number.isInteger(release.version) || release.version < 1) errors.push(`${prefix}: dates/version are invalid`);
+    if (release.contentUpdatedAt !== undefined && (!isDate(release.contentUpdatedAt) || release.contentUpdatedAt > release.checkedAt || release.contentUpdatedAt < release.announcedAt)) errors.push(`${prefix}: content update date is invalid`);
     if (!isObject(release.period) || !['quarter', 'cumulative', 'full-year'].includes(release.period.kind) || !isDate(release.period.end) || (release.period.start !== null && !isDate(release.period.start)) || (release.period.start && release.period.start > release.period.end) || typeof release.period.label !== 'string') errors.push(`${prefix}: period is invalid`);
-    if (!['USD', 'EUR', 'JPY', 'KRW'].includes(release.currency) || !['million', 'billion'].includes(release.unit) || (release.unit === 'billion' && release.currency !== 'KRW') || typeof release.accountingStandard !== 'string') errors.push(`${prefix}: currency, unit or accounting standard is invalid`);
+    if (!['USD', 'EUR', 'JPY', 'KRW', 'TWD'].includes(release.currency) || !['million', 'billion'].includes(release.unit) || (release.unit === 'billion' && release.currency !== 'KRW') || typeof release.accountingStandard !== 'string') errors.push(`${prefix}: currency, unit or accounting standard is invalid`);
     if (!Array.isArray(release.documents) || release.documents.length === 0) { errors.push(`${prefix}: documents are missing`); continue; }
     const documentIds = new Set();
     for (const document of release.documents) {
@@ -32,6 +34,7 @@ function validateSnapshot(data) {
       documentIds.add(document.id);
     }
     const checkSource = (source, label) => {
+      if (source?.url !== undefined && !isHttps(source.url)) errors.push(`${prefix}: ${label} has an invalid source URL`);
       if (!isObject(source) || typeof source.locator !== 'string' || !source.locator || !((documentIds.has(source.documentId)) || (source.documentId === 'previous' && isHttps(source.url)))) errors.push(`${prefix}: ${label} has no valid source`);
     };
     for (const key of ['revenue', 'operatingIncome', 'revenueYoY']) {
@@ -40,6 +43,10 @@ function validateSnapshot(data) {
       if (metric.status === 'reported') {
         if (typeof metric.value !== 'number' || !Number.isFinite(metric.value)) errors.push(`${prefix}: ${key} value is invalid`);
         checkSource(metric.source, key);
+        if (key === 'revenueYoY' && metric.calculation && metric.comparisonValue !== undefined) {
+          const revenue = release.metrics?.revenue;
+          if (!(metric.comparisonValue > 0) || revenue?.status !== 'reported' || Math.abs((revenue.value / metric.comparisonValue - 1) * 100 - metric.value) > 0.051) errors.push(`${prefix}: revenueYoY calculation mismatch`);
+        }
       } else if (typeof metric.reason !== 'string' || !metric.reason) errors.push(`${prefix}: ${key} missing reason`);
     }
     for (const key of ['highlights', 'growth', 'weakness', 'concerns', 'outlook']) {
@@ -57,6 +64,7 @@ function validateSnapshot(data) {
     else if (['up', 'flat', 'down'].includes(revision.status)) {
       checkSource(revision.source, 'forecast revision');
       if (revision.previousSource) checkSource(revision.previousSource, 'previous forecast');
+      else if (!/Previous Forecast|前回予想/.test(revision.source?.locator ?? '')) errors.push(`${prefix}: previous forecast evidence is missing`);
     }
     if (!Array.isArray(release.themes) || !Array.isArray(release.unverified) || typeof release.editorialNote !== 'string') errors.push(`${prefix}: themes/coverage/editorial note are invalid`);
   }
@@ -70,11 +78,7 @@ function validateSnapshot(data) {
   return errors;
 }
 
-function publishSnapshot({ candidatePath, destinationPath = publicPath, historyDir = archiveDir }) {
-  const current = JSON.parse(fs.readFileSync(destinationPath, 'utf8'));
-  const candidate = JSON.parse(fs.readFileSync(candidatePath, 'utf8'));
-  const errors = validateSnapshot(candidate);
-  if (errors.length) throw new Error(errors.join('\n'));
+function assertEarningsTransition(current, candidate) {
   if (candidate.updatedAt < current.updatedAt) throw new Error('candidate updatedAt predates public snapshot');
   const currentByCompany = new Map(current.releases.map((release) => [release.companyId, release]));
   const candidateByCompany = new Map(candidate.releases.map((release) => [release.companyId, release]));
@@ -82,8 +86,19 @@ function publishSnapshot({ candidatePath, destinationPath = publicPath, historyD
     const next = candidateByCompany.get(companyId);
     if (!next) throw new Error(`${companyId}: candidate omits a published company`);
     if (next.version < oldRelease.version || next.checkedAt < oldRelease.checkedAt) throw new Error(`${companyId}: version or checkedAt moved backwards`);
+    if ((next.contentUpdatedAt ?? next.checkedAt) < (oldRelease.contentUpdatedAt ?? oldRelease.checkedAt)) throw new Error(`${companyId}: content date moved backwards`);
+    if (next.announcedAt < oldRelease.announcedAt) throw new Error(`${companyId}: release date moved backwards`);
     if (JSON.stringify(next) !== JSON.stringify(oldRelease) && next.version <= oldRelease.version) throw new Error(`${companyId}: changed release needs a higher version`);
   }
+}
+
+function publishSnapshot({ candidatePath, destinationPath = publicPath, historyDir = archiveDir }) {
+  const current = JSON.parse(fs.readFileSync(destinationPath, 'utf8'));
+  const candidate = JSON.parse(fs.readFileSync(candidatePath, 'utf8'));
+  const errors = validateSnapshot(candidate);
+  if (errors.length) throw new Error(errors.join('\n'));
+  checkRedaction(candidate);
+  assertEarningsTransition(current, candidate);
   const output = `${JSON.stringify(candidate, null, 2)}\n`;
   fs.mkdirSync(historyDir, { recursive: true });
   const stamp = new Date().toISOString().replaceAll(':', '-');
@@ -99,14 +114,19 @@ function publishSnapshot({ candidatePath, destinationPath = publicPath, historyD
   return candidate.releases.length;
 }
 
+function earningsCandidates(snapshot, media, calendar) {
+  const released = new Map(snapshot.releases.map(release => [release.companyId, release.announcedAt]));
+  return media.updates.filter(update => released.has(update.sourceId)
+    && update.publishedAt.slice(0, 10) >= released.get(update.sourceId)
+    && !calendar.reviews.some(review => review.id === update.id && review.sourceUrl === update.sourceUrl && ['processed', 'linked', 'skipped'].includes(review.status)));
+}
 function printCandidates(snapshot) {
-  const updates = JSON.parse(fs.readFileSync(path.join(root, 'src/data/chip-pulse-official-updates.json'), 'utf8')).updates;
-  const watched = new Set(['asml', 'applied-materials', 'lam-research', 'kla', 'micron']);
-  const released = new Map(snapshot.releases.map((release) => [release.companyId, release.announcedAt]));
-  const candidates = updates.filter((update) => watched.has(update.companyId) && update.publishedAt.slice(0, 10) > (released.get(update.companyId) ?? ''));
-  console.log(`Newer SEC filing metadata candidates: ${candidates.length}`);
-  for (const update of candidates) console.log(`${update.companyId} ${update.publishedAt.slice(0, 10)} ${update.label} ${update.sourceUrl}`);
-  console.log('Tokyo Electron, Kioxia, SK hynix and Samsung: check official IR manually. SEC metadata is discovery only; earnings facts still need source review.');
+  const media = JSON.parse(fs.readFileSync(path.join(root, 'src/data/chip-pulse-media.json'), 'utf8'));
+  const calendar = JSON.parse(fs.readFileSync(path.join(root, 'src/data/watch-calendar.json'), 'utf8'));
+  const candidates = earningsCandidates(snapshot, media, calendar);
+  console.log(`Unresolved filing candidates (metadata only): ${candidates.length}`);
+  for (const update of candidates) console.log(`${update.sourceId} ${update.publishedAt.slice(0, 10)} ${update.title} ${update.sourceUrl}`);
+  console.log('Also check each official IR index and calendar, including Tokyo Electron, Kioxia, SK hynix and Samsung. A filing is not necessarily a new earnings release.');
 }
 
 if (require.main === module) {
@@ -129,4 +149,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { validateSnapshot, publishSnapshot };
+module.exports = { validateSnapshot, publishSnapshot, earningsCandidates, assertEarningsTransition, isDate, isHttps };

@@ -179,3 +179,17 @@
  .brief li { margin-top:0; }
  .brief li a { min-height:44px; padding:8px 0; }
 }
+
+.scheduleList { list-style:none; padding:0; margin:0; border:1px solid var(--line); border-radius:8px; background:white; }
+.scheduleList li { display:grid; grid-template-columns:210px minmax(0,1fr) auto; gap:18px; align-items:start; padding:18px 24px; border-bottom:1px solid var(--line); }
+.scheduleList li:last-child { border:0; }
+.scheduleList time { font-size:14px; font-variant-numeric:tabular-nums; }
+.scheduleList strong { font-size:16px; }
+.scheduleList p { margin:6px 0; color:var(--muted); font-size:14px; }
+.scheduleList small { font-size:12px; color:var(--muted); }
+.scheduleList a { min-height:44px; display:inline-flex; align-items:center; color:var(--link); font-size:13px; }
+.dailyRows { list-style:none; padding:0; margin:0; }
+.dailyRows li { padding:22px 0; border-bottom:1px solid var(--line); scroll-margin-top:90px; }
+.dailyRows h3 { font-size:20px; line-height:1.6; margin:8px 0; }
+.dailyRows p { font-size:16px; line-height:1.8; margin:8px 0; }
+@media(max-width:760px) { .scheduleList li { grid-template-columns:1fr; gap:7px; padding:18px; } .scheduleList a { justify-self:start; } }

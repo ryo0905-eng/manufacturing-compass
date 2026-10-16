@@ -212,8 +212,8 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         {
           type: "link-callout",
           title: "時価総額の先にある業績と見通し",
-          description: "主要装置メーカー5社の決算を、対象期間と原資料を確認しながら読み比べます。",
-          label: "決算・IRを見る",
+          description: "NVIDIA・TSMC・Intelを含む主要12社の売上・利益・前年比と次回決算予定を一覧で確認できます。",
+          label: "主要12社の決算一覧を見る",
           href: "/semiconductor-watch/earnings",
           ctaLocation: "world_ranking_after_table",
         },

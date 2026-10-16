@@ -6,14 +6,14 @@ test("決算一覧・根拠・比較をPCとスマートフォンで読める", 
   for (const width of [1280, 390]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto("/semiconductor-watch");
-    await page.getByRole("link", { name: /決算・IR：業績/ }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("何が変わったか");
+    await page.getByRole("link", { name: /決算・IRを読み比べる/ }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("主要半導体企業の決算一覧");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://mfg-compass.com/semiconductor-watch/earnings");
-    await expect(page.locator("article").filter({ hasText: "東京エレクトロン" }).first()).toBeVisible();
+    await expect(page.getByRole("row", { name: /東京エレクトロン/ })).toBeVisible();
     await page.getByLabel("企業", { exact: true }).selectOption("kla");
     await expect(page.getByText("1社の決算を表示中")).toBeVisible();
-    await expect(page.locator("article").filter({ has: page.getByRole("heading", { name: "KLA", exact: true }) })).toContainText("情報確認");
-    await expect(page.locator("article").filter({ has: page.getByRole("heading", { name: "KLA", exact: true }) })).toContainText("売上高・前年同期比");
+    await expect(page.getByRole("row", { name: /KLA/ })).toContainText("数値確認");
+    await expect(page.getByRole("row", { name: /KLA/ })).toContainText("15.2%");
     await page.getByLabel("企業", { exact: true }).selectOption("all");
     await page.getByLabel("事業領域", { exact: true }).selectOption("memory");
     await expect(page.getByText("4社の決算を表示中")).toBeVisible();

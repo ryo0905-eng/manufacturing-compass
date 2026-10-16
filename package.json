@@ -22,7 +22,12 @@
     "chip-pulse:audit": "node scripts/chip-pulse-media.cjs --audit",
     "chip-pulse:refresh": "node scripts/chip-pulse-media.cjs",
     "test:e2e": "playwright test",
-    "chip-pulse:editor": "node scripts/chip-pulse-editor-publish.cjs"
+    "chip-pulse:editor": "node scripts/chip-pulse-editor-publish.cjs",
+    "watch:check": "node scripts/watch-data.cjs --check",
+    "watch:queue": "node scripts/watch-data.cjs --queue",
+    "watch:calendar": "node scripts/watch-data.cjs",
+    "watch:daily": "node scripts/watch-daily.cjs",
+    "watch:test": "node --test tests/unit/earnings.cjs tests/unit/watch.cjs tests/unit/watch-daily.cjs"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.9",

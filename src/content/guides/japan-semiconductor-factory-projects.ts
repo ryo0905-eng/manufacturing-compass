@@ -49,6 +49,14 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
         },
         {
           "type": "factory-project-comparison"
+        },
+        {
+          "type": "link-callout",
+          "title": "設備投資の最近の動きも確認する",
+          "description": "工場一覧の確認時点から、企業の発表や決算で何が変わったかを業界ウォッチで調べます。",
+          "label": "工場・設備投資の動きを見る",
+          "href": "/semiconductor-watch#theme=investment",
+          "ctaLocation": "factory_projects_after_comparison"
         }
       ]
     },

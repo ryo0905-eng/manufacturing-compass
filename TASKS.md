@@ -1,5 +1,25 @@
 # TASKS
 
+## 2026-10-16：watch／earningsの一覧・発表予定・日次更新を改善
+
+- watchを「直近7日の主な動き→今後14日の公式予定→重複を除いた直近30日→背景解説・過去掲載」に再構成。元の公表日で範囲を選び、確認日の変更だけで新着にしない。新着なし、取得失敗、原文確認待ち、処理済みへの接続を区別し、旧アンカーとテーマhashを維持。
+- 決算は主要12社を先頭の表／スマホ向け企業カードで表示。NVIDIA・TSMC・Intelを追加し、ASMLはQ3へ更新。既存9社の主要数値を再照合し、Samsung全社速報とDS部門実績を区別。TWD、最新発表有無の確認台帳、公式予定、暫定・未公表・未確認、予定日経過表示を追加。比較は装置・メモリの2群を維持。
+- ランキング3記事・工場記事から掲載範囲とテーマに合う入口へ接続。canonical・構造化データ・sitemapを維持し、内容更新と数値確認を分離。初期HTMLで12社・根拠リンクを出力し、絞り込みhashと戻る履歴に対応。明るい配色をwatch／決算で統一。
+- 候補の正本を現行mediaへ接続。決算と予定の検証・前回版保存・原子的更新・禁止語照合、日次のworktree・ロック・固定6ファイル限定commit/push・ニュース上限・競合時停止を実装。AGENTSとPRD・architecture・編集／SEO／計測・日次運用文書を更新。コードのcommit/pushは未実施。
+- `npm run watch:test`：18件成功。原資料参照・前年比計算、通貨と範囲、予定変更時の旧版保持、期限切れ／現地日付／14日境界、取得失敗・古い確認、候補処理、許可ファイル、JSなしの初期HTML・旧アンカーを確認。公開処理の禁止語照合を共通化・強化した後、同じコマンドで再確認。`npm run typecheck`は175秒監視付きで1回、成功。以後はCSSの文字色、CJSの更新遷移検証・テスト、E2E仕様、文書を修正。CJS・単体テストの最終18件を再確認し、型チェックは再実行していない。
+- `npm run watch:check`、`npm run earnings:check`、`git diff --check`成功。候補作成時に実行した`node scripts/earnings-publish.cjs --candidate ...`と`npm run watch:calendar -- --candidate ...`で12社／予定の照合・アーカイブ・更新を実施。取材・原資料・候補・旧版は.privateに保持しGit管理外を確認。最終の変更ファイル全体で禁止辞書の語を照合し該当なし。
+- 定期タスク登録は専用ツール未提供、アプリ操作もComputer Useの安全制限で拒否。毎日08:00 JSTの登録本文・復旧・権限を`docs/watch-daily-operations.md`へ用意したが、登録・初回試行・Vercel成功・本番反映・翌朝実行は未確認。実行補助コマンドの実worktree作成／pushも未実行。稼働中とは記録しない。
+- dev・build・lint・ブラウザ検証・E2E実行・commit・pushは未実施。E2E仕様は現在の一覧と履歴操作へ更新。GSC最新流入とGA4本番受信・再訪は未取得で、ゼロと断定しない。
+- 推奨コミット：`feat: make semiconductor watch useful for daily earnings checks`
+
+変更ファイル：
+
+- 画面・共通表示：`src/app/(ja)/semiconductor-watch/earnings/[companyId]/page.tsx`、`src/app/(ja)/semiconductor-watch/earnings/page.tsx`、`src/app/(ja)/semiconductor-watch/page.tsx`、`src/app/sitemap.ts`、`src/components/chip-pulse/Media.module.css`、`src/components/chip-pulse/MediaLinks.tsx`、`src/components/chip-pulse/NewsFeed.tsx`、`src/components/chip-pulse/WatchSchedule.tsx`、`src/components/earnings/Earnings.module.css`、`src/components/earnings/EarningsExplorer.tsx`、`src/components/earnings/EarningsLinks.tsx`、`src/components/earnings/EarningsShell.tsx`
+- データ・表示モデル・記事：`src/content/guides/japan-semiconductor-factory-projects.ts`、`src/content/guides/memory-manufacturer-ranking.ts`、`src/content/guides/semiconductor-equipment-sales-ranking.ts`、`src/content/guides/semiconductor-market-cap-ranking.ts`、`src/data/earnings-snapshot.json`、`src/data/watch-calendar.json`、`src/lib/earnings.ts`、`src/lib/watch-calendar.ts`、`src/lib/watch.ts`
+- 更新・検証コマンド：`package.json`、`scripts/earnings-publish.cjs`、`scripts/public-content-check.cjs`、`scripts/watch-daily.cjs`、`scripts/watch-data.cjs`
+- テスト：`tests/e2e/chip-pulse.spec.ts`、`tests/e2e/earnings.spec.ts`、`tests/unit/earnings.cjs`、`tests/unit/watch-daily.cjs`、`tests/unit/watch.cjs`
+- 仕様・作業記録：`AGENTS.md`、`TASKS.md`、`docs/PRD.md`、`docs/architecture.md`、`docs/conversion-architecture.md`、`docs/design-system.md`、`docs/documentation-map.md`、`docs/earnings-ir-operations.md`、`docs/semiconductor-watch-editorial.md`、`docs/seo.md`、`docs/watch-daily-operations.md`
+
 ## 2026-10-15：時価総額ランキング記事内にタイムマシン簡易版を追加
 
 - 世界TOP30表直後・書籍入口より前に配置し、冒頭リンクをページ内へ接続。2010年末・停止状態から再生／一時停止・年選択・リセットを提供。既存20社データ・順位計算・再生・チャートを再利用し、上位10社と圏外でも読めるNVIDIAの年末確定値を表示する。現在のTOP30との対象・時点の違い、補間表示、出典・元データ確認日を明記。

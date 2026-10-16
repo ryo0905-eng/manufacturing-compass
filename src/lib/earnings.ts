@@ -4,19 +4,20 @@ import { companies } from "@/data/companies";
 export type EarningsSource = { documentId: string; locator: string; url?: string };
 export type EarningsStatement = { text: string; source: EarningsSource };
 export type EarningsMetric =
-  | { status: "reported"; value: number; source: EarningsSource; calculation?: string }
+  | { status: "reported"; value: number; source: EarningsSource; calculation?: string; comparisonValue?: number }
   | { status: "unpublished" | "unretrieved"; reason: string };
 export type EarningsRelease = {
   id: string;
   companyId: string;
-  segment: "equipment" | "memory";
+  segment: "equipment" | "memory" | "fabless" | "foundry" | "idm";
   business: string;
   financialScope?: string;
   announcedAt: string;
   checkedAt: string;
+  contentUpdatedAt?: string;
   version: number;
   period: { label: string; kind: "quarter" | "cumulative" | "full-year"; start: string | null; end: string };
-  currency: "EUR" | "USD" | "JPY" | "KRW";
+  currency: "EUR" | "USD" | "JPY" | "KRW" | "TWD";
   unit: "million" | "billion";
   accountingStandard: string;
   documents: { id: string; title: string; url: string; kind: "html" | "pdf" }[];
@@ -45,11 +46,12 @@ export const earningsUpdatedAt = data.updatedAt;
 export const earningsReleases = [...data.releases].sort((a, b) => b.announcedAt.localeCompare(a.announcedAt));
 export const commonEarningsThemes = data.commonThemes;
 export const earningsThemeOptions = [...new Set(earningsReleases.flatMap((release) => release.themes))];
-export const earningsSegmentName = (segment: EarningsRelease["segment"]) => segment === "memory" ? "メモリ関連" : "製造装置";
+export const earningsSegments = { equipment: "製造装置", memory: "メモリ関連", fabless: "設計", foundry: "受託製造", idm: "設計・製造（IDM）" } as const;
+export const earningsSegmentName = (segment: EarningsRelease["segment"]) => earningsSegments[segment];
 export const earningsFinancialScope = (release: EarningsRelease) => release.financialScope ?? "連結全体";
 export const earningsUnitName = (release: EarningsRelease) => {
   const unit = release.unit === "billion" ? "十億" : "百万";
-  const currency = { EUR: "ユーロ", USD: "米ドル", JPY: "円", KRW: "ウォン" }[release.currency];
+  const currency = { EUR: "ユーロ", USD: "米ドル", JPY: "円", KRW: "ウォン", TWD: "台湾ドル" }[release.currency];
   return `${unit}${currency}`;
 };
 
@@ -81,4 +83,21 @@ export function earningsMetricText(metric: EarningsMetric, release: EarningsRele
   }
   const value = new Intl.NumberFormat("ja-JP", { maximumFractionDigits: 3 }).format(metric.value);
   return `${value} ${earningsUnitName(release)}`;
+}
+
+/** Compact Japanese amounts, without converting between currencies. */
+export function earningsCompactMetric(metric: EarningsMetric, release: EarningsRelease) {
+  if (metric.status !== "reported") return earningsMetricText(metric, release);
+  const amount = metric.value * (release.unit === "billion" ? 1_000_000_000 : 1_000_000);
+  const unit = Math.abs(amount) >= 1_000_000_000_000 ? 1_000_000_000_000 : 100_000_000;
+  const currency = { EUR: "ユーロ", USD: "米ドル", JPY: "円", KRW: "ウォン", TWD: "台湾ドル" }[release.currency];
+  return `${new Intl.NumberFormat("ja-JP", { maximumFractionDigits: 2 }).format(amount / unit)}${unit === 1_000_000_000_000 ? "兆" : "億"}${currency}`;
+}
+
+export function earningsBackground(release: EarningsRelease) {
+  return release.segment === "equipment"
+    ? { href: "/guides/semiconductor-equipment-sales-ranking", label: "装置メーカーの役割と規模を見る" }
+    : release.segment === "memory"
+      ? { href: "/guides/memory-manufacturer-ranking", label: "メモリメーカーの違いを見る" }
+      : { href: "/guides/semiconductor-foundry", label: "設計・製造の役割を知る" };
 }

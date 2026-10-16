@@ -1,6 +1,18 @@
 # 業界ウォッチ：テーマ探索と確認付き編集
 
-更新日：2026-10-04。現行UI・手動編集の実装仕様。日次収集、AI公開ゲート、費用台帳は [chip-pulse-media.md](./chip-pulse-media.md)、決算は [earnings-ir-operations.md](./earnings-ir-operations.md) を参照する。
+更新日：2026-10-16。
+
+## 現行UIと日次確認
+
+watchは直近7日の主な動き、今後14日の予定、重複を除いた直近30日の一覧、5テーマの背景解説、過去掲載の順。決算の同一発表は企業別決算へ集約する。工場の確認日は公表日と混ぜない。旧記事アンカーと#themeを維持。初期HTMLで一覧・背景解説・原資料を読める。
+
+earningsは12社の売上・営業利益・前年比・数値範囲・要点・次回予定を先に表示する。企業の最新発表確認・予定・候補判断はwatch-calendar.jsonで共有。候補収集と原資料確認、数値確認と内容変更を分け、取得失敗時は前回正常データを保持する。取得で記事の公表日を変えない。
+
+記事の背景・企業・用語は従来のwatch-editorial.jsonを使用する。highlightsは旧構成との互換用に保持し、現行の冒頭選定には使わない。日次処理の範囲・固定許可ファイル・登録本文・未稼働状態は [watch-daily-operations.md](./watch-daily-operations.md) に従う。既存のAI公開ゲートは無効のまま。
+
+## 旧仕様と初回検証の記録（2026-10-04）
+
+以下は当時のUI・手動編集仕様と検証記録。日次収集、AI公開ゲート、費用台帳は [chip-pulse-media.md](./chip-pulse-media.md)、決算は [earnings-ir-operations.md](./earnings-ir-operations.md) を参照する。
 
 ## 画面とデータの境界
 

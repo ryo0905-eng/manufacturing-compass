@@ -51,7 +51,7 @@ function checkLink(href) {
 test('published items, editorial topics and every destination resolve to existing content',()=>{
   validateSnapshot(media);
   assert.equal(new Set(watchItems.map(i=>i.id)).size,watchItems.length);
-  assert.ok(watchHighlights.length>0 && watchHighlights.length<=3);
+  assert.ok(watchHighlights.length<=3);
   for(const item of watchItems) { checkLink(item.href); assert.ok(item.topics.includes(item.primaryTopic)); }
   for(const [id,entry] of Object.entries(watchEditorial.articles)) {
     const article=media.articles.find(a=>a.id===id); assert.ok(article,id);
@@ -100,7 +100,7 @@ test('scheduled collection retains verified prose even when its source changes o
 
 test('no-JS markup supports zero/one/old items, image-free cards and legacy IDs',()=>{
   const empty=renderToStaticMarkup(React.createElement(NewsFeed,{items:[],now,children:null}));
-  assert.ok(empty.includes('直近30日のニュース掲載はありません'));
+  assert.ok(empty.includes('この一覧へ追加できる掲載情報はありません'));
   watchTopics.forEach(t=>assert.ok(empty.includes(t.linkLabel)));
   const one=watchItems.find(i=>i.kind==='article');
   const html=renderToStaticMarkup(React.createElement(NewsFeed,{items:[one],now:'2027-01-01T00:00:00Z',children:React.createElement(WatchCard,{item:{...one,visual:undefined},featured:true})}));
