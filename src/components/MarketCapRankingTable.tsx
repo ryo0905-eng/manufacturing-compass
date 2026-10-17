@@ -24,7 +24,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
   const unified = sourceSlug === "semiconductor-market-cap-ranking";
   const isWorld = scope === "world";
   const companies = isWorld ? worldSemiconductorMarketCapRanking : japanSemiconductorMarketCapRanking;
-  const title = isWorld ? "世界TOP30" : "日本企業TOP10";
+  const title = isWorld ? "世界TOP30" : `日本${companies.length}社`;
   const [year, month, day] = semiconductorMarketCapMeta.dataAsOf.split("-");
   const formattedDate = `${year}年${Number(month)}月${Number(day)}日`;
   const reference = unified

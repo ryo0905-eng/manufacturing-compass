@@ -10,7 +10,7 @@ export const japanSemiconductorMarketCapHistoryGuide: GuideArticle = {
   searchIntent: '日本の半導体関連企業の市場評価と順位が、長期的にどう変化したか知りたい',
   status: 'published', category: 'industry', presentation: 'structured', author: 'Manufacturing Compass編集部',
   showIntroSummary: false, showExperienceBasis: false, showCareerCtas: false, experienceBasis: [],
-  publishedAt: '2026-09-23', updatedAt: '2026-09-23', readTime: '7分',
+  publishedAt: '2026-09-23', updatedAt: '2026-10-17', readTime: '7分',
   sources: [
     ...[rankingTimeMachineCompanies.find(c => c.id === 'tokyo-electron')!, ...japanCompanies].map(c => ({ title: `${c.name} 年末時価総額履歴`, url: c.sourceUrl, publisher: 'CompaniesMarketCap', accessedAt: '2026-09-23' })),
     ...japanCompanies.map(c => ({ title: `${c.name} 公式事業情報`, url: c.businessSourceUrl, publisher: c.name, accessedAt: '2026-09-23' })),
@@ -39,7 +39,7 @@ export const japanSemiconductorMarketCapHistoryGuide: GuideArticle = {
       '名称・ロゴは現在の企業を識別するもので、各年当時の社名や組織を再現していません。買収、事業構成、発行株式数、為替の変化も含むため、時価総額の増減を半導体事業だけの成長や投資収益とは解釈できません。順位は技術力・働きやすさ・就職先としての優劣を決めるものでもありません。',
     ] },
     { id: 'related', heading: '現在のランキングや世界企業との比較も見る', paragraphs: ['現在の順位を知りたい場合は基準日時点のランキングへ、海外企業との違いを知りたい場合は比較記事へ進めます。'], blocks: [{ type: 'links', items: [
-      { label: '半導体企業の時価総額ランキング', href: '/guides/semiconductor-market-cap-ranking', description: '基準日時点の世界TOP30・日本TOP10。この記事の固定10社とは対象が異なります' },
+      { label: '半導体企業の時価総額ランキング', href: '/guides/semiconductor-market-cap-ranking', description: '基準日時点の世界TOP30・日本18社。この記事の固定10社とは対象が異なります' },
       { label: 'NVIDIAとIntelの時価総額推移', href: '/guides/nvidia-intel-market-cap-history', description: '2社の年末評価額の変化を比較する' },
       { label: '製造装置メーカーの売上高ランキング', href: '/guides/semiconductor-equipment-sales-ranking', description: '企業全体の市場評価とは異なる、装置事業の売上規模を見る' },
     ] }] },

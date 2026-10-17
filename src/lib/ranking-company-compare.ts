@@ -10,9 +10,10 @@ const categoryZones: Record<string, IndustryMapZoneId[]> = {
   "ファブレス": ["fabless"], "ファブレス・ソフトウェア": ["fabless"], "ファウンドリ": ["foundry"],
   "IDM": ["idm"], "IDM（総合電機）": ["idm"], "メモリ・IDM": ["idm"], "IDM・ファウンドリ": ["idm", "foundry"],
   "EDA・IP": ["eda-ip"], "OSAT・後工程": ["osat"], "製造装置": ["equipment"], "検査・計測装置": ["inspection"],
-  "材料・ウェーハ": ["materials"], "材料・フォトニクス": ["materials"], "材料・電子部品": ["materials"],
+  "材料・ウェーハ": ["materials"], "材料・フォトニクス": ["materials"], "材料・電子部品": ["materials"], "材料・フォトマスク": ["materials"],
 };
 export function categoryExplanations(company: SemiconductorMarketCapCompany) {
+  if (company.category === "半導体商社") return [{ label: "半導体商社", description: "半導体メーカーの製品販売や、顧客の製品開発に向けた技術支援を担う企業です。" }];
   return (categoryZones[company.category] ?? []).map(id => industryMapZones.find(zone => zone.id === id)!).map(zone => ({ label: zone.label, description: zone.description }));
 }
 // companySlug is an explicit editorial mapping; only actual map nodes are linked.

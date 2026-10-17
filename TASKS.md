@@ -1,5 +1,15 @@
 # TASKS
 
+## 2026-10-17：日本の時価総額ランキングを18社へ拡充
+
+- 現在のCompaniesMarketCap Semiconductorsカテゴリ全2ページから日本企業18社を全件掲載。従来10社にMARUWA、日本マイクロニクス、テクセンドフォトマスク、ソシオネクスト、トーメンデバイス、TOWA、RS Technologies、サンケン電気を追加し、10社制限を撤去した。追加8社の順位・数値・ティッカーは同カテゴリ2ページ目で照合し、個社ページの異なる取得時点の値を混ぜていない。2026-10-16基準・10-17確認、世界30社と参考トヨタの既存値を維持。
+- 公式情報で主な事業と分類を確認し、記事sourcesへ出典9件（ランキング2ページ目＋公式8社）を追加。商社とフォトマスク材料の役割説明に対応。ソシオネクストは既存企業詳細へリンク。日本の関連企業を網羅する一覧とは表現しない。
+- タイトル・冒頭・目次・表・metadata・本文を「日本18社」へ揃え、関連記事2本の現在ランキングへの案内と編集更新日も更新。表は18社＋順位外トヨタの19行、比較ボタンは世界30＋日本18の計48個、比較カタログは重複除外46社。タイムマシンの固定10社・年末履歴は変更していない。
+- `node tests/unit/ranking-company-compare.cjs`と`npm run typecheck`を175秒上限のプロセス監視付きで各1回実行し、両方成功。18社の連番・金額順・ID/ティッカーの一意性・基準日・出典、追加8社の比較選択と共有URL、追加企業ペアの状態・計測、全社の情報開閉SSRと参考行19行、世界表、旧比較URL、記事全体SSR・metadata・構造化データを確認。
+- `git diff --check`と、src全体・対象公開文書の公開禁止語照合を実施。dev・build・lint・ブラウザ操作・commit・pushは未実施。実画面・本番反映は未確認。
+- 変更ファイル：`src/data/semiconductor-market-cap.ts`、`src/components/MarketCapRankingTable.tsx`、`src/lib/ranking-company-compare.ts`、`src/content/guides/semiconductor-market-cap-ranking.ts`・`japan-semiconductor-market-cap-history.ts`・`semiconductor-equipment-sales-ranking.ts`、`tests/unit/ranking-company-compare.cjs`、`docs/PRD.md`・`architecture.md`・`ranking-company-comparison-spec.md`、本記録。
+- 推奨コミット：`feat: expand Japan market cap ranking to 18 companies`
+
 ## 2026-10-17：ランキングの横スクロール解消と2社比較パネル
 
 - 時価総額ランキング記事だけを順位・企業名・時価総額・比較の4列へ整理。国・地域／ティッカー／分類／主な事業をnative detailsへ移し、全情報のSSR、世界・国内順位、金額棒・対トヨタ倍率、参考行の順序と対象外の扱いを保持。記事欄の幅で600px未満を縦配置にする。

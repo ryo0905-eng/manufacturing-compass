@@ -20,7 +20,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
     "工程対応は各社の公式製品情報をもとに整理。企業の規模と工程での役割を分けて表示",
   ],
   publishedAt: "2026-09-17",
-  updatedAt: "2026-09-23",
+  updatedAt: "2026-10-17",
   sources: [
     { title: equipmentSalesMeta.sourceTitle, url: equipmentSalesMeta.sourceUrl, publisher: "東京エレクトロン（原出典：TechInsights）", accessedAt: equipmentSalesMeta.checkedAt },
     ...equipmentSalesCompanies.flatMap((company) => [...new Set(company.capabilities.map((item) => item.sourceUrl))].map((url) => ({
@@ -75,7 +75,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
       heading: "企業の規模から、工程と仕事内容へ",
       paragraphs: ["工程別の記事では、装置が何を変え、何を測るのかを説明しています。業界全体での企業の役割や、時価総額という別の指標も合わせて確認できます。"],
       blocks: [{ type: "links", items: [
-        { label: "日本の半導体関連10社の時価総額推移", href: "/guides/japan-semiconductor-market-cap-history", description: "2010〜2025年の固定10社を比較。現在の日本TOP10とは異なる、長期の変化を読む" },
+        { label: "日本の半導体関連10社の時価総額推移", href: "/guides/japan-semiconductor-market-cap-history", description: "2010〜2025年の固定10社を比較。現在の日本18社ランキングとは異なる、長期の変化を読む" },
         { label: "NVIDIAとIntelの時価総額推移", href: "/guides/nvidia-intel-market-cap-history", description: "16年の年末値から2社の評価額と大小関係の変化を見る" },
         { label: "装置5社の時価総額はどう変わった？", href: "/tools/ranking-time-machine#mode=equipment&year=2010&company=tokyo-electron", description: "売上高とは別の指標。東京エレクトロンを選択した状態で、装置5社の2010〜2025年の時価総額を再生できます。" },
         { label: "半導体製造装置メーカーとは", href: "/guides/semiconductor-equipment-manufacturers", description: "工程・企業・仕事内容の関係を基礎から理解する" },

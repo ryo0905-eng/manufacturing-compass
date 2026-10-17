@@ -25,6 +25,7 @@ export const semiconductorMarketCapMeta = {
 } as const;
 
 const sourceUrl = semiconductorMarketCapMeta.sourceUrl;
+const secondPageSourceUrl = `${sourceUrl}?page=2`;
 const dataAsOf = semiconductorMarketCapMeta.dataAsOf;
 
 export const worldSemiconductorMarketCapRanking: SemiconductorMarketCapCompany[] = [
@@ -69,6 +70,14 @@ const japaneseCompaniesOutsideTop30: SemiconductorMarketCapCompany[] = [
   { id: "rohm", rank: 72, name: "ローム", englishName: "ROHM", ticker: "6963.T", marketCapUsdB: 10.13, marketCapDisplay: "101億ドル", country: "日本", category: "IDM", mainBusiness: "パワー、アナログ半導体、電子部品", isJapanese: true, companySlug: "rohm", sourceUrl, dataAsOf },
   { id: "sumco", rank: 90, name: "SUMCO", englishName: "SUMCO Corporation", ticker: "3436.T", marketCapUsdB: 5.98, marketCapDisplay: "59.8億ドル", country: "日本", category: "材料・ウェーハ", mainBusiness: "半導体用シリコンウェーハ", isJapanese: true, companySlug: "sumco", sourceUrl, dataAsOf },
   { id: "rorze", rank: 96, name: "ローツェ", englishName: "Rorze Corporation", ticker: "6323.T", marketCapUsdB: 4.89, marketCapDisplay: "48.9億ドル", country: "日本", category: "製造装置", mainBusiness: "ウェーハ搬送ロボット、EFEMなどの搬送装置", isJapanese: true, sourceUrl, dataAsOf },
+  { id: "maruwa", rank: 103, name: "MARUWA", englishName: "MARUWA", ticker: "5344.T", marketCapUsdB: 3.96, marketCapDisplay: "39.6億ドル", country: "日本", category: "材料・電子部品", mainBusiness: "セラミック基板、電子部品、石英ガラス製品", isJapanese: true, sourceUrl: secondPageSourceUrl, dataAsOf },
+  { id: "micronics-japan", rank: 110, name: "日本マイクロニクス", englishName: "Micronics Japan", ticker: "6871.T", marketCapUsdB: 3.29, marketCapDisplay: "32.9億ドル", country: "日本", category: "検査・計測装置", mainBusiness: "ウェーハ上の半導体チップを電気検査するプローブカード", isJapanese: true, sourceUrl: secondPageSourceUrl, dataAsOf },
+  { id: "tekscend-photomask", rank: 121, name: "テクセンドフォトマスク", englishName: "Tekscend Photomask", ticker: "429A.T", marketCapUsdB: 2.15, marketCapDisplay: "21.5億ドル", country: "日本", category: "材料・フォトマスク", mainBusiness: "半導体回路の原版となるフォトマスク、ナノインプリント用モールド", isJapanese: true, sourceUrl: secondPageSourceUrl, dataAsOf },
+  { id: "socionext", rank: 123, name: "ソシオネクスト", englishName: "Socionext", ticker: "6526.T", marketCapUsdB: 2.11, marketCapDisplay: "21.1億ドル", country: "日本", category: "ファブレス", mainBusiness: "顧客仕様に合わせたSoCの設計、開発、販売", isJapanese: true, companySlug: "socionext", sourceUrl: secondPageSourceUrl, dataAsOf },
+  { id: "tomen-devices", rank: 131, name: "トーメンデバイス", englishName: "Tomen Devices Corporation", ticker: "2737.T", marketCapUsdB: 1.58, marketCapDisplay: "15.8億ドル", country: "日本", category: "半導体商社", mainBusiness: "サムスン製半導体・電子部品の販売、顧客への技術支援", isJapanese: true, sourceUrl: secondPageSourceUrl, dataAsOf },
+  { id: "towa", rank: 138, name: "TOWA", englishName: "TOWA Corporation", ticker: "6315.T", marketCapUsdB: 1.02, marketCapDisplay: "10.2億ドル", country: "日本", category: "製造装置", mainBusiness: "半導体チップを樹脂で保護するモールディング装置・金型", isJapanese: true, sourceUrl: secondPageSourceUrl, dataAsOf },
+  { id: "rs-technologies", rank: 141, name: "RS Technologies（RSテクノロジーズ）", englishName: "RS Technologies", ticker: "3445.T", marketCapUsdB: 0.91, marketCapDisplay: "9.1億ドル", country: "日本", category: "材料・ウェーハ", mainBusiness: "シリコンウェーハの再生加工・販売、プライムウェーハの製造販売", isJapanese: true, sourceUrl: secondPageSourceUrl, dataAsOf },
+  { id: "sanken-electric", rank: 145, name: "サンケン電気", englishName: "Sanken Electric", ticker: "6707.T", marketCapUsdB: 0.75, marketCapDisplay: "7.5億ドル", country: "日本", category: "IDM", mainBusiness: "電力の変換・制御に使うパワー半導体と関連製品", isJapanese: true, sourceUrl: secondPageSourceUrl, dataAsOf },
 ];
 
 export const japanSemiconductorMarketCapRanking = [
@@ -76,5 +85,4 @@ export const japanSemiconductorMarketCapRanking = [
   ...japaneseCompaniesOutsideTop30,
 ]
   .sort((first, second) => first.rank - second.rank)
-  .slice(0, 10)
   .map((company, index) => ({ ...company, domesticRank: index + 1 }));

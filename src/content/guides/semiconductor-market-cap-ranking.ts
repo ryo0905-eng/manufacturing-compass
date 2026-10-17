@@ -4,15 +4,15 @@ import { japanSemiconductorMarketCapRanking, worldSemiconductorMarketCapRanking 
 export const semiconductorMarketCapRankingHero = {
   titleParts: ["半導体メーカー", "世界ランキング"],
   metric: "時価総額",
-  scopes: ["TOP30", "日本TOP10"],
+  scopes: ["TOP30", "日本18社"],
   conclusion: `世界1位は${worldSemiconductorMarketCapRanking[0].name}、日本1位は${japanSemiconductorMarketCapRanking[0].name}。`,
 } as const;
 
 export const semiconductorMarketCapRankingGuide: GuideArticle = {
   slug: "semiconductor-market-cap-ranking",
-  title: "半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本TOP10",
+  title: "半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本18社",
   description:
-    "2026年10月16日基準の半導体メーカー・関連企業の世界時価総額TOP30と日本TOP10。トヨタ自動車を物差しに企業全体の時価総額を比較し、対象・出典・事業分類・売上高との違いを解説します。",
+    "2026年10月16日基準の半導体メーカー・関連企業の世界時価総額TOP30と日本18社。トヨタ自動車を物差しに企業全体の時価総額を比較し、対象・出典・事業分類・売上高との違いを解説します。",
   targetQuery: "半導体企業 時価総額ランキング",
   searchIntent:
     "世界と日本の半導体関連企業を最新の時価総額で比較し、各社の業界内での役割、企業分類、売上高との違い、転職時の見方を理解したい",
@@ -26,12 +26,66 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   basisLabel: "この記事の調査範囲",
   experienceBasis: [
     "CompaniesMarketCapのSemiconductorsカテゴリから、2026年10月16日基準の世界上位30社を10月17日に一括確認",
-    "同じカテゴリの掲載順位から国・地域がJapanの企業を抽出し、日本企業上位10社を作成",
+    "同じカテゴリの掲載順位から国・地域がJapanの企業を抽出し、日本企業18社を全件掲載",
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
   updatedAt: "2026-10-17",
   sources: [
+    {
+      title: "Largest semiconductor companies by market cap — Page 2",
+      url: "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2",
+      publisher: "CompaniesMarketCap",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "MARUWAの技術",
+      url: "https://www.maruwa-g.com/products/about/",
+      publisher: "MARUWA",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "プローブカード",
+      url: "https://www.mjc.co.jp/products_service/probecard/",
+      publisher: "日本マイクロニクス",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "製品情報",
+      url: "https://www.photomask.com/product/",
+      publisher: "テクセンドフォトマスク",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "ソシオネクストについて",
+      url: "https://www.socionext.com/jp/about/",
+      publisher: "ソシオネクスト",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "価値創造プロセス／トーメンデバイスを知る4つのキーワード",
+      url: "https://www.tomendevices.co.jp/ir/aboutus.html",
+      publisher: "トーメンデバイス",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "モールディング装置",
+      url: "https://www.towajapan.co.jp/jp/products/molding/",
+      publisher: "TOWA",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "アニュアルレポート2024（事業内容）",
+      url: "https://rs-tec.jp/ir/library/annualreport/annual2024.pdf",
+      publisher: "RSテクノロジーズ",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "未来を創るアプリケーション",
+      url: "https://www.sanken-ele.co.jp/corp/csr/future/index.htm",
+      publisher: "サンケン電気",
+      accessedAt: "2026-10-17",
+    },
     {
       title: "日経業界地図 2027年版（紹介書籍の書誌情報）",
       url: "https://bookplus.nikkei.com/atcl/catalog/26/07/29/02721/",
@@ -168,15 +222,15 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   readTime: "約12分",
   intro: {
     problem: "半導体企業のランキングを見ても、設計会社、製造会社、装置会社がなぜ同じ表に並ぶのか分かりにくくありませんか。",
-    conclusion: "世界1位はNVIDIA、日本1位は東京エレクトロンです（2026年10月16日基準）。世界TOP30と日本TOP10を、参考のトヨタ自動車とともに企業全体の時価総額で比較します。",
-    learnings: "世界TOP30、日本TOP10、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
+    conclusion: "世界1位はNVIDIA、日本1位は東京エレクトロンです（2026年10月16日基準）。世界TOP30と日本18社を、参考のトヨタ自動車とともに企業全体の時価総額で比較します。",
+    learnings: "世界TOP30、日本18社、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
   },
   overviewBlocks: [
     {
       type: "links",
       items: [
         { label: "世界TOP30を見る", href: "#world-ranking", description: "世界の半導体メーカー・関連企業を比較" },
-        { label: "日本TOP10を見る", href: "#japan-ranking", description: "同じ基準の日本企業ランキング" },
+        { label: "日本18社を見る", href: "#japan-ranking", description: "同じ基準の日本企業ランキング" },
         { label: "詳しい解説を読む", href: "#top-ten", description: "上位企業の特徴と業界での役割" },
       ],
     },
@@ -190,11 +244,11 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     },
     {
       id: "japan-ranking",
-      heading: "日本の半導体関連企業・時価総額ランキングTOP10",
+      heading: "日本の半導体関連企業・時価総額ランキング18社",
       lead: "日本1位は東京エレクトロン（世界20位）、2位はアドバンテスト（世界21位）です。",
       blocks: [{ type: "market-cap-ranking", scope: "japan" }],
       paragraphs: [
-        "同じカテゴリから日本企業を抽出したTOP10です。キオクシアやソシオネクストなど著名企業でも、基準データのカテゴリや順位によって入らない場合があります。カテゴリ外の企業は追加していません。",
+        "同じカテゴリの全2ページから、日本企業18社をすべて掲載しています。デバイス・装置・検査・材料に加え、半導体商社も含みます。提供元のカテゴリに掲載されていない企業は含まないため、日本の半導体関連企業を網羅した一覧ではありません。",
       ],
     },
     {
@@ -303,7 +357,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
             { label: "AI", title: "AI計算基盤に関わる企業が上位", body: "首位NVIDIAに加え、ネットワーク半導体のBroadcom、CPU・GPUのAMD、メモリのMicronとSK hynixが上位7社に入っています。企業ごとの役割は、設計・受託製造・装置などの分類とあわせて確認できます。" },
             { label: "ROLE", title: "設計企業と製造企業が同時に評価", body: "1位のNVIDIAはファブレス、2位のTSMCはファウンドリです。製造を持たない設計企業と、顧客製品を量産する製造企業が隣り合い、分業による産業構造が順位へ表れています。" },
             { label: "REGION", title: "TOP30のうち14社が米国企業", body: "本社所在地ベースでは米国が14社です。中国と台湾が各4社、韓国・日本・オランダが各2社、英国とドイツが各1社でした。製造拠点や売上地域は本社所在地と一致するとは限りません。" },
-            { label: "JAPAN", title: "日本は装置・検査領域が目立つ", body: "世界TOP30に入った日本企業は東京エレクトロンとアドバンテストで、どちらも装置関連です。日本TOP10でもローツェを含む7社を製造装置または検査・計測装置へ分類でき、材料ではSUMCOが入っています。" },
+            { label: "JAPAN", title: "日本は装置・検査領域が目立つ", body: "世界TOP30に入った日本企業は東京エレクトロンとアドバンテストで、どちらも装置関連です。日本18社ではTOWAや日本マイクロニクスも加わり、9社が製造装置または検査・計測装置です。材料のSUMCOやMARUWA、設計のソシオネクスト、商社のトーメンデバイスなど、役割の違いも読み取れます。" },
           ],
         },
       ],
@@ -318,7 +372,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       lead: "知りたいのが企業全体の評価額ではなく、特定分野の規模や製品なら、比較対象と指標を分けて見ます。",
       paragraphs: [],
       blocks: [{ type: "links", items: [
-        { label: "日本の半導体関連10社の時価総額推移", href: "/guides/japan-semiconductor-market-cap-history", description: "2010〜2025年の固定10社を比較。現在の日本TOP10とは異なる、長期の変化を読む" },
+        { label: "日本の半導体関連10社の時価総額推移", href: "/guides/japan-semiconductor-market-cap-history", description: "2010〜2025年の固定10社を比較。現在の日本18社ランキングとは異なる、長期の変化を読む" },
         { label: "NVIDIAとIntelの時価総額推移", href: "/guides/nvidia-intel-market-cap-history", description: "16年の年末値から2社の評価額と大小関係の変化を見る" },
         { label: "半導体製造装置メーカーの売上高ランキング", href: "/guides/semiconductor-equipment-sales-ranking", description: "2025暦年の装置売上高で上位10社を比較。成膜・露光・検査など、扱う工程と製品を調べる" },
         { label: "メモリメーカーランキング｜DRAM・NANDの売上シェア", href: "/guides/memory-manufacturer-ranking", description: "2026年4〜6月の製品市場別シェアを比較。DRAMとNANDを分け、企業全体の時価総額との違いを確認する" },
@@ -411,7 +465,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           rightLabel: "集計・確認方法",
           rows: [
             { left: "対象と出典", right: "CompaniesMarketCapのSemiconductorsカテゴリに掲載された上場企業。未上場企業は対象外" },
-            { left: "世界と日本", right: "世界上位30社を同時点で取得。日本上位10社は、同じカテゴリから国・地域がJapanの企業を抽出" },
+            { left: "世界と日本", right: "世界上位30社を同時点で取得。日本18社は、同じカテゴリの全2ページから国・地域がJapanの企業を全件抽出" },
             { left: "順位と重複", right: "降順、順位の連続性、国・地域を確認。同一企業、二重上場、ADRと現地株式を別企業として数えない" },
             { left: "企業分類", right: "上位企業と日本企業は、各社の公式企業情報、IR、製品ページを優先して確認" },
           ],
@@ -423,7 +477,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         },
       ],
       paragraphs: [
-        "各市場の取引日・更新時刻や為替の反映には差があり、出典の株価データにも数分から数時間の遅延があり得ます。同じ基準日でも全社が同一時刻の値という意味ではありません。表は基準日時点のスナップショットで、リアルタイム値ではありません。数値の更新時は世界30社・日本10社と参考のトヨタ自動車を同じ基準日で差し替えます。",
+        "各市場の取引日・更新時刻や為替の反映には差があり、出典の株価データにも数分から数時間の遅延があり得ます。同じ基準日でも全社が同一時刻の値という意味ではありません。表は基準日時点のスナップショットで、リアルタイム値ではありません。数値の更新時は世界30社・日本18社と参考のトヨタ自動車を同じ基準日で差し替えます。",
         "本記事は半導体業界の構造と企業研究を目的とし、株式の購入・売却を推奨する投資助言ではありません。",
       ],
     }
