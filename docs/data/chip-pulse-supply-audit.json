@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-16T23:39:30.255Z",
-  "windowStart": "2026-09-16T00:00:00.000Z",
-  "windowEnd": "2026-10-16T00:00:00.000Z",
+  "generatedAt": "2026-10-17T23:10:27.649Z",
+  "windowStart": "2026-09-17T00:00:00.000Z",
+  "windowEnd": "2026-10-17T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -118,22 +118,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-18",
-    "end": "2026-10-17",
+    "start": "2026-09-19",
+    "end": "2026-10-18",
     "days": [
-      {
-        "date": "2026-09-18",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-19",
         "candidates": 0,
@@ -510,33 +497,46 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-10-18",
+        "candidates": 0,
+        "deduplicated": 0,
+        "bodies": 0,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-11",
-        "end": "2026-10-17",
+        "start": "2026-10-12",
+        "end": "2026-10-18",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-04",
-        "end": "2026-10-10",
+        "start": "2026-10-05",
+        "end": "2026-10-11",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-27",
-        "end": "2026-10-03",
+        "start": "2026-09-28",
+        "end": "2026-10-04",
         "publishable": 1,
         "fields": [
           "design-manufacturing"
         ]
       },
       {
-        "start": "2026-09-20",
-        "end": "2026-09-26",
+        "start": "2026-09-21",
+        "end": "2026-09-27",
         "publishable": 1,
         "fields": [
           "design-manufacturing",
