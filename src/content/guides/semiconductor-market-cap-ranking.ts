@@ -4,7 +4,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   slug: "semiconductor-market-cap-ranking",
   title: "半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本TOP10",
   description:
-    "2026年10月1日基準の半導体メーカー・関連企業の世界時価総額TOP30と日本TOP10。対象、出典、専業・非専業、売上高との違いを明記し、各社の業界での役割まで解説します。",
+    "2026年10月16日基準の半導体メーカー・関連企業の世界時価総額TOP30と日本TOP10。トヨタ自動車を物差しに企業全体の時価総額を比較し、対象・出典・事業分類・売上高との違いを解説します。",
   targetQuery: "半導体企業 時価総額ランキング",
   searchIntent:
     "世界と日本の半導体関連企業を最新の時価総額で比較し、各社の業界内での役割、企業分類、売上高との違い、転職時の見方を理解したい",
@@ -17,7 +17,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   showExperienceBasis: false,
   basisLabel: "この記事の調査範囲",
   experienceBasis: [
-    "CompaniesMarketCapのSemiconductorsカテゴリから、2026年10月1日確認時点の世界上位30社を同時取得",
+    "CompaniesMarketCapのSemiconductorsカテゴリから、2026年10月16日基準の世界上位30社を10月17日に一括確認",
     "同じカテゴリの掲載順位から国・地域がJapanの企業を抽出し、日本企業上位10社を作成",
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
@@ -40,7 +40,13 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       title: "Largest semiconductor companies by market cap",
       url: "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/",
       publisher: "CompaniesMarketCap",
-      accessedAt: "2026-10-01",
+      accessedAt: "2026-10-17",
+    },
+    {
+      title: "Toyota Market capitalization（業界外の参考比較）",
+      url: "https://companiesmarketcap.com/toyota/marketcap/",
+      publisher: "CompaniesMarketCap",
+      accessedAt: "2026-10-17",
     },
     {
       title: "About CXMT",
@@ -49,10 +55,10 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       accessedAt: "2026-08-16",
     },
     {
-      title: "About Astera Labs",
-      url: "https://www.asteralabs.com/about/",
-      publisher: "Astera Labs",
-      accessedAt: "2026-10-01",
+      title: "About NXP",
+      url: "https://www.nxp.com/company/about-nxp:ABOUT-NXP",
+      publisher: "NXP Semiconductors",
+      accessedAt: "2026-10-17",
     },
     {
       title: "Overview",
@@ -70,7 +76,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       title: "NVIDIA Market Cap & Net Worth",
       url: "https://stockanalysis.com/stocks/nvda/market-cap/",
       publisher: "Stock Analysis / Nasdaq Data Link",
-      accessedAt: "2026-10-01",
+      accessedAt: "2026-10-17",
     },
     {
       title: "NVIDIA in Brief",
@@ -154,7 +160,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   readTime: "約12分",
   intro: {
     problem: "半導体企業のランキングを見ても、設計会社、製造会社、装置会社がなぜ同じ表に並ぶのか分かりにくくありませんか。",
-    conclusion: "世界1位はNVIDIA、日本1位は東京エレクトロンです（2026年10月1日基準）。世界TOP30と日本TOP10を、企業全体の時価総額で比較します。",
+    conclusion: "世界1位はNVIDIA、日本1位は東京エレクトロンです（2026年10月16日基準）。世界TOP30と日本TOP10を、参考のトヨタ自動車とともに企業全体の時価総額で比較します。",
     learnings: "世界TOP30、日本TOP10、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
   },
   overviewBlocks: [
@@ -206,8 +212,8 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
             { label: "6位", title: "AMD｜ファブレス", body: "CPU、GPU、アクセラレーターをデータセンター、PC、ゲーム、組み込みへ展開。同じファブレスでも、NVIDIAとは製品構成と対象市場が異なります。" },
             { label: "7位", title: "SK hynix｜メモリ・IDM", body: "DRAM、NAND、HBMが中心。設計に加え、量産能力、プロセス統合、歩留まりや品質が競争力に関わる企業です。" },
             { label: "8位", title: "ASML｜製造装置", body: "回路のパターン形成に使うEUV・DUV露光装置を供給。装置だけでなく、ソフトウェアやサービスも組み合わせてチップメーカーの量産を支えます。" },
-            { label: "9位", title: "Intel｜IDM・ファウンドリ", body: "自社製品の設計・製造に加え、外部顧客向けの製造事業にも取り組みます。製品事業と受託製造の両面を分けて見ると整理しやすくなります。" },
-            { label: "10位", title: "CXMT｜メモリ・IDM", body: "DRAMの研究開発、設計、製造、販売を担う中国企業です。時価総額の順位と、量産能力や製品市場のシェアは分けて確認します。" },
+            { label: "9位", title: "CXMT｜メモリ・IDM", body: "DRAMの研究開発、設計、製造、販売を担う中国企業です。時価総額の順位と、量産能力や製品市場のシェアは分けて確認します。" },
+            { label: "10位", title: "Intel｜IDM・ファウンドリ", body: "自社製品の設計・製造に加え、外部顧客向けの製造事業にも取り組みます。製品事業と受託製造の両面を分けて見ると整理しやすくなります。" },
           ],
         },
       ],
@@ -286,16 +292,16 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           type: "cards",
           columns: 2,
           items: [
-            { label: "AI", title: "AI計算基盤に関わる企業が上位", body: "首位NVIDIAに加え、ネットワーク半導体のBroadcom、CPU・GPUのAMD、メモリのMicronとSK hynixが上位7社に入っています。29位にはAIインフラ向け接続半導体のAstera Labsも入りました。" },
+            { label: "AI", title: "AI計算基盤に関わる企業が上位", body: "首位NVIDIAに加え、ネットワーク半導体のBroadcom、CPU・GPUのAMD、メモリのMicronとSK hynixが上位7社に入っています。企業ごとの役割は、設計・受託製造・装置などの分類とあわせて確認できます。" },
             { label: "ROLE", title: "設計企業と製造企業が同時に評価", body: "1位のNVIDIAはファブレス、2位のTSMCはファウンドリです。製造を持たない設計企業と、顧客製品を量産する製造企業が隣り合い、分業による産業構造が順位へ表れています。" },
-            { label: "REGION", title: "TOP30の半数が米国企業", body: "本社所在地ベースでは米国が15社です。中国と台湾が各4社、韓国と日本が各2社、オランダ・英国・ドイツが各1社でした。製造拠点や売上地域は本社所在地と一致するとは限りません。" },
+            { label: "REGION", title: "TOP30のうち14社が米国企業", body: "本社所在地ベースでは米国が14社です。中国と台湾が各4社、韓国・日本・オランダが各2社、英国とドイツが各1社でした。製造拠点や売上地域は本社所在地と一致するとは限りません。" },
             { label: "JAPAN", title: "日本は装置・検査領域が目立つ", body: "世界TOP30に入った日本企業は東京エレクトロンとアドバンテストで、どちらも装置関連です。日本TOP10でもローツェを含む7社を製造装置または検査・計測装置へ分類でき、材料ではSUMCOが入っています。" },
           ],
         },
       ],
       paragraphs: [
-        "今回の更新では、29位にAstera Labs、30位にUMCが入り、NXPとCoherentがTOP30から外れました。Astera LabsはAIラック向けの接続半導体、UMCはロジックや特殊プロセスを扱うファウンドリで、同じ時価総額表でも役割は異なります。",
-        "これらは2026年10月1日確認時点の構成です。株価変動で順位は入れ替わります。また、現在の時価総額から将来の株価、売上、採用数を予測することはできません。",
+        "10月1日版との比較では、NXPが28位でTOP30に入り、Astera Labsは31位で対象外になりました。NXPは車載・産業・IoT向けの半導体、30位のUMCは受託製造を担い、同じ時価総額表でも役割は異なります。",
+        "これらは2026年10月16日基準・10月17日確認の構成です。株価変動で順位は入れ替わります。また、現在の時価総額から将来の株価、売上、採用数を予測することはできません。",
       ],
     },
     {
@@ -374,7 +380,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         {
           type: "faq",
           items: [
-            { question: "世界で時価総額が最も大きい半導体企業は？", answer: "2026年10月1日確認時点ではNVIDIAで、約5.49兆ドルです。基準日時点の値であり、リアルタイムの時価総額ではありません。" },
+            { question: "世界で時価総額が最も大きい半導体企業は？", answer: "2026年10月16日基準ではNVIDIAで、約5.17兆ドルです。基準日時点の値であり、リアルタイムの時価総額ではありません。" },
             { question: "日本で時価総額が最も大きい半導体関連企業は？", answer: "東京エレクトロンです。同じデータセットで日本1位、世界20位の半導体製造装置メーカーです。" },
             { question: "NVIDIAとTSMCは何が違う？", answer: "NVIDIAはGPUなどを設計するファブレス、TSMCは顧客の設計を製造するファウンドリです。設計と製造を分担します。" },
             { question: "半導体製造装置メーカーもランキングに含まれる？", answer: "含まれます。ASML、Applied Materials、東京エレクトロンなど、基準カテゴリに含まれる装置企業も対象です。" },
@@ -389,7 +395,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "sources-method",
       heading: "出典・調査方法とデータ更新日",
-      lead: "ランキングの基準日とデータ確認日は2026年10月1日です。記事の編集更新日とは異なります。",
+      lead: "ランキングと参考のトヨタ自動車は2026年10月16日基準、データ確認日は10月17日です。基準日・確認日・記事の編集更新日を区別しています。",
       blocks: [
         {
           type: "mapping",
@@ -405,11 +411,11 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         {
           type: "note",
           title: "市場情報サービス間の差とTSMCの扱い",
-          body: "上位企業は別の市場情報サービスとも照合していますが、取得時刻、為替、発行済株式数、ADRの扱いで差が生じます。TSMCもNYSEのADR価格だけを単純に掛けず、基準ソースが示す企業全体の時価総額を使用。表の行ごとに異なるサイトの値を混ぜていません。",
+          body: "NVIDIAは別の市場情報サービスとも照合していますが、取得時刻、為替、発行済株式数、ADRの扱いで差が生じます。TSMCもNYSEのADR価格だけを単純に掛けず、基準ソースが示す企業全体の時価総額を使用。表の行ごとに異なるサイトの値を混ぜていません。",
         },
       ],
       paragraphs: [
-        "各市場の取引日・更新時刻は異なり、出典の株価データにも数分から数時間の遅延があり得ます。表は基準日時点のスナップショットで、リアルタイム値ではありません。数値の更新時は世界30社と日本10社を同じ基準日で差し替えます。",
+        "各市場の取引日・更新時刻や為替の反映には差があり、出典の株価データにも数分から数時間の遅延があり得ます。同じ基準日でも全社が同一時刻の値という意味ではありません。表は基準日時点のスナップショットで、リアルタイム値ではありません。数値の更新時は世界30社・日本10社と参考のトヨタ自動車を同じ基準日で差し替えます。",
         "本記事は半導体業界の構造と企業研究を目的とし、株式の購入・売却を推奨する投資助言ではありません。",
       ],
     }

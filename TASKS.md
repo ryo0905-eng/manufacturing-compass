@@ -1,6 +1,16 @@
 # TASKS
 
-## 2026-10-17：トヨタを物差しにする時価総額比較（実装済み・公開保留）
+## 2026-10-17：ランキングを10月16日基準へ更新し、トヨタ比較の保留を解消
+
+- ユーザー指定により、世界TOP30・日本TOP10と参考のトヨタを2026-10-16基準・10-17確認へ一括更新。CompaniesMarketCapの世界30社＋日本の圏外8社を同じ一覧で確認し、全38社の順位・数値を出典と照合した。NVIDIA・TSMC・トヨタの個社ページの日次記載で10-16を確認し、NVIDIAはStock Analysisでも同日5.17T USDを照合した。各市場の更新時刻・為替反映差は本文で説明する。
+- トヨタをverified・229.21B USDへ変更し、世界・日本両グラフの参考バー・倍率・出典説明と過去年末比較リンクを表示。NVIDIAはトヨタの約22.6倍、東京エレクトロンは約0.7倍。参考バーは順位リスト外、半導体表30＋10行と比較ボタン40件は維持。企業全体の値であり売上・従業員数ではないと明示する。
+- NXPが28位でTOP30に入り、Astera Labsは31位で対象外。CXMT9位・Intel10位、日本ではディスコ3位・ルネサス4位の順へ同期。記事冒頭・description・上位10社解説・地域集計（米国14社）・FAQ・出典・方法を更新した。NXP公式Aboutを確認。URL・タイトル・公開設定・canonicalと、2010〜2025年の履歴は維持。
+- `node tests/unit/ranking-company-compare.cjs`、`node tests/unit/article-improvements.cjs`、`npm run typecheck`を175秒の上限付きで各1回実行し、すべて成功。実データによる参考バー2件・倍率22件のSSR、基準日・確認日一致、順位・対象入替・国別社数、参考対象の表示条件、既存の選択・共有・年収表示、FAQ／metadata／canonicalを確認した。
+- 変更ファイル：`src/data/semiconductor-market-cap.ts`・`semiconductor-market-cap-reference.ts`、`src/content/guides/semiconductor-market-cap-ranking.ts`、`tests/unit/ranking-company-compare.cjs`・`article-improvements.cjs`、`docs/PRD.md`・`architecture.md`・`ranking-company-comparison-spec.md`、本記録。非公開のREF-001調査ノートにも出典と更新内容を追記した。
+- 本番反映・計測受信・実画面は未確認。dev・build・lint・ブラウザ操作・commit・pushは実施していない。
+- 推奨コミット：`feat: enable Toyota benchmark with October 16 market caps`
+
+## 2026-10-17：トヨタを物差しにする時価総額比較（初回実装・保留は後続更新で解消）
 
 - 時価総額記事の世界・日本上位10社グラフへ、順位リスト外の参考バー、茶系の識別表示、対トヨタ倍率、企業全体の時価総額という説明、基準日・金額・確認日・出典をSSRする機能を追加。参考企業を含む最大値で棒を描き、世界と日本では尺度が異なることを明示する。倍率は数値から小数第1位で計算し、0.0倍になる場合は0.1倍未満と表示する。
 - 日本グラフ直後から、既存の他業界比較・2025年・トヨタ選択済みタイムマシンへ接続。年末データの説明と既存article_internal_clickを使う。全順位表・比較40ボタン・選択対象38社・共有IDは維持。新API・依存・保存先・企業ページは追加していない。年収グラフは参考対象を省略した従来表示を維持する。

@@ -93,8 +93,8 @@ async function main() {
   const ids = ranking.sections.map(section => section.id);
   assert.deepEqual(JSON.parse(JSON.stringify(ids.slice(0, 2))), ['world-ranking', 'japan-ranking']);
   assert.ok(ids.indexOf('japan-ranking') < ids.indexOf('top-ten'));
-  assert.equal(ranking.sources.find(source => source.publisher === 'CompaniesMarketCap').accessedAt, '2026-10-01');
-  assert.ok(ranking.description.includes('2026年10月1日'));
+  assert.equal(ranking.sources.find(source => source.publisher === 'CompaniesMarketCap').accessedAt, '2026-10-17');
+  assert.ok(ranking.description.includes('2026年10月16日'));
   assert.equal(ranking.overviewBlocks[0].items.length, 3);
   assert.equal(salary.title, '半導体企業の平均年収ランキング｜日本の主要20社・2026年10月確認');
   assert.equal(salary.updatedAt, '2026-10-01');
