@@ -94,6 +94,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
     guide.showExperienceBasis !== false &&
     guide.basisLabel !== "この記事の調査・編集方針";
   const isMarketCapRanking = guide.slug === "semiconductor-market-cap-ranking";
+  const rankingTitlePeriod = isMarketCapRanking ? guide.title.match(/【[^】]+】/)?.[0] : undefined;
   const tableOfContents = guide.sections.length >= 4 ? (
     <nav className="guide-toc" aria-label="記事の目次">
       <strong>この記事の流れ</strong>
@@ -114,12 +115,17 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <header className="article-hero">
           {getPublishedEnglishTranslation(guide.slug) ? <GuideLanguageLink slug={guide.slug} locale="ja" /> : null}
           {isMarketCapRanking ? <>
-            <h1>{semiconductorMarketCapRankingHero.titleParts.map((part, index) => <Fragment key={part}>
-              {index > 0 ? <wbr /> : null}<span className="ranking-hero-chunk">{part}</span>
-            </Fragment>)}</h1>
-            <p className="ranking-hero-scope"><span className="ranking-hero-chunk">{semiconductorMarketCapRankingHero.metric}</span>｜{semiconductorMarketCapRankingHero.scopes.map((scope, index) => <Fragment key={scope}>
-              {index > 0 ? "・" : null}<span className="ranking-hero-chunk">{scope}</span>
-            </Fragment>)}</p>
+            <h1>
+              <span className="ranking-hero-title-main">{semiconductorMarketCapRankingHero.titleParts.map((part, index) => <Fragment key={part}>
+                {index > 0 ? <wbr /> : null}<span className="ranking-hero-chunk">{part}</span>
+              </Fragment>)}</span>
+              <span className="ranking-hero-title-detail">
+                <span className="ranking-hero-period ranking-hero-chunk">{rankingTitlePeriod}</span>
+                <span className="ranking-hero-scope">{semiconductorMarketCapRankingHero.scopes.map((scope, index) => <Fragment key={scope}>
+                  {index > 0 ? "・" : null}<span className="ranking-hero-chunk">{index === 0 ? semiconductorMarketCapRankingHero.metric : null}{scope}</span>
+                </Fragment>)}</span>
+              </span>
+            </h1>
             <p>{semiconductorMarketCapRankingHero.conclusion}</p>
             <small className="ranking-hero-meta">
               <span>基準日 <time dateTime={semiconductorMarketCapMeta.dataAsOf}>{semiconductorMarketCapMeta.dataAsOf.replaceAll("-", ".")}</time></span>

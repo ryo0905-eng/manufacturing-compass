@@ -1,5 +1,14 @@
 # TASKS
 
+## 2026-10-17：元のタイトル全文を保ち、表示の大きさと配置を整理
+
+- ユーザーの指定により、画面のh1を検索用guide.titleと同じ「半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本TOP10」の全文へ戻した。記事名は28〜36px、年月と比較範囲は小さく配置し、記事名の2語・年月・比較範囲のまとまりを保って折り返す。
+- 年月は既存guide.titleから参照し、別の日付定義や「最新」は追加していない。比較範囲の独立した補足段落をh1内へまとめ、短い結論・基準日／更新日／執筆者・移動リンクは維持した。検索用タイトル・description・構造化データ・canonical・本文・ランキング本体・他記事・共通型は変更していない。
+- `node tests/unit/ranking-company-compare.cjs`と`npm run typecheck`を175秒上限で各1回実行し、どちらも成功。h1全文とguide.titleの一致、年月の一度だけの表示と参照元、各語のまとまり、重複する補足段落の除去、既存結論・日付・metadata・構造化データ・他記事表示、既存ランキング／参考トヨタ／比較の回帰確認を通過した。
+- 差分と対象公開ファイルの禁止語を確認。dev・build・lint・ブラウザ操作・commit・pushは未実施。実画面・本番反映は未確認。
+- 変更ファイル：`src/app/(ja)/guides/[slug]/page.tsx`、`src/app/globals.css`、`src/content/guides/semiconductor-market-cap-ranking.ts`、`tests/unit/ranking-company-compare.cjs`、`docs/architecture.md`・`seo.md`、本記録。
+- 推奨コミット：`style: restore full ranking title with readable typography`
+
 ## 2026-10-17：トヨタの参考行を金額順に挿入
 
 - 時価総額記事の世界・日本両一覧で、トヨタを表示時だけ金額の降順に挿入。2026-10-16基準の掲載値では世界のArm（14位）とKLA（15位）の間、日本の東京エレクトロン（国内1位）の前に表示する。同額の場合は同額の半導体企業の後ろに置く。

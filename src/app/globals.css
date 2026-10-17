@@ -17798,6 +17798,8 @@ body {
 }
 
 .guide-page.ranking-article .article-hero h1 {
+  display: grid;
+  gap: 8px;
   font-size: clamp(28px, 4vw, 36px);
   line-height: 1.35;
   text-wrap: wrap;
@@ -17807,10 +17809,20 @@ body {
 
 .guide-page.ranking-article .article-hero > p { margin: 0; }
 
-.guide-page.ranking-article .article-hero > p.ranking-hero-scope {
+.ranking-article .ranking-hero-title-detail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-size: clamp(16px, 2.2vw, 22px);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+.ranking-article .ranking-hero-period {
   color: #60666d;
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 0.85em;
 }
 
 .guide-page.ranking-article .article-hero > small.ranking-hero-meta {
