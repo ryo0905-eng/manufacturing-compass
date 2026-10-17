@@ -212,7 +212,7 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
           items: [
             { label: "求人票の給与・待遇で、確認したいことを整理する", href: jobNoteMeta.href, description: "手元の求人票を見ながら「給与・待遇の内訳」の記載状況を選ぶと、不明点を確認する質問を作れます。給与の項目だけでも開始でき、金額・会社名の入力は不要です。" },
             { label: "半導体業界地図を見る", href: "/industry-map", description: "企業がバリューチェーンのどこを担うか確認する" },
-            { label: "企業一覧を見る", href: "/companies", description: "職種、勤務地、企業分類から候補を広げる" },
+            { label: "企業一覧を見る", href: "/industry-map", description: "職種、勤務地、企業分類から候補を広げる" },
             { label: "時価総額ランキング", href: "/guides/semiconductor-market-cap-ranking", description: "給与とは別の企業規模・市場評価を比較する" },
             { label: "Career Compass", href: "/career-compass", description: "現在の経験から相談論点と次の行動を整理する" },
           ],

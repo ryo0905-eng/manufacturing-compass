@@ -279,7 +279,7 @@ export function ChipPulseDashboard() {
               <Link href="/guides/semiconductor-equipment-sales-ranking" onClick={() => relatedClick("equipment_ranking")}><strong>装置ランキング</strong><span>売上規模と対応工程</span></Link>
               <Link href="/guides/memory-manufacturer-ranking" onClick={() => relatedClick("memory_ranking")}><strong>メモリ比較</strong><span>DRAM・NANDの構造</span></Link>
               <Link href="/semiconductor-map" onClick={() => relatedClick("location_map")}><strong>企業・工場マップ</strong><span>国内拠点を探す</span></Link>
-              <Link href="/companies" onClick={() => relatedClick("companies")}><strong>半導体企業一覧</strong><span>事業・職種から企業研究</span></Link>
+              <Link href="/industry-map" onClick={() => relatedClick("companies")}><strong>半導体企業一覧</strong><span>事業・職種から企業研究</span></Link>
             </div>
           </nav>
         </div>

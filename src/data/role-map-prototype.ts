@@ -69,7 +69,7 @@ export const roleMapProfiles: RoleProfile[] = [
     ],
     relatedLinks: [
       { label: 'Career Compassで次の準備を整理する', href: '/career-compass' },
-      { label: '半導体企業を調べる', href: '/companies' },
+      { label: '半導体企業を調べる', href: '/industry-map' },
     ],
   },
   {

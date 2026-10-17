@@ -1,5 +1,17 @@
 # TASKS
 
+## 2026-10-17：企業一覧を業界地図へ統合
+
+- 企業探索を`/industry-map`へ一本化。全44社（詳細37社・簡易紹介7社）を8領域へ表示し、従来31社の領域内順序の後ろへ追加13社を元データ順に加える。背景色・白いロゴカードを維持し、簡易紹介にラベルと公式リンクを表示。検索・地域・拠点・既存6セグメント・職種表示・概要を1画面へ集約し、日本企業一覧・主力製品も移設。
+- `next.config.ts`の完全一致308と旧ページのpermanentRedirectで`/companies`だけを転送。空値・複数値を含むqueryを保持。企業詳細・外資系企業の日本の仕事・比較URLは維持。旧検索・日本企業・分類見出し・領域アンカーを移設／別名で残し、全44社の企業指定で絞り込みを解除して概要を開く。同ページのquery変更は部品のkeyで初期検索へ反映する。
+- タイトル・説明・canonical・query指定時のnoindexを統合先へ合わせ、44社のItemListを追加。sitemapは旧一覧トップだけを削除し、メニュー／トップを「業界地図・企業一覧」1入口へ整理。記事・関連ページ・構造化データの旧一覧リンクを直接更新した。工場新設・国内拠点マップの機能変更はなく、拠点マップ内は関連リンクの変更だけ。
+- 計測は既存industry_map系を`source_page=/industry-map`・`ui_version=unified-atlas-v2`で識別し、旧companies系を重ねて送らない。自由入力の検索語をイベントへ送らない。移行前の期間・検索語実績と未確認項目を非公開記録へ追記。本番反映・通常利用の受信確認後14日・28日で旧新URL合計を観測する。観測開始日は未確定。
+- `node tests/unit/company-explorer.cjs`を1回実行。44社の件数・分類・順序、37詳細／7簡易紹介の出典とURL、NFKC／全語検索・複合条件・0件・解除・初期検索、全44社の企業指定、概要・フォーカス・画像失敗の模擬操作、計測は通過。その後SSRでテストのnext/navigation模擬にusePathnameがなく停止（exit 1）。模擬を補完したが再試行ルールに従い再実行していない。SSR以降のアンカー・metadata・ItemList・転送・sitemap・ロゴ／CSSのテストは未完了とする。
+- `node tests/unit/industry-atlas-data.cjs`は1回成功。8領域の基礎定義・元31社の固定順に重複がなく、簡易紹介7社の出典・職種・関係を確認。`npm run typecheck`は1回成功。各コマンド175秒の監視付きで3分以内。`git diff --check`と変更した公開ファイルの禁止語照合を実施。SSR・検索設定・転送・詳細ルートの維持はソース差分を確認し、実行確認済みとは扱わない。
+- ブラウザ仕様を44社・旧URLの転送・query／fragment継承・追加企業の概要・320／390／768／1280px・JavaScriptなしへ更新したが未実行。実ブラウザ・HTTP転送・実端末・本番画像配信・GA4受信・検索効果は未確認。dev・build・lint・commit・pushは未実行。
+- 主な変更：`next.config.ts`、`src/app/(ja)/industry-map/page.tsx`・`companies/page.tsx`・`sitemap.ts`、`CompanyExplorer.tsx`・CSS Module・`IndustryAtlas.tsx`・`CompanySearchJump.tsx`、探索型・組み立てロジック・共通CSS。`FilterableCompanies.tsx`を削除。ヘッダー／トップ・記事7本・関連ページ／部品の一覧トップへのリンクを更新。対象単体／ブラウザ仕様、PRD・architecture・design-system・SEO・計測・文書索引・企業探索仕様と本記録を更新。全変更ファイルはGit差分を参照。
+- 推奨コミット：`feat: consolidate company directory into industry map`
+
 ## 2026-10-17：業界地図の領域別の背景色を復元
 
 - ロゴカードへの共通化で見出し線だけになっていた色分けを見直し、業界地図8領域の淡い背景色と枠色を旧配色へ復元。白い企業カード・ロゴ枠、領域名、検索中・スマホの配置を維持。企業一覧の背景は従来どおり淡いグレーとする。

@@ -121,7 +121,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `/industry-map`: 8つの事業領域を固定したゾーンに分け、役割、代表企業、製品分野を同時に俯瞰する。検索・絞り込み・職種表示・企業詳細パネルを提供し、静的な領域一覧も同じページに残す
 - `/semiconductor-map`: 国内の半導体関連拠点を勤務地単位で探す。全国URLだけをindexし、絞り込みパラメータ付きURLは `noindex, follow` とする
 - `/segments/[slug]`
-- `/companies`
+- `/companies`（一覧トップだけを`/industry-map`へ308転送）
 - `/companies/[slug]`
 - `/compare`
 - `/compare/[slug]`
@@ -192,7 +192,7 @@ video/docs/                 制作フロー、公開記録、計測ログ
 
 ## 業界地図のデータフロー
 
-2026-10-17：IndustryAtlasとFilterableCompaniesはServer Componentとして、CompanyExplorerItemを組み立てて共通のCompanyExplorerへ渡す。主領域の追加対応は`src/data/company-explorer.ts`、組み立てと検索は`src/lib/company-explorer.ts`に置く。31社の固定ゾーンと37社の領域別一覧で、検索・ロゴカード・native dialog・計測文脈を共通化。元のCompany・セグメント分類と公開URLを維持し、必要な概要・出典を渡す。ランキングの履歴データをロゴのために読み込まない。[詳細](./company-explorer-spec.md)。
+2026-10-17：IndustryAtlasはServer Componentとして、企業詳細37社と出典付き簡易紹介7社をCompanyExplorerItemへ組み立て、CompanyExplorerへ渡す。主領域の追加対応は`src/data/company-explorer.ts`、組み立てと検索は`src/lib/company-explorer.ts`に置く。既存31社の領域内順序の後ろへ追加13社を企業データ順で加え、8領域・44社を検索する。元のCompany・セグメント分類は変更しない。ページがqueryの先頭値を読み、query変更時は探索部品をkeyで再マウントして初期検索を適用する。ロゴはランキングの履歴データに依存しない。旧一覧はNext設定による完全一致308転送とサーバーページのpermanentRedirectで統合先へ案内し、クエリ値・重複値を保持する。詳細以下のルートは転送しない。[詳細](./company-explorer-spec.md)。
 
 ```text
 静的な領域・役割・既存企業参照・出典付き簡易企業・職種の接点

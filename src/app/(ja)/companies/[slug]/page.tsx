@@ -98,7 +98,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
           <Link className="button ghost" href={`/companies/${company.slug}#career-prep` as Route}>
             準備を見る
           </Link>
-          <Link className="button ghost" href="/companies">
+          <Link className="button ghost" href="/industry-map">
             企業一覧に戻る
           </Link>
         </div>

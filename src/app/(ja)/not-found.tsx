@@ -8,7 +8,7 @@ export default function NotFound() {
         <h1>ページが見つかりません</h1>
         <p>企業データや比較ページは、公開情報を確認しながら順次追加しています。</p>
         <div className="actions">
-          <Link className="button primary" href="/companies">
+          <Link className="button primary" href="/industry-map">
             企業一覧を見る
           </Link>
           <Link className="button ghost" href="/">

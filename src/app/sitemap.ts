@@ -73,7 +73,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/semiconductor-watch/earnings",
     "/semiconductor-watch/earnings/compare",
     "/semiconductor-map",
-    "/companies",
     "/compare",
     "/guides",
     "/guides/industry",

@@ -20,7 +20,7 @@ export function AffiliateCta({
         <CareerAgentsLink className="button primary">
           相談の選択肢を見る
         </CareerAgentsLink>
-        <Link className="button ghost" href="/companies">
+        <Link className="button ghost" href="/industry-map">
           企業研究を続ける
         </Link>
       </div>

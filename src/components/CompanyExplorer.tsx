@@ -9,23 +9,19 @@ import { trackEvent } from "@/lib/analytics";
 import { filterExplorerCompanies, normalizeCompanySearch } from "@/lib/company-explorer";
 import { readIndustryCompanyHash } from "@/lib/industry-map-entry";
 import type { IndustrySegment } from "@/types/content";
-import type { CompanyExplorerFilters, CompanyExplorerItem, CompanyExplorerMode, CompanyExplorerSource } from "@/types/company-explorer";
+import type { CompanyExplorerFilters, CompanyExplorerItem } from "@/types/company-explorer";
 import styles from "./CompanyExplorer.module.css";
 
-const UI_VERSION = "company-explorer-v1";
+const UI_VERSION = "unified-atlas-v2";
 const emptyFilters: CompanyExplorerFilters = { query: "", region: "all", locationsOnly: false, segment: "all" };
 
 type CompanyExplorerProps = {
-  mode: CompanyExplorerMode;
-  sourcePage: CompanyExplorerSource;
   items: CompanyExplorerItem[];
-  fallbackItems?: CompanyExplorerItem[];
   initialQuery?: string;
   segments?: IndustrySegment[];
 };
 
-export function CompanyExplorer({ mode, sourcePage, items, fallbackItems = [], initialQuery = "", segments = [] }: CompanyExplorerProps) {
-  const atlas = mode === "atlas";
+export function CompanyExplorer({ items, initialQuery = "", segments = [] }: CompanyExplorerProps) {
   const rootRef = useRef<HTMLElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const originRef = useRef<HTMLButtonElement | null>(null);
@@ -39,13 +35,10 @@ export function CompanyExplorer({ mode, sourcePage, items, fallbackItems = [], i
   const groups = industryMapZones.map((zone) => ({ zone, companies: filtered.filter((company) => company.primaryZone === zone.id) }))
     .filter((group) => group.companies.length > 0);
   const isFiltering = Boolean(filters.query.trim() || filters.region !== "all" || filters.locationsOnly || filters.segment !== "all");
-  const fallback = atlas && filtered.length === 0 && filters.query.trim()
-    ? filterExplorerCompanies(fallbackItems, filters).filter((company) => !items.some((item) => item.id === company.id)).slice(0, 3)
-    : [];
 
   function record(eventName: string, properties: Parameters<typeof trackEvent>[1] = {}) {
     try {
-      trackEvent(eventName, { ...properties, source_page: sourcePage, ui_version: UI_VERSION });
+      trackEvent(eventName, { ...properties, source_page: "/industry-map", ui_version: UI_VERSION });
     } catch {
       // Analytics availability must not prevent company research.
     }
@@ -61,7 +54,6 @@ export function CompanyExplorer({ mode, sourcePage, items, fallbackItems = [], i
   }
 
   useEffect(() => {
-    if (!atlas) return;
     let frame: number | undefined;
     function restore() {
       const entry = readIndustryCompanyHash(window.location.hash, items.map((company) => company.id));
@@ -91,47 +83,43 @@ export function CompanyExplorer({ mode, sourcePage, items, fallbackItems = [], i
     return () => { window.removeEventListener("hashchange", restore); if (frame !== undefined) cancelAnimationFrame(frame); };
     // The server supplies a fixed catalog for each page. Filters do not change it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [atlas, items]);
+  }, [items]);
 
   function openCompany(company: CompanyExplorerItem, trigger: HTMLButtonElement) {
     originRef.current = trigger;
     setSelected(company);
-    if (atlas) {
-      const properties = { node_type: "company", node_id: company.id, mode: "editorial", view: "atlas", entry_point: "company_card" };
-      record("industry_map_node_open", properties);
-      record("industry_map_detail_view", properties);
-    } else record("companies_summary_open", { company_id: company.id, placement: "company_card" });
+    const properties = { node_type: "company", node_id: company.id, mode: "editorial", view: "atlas", entry_point: "company_card" };
+    record("industry_map_node_open", properties);
+    record("industry_map_detail_view", properties);
   }
 
   function filterChanged(next: Partial<CompanyExplorerFilters>, filterType: string, value?: string | boolean) {
     setFilters((current) => ({ ...current, ...next }));
     setSelected(null);
-    if (atlas) record("industry_map_filter_use", { filter_type: filterType, filter_value: value });
-    else record("companies_filter_use", { filter_type: filterType, filter_value: value });
+    record("industry_map_filter_use", { filter_type: filterType, filter_value: value });
   }
 
   function recordSearch() {
     const query = normalizeCompanySearch(filters.query);
     if (!query || query === lastSearch.current) return;
     lastSearch.current = query;
-    record(atlas ? "industry_map_search_result" : "companies_filter_use", { ...(atlas ? {} : { filter_type: "keyword" }), result_count: filtered.length });
+    record("industry_map_search_result", { result_count: filtered.length });
   }
 
   function contentClick(company: CompanyExplorerItem, destination: string, placement: string) {
-    if (atlas) record("industry_map_content_click", { company_id: company.id, node_type: "company", node_id: company.id, destination, link_location: placement });
-    else record("companies_company_open", { company_id: company.id, destination, placement });
+    record("industry_map_content_click", { company_id: company.id, node_type: "company", node_id: company.id, destination, link_location: placement });
   }
 
   return (
-    <section ref={rootRef} className={`${styles.root} ${atlas ? styles.atlas : styles.directory}${isFiltering ? ` ${styles.filtering}` : ""}`} id={atlas ? undefined : "company-search"} tabIndex={atlas ? undefined : -1} aria-labelledby={atlas ? "industry-atlas-title" : "company-search-title"}>
+    <section ref={rootRef} className={`${styles.root} ${styles.atlas}${isFiltering ? ` ${styles.filtering}` : ""}`} id="company-search" tabIndex={-1} aria-labelledby="industry-atlas-title">
       <header className={styles.heading}>
         <div>
-          <h2 id={atlas ? "industry-atlas-title" : "company-search-title"}>{atlas ? "企業を眺めながら、半導体業界の分業をつかむ" : "企業を探す"}</h2>
-          <p>{atlas ? "設計・製造・後工程と、それを支える材料・装置。ロゴや企業名から概要を開けます。" : "主な役割ごとに掲載企業をまとめました。ロゴや企業名から概要を開き、企業詳細へ進めます。"}</p>
+          <h2 id="industry-atlas-title"><span id="company-search-title">業界のつながりから企業を探す</span></h2>
+          <p>設計・製造・後工程と、それを支える材料・装置。ロゴや企業名から概要を開き、企業詳細や公式情報へ進めます。</p>
         </div>
-        <span>{atlas ? "代表" : "掲載"}{items.length}社</span>
+        <span>掲載{items.length}社</span>
       </header>
-      {atlas ? <p className={styles.readingGuide}>設計と製造は分業し、材料・装置・検査が工程を横断して支えます。メモリなどの製品分野は企業概要で確認できます。</p> : null}
+      <p className={styles.readingGuide}>設計と製造は分業し、材料・装置・検査が工程を横断して支えます。メモリなどの製品分野は企業概要で確認できます。</p>
       {notice ? <p role="status" className={styles.empty}>{notice}</p> : null}
       <div className={styles.toolbar}>
         <label className={styles.search}>
@@ -141,40 +129,40 @@ export function CompanyExplorer({ mode, sourcePage, items, fallbackItems = [], i
         <label><span>本社地域</span><select value={filters.region} onChange={(event) => filterChanged({ region: event.target.value as CompanyExplorerFilters["region"] }, "region", event.target.value)}>
           <option value="all">日本・海外すべて</option><option value="japan">日本企業</option><option value="overseas">海外企業</option>
         </select></label>
-        {!atlas ? <label><span>製品・事業分野</span><select value={filters.segment} onChange={(event) => filterChanged({ segment: event.target.value }, "segment", event.target.value)}>
+        <label><span>製品・事業分野</span><select value={filters.segment} onChange={(event) => filterChanged({ segment: event.target.value }, "segment", event.target.value)}>
           <option value="all">すべての分野</option>{segments.map((segment) => <option key={segment.id} value={segment.id}>{segment.name}</option>)}
-        </select></label> : null}
+        </select></label>
         <label className={styles.checkbox}><input type="checkbox" checked={filters.locationsOnly} onChange={(event) => filterChanged({ locationsOnly: event.target.checked }, "locations", event.target.checked)} />国内拠点情報あり</label>
-        {atlas ? <button type="button" aria-pressed={showCareers} onClick={() => { setShowCareers(!showCareers); record("industry_map_career_layer_change", { enabled: !showCareers }); }}>職種との接点</button> : null}
-        {isFiltering ? <button type="button" onClick={() => { setFilters({ ...emptyFilters }); setSelected(null); lastSearch.current = ""; record(atlas ? "industry_map_filter_use" : "companies_filter_use", { filter_type: "clear" }); }}>条件をクリア</button> : null}
+        <button type="button" aria-pressed={showCareers} onClick={() => { setShowCareers(!showCareers); record("industry_map_career_layer_change", { enabled: !showCareers }); }}>職種との接点</button>
+        {isFiltering ? <button type="button" onClick={() => { setFilters({ ...emptyFilters }); setSelected(null); lastSearch.current = ""; record("industry_map_filter_use", { filter_type: "clear" }); }}>条件をクリア</button> : null}
         <output aria-live="polite">{filtered.length}社</output>
       </div>
-      {groups.length ? <nav className={styles.categories} aria-label={atlas ? "業界地図の領域" : "企業一覧の領域"}>{groups.map(({ zone }) => <a key={zone.id} href={`#${atlas ? "industry-zone" : "directory-zone"}-${zone.id}`} onClick={() => { if (atlas) record("industry_map_category_click", { category: zone.id, destination: "map_zone" }); }}>{zone.label}</a>)}</nav> : null}
+      <p className={styles.note}>製品・事業分野の6分類は企業詳細のある37社が対象です。簡易紹介7社は、企業名・製品・職種の検索で探せます。</p>
+      {groups.length ? <nav className={styles.categories} aria-label="業界地図の領域">{groups.map(({ zone }) => <a key={zone.id} href={`#industry-zone-${zone.id}`} onClick={() => { record("industry_map_category_click", { category: zone.id, destination: "map_zone" }); }}>{zone.label}</a>)}</nav> : null}
       {!filtered.length ? <div className={styles.empty} role="status">
-        <strong>{atlas ? "地図の代表企業には一致しませんでした" : "条件に一致する企業はありませんでした"}</strong><p>検索語を短くするか、条件を解除してください。</p>
-        {fallback.length ? <><p>企業一覧には、次の企業を掲載しています。</p><ul>{fallback.map((company) => <li key={company.id}><Link href={`/companies/${company.slug}` as Route} onClick={() => contentClick(company, "company", "empty_result")}>{company.nameJa}の企業詳細</Link></li>)}</ul></> : null}
-        {atlas ? <Link href="/companies">全掲載企業から探す</Link> : null}
+        <strong>条件に一致する企業はありませんでした</strong><p>検索語を短くするか、条件を解除してください。</p>
       </div> : null}
-      {atlas ? <div className={styles.flow} aria-label="半導体産業の一般的な役割の流れ">
+      <div className={styles.flow} aria-label="半導体産業の一般的な役割の流れ">
         {industryMapZoneRelations.slice(0, 3).map((relation) => <p key={`${relation.from}-${relation.to}`}><strong>{industryMapZones.find((zone) => zone.id === relation.from)?.label}</strong><span aria-hidden="true"> → </span><strong>{industryMapZones.find((zone) => zone.id === relation.to)?.label}</strong><small>{relation.label}</small></p>)}
         <p className={styles.flowNote}>材料・製造装置・検査装置は複数工程を支えます。矢印は一般的な役割の接点で、個別企業の取引関係ではありません。</p>
-      </div> : null}
+      </div>
       <div className={styles.groups}>
-        {groups.map(({ zone, companies }) => <section key={zone.id} data-zone={zone.id} className={styles.zone} id={`${atlas ? "industry-zone" : "directory-zone"}-${zone.id}`}>
-          <header className={styles.zoneHeading}><h3>{zone.label}</h3><span>{companies.length}社</span>{atlas ? <p>{zone.description}</p> : null}</header>
-          <div className={styles.cards}>{companies.map((company) => <article key={company.id} className={styles.card} data-atlas-company={atlas ? company.id : undefined} data-company-explorer-company={company.id}>
+        {groups.map(({ zone, companies }) => <section key={zone.id} data-zone={zone.id} className={styles.zone} id={`industry-zone-${zone.id}`}>
+          <span id={`directory-zone-${zone.id}`} className={styles.anchor} aria-hidden="true" />
+          <header className={styles.zoneHeading}><h3>{zone.label}</h3><span>{companies.length}社</span><p>{zone.description}</p></header>
+          <div className={styles.cards}>{companies.map((company) => <article key={company.id} className={styles.card} data-atlas-company={company.id} data-company-explorer-company={company.id}>
             <button type="button" aria-label={`${company.nameJa}の概要を見る`} aria-haspopup="dialog" aria-pressed={selected?.id === company.id} onClick={(event) => openCompany(company, event.currentTarget)}>
               <CompanyCardLogo companyId={company.id} name={company.name} size="compact" />
-              <strong>{company.nameJa}</strong><span>{company.businessModel}</span>
+              <strong>{company.nameJa}</strong>{company.profileKind === "map" ? <small className={styles.profileLabel}>簡易紹介</small> : null}<span>{company.businessModel}</span>
             </button>
             {company.slug ? <Link href={`/companies/${company.slug}` as Route} onClick={() => contentClick(company, "company", "company_card")} aria-label={`${company.nameJa}の企業詳細`}>企業詳細 <span aria-hidden="true">→</span></Link>
               : <a href={company.websiteUrl} target="_blank" rel="noreferrer" onClick={() => contentClick(company, "official_source", "company_card")} aria-label={`${company.nameJa}の公式情報（新しいタブ）`}>公式情報 <span aria-hidden="true">↗</span></a>}
           </article>)}</div>
-          {atlas && showCareers ? <div className={styles.careers}><strong>この領域と接点のある職種</strong>{zone.careerIds.map((id) => industryMapCareers.find((career) => career.id === id)).filter((career) => career !== undefined).slice(0, 2).map((career) => <p key={career.id}><b>{career.label}</b><span>{career.description}</span><Link href={`/companies?query=${encodeURIComponent(career.query)}` as Route}>関連企業を探す</Link></p>)}<Link href="/career-compass">経験との接点を整理する</Link></div> : null}
-          {atlas ? <Link className={styles.zoneLink} href={zone.guideHref as Route}>{zone.guideLabel} <span aria-hidden="true">→</span></Link> : null}
+          {showCareers ? <div className={styles.careers}><strong>この領域と接点のある職種</strong>{zone.careerIds.map((id) => industryMapCareers.find((career) => career.id === id)).filter((career) => career !== undefined).slice(0, 2).map((career) => <p key={career.id}><b>{career.label}</b><span>{career.description}</span><Link href={`/industry-map?query=${encodeURIComponent(career.query)}` as Route}>関連企業を探す</Link></p>)}<Link href="/career-compass">経験との接点を整理する</Link></div> : null}
+          <Link className={styles.zoneLink} href={zone.guideHref as Route}>{zone.guideLabel} <span aria-hidden="true">→</span></Link>
         </section>)}
       </div>
-      <p className={styles.note}>分類は主な役割による整理です。一社が複数の分野を担う場合があります。{atlas ? `地図の分類更新：${industryMapMetadata.lastUpdated}。` : "製品・事業分野の絞り込みは、会社ごとの複数分類に対応します。"}</p>
+      <p className={styles.note}>分類は主な役割による整理です。一社が複数の分野を担う場合があります。地図の基本分類更新：{industryMapMetadata.lastUpdated}。</p>
       <p className={styles.credit}>ロゴは企業識別のために掲載しています。画像提供：<a href="https://companiesmarketcap.com/" target="_blank" rel="noreferrer">CompaniesMarketCap</a>／<a href="https://companieslogo.com/" target="_blank" rel="noreferrer">CompaniesLogo</a>。権利は各権利者に帰属します。</p>
       {selected ? <CompanyExplorerDialog company={selected} onClose={closeDetail} onNavigate={(destination) => contentClick(selected, destination, "detail_panel")} /> : null}
     </section>

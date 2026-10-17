@@ -617,7 +617,7 @@ export function IndustryMapExplorer({ companies, totalCompanyCount }: IndustryMa
           ) : null}
           <div>
             <Link
-              href="/companies#company-search-title"
+              href="/industry-map#company-search-title"
               onClick={() => trackIndustryMapEvent("industry_map_content_click", {
                 destination: "companies", mode, view, link_location: "search_help",
               })}
@@ -1007,7 +1007,7 @@ function MapDetailPanel({
       <div className="industry-explorer__detail-actions">
         <Link
           className="industry-explorer__detail-link"
-          href={`/companies?query=${encodeURIComponent(career.query)}` as Route}
+          href={`/industry-map?query=${encodeURIComponent(career.query)}` as Route}
           onClick={() => trackContentClick({ career_id: career.id, destination: "companies" })}
         >
           関連企業を探す <span aria-hidden="true">→</span>

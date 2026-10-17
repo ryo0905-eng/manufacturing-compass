@@ -6526,7 +6526,8 @@ select {
   --company-accent: #737b43;
 }
 
-.companies-page {
+.companies-page,
+.companies-japan {
   --directory-border: #dfe4e7;
 }
 
@@ -19061,7 +19062,7 @@ body {
   line-height: 1.35;
 }
 
-.industry-map-hero > div > p:last-child {
+.industry-map-hero > div > p:not(.section-label) {
   max-width: 760px;
   margin: 0;
   color: #59616a;
@@ -20991,3 +20992,6 @@ body {
 .guide-comparison-table tbody th { min-width: 130px; }
 .guide-comparison-table small { display: block; margin-top: 6px; font-weight: 400; }
 .guide-comparison-table:focus-visible { outline: 2px solid #1769aa; outline-offset: 3px; }
+
+/* Fragment aliases retained when the company directory moved into the atlas. */
+.company-explorer-legacy-anchor { display: block; height: 0; scroll-margin-top: 80px; }

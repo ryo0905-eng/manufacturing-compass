@@ -391,7 +391,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
             { label: "検査・計測装置メーカー", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "ウェーハを自動搬送して検査する装置を見る" },
             { label: "真空ポンプメーカー", href: "/guides/semiconductor-vacuum-pump-manufacturers", description: "ロードロック・真空搬送を支える排気系を見る" },
             { label: "半導体業界地図", href: "/industry-map", description: "搬送・装置が材料、前工程、検査、後工程をどう支えるか見る" },
-            { label: "半導体企業一覧", href: "/companies", description: "製造装置企業を日本・海外、本社地域、職種から検索する" },
+            { label: "半導体企業一覧", href: "/industry-map", description: "製造装置企業を日本・海外、本社地域、職種から検索する" },
           ],
         },
       ],

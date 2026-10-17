@@ -207,7 +207,7 @@ export const efemEnglishGuide: EnglishGuideArticle = {
           { label: "Inspection and metrology equipment (Japanese)", href: "/guides/semiconductor-inspection-equipment-manufacturers", description: "Explore automated handling for wafer inspection and measurement." },
           { label: "Vacuum pump manufacturers (Japanese)", href: "/guides/semiconductor-vacuum-pump-manufacturers", description: "Understand the pumping systems behind load locks and vacuum transfer." },
           { label: "Semiconductor industry map (Japanese)", href: "/industry-map", description: "Place equipment, materials and manufacturing stages in the wider industry." },
-          { label: "Company directory (Japanese)", href: "/companies", description: "Explore semiconductor companies by business area." },
+          { label: "Company directory (Japanese)", href: "/industry-map", description: "Explore semiconductor companies by business area." },
         ] },
       ],
       paragraphs: [

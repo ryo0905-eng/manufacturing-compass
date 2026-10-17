@@ -54,7 +54,7 @@ export default function CareerConsultationPage() {
             経験と近い職種を整理する
           </CareerCompassLink>
           <Link className="button ghost" href={jobNoteMeta.href}>求人票の確認ノートを作る</Link>
-          <Link className="button ghost" href="/companies">
+          <Link className="button ghost" href="/industry-map">
             企業を見直す
           </Link>
         </div>

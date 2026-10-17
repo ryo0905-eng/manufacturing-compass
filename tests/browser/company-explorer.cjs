@@ -9,7 +9,7 @@ const { chromium } = require('playwright');
     const errors = []; page.on('pageerror', e => errors.push(e.message));
     for (const width of [320, 390, 768, 1280]) {
       await page.setViewportSize({ width, height: 900 });
-      for (const [route, count] of [['/industry-map', 31], ['/companies', 37]]) {
+      for (const [route, count] of [['/industry-map', 44], ['/companies', 44]]) {
         await page.goto(base + route);
         assert.equal(await page.locator('[data-company-explorer-company]').count(), count);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
@@ -24,8 +24,9 @@ const { chromium } = require('playwright');
     }
     await page.goto(base + '/companies?query=ＮＶＩＤＩＡ%20GPU');
     assert.equal(await page.locator('[data-company-explorer-company]').count(), 1);
+    assert.ok(page.url().includes('/industry-map?query='));
     await page.getByRole('button', { name: '条件をクリア', exact: true }).click();
-    assert.equal(await page.locator('[data-company-explorer-company]').count(), 37);
+    assert.equal(await page.locator('[data-company-explorer-company]').count(), 44);
     await page.getByLabel('本社地域', { exact: true }).selectOption('japan');
     await page.getByLabel('国内拠点情報あり').check();
     assert.ok(await page.locator('[data-company-explorer-company]').count() > 0);
@@ -36,17 +37,23 @@ const { chromium } = require('playwright');
     await page.getByRole('button', { name: '閉じる' }).click();
     assert.ok(await page.locator('[data-atlas-company="nvidia"] button').isFocused());
     await page.getByLabel('企業名・製品・職種で検索', { exact: true }).fill('Broadcom');
-    assert.equal(await page.locator('[data-company-explorer-company]').count(), 0);
+    assert.equal(await page.locator('[data-company-explorer-company]').count(), 1);
     assert.ok(await page.getByRole('link', { name: 'ブロードコムの企業詳細', exact: true }).isVisible());
+    await page.goto(base + '/companies#japanese-companies');
+    assert.ok(page.url().endsWith('/industry-map#japanese-companies'));
+    await page.goto(base + '/industry-map?query=nonexistentword#company=broadcom');
+    await page.getByRole('dialog').waitFor();
+    assert.equal(await page.locator('[data-company-explorer-company]').count(), 44);
+    await page.getByRole('button', { name: '閉じる' }).click();
     await page.goto(base + '/industry-map#company=unknown');
     await page.getByText('指定された企業は地図に未収録です。地図から企業を選んでください。', { exact: true }).waitFor();
     assert.equal(await page.getByRole('dialog').count(), 0);
     const noJs = await browser.newContext({ javaScriptEnabled: false });
     const staticPage = await noJs.newPage(); await staticPage.goto(base + '/companies');
-    assert.equal(await staticPage.locator('[data-company-explorer-company]').count(), 37);
+    assert.equal(await staticPage.locator('[data-company-explorer-company]').count(), 44);
     assert.ok(await staticPage.locator('[data-company-explorer-company="nvidia"] a[href="/companies/nvidia"]').isVisible());
     await noJs.close();
     assert.deepEqual(errors, []);
-    console.log('PASS: four widths, native dialog/focus/Escape, search/filters/fallback/hash and no-JavaScript company links.');
+    console.log('PASS: four widths, native dialog/focus/Escape, redirect/query/anchors/filters/all-company hash and no-JavaScript company links.');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

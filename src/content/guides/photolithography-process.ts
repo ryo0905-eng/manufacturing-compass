@@ -348,7 +348,7 @@ export const photolithographyProcessGuide: GuideArticle = {
             { label: "検査・計測の仕組み", href: "/guides/semiconductor-inspection-metrology", description: "現像後CD・重ね合わせ・欠陥を測り、露光条件へ返す流れを見る" },
             { label: "重ね合わせ計測装置メーカー", href: "/guides/semiconductor-overlay-metrology-manufacturers", description: "上層と下層の位置差を画像・回折で測る装置を見る" },
             { label: "半導体業界地図", href: "/industry-map", description: "露光、塗布・現像、計測・検査、材料を担う企業の位置を見る" },
-            { label: "半導体企業一覧", href: "/companies", description: "ASML、東京エレクトロン、ニコンなどを企業別に調べる" },
+            { label: "半導体企業一覧", href: "/industry-map", description: "ASML、東京エレクトロン、ニコンなどを企業別に調べる" },
             { label: "装置エンジニアへのルート", href: "/guides/equipment-engineer-route", description: "装置・設備経験と半導体製造装置職の接点を整理する" },
           ],
         },

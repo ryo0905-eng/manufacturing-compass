@@ -68,11 +68,11 @@ export default function GlobalJapanCompaniesPage() {
     <StructuredData data={{ "@context": "https://schema.org", "@type": "WebPage", name: title, description, url: `${siteUrl}${japanWorkRoute}`, dateModified: japanWorkUpdatedAt, inLanguage: "ja" }} />
     <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl },
-      { "@type": "ListItem", position: 2, name: "企業一覧", item: `${siteUrl}/companies` },
+      { "@type": "ListItem", position: 2, name: "業界地図・企業一覧", item: `${siteUrl}/industry-map` },
       { "@type": "ListItem", position: 3, name: title, item: `${siteUrl}${japanWorkRoute}` },
     ] }} />
     <StructuredData data={{ "@context": "https://schema.org", "@type": "ItemList", name: title, numberOfItems: published.length, itemListElement: published.map((company, index) => ({ "@type": "ListItem", position: index + 1, name: company.name, url: `${siteUrl}${japanWorkRoute}#evidence-${company.companyId}` })) }} />
-    <nav className="cpk-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><Link href="/companies">企業一覧</Link><span>/</span><span>外資系企業の日本の仕事</span></nav>
+    <nav className="cpk-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><Link href="/industry-map">業界地図・企業一覧</Link><span>/</span><span>外資系企業の日本の仕事</span></nav>
     <header className={styles.hero}>
       <p className="section-label">GLOBAL COMPANIES, WORK IN JAPAN</p>
       <h1>{title}</h1>

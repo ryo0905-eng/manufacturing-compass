@@ -439,7 +439,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
             { label: "生産技術の経験とプロセス職を照合する", href: "/guides/production-engineering-to-semiconductor-process-engineer", description: "工程改善や量産対応の経験を、半導体の仕事でどう伝えるか整理する" },
             { label: "求人票の年収・待遇を読み比べる", href: "/guides/job-posting-salary-range", description: "年収レンジの上限だけで判断せず、固定給・変動報酬・働き方の確認項目をそろえる" },
             { label: "確認したいことが残ったら、相談先を比較する", href: "/career-agents", description: "希望勤務地での求人、担当業務、経験の伝え方など、相談内容に合うサービスの特徴を見る" },
-            { label: "企業の事業・職種を調べる", href: "/companies", description: "気になる企業の事業領域と職種を確認し、企業詳細や2社比較へ進む" },
+            { label: "企業の事業・職種を調べる", href: "/industry-map", description: "気になる企業の事業領域と職種を確認し、企業詳細や2社比較へ進む" },
           ],
         },
       ],

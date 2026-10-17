@@ -39,7 +39,12 @@ export function buildDirectoryCompanies(
 export function buildAtlasCompanies(directory: CompanyExplorerItem[]): CompanyExplorerItem[] {
   const byId = new Map(directory.map((company) => [company.id, company]));
   const supplemental = new Map(industryMapSupplementalCompanies.map((company) => [company.id, company]));
-  return industryMapZones.flatMap((zone) => [...zone.companyIds, ...zone.supplementalCompanyIds].map((id): CompanyExplorerItem => {
+  const existingIds = new Set(industryMapZones.flatMap((zone) => [...zone.companyIds, ...zone.supplementalCompanyIds]));
+  return industryMapZones.flatMap((zone) => [
+    ...zone.companyIds,
+    ...zone.supplementalCompanyIds,
+    ...directory.filter((company) => company.primaryZone === zone.id && !existingIds.has(company.id)).map((company) => company.id),
+  ].map((id): CompanyExplorerItem => {
     const existing = byId.get(id);
     if (existing) return existing;
     const company = supplemental.get(id);

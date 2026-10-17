@@ -1,9 +1,6 @@
 import type { IndustryMapZoneId } from "@/data/industry-map";
 import type { Source } from "@/types/content";
 
-export type CompanyExplorerMode = "atlas" | "directory";
-export type CompanyExplorerSource = "/industry-map" | "/companies";
-
 export type CompanyExplorerItem = {
   id: string;
   name: string;

@@ -205,7 +205,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
             <p className="eyebrow">関連企業</p>
             <h2>{isFabless ? "日本のファブレス企業" : "この領域の企業"}</h2>
           </div>
-          <Link className="text-link" href="/companies">
+          <Link className="text-link" href="/industry-map">
             半導体企業一覧へ
           </Link>
         </div>
@@ -250,7 +250,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         </div>
         <div className="keyword-grid">
           {jobCategories.map((category) => (
-            <Link className="keyword-chip" href={`/companies?query=${encodeURIComponent(category)}` as Route} key={category}>
+            <Link className="keyword-chip" href={`/industry-map?query=${encodeURIComponent(category)}` as Route} key={category}>
               {category}
             </Link>
           ))}

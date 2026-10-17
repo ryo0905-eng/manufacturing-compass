@@ -2,11 +2,13 @@
 
 最終更新日: 2026-10-17
 
-## 業界地図・企業一覧の共通探索（2026-10-17）
+## 業界地図・企業一覧の統合探索（2026-10-17）
 
-両ページはcompany-explorer-v1のロゴカード・検索・概要ダイアログを共通利用する。source_pageは実際の入口パス。地図の既存industry_mapイベント、一つの共有企業IDにつきマウント中1回の復元detail_view、一覧のcompanies_filter_useとcompanies_company_openを維持。概要表示は新しいcompanies_summary_openとし、詳細リンク操作へ加算しない。検索語・入力値は送らず、固定の条件種別・企業ID・遷移先・件数を使う。初期表示・再描画で操作を水増しせず、計測失敗でUIを止めない。
+統合先は`/industry-map`、全44社の探索を`ui_version=unified-atlas-v2`・`source_page=/industry-map`で区別する。industry_map_node_open・detail_view・content_click・search_result・filter_use・career_layer_change・category_clickを維持し、詳細閲覧と遷移クリックを混ぜない。共有企業IDにつきマウント中1回の復元detail_view、同じ正規化検索のEnter/blurの重複抑止を維持する。メニューとトップはindustry_mapの入口1つとし、旧companiesイベントは統合UIから重ねて送らない。旧イベントを削除・再定義して過去データを書き換えることはしない。
 
-本番反映・GA4受信の確認後14日・28日で、URL別の検索流入、概要表示、企業詳細への同一セッションの移動を観察する。ロゴ数やイベント件数を理解度・人数・転換率へ読み替えない。少数なら観察を延長する。本番反映日・受信・観測開始日は未確認。GA4設定変更やURL統合は今回行わない。[仕様](./company-explorer-spec.md)。
+検索語・入力値は送らず、固定の条件種別・企業ID・遷移先・件数を使う。初期表示・再描画だけで操作イベントを増やさず、計測失敗でUIを止めない。GA4の設定変更は今回行わない。
+
+本番反映・通常利用の受信確認後14日・28日で、旧新URL合計と主要検索語ごとの検索流入、概要表示、企業詳細への同一セッション内の移動を観察する。UI版の異なるイベント件数を直接比較して人数・転換率へ読み替えない。少数なら延長する。移行前の期間・実績は非公開記録に保持。本番反映日・受信・観測開始日は未確認。[仕様](./company-explorer-spec.md)。
 
 ## ランキング記事内タイムマシン（2026-10-15）
 
@@ -164,7 +166,7 @@ Career Compass
 
 ## 共通ヘッダーの導線・計測（2026-09-22）
 
-- 日本語ヘッダーは「技術を学ぶ」→ `/tools`、「業界地図」→ `/industry-map`、「企業を探す」→ `/companies`、「記事を読む」→ `/guides` とし、「キャリアを整理する」→ `/career-compass` を主ボタンにする。
+- 日本語ヘッダーは「技術を学ぶ」→ `/tools`、「業界ウォッチ」→ `/semiconductor-watch`、「業界地図・企業一覧」→ `/industry-map`、「記事を読む」→ `/guides` とし、「キャリアを整理する」→ `/career-compass` を主ボタンにする。企業探索の入口は1つにまとめる。
 - 通常リンクは `header_nav_click` を送信する。`destination_id` は `tools`・`industry_map`・`companies`・`guides`、`display_mode` はクリック時の幅で `desktop`（1,024px以上）または `mobile_menu`。入力値やクエリ文字列は送信しない。
 - キャリアボタンは既存の `career_compass_cta_view`・`career_compass_cta_click` を使い、`cta_location=global_header`、`cta_variant=header_navigation_v2` とする。通常リンクイベントは重ねて送信しない。
 - PCとスマホで単一のCTA要素を使い、既存の50%以上可視の表示計測を維持する。閉じたメニューでは表示計測せず、同じページでの再開閉・表示幅の切り替えでも表示イベントを重複させない。
