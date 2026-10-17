@@ -44,8 +44,8 @@ assert.equal(referenceData.marketCapUsdB, 229.21);
 assert.equal(referenceData.dataAsOf, data.semiconductorMarketCapMeta.dataAsOf);
 assert.equal(referenceData.checkedAt, data.semiconductorMarketCapMeta.retrievedAt);
 assert.equal(referenceLib.getMatchingMarketCapReference(referenceData, data.semiconductorMarketCapMeta), referenceData);
-assert.equal((html.match(/class="metric-bar-chart__reference"/g) || []).length, 2);
-assert.equal((html.match(/class="metric-bar-chart__ratio"/g) || []).length, 22);
+assert.equal((html.match(/class="reference"/g) || []).length, 2);
+assert.equal((html.match(/class="ratio"/g) || []).length, 42);
 for (const text of ['2,292.1億ドル', 'トヨタの約22.6倍', 'トヨタと半導体企業の過去の変化を見る']) assert.ok(html.includes(text), text);
 assert.ok(!lib.comparisonCompanyById.has('toyota'));
 
@@ -78,29 +78,49 @@ const withReference = renderReferenceTables(verifiedReference);
 assert.deepEqual(plain(referenceLinkEvents), [{ eventName: 'article_internal_click', eventProperties: {
   source_slug: 'semiconductor-market-cap-ranking', destination_path: '/tools/ranking-time-machine#mode=global&year=2025&company=toyota',
 } }]);
-assert.equal((withReference.match(/class="metric-bar-chart__reference"/g) || []).length, 2);
-assert.equal((withReference.match(/class="metric-bar-chart__ratio"/g) || []).length, 22);
+assert.equal((withReference.match(/class="reference"/g) || []).length, 2);
+assert.equal((withReference.match(/class="ratio"/g) || []).length, 42);
 assert.equal((withReference.match(/比較基準：1.0倍/g) || []).length, 2);
 assert.equal((withReference.match(/比較に追加<\/button>/g) || []).length, 40);
-for (const word of ['世界ランキング上位10社＋参考：トヨタ自動車', '日本企業ランキング上位10社＋参考：トヨタ自動車',
+for (const word of ['世界TOP30の時価総額ランキング', '日本企業TOP10の時価総額ランキング',
   'トヨタの約25.9倍', 'トヨタの0.1倍未満', '業界外の比較対象', '2,000億ドル',
-  '2026年10月16日基準', '2026.10.17', verifiedReference.sourceUrl, '世界と日本のグラフでは尺度が異なります',
+  '2026年10月16日基準', '2026.10.17', verifiedReference.sourceUrl, '世界と日本の一覧では尺度が異なります',
   '売上高や従業員数ではありません', '2014〜2025年の年末データ',
   '/tools/ranking-time-machine#mode=global&amp;year=2025&amp;company=toyota']) assert.ok(withReference.includes(word), word);
-const figures = [...withReference.matchAll(/<figure\b[^>]*>([\s\S]*?)<\/figure>/g)].map(match => match[1]);
-assert.equal(figures.length, 2);
-for (const figure of figures) {
-  assert.equal((figure.match(/<li\b/g) || []).length, 10);
-  assert.ok(figure.indexOf('</ol>') < figure.indexOf('class="metric-bar-chart__reference"'));
-}
-const tables = [...withReference.matchAll(/<tbody>([\s\S]*?)<\/tbody>/g)].map(match => match[1]);
+assert.ok(!withReference.includes('<figure') && !withReference.includes('metric-bar-chart'));
+const tables = [...withReference.matchAll(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/g)].map(match => match[1]);
 assert.deepEqual(tables.map(table => (table.match(/<tr\b/g) || []).length), [30, 10]);
-assert.ok(tables.every(table => !table.includes('トヨタ')));
-assert.ok(!renderReferenceTables(verifiedReference, 'another-guide').includes('metric-bar-chart__reference'));
-for (const change of [{ status: 'pending', marketCapUsdB: null }, { dataAsOf: '2026-10-01' }, { currency: '円' }, { marketCapUsdB: 0 }]) {
+assert.ok(tables.every(table => !table.includes('トヨタ自動車')));
+const referenceRows = [...withReference.matchAll(/<tfoot\b[^>]*>([\s\S]*?)<\/tfoot>/g)].map(match => match[1]);
+assert.equal(referenceRows.length, 2);
+for (const row of referenceRows) {
+  assert.equal((row.match(/<tr\b/g) || []).length, 1);
+  assert.ok(row.includes('参考') && row.includes('トヨタ自動車'));
+  assert.ok(!row.includes('market-cap-rank') && !row.includes('比較に追加'));
+}
+const encoded = value => renderToStaticMarkup(React.createElement(React.Fragment, null, value));
+const rankingSets = [data.worldSemiconductorMarketCapRanking, data.japanSemiconductorMarketCapRanking];
+for (const [index, companies] of rankingSets.entries()) {
+  const rows = [...tables[index].matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)].map(match => match[1]);
+  for (const [rowIndex, company] of companies.entries()) {
+    const row = rows[rowIndex];
+    for (const field of ['name', 'englishName', 'ticker', 'category', 'mainBusiness', 'marketCapDisplay']) assert.ok(row.includes(encoded(company[field])), `${index}/${company.id}/${field}`);
+    assert.equal((row.match(/scope="row"/g) || []).length, 1);
+    assert.equal((row.match(/class="track"/g) || []).length, 1);
+    assert.equal((row.match(/比較に追加<\/button>/g) || []).length, 1);
+    if (company.companySlug) assert.ok(row.includes(`href="/companies/${company.companySlug}"`));
+    assert.ok(row.includes(index === 0 ? encoded(company.country) : `${company.rank}位`));
+    assert.ok(row.includes(`class="market-cap-rank rank">${index === 0 ? company.rank : company.domesticRank}</td>`));
+  }
+}
+const legacy = renderReferenceTables(verifiedReference, 'another-guide');
+assert.equal((legacy.match(/class="salary-bar-chart metric-bar-chart"/g) || []).length, 2);
+assert.ok(!legacy.includes('class="reference"') && !legacy.includes('class="track"') && !legacy.includes('unified'));
+for (const change of [{ status: 'pending', marketCapUsdB: null }, { dataAsOf: '2026-10-01' }, { currency: '円' }, { sourceName: 'Another provider' }, { marketCapUsdB: 0 }, { marketCapUsdB: -1 }, { marketCapUsdB: NaN }, { marketCapUsdB: Infinity }]) {
   const hidden = renderReferenceTables({ ...verifiedReference, ...change });
-  assert.ok(!hidden.includes('metric-bar-chart__reference') && !hidden.includes('metric-bar-chart__ratio'));
-  assert.ok(!hidden.includes('参考：トヨタ自動車') && !hidden.includes('トヨタと半導体企業の過去の変化を見る'));
+  assert.ok(!hidden.includes('<tfoot') && !hidden.includes('class="ratio"'));
+  assert.ok(!hidden.includes('トヨタ自動車') && !hidden.includes('トヨタと半導体企業の過去の変化を見る'));
+  assert.equal((hidden.match(/class="track"/g) || []).length, 40);
 }
 
 const Metric = load('src/components/MetricBarChart').MetricBarChart;
@@ -110,6 +130,18 @@ const renderMetric = (items, reference) => renderToStaticMarkup(React.createElem
   reference: reference ? { ...reference, comparisonLabel: '基準企業' } : undefined,
 }));
 const widths = markup => [...markup.matchAll(/style="width:([\d.]+)%"/g)].map(match => Number(match[1]));
+// Every company uses a zero-based scale, including when the reference is largest.
+for (const reference of [verifiedReference, { ...verifiedReference, marketCapUsdB: 10000 }, { ...verifiedReference, status: 'pending', marketCapUsdB: null }]) {
+  const actual = widths(renderReferenceTables(reference));
+  const expected = rankingSets.flatMap(companies => {
+    const values = companies.map(company => company.marketCapUsdB);
+    if (reference.status === 'verified') values.push(reference.marketCapUsdB);
+    return values.map(value => value / Math.max(...values) * 100);
+  });
+  assert.equal(actual.length, expected.length);
+  actual.forEach((width, index) => assert.ok(Math.abs(width - expected[index]) < 1e-9));
+  assert.ok(actual.every(width => width >= 0 && width <= 100));
+}
 assert.deepEqual(widths(renderMetric([metricItem('A', 400), metricItem('B', 10), metricItem('C', 0)], metricItem('参考企業', 200))), [100, 2.5, 0, 50]);
 assert.deepEqual(widths(renderMetric([metricItem('A', 50)], metricItem('参考企業', 200))), [25, 100]);
 assert.deepEqual(widths(renderMetric([metricItem('A', 0.1)], metricItem('参考企業', 0.2))), [50, 100]);
@@ -149,7 +181,8 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.ok(!/<details[^>]*\sopen[\s=>]/.test(prefix));
   assert.equal((prefix.match(/class="ranking-quick-links"/g) || []).length, 1);
   assert.equal((body.match(/class="market-cap-table"/g) || []).length, 2);
-  assert.equal((body.match(/class="salary-bar-chart metric-bar-chart"/g) || []).length, 2);
+  assert.equal((body.match(/class="salary-bar-chart metric-bar-chart"/g) || []).length, 0);
+  assert.equal((body.match(/class="track"/g) || []).length, 42);
   assert.equal((body.match(/比較に追加<\/button>/g) || []).length, 40);
   assert.ok(body.indexOf('id="industry-map-books"') > body.indexOf('id="research-flow"'));
   assert.ok(!body.includes('読んでよかった2冊（広告あり）'));

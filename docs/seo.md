@@ -29,6 +29,10 @@ SEO は Career Compass だけへ送客するためのものではありません
 
 ## 現行URL
 
+### 時価総額ランキングの表示統合（2026-10-17）
+
+`/guides/semiconductor-market-cap-ranking`だけで独立グラフと表を統合し、世界30社・日本10社の企業情報・金額・棒・比較ボタンを初期HTMLへ出す。960px未満も同じ内容を縦配置し、参考のトヨタは順位のない参考行とする。URL・タイトル・記事見出し・解説文・アンカー・内部リンク・canonical・構造化データ・sitemapは維持する。本番反映とSearch Consoleの数値確認は未実施。反映時に実際の反映日を記録し、前後28日のクリック数・表示回数・掲載順位・主要検索語を比較する。数値は非公開記録に保持し、変動を今回の表示変更だけに帰属させない。
+
 ### 業界地図・企業一覧の統合（2026-10-17）
 
 `/industry-map`へ8領域・44社の探索と日本メーカー一覧を集約し、旧`/companies`だけを完全一致308で恒久転送する。クエリは引き継ぎ、既存アンカーは統合先へ残す。`/companies/[slug]`・`/companies/global-japan`・比較URLを転送対象にしない。タイトルは「半導体業界地図・日本と世界のメーカー一覧【2026年版】」、説明は8領域・44社・詳細37社と簡易紹介7社の範囲を示す。自己参照canonicalは`/industry-map`、通常URLはindex、query指定は空文字・0件を含めnoindex, follow。カードの概要ボタンと、地図直下のnative details内の37詳細／7公式リンク・日本企業一覧を初期HTMLへ含め、BreadcrumbList・44社のItemListとsitemap・サイト内リンクを一致させる。sitemapは旧一覧トップだけを外す。[仕様](./company-explorer-spec.md)。

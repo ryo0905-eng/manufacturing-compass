@@ -1,5 +1,14 @@
 # TASKS
 
+## 2026-10-17：時価総額ランキングのグラフと表を統合
+
+- 対象記事だけで独立した上位10社グラフを外し、世界30社・日本10社の既存表の金額欄へ棒と対トヨタ倍率を統合。企業情報・企業リンク・比較ボタンを残し、参考のトヨタは順位・比較ボタンのないtfoot行へ移した。出典・基準日・確認日・過去年末比較リンクを維持した。
+- 専用CSS Moduleで960px未満を縦配置にし、順位・企業名・金額・棒を先に表示。同じ初期HTMLに全情報を保持し、折りたたみや表示切替は追加していない。他記事の共通グラフ、記事URL・タイトル・見出し・解説文・検索設定・データ値は変更していない。
+- `npm run typecheck`は1回実行して成功。`node tests/unit/ranking-company-compare.cjs`は1回実行し、倍率内の「トヨタ」を参考企業の混入と誤認する旧assertで停止。企業名「トヨタ自動車」に判定を限定して修正したが、再試行制限に従い再実行していない。停止後の全社情報・参考値非表示・棒の比率・記事全体SSR等のassertは未実行。型チェックはテスト判定修正前に成功しており、公開コードはその後変更していない。
+- 差分と対象公開ファイルの禁止語を確認。dev・build・lint・ブラウザ操作・commit・pushは未実施。実画面・本番反映・Search Console確認は未実施。実際の本番反映日を記録して前後28日を比較する手順をdocs/seo.mdに記載した。
+- 変更ファイル：`src/components/MarketCapRankingTable.tsx`・同CSS Module、`tests/unit/ranking-company-compare.cjs`、`docs/architecture.md`・`seo.md`、本記録。
+- 推奨コミット：`refactor: unify market cap ranking charts and tables`
+
 ## 2026-10-17：ランキングを10月16日基準へ更新し、トヨタ比較の保留を解消
 
 - ユーザー指定により、世界TOP30・日本TOP10と参考のトヨタを2026-10-16基準・10-17確認へ一括更新。CompaniesMarketCapの世界30社＋日本の圏外8社を同じ一覧で確認し、全38社の順位・数値を出典と照合した。NVIDIA・TSMC・トヨタの個社ページの日次記載で10-16を確認し、NVIDIAはStock Analysisでも同日5.17T USDを照合した。各市場の更新時刻・為替反映差は本文で説明する。
