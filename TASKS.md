@@ -1,5 +1,15 @@
 # TASKS
 
+## 2026-10-17：トヨタを物差しにする時価総額比較（実装済み・公開保留）
+
+- 時価総額記事の世界・日本上位10社グラフへ、順位リスト外の参考バー、茶系の識別表示、対トヨタ倍率、企業全体の時価総額という説明、基準日・金額・確認日・出典をSSRする機能を追加。参考企業を含む最大値で棒を描き、世界と日本では尺度が異なることを明示する。倍率は数値から小数第1位で計算し、0.0倍になる場合は0.1倍未満と表示する。
+- 日本グラフ直後から、既存の他業界比較・2025年・トヨタ選択済みタイムマシンへ接続。年末データの説明と既存article_internal_clickを使う。全順位表・比較40ボタン・選択対象38社・共有IDは維持。新API・依存・保存先・企業ページは追加していない。年収グラフは参考対象を省略した従来表示を維持する。
+- **公開保留**：CompaniesMarketCapのトヨタ時価総額ページを2026-10-17に確認したが、本文で確認できる直近日次値は2026-10-16分。記事と同じ2026-10-01の値を確認できず、直接取得もHTTP 403。静的参考データはpending・金額nullで管理し、追加見出し・参考バー・倍率・出典説明・リンクはすべて非表示。記事の公開設定・基準日・数値・編集更新日は維持。現在値・年末値・推定値は流用していない。同日の根拠を確認できたら参考データ・確認日・記事編集日・保留記録を更新する。
+- `node tests/unit/ranking-company-compare.cjs`と`node tests/unit/article-improvements.cjs`、`npm run typecheck`を175秒の上限付きで各1回実行し、すべて成功。テスト用の架空の参考値で両グラフの10社＋参考1社、順位外表示、倍率の丸め、参考企業が最大値の場合の尺度、同日・同通貨・同提供元・正数の公開条件、SSR出典・過去年末リンク・イベント属性、既存表・選択・共有・年収表示を検証した。架空値はテスト内だけで使い、公開データに保存していない。
+- 変更ファイル：`src/components/MetricBarChart.tsx`・`MarketCapRankingTable.tsx`、`src/app/globals.css`、`src/data/semiconductor-market-cap-reference.ts`・`company-logos.ts`、`src/lib/market-cap-reference.ts`、`tests/unit/ranking-company-compare.cjs`、`docs/PRD.md`・`architecture.md`・`ranking-company-comparison-spec.md`、本記録。
+- 実ブラウザ・実端末・本番反映・計測受信は未確認。dev・build・lint・ブラウザ操作・commit・pushは実施していない。
+- 推奨コミット：`feat: prepare Toyota benchmark for market cap rankings`
+
 ## 2026-10-17：トップのランキング枠をコンパクト化
 
 - 4記事への説明付きカードを見出し横の小型リンクへ変更。高さ44px以上・淡い背景・細い罫線・青い矢印とし、リンク先・クリック計測を維持した。全幅のホームプレビューは960px以上で左260pxに時間操作・NVIDIA追跡、右に上位5社の1行形式のグラフを配置。960px未満はリンクを折り返し、操作→追跡→グラフの順に縦配置する。

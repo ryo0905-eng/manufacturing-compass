@@ -11428,7 +11428,8 @@ summary:focus-visible {
   list-style: none;
 }
 
-.salary-bar-chart li {
+.salary-bar-chart li,
+.metric-bar-chart__reference {
   display: grid;
   grid-template-columns: 28px minmax(140px, 0.72fr) minmax(180px, 1fr) minmax(76px, auto);
   gap: 12px;
@@ -11495,12 +11496,47 @@ summary:focus-visible {
   font-size: 8px;
 }
 
+.metric-bar-chart .metric-bar-chart__ratio {
+  display: block;
+  margin: 4px 0 0;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.metric-bar-chart__reference {
+  margin-top: 12px;
+  border-top: 1px solid #b8a28a;
+}
+
+.metric-bar-chart__reference .salary-bar-chart__rank,
+.metric-bar-chart__reference .salary-bar-chart__value {
+  color: #795635;
+}
+
+.metric-bar-chart__reference .salary-bar-chart__track {
+  background: rgba(121, 86, 53, 0.1);
+}
+
+.metric-bar-chart__reference .salary-bar-chart__track i {
+  background: #8b6846;
+}
+
+.market-cap-reference-history > small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 @media (max-width: 680px) {
   .salary-bar-chart {
     padding: 20px 16px;
   }
 
-  .salary-bar-chart li {
+  .salary-bar-chart li,
+  .metric-bar-chart__reference {
     grid-template-columns: 24px minmax(0, 1fr) auto;
     gap: 8px;
     padding: 12px 0;

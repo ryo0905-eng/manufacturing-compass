@@ -5,6 +5,8 @@ import { RankingCompanyName } from "@/components/RankingCompanyName";
 import { CompanyLogoAttribution } from "@/components/CompanyLogoAttribution";
 import { CountryRegion } from "@/components/CountryRegion";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
+import { toyotaMarketCapReference } from "@/data/semiconductor-market-cap-reference";
+import { formatMarketCapUsdB, getMatchingMarketCapReference } from "@/lib/market-cap-reference";
 import {
   japanSemiconductorMarketCapRanking,
   semiconductorMarketCapMeta,
@@ -22,6 +24,11 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
   const title = isWorld ? "世界TOP30" : "日本企業TOP10";
   const [year, month, day] = semiconductorMarketCapMeta.dataAsOf.split("-");
   const formattedDate = `${year}年${Number(month)}月${Number(day)}日`;
+  const reference = sourceSlug === "semiconductor-market-cap-ranking"
+    ? getMatchingMarketCapReference(toyotaMarketCapReference, semiconductorMarketCapMeta)
+    : undefined;
+  const referenceValue = reference ? formatMarketCapUsdB(reference.marketCapUsdB) : undefined;
+  const chartTitle = isWorld ? "世界ランキング上位10社" : "日本企業ランキング上位10社";
 
   return (
     <div className="market-cap-ranking" aria-label={`${title}の時価総額ランキング`}>
@@ -42,9 +49,32 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
           logoId: company.companySlug ?? company.id,
           value: company.marketCapUsdB,
         }))}
-        note="棒の長さは0ドルを基準に、このグラフ内の最大値との比率で表示しています。株価と為替により変動します。"
-        title={isWorld ? "世界ランキング上位10社" : "日本企業ランキング上位10社"}
+        note={reference
+          ? "棒の長さは0ドルを基準に、参考のトヨタを含むグラフ内の最大値との比率で表示しています。世界と日本のグラフでは尺度が異なります。株価と為替により変動します。"
+          : "棒の長さは0ドルを基準に、このグラフ内の最大値との比率で表示しています。株価と為替により変動します。"}
+        title={reference ? `${chartTitle}＋参考：${reference.name}` : chartTitle}
+        reference={reference ? {
+          label: reference.name,
+          comparisonLabel: reference.comparisonLabel,
+          category: "業界外の比較対象",
+          displayValue: formatMarketCapUsdB(reference.marketCapUsdB),
+          logoId: reference.id,
+          value: reference.marketCapUsdB,
+        } : undefined}
+        referenceNote={reference ? <>
+          日本を代表する自動車メーカー、トヨタ自動車を規模の目安として掲載。比較しているのは企業全体の時価総額で、売上高や従業員数ではありません。
+          参考値：{formattedDate}基準・{referenceValue}（米ドル）。確認日：{reference.checkedAt.replaceAll("-", ".")}。
+          出典：<a href={reference.sourceUrl} rel="noopener noreferrer" target="_blank">{reference.sourceName}（トヨタ自動車）</a>。
+        </> : undefined}
       />
+      {!isWorld && reference ? <p className="market-cap-reference-history">
+        <TrackedInternalLink
+          href="/tools/ranking-time-machine#mode=global&year=2025&company=toyota"
+          eventName="article_internal_click"
+          eventProperties={{ source_slug: sourceSlug, destination_path: "/tools/ranking-time-machine#mode=global&year=2025&company=toyota" }}
+        >トヨタと半導体企業の過去の変化を見る →</TrackedInternalLink>
+        <small>移動先は2014〜2025年の年末データです。この記事の基準日とは異なります。</small>
+      </p> : null}
       <div className="market-cap-table-wrap">
         <table className="market-cap-table">
           <thead>

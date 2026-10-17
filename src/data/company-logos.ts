@@ -5,6 +5,7 @@ type CompanyLogoAsset = { src: string; aspectRatio: number; width?: number; heig
 // Intrinsic sizes default to square 256px PNGs; rectangular assets declare their size.
 // Keep this registry independent of ranking snapshots loaded by other pages.
 export const companyLogoAssets: Partial<Record<string, CompanyLogoAsset>> = {
+  toyota: { src: '/images/company-logos/toyota.png', aspectRatio: 6.095238 },
   tsmc: { src: '/images/company-logos/tsmc.png', aspectRatio: 1.273632 },
   micron: { src: '/images/company-logos/micron.png', aspectRatio: 4.654545 },
   'tokyo-electron': { src: '/images/company-logos/tokyo-electron.png', aspectRatio: 2.438095 },

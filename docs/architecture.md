@@ -35,6 +35,8 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ### ランキング・タイムマシン
 
+- 2026-10-17（トヨタの参考比較）：`semiconductor-market-cap-reference.ts`が順位配列とは独立して参考対象の値・基準日・通貨・確認日・出典・確認状態を保持する。`market-cap-reference.ts`は確認済み、同じ提供元・基準日・通貨、有限の正数を満たす場合だけ参考値を返す。現状は2026-10-01の値が未確認でpending。`MarketCapRankingTable`は対象記事だけに参考データを渡し、`MetricBarChart`がSSRで倍率と順位リスト外の参考バーを出力する。倍率・金額は数値から計算し、最大値には参考企業を含める。参考対象を省略した年収等の表示は維持する。日本グラフの過去年末比較リンクは既存article_internal_clickを使う。新API・依存・保存先は追加しない。
+
 - 2026-10-17（ホームのコンパクト化）：4記事へのHomeLinkをセクション見出し横へ移し、ホームプレビューを全幅化。home専用CSSで960px以上は時間操作・追跡とチャートを左右配置し、グラフの順位・企業・棒・金額を1行にする。既存の全行計測で長い代替企業名と画面幅変更に追従する。960px未満は縦配置。比較範囲・出典・確認日を常設し、詳しい注意はnative detailsにSSRする。home以外の構造・計測、データ・状態管理は維持し、新API・依存・保存先は追加しない。
 
 - 2026-10-17：Server Componentのトップに`RankingTimeMachinePreview variant="home"`を配置。入口は`src/data/home.ts`の`homeRankingLinks`へ集約する。プレビューの既定値articleは維持し、homeは固有ID・ホーム用計測・HomeLinkを使用する。RankingRaceChartのhome表示は非操作の上位5社、articleは上位10社、toolは既存の操作行。データ・年次計算・再生・画面外停止・reduced-motion対応を共用し、URLを読み書きせず専用ツールへ表示年を渡す。新API・依存・保存先は追加しない。
