@@ -34,7 +34,7 @@ assert.equal(lib.readRankingComparisonHash('#world-ranking').kind,'anchor');cons
 assert.equal(entry.readIndustryCompanyHash('#company=nvidia',['nvidia']).id,'nvidia');assert.equal(entry.readIndustryCompanyHash('#company=unknown',['nvidia']).kind,'invalid');assert.equal(entry.readIndustryCompanyHash('#industry-zone-idm',['nvidia']).kind,'anchor');assert.equal(entry.readIndustryCompanyHash('#company=nvidia&company=tsmc',['nvidia','tsmc']).kind,'invalid');
 const UI=load('src/components/RankingCompanyCompare'),Table=load('src/components/MarketCapRankingTable').MarketCapRankingTable;
 const html=renderToStaticMarkup(React.createElement(UI.RankingCompanyCompareProvider,null,React.createElement(UI.RankingCompanyComparePanel),React.createElement(Table,{scope:'world',sourceSlug:'semiconductor-market-cap-ranking'}),React.createElement(Table,{scope:'japan',sourceSlug:'semiconductor-market-cap-ranking'})));
-for(const word of ['気になる2社','NVDA','5.17兆ドル','2026年10月16日','NXP Semiconductors','UMC（聯華電子）','ローツェ','日本企業TOP10','/companies/nvidia'])assert.ok(html.includes(word),word);assert.equal((html.match(/比較に追加<\/button>/g)||[]).length,40);assert.ok(!html.includes('data-ranking-comparison-result'));
+for(const word of ['気になる2社','NVDA','5.17兆ドル','2026年10月16日','NXP Semiconductors','UMC（聯華電子）','ローツェ','日本企業TOP10','/companies/nvidia'])assert.ok(html.includes(word),word);assert.equal((html.match(/data-ranking-compare-id=/g)||[]).length,40);assert.ok(!html.includes('data-ranking-comparison-result'));
 
 // The published Toyota reference matches the ranking's date and currency.
 const referenceData = load('src/data/semiconductor-market-cap-reference').toyotaMarketCapReference;
@@ -82,7 +82,7 @@ assert.deepEqual(plain(referenceLinkEvents), [{ eventName: 'article_internal_cli
 assert.equal((withReference.match(/class="reference"/g) || []).length, 2);
 assert.equal((withReference.match(/class="ratio"/g) || []).length, 42);
 assert.equal((withReference.match(/比較基準：1.0倍/g) || []).length, 2);
-assert.equal((withReference.match(/比較に追加<\/button>/g) || []).length, 40);
+assert.equal((withReference.match(/data-ranking-compare-id=/g) || []).length, 40);
 for (const word of ['世界TOP30の時価総額ランキング', '日本企業TOP10の時価総額ランキング',
   'トヨタの約25.9倍', 'トヨタの0.1倍未満', '業界外の比較対象', '2,000億ドル',
   '2026年10月16日基準', '2026.10.17', verifiedReference.sourceUrl, '世界と日本の一覧では尺度が異なります',
@@ -108,10 +108,8 @@ for (const [index, row] of referenceRows.entries()) {
   const cells = [...row.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)];
   assert.equal(cells[0][1], '');
   assert.ok(cells[0][0].includes(index === 0 ? 'aria-label="順位対象外"' : 'aria-label="国内順位対象外"'));
-  if (index === 1) {
-    assert.equal(cells[1][1], '');
-    assert.ok(cells[1][0].includes('aria-label="世界順位対象外"'));
-  }
+  assert.equal(cells.length, 3); // Rank, market cap and reference note, plus the row header.
+  assert.ok(row.includes('業界外の比較対象・自動車／日本'));
 }
 // Published values: Arm, Toyota, KLA in the world table; Toyota precedes Japan #1.
 assert.deepEqual(referencePositions(html), [14, 0]);
@@ -128,10 +126,13 @@ for (const [index, companies] of rankingSets.entries()) {
     for (const field of ['name', 'englishName', 'ticker', 'category', 'mainBusiness', 'marketCapDisplay']) assert.ok(row.includes(encoded(company[field])), `${index}/${company.id}/${field}`);
     assert.equal((row.match(/scope="row"/g) || []).length, 1);
     assert.equal((row.match(/class="track"/g) || []).length, 1);
-    assert.equal((row.match(/比較に追加<\/button>/g) || []).length, 1);
+    assert.equal((row.match(/data-ranking-compare-id=/g) || []).length, 1);
     if (company.companySlug) assert.ok(row.includes(`href="/companies/${company.companySlug}"`));
     assert.ok(row.includes(index === 0 ? encoded(company.country) : `${company.rank}位`));
-    assert.ok(row.includes(`class="market-cap-rank rank">${index === 0 ? company.rank : company.domesticRank}</td>`));
+    assert.ok(row.includes(`class="market-cap-rank rank">${index === 0 ? company.rank : company.domesticRank}${index === 0 ? '</td>' : '<small>世界' + company.rank + '位</small></td>'}`));
+    assert.equal((row.match(/<td\b/g) || []).length, 3);
+    assert.match(row, /<details class="details"><summary>企業情報を開く/);
+    assert.ok(!/<details[^>]*\sopen[\s=>]/.test(row));
   }
 }
 const legacy = renderReferenceTables(verifiedReference, 'another-guide');
@@ -154,7 +155,7 @@ for (const [value, expected] of [
   const markup = renderReferenceTables({ ...verifiedReference, marketCapUsdB: value });
   assert.deepEqual(referencePositions(markup), expected);
   assert.deepEqual(tableRows(markup).map(rows => rows.filter(isReferenceRow).length), [1, 1]);
-  assert.equal((markup.match(/比較に追加<\/button>/g) || []).length, 40);
+  assert.equal((markup.match(/data-ranking-compare-id=/g) || []).length, 40);
 }
 const tieValue = data.worldSemiconductorMarketCapRanking[14].marketCapUsdB;
 const tiedWorld = data.worldSemiconductorMarketCapRanking.map(company => company.rank === 16 ? { ...company, marketCapUsdB: tieValue, marketCapDisplay: referenceLib.formatMarketCapUsdB(tieValue) } : company);
@@ -198,9 +199,9 @@ assert.deepEqual(widths(salaryChart), [100]);
 assert.ok(!salaryChart.includes('metric-bar-chart__reference') && !salaryChart.includes('metric-bar-chart__ratio'));
 
 let cursor=0;const slots=[],events=[];const react={...React,useState(initial){const i=cursor++;if(!(i in slots))slots[i]=typeof initial==='function'?initial():initial;return[slots[i],value=>{slots[i]=typeof value==='function'?value(slots[i]):value}]},useRef(initial){const i=cursor++;return slots[i]??={current:initial}},useEffect(){}};
-const interactive=loader({react,'@/lib/analytics':{trackEvent:(name,props)=>events.push({name,props})}},{window:{location:{hash:'',pathname:lib.rankingComparePath,search:''},history:{replaceState(){}}}})('src/components/RankingCompanyCompare');
+const interactive=loader({react,'react-dom':{createPortal:children=>children},'@/lib/analytics':{trackEvent:(name,props)=>events.push({name,props})}},{document:{activeElement:null},HTMLElement:class {},window:{location:{hash:'',pathname:lib.rankingComparePath,search:''},history:{replaceState(){}}}})('src/components/RankingCompanyCompare');
 function context(){cursor=0;return interactive.RankingCompanyCompareProvider({children:null}).props.value;}
-context().add('tokyo-electron','world');context().add('tokyo-electron','japan');assert.equal(context().ids.length,1);context().add('advantest','japan');assert.equal(context().ids.length,2);context().add('nvidia','world');assert.match(context().notice,/2社/);context().open();assert.equal(context().shown,true);context().record('result_view');context().record('result_view');assert.equal(events.filter(e=>e.props.action==='result_view').length,1);context().remove('advantest');assert.equal(context().shown,false);context().example(['nvidia','tsmc']);assert.equal(context().source,'example');context().record('copy_success');context().record('related_click','industry_map');
+context().add('tokyo-electron','world');context().add('tokyo-electron','japan');assert.equal(context().ids.length,1);context().add('advantest','japan');assert.equal(context().ids.length,2);context().add('nvidia','world');assert.match(context().notice,/2社/);assert.equal(context().shown,false);context().open();assert.equal(context().shown,true);context().close();assert.equal(context().shown,false);assert.equal(context().ids.length,2);context().open();context().record('result_view');context().record('result_view');assert.equal(events.filter(e=>e.props.action==='result_view').length,1);context().remove('advantest');assert.equal(context().shown,false);context().example(['nvidia','tsmc']);assert.equal(context().source,'example');context().record('copy_success');context().record('related_click','industry_map');
 for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(Object.keys(e.props).every(k=>['action','source','company_a','company_b','destination'].includes(k)));assert.ok(!JSON.stringify(e).includes('https://'));}
 (async () => {
   const page = load('src/app/(ja)/guides/[slug]/page');
@@ -238,7 +239,7 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.equal((prefix.match(/class="ranking-quick-links"/g) || []).length, 1);
   assert.equal((body.match(/class="market-cap-table"/g) || []).length, 2);
   assert.equal((body.match(/class="salary-bar-chart metric-bar-chart"/g) || []).length, 0);
-  assert.equal((body.match(/比較に追加<\/button>/g) || []).length, 40);
+  assert.equal((body.match(/data-ranking-compare-id=/g) || []).length, 40);
   assert.ok(body.indexOf('id="industry-map-books"') > body.indexOf('id="research-flow"'));
   assert.ok(!body.includes('読んでよかった2冊（広告あり）'));
   assert.ok(body.includes('同一企業、二重上場、ADR') && body.includes('各社の公式企業情報'));
@@ -253,7 +254,10 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   for (const match of body.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), match[1]);
   const rankingContent = body.slice(body.indexOf('id="world-ranking"'), body.indexOf('id="ranking-compare-title"'));
   assert.equal((rankingContent.match(/class="track"/g) || []).length, 42);
-  assert.ok(!rankingContent.includes('<details') && !rankingContent.includes('link-callout'));
+  assert.equal((rankingContent.match(/<details class="details">/g) || []).length, 40);
+  assert.ok(!rankingContent.includes('link-callout'));
+  const tableHeads = [...rankingContent.matchAll(/<thead[^>]*>([\s\S]*?)<\/thead>/g)];
+  assert.deepEqual(tableHeads.map(head => (head[1].match(/scope="col"/g) || []).length), [4, 4]);
   assert.ok(!rankingContent.includes('href="/industry-map"') && !rankingContent.includes('industry-map-books'));
 
   const schemas = [...rendered.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(match => JSON.parse(match[1]));

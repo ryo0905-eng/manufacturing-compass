@@ -1,76 +1,47 @@
-.label { display: none; }
-.unified,
+.unified { min-width: 0; container-type: inline-size; }
 .unified > div { min-width: 0; }
-
-.unified .note {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-.unified .value { min-width: 150px; }
-.track {
-  display: block;
-  height: 8px;
-  margin-top: 8px;
-  overflow: hidden;
-  border-radius: 3px;
-  background: rgba(0, 107, 128, 0.08);
-}
-.track i {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #183b42, #30b6c9);
-}
-.ratio { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; font-weight: 500; }
-.reference { background: rgba(0, 107, 128, 0.04); }
+.unified .note { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.unified .tableWrap { overflow: visible; }
+.unified table { width: 100%; min-width: 0; table-layout: fixed; }
+.unified thead th:first-child { width: 60px; border-top-left-radius: 8px; }
+.unified thead th:nth-child(3) { width: 172px; }
+.unified thead th:last-child { width: 112px; border-top-right-radius: 8px; }
+.unified tr > th, .unified tr > td { padding: 16px 12px; overflow-wrap: anywhere; }
+.unified .company { min-width: 0; font-weight: 600; }
+.unified .rank { font-size: 18px; font-weight: 600; color: #1d1d1f; }
+.unified .rank small { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; color: var(--muted); }
+.unified .value { min-width: 0; white-space: normal; font-size: 16px; font-variant-numeric: tabular-nums; }
+.value strong { font-weight: 600; }
+.track { display: block; height: 6px; margin-top: 9px; overflow: hidden; border-radius: 3px; background: #eef0f3; }
+/* One series: market capitalization, using the site's chart color. */
+.track i { display: block; height: 100%; background: #4c72b0; }
+.ratio { display: block; margin-top: 6px; color: var(--muted); font-size: 11px; font-weight: 400; }
+.details { margin-top: 8px; font-size: 13px; font-weight: 400; }
+.details summary { min-height: 44px; align-content: center; color: #1769aa; cursor: pointer; }
+.details summary:focus-visible { outline: 3px solid #1769aa; outline-offset: 3px; }
+.details[open] summary { margin-bottom: 6px; }
+.details dl { display: grid; gap: 8px; margin: 0; line-height: 1.6; }
+.details dt { color: var(--muted); font-size: 11px; }
+.details dd { margin: 0; color: #34383d; }
+.reference { background: #f7f7f8; }
 .unified .reference > * { border-top: 1px solid var(--line); }
 .referenceCompany { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .referenceBadge { padding: 2px 6px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-size: 11px; font-weight: 500; white-space: nowrap; }
+.referenceNote { display: block; margin-top: 8px; color: var(--muted); font-size: 11px; font-weight: 400; line-height: 1.6; }
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-@media (width < 960px) {
-  .unified table,
-  .unified tbody {
-    display: block;
-    width: 100%;
-    min-width: 0;
-  }
-
-  /* Keep column headers available to assistive technology. */
-  .unified thead {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .unified tbody tr {
-    display: grid;
-    grid-template-columns: 32px minmax(0, 1fr);
-    gap: 10px 8px;
-    padding: 18px 14px;
-    border-bottom: 1px solid var(--line);
-  }
+/* Respond to the article column's width, including on a wide desktop. */
+@container (width < 600px) {
+  .unified table, .unified tbody { display: block; width: 100%; min-width: 0; }
+  .unified thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .unified tbody tr { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px 8px; padding: 16px 12px; border-bottom: 1px solid var(--line); }
   .unified tbody tr:last-child { border-bottom: 0; }
-  .unified .reference > * { border: 0; }
-
-  .unified tr > th,
-  .unified tr > td {
-    display: block;
-    grid-column: 2;
-    min-width: 0;
-    padding: 0;
-    border: 0;
-    overflow-wrap: anywhere;
-    white-space: normal;
-  }
+  .unified tr > th, .unified tr > td { display: block; min-width: 0; padding: 0; border: 0; }
   .unified tr > .rank { grid-column: 1; grid-row: 1; padding-top: 2px; }
-  .unified .reference > .referenceWorldRank { grid-column: 1; grid-row: 2; }
-  .unified tr > .company { grid-row: 1; min-width: 0; }
-  .unified tr > .value { grid-row: 2; min-width: 0; font-size: 16px; }
-  .unified .label { display: inline; margin-right: 8px; color: var(--muted); font-size: 11px; font-weight: 500; }
-  .unified .value .label { display: block; margin: 0 0 3px; }
+  .unified tr > .company { grid-column: 2 / -1; grid-row: 1; }
+  .unified tr > .value { grid-column: 2; grid-row: 2; }
+  .unified tr > .compare { grid-column: 3; grid-row: 2; align-self: start; }
+  .unified .reference > .compare { grid-column: 2 / -1; grid-row: 3; }
+  .unified .referenceNote { margin-top: 0; }
+  .unified .referenceCompany + .referenceNote { margin-top: 6px; }
 }

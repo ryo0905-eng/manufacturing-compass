@@ -35,7 +35,6 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
   const firstSmallerCompany = reference ? companies.findIndex((company) => company.marketCapUsdB < reference.marketCapUsdB) : -1;
   const referencePosition = firstSmallerCompany < 0 ? companies.length : firstSmallerCompany;
   const maxValue = Math.max(...companies.map((company) => company.marketCapUsdB), reference?.marketCapUsdB ?? 1);
-  const mobileLabel = (text: string) => unified ? <span className={styles.label} aria-hidden="true">{text}</span> : null;
   const metric = (value: number, display: string, isReference = false) => {
     const ratio = reference ? (value / reference.marketCapUsdB).toFixed(1) : undefined;
     return <>
@@ -46,16 +45,11 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
   };
   const referenceRow = reference ? <tr key={`${scope}-reference-${reference.id}`} role="row" className={styles.reference} aria-label={`参考：${reference.name}（順位対象外）`}>
     <td role="cell" className={styles.rank} aria-label={isWorld ? "順位対象外" : "国内順位対象外"} />
-    {!isWorld ? <td role="cell" className={styles.referenceWorldRank} aria-label="世界順位対象外" /> : null}
     <th role="rowheader" scope="row" className={styles.company}><span className={styles.referenceCompany}>
       <span className={styles.referenceBadge}>参考</span><RankingCompanyName companyId={reference.id} name={reference.name} />
-    </span></th>
-    <td role="cell">{mobileLabel("ティッカー")}—</td>
-    <td role="cell" className={`market-cap-value ${styles.value}`}>{mobileLabel("時価総額")}{metric(reference.marketCapUsdB, formatMarketCapUsdB(reference.marketCapUsdB), true)}</td>
-    {isWorld ? <td role="cell">{mobileLabel("国・地域")}<CountryRegion country="日本" /></td> : null}
-    <td role="cell">{mobileLabel("分類")}業界外の比較対象</td>
-    <td role="cell">{mobileLabel("主な事業")}自動車</td>
-    <td role="cell">半導体ランキング対象外</td>
+    </span><span className={styles.referenceNote}>業界外の比較対象・自動車／日本</span></th>
+    <td role="cell" className={`market-cap-value ${styles.value}`}>{metric(reference.marketCapUsdB, formatMarketCapUsdB(reference.marketCapUsdB), true)}</td>
+    <td role="cell" className={styles.compare}><span className={styles.referenceNote}>半導体ランキング対象外</span></td>
   </tr> : null;
 
   return (
@@ -95,19 +89,17 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
         >トヨタと半導体企業の過去の変化を見る →</TrackedInternalLink>
         <small>移動先は2014〜2025年の年末データです。この記事の基準日とは異なります。</small>
       </p> : null}
-      <div className="market-cap-table-wrap">
+      <div className={`market-cap-table-wrap${unified ? ` ${styles.tableWrap}` : ""}`}>
         <table className="market-cap-table" role={unified ? "table" : undefined} aria-label={`${title}の時価総額ランキング`}>
           <thead role={unified ? "rowgroup" : undefined}>
             <tr role={unified ? "row" : undefined}>
               <th scope="col">{isWorld ? "順位" : "国内"}</th>
-              {!isWorld ? <th scope="col">世界</th> : null}
+              {!unified && !isWorld ? <th scope="col">世界</th> : null}
               <th scope="col">企業名</th>
-              <th scope="col">ティッカー</th>
+              {!unified && <th scope="col">ティッカー</th>}
               <th scope="col">時価総額</th>
-              {isWorld ? <th scope="col">国・地域</th> : null}
-              <th scope="col">分類</th>
-              <th scope="col">主な事業</th>
-              {sourceSlug === "semiconductor-market-cap-ranking" && <th scope="col">2社を比較</th>}
+              {!unified && <>{isWorld ? <th scope="col">国・地域</th> : null}<th scope="col">分類</th><th scope="col">主な事業</th></>}
+              {unified && <th scope="col">比較</th>}
             </tr>
           </thead>
           <tbody role={unified ? "rowgroup" : undefined}>
@@ -117,30 +109,44 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
                 : "domesticRank" in company && typeof company.domesticRank === "number"
                   ? company.domesticRank
                   : company.rank;
-              const companyRow = (
-                <tr role={unified ? "row" : undefined}>
-                  <td role={unified ? "cell" : undefined} className={`market-cap-rank${unified ? ` ${styles.rank}` : ""}`}>{displayRank}</td>
-                  {!isWorld ? <td role={unified ? "cell" : undefined}>{mobileLabel("世界順位")}{company.rank}位</td> : null}
-                  <th scope="row" role={unified ? "rowheader" : undefined} className={unified ? styles.company : undefined}>
-                    <RankingCompanyName companyId={company.companySlug ?? company.id} name={company.name}>
-                      {company.companySlug ? (
-                        <TrackedInternalLink
-                          eventName="article_company_click"
-                          eventProperties={{ company_id: company.companySlug, source_slug: sourceSlug }}
-                          href={`/companies/${company.companySlug}` as Route}
-                        >
-                          {company.name}
-                        </TrackedInternalLink>
-                      ) : company.name}
-                      {company.englishName !== company.name ? <small>{company.englishName}</small> : null}
-                    </RankingCompanyName>
+              const identity = <RankingCompanyName companyId={company.companySlug ?? company.id} name={company.name}>
+                {company.companySlug ? <TrackedInternalLink
+                  eventName="article_company_click"
+                  eventProperties={{ company_id: company.companySlug, source_slug: sourceSlug }}
+                  href={`/companies/${company.companySlug}` as Route}
+                >{company.name}</TrackedInternalLink> : company.name}
+                {company.englishName !== company.name ? <small>{company.englishName}</small> : null}
+              </RankingCompanyName>;
+              const companyRow = unified ? (
+                <tr role="row">
+                  <td role="cell" className={`market-cap-rank ${styles.rank}`}>{displayRank}{!isWorld && <small>世界{company.rank}位</small>}</td>
+                  <th scope="row" role="rowheader" className={styles.company}>
+                    {identity}
+                    <details className={styles.details}>
+                      <summary>企業情報を開く<span className={styles.srOnly}>：{company.name}</span></summary>
+                      <dl>
+                        <div><dt>国・地域</dt><dd><CountryRegion country={company.country} /></dd></div>
+                        <div><dt>ティッカー</dt><dd>{company.ticker}</dd></div>
+                        <div><dt>分類</dt><dd>{company.category}</dd></div>
+                        <div><dt>主な事業</dt><dd>{company.mainBusiness}</dd></div>
+                      </dl>
+                    </details>
                   </th>
-                  <td role={unified ? "cell" : undefined}>{mobileLabel("ティッカー")}{company.ticker}</td>
-                  <td role={unified ? "cell" : undefined} className={`market-cap-value${unified ? ` ${styles.value}` : ""}`}>{mobileLabel("時価総額")}{unified ? metric(company.marketCapUsdB, company.marketCapDisplay) : company.marketCapDisplay}</td>
-                  {isWorld ? <td role={unified ? "cell" : undefined}>{mobileLabel("国・地域")}<CountryRegion country={company.country} /></td> : null}
-                  <td role={unified ? "cell" : undefined}>{mobileLabel("分類")}<span className="market-cap-category">{company.category}</span></td>
-                  <td role={unified ? "cell" : undefined}>{mobileLabel("主な事業")}{company.mainBusiness}</td>
-                  {unified && <td role="cell"><RankingCompareButton id={company.id} source={scope} /></td>}
+                  <td role="cell" className={`market-cap-value ${styles.value}`}>{metric(company.marketCapUsdB, company.marketCapDisplay)}</td>
+                  <td role="cell" className={styles.compare}><RankingCompareButton id={company.id} source={scope} /></td>
+                </tr>
+              ) : (
+                <tr>
+                  <td className="market-cap-rank">{displayRank}</td>
+                  {!isWorld ? <td>{company.rank}位</td> : null}
+                  <th scope="row">
+                    {identity}
+                  </th>
+                  <td>{company.ticker}</td>
+                  <td className="market-cap-value">{company.marketCapDisplay}</td>
+                  {isWorld ? <td><CountryRegion country={company.country} /></td> : null}
+                  <td><span className="market-cap-category">{company.category}</span></td>
+                  <td>{company.mainBusiness}</td>
                 </tr>
               );
               return <Fragment key={`${scope}-${company.rank}-${company.ticker}`}>

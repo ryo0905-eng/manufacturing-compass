@@ -1,5 +1,15 @@
 # TASKS
 
+## 2026-10-17：ランキングの横スクロール解消と2社比較パネル
+
+- 時価総額ランキング記事だけを順位・企業名・時価総額・比較の4列へ整理。国・地域／ティッカー／分類／主な事業をnative detailsへ移し、全情報のSSR、世界・国内順位、金額棒・対トヨタ倍率、参考行の順序と対象外の扱いを保持。記事欄の幅で600px未満を縦配置にする。
+- 比較ボタンは「＋ 比較」「✓ 選択中」。画面下のA/B選択枠と有効化される主CTAからnative dialogを開く。PC中央／スマホ全画面、固定ヘッダー・概要／日本の仕事タブ、2社共通尺度の棒、関連導線・コピーと手動コピーを用意。Escape・背景クリック・閉じる、フォーカス復帰、背景スクロール制御に対応。世界・日本の選択共有、固定IDの共有URL、既存計測を維持。データ値・検索設定・他記事・依存・保存先は変更なし。
+- `npm run typecheck`は175秒上限で1回、成功。`node tests/unit/ranking-company-compare.cjs`は175秒上限で1回実行し、データ・表SSR・全社情報・参考値条件／順序／棒・URL等を通過後、状態テストのPortal用仮DOM不足で停止。createPortalのモックを修正済みだが再実行なし。後続の記事全体SSR・metadataと修正後の完走は未確認。
+- ブラウザテストを360／390／768／1280pxの表・詳細展開・比較パネル、選択・タブ・フォーカス／スクロール復帰、共有・コピー・地図導線に更新し、`node --check tests/browser/ranking-company-compare.cjs`は成功。実ブラウザ・各幅の表示・本番反映・GA4は未確認。dev・build・lint・commit・pushは未実施。
+- `git diff --check`成功。src全体と対象公開文書の禁止語検索で該当なし。
+- 変更ファイル：`src/components/MarketCapRankingTable.tsx`・同CSS Module、`src/components/RankingCompanyCompare.tsx`・同CSS Module、`tests/unit/ranking-company-compare.cjs`、`tests/browser/ranking-company-compare.cjs`、`docs/architecture.md`・`ranking-company-comparison-spec.md`、本記録。
+- 推奨コミット：`feat: improve ranking layout and company comparison dialog`
+
 ## 2026-10-17：元のタイトル全文を保ち、表示の大きさと配置を整理
 
 - ユーザーの指定により、画面のh1を検索用guide.titleと同じ「半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本TOP10」の全文へ戻した。記事名は28〜36px、年月と比較範囲は小さく配置し、記事名の2語・年月・比較範囲のまとまりを保って折り返す。
