@@ -8,15 +8,15 @@ import styles from './ranking-time-machine.module.css';
 
 export function RankingRaceChart({ rows, year, selectedId, animate, onSelect, variant = 'tool' }: {
   rows: readonly RankedCompany[]; year: number; selectedId: string; animate: boolean; onSelect?: (id: string) => void;
-  variant?: 'tool' | 'article';
+  variant?: 'tool' | 'article' | 'home';
 }) {
   const chart = useRef<HTMLOListElement>(null);
   const frame = useRankingAnimation(rows, year, animate);
   const max = frame.rows[0].valueUsdB;
-  const visibleCount = Math.min(10, rows.length);
+  const visibleCount = Math.min(variant === 'home' ? 5 : 10, rows.length);
   const hasReferences = rows.some(row => row.isReference);
-  const article = variant === 'article';
-  const titleId = article ? 'ranking-inline-race-title' : 'race-title';
+  const article = variant !== 'tool';
+  const titleId = variant === 'home' ? 'ranking-home-race-title' : article ? 'ranking-inline-race-title' : 'race-title';
   const Heading = article ? 'h4' : 'h2';
   useLayoutEffect(() => {
     const element = chart.current;

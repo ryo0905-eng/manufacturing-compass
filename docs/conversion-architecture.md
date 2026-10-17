@@ -2,6 +2,14 @@
 
 最終更新日: 2026-10-17
 
+## トップのランキング入口（2026-10-17）
+
+ヒーローのランキング入口と共通ヘッダーから`/#home-rankings`へ接続し、時価総額・装置売上・メモリ・平均年収の既存記事と、操作できるタイムマシンプレビューを案内する。トップのクリックは既存`home_link_click`を維持し、専用枠は`section_id=rankings`、ヒーローは`section_id=hero`・`destination_id=rankings`。4記事のdestination_idはmarket_cap / equipment_sales / memory / salary、専用ツールはranking-time-machine。purposeはindustry、versionは既存purpose-entry-v1。ヘッダーは`header_nav_click`・`destination_id=rankings`と既存display_modeを使用する。同じクリックで記事用イベントを重ねない。
+
+ホームのプレビューは`surface=home_preview`・`ui_version=home-v1`・`source_page=/`・`placement=home_rankings`。tool_id=ranking-time-machine、comparison_mode=semiconductor、company=nvidia、ranking_type=market_cap、data_kind=realを付ける。操作部の実露出でexperience_view、最初の有効操作でtool_step/start、操作前と異なる年のチャート実露出でtool_step/resultをマウント中各1回送る。初期表示・無変更操作・自動年送り・画面外停止を操作成果として増やさない。専用ツールへのクリックはhome_link_clickだけとし、表示年・NVIDIA選択をリンクで引き継ぐ。記事内のarticle_inline / inline-v1・専用ツールのmobile-v2とは分けて集計する。
+
+本番反映と受信確認後14日・28日に、トップから4記事への遷移と、プレビューの露出→開始→結果→専用ツール遷移を同一セッション内で確認する。生イベント数を人数・転換率と読み替えない。実ブラウザ・本番反映・GA4受信・効果は未確認。
+
 ## 業界地図・企業一覧の統合探索（2026-10-17）
 
 統合先は`/industry-map`、全44社の探索を`ui_version=overview-atlas-v3`・`source_page=/industry-map`で区別する。industry_map_node_open・detail_view・content_click・search_result・filter_use・career_layer_change・category_clickを維持し、詳細閲覧と遷移クリックを混ぜない。共有企業IDにつきマウント中1回の復元detail_view、同じ正規化検索のEnter/blurの重複抑止を維持する。メニューとトップはindustry_mapの入口1つとし、旧companiesイベントは統合UIから重ねて送らない。旧イベントを削除・再定義して過去データを書き換えることはしない。

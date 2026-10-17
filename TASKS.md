@@ -1,5 +1,16 @@
 # TASKS
 
+## 2026-10-17：ランキングをトップの主要入口へ追加
+
+- ヒーローの目的別入口をランキング・技術・企業研究・キャリアの4つへ変更。PCは2列、720px以下は1列。ヒーロー直後、技術ツールより前の`#home-rankings`へ、操作プレビューと時価総額・装置売上・メモリ・平均年収の既存記事リンクを配置した。共通ヘッダーの技術の次にもランキング入口を追加し、同じアンカーへ接続。追従ヘッダーの余白と狭いPC幅のナビ間隔を調整。
+- 既存RankingTimeMachinePreviewへhome表示を追加。2010年末・停止から再生／一時停止・年選択・リセットを使い、上位5社とNVIDIAの確定値・圏外表示を確認できる。専用ツールへ表示年・NVIDIA選択を引き継ぐ。20社の選定範囲・単位・出典・既存確認日を表示し、画面外／背景タブで停止する。データ・計算・再生・reduced-motion対応は共用し、記事の上位10社・初期表示・計測、既存のランキング記事本文・数値・URLと経験別企業リスト`/rankings`は維持。
+- 入口データをhomeRankingLinksへ集約。トップ・ヘッダーは既存クリックイベント、プレビューはexperience_view／tool_stepをhome_preview・home-v1で識別する。記事用イベントと重複送信しない。新しいAPI・依存・保存先は追加していない。
+- `node tests/unit/ranking-time-machine-preview.cjs`を1回実行し成功。ホームと記事のSSR、4記事への通常リンク、専用枠の順序、ヘッダー入口、固有ID、16年分のデータ、再生・停止・リセット、画面外／背景タブ停止、自動再開なし、表示年引き継ぎ、計測の区別・重複抑止を確認。ホームSSRのnext/image模擬によりfill属性の警告が出るが、検証はexit 0。
+- `node tests/unit/ranking-time-machine.cjs`を1回実行し成功。既存の全比較モード・再生・共有・計測・reduced-motion・SSRと、履歴記事のregistry／metadata／canonical／sitemap／構造化データを確認。`npm run typecheck`も1回成功。いずれも175秒の上限付きで3分以内に終了。`git diff --check`とsrc・変更した公開文書の禁止語照合を実施。
+- 実ブラウザのレイアウト・実端末・本番反映・GA4受信・流入効果は未確認。dev・build・lint・commit・pushは実行していない。本番反映・受信確認後14日／28日を観測期間とする。
+- 変更ファイル：`src/app/(ja)/page.tsx`、`src/app/globals.css`、`src/components/Header.module.css`、`src/components/ranking-time-machine/RankingTimeMachinePreview.tsx`・`RankingRaceChart.tsx`、`src/data/home.ts`・`header.ts`、`tests/unit/ranking-time-machine-preview.cjs`、`README.md`、`docs/PRD.md`・`architecture.md`・`design-system.md`・`conversion-architecture.md`、本記録。
+- 推奨コミット：`feat: add interactive ranking entry to homepage and navigation`
+
 ## 2026-10-17：ロゴと色面で俯瞰できる業界地図へ整理
 
 - PCの8領域・44社を12列・2段の固定配置へ変更。上段はEDA・IP／ファブレス／ファウンドリ／OSAT／検査・計測を2／4／2／2／2列、下段は材料／IDM／製造装置を2／6／4列に配置。領域内は1／3／1／1／1列、1／4／3列。DOM順を領域の視覚順に合わせ、領域内の企業順と8色を維持。1023px以下は領域を縦に並べ、カードを2列にする。

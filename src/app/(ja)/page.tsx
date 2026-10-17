@@ -5,12 +5,13 @@ import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { HomeLink } from "@/components/HomeLink";
 import { HomeToolPreview } from "@/components/HomeToolPreview";
+import { RankingTimeMachinePreview } from "@/components/ranking-time-machine/RankingTimeMachinePreview";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
 import { guideCategoryDetails, guideCategoryOrder } from "@/content/guides/categories";
 import type { GuideArticle } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
-import { homeGuideSlugs, homeResearchLinks, homeToolIds } from "@/data/home";
+import { homeGuideSlugs, homeRankingLinks, homeResearchLinks, homeToolIds } from "@/data/home";
 import { learningTools } from "@/data/learning-tools";
 import { siteUrl } from "@/lib/format";
 
@@ -56,6 +57,7 @@ export default function Home() {
           <p>{description}</p>
         </div>
         <nav className="home-focused__entry-grid" aria-label="目的から選ぶ">
+          <HomeLink href="/#home-rankings" section="hero" destination="rankings" purpose="industry">ランキングで企業を比べる<span aria-hidden="true">→</span></HomeLink>
           <HomeLink href="/tools" section="hero" destination="tools" purpose="technology">技術を学ぶ・使う<span aria-hidden="true">→</span></HomeLink>
           <HomeLink href="/industry-map" section="hero" destination="industry_map" purpose="industry">企業・業界を調べる<span aria-hidden="true">→</span></HomeLink>
           <CareerCompassLink ctaLocation="home_hero_purpose" ctaVariant="purpose_entry_v1" sourcePage="/">キャリアを整理する<span aria-hidden="true">→</span></CareerCompassLink>
@@ -69,6 +71,16 @@ export default function Home() {
             sizes="(max-width: 720px) 216px, (max-width: 1120px) 40vw, 420px"
             loading="eager"
           />
+        </div>
+      </section>
+
+      <section id="home-rankings" className="home-focused__section home-focused__rankings" aria-labelledby="home-rankings-title">
+        <header className="home-focused__heading"><h2 id="home-rankings-title">ランキングで半導体企業を比べる</h2><p>時価総額の変化を動かして確認。売上高・市場シェア・平均年収など、知りたい指標から企業を調べられます。</p></header>
+        <div className="home-focused__ranking-grid">
+          <RankingTimeMachinePreview variant="home" />
+          <nav className="home-focused__ranking-links" aria-label="比較するランキングを選ぶ">
+            {homeRankingLinks.map((item) => <HomeLink href={item.href} key={item.id} section="rankings" destination={item.id} purpose="industry"><strong>{item.title}<span aria-hidden="true"> →</span></strong><p>{item.body}</p></HomeLink>)}
+          </nav>
         </div>
       </section>
 
