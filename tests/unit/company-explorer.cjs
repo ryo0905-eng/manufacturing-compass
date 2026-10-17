@@ -116,7 +116,7 @@ assert.equal(ui.events[0].properties.result_count, 1);
 assert.ok(!JSON.stringify(ui.events).includes('GPU'));
 let focused = 0;
 const trigger = { isConnected: true, getClientRects: () => [{}], focus() { focused++; } };
-cards(ui.render())[0].props.children[0].props.onClick({ currentTarget: trigger });
+nodes(cards(ui.render())[0], n => n.type === 'button')[0].props.onClick({ currentTarget: trigger });
 let dialog = nodes(ui.render(), n => typeof n.type === 'function' && n.type.name === 'CompanyExplorerDialog')[0];
 assert.equal(dialog.props.company.id, 'nvidia');
 assert.equal(ui.events.at(-1).name, 'industry_map_detail_view');
@@ -128,12 +128,12 @@ assert.equal(nodes(ui.render(), n => typeof n.type === 'function' && n.type.name
 const clearButton = nodes(ui.render(), n => n.type === 'button' && n.props.children === '条件をクリア')[0];
 clearButton.props.onClick();
 assert.equal(cards(ui.render()).length, 44);
-for (const event of ui.events) { assert.equal(event.properties.source_page, '/industry-map'); assert.equal(event.properties.ui_version, 'unified-atlas-v2'); }
+for (const event of ui.events) { assert.equal(event.properties.source_page, '/industry-map'); assert.equal(event.properties.ui_version, 'overview-atlas-v3'); }
 const mapUi = explorer(unifiedProps);
 let mapTree = mapUi.render();
 assert.equal(cards(mapTree).length, 44);
 assert.equal(mapUi.events.length, 0);
-cards(mapTree)[0].props.children[0].props.onClick({ currentTarget: trigger });
+nodes(cards(mapTree)[0], n => n.type === 'button')[0].props.onClick({ currentTarget: trigger });
 assert.equal(mapUi.events.map(e => e.name).join(','), 'industry_map_node_open,industry_map_detail_view');
 assert.ok(mapUi.events.every(e => e.properties.source_page === '/industry-map'));
 const initialUi = explorer({ ...unifiedProps, initialQuery: 'Broadcom' });
@@ -143,6 +143,22 @@ const zeroUi = explorer({ ...unifiedProps, initialQuery: 'nonexistentword' });
 assert.equal(cards(zeroUi.render()).length, 0);
 assert.match(JSON.stringify(zeroUi.render()), /条件に一致する企業/);
 assert.equal(nodes(zeroUi.render(), n => n.props?.href === '/companies').length, 0);
+const compactCards = cards(mapTree);
+for (const card of compactCards) {
+  assert.equal(nodes(card, n => Boolean(n.props?.href)).length, 0, 'Native links move below the map');
+  assert.equal(nodes(card, n => n.type === 'strong').length, 1, 'Company name stays visible');
+  assert.equal(nodes(card, n => n.props?.companyId && n.props?.size === 'overview').length, 1);
+}
+assert.equal(nodes(mapTree, n => n.type === 'button' && n.props['aria-label']?.includes('簡易紹介')).length, 7);
+const filterDisclosure = nodes(mapTree, n => n.type === 'details' && 'data-company-filters' in n.props)[0];
+const indexDisclosure = nodes(mapTree, n => n.type === 'details' && 'data-company-link-index' in n.props)[0];
+assert.equal(filterDisclosure.props.open, undefined);
+assert.equal(indexDisclosure.props.open, undefined);
+assert.equal(nodes(indexDisclosure, n => n.props?.href?.startsWith('/companies/')).length, 37);
+assert.equal(nodes(indexDisclosure, n => n.type === 'a' && n.props?.href?.startsWith('https://')).length, 7);
+nodes(indexDisclosure, n => n.props?.href === '/companies/nvidia')[0].props.onClick();
+assert.equal(mapUi.events.at(-1).name, 'industry_map_content_click');
+assert.equal(mapUi.events.at(-1).properties.link_location, 'company_link_index');
 const hashUi = explorer(unifiedProps, '#company=nvidia');
 hashUi.render(); const cleanup = hashUi.h.effects.map(fn => fn());
 assert.equal(nodes(hashUi.render(), n => typeof n.type === 'function' && n.type.name === 'CompanyExplorerDialog')[0].props.company.id, 'nvidia');
@@ -171,7 +187,7 @@ invalid.render(); invalid.h.effects.forEach(fn => fn());
 assert.equal(nodes(invalid.render(), n => typeof n.type === 'function' && n.type.name === 'CompanyExplorerDialog').length, 0);
 assert.match(JSON.stringify(invalid.render()), /指定された企業/);
 const blocked = explorer(unifiedProps, '', true);
-cards(blocked.render())[0].props.children[0].props.onClick({ currentTarget: trigger });
+nodes(cards(blocked.render())[0], n => n.type === 'button')[0].props.onClick({ currentTarget: trigger });
 assert.equal(nodes(blocked.render(), n => typeof n.type === 'function' && n.type.name === 'CompanyExplorerDialog').length, 1);
 console.log('PASS: search/clear, explicit summaries, native links, route-specific privacy-safe events, shared/invalid hash and analytics failure isolation.');
 
@@ -190,9 +206,10 @@ modal.props.onClick({ target: native, currentTarget: native, clientX: 0, clientY
 unmount(); assert.equal(nativeClosed, 1);
 const logoHooks = hooks();
 const Logo = loader({ react: logoHooks.react })('src/components/CompanyCardLogo').CompanyCardLogo;
-function logoRender(companyId = 'nvidia') { logoHooks.reset(); return Logo({ companyId, name: 'NVIDIA', size: 'compact' }); }
+function logoRender(companyId = 'nvidia') { logoHooks.reset(); return Logo({ companyId, name: 'NVIDIA', size: 'overview' }); }
 let logo = logoRender(); assert.equal(logo.props['aria-hidden'], 'true');
-const image = nodes(logo, n => n.props?.src?.includes('nvidia.png'))[0]; assert.ok(image); image.props.onError();
+assert.match(logo.props.className, /overview/);
+const image = nodes(logo, n => n.props?.src?.includes('nvidia.png'))[0]; assert.ok(image); assert.equal(image.props.sizes, '72px'); image.props.onError();
 assert.match(JSON.stringify(logoRender()), /NV/);
 assert.ok(!nodes(logoRender('hitachi-hightech'), n => n.props?.src).length);
 console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks, close cleanup and image failure/missing fallback.');
@@ -208,6 +225,13 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   for (const anchor of ['company-search', 'company-search-title', 'industry-atlas-title', 'japanese-companies', 'companies-japan-title', 'companies-taxonomy-title', 'companies-role-title', 'companies-adjacent-title']) assert.ok(html.includes(`id="${anchor}"`), anchor);
   for (const segment of segments.filter(s => companies.some(c => c.headquartersCountry === '日本' && c.industrySegments.includes(s.id)))) assert.ok(html.includes(`id="japanese-${segment.id}"`));
   assert.ok(html.indexOf('id="company-search"') < html.indexOf('id="japanese-companies"'));
+  const linkIndexHtml = html.match(/<details[^>]*data-company-link-index=""[^>]*>([\s\S]*?)<\/details>/)[1];
+  assert.equal((linkIndexHtml.match(/href="\/companies\//g) || []).length, 37);
+  assert.equal((linkIndexHtml.match(/href="https:\/\//g) || []).length, 7);
+  assert.ok(html.indexOf('data-company-map-grid') < html.indexOf('data-company-link-index'));
+  assert.ok(!html.includes('companies-search-jump'));
+  assert.equal((html.match(/class="profileLabel"/g) || []).length, 7);
+
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(m => m[1]);
   assert.equal(new Set(ids).size, ids.length, 'No duplicate anchors');
   const jsonLd = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/g)].map(m => JSON.parse(m[1]));
@@ -239,7 +263,8 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   const { siteUrl } = load('src/lib/format');
   assert.ok(sitemap.some(entry => entry.url === siteUrl + '/industry-map'));
   assert.ok(!sitemap.some(entry => entry.url === siteUrl + '/companies'));
-  assert.ok(sitemap.some(entry => entry.url === siteUrl + '/companies/nvidia'));
+  const { isCompanyIndexable } = load('src/data/companies');
+  for (const company of companies) assert.equal(sitemap.some(entry => entry.url === siteUrl + '/companies/' + company.slug), isCompanyIndexable(company), company.id);
   assert.ok(sitemap.some(entry => entry.url === siteUrl + '/companies/global-japan'));
   const { headerNavItems } = load('src/data/header');
   const { homeResearchLinks } = load('src/data/home');
@@ -262,5 +287,24 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   }
   const postcss = require('postcss'), pure = require('next/dist/compiled/postcss-modules-local-by-default');
   for (const file of ['src/components/CompanyExplorer.module.css', 'src/components/CompanyCardLogo.module.css']) await postcss([pure({ mode: 'pure' })]).process(fs.readFileSync(file, 'utf8'), { from: file });
-  console.log('PASS: unified SSR/legacy anchors/native links, query/noindex/canonical/ItemList, exact redirect/fallback, sitemap/subroutes, single navigation entry, 43 logos and valid CSS modules.');
+  const css = fs.readFileSync('src/components/CompanyExplorer.module.css', 'utf8');
+  const root = postcss.parse(css);
+  const grid = root.nodes.find(rule => rule.selector === '.atlas .groups');
+  assert.equal(grid.nodes.find(d => d.prop === 'grid-template-columns').value, 'repeat(12, minmax(0, 1fr))');
+  const rows = [...grid.nodes.find(d => d.prop === 'grid-template-areas').value.matchAll(/"([^"]+)"/g)].map(m => m[1].split(' '));
+  assert.equal(rows.length, 2); rows.forEach(row => assert.equal(row.length, 12));
+  assert.equal(rows[0].join(','), 'eda,eda,fabless,fabless,fabless,fabless,foundry,foundry,osat,osat,inspection,inspection');
+  assert.equal(rows[1].join(','), 'materials,materials,idm,idm,idm,idm,idm,idm,equipment,equipment,equipment,equipment');
+  const colors = new Set();
+  for (const zone of industryMapZones) {
+    const rule = root.nodes.find(rule => rule.selector === `.zone[data-zone="${zone.id}"]`);
+    const background = rule?.nodes.find(d => d.prop === '--zone-bg')?.value || root.nodes.find(rule => rule.selector === '.zone').nodes.find(d => d.prop === '--zone-bg').value;
+    colors.add(background);
+  }
+  assert.equal(colors.size, 8);
+  const logoCss = postcss.parse(fs.readFileSync('src/components/CompanyCardLogo.module.css', 'utf8'));
+  const logoOverview = logoCss.nodes.find(rule => rule.selector === '.logo.overview');
+  assert.equal(logoOverview.nodes.find(d => d.prop === 'width').value, '72px');
+  assert.equal(logoOverview.nodes.find(d => d.prop === '--logo-height').value, '24px');
+  console.log('PASS: overview SSR/closed native disclosures/37+7 links/two-row CSS/eight colors/legacy anchors/native links, query/noindex/canonical/ItemList, exact redirect/fallback, sitemap/subroutes, single navigation entry, 43 logos and valid CSS modules.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

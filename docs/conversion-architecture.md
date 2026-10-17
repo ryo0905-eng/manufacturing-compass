@@ -4,9 +4,9 @@
 
 ## 業界地図・企業一覧の統合探索（2026-10-17）
 
-統合先は`/industry-map`、全44社の探索を`ui_version=unified-atlas-v2`・`source_page=/industry-map`で区別する。industry_map_node_open・detail_view・content_click・search_result・filter_use・career_layer_change・category_clickを維持し、詳細閲覧と遷移クリックを混ぜない。共有企業IDにつきマウント中1回の復元detail_view、同じ正規化検索のEnter/blurの重複抑止を維持する。メニューとトップはindustry_mapの入口1つとし、旧companiesイベントは統合UIから重ねて送らない。旧イベントを削除・再定義して過去データを書き換えることはしない。
+統合先は`/industry-map`、全44社の探索を`ui_version=overview-atlas-v3`・`source_page=/industry-map`で区別する。industry_map_node_open・detail_view・content_click・search_result・filter_use・career_layer_change・category_clickを維持し、詳細閲覧と遷移クリックを混ぜない。共有企業IDにつきマウント中1回の復元detail_view、同じ正規化検索のEnter/blurの重複抑止を維持する。メニューとトップはindustry_mapの入口1つとし、旧companiesイベントは統合UIから重ねて送らない。旧イベントを削除・再定義して過去データを書き換えることはしない。
 
-検索語・入力値は送らず、固定の条件種別・企業ID・遷移先・件数を使う。初期表示・再描画だけで操作イベントを増やさず、計測失敗でUIを止めない。GA4の設定変更は今回行わない。
+検索語・入力値は送らず、固定の条件種別・企業ID・遷移先・件数を使う。初期表示・再描画だけで操作イベントを増やさず、計測失敗でUIを止めない。地図は概要ボタン、詳細・公式情報は概要内と全44社のリンク一覧へ集約する。リンク一覧はindustry_map_content_clickのlink_location=company_link_index、概要はdetail_panelで区別する。開閉欄を開いただけでは企業詳細への遷移として計上しない。GA4の設定変更は今回行わない。
 
 本番反映・通常利用の受信確認後14日・28日で、旧新URL合計と主要検索語ごとの検索流入、概要表示、企業詳細への同一セッション内の移動を観察する。UI版の異なるイベント件数を直接比較して人数・転換率へ読み替えない。少数なら延長する。移行前の期間・実績は非公開記録に保持。本番反映日・受信・観測開始日は未確認。[仕様](./company-explorer-spec.md)。
 
@@ -251,7 +251,9 @@ Career Compass
 - 時価総額ランキングの企業研究4ステップに、経験と職種・次の準備を整理する入口を追加。既存の勤務地・企業・待遇の導線は維持する。ランキング数値と出典の確認日は変更しない。
 - コードの本番反映日は未確認。反映日から28日間、ランキングと業界地図を遷移元別に、表示したセッション→クリック→開始→完了の順序で確認する。イベント件数をそのまま割らずセッション内で重複排除する。新しい表示イベントに過去の基準値はないため、最初の期間を基準とする。
 
-### 業界地図の詳細導線（2026-09-10・ローカル実装）
+### 旧IndustryMapExplorerの詳細導線（2026-09-10・実装履歴）
+
+以下は旧画面の仕様・計測履歴。現行のCompanyExplorerは冒頭の統合探索に従い、overview-atlas-v3で区別する。
 
 - 工程パネルの代表企業名から企業詳細へ進める。材料は材料セグメント、組立・テストは後工程・OSATの解説へ接続する。
 - 企業パネルは企業詳細を主導線とし、公開対象の確認済み拠点がある場合だけ同社の `#japan-locations`、キャリア準備データがある場合だけ `#career-prep` への補助リンクを表示する。判定はServer Componentで行い、Client Componentには真偽値だけ渡す。未掲載を拠点不存在や求人なしと表現しない。

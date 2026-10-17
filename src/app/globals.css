@@ -6690,7 +6690,6 @@ select {
 .companies-taxonomy__heading { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 12px; align-items: center; width: 100%; margin-bottom: 7px; }
 .companies-taxonomy__heading > div { min-width: 0; }
 .companies-taxonomy__heading img { display: block; width: 96px; height: 64px; object-fit: contain; }
-.companies-search-jump { margin-top: 20px; }
 #company-search { scroll-margin-top: 88px; }
 #company-search:focus-visible { outline: 2px solid #1769aa; outline-offset: 4px; }
 
@@ -20995,3 +20994,12 @@ body {
 
 /* Fragment aliases retained when the company directory moved into the atlas. */
 .company-explorer-legacy-anchor { display: block; height: 0; scroll-margin-top: 80px; }
+
+/* A compact introduction leaves the atlas as the first-screen focus. */
+.page.industry-map-page--overview { width: min(1400px, calc(100% - 32px)); gap: 8px; padding-top: 8px; }
+.industry-map-page--overview .industry-map-hero { gap: 8px 16px; padding: 0; }
+.industry-map-page--overview .industry-map-hero h1 { margin: 0 0 3px; font-size: 26px; }
+.industry-map-page--overview .industry-map-hero > div > p { font-size: 13px; line-height: 1.6; }
+@media (max-width: 720px) {
+  .industry-map-page--overview .industry-map-hero h1 { font-size: 24px; }
+}

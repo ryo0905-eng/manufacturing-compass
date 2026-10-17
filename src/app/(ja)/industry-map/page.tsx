@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
-import { CompanySearchJump } from "@/components/CompanySearchJump";
 import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { IndustryAtlas } from "@/components/IndustryAtlas";
 import { EarningsInternalLink } from "@/components/earnings/EarningsLinks";
@@ -51,7 +50,7 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
   const params = await searchParams;
   const query = typeof params.query === "string" ? params.query : params.query?.[0] ?? "";
   return (
-    <main className="page industry-map-page">
+    <main className="page industry-map-page industry-map-page--overview">
       <StructuredData data={{
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -77,15 +76,8 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
       </nav>
       <header className="industry-map-hero">
         <div>
-          <p className="section-label">SEMICONDUCTOR ECOSYSTEM</p>
           <h1>半導体業界地図・企業一覧</h1>
-          <p>設計、製造、後工程と、それらを支える材料・装置・検査まで。8領域から日本・海外の全{atlasCompanies.length}社を探し、業界のつながりを理解できます。企業詳細のある{companies.length}社と、公式情報へ案内する簡易紹介7社を掲載しています。全企業を網羅したものではありません。</p>
-          <CompanySearchJump />
-          <div className="actions">
-            <Link className="button ghost" href="#japanese-companies">日本企業を分野別に見る</Link>
-            <Link className="button ghost" href="/semiconductor-map">日本の拠点から探す</Link>
-            <Link className="button ghost" href="/compare">2社を比較する</Link>
-          </div>
+          <p>日本・海外の企業を8つの役割で俯瞰。ロゴや社名を選ぶと、企業概要を確認できます。</p>
         </div>
         <p><strong>8領域 × {atlasCompanies.length}社</strong><span>企業詳細{companies.length}社・簡易紹介7社</span></p>
       </header>
@@ -131,7 +123,7 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
               <div>
                 <h3>{stage.title}</h3>
                 <p>{stage.description}</p>
-                <TrackedInternalLink className="text-link" eventName="industry_map_category_click" eventProperties={{ category: stage.id, destination: "guide", source_page: "/industry-map", ui_version: "unified-atlas-v2" }} href={stage.guideHref}>
+                <TrackedInternalLink className="text-link" eventName="industry_map_category_click" eventProperties={{ category: stage.id, destination: "guide", source_page: "/industry-map", ui_version: "overview-atlas-v3" }} href={stage.guideHref}>
                   {stage.guideLabel} <span aria-hidden="true">→</span>
                 </TrackedInternalLink>
               </div>

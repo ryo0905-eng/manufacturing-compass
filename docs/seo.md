@@ -31,7 +31,7 @@ SEO は Career Compass だけへ送客するためのものではありません
 
 ### 業界地図・企業一覧の統合（2026-10-17）
 
-`/industry-map`へ8領域・44社の探索と日本メーカー一覧を集約し、旧`/companies`だけを完全一致308で恒久転送する。クエリは引き継ぎ、既存アンカーは統合先へ残す。`/companies/[slug]`・`/companies/global-japan`・比較URLを転送対象にしない。タイトルは「半導体業界地図・日本と世界のメーカー一覧【2026年版】」、説明は8領域・44社・詳細37社と簡易紹介7社の範囲を示す。自己参照canonicalは`/industry-map`、通常URLはindex、query指定は空文字・0件を含めnoindex, follow。会社名・詳細／公式リンクと日本企業一覧を初期HTMLへ含め、BreadcrumbList・44社のItemListとsitemap・サイト内リンクを一致させる。sitemapは旧一覧トップだけを外す。[仕様](./company-explorer-spec.md)。
+`/industry-map`へ8領域・44社の探索と日本メーカー一覧を集約し、旧`/companies`だけを完全一致308で恒久転送する。クエリは引き継ぎ、既存アンカーは統合先へ残す。`/companies/[slug]`・`/companies/global-japan`・比較URLを転送対象にしない。タイトルは「半導体業界地図・日本と世界のメーカー一覧【2026年版】」、説明は8領域・44社・詳細37社と簡易紹介7社の範囲を示す。自己参照canonicalは`/industry-map`、通常URLはindex、query指定は空文字・0件を含めnoindex, follow。カードの概要ボタンと、地図直下のnative details内の37詳細／7公式リンク・日本企業一覧を初期HTMLへ含め、BreadcrumbList・44社のItemListとsitemap・サイト内リンクを一致させる。sitemapは旧一覧トップだけを外す。[仕様](./company-explorer-spec.md)。
 
 恒久転送は維持し、統合後14日・28日は両URL合計と主要検索語ごとに観察する。検索評価やクリックがそのまま引き継がれるとは保証しない。移行前の数値・期間と反映日・受信・インデックスの確認は非公開記録に保持する。[Googleの移行手順](https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes)。
 

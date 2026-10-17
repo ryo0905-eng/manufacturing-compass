@@ -192,7 +192,7 @@ video/docs/                 制作フロー、公開記録、計測ログ
 
 ## 業界地図のデータフロー
 
-2026-10-17：IndustryAtlasはServer Componentとして、企業詳細37社と出典付き簡易紹介7社をCompanyExplorerItemへ組み立て、CompanyExplorerへ渡す。主領域の追加対応は`src/data/company-explorer.ts`、組み立てと検索は`src/lib/company-explorer.ts`に置く。既存31社の領域内順序の後ろへ追加13社を企業データ順で加え、8領域・44社を検索する。元のCompany・セグメント分類は変更しない。ページがqueryの先頭値を読み、query変更時は探索部品をkeyで再マウントして初期検索を適用する。ロゴはランキングの履歴データに依存しない。旧一覧はNext設定による完全一致308転送とサーバーページのpermanentRedirectで統合先へ案内し、クエリ値・重複値を保持する。詳細以下のルートは転送しない。[詳細](./company-explorer-spec.md)。
+2026-10-17：IndustryAtlasはServer Componentとして、企業詳細37社と出典付き簡易紹介7社をCompanyExplorerItemへ組み立て、CompanyExplorerへ渡す。主領域の追加対応は`src/data/company-explorer.ts`、組み立てと検索は`src/lib/company-explorer.ts`に置く。既存31社の領域内順序の後ろへ追加13社を企業データ順で加え、8領域・44社を検索する。元のCompany・セグメント分類は変更しない。ページがqueryの先頭値を読み、query変更時は探索部品をkeyで再マウントして初期検索を適用する。PCの地図は12列・2段、1023px以下は領域を縦に配置する。概要ボタンだけのカードと、検索に依存しない全44社の通常リンク一覧を同じ初期HTMLへ出力し、絞り込み・リンク一覧はnative detailsで開閉する。ロゴはoverviewサイズを使い、ランキングの履歴データに依存しない。旧一覧はNext設定による完全一致308転送とサーバーページのpermanentRedirectで統合先へ案内し、クエリ値・重複値を保持する。詳細以下のルートは転送しない。[詳細](./company-explorer-spec.md)。
 
 ```text
 静的な領域・役割・既存企業参照・出典付き簡易企業・職種の接点

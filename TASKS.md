@@ -1,5 +1,18 @@
 # TASKS
 
+## 2026-10-17：ロゴと色面で俯瞰できる業界地図へ整理
+
+- PCの8領域・44社を12列・2段の固定配置へ変更。上段はEDA・IP／ファブレス／ファウンドリ／OSAT／検査・計測を2／4／2／2／2列、下段は材料／IDM／製造装置を2／6／4列に配置。領域内は1／3／1／1／1列、1／4／3列。DOM順を領域の視覚順に合わせ、領域内の企業順と8色を維持。1023px以下は領域を縦に並べ、カードを2列にする。
+- 冒頭を短い導入と検索へ整理し、繰り返す見出し・説明・領域リンク集・大きなボタンを除く。地域・国内拠点・既存6セグメント・職種表示は閉じたnative detailsへ集約し、結果件数・適用数・条件クリアは閉じた後も確認できる。分業は短い1行と一般的な役割の注記にする。
+- 白いカードはロゴ・社名を中心にし、72×24px以内のoverviewロゴサイズを追加。社名13px以上の全文折り返しと44px以上の操作領域を指定し、狭いPCではロゴ幅を縮めて社名の幅を確保。簡易紹介7社のラベルは別のグリッド行へ置き、概要ボタンの読み上げにも含める。他ページのdefault／compactサイズは維持。
+- 地図内の説明と詳細リンク行を外し、既存概要と、地図直下の閉じた「全44社の企業詳細・公式情報」へ集約。37詳細・7公式リンクは検索条件に依存せず全件をSSRし、JavaScriptなしでもnative detailsを開いて進める。長い領域説明も地図下の開閉欄へ移設。日本企業一覧、旧アンカー、共有指定、初期クエリ、転送、canonical・noindex・ItemList・sitemap方針は維持。
+- 計測版をoverview-atlas-v3へ変更。全社リンク一覧は既存industry_map_content_clickのlink_location=company_link_index、概要内はdetail_panelで区別。検索語や自由入力は送信しない。財務情報・資本関係・個社間の取引線、新しいデータ取得や保存は追加していない。
+- `node tests/unit/company-explorer.cjs`を1回実行。44社のデータ・検索・複合条件・0件・解除、全44社の企業指定、概要・フォーカス・ロゴ失敗の模擬操作、初期状態の開閉欄、全37+7リンク、計測、SSR・旧アンカー・ItemList・初期クエリ・canonical／noindex・完全一致の転送設定とサーバー転送まで通過。sitemapで検索非公開のNVIDIAにも掲載を要求していた既存テストが停止（exit 1）。判定をisCompanyIndexableとの一致へ修正したが再試行せず、以降のsitemap／ナビゲーション・画像資産・CSSのテストは未完了。前回不足していたusePathname模擬は今回引き継いでSSRが通過した。
+- `npm run typecheck`を最大1回実行して成功。対象テスト・型チェックは各175秒の監視付きで3分以内。テスト後のコード変更は狭いPCで社名の幅を確保するCSS調整のみで、型チェックはその後に実行。`git diff --check`・変更した公開ファイルの禁止語照合を確認する。
+- 1440×900pxの初期画面へヘッダーから地図全体を収める目標は実ブラウザ未確認。1280×800pxは縦スクロールを許容し、縮小変形・社名の切り捨て・固定高さでの隠蔽を行わない。ブラウザ仕様を1440×900・1280×800・768／390／320px、44px操作・長い社名・8色・画像失敗・開閉・概要・JavaScriptなしリンクへ更新したが未実行。実端末・実HTTP・本番反映・GA4受信も未確認。dev・build・lint・commit・pushは未実行。
+- 変更ファイル：`src/components/CompanyExplorer.tsx`・CSS Module、`CompanyCardLogo.tsx`・CSS Module、`src/app/(ja)/industry-map/page.tsx`、`src/app/globals.css`、`tests/unit/company-explorer.cjs`・`tests/browser/company-explorer.cjs`、`docs/PRD.md`・`architecture.md`・`design-system.md`・`company-explorer-spec.md`・`conversion-architecture.md`・`seo.md`、本記録。不要になった`CompanySearchJump.tsx`を削除。
+- 推奨コミット：`feat: make industry map a compact company overview`
+
 ## 2026-10-17：企業一覧を業界地図へ統合
 
 - 企業探索を`/industry-map`へ一本化。全44社（詳細37社・簡易紹介7社）を8領域へ表示し、従来31社の領域内順序の後ろへ追加13社を元データ順に加える。背景色・白いロゴカードを維持し、簡易紹介にラベルと公式リンクを表示。検索・地域・拠点・既存6セグメント・職種表示・概要を1画面へ集約し、日本企業一覧・主力製品も移設。

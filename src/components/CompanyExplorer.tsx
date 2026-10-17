@@ -4,7 +4,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { CompanyCardLogo } from "@/components/CompanyCardLogo";
-import { industryMapCareers, industryMapMetadata, industryMapZoneRelations, industryMapZones } from "@/data/industry-map";
+import { industryMapCareers, industryMapMetadata, industryMapZones } from "@/data/industry-map";
 import { trackEvent } from "@/lib/analytics";
 import { filterExplorerCompanies, normalizeCompanySearch } from "@/lib/company-explorer";
 import { readIndustryCompanyHash } from "@/lib/industry-map-entry";
@@ -12,7 +12,9 @@ import type { IndustrySegment } from "@/types/content";
 import type { CompanyExplorerFilters, CompanyExplorerItem } from "@/types/company-explorer";
 import styles from "./CompanyExplorer.module.css";
 
-const UI_VERSION = "unified-atlas-v2";
+const UI_VERSION = "overview-atlas-v3";
+const overviewZones = ["eda-ip", "fabless", "foundry", "osat", "inspection", "materials", "idm", "equipment"]
+  .flatMap((id) => industryMapZones.filter((zone) => zone.id === id));
 const emptyFilters: CompanyExplorerFilters = { query: "", region: "all", locationsOnly: false, segment: "all" };
 
 type CompanyExplorerProps = {
@@ -32,8 +34,9 @@ export function CompanyExplorer({ items, initialQuery = "", segments = [] }: Com
   const [selected, setSelected] = useState<CompanyExplorerItem | null>(null);
   const [notice, setNotice] = useState("");
   const filtered = useMemo(() => filterExplorerCompanies(items, filters), [items, filters]);
-  const groups = industryMapZones.map((zone) => ({ zone, companies: filtered.filter((company) => company.primaryZone === zone.id) }))
+  const groups = overviewZones.map((zone) => ({ zone, companies: filtered.filter((company) => company.primaryZone === zone.id) }))
     .filter((group) => group.companies.length > 0);
+  const filterCount = Number(filters.region !== "all") + Number(filters.locationsOnly) + Number(filters.segment !== "all");
   const isFiltering = Boolean(filters.query.trim() || filters.region !== "all" || filters.locationsOnly || filters.segment !== "all");
 
   function record(eventName: string, properties: Parameters<typeof trackEvent>[1] = {}) {
@@ -112,57 +115,69 @@ export function CompanyExplorer({ items, initialQuery = "", segments = [] }: Com
 
   return (
     <section ref={rootRef} className={`${styles.root} ${styles.atlas}${isFiltering ? ` ${styles.filtering}` : ""}`} id="company-search" tabIndex={-1} aria-labelledby="industry-atlas-title">
-      <header className={styles.heading}>
-        <div>
-          <h2 id="industry-atlas-title"><span id="company-search-title">業界のつながりから企業を探す</span></h2>
-          <p>設計・製造・後工程と、それを支える材料・装置。ロゴや企業名から概要を開き、企業詳細や公式情報へ進めます。</p>
-        </div>
-        <span>掲載{items.length}社</span>
-      </header>
-      <p className={styles.readingGuide}>設計と製造は分業し、材料・装置・検査が工程を横断して支えます。メモリなどの製品分野は企業概要で確認できます。</p>
+      <h2 id="industry-atlas-title" className={styles.srOnly}><span id="company-search-title">業界のつながりから企業を探す</span></h2>
       {notice ? <p role="status" className={styles.empty}>{notice}</p> : null}
       <div className={styles.toolbar}>
         <label className={styles.search}>
-          <span>企業名・製品・職種で検索</span>
-          <input ref={searchRef} type="search" value={filters.query} placeholder="例：TSMC、メモリ、品質保証" onChange={(event) => { setFilters((current) => ({ ...current, query: event.target.value })); setSelected(null); }} onBlur={recordSearch} onKeyDown={(event) => { if (event.key === "Enter") recordSearch(); }} />
+          <span className={styles.srOnly}>企業名・製品・職種で検索</span>
+          <input ref={searchRef} type="search" value={filters.query} placeholder="企業名・製品・職種で検索（例：TSMC、メモリ）" onChange={(event) => { setFilters((current) => ({ ...current, query: event.target.value })); setSelected(null); }} onBlur={recordSearch} onKeyDown={(event) => { if (event.key === "Enter") recordSearch(); }} />
         </label>
-        <label><span>本社地域</span><select value={filters.region} onChange={(event) => filterChanged({ region: event.target.value as CompanyExplorerFilters["region"] }, "region", event.target.value)}>
-          <option value="all">日本・海外すべて</option><option value="japan">日本企業</option><option value="overseas">海外企業</option>
-        </select></label>
-        <label><span>製品・事業分野</span><select value={filters.segment} onChange={(event) => filterChanged({ segment: event.target.value }, "segment", event.target.value)}>
-          <option value="all">すべての分野</option>{segments.map((segment) => <option key={segment.id} value={segment.id}>{segment.name}</option>)}
-        </select></label>
-        <label className={styles.checkbox}><input type="checkbox" checked={filters.locationsOnly} onChange={(event) => filterChanged({ locationsOnly: event.target.checked }, "locations", event.target.checked)} />国内拠点情報あり</label>
-        <button type="button" aria-pressed={showCareers} onClick={() => { setShowCareers(!showCareers); record("industry_map_career_layer_change", { enabled: !showCareers }); }}>職種との接点</button>
-        {isFiltering ? <button type="button" onClick={() => { setFilters({ ...emptyFilters }); setSelected(null); lastSearch.current = ""; record("industry_map_filter_use", { filter_type: "clear" }); }}>条件をクリア</button> : null}
         <output aria-live="polite">{filtered.length}社</output>
+        {isFiltering ? <button type="button" onClick={() => { setFilters({ ...emptyFilters }); setSelected(null); lastSearch.current = ""; record("industry_map_filter_use", { filter_type: "clear" }); }}>条件をクリア</button> : null}
+        <details className={styles.filters} data-company-filters="">
+          <summary>絞り込み{filterCount ? `（${filterCount}条件）` : ""}{showCareers ? "・職種表示中" : ""}</summary>
+          <div className={styles.filterOptions}>
+            <label><span>本社地域</span><select value={filters.region} onChange={(event) => filterChanged({ region: event.target.value as CompanyExplorerFilters["region"] }, "region", event.target.value)}>
+              <option value="all">日本・海外すべて</option><option value="japan">日本企業</option><option value="overseas">海外企業</option>
+            </select></label>
+            <label><span>製品・事業分野</span><select value={filters.segment} onChange={(event) => filterChanged({ segment: event.target.value }, "segment", event.target.value)}>
+              <option value="all">すべての分野</option>{segments.map((segment) => <option key={segment.id} value={segment.id}>{segment.name}</option>)}
+            </select></label>
+            <label className={styles.checkbox}><input type="checkbox" checked={filters.locationsOnly} onChange={(event) => filterChanged({ locationsOnly: event.target.checked }, "locations", event.target.checked)} />国内拠点情報あり</label>
+            <button type="button" aria-pressed={showCareers} onClick={() => { setShowCareers(!showCareers); record("industry_map_career_layer_change", { enabled: !showCareers }); }}>職種との接点</button>
+            <p className={styles.filterNote}>6分類は企業詳細のある37社が対象です。簡易紹介7社は企業名・製品・職種から検索できます。</p>
+          </div>
+        </details>
       </div>
-      <p className={styles.note}>製品・事業分野の6分類は企業詳細のある37社が対象です。簡易紹介7社は、企業名・製品・職種の検索で探せます。</p>
-      {groups.length ? <nav className={styles.categories} aria-label="業界地図の領域">{groups.map(({ zone }) => <a key={zone.id} href={`#industry-zone-${zone.id}`} onClick={() => { record("industry_map_category_click", { category: zone.id, destination: "map_zone" }); }}>{zone.label}</a>)}</nav> : null}
       {!filtered.length ? <div className={styles.empty} role="status">
         <strong>条件に一致する企業はありませんでした</strong><p>検索語を短くするか、条件を解除してください。</p>
       </div> : null}
       <div className={styles.flow} aria-label="半導体産業の一般的な役割の流れ">
-        {industryMapZoneRelations.slice(0, 3).map((relation) => <p key={`${relation.from}-${relation.to}`}><strong>{industryMapZones.find((zone) => zone.id === relation.from)?.label}</strong><span aria-hidden="true"> → </span><strong>{industryMapZones.find((zone) => zone.id === relation.to)?.label}</strong><small>{relation.label}</small></p>)}
-        <p className={styles.flowNote}>材料・製造装置・検査装置は複数工程を支えます。矢印は一般的な役割の接点で、個別企業の取引関係ではありません。</p>
+        <p><strong>設計</strong><span aria-hidden="true"> → </span><strong>製造</strong><span aria-hidden="true"> → </span><strong>後工程</strong></p>
+        <p>材料・装置・検査は複数工程を支えます。個別企業の取引関係を示す矢印ではありません。</p>
       </div>
-      <div className={styles.groups}>
+      <div className={styles.groups} data-company-map-grid="">
         {groups.map(({ zone, companies }) => <section key={zone.id} data-zone={zone.id} className={styles.zone} id={`industry-zone-${zone.id}`}>
           <span id={`directory-zone-${zone.id}`} className={styles.anchor} aria-hidden="true" />
-          <header className={styles.zoneHeading}><h3>{zone.label}</h3><span>{companies.length}社</span><p>{zone.description}</p></header>
+          <header className={styles.zoneHeading}><h3>{zone.label}</h3><span>{companies.length}社</span></header>
           <div className={styles.cards}>{companies.map((company) => <article key={company.id} className={styles.card} data-atlas-company={company.id} data-company-explorer-company={company.id}>
-            <button type="button" aria-label={`${company.nameJa}の概要を見る`} aria-haspopup="dialog" aria-pressed={selected?.id === company.id} onClick={(event) => openCompany(company, event.currentTarget)}>
-              <CompanyCardLogo companyId={company.id} name={company.name} size="compact" />
-              <strong>{company.nameJa}</strong>{company.profileKind === "map" ? <small className={styles.profileLabel}>簡易紹介</small> : null}<span>{company.businessModel}</span>
+            <button type="button" className={company.profileKind === "map" ? styles.supplemental : undefined} aria-label={`${company.nameJa}の概要を見る${company.profileKind === "map" ? "（簡易紹介）" : ""}`} aria-haspopup="dialog" aria-pressed={selected?.id === company.id} onClick={(event) => openCompany(company, event.currentTarget)}>
+              <CompanyCardLogo companyId={company.id} name={company.name} size="overview" />
+              <strong>{company.nameJa}</strong>{company.profileKind === "map" ? <small className={styles.profileLabel} aria-hidden="true">簡易紹介</small> : null}
             </button>
-            {company.slug ? <Link href={`/companies/${company.slug}` as Route} onClick={() => contentClick(company, "company", "company_card")} aria-label={`${company.nameJa}の企業詳細`}>企業詳細 <span aria-hidden="true">→</span></Link>
-              : <a href={company.websiteUrl} target="_blank" rel="noreferrer" onClick={() => contentClick(company, "official_source", "company_card")} aria-label={`${company.nameJa}の公式情報（新しいタブ）`}>公式情報 <span aria-hidden="true">↗</span></a>}
           </article>)}</div>
           {showCareers ? <div className={styles.careers}><strong>この領域と接点のある職種</strong>{zone.careerIds.map((id) => industryMapCareers.find((career) => career.id === id)).filter((career) => career !== undefined).slice(0, 2).map((career) => <p key={career.id}><b>{career.label}</b><span>{career.description}</span><Link href={`/industry-map?query=${encodeURIComponent(career.query)}` as Route}>関連企業を探す</Link></p>)}<Link href="/career-compass">経験との接点を整理する</Link></div> : null}
-          <Link className={styles.zoneLink} href={zone.guideHref as Route}>{zone.guideLabel} <span aria-hidden="true">→</span></Link>
         </section>)}
       </div>
-      <p className={styles.note}>分類は主な役割による整理です。一社が複数の分野を担う場合があります。地図の基本分類更新：{industryMapMetadata.lastUpdated}。</p>
+      <details className={styles.linkIndex} data-company-link-index="">
+        <summary>全{items.length}社の企業詳細・公式情報</summary>
+        <div className={styles.linkGroups}>{overviewZones.map((zone) => <section key={zone.id}>
+          <h3>{zone.label}</h3>
+          <ul>{items.filter((company) => company.primaryZone === zone.id).map((company) => <li key={company.id}>
+            {company.slug ? <Link href={`/companies/${company.slug}` as Route} onClick={() => contentClick(company, "company", "company_link_index")}>{company.nameJa}<span>企業詳細 →</span></Link>
+              : <a href={company.websiteUrl} target="_blank" rel="noreferrer" onClick={() => contentClick(company, "official_source", "company_link_index")}>{company.nameJa}<span>公式情報・簡易紹介 ↗</span></a>}
+          </li>)}</ul>
+        </section>)}</div>
+      </details>
+      <details className={styles.explanations}>
+        <summary>8領域の役割と関連情報</summary>
+        <div className={styles.linkGroups}>{overviewZones.map((zone) => <section key={zone.id}>
+          <h3>{zone.label}</h3><p>{zone.description}</p>
+          <Link href={zone.guideHref as Route} onClick={() => record("industry_map_category_click", { category: zone.id, destination: "guide" })}>{zone.guideLabel} →</Link>
+        </section>)}</div>
+      </details>
+      <p className={styles.related}><Link href="#japanese-companies">日本企業を分野別に見る</Link><Link href="/compare">2社を比較する</Link><Link href="/semiconductor-map">日本の拠点から探す</Link></p>
+      <p className={styles.note}>詳細37社・簡易紹介7社を掲載し、全企業を網羅したものではありません。分類は主な役割による整理です。一社が複数の分野を担う場合があります。地図の基本分類更新：{industryMapMetadata.lastUpdated}。</p>
       <p className={styles.credit}>ロゴは企業識別のために掲載しています。画像提供：<a href="https://companiesmarketcap.com/" target="_blank" rel="noreferrer">CompaniesMarketCap</a>／<a href="https://companieslogo.com/" target="_blank" rel="noreferrer">CompaniesLogo</a>。権利は各権利者に帰属します。</p>
       {selected ? <CompanyExplorerDialog company={selected} onClose={closeDetail} onNavigate={(destination) => contentClick(selected, destination, "detail_panel")} /> : null}
     </section>
