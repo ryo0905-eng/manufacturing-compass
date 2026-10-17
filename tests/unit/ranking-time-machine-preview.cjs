@@ -192,12 +192,15 @@ fallback.document.hidden = true; fallback.tick();
 assert.equal(fallback.controls().playing, false); fallback.cleanup();
 
 const guide = load('src/content/guides/semiconductor-market-cap-ranking').semiconductorMarketCapRankingGuide;
-const blocks = guide.sections.find(section => section.id === 'world-ranking').blocks;
-assert.equal(blocks[0].type, 'market-cap-ranking');
-assert.equal(blocks[1].type, 'ranking-time-machine-preview');
-assert.equal(blocks[2].type, 'book-affiliate-entry');
-assert.equal(guide.overviewBlocks[0].items[2].href, '#ranking-time-machine-preview');
+const worldBlocks = guide.sections.find(section => section.id === 'world-ranking').blocks;
+const japanBlocks = guide.sections.find(section => section.id === 'japan-ranking').blocks;
+assert.deepEqual(plain(worldBlocks), [{ type: 'market-cap-ranking', scope: 'world' }]);
+assert.deepEqual(plain(japanBlocks), [{ type: 'market-cap-ranking', scope: 'japan' }]);
+const historyIndex = guide.sections.findIndex(section => section.id === 'ranking-history');
+assert.equal(historyIndex, guide.sections.findIndex(section => section.id === 'japan-ranking') + 1);
+assert.equal(guide.sections[historyIndex].blocks[0].type, 'ranking-time-machine-preview');
 assert.equal(guide.sections.flatMap(section => section.blocks ?? []).filter(block => block.type === 'ranking-time-machine-preview').length, 1);
+assert.equal(guide.sections.flatMap(section => section.blocks ?? []).filter(block => block.type === 'book-affiliate-entry').length, 0);
 
 // Homepage keeps crawlable links and real initial data without hydration.
 const home = load('src/app/(ja)/page').default;

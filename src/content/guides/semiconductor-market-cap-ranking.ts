@@ -13,6 +13,8 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   presentation: "structured",
   author: "RYO",
   reviewedBy: "RYO",
+  showIntroSummary: false,
+  showExperienceBasis: false,
   basisLabel: "この記事の調査範囲",
   experienceBasis: [
     "CompaniesMarketCapのSemiconductorsカテゴリから、2026年10月1日確認時点の世界上位30社を同時取得",
@@ -20,7 +22,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-10-15",
+  updatedAt: "2026-10-17",
   sources: [
     {
       title: "日経業界地図 2027年版（紹介書籍の書誌情報）",
@@ -149,168 +151,72 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       accessedAt: "2026-07-14",
     },
   ],
-  readTime: "約18分",
+  readTime: "約12分",
   intro: {
     problem: "半導体企業のランキングを見ても、設計会社、製造会社、装置会社がなぜ同じ表に並ぶのか分かりにくくありませんか。",
-    conclusion: "2026年10月1日確認時点の上位3社は、NVIDIA、TSMC、Broadcomです。半導体メーカー・関連企業を企業全体の時価総額で比較し、世界TOP30と日本TOP10を紹介します。",
+    conclusion: "世界1位はNVIDIA、日本1位は東京エレクトロンです（2026年10月1日基準）。世界TOP30と日本TOP10を、企業全体の時価総額で比較します。",
     learnings: "世界TOP30、日本TOP10、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
   },
   overviewBlocks: [
     {
       type: "links",
       items: [
-        {
-          label: "世界TOP30を見る",
-          href: "#world-ranking",
-          description: "半導体メーカー・装置・材料などを企業全体の時価総額で比較"
-        },
-        {
-          label: "日本TOP10を見る",
-          href: "#japan-ranking",
-          description: "同じデータ基準で抽出した日本企業の順位を確認"
-        },
-        {
-          label: "NVIDIAの順位はどう変わった？ 2010年から動かして見る",
-          href: "#ranking-time-machine-preview",
-          description: "この記事の中で再生・年選択を試せます。選定20社内でNVIDIAの順位と時価総額の変化を追えます。"
-        },
-        {
-          label: "製造装置の売上高で比較",
-          href: "/guides/semiconductor-equipment-sales-ranking",
-          description: "装置事業の売上高を基準に、担当する工程も見る"
-        },
-        {
-          label: "メモリの売上シェアで比較",
-          href: "/guides/memory-manufacturer-ranking",
-          description: "DRAMとNANDを分けて製品市場のシェアを見る"
-        },
-        {
-          label: "光半導体メーカーを用途別に比較",
-          href: "/guides/optical-semiconductor-manufacturers",
-          description: "LED・レーザー・イメージセンサーなどの企業例を確認。光半導体の総合順位ではありません"
-        }
-      ]
-    }
+        { label: "世界TOP30を見る", href: "#world-ranking", description: "世界の半導体メーカー・関連企業を比較" },
+        { label: "日本TOP10を見る", href: "#japan-ranking", description: "同じ基準の日本企業ランキング" },
+        { label: "詳しい解説を読む", href: "#top-ten", description: "上位企業の特徴と業界での役割" },
+      ],
+    },
   ],
   sections: [
     {
       id: "world-ranking",
       heading: "半導体メーカー・関連企業の世界時価総額ランキングTOP30",
-      lead: "2026年10月1日確認時点の上位3社は、NVIDIA、TSMC、Broadcomです。",
-      blocks: [
-        { type: "market-cap-ranking", scope: "world" },
-        { type: "ranking-time-machine-preview" },
-        { type: "book-affiliate-entry" },
-        {
-          type: "link-callout",
-          title: "ランキングに出てくる企業は、どんな役割？",
-          description: "設計・製造・装置・材料など、代表企業の役割と工程のつながりを業界マップで確認できます。",
-          label: "半導体業界マップを見る",
-          href: "/industry-map",
-          ctaLocation: "world_ranking_after_table",
-        },
-        {
-          type: "link-callout",
-          title: "時価総額の先にある業績と見通し",
-          description: "NVIDIA・TSMC・Intelを含む主要12社の売上・利益・前年比と次回決算予定を一覧で確認できます。",
-          label: "主要12社の決算一覧を見る",
-          href: "/semiconductor-watch/earnings",
-          ctaLocation: "world_ranking_after_table",
-        },
-      ],
-      paragraphs: [
-        "本記事では、半導体そのものを設計・製造する企業だけでなく、製造装置、検査・計測装置、EDA、半導体IP、OSATなども含めています。同じ『半導体企業』でも、顧客、設備、収益構造、技術職の役割は異なります。",
-        "サムスン電子のような総合電機メーカーの時価総額は、半導体部門だけの企業価値を示すものではありません。企業全体の時価総額で比較しているため、専業企業との違いを理解したうえで順位を見てください。",
-      ],
+      blocks: [{ type: "market-cap-ranking", scope: "world" }],
+      paragraphs: [],
     },
     {
       id: "japan-ranking",
       heading: "日本の半導体関連企業・時価総額ランキングTOP10",
-      lead: "同じデータセットから日本企業を抽出すると、製造装置と検査・計測装置の企業が多く入ります。",
+      lead: "日本1位は東京エレクトロン（世界20位）、2位はアドバンテスト（世界21位）です。",
       blocks: [{ type: "market-cap-ranking", scope: "japan" }],
       paragraphs: [
-        "日本1位は東京エレクトロンで世界20位、2位はアドバンテストで世界21位です。日本TOP10では、東京エレクトロン、アドバンテスト、ディスコ、レーザーテック、SCREEN、KOKUSAI ELECTRIC、ローツェの7社を装置または検査・計測装置へ分類しました。",
-        "ルネサスとロームは半導体デバイスを扱うIDM、SUMCOはシリコンウェーハ、ローツェはウェーハ搬送ロボットやEFEMなどの製造装置を扱います。キオクシアやソシオネクストなど著名企業でも、基準データのカテゴリや順位によって今回のTOP10へ入らない場合があります。編集判断でカテゴリ外の企業を追加していません。",
+        "同じカテゴリから日本企業を抽出したTOP10です。キオクシアやソシオネクストなど著名企業でも、基準データのカテゴリや順位によって入らない場合があります。カテゴリ外の企業は追加していません。",
       ],
     },
     {
-      id: "industry-map-books",
-      heading: "業界全体を見渡したいときに読む2冊",
-      lead: "私は『日経業界地図』と『「会社四季報」業界地図』を毎年読んでいて、2027年版も読みました。どちらも業界の全体像を視覚的につかめるところが好きです。",
-      blocks: [
-        { type: "moshimo-book-link", product: "nikkei-industry-map-2027" },
-        { type: "moshimo-book-link", product: "shikiho-industry-map-2027" },
-      ],
+      id: "ranking-history",
+      heading: "過去の順位の変化を見る",
+      blocks: [{ type: "ranking-time-machine-preview" }],
       paragraphs: [],
-    },
-    {
-      id: "compare-by-field",
-      heading: "製造装置・メモリ・光半導体を分野別に比較する",
-      lead: "知りたいのが企業全体の評価額ではなく、特定分野の規模や製品なら、比較対象と指標を分けて見ます。",
-      paragraphs: [],
-      blocks: [{ type: "links", items: [
-        { label: "日本の半導体関連10社の時価総額推移", href: "/guides/japan-semiconductor-market-cap-history", description: "2010〜2025年の固定10社を比較。現在の日本TOP10とは異なる、長期の変化を読む" },
-        { label: "NVIDIAとIntelの時価総額推移", href: "/guides/nvidia-intel-market-cap-history", description: "16年の年末値から2社の評価額と大小関係の変化を見る" },
-        { label: "半導体製造装置メーカーの売上高ランキング", href: "/guides/semiconductor-equipment-sales-ranking", description: "2025暦年の装置売上高で上位10社を比較。成膜・露光・検査など、扱う工程と製品を調べる" },
-        { label: "メモリメーカーランキング｜DRAM・NANDの売上シェア", href: "/guides/memory-manufacturer-ranking", description: "2026年4〜6月の製品市場別シェアを比較。DRAMとNANDを分け、企業全体の時価総額との違いを確認する" },
-        { label: "光半導体メーカーを用途から比較する", href: "/guides/optical-semiconductor-manufacturers", description: "LED・レーザー・イメージセンサー・フォトダイオードの企業例を調べる。総合順位ではなく公式製品情報で比較する" },
-      ] }],
-    },
-    {
-      id: "methodology",
-      heading: "ランキングの対象とデータ基準日",
-      lead: "数字を混在させないため、主ランキングは一つの基準ソースへ統一しました。",
-      blocks: [
-        {
-          type: "cards",
-          columns: 4,
-          items: [
-            { label: "DATE", title: "2026年10月1日", body: "10月1日に出典へ掲載されていた値を使用。各市場の取引日・更新時刻は異なる" },
-            { label: "SOURCE", title: "同時点の1データ", body: "CompaniesMarketCapのSemiconductorsカテゴリを基準に統一" },
-            { label: "SCOPE", title: "上場企業のみ", body: "客観的な時価総額を持たない未上場企業は対象外" },
-            { label: "CHECK", title: "重複を除外", body: "同一企業、二重上場、ADRと現地株式を別企業として数えない" },
-          ],
-        },
-        {
-          type: "note",
-          title: "TSMCの扱い",
-          body: "TSMCはNYSEのADR価格だけを単純に掛けた値ではなく、CompaniesMarketCapが示す企業全体の時価総額を使用しています。市場情報サービスとのクロスチェックでは取得時刻や株式数の扱いによる差があったため、表の数字は基準ソースへ統一しました。",
-        },
-      ],
-      paragraphs: [
-        "時価総額は株価と発行済株式数から算出され、株価や為替で動きます。CompaniesMarketCapは日次更新ですが、同サイトも株価データに数分から数時間の遅延があり得ると明記しています。この記事の数値はリアルタイム値ではなく、基準日時点のスナップショットです。",
-      ],
     },
     {
       id: "top-ten",
-      heading: "世界ランキング上位10社は、何をしている企業か",
-      lead: "上位10社だけでも、ファブレス、ファウンドリ、IDM、メモリ、製造装置が混在します。",
+      heading: "世界ランキング上位10社の特徴と、企業を見るポイント",
+      lead: "表の主な事業に加え、分業関係や事業範囲の違いを整理します。",
       blocks: [
         {
           type: "cards",
           columns: 2,
           items: [
-            { label: "1位", title: "NVIDIA｜ファブレス", body: "AI向けGPUとアクセラレーテッドコンピューティングを軸にする設計企業です。自社で大規模な量産工場を運営する会社ではなく、製品設計、ソフトウェア、システム全体を組み合わせます。製造技術者は、同社単体だけでなく製造を担うファウンドリや装置企業との分業まで見る必要があります。" },
-            { label: "2位", title: "TSMC｜ファウンドリ", body: "顧客が設計した半導体を製造する専業ファウンドリです。幅広い顧客製品を量産へつなぐため、プロセス、設備、歩留まり、品質、生産管理など製造現場に近い機能を持ちます。NVIDIAとTSMCは競合として単純比較するより、設計と製造を分担する関係として理解すると位置づけが明確です。" },
-            { label: "3位", title: "Broadcom｜ファブレス", body: "ネットワーク、サーバー、ストレージ、無線接続などの半導体に加え、インフラソフトウェアも展開する企業です。ランキングの時価総額は半導体事業だけの評価ではありません。AIデータセンターでは演算チップだけでなく、高速なデータ接続やネットワークも重要な領域です。" },
-            { label: "4位", title: "Samsung Electronics｜IDM・総合電機", body: "メモリ、System LSI、ファウンドリを含むDevice Solutions事業を持ち、電子機器など半導体以外の事業も展開します。設計から製造までを幅広く持つIDMとして整理していますが、表の時価総額は半導体部門だけではなくSamsung Electronics全体の数値です。" },
-            { label: "5位", title: "Micron Technology｜メモリ・IDM", body: "DRAM、NAND、HBM、SSDなどメモリとストレージを中心に設計・製造する企業です。ロジック半導体のファブレス企業とは異なり、メモリ量産のプロセス、設備、品質、歩留まりが事業の中核にあります。需要と市況の変動が順位へ反映される場合もあります。" },
-            { label: "6位", title: "AMD｜ファブレス", body: "データセンター、PC、ゲーム、組み込み向けのCPU、GPU、アクセラレーターを開発する企業です。NVIDIAと同じファブレスに分類できますが、製品ポートフォリオと対象市場は同一ではありません。日本での求人を見る場合も、本社の全事業ではなく日本法人の担当機能を確認します。" },
-            { label: "7位", title: "SK hynix｜メモリ・IDM", body: "DRAM、NAND、HBMを中心とする韓国のメモリメーカーです。メモリは設計だけでなく量産能力、プロセス統合、設備、歩留まり、品質が競争力へ直結しやすい領域です。同じ上位企業でも、ファブレス企業とは技術職の構成が大きく異なります。" },
-            { label: "8位", title: "ASML｜製造装置", body: "半導体回路のパターン形成に使うEUV・DUV露光装置を設計・製造します。半導体そのものを販売する会社ではなく、チップメーカーが量産するための装置、ソフトウェア、サービスを提供します。機械、電気、光学、制御、ソフトウェア、フィールドサポートが交わる企業です。" },
-            { label: "9位", title: "Intel｜IDM・ファウンドリ", body: "CPUやデータセンター向け製品の設計・製造に加え、外部顧客向けの製造事業にも取り組む企業です。設計と自社工場を持つIDMであり、ファウンドリ機能もあります。職務は製品開発、プロセス開発、製造、受託製造のどこに属するかを分けて見ます。" },
-            { label: "10位", title: "CXMT｜メモリ・IDM", body: "DRAMの設計、研究開発、製造、販売を行う中国のメモリ企業です。今回の基準データでは時価総額上位へ入っていますが、順位だけで量産能力や市場シェアを推定しません。" },
+            { label: "1位", title: "NVIDIA｜ファブレス", body: "GPUの設計だけでなく、ソフトウェアやシステム全体を組み合わせる点が特徴です。量産はファウンドリなどとの分業で成り立っています。" },
+            { label: "2位", title: "TSMC｜ファウンドリ", body: "顧客が設計した半導体を量産へつなぐ企業です。NVIDIAとは、設計と製造を分担する関係として見ると位置づけを理解しやすくなります。" },
+            { label: "3位", title: "Broadcom｜ファブレス", body: "ネットワークや高速なデータ接続を支える半導体に加え、インフラソフトウェアも展開。時価総額には半導体以外の事業への評価も含まれます。" },
+            { label: "4位", title: "Samsung Electronics｜IDM・総合電機", body: "メモリ、System LSI、ファウンドリを持つ一方、電子機器も展開。半導体専業企業と比べる際は、企業全体と半導体部門の範囲を分けて見る必要があります。" },
+            { label: "5位", title: "Micron Technology｜メモリ・IDM", body: "メモリとストレージの設計から製造までを担います。量産のプロセス、設備、品質、歩留まりに加え、需要や市況の変動も事業を見るポイントです。" },
+            { label: "6位", title: "AMD｜ファブレス", body: "CPU、GPU、アクセラレーターをデータセンター、PC、ゲーム、組み込みへ展開。同じファブレスでも、NVIDIAとは製品構成と対象市場が異なります。" },
+            { label: "7位", title: "SK hynix｜メモリ・IDM", body: "DRAM、NAND、HBMが中心。設計に加え、量産能力、プロセス統合、歩留まりや品質が競争力に関わる企業です。" },
+            { label: "8位", title: "ASML｜製造装置", body: "回路のパターン形成に使うEUV・DUV露光装置を供給。装置だけでなく、ソフトウェアやサービスも組み合わせてチップメーカーの量産を支えます。" },
+            { label: "9位", title: "Intel｜IDM・ファウンドリ", body: "自社製品の設計・製造に加え、外部顧客向けの製造事業にも取り組みます。製品事業と受託製造の両面を分けて見ると整理しやすくなります。" },
+            { label: "10位", title: "CXMT｜メモリ・IDM", body: "DRAMの研究開発、設計、製造、販売を担う中国企業です。時価総額の順位と、量産能力や製品市場のシェアは分けて確認します。" },
           ],
         },
       ],
-      paragraphs: [
-        "上位10社の順位は企業の優劣を表すものではありません。株式市場が企業全体へ付けた評価額を並べた結果であり、売上高、利益、従業員数、特定製品の市場シェアとは別の指標です。",
-      ],
+      paragraphs: [],
     },
     {
       id: "business-models",
       heading: "ファブレス、ファウンドリ、IDM、製造装置の違い",
-      lead: "ランキングを読む前提として、半導体のバリューチェーン上で何を提供する企業かを確認します。",
+      lead: "半導体を設計・製造する企業に加え、装置、検査・計測、設計ソフト、後工程、材料の企業も対象です。",
       blocks: [
         {
           type: "mapping",
@@ -328,34 +234,47 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           ],
         },
         {
+          type: "link-callout",
+          title: "企業同士の役割と工程のつながりを見る",
+          description: "設計・製造・装置・材料など、代表企業の位置づけを業界マップで確認できます。",
+          label: "半導体業界マップを見る",
+          href: "/industry-map",
+          ctaLocation: "world_ranking_after_table",
+        },
+        {
           type: "note",
           title: "分類は主な役割へ単純化",
           body: "複数事業を持つ企業があります。Broadcomにはインフラソフトウェア、Samsung Electronicsには半導体以外の事業、IntelにはIDMとファウンドリの両面があります。本表はキャリア研究の入口として主な役割へ整理したものです。",
         },
       ],
-      paragraphs: [
-        "同じ時価総額でも、設計資産へ投資する企業と、大規模な工場や装置へ投資する企業では事業の形が違います。求人を比較するときも、会社の順位より先に自分の経験がどの工程や機能へつながるかを見ます。",
-      ],
+      paragraphs: [],
     },
     {
       id: "what-is-market-cap",
-      heading: "時価総額とは何か｜売上高や利益とは違う",
-      lead: "時価総額は、株価に発行済株式数を掛けて算出する、株式市場における企業価値の目安です。",
+      heading: "時価総額とは｜売上高・利益との違いと使い分け",
+      lead: "時価総額は、株価に発行済株式数を掛けた、株式市場における企業価値の目安です。",
       blocks: [
         {
-          type: "cards",
-          columns: 4,
-          items: [
-            { label: "MARKET CAP", title: "市場からの評価額", body: "株価が動けば時価総額も変動。将来の成長期待が反映される場合がある" },
-            { label: "REVENUE", title: "売上高", body: "一定期間に商品やサービスを販売して得た収益。時価総額とは計算方法が違う" },
-            { label: "PROFIT", title: "利益", body: "売上高から費用を差し引いた成果。時価総額や保有現金とは別の数字" },
-            { label: "SCALE", title: "事業規模の一面", body: "時価総額が最大でも、売上高、工場数、従業員数が最大とは限らない" },
+          type: "mapping",
+          leftLabel: "指標",
+          rightLabel: "分かること・使う場面",
+          rows: [
+            { left: "時価総額", right: "企業全体への市場評価。株価や為替で動き、将来の成長期待も反映される場合がある" },
+            { left: "売上高", right: "一定期間の事業規模。企業全体か半導体部門か、対象期間・範囲・通貨をそろえて比較する" },
+            { left: "利益", right: "売上高から費用を差し引いた成果。時価総額や保有現金とは異なる" },
           ],
+        },
+        {
+          type: "link-callout",
+          title: "業績と見通しも合わせて確認する",
+          description: "主要12社の売上・利益・前年比と次回決算予定を一覧で確認できます。",
+          label: "主要12社の決算一覧を見る",
+          href: "/semiconductor-watch/earnings",
+          ctaLocation: "world_ranking_after_table",
         },
       ],
       paragraphs: [
-        "株価が上昇すれば、発行済株式数が同じでも時価総額は大きくなります。一方で、企業の現金残高や年間売上をそのまま表す数字ではありません。総合企業の場合は、半導体以外の事業に対する評価も含まれます。",
-        "時価総額が大きい企業が、転職先として必ず優れているわけでもありません。採用職種、勤務地、仕事内容、働き方、必要な経験は時価総額から判断できないためです。",
+        "時価総額が最大でも、売上高、工場数、従業員数が最大とは限りません。総合企業では、半導体以外の事業への評価も含まれます。装置の事業規模なら装置売上、メモリの市場構成ならDRAM・NAND別の売上シェアへ進むと、目的に合う比較ができます。",
       ],
     },
     {
@@ -380,18 +299,22 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       ],
     },
     {
-      id: "revenue-ranking",
-      heading: "時価総額と売上高を企業研究でどう使い分けるか",
-      lead: "同じ順位表で違う指標を代用せず、目的に合う数字へ進みます。",
-      paragraphs: [
-        "市場からの評価を見たいときは時価総額、一定期間の事業規模を見たいときは売上高を確認します。総合企業では、企業全体と半導体部門の集計範囲もそろえる必要があります。",
-        "装置を比較するなら装置売上、メモリを比較するならDRAM・NAND別の売上シェアへ進み、対象期間・範囲・通貨を確認してください。時価総額の高さから採用数や働きやすさを推定することはできません。"
-      ]
+      id: "compare-by-field",
+      heading: "製造装置・メモリ・光半導体を分野別に比較する",
+      lead: "知りたいのが企業全体の評価額ではなく、特定分野の規模や製品なら、比較対象と指標を分けて見ます。",
+      paragraphs: [],
+      blocks: [{ type: "links", items: [
+        { label: "日本の半導体関連10社の時価総額推移", href: "/guides/japan-semiconductor-market-cap-history", description: "2010〜2025年の固定10社を比較。現在の日本TOP10とは異なる、長期の変化を読む" },
+        { label: "NVIDIAとIntelの時価総額推移", href: "/guides/nvidia-intel-market-cap-history", description: "16年の年末値から2社の評価額と大小関係の変化を見る" },
+        { label: "半導体製造装置メーカーの売上高ランキング", href: "/guides/semiconductor-equipment-sales-ranking", description: "2025暦年の装置売上高で上位10社を比較。成膜・露光・検査など、扱う工程と製品を調べる" },
+        { label: "メモリメーカーランキング｜DRAM・NANDの売上シェア", href: "/guides/memory-manufacturer-ranking", description: "2026年4〜6月の製品市場別シェアを比較。DRAMとNANDを分け、企業全体の時価総額との違いを確認する" },
+        { label: "光半導体メーカーを用途から比較する", href: "/guides/optical-semiconductor-manufacturers", description: "LED・レーザー・イメージセンサー・フォトダイオードの企業例を調べる。総合順位ではなく公式製品情報で比較する" },
+      ] }],
     },
     {
-      id: "career-view",
-      heading: "転職先として時価総額ランキングを見る際の注意点",
-      lead: "時価総額は企業規模を知る一つの指標ですが、募集職種との相性は企業分類から考えます。",
+      id: "research-flow",
+      heading: "ランキングを企業研究へつなげる｜職種の接点と4ステップ",
+      lead: "時価総額だけでは仕事内容、勤務地、働き方は分かりません。企業の役割と自分の経験の接点を見つけ、実際の求人で確かめます。",
       blocks: [
         {
           type: "mapping",
@@ -411,17 +334,6 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           title: "現在募集中の職種を示す表ではありません",
           body: "上記は企業分類から考えられる一般的な職種例です。各社が現在募集しているとは限りません。日本法人の役割は本社全体の事業内容と異なる場合もあるため、公式採用ページと実際の求人票を確認してください。",
         },
-      ],
-      paragraphs: [
-        "製造業の経験を転職へつなげるなら、時価総額の順位より、設計、前工程、後工程、装置、材料のどこで経験を使えるかを先に考えます。工程改善や設備経験でも、デバイスメーカーと装置メーカーでは顧客、成果、働く場所が変わります。",
-        "求人票だけでは日本での組織構成や担当範囲が分かりにくい場合があります。そのときは企業の公式採用情報に加え、半導体・製造業を扱う転職エージェントへ求人背景と実際の担当範囲を確認します。",
-      ],
-    },
-    {
-      id: "research-flow",
-      heading: "ランキングを企業研究へつなげる4ステップ",
-      lead: "転職先として気になる企業が見つかったら、日本の勤務地、自分の経験に近い職種、求人票の条件を順番に確認します。業界の理解を深めたい場合は、企業一覧や業界地図から調べられます。",
-      blocks: [
         {
           type: "timeline",
           items: [
@@ -439,9 +351,18 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
             { label: "生産技術の経験とプロセス職を照合する", href: "/guides/production-engineering-to-semiconductor-process-engineer", description: "工程改善や量産対応の経験を、半導体の仕事でどう伝えるか整理する" },
             { label: "求人票の年収・待遇を読み比べる", href: "/guides/job-posting-salary-range", description: "年収レンジの上限だけで判断せず、固定給・変動報酬・働き方の確認項目をそろえる" },
             { label: "確認したいことが残ったら、相談先を比較する", href: "/career-agents", description: "希望勤務地での求人、担当業務、経験の伝え方など、相談内容に合うサービスの特徴を見る" },
-            { label: "企業の事業・職種を調べる", href: "/industry-map", description: "気になる企業の事業領域と職種を確認し、企業詳細や2社比較へ進む" },
           ],
         },
+      ],
+      paragraphs: [],
+    },
+    {
+      id: "industry-map-books",
+      heading: "業界全体を見渡したいときに読む2冊",
+      lead: "私は『日経業界地図』と『「会社四季報」業界地図』を毎年読んでいて、2027年版も読みました。どちらも業界の全体像を視覚的につかめるところが好きです。",
+      blocks: [
+        { type: "moshimo-book-link", product: "nikkei-industry-map-2027" },
+        { type: "moshimo-book-link", product: "shikiho-industry-map-2027" },
       ],
       paragraphs: [],
     },
@@ -453,13 +374,13 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         {
           type: "faq",
           items: [
-            { question: "世界で時価総額が最も大きい半導体企業は？", answer: "2026年10月1日確認時点のCompaniesMarketCap SemiconductorsカテゴリではNVIDIAが1位で、時価総額は約5.49兆ドルです。別ソースの9月30日終値ベースでは約5.51兆ドルで、取得時刻などにより差があります。" },
-            { question: "日本で時価総額が最も大きい半導体関連企業は？", answer: "同じデータセットでは東京エレクトロンが日本1位、世界20位です。半導体製造装置メーカーで、半導体そのものを製造する企業ではありません。" },
-            { question: "NVIDIAとTSMCは何が違う？", answer: "NVIDIAはGPUなどを設計するファブレス企業、TSMCは顧客が設計した半導体を製造するファウンドリです。設計と製造で、半導体産業の異なる役割を担います。" },
-            { question: "半導体製造装置メーカーもランキングに含まれる？", answer: "含まれます。本記事はCompaniesMarketCapのSemiconductorsカテゴリを基準に、ASML、Applied Materials、東京エレクトロンなど装置企業も対象としています。" },
-            { question: "時価総額と売上高の違いは？", answer: "時価総額は株価に発行済株式数を掛けた株式市場での評価額です。売上高は一定期間に商品やサービスを販売して得た収益で、同じ数字ではありません。" },
-            { question: "時価総額が大きい企業ほど転職先としておすすめ？", answer: "一概には言えません。時価総額では仕事内容、勤務地、採用職種、社風、働き方は分かりません。自分の経験と企業分類、実際の求人内容を合わせて判断します。" },
-            { question: "Rapidusなど未上場企業が入っていないのはなぜ？", answer: "上場株式の価格と発行済株式数から客観的な時価総額を比較できないためです。未上場企業へ推定値を付けず、今回のランキングは上場企業だけを対象にしています。" },
+            { question: "世界で時価総額が最も大きい半導体企業は？", answer: "2026年10月1日確認時点ではNVIDIAで、約5.49兆ドルです。基準日時点の値であり、リアルタイムの時価総額ではありません。" },
+            { question: "日本で時価総額が最も大きい半導体関連企業は？", answer: "東京エレクトロンです。同じデータセットで日本1位、世界20位の半導体製造装置メーカーです。" },
+            { question: "NVIDIAとTSMCは何が違う？", answer: "NVIDIAはGPUなどを設計するファブレス、TSMCは顧客の設計を製造するファウンドリです。設計と製造を分担します。" },
+            { question: "半導体製造装置メーカーもランキングに含まれる？", answer: "含まれます。ASML、Applied Materials、東京エレクトロンなど、基準カテゴリに含まれる装置企業も対象です。" },
+            { question: "時価総額と売上高の違いは？", answer: "時価総額は株式市場での企業評価、売上高は一定期間に商品やサービスを販売して得た収益です。" },
+            { question: "時価総額が大きい企業ほど転職先としておすすめ？", answer: "一概には言えません。仕事内容や勤務地、働き方は時価総額から分からないため、経験との接点と実際の求人を確認します。" },
+            { question: "Rapidusなど未上場企業が入っていないのはなぜ？", answer: "上場株式の価格による時価総額を比較できないためです。未上場企業には推定値を付けていません。" },
           ],
         },
       ],
@@ -468,53 +389,44 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "sources-method",
       heading: "出典・調査方法とデータ更新日",
-      lead: "ランキングの基準日とデータ確認日は2026年10月1日です。",
+      lead: "ランキングの基準日とデータ確認日は2026年10月1日です。記事の編集更新日とは異なります。",
       blocks: [
         {
-          type: "note",
-          title: "調査方法",
-          body: "CompaniesMarketCapのSemiconductorsカテゴリを主データとし、上位30社を同時点で取得しました。降順、順位の連続性、重複、国・地域を確認し、日本企業は同じカテゴリの掲載順位から上位10社を抽出しました。上位企業と日本企業の分類は、公式企業情報、IR、製品ページで確認しています。",
-        },
-      ],
-      paragraphs: [
-        "上位企業は市場情報サービスとも照合し、取得時刻、為替、発行済株式数、ADRの扱いで差が出ることを確認しました。表の行ごとに別サイトの数字を混ぜず、主データの数値に統一しています。時価総額は今後も変動するため、更新時は30社と日本10社を同じ基準日で差し替えます。",
-        "株価データには遅延がある場合があります。本記事は半導体業界の構造と企業研究を目的とし、株式の購入・売却を推奨する投資助言ではありません。",
-      ],
-    },
-    {
-      id: "summary",
-      heading: "まとめ｜順位より先に、半導体業界での役割を見る",
-      lead: "2026年10月1日確認時点の時価総額上位はNVIDIA、TSMC、Broadcomでした。",
-      blocks: [
-        {
-          type: "cards",
-          columns: 3,
-          items: [
-            { label: "RANK", title: "企業規模の一面を知る", body: "基準日と定義を確認し、時価総額の順位を見る" },
-            { label: "ROLE", title: "役割を分ける", body: "設計、製造、装置、検査、後工程、材料の違いを確認" },
-            { label: "CAREER", title: "求人へつなげる", body: "経験が生きる分類を選び、公式採用ページで募集職種を確認" },
+          type: "mapping",
+          leftLabel: "確認項目",
+          rightLabel: "集計・確認方法",
+          rows: [
+            { left: "対象と出典", right: "CompaniesMarketCapのSemiconductorsカテゴリに掲載された上場企業。未上場企業は対象外" },
+            { left: "世界と日本", right: "世界上位30社を同時点で取得。日本上位10社は、同じカテゴリから国・地域がJapanの企業を抽出" },
+            { left: "順位と重複", right: "降順、順位の連続性、国・地域を確認。同一企業、二重上場、ADRと現地株式を別企業として数えない" },
+            { left: "企業分類", right: "上位企業と日本企業は、各社の公式企業情報、IR、製品ページを優先して確認" },
           ],
         },
+        {
+          type: "note",
+          title: "市場情報サービス間の差とTSMCの扱い",
+          body: "上位企業は別の市場情報サービスとも照合していますが、取得時刻、為替、発行済株式数、ADRの扱いで差が生じます。TSMCもNYSEのADR価格だけを単純に掛けず、基準ソースが示す企業全体の時価総額を使用。表の行ごとに異なるサイトの値を混ぜていません。",
+        },
       ],
       paragraphs: [
-        "ランキングから分かるのは、株式市場が付けた企業全体の評価額と、上位企業の構成です。転職先を考えるときは、時価総額だけで決めず、自分の経験が設計、前工程、後工程、装置、材料のどこへつながるかを確認してください。",
+        "各市場の取引日・更新時刻は異なり、出典の株価データにも数分から数時間の遅延があり得ます。表は基準日時点のスナップショットで、リアルタイム値ではありません。数値の更新時は世界30社と日本10社を同じ基準日で差し替えます。",
+        "本記事は半導体業界の構造と企業研究を目的とし、株式の購入・売却を推奨する投資助言ではありません。",
       ],
     }
   ],
   todayQuest: "ランキングから3社を選び、各社を「設計・製造・装置・後工程・材料」のどこに位置づけるか確認する",
   relatedGuideSlugs: [
-    "semiconductor-equipment-sales-ranking",
-    "optical-semiconductor-manufacturers",
-    "memory-manufacturer-ranking",
     "semiconductor-silicon-wafer-manufacturers",
     "ic-chip-manufacturing-companies",
-    "semiconductor-equipment-manufacturers",
-    "analog-semiconductor-companies",
     "semiconductor-foundry",
     "semiconductor-career-start",
-    "production-engineering-to-semiconductor-process-engineer",
-    "semiconductor-career-english-level",
-    "semiconductor-career-chatgpt",
   ],
   relatedCompanyIds: ["nvidia", "tsmc", "tokyo-electron", "advantest"],
+};
+
+// Preserve incoming links when explanations are merged; these are not extra TOC entries.
+export const semiconductorMarketCapRankingSectionAliases: Record<string, string[]> = {
+  "what-is-market-cap": ["revenue-ranking"],
+  "research-flow": ["career-view", "summary"],
+  "sources-method": ["methodology"],
 };

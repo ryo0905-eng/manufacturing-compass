@@ -36,4 +36,67 @@ const interactive=loader({react,'@/lib/analytics':{trackEvent:(name,props)=>even
 function context(){cursor=0;return interactive.RankingCompanyCompareProvider({children:null}).props.value;}
 context().add('tokyo-electron','world');context().add('tokyo-electron','japan');assert.equal(context().ids.length,1);context().add('advantest','japan');assert.equal(context().ids.length,2);context().add('nvidia','world');assert.match(context().notice,/2社/);context().open();assert.equal(context().shown,true);context().record('result_view');context().record('result_view');assert.equal(events.filter(e=>e.props.action==='result_view').length,1);context().remove('advantest');assert.equal(context().shown,false);context().example(['nvidia','tsmc']);assert.equal(context().source,'example');context().record('copy_success');context().record('related_click','industry_map');
 for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(Object.keys(e.props).every(k=>['action','source','company_a','company_b','destination'].includes(k)));assert.ok(!JSON.stringify(e).includes('https://'));}
-(async()=>{const page=load('src/app/(ja)/guides/[slug]/page'),params=Promise.resolve({slug:'semiconductor-market-cap-ranking'});const rendered=renderToStaticMarkup(await page.default({params}));assert.ok(rendered.includes('market-cap-table'));assert.ok(rendered.includes('ランキングデータと企業分類'));assert.ok(rendered.includes('気になる2社'));const guide=load('src/content/guides/semiconductor-market-cap-ranking').semiconductorMarketCapRankingGuide;assert.ok(rendered.includes('"dateModified":'+JSON.stringify(guide.updatedAt)));assert.ok(rendered.includes('id="ranking-time-machine-preview"'));assert.ok(rendered.indexOf('market-cap-table')<rendered.indexOf('id="ranking-time-machine-preview"'));assert.equal((await page.generateMetadata({params})).alternates.canonical,lib.rankingComparePath);console.log('PASS: ranking comparison IDs/data, shared selection, third-company protection, URL validation, atlas mapping, SSR/canonical and fixed/deduplicated analytics.');})().catch(e=>{console.error(e);process.exitCode=1});
+(async () => {
+  const page = load('src/app/(ja)/guides/[slug]/page');
+  const params = Promise.resolve({ slug: 'semiconductor-market-cap-ranking' });
+  const rendered = renderToStaticMarkup(await page.default({ params }));
+  const guide = load('src/content/guides/semiconductor-market-cap-ranking').semiconductorMarketCapRankingGuide;
+  const body = rendered.slice(rendered.indexOf('<article'));
+  const orderedIds = ['world-ranking', 'japan-ranking', 'ranking-compare-title', 'ranking-history', 'ranking-time-machine-preview', 'top-ten'];
+  for (let index = 1; index < orderedIds.length; index++) {
+    const previous = body.indexOf(`id="${orderedIds[index - 1]}"`);
+    const current = body.indexOf(`id="${orderedIds[index]}"`);
+    assert.ok(previous >= 0 && current > previous, orderedIds[index]);
+  }
+  const prefix = body.slice(0, body.indexOf('id="world-ranking"'));
+  assert.ok(prefix.includes(guide.intro.conclusion));
+  assert.ok(!prefix.includes('guide-intro-summary') && !prefix.includes('guide-experience-basis'));
+  assert.match(prefix, /<details class="ranking-toc"><summary>/);
+  assert.ok(!/<details[^>]*\sopen[\s=>]/.test(prefix));
+  assert.equal((prefix.match(/class="ranking-quick-links"/g) || []).length, 1);
+  assert.equal((body.match(/class="market-cap-table"/g) || []).length, 2);
+  assert.equal((body.match(/class="salary-bar-chart metric-bar-chart"/g) || []).length, 2);
+  assert.equal((body.match(/比較に追加<\/button>/g) || []).length, 40);
+  assert.ok(body.indexOf('id="industry-map-books"') > body.indexOf('id="research-flow"'));
+  assert.ok(!body.includes('読んでよかった2冊（広告あり）'));
+  assert.ok(body.includes('同一企業、二重上場、ADR') && body.includes('各社の公式企業情報'));
+
+  // Merged sections retain incoming anchors; every local link resolves outside the closed TOC.
+  const ids = [...body.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
+  assert.equal(ids.length, new Set(ids).size);
+  const contentAfterToc = body.slice(body.indexOf('</details>') + '</details>'.length);
+  for (const id of ['world-ranking', 'japan-ranking', 'industry-map-books', 'compare-by-field', 'methodology', 'top-ten', 'business-models', 'what-is-market-cap', 'ranking-findings', 'revenue-ranking', 'career-view', 'research-flow', 'faq', 'sources-method', 'summary']) {
+    assert.ok(contentAfterToc.includes(`id="${id}"`), id);
+  }
+  for (const match of body.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), match[1]);
+  const rankingContent = body.slice(body.indexOf('id="world-ranking"'), body.indexOf('id="ranking-compare-title"'));
+  assert.ok(!rankingContent.includes('<details') && !rankingContent.includes('link-callout'));
+  assert.ok(!rankingContent.includes('href="/industry-map"') && !rankingContent.includes('industry-map-books'));
+
+  const schemas = [...rendered.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+  const article = schemas.find(schema => schema['@type'] === 'Article');
+  assert.equal(article.dateModified, guide.updatedAt);
+  assert.equal(article.headline, guide.title);
+  const faq = schemas.find(schema => schema['@type'] === 'FAQPage');
+  const visibleFaq = guide.sections.flatMap(section => section.blocks ?? []).filter(block => block.type === 'faq').flatMap(block => block.items);
+  assert.equal(faq.mainEntity.length, visibleFaq.length);
+  for (const [index, item] of visibleFaq.entries()) {
+    assert.equal(faq.mainEntity[index].name, item.question);
+    assert.equal(faq.mainEntity[index].acceptedAnswer.text, item.answer);
+    assert.ok(body.includes(`<dt>${item.question}</dt>`) && body.includes(`<dd>${item.answer}</dd>`));
+  }
+  const metadata = await page.generateMetadata({ params });
+  assert.equal(metadata.alternates.canonical, lib.rankingComparePath);
+  assert.equal(metadata.title, '半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本TOP10');
+  assert.equal(guide.status, 'published');
+  assert.equal(data.semiconductorMarketCapMeta.dataAsOf, '2026-10-01');
+  assert.equal(data.semiconductorMarketCapMeta.retrievedAt, '2026-10-01');
+
+  // The shorter hero and collapsed TOC are limited to this ranking.
+  const salary = load('src/content/guides/semiconductor-salary-ranking').semiconductorSalaryRankingGuide;
+  const salaryHtml = renderToStaticMarkup(await page.default({ params: Promise.resolve({ slug: salary.slug }) }));
+  assert.ok(!salaryHtml.includes('ranking-article') && !salaryHtml.includes('ranking-toc'));
+  assert.ok(salaryHtml.includes('guide-intro-summary') && salaryHtml.includes('aria-label="記事の目次"'));
+  assert.ok(salaryHtml.includes(salary.description));
+  console.log('PASS: ranking data/selection/URLs/events, SSR order and tables, legacy anchors, FAQ/metadata and other-article layout isolation.');
+})().catch(error => { console.error(error); process.exitCode = 1; });

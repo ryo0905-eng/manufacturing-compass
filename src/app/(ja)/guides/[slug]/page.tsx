@@ -3,6 +3,7 @@ import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
+import { Fragment } from "react";
 import { notFound } from "next/navigation";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
@@ -12,6 +13,7 @@ import { TodayAction } from "@/components/TodayAction";
 import { GuideBlocks } from "@/components/guide/GuideBlocks";
 import { GuideLanguageLink } from "@/components/guide/GuideLanguageLink";
 import { getPublishedEnglishTranslation } from "@/content/guides/en";
+import { semiconductorMarketCapRankingSectionAliases } from "@/content/guides/semiconductor-market-cap-ranking";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
 import { companies } from "@/data/companies";
@@ -90,9 +92,20 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const showGuideBasis =
     guide.showExperienceBasis !== false &&
     guide.basisLabel !== "この記事の調査・編集方針";
+  const isMarketCapRanking = guide.slug === "semiconductor-market-cap-ranking";
+  const tableOfContents = guide.sections.length >= 4 ? (
+    <nav className="guide-toc" aria-label="記事の目次">
+      <strong>この記事の流れ</strong>
+      <ol>
+        {guide.sections.map((section, index) => (
+          <li key={section.heading}><a href={`#${section.id ?? `section-${index + 1}`}`}>{section.heading}</a></li>
+        ))}
+      </ol>
+    </nav>
+  ) : null;
 
   const content = (
-    <main className="page guide-page">
+    <main className={`page guide-page${isMarketCapRanking ? " ranking-article" : ""}`}>
       <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": guide.author === "RYO" ? "Person" : "Organization", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja", isPartOf: processSeriesIndex >= 0 ? { "@type": "CreativeWorkSeries", name: "半導体製造工程シリーズ", url: `${siteUrl}/guides#process-series-title` } : undefined, position: processSeriesIndex >= 0 ? processSeriesIndex + 1 : undefined }} />
       <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "記事・読みもの", item: `${siteUrl}/guides` }, { "@type": "ListItem", position: 3, name: guide.title, item: `${siteUrl}/guides/${guide.slug}` }] }} />
       {faqItems.length > 0 ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }} /> : null}
@@ -101,7 +114,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           {getPublishedEnglishTranslation(guide.slug) ? <GuideLanguageLink slug={guide.slug} locale="ja" /> : null}
           <p className="section-label">製造業・半導体の記事・{guide.readTime}</p>
           <h1>{guide.title}</h1>
-          <p>{guide.description}</p>
+          <p>{isMarketCapRanking ? guide.intro.conclusion : guide.description}</p>
           <small>{guide.reviewedBy ? `執筆・確認：${guide.reviewedBy}（製造業経験 約10年）` : "Manufacturing Compass編集部・公開情報に基づく解説"}・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
           {guide.showIntroSummary !== false ? (
             <dl className="guide-intro-summary">
@@ -123,29 +136,39 @@ export default async function GuidePage({ params }: GuidePageProps) {
           ) : null}
         </header>
 
-        {guide.overviewBlocks ? <GuideBlocks blocks={guide.overviewBlocks} sourceSlug={guide.slug} /> : null}
-
-        {guide.sections.length >= 4 ? (
-          <nav className="guide-toc" aria-label="記事の目次">
-            <strong>この記事の流れ</strong>
-            <ol>
-              {guide.sections.map((section, index) => (
-                <li key={section.heading}><a href={`#${section.id ?? `section-${index + 1}`}`}>{section.heading}</a></li>
-              ))}
-            </ol>
+        {isMarketCapRanking ? (
+          <nav className="ranking-quick-links" aria-label="ランキングと解説へ移動">
+            {guide.overviewBlocks?.flatMap((block) => block.type === "links" ? block.items : []).map((item) => (
+              <TrackedInternalLink key={item.href} href={item.href as Route} eventName="article_internal_click"
+                eventProperties={{ source_slug: guide.slug, destination_path: item.href }}>
+                {item.label}
+              </TrackedInternalLink>
+            ))}
           </nav>
-        ) : null}
+        ) : guide.overviewBlocks ? <GuideBlocks blocks={guide.overviewBlocks} sourceSlug={guide.slug} /> : null}
+
+        {isMarketCapRanking ? (
+          <details className="ranking-toc">
+            <summary>詳しい目次を開く</summary>
+            {tableOfContents}
+          </details>
+        ) : tableOfContents}
 
         <div className="article-body">
           {guide.sections.map((section, index) => (
-            <section id={section.id ?? `section-${index + 1}`} key={section.heading}>
-              {guide.slug === "semiconductor-market-cap-ranking" && section.id === "world-ranking" && <RankingCompanyComparePanel />}
-              <h2>{section.heading}</h2>
-              {section.lead ? <p className="guide-section-lead">{section.lead}</p> : null}
-              {section.blocks ? <GuideBlocks blocks={section.blocks} sourceSlug={guide.slug} /> : null}
-              {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-              {section.points ? <ul>{section.points.map((point) => <li key={point}>{point}</li>)}</ul> : null}
-            </section>
+            <Fragment key={section.heading}>
+              <section id={section.id ?? `section-${index + 1}`}>
+                {isMarketCapRanking && (semiconductorMarketCapRankingSectionAliases[section.id ?? ""] ?? []).map((id) => (
+                  <span key={id} id={id} className="ranking-anchor" aria-hidden="true" />
+                ))}
+                <h2>{section.heading}</h2>
+                {section.lead ? <p className="guide-section-lead">{section.lead}</p> : null}
+                {section.blocks ? <GuideBlocks blocks={section.blocks} sourceSlug={guide.slug} /> : null}
+                {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {section.points ? <ul>{section.points.map((point) => <li key={point}>{point}</li>)}</ul> : null}
+              </section>
+              {isMarketCapRanking && section.id === "japan-ranking" && <RankingCompanyComparePanel />}
+            </Fragment>
           ))}
         </div>
 
@@ -238,5 +261,5 @@ export default async function GuidePage({ params }: GuidePageProps) {
       </article>
     </main>
   );
-  return guide.slug === "semiconductor-market-cap-ranking" ? <RankingCompanyCompareProvider>{content}</RankingCompanyCompareProvider> : content;
+  return isMarketCapRanking ? <RankingCompanyCompareProvider>{content}</RankingCompanyCompareProvider> : content;
 }
