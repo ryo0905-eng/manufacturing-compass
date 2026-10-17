@@ -24,8 +24,10 @@
 .rows li[data-company="micron"] { --company-color: #7c3aed; }
 .rows li[data-company="kioxia"] { --company-color: #b45309; }
 .rowHeading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .5rem; }
-.rowHeading > strong { min-width: 0; }
-.rowHeading small { font-size: .75rem; color: #64748b; white-space: nowrap; }
+.companyHeading { display: grid; gap: .25rem; min-width: 0; }
+.companyHeading > strong { min-width: 0; }
+.rowHeading small { font-size: .75rem; color: #64748b; }
+.rowHeading > small { white-space: nowrap; }
 .rowHeading b { flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .track { height: 14px; margin-block: .4rem; border-radius: 3px; background: linear-gradient(to right, transparent calc(50% - 1px), #cbd5e1 50%, transparent calc(50% + 1px)), #e2e8f0; overflow: hidden; }
 .track span { display: block; height: 100%; background: var(--company-color); }
@@ -37,7 +39,7 @@
 .tables summary { cursor: pointer; padding-block: .75rem; font-weight: 600; }
 .tableSection { margin-block: 1.5rem; }
 .tableWrap { overflow-x: auto; }
-.tableWrap table { border-collapse: collapse; width: 100%; min-width: 490px; font-size: .875rem; }
+.tableWrap table { border-collapse: collapse; width: 100%; min-width: 580px; font-size: .875rem; }
 .tableWrap caption { text-align: left; margin-bottom: .5rem; }
 .tableWrap :is(th, td) { text-align: left; padding: .75rem; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
 .tableWrap td { font-variant-numeric: tabular-nums; }

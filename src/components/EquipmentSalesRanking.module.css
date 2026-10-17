@@ -1,4 +1,5 @@
 .root { min-width: 0; }
+.regionNote { color: #475569; font-size: .875rem; line-height: 1.7; }
 .explorer { margin-block: 1.5rem; }
 .controls { border: 0; padding: 0; margin: 0; min-width: 0; }
 .controls legend { font-weight: 700; margin-bottom: .75rem; }
@@ -15,7 +16,8 @@
 .bars li { padding: .7rem; border: 1px solid transparent; border-radius: 10px; }
 .bars li.match { background: #ecfeff; border-color: #0e7490; }
 .barHeading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .5rem; font-size: .95rem; }
-.barHeading > strong { min-width: 0; }
+.companyHeading { display: grid; gap: .25rem; min-width: 0; }
+.companyHeading > strong { min-width: 0; }
 .rank { white-space: nowrap; }
 .barHeading b { flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .track { height: 12px; background: #e2e8f0; border-radius: 4px; margin-top: .4rem; overflow: hidden; }
@@ -32,7 +34,7 @@
 .details { border-top: 1px solid #e2e8f0; padding-top: 1rem; }
 .details summary { cursor: pointer; padding-block: .6rem; font-weight: 600; }
 .tableWrap { overflow-x: auto; margin-top: 1rem; }
-.tableWrap table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: .9rem; }
+.tableWrap table { width: 100%; min-width: 700px; border-collapse: collapse; font-size: .9rem; }
 .tableWrap caption { text-align: left; padding-bottom: .6rem; }
 .tableWrap :is(td, th) { padding: .75rem; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
 .tableWrap ul { margin: 0; padding-left: 1rem; }

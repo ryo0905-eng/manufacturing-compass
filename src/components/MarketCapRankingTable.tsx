@@ -3,6 +3,7 @@ import type { Route } from "next";
 import { MetricBarChart } from "@/components/MetricBarChart";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
 import { CompanyLogoAttribution } from "@/components/CompanyLogoAttribution";
+import { CountryRegion } from "@/components/CountryRegion";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import {
   japanSemiconductorMarketCapRanking,
@@ -34,7 +35,8 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
       <MetricBarChart
         eyebrow="Market cap overview"
         items={companies.slice(0, 10).map((company) => ({
-          category: isWorld ? `${company.country} / ${company.category}` : company.category,
+          category: company.category,
+          country: isWorld ? company.country : undefined,
           displayValue: company.marketCapDisplay,
           label: company.name,
           logoId: company.companySlug ?? company.id,
@@ -85,7 +87,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
                   </th>
                   <td>{company.ticker}</td>
                   <td className="market-cap-value">{company.marketCapDisplay}</td>
-                  {isWorld ? <td>{company.country}</td> : null}
+                  {isWorld ? <td><CountryRegion country={company.country} /></td> : null}
                   <td><span className="market-cap-category">{company.category}</span></td>
                   <td>{company.mainBusiness}</td>
                   {sourceSlug === "semiconductor-market-cap-ranking" && <td><RankingCompareButton id={company.id} source={scope} /></td>}
@@ -96,6 +98,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
         </table>
       </div>
       <small>取得日：{semiconductorMarketCapMeta.retrievedAt.replaceAll("-", ".")}。総合企業の時価総額は、半導体部門だけではなく企業全体の数値です。</small>
+      {isWorld && <small>国・地域は本社所在地を基準とし、工場や日本法人の所在地を示すものではありません。</small>}
       <CompanyLogoAttribution />
     </div>
   );

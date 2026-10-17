@@ -7,6 +7,8 @@ import { getEquipmentSalesView } from "@/lib/equipment-sales";
 import { trackEvent } from "@/lib/analytics";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
+import { CountryRegion } from "@/components/CountryRegion";
+import { companyHeadquarters } from "@/data/company-regions";
 import styles from "./EquipmentSalesRanking.module.css";
 
 export function EquipmentSalesExplorer({ sourceSlug }: { sourceSlug: string }) {
@@ -37,7 +39,10 @@ export function EquipmentSalesExplorer({ sourceSlug }: { sourceSlug: string }) {
         {view.map(({ company, matches, barPercent }) => <li key={company.id} className={matches && selection !== "all" ? styles.match : undefined}>
           <div className={styles.barHeading}>
             <span className={styles.rank}>{company.rank}位</span>
-            <strong><RankingCompanyName companyId={company.companySlug ?? company.id} name={company.name} /></strong>
+            <div className={styles.companyHeading}>
+              <strong><RankingCompanyName companyId={company.companySlug ?? company.id} name={company.name} /></strong>
+              <small><CountryRegion country={companyHeadquarters[company.id]?.country ?? "未確認"} /></small>
+            </div>
             <b>{company.salesUsdB.toFixed(2)}</b>
           </div>
           <div className={styles.track} aria-hidden="true"><span style={{ width: `${barPercent}%` }} /></div>

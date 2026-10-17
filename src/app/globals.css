@@ -11461,6 +11461,12 @@ summary:focus-visible {
   font-size: 8px;
 }
 
+.salary-bar-chart__company > .salary-bar-chart__region {
+  font-size: 10px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
 .salary-bar-chart__track {
   height: 8px;
   background: rgba(0, 107, 128, 0.09);
