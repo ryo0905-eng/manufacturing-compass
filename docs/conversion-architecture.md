@@ -402,14 +402,16 @@ Career Compass
 
 `/guides/optical-semiconductor-manufacturers` は用途選択の変更時に `optical_company_category_select` を送信する。`category` は `all / led / laser / image-sensor / photodiode` の固定ID、`source_slug` は記事slug。初期表示と同じ選択の再押下は送信しない。企業詳細・関連記事は既存の `article_company_click`・`article_internal_click` を利用する。操作回数を人数や理解度として解釈しない。本番反映日を基準に14日後のインデックス、28/56日後の流入・関連遷移を確認し、既存ランキングを含めて評価する。
 
-## トップの目的別入口（2026-09-20）
+## トップの目的別入口（2026-10-18更新）
 
-トップは技術・業界・キャリアの3入口を並列で案内し、本文を代表ツール、企業・業界研究、キャリア支援、おすすめ記事、新着、運営方針の順に表示する。代表ツールは工程条件の比較・Cp/Cpk・歩留まり原因調査。ゲーム・Jevはツール一覧から案内する。
+トップはランキング・技術・企業研究・キャリアの4入口を並列で案内し、本文をランキング、工場・拠点探索、代表ツール、企業・業界研究、キャリア支援、おすすめ記事、新着、運営方針の順に表示する。代表ツールは工程条件の比較・Cp/Cpk・歩留まり原因調査。
 
-- 一般リンクは `home_link_click`。`section_id` は hero/tools/research/career/recommended/latest/about、`destination_id` は実装内の固定リンクID・公開記事slug・カテゴリID、`purpose` は technology/industry/career/articles/about、`version` は `purpose-entry-v1`。自由入力や回答は送信しない。
+- 一般リンクは `home_link_click`。`section_id` は hero/rankings/factories/tools/research/career/recommended/latest/about、`destination_id` は実装内の固定リンクID・公開記事slug・カテゴリID、`purpose` は technology/industry/career/articles/about、`version` は `purpose-entry-v1`。自由入力や回答は送信しない。
+- 工場・拠点探索はランキング直後の `#home-factories` に2カードを配置。工場・研究拠点マップ（`/semiconductor-map`）、新設・増設一覧（`/guides/japan-semiconductor-factory-projects`）の順で、既存拠点と計画を分けて案内する。カード全体をリンクにし、PCは2列、720px以下は1列。既存カードのデザインを再利用し、画像・操作プレビューは追加しない。計測は `section_id=factories`、`destination_id=semiconductor_map/factory_projects`、`purpose=industry`。
 - Career Compassは既存の表示・クリックイベントを使い、位置は `home_hero_purpose` / `home_career_section`、variantは `purpose_entry_v1`。軸ノートは既存イベントで `home_career_support`。いずれも `home_link_click` を重ねない。共通ヘッダーの計測は維持する。
-- 新着は公開日降順（同日はslug順）の4件で、おすすめと重複させない。おすすめは公開済み記事だけを参照する。代表ツールID・おすすめslug・研究リンクの順序は `src/data/home.ts`、ツール情報は `src/data/learning-tools.ts` を正本にする。
+- 新着は公開日降順（同日はslug順）の4件で、おすすめと重複させない。おすすめは公開済み記事だけを参照する。代表ツールID・おすすめslug・ランキング・工場・研究リンクの順序は `src/data/home.ts`、ツール情報は `src/data/learning-tools.ts` を正本にする。
 - 本番反映日から4週間、トップ閲覧セッションに対する目的別の入口クリックと、既存イベントで追える利用開始・完了を確認する。クリック数を人数・完了数と混同しない。新設の一般リンク計測には変更前の同一定義の基準値がないため、導入前後の改善率を算出しない。少数の場合は観察期間を延長する。
+- 工場入口は本番反映・イベント受信を確認後28日間、トップ閲覧セッションと各カードのクリックを確認する。取得可能なら同一セッション内の遷移後のマップ操作・案件比較も確認する。検索流入は別に観察し、トップ掲載による検索順位上昇と断定しない。工場入口の本番反映・受信・観測開始日は未確認。
 - 本番反映日、GA4受信、必要なカスタムディメンション、実画面は未確認。ローカル実装日を公開日として扱わない。
 
 ## 工程改善レポート（2026-09-23）

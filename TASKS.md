@@ -1,5 +1,14 @@
 # TASKS
 
+## 2026-10-18：工場マップ・新設一覧をトップの主要入口へ追加
+
+- ランキング直後、技術ツールの前に「半導体工場を場所・計画から探す」を追加。工場・研究拠点マップ、新設・増設一覧の順にカード全体から直接アクセスできる。既存カードのデザインでPCは2列、720px以下は1列とし、画像・操作プレビューは追加していない。
+- リンク定義を `homeFactoryLinks` に集約し、`HomeSection` に `factories` を追加。既存の `home_link_click` へ `section_id=factories`・`destination_id=semiconductor_map/factory_projects`・`purpose=industry` を送る。共通ヘッダー・リンク先本文・URL・SEO設定は変更していない。
+- 導線と本番反映・受信確認後28日間の観測方法を計測文書へ反映。本番反映・GA4受信・実画面・観測開始日は未確認。
+- `npm run typecheck` を175秒上限で1回実行し成功。配置順・文言・リンク先・既存の720px以下1列指定・計測属性を静的確認し、`git diff --check` とsrc全体・対象公開文書の公開禁止語照合も成功。dev・build・lint・ブラウザ操作・commit・pushは未実施。
+- 変更ファイル：`src/app/(ja)/page.tsx`、`src/data/home.ts`、`docs/conversion-architecture.md`、本記録。
+- 推奨コミット：`feat: promote factory map and projects on homepage`
+
 ## 2026-10-17：日本の時価総額ランキングを18社へ拡充
 
 - 現在のCompaniesMarketCap Semiconductorsカテゴリ全2ページから日本企業18社を全件掲載。従来10社にMARUWA、日本マイクロニクス、テクセンドフォトマスク、ソシオネクスト、トーメンデバイス、TOWA、RS Technologies、サンケン電気を追加し、10社制限を撤去した。追加8社の順位・数値・ティッカーは同カテゴリ2ページ目で照合し、個社ページの異なる取得時点の値を混ぜていない。2026-10-16基準・10-17確認、世界30社と参考トヨタの既存値を維持。

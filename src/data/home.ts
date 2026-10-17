@@ -14,6 +14,11 @@ export const homeRankingLinks = [
   { id: "salary", href: "/guides/semiconductor-salary-ranking", title: "平均年収", body: "企業が公表した平均年収と集計条件を確認する" },
 ] as const;
 
+export const homeFactoryLinks = [
+  { id: "semiconductor_map", href: "/semiconductor-map", title: "半導体工場・研究拠点マップ", body: "都道府県・拠点の種類・職種から、国内の拠点を探す" },
+  { id: "factory_projects", href: "/guides/japan-semiconductor-factory-projects", title: "半導体工場の新設・増設一覧", body: "主要案件の場所と、建設・試作・量産の段階や予定を確認する" },
+] as const;
+
 export const homeResearchLinks = [
   { id: "semiconductor_watch", href: "/semiconductor-watch", title: "Chip Pulse｜半導体業界ウォッチ", body: "企業・地域・テーマを横断し、昨日からの変化を3分でつかむ" },
   { id: "industry_map", href: "/industry-map", title: "業界地図・企業一覧", body: "業界のつながりを理解し、製品・職種から企業を探す" },
@@ -21,5 +26,5 @@ export const homeResearchLinks = [
   { id: "industry_guides", href: "/guides/industry", title: "企業・業界の記事を読む", body: "工程・装置・材料から理解を深める" },
 ] as const;
 
-export type HomeSection = "hero" | "rankings" | "tools" | "research" | "career" | "recommended" | "latest" | "about";
+export type HomeSection = "hero" | "rankings" | "factories" | "tools" | "research" | "career" | "recommended" | "latest" | "about";
 export type HomePurpose = "technology" | "industry" | "career" | "articles" | "about";

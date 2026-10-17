@@ -11,7 +11,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { guideCategoryDetails, guideCategoryOrder } from "@/content/guides/categories";
 import type { GuideArticle } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
-import { homeGuideSlugs, homeRankingLinks, homeResearchLinks, homeToolIds } from "@/data/home";
+import { homeFactoryLinks, homeGuideSlugs, homeRankingLinks, homeResearchLinks, homeToolIds } from "@/data/home";
 import { learningTools } from "@/data/learning-tools";
 import { siteUrl } from "@/lib/format";
 
@@ -83,6 +83,13 @@ export default function Home() {
           <p>年を選ぶか再生して、時価総額の変化を体験。各ランキングから、企業の規模や特徴も比較できます。</p>
         </header>
         <RankingTimeMachinePreview variant="home" />
+      </section>
+
+      <section id="home-factories" className="home-focused__section" aria-labelledby="home-factories-title">
+        <header className="home-focused__heading"><h2 id="home-factories-title">半導体工場を場所・計画から探す</h2></header>
+        <nav className="home-focused__research-grid" aria-label="工場・研究拠点と新設・増設計画の入口">
+          {homeFactoryLinks.map((item) => <HomeLink href={item.href} key={item.id} section="factories" destination={item.id} purpose="industry"><strong>{item.title}<span aria-hidden="true"> →</span></strong><p>{item.body}</p></HomeLink>)}
+        </nav>
       </section>
 
       <section className="home-focused__section" aria-labelledby="home-tools-title">
