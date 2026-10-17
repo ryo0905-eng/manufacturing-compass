@@ -10,7 +10,7 @@
   background: #fff;
 }
 
-/* Center the square source canvas; only transparent padding extends outside the box. */
+/* Center the source canvas; only transparent padding extends outside the box. */
 .logo img {
   position: absolute;
   top: 50%;

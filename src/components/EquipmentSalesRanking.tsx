@@ -1,5 +1,6 @@
 import { EquipmentSalesExplorer } from "@/components/EquipmentSalesExplorer";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
+import { CompanyLogoAttribution } from "@/components/CompanyLogoAttribution";
 import { equipmentProcesses, equipmentSalesCompanies, equipmentSalesMeta as meta } from "@/data/semiconductor-equipment-sales";
 import styles from "./EquipmentSalesRanking.module.css";
 
@@ -21,5 +22,6 @@ export function EquipmentSalesRanking({ sourceSlug = "semiconductor-equipment-sa
         </table>
       </div>
     </details>
+    <CompanyLogoAttribution />
   </div>;
 }

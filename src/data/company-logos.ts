@@ -1,7 +1,8 @@
-type CompanyLogoAsset = { src: string; aspectRatio: number };
+type CompanyLogoAsset = { src: string; aspectRatio: number; width?: number; height?: number };
 
 // Existing identification assets acquired on 2026-09-23; provenance and usage notes:
-// public/images/company-logos/README.md. Ratios describe artwork within square PNGs.
+// public/images/company-logos/README.md. Ratios describe visible artwork.
+// Intrinsic sizes default to square 256px PNGs; rectangular assets declare their size.
 // Keep this registry independent of ranking snapshots loaded by other pages.
 export const companyLogoAssets: Partial<Record<string, CompanyLogoAsset>> = {
   tsmc: { src: '/images/company-logos/tsmc.png', aspectRatio: 1.273632 },
@@ -49,4 +50,27 @@ export const companyLogoAssets: Partial<Record<string, CompanyLogoAsset>> = {
   'kioxia': { src: '/images/company-logos/kioxia.png', aspectRatio: 5.120000 },
   'shin-etsu-chemical': { src: '/images/company-logos/shin-etsu-chemical.png', aspectRatio: 4.491228 },
   tok: { src: '/images/company-logos/tokyo-ohka-kogyo.png', aspectRatio: 2.694737 },
+  // Ranking additions acquired on 2026-10-17; provenance is recorded in the logo README.
+  'cxmt': { src: '/images/company-logos/cxmt.png', aspectRatio: 3.764706 },
+  'cambricon': { src: '/images/company-logos/cambricon.png', aspectRatio: 2.909091 },
+  'naura': { src: '/images/company-logos/naura.png', aspectRatio: 2.639175 },
+  'monolithic-power-systems': { src: '/images/company-logos/monolithic-power-systems.png', aspectRatio: 3.413333 },
+  'smic': { src: '/images/company-logos/smic.png', aspectRatio: 2.0 },
+  'astera-labs': { src: '/images/company-logos/astera-labs.png', aspectRatio: 5.12 },
+  'umc': { src: '/images/company-logos/umc.png', aspectRatio: 5.22449 },
+  'kokusai-electric': { src: '/images/company-logos/kokusai-electric.png', aspectRatio: 2.585859 },
+  'rorze': { src: '/images/company-logos/rorze.png', aspectRatio: 1.196262 },
+  'asm-international': { src: '/images/company-logos/asm-international.png', aspectRatio: 3.2 },
+  'nanya': { src: '/images/company-logos/nanya.png', aspectRatio: 1.132743 },
+  'psmc': { src: '/images/company-logos/psmc.png', aspectRatio: 1.560976 },
+  'sandisk': { src: '/images/company-logos/sandisk.png', aspectRatio: 9.142857 },
+  'tokyo-electron-device': { src: '/images/company-logos/tokyo-electron-device.png', aspectRatio: 6.918919 },
+  'fujimi': { src: '/images/company-logos/fujimi.png', aspectRatio: 3.324675 },
+  'jx-advanced-metals': { src: '/images/company-logos/jx-advanced-metals.png', aspectRatio: 12.8 },
+  'horiba': { src: '/images/company-logos/horiba.png', aspectRatio: 6.243902 },
+  'organo': { src: '/images/company-logos/organo.png', aspectRatio: 1.718121 },
+  'ebara': { src: '/images/company-logos/ebara.png', aspectRatio: 4.491228 },
+  'toppan-holdings': { src: '/images/company-logos/toppan-holdings.png', aspectRatio: 5.953488 },
+  'towa': { src: '/images/company-logos/towa.png', aspectRatio: 0.992188 },
+  'winbond': { src: '/images/company-logos/winbond.png', aspectRatio: 7.674419, width: 330, height: 43 },
 };

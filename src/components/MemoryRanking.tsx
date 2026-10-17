@@ -1,5 +1,6 @@
 import { MemoryRankingExplorer } from "@/components/MemoryRankingExplorer";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
+import { CompanyLogoAttribution } from "@/components/CompanyLogoAttribution";
 import { memoryMarketIds, memoryMarkets, memoryRankingMeta as meta } from "@/data/memory-market-share";
 import { formatMemoryRevenue } from "@/lib/memory-ranking";
 import styles from "./MemoryRanking.module.css";
@@ -31,5 +32,6 @@ export function MemoryRanking() {
         </section>;
       })}
     </details>
+    <CompanyLogoAttribution includeWinbond />
   </div>;
 }

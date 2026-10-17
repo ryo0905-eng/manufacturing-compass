@@ -15,7 +15,7 @@ export function CompanyCardLogo({ companyId, name, size = 'default', fallback = 
   return (
     <span className={`${styles.logo}${size === 'ranking' ? ` ${styles.ranking}` : size === 'overview' ? ` ${styles.overview}` : size === 'compact' ? ` ${styles.compact}` : ''}`} aria-hidden="true" style={{ '--logo-aspect-ratio': asset?.aspectRatio ?? 1 } as CSSProperties}>
       {showLogo ? (
-        <Image src={asset.src} alt="" width={256} height={256} sizes={size === 'ranking' ? '64px' : size === 'overview' ? '72px' : size === 'compact' ? '(max-width: 720px) 96px, 112px' : '(max-width: 720px) 88px, 112px'} loading="lazy" onError={() => setFailedSrc(asset.src)} />
+        <Image src={asset.src} alt="" width={asset.width ?? 256} height={asset.height ?? 256} sizes={size === 'ranking' ? '64px' : size === 'overview' ? '72px' : size === 'compact' ? '(max-width: 720px) 96px, 112px' : '(max-width: 720px) 88px, 112px'} loading="lazy" onError={() => setFailedSrc(asset.src)} />
       ) : (
         <span className={styles.initials}>{initials}</span>
       )}

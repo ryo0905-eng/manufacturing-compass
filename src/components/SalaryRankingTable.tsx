@@ -2,6 +2,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { SalaryBarChart } from "@/components/SalaryBarChart";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
+import { CompanyLogoAttribution } from "@/components/CompanyLogoAttribution";
 import { semiconductorSalaryMeta, semiconductorSalaryRanking } from "@/data/semiconductor-salary";
 
 export function SalaryRankingTable() {
@@ -63,6 +64,7 @@ export function SalaryRankingTable() {
         </table>
       </div>
       <small>各社の直近有価証券報告書に記載された平均年間給与を1万円単位の概数で表示。賞与や基準外賃金の扱いは各社注記に従い、決算期は企業により異なります。</small>
+      <CompanyLogoAttribution />
     </div>
   );
 }

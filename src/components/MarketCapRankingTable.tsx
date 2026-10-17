@@ -2,6 +2,7 @@ import { RankingCompareButton } from "@/components/RankingCompanyCompare";
 import type { Route } from "next";
 import { MetricBarChart } from "@/components/MetricBarChart";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
+import { CompanyLogoAttribution } from "@/components/CompanyLogoAttribution";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import {
   japanSemiconductorMarketCapRanking,
@@ -95,6 +96,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
         </table>
       </div>
       <small>取得日：{semiconductorMarketCapMeta.retrievedAt.replaceAll("-", ".")}。総合企業の時価総額は、半導体部門だけではなく企業全体の数値です。</small>
+      <CompanyLogoAttribution />
     </div>
   );
 }
