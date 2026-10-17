@@ -6,6 +6,7 @@ import { equipmentProcesses, equipmentSalesCompanies, equipmentSalesMeta, type E
 import { getEquipmentSalesView } from "@/lib/equipment-sales";
 import { trackEvent } from "@/lib/analytics";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
+import { RankingCompanyName } from "@/components/RankingCompanyName";
 import styles from "./EquipmentSalesRanking.module.css";
 
 export function EquipmentSalesExplorer({ sourceSlug }: { sourceSlug: string }) {
@@ -34,7 +35,11 @@ export function EquipmentSalesExplorer({ sourceSlug }: { sourceSlug: string }) {
       <figcaption>{equipmentSalesMeta.year}年 売上高上位10社 <small>単位：{equipmentSalesMeta.currency}／0を基準に最大値35.96までの共通尺度</small></figcaption>
       <ol className={styles.bars}>
         {view.map(({ company, matches, barPercent }) => <li key={company.id} className={matches && selection !== "all" ? styles.match : undefined}>
-          <div className={styles.barHeading}><span>{company.rank}位 <strong>{company.name}</strong></span><b>{company.salesUsdB.toFixed(2)}</b></div>
+          <div className={styles.barHeading}>
+            <span className={styles.rank}>{company.rank}位</span>
+            <strong><RankingCompanyName companyId={company.companySlug ?? company.id} name={company.name} /></strong>
+            <b>{company.salesUsdB.toFixed(2)}</b>
+          </div>
           <div className={styles.track} aria-hidden="true"><span style={{ width: `${barPercent}%` }} /></div>
           {selection !== "all" && <small>{matches ? "該当" : "掲載した製品例では該当なし"}</small>}
         </li>)}

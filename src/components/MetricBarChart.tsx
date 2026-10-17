@@ -1,7 +1,10 @@
+import { RankingCompanyName } from "@/components/RankingCompanyName";
+
 export type MetricBarChartItem = {
   category: string;
   displayValue: string;
   label: string;
+  logoId?: string;
   value: number;
 };
 
@@ -30,7 +33,7 @@ export function MetricBarChart({ eyebrow, items, note, title }: MetricBarChartPr
             <li key={item.label}>
               <span className="salary-bar-chart__rank">{String(index + 1).padStart(2, "0")}</span>
               <div className="salary-bar-chart__company">
-                <strong>{item.label}</strong>
+                <strong><RankingCompanyName companyId={item.logoId} name={item.label} /></strong>
                 <small>{item.category}</small>
               </div>
               <div className="salary-bar-chart__track" aria-hidden="true">

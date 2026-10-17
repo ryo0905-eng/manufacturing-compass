@@ -1,6 +1,7 @@
 import type { Route } from "next";
 import Link from "next/link";
 import { SalaryBarChart } from "@/components/SalaryBarChart";
+import { RankingCompanyName } from "@/components/RankingCompanyName";
 import { semiconductorSalaryMeta, semiconductorSalaryRanking } from "@/data/semiconductor-salary";
 
 export function SalaryRankingTable() {
@@ -17,6 +18,7 @@ export function SalaryRankingTable() {
         items={semiconductorSalaryRanking.slice(0, 10).map((company) => ({
           category: company.category,
           label: company.name,
+          logoId: company.logoId ?? company.companySlug,
           value: company.annualSalaryManYen,
         }))}
         title="主要20社のうち平均年間給与 上位10社"
@@ -42,9 +44,11 @@ export function SalaryRankingTable() {
               <tr key={company.ticker}>
                 <td className="market-cap-rank">{company.rank}</td>
                 <th scope="row">
-                  {company.companySlug ? <Link href={`/companies/${company.companySlug}` as Route}>{company.name}</Link> : company.name}
-                  <small>証券コード {company.ticker}</small>
-                  {company.note ? <small className="salary-ranking-note">{company.note}</small> : null}
+                  <RankingCompanyName companyId={company.logoId ?? company.companySlug} name={company.name}>
+                    {company.companySlug ? <Link href={`/companies/${company.companySlug}` as Route}>{company.name}</Link> : company.name}
+                    <small>証券コード {company.ticker}</small>
+                    {company.note ? <small className="salary-ranking-note">{company.note}</small> : null}
+                  </RankingCompanyName>
                 </th>
                 <td className="market-cap-value">{company.annualSalaryManYen.toLocaleString("ja-JP")}万円</td>
                 <td>{company.employees.toLocaleString("ja-JP")}人</td>

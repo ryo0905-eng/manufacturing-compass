@@ -24,6 +24,7 @@
 
 .logo.compact { max-width: 100%; }
 .logo.overview { --logo-height: 24px; width: 72px; max-width: 100%; }
+.logo.ranking { --logo-height: 24px; width: 64px; }
 
 .initials {
   display: grid;

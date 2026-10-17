@@ -1,4 +1,5 @@
 import { MemoryRankingExplorer } from "@/components/MemoryRankingExplorer";
+import { RankingCompanyName } from "@/components/RankingCompanyName";
 import { memoryMarketIds, memoryMarkets, memoryRankingMeta as meta } from "@/data/memory-market-share";
 import { formatMemoryRevenue } from "@/lib/memory-ranking";
 import styles from "./MemoryRanking.module.css";
@@ -20,7 +21,7 @@ export function MemoryRanking() {
               <caption>{meta.period}。売上単位：{meta.revenueUnit}（1百万米ドル＝100万米ドル）</caption>
               <thead><tr><th scope="col">掲載順位</th><th scope="col">企業</th><th scope="col">売上高</th><th scope="col">売上シェア</th></tr></thead>
               <tbody>
-                {market.rows.map((row) => <tr key={row.companyId}><td>{row.rank}</td><th scope="row">{row.name}</th><td>{formatMemoryRevenue(row.revenueUsdM)}</td><td>{row.sharePct}%</td></tr>)}
+                {market.rows.map((row) => <tr key={row.companyId}><td>{row.rank}</td><th scope="row"><RankingCompanyName companyId={row.companySlug ?? row.companyId} name={row.name} /></th><td>{formatMemoryRevenue(row.revenueUsdM)}</td><td>{row.sharePct}%</td></tr>)}
                 {market.others && <tr><td>順位外</td><th scope="row">その他</th><td>{formatMemoryRevenue(market.others.revenueUsdM)}</td><td>{market.others.sharePct}%</td></tr>}
               </tbody>
             </table>

@@ -1,6 +1,7 @@
 import { RankingCompareButton } from "@/components/RankingCompanyCompare";
 import type { Route } from "next";
 import { MetricBarChart } from "@/components/MetricBarChart";
+import { RankingCompanyName } from "@/components/RankingCompanyName";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import {
   japanSemiconductorMarketCapRanking,
@@ -35,6 +36,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
           category: isWorld ? `${company.country} / ${company.category}` : company.category,
           displayValue: company.marketCapDisplay,
           label: company.name,
+          logoId: company.companySlug ?? company.id,
           value: company.marketCapUsdB,
         }))}
         note="棒の長さは0ドルを基準に、このグラフ内の最大値との比率で表示しています。株価と為替により変動します。"
@@ -67,16 +69,18 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
                   <td className="market-cap-rank">{displayRank}</td>
                   {!isWorld ? <td>{company.rank}位</td> : null}
                   <th scope="row">
-                    {company.companySlug ? (
-                      <TrackedInternalLink
-                        eventName="article_company_click"
-                        eventProperties={{ company_id: company.companySlug, source_slug: sourceSlug }}
-                        href={`/companies/${company.companySlug}` as Route}
-                      >
-                        {company.name}
-                      </TrackedInternalLink>
-                    ) : company.name}
-                    {company.englishName !== company.name ? <small>{company.englishName}</small> : null}
+                    <RankingCompanyName companyId={company.companySlug ?? company.id} name={company.name}>
+                      {company.companySlug ? (
+                        <TrackedInternalLink
+                          eventName="article_company_click"
+                          eventProperties={{ company_id: company.companySlug, source_slug: sourceSlug }}
+                          href={`/companies/${company.companySlug}` as Route}
+                        >
+                          {company.name}
+                        </TrackedInternalLink>
+                      ) : company.name}
+                      {company.englishName !== company.name ? <small>{company.englishName}</small> : null}
+                    </RankingCompanyName>
                   </th>
                   <td>{company.ticker}</td>
                   <td className="market-cap-value">{company.marketCapDisplay}</td>

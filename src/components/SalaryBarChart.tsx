@@ -3,6 +3,7 @@ import { MetricBarChart } from "@/components/MetricBarChart";
 type SalaryBarChartItem = {
   category: string;
   label: string;
+  logoId?: string;
   value: number;
 };
 

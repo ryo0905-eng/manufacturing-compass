@@ -14,8 +14,9 @@
 .bars { list-style: none; padding: 0; display: grid; gap: .45rem; }
 .bars li { padding: .7rem; border: 1px solid transparent; border-radius: 10px; }
 .bars li.match { background: #ecfeff; border-color: #0e7490; }
-.barHeading { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; font-size: .95rem; }
-.barHeading span { min-width: 0; overflow-wrap: anywhere; }
+.barHeading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .5rem; font-size: .95rem; }
+.barHeading > strong { min-width: 0; }
+.rank { white-space: nowrap; }
 .barHeading b { flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .track { height: 12px; background: #e2e8f0; border-radius: 4px; margin-top: .4rem; overflow: hidden; }
 .track span { display: block; height: 100%; background: #64748b; border-radius: inherit; }

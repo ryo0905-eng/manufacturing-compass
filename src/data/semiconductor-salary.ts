@@ -9,6 +9,7 @@ export type SemiconductorSalaryCompany = {
   category: string;
   companyType: "事業会社" | "持株会社";
   companySlug?: string;
+  logoId?: string;
   sourceUrl: string;
   note?: string;
 };
@@ -33,7 +34,7 @@ export const semiconductorSalaryRanking: SemiconductorSalaryCompany[] = [
   { rank: 10, name: "荏原製作所", ticker: "6361", annualSalaryManYen: 980, employees: 5489, averageAge: 43.1, fiscalPeriod: "2025年12月期", category: "製造装置・精密", companyType: "事業会社", sourceUrl: "https://ebara.com/jp-ja/ir/library/financial-highlights/" },
   { rank: 11, name: "KOKUSAI ELECTRIC", ticker: "6525", annualSalaryManYen: 960, employees: 1193, averageAge: 44.1, fiscalPeriod: "2026年3月期", category: "製造装置", companyType: "事業会社", sourceUrl: "https://www.kokusai-electric.com/ir/library" },
   { rank: 12, name: "ソシオネクスト", ticker: "6526", annualSalaryManYen: 959, employees: 2111, averageAge: 50.6, fiscalPeriod: "2026年3月期", category: "ファブレス", companyType: "事業会社", companySlug: "socionext", sourceUrl: "https://www.socionext.com/jp/ir/" },
-  { rank: 13, name: "信越化学工業", ticker: "4063", annualSalaryManYen: 898, employees: 4059, averageAge: 40.8, fiscalPeriod: "2026年3月期", category: "半導体材料", companyType: "事業会社", sourceUrl: "https://www.shinetsu.co.jp/jp/ir/ir-data/ir-securities/" },
+  { rank: 13, name: "信越化学工業", ticker: "4063", annualSalaryManYen: 898, employees: 4059, averageAge: 40.8, fiscalPeriod: "2026年3月期", category: "半導体材料", companyType: "事業会社", logoId: "shin-etsu-chemical", sourceUrl: "https://www.shinetsu.co.jp/jp/ir/ir-data/ir-securities/" },
   { rank: 14, name: "フジミインコーポレーテッド", ticker: "5384", annualSalaryManYen: 892, employees: 911, averageAge: 41.9, fiscalPeriod: "2026年3月期", category: "半導体材料", companyType: "事業会社", sourceUrl: "https://www.fujimiinc.co.jp/ir/library/" },
   { rank: 15, name: "TOPPANホールディングス", ticker: "7911", annualSalaryManYen: 868, employees: 1430, averageAge: 42.8, fiscalPeriod: "2026年3月期", category: "フォトマスク等", companyType: "持株会社", sourceUrl: "https://www.holdings.toppan.com/ja/ir/material/report.html", note: "持株会社の平均。開示されたTOPPAN株式会社の平均は780万円。" },
   { rank: 16, name: "JX金属", ticker: "5016", annualSalaryManYen: 830, employees: 3250, averageAge: 41.5, fiscalPeriod: "2026年3月期", category: "半導体材料", companyType: "事業会社", sourceUrl: "https://www.jx-nmm.com/ir/securities.html" },

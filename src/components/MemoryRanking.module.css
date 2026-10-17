@@ -23,8 +23,8 @@
 .rows li[data-company="sk-hynix"] { --company-color: #0f766e; }
 .rows li[data-company="micron"] { --company-color: #7c3aed; }
 .rows li[data-company="kioxia"] { --company-color: #b45309; }
-.rowHeading { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; }
-.rowHeading > span { min-width: 0; overflow-wrap: anywhere; }
+.rowHeading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .5rem; }
+.rowHeading > strong { min-width: 0; }
 .rowHeading small { font-size: .75rem; color: #64748b; white-space: nowrap; }
 .rowHeading b { flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .track { height: 14px; margin-block: .4rem; border-radius: 3px; background: linear-gradient(to right, transparent calc(50% - 1px), #cbd5e1 50%, transparent calc(50% + 1px)), #e2e8f0; overflow: hidden; }

@@ -27,6 +27,7 @@ export const companyLogoAssets: Partial<Record<string, CompanyLogoAsset>> = {
   qualcomm: { src: '/images/company-logos/qualcomm.png', aspectRatio: 5.446809 },
   'analog-devices': { src: '/images/company-logos/analog-devices.png', aspectRatio: 3.506849 },
   'texas-instruments': { src: '/images/company-logos/texas-instruments.png', aspectRatio: 8 },
+  mediatek: { src: '/images/company-logos/mediatek.png', aspectRatio: 4 },
   disco: { src: '/images/company-logos/disco.png', aspectRatio: 1 },
   lasertec: { src: '/images/company-logos/lasertec.png', aspectRatio: 4.571429 },
   sumco: { src: '/images/company-logos/sumco.png', aspectRatio: 2.694737 },

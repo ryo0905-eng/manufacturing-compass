@@ -6,6 +6,7 @@ import { memoryMarketIds, memoryMarkets, memoryRankingMeta, type MemoryMarketId 
 import { formatMemoryRevenue } from "@/lib/memory-ranking";
 import { trackEvent } from "@/lib/analytics";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
+import { RankingCompanyName } from "@/components/RankingCompanyName";
 import styles from "./MemoryRanking.module.css";
 
 export function MemoryRankingExplorer() {
@@ -50,7 +51,8 @@ export function MemoryRankingExplorer() {
         <ol className={styles.rows}>
           {market.rows.map((row) => <li key={row.companyId} data-company={row.companyId}>
             <div className={styles.rowHeading}>
-              <span><small>掲載{row.rank}位</small> <strong>{row.name}</strong></span>
+              <small>掲載{row.rank}位</small>
+              <strong><RankingCompanyName companyId={row.companySlug ?? row.companyId} name={row.name} /></strong>
               <b>{row.sharePct}%</b>
             </div>
             <div className={styles.track} aria-hidden="true"><span style={{ width: `${row.sharePct}%` }} /></div>

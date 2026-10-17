@@ -11450,11 +11450,10 @@ summary:focus-visible {
 }
 
 .salary-bar-chart__company > strong {
-  overflow: hidden;
   font-size: 12px;
   line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .salary-bar-chart__company > small {
@@ -11503,11 +11502,13 @@ summary:focus-visible {
 
   .salary-bar-chart__track {
     grid-column: 2 / -1;
+    grid-row: 2;
     height: 6px;
   }
 
-  .salary-bar-chart__company > strong {
-    white-space: normal;
+  .salary-bar-chart__value {
+    grid-column: 3;
+    grid-row: 1;
   }
 }
 
