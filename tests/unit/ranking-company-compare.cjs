@@ -166,7 +166,7 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   const page = load('src/app/(ja)/guides/[slug]/page');
   const params = Promise.resolve({ slug: 'semiconductor-market-cap-ranking' });
   const rendered = renderToStaticMarkup(await page.default({ params }));
-  const guide = load('src/content/guides/semiconductor-market-cap-ranking').semiconductorMarketCapRankingGuide;
+  const { semiconductorMarketCapRankingGuide: guide, semiconductorMarketCapRankingHero: hero } = load('src/content/guides/semiconductor-market-cap-ranking');
   const body = rendered.slice(rendered.indexOf('<article'));
   const orderedIds = ['world-ranking', 'japan-ranking', 'ranking-compare-title', 'ranking-history', 'ranking-time-machine-preview', 'top-ten'];
   for (let index = 1; index < orderedIds.length; index++) {
@@ -175,14 +175,25 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
     assert.ok(previous >= 0 && current > previous, orderedIds[index]);
   }
   const prefix = body.slice(0, body.indexOf('id="world-ranking"'));
-  assert.ok(prefix.includes(guide.intro.conclusion));
+  const heroHtml = body.match(/<header class="article-hero">([\s\S]*?)<\/header>/)[1];
+  const textOnly = html => html.replace(/<[^>]+>/g, '');
+  assert.equal(textOnly(heroHtml.match(/<h1>([\s\S]*?)<\/h1>/)[1]), '半導体メーカー世界ランキング');
+  assert.ok(heroHtml.includes('<span class="ranking-hero-chunk">半導体メーカー</span><wbr/><span class="ranking-hero-chunk">世界ランキング</span>'));
+  assert.equal(textOnly(heroHtml.match(/<p class="ranking-hero-scope">([\s\S]*?)<\/p>/)[1]), '時価総額｜世界TOP30・日本TOP10');
+  for (const scope of hero.scopes) assert.ok(heroHtml.includes(`<span class="ranking-hero-chunk">${scope}</span>`));
+  assert.ok(heroHtml.includes(`<p>${hero.conclusion}</p>`));
+  assert.equal(hero.conclusion, `世界1位は${data.worldSemiconductorMarketCapRanking[0].name}、日本1位は${data.japanSemiconductorMarketCapRanking[0].name}。`);
+  const dateTags = [...heroHtml.matchAll(/<time datetime="([^"]+)">([^<]+)<\/time>/gi)];
+  assert.deepEqual(dateTags.map(match => match[1]), [data.semiconductorMarketCapMeta.dataAsOf, guide.updatedAt]);
+  assert.deepEqual(dateTags.map(match => match[2]), [data.semiconductorMarketCapMeta.dataAsOf, guide.updatedAt].map(date => date.replaceAll('-', '.')));
+  assert.ok(heroHtml.includes(`執筆・確認：${guide.reviewedBy}`));
+  for (const removed of ['section-label', guide.readTime, '製造業経験', 'トヨタ', guide.intro.conclusion, guide.title]) assert.ok(!heroHtml.includes(removed), removed);
   assert.ok(!prefix.includes('guide-intro-summary') && !prefix.includes('guide-experience-basis'));
   assert.match(prefix, /<details class="ranking-toc"><summary>/);
   assert.ok(!/<details[^>]*\sopen[\s=>]/.test(prefix));
   assert.equal((prefix.match(/class="ranking-quick-links"/g) || []).length, 1);
   assert.equal((body.match(/class="market-cap-table"/g) || []).length, 2);
   assert.equal((body.match(/class="salary-bar-chart metric-bar-chart"/g) || []).length, 0);
-  assert.equal((body.match(/class="track"/g) || []).length, 42);
   assert.equal((body.match(/比較に追加<\/button>/g) || []).length, 40);
   assert.ok(body.indexOf('id="industry-map-books"') > body.indexOf('id="research-flow"'));
   assert.ok(!body.includes('読んでよかった2冊（広告あり）'));
@@ -197,6 +208,7 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   }
   for (const match of body.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), match[1]);
   const rankingContent = body.slice(body.indexOf('id="world-ranking"'), body.indexOf('id="ranking-compare-title"'));
+  assert.equal((rankingContent.match(/class="track"/g) || []).length, 42);
   assert.ok(!rankingContent.includes('<details') && !rankingContent.includes('link-callout'));
   assert.ok(!rankingContent.includes('href="/industry-map"') && !rankingContent.includes('industry-map-books'));
 
@@ -204,6 +216,8 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   const article = schemas.find(schema => schema['@type'] === 'Article');
   assert.equal(article.dateModified, guide.updatedAt);
   assert.equal(article.headline, guide.title);
+  assert.equal(article.description, guide.description);
+  assert.equal(schemas.find(schema => schema['@type'] === 'BreadcrumbList').itemListElement.at(-1).name, guide.title);
   const faq = schemas.find(schema => schema['@type'] === 'FAQPage');
   const visibleFaq = guide.sections.flatMap(section => section.blocks ?? []).filter(block => block.type === 'faq').flatMap(block => block.items);
   assert.equal(faq.mainEntity.length, visibleFaq.length);
@@ -215,6 +229,9 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   const metadata = await page.generateMetadata({ params });
   assert.equal(metadata.alternates.canonical, lib.rankingComparePath);
   assert.equal(metadata.title, '半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本TOP10');
+  assert.equal(metadata.description, guide.description);
+  assert.equal(metadata.openGraph.title, guide.title);
+  assert.equal(metadata.twitter.title, guide.title);
   assert.equal(guide.status, 'published');
   assert.equal(data.semiconductorMarketCapMeta.dataAsOf, '2026-10-16');
   assert.equal(data.semiconductorMarketCapMeta.retrievedAt, '2026-10-17');
@@ -229,5 +246,9 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.ok(!salaryHtml.includes('ranking-article') && !salaryHtml.includes('ranking-toc'));
   assert.ok(salaryHtml.includes('guide-intro-summary') && salaryHtml.includes('aria-label="記事の目次"'));
   assert.ok(salaryHtml.includes(salary.description));
+  const salaryHero = salaryHtml.match(/<header class="article-hero">([\s\S]*?)<\/header>/)[1];
+  assert.ok(salaryHero.includes(`<h1>${salary.title}</h1>`) && salaryHero.includes(salary.readTime));
+  assert.ok(salaryHero.includes('section-label') && salaryHero.includes('製造業経験 約10年'));
+  assert.ok(!salaryHero.includes('ranking-hero-'));
   console.log('PASS: ranking data/selection/URLs/events, SSR order and tables, legacy anchors, FAQ/metadata and other-article layout isolation.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

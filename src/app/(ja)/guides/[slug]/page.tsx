@@ -13,7 +13,8 @@ import { TodayAction } from "@/components/TodayAction";
 import { GuideBlocks } from "@/components/guide/GuideBlocks";
 import { GuideLanguageLink } from "@/components/guide/GuideLanguageLink";
 import { getPublishedEnglishTranslation } from "@/content/guides/en";
-import { semiconductorMarketCapRankingSectionAliases } from "@/content/guides/semiconductor-market-cap-ranking";
+import { semiconductorMarketCapRankingHero, semiconductorMarketCapRankingSectionAliases } from "@/content/guides/semiconductor-market-cap-ranking";
+import { semiconductorMarketCapMeta } from "@/data/semiconductor-market-cap";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
 import { companies } from "@/data/companies";
@@ -112,10 +113,25 @@ export default async function GuidePage({ params }: GuidePageProps) {
       <article className="article-layout">
         <header className="article-hero">
           {getPublishedEnglishTranslation(guide.slug) ? <GuideLanguageLink slug={guide.slug} locale="ja" /> : null}
-          <p className="section-label">製造業・半導体の記事・{guide.readTime}</p>
-          <h1>{guide.title}</h1>
-          <p>{isMarketCapRanking ? guide.intro.conclusion : guide.description}</p>
-          <small>{guide.reviewedBy ? `執筆・確認：${guide.reviewedBy}（製造業経験 約10年）` : "Manufacturing Compass編集部・公開情報に基づく解説"}・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
+          {isMarketCapRanking ? <>
+            <h1>{semiconductorMarketCapRankingHero.titleParts.map((part, index) => <Fragment key={part}>
+              {index > 0 ? <wbr /> : null}<span className="ranking-hero-chunk">{part}</span>
+            </Fragment>)}</h1>
+            <p className="ranking-hero-scope"><span className="ranking-hero-chunk">{semiconductorMarketCapRankingHero.metric}</span>｜{semiconductorMarketCapRankingHero.scopes.map((scope, index) => <Fragment key={scope}>
+              {index > 0 ? "・" : null}<span className="ranking-hero-chunk">{scope}</span>
+            </Fragment>)}</p>
+            <p>{semiconductorMarketCapRankingHero.conclusion}</p>
+            <small className="ranking-hero-meta">
+              <span>基準日 <time dateTime={semiconductorMarketCapMeta.dataAsOf}>{semiconductorMarketCapMeta.dataAsOf.replaceAll("-", ".")}</time></span>
+              <span>更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></span>
+              <span>執筆・確認：{guide.reviewedBy ?? guide.author}</span>
+            </small>
+          </> : <>
+            <p className="section-label">製造業・半導体の記事・{guide.readTime}</p>
+            <h1>{guide.title}</h1>
+            <p>{guide.description}</p>
+            <small>{guide.reviewedBy ? `執筆・確認：${guide.reviewedBy}（製造業経験 約10年）` : "Manufacturing Compass編集部・公開情報に基づく解説"}・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
+          </>}
           {guide.showIntroSummary !== false ? (
             <dl className="guide-intro-summary">
               <div><dt>悩み</dt><dd>{guide.intro.problem}</dd></div>

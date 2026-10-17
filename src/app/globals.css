@@ -17789,6 +17789,43 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 24px;
+  margin-top: -18px;
+}
+
+.guide-page.ranking-article .article-hero {
+  display: grid;
+  gap: 10px;
+}
+
+.guide-page.ranking-article .article-hero h1 {
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1.35;
+  text-wrap: wrap;
+}
+
+.ranking-article .ranking-hero-chunk { white-space: nowrap; }
+
+.guide-page.ranking-article .article-hero > p { margin: 0; }
+
+.guide-page.ranking-article .article-hero > p.ranking-hero-scope {
+  color: #60666d;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.guide-page.ranking-article .article-hero > small.ranking-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.ranking-article .ranking-hero-meta > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .ranking-article .ranking-quick-links a {

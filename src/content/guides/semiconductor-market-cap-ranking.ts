@@ -1,4 +1,12 @@
 import type { GuideArticle } from "@/content/guides/types";
+import { japanSemiconductorMarketCapRanking, worldSemiconductorMarketCapRanking } from "@/data/semiconductor-market-cap";
+
+export const semiconductorMarketCapRankingHero = {
+  titleParts: ["半導体メーカー", "世界ランキング"],
+  metric: "時価総額",
+  scopes: ["世界TOP30", "日本TOP10"],
+  conclusion: `世界1位は${worldSemiconductorMarketCapRanking[0].name}、日本1位は${japanSemiconductorMarketCapRanking[0].name}。`,
+} as const;
 
 export const semiconductorMarketCapRankingGuide: GuideArticle = {
   slug: "semiconductor-market-cap-ranking",
