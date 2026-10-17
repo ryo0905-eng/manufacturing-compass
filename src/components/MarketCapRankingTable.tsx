@@ -122,15 +122,12 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
                   <td role="cell" className={`market-cap-rank ${styles.rank}`}>{displayRank}{!isWorld && <small>世界{company.rank}位</small>}</td>
                   <th scope="row" role="rowheader" className={styles.company}>
                     {identity}
-                    <details className={styles.details}>
-                      <summary>企業情報を開く<span className={styles.srOnly}>：{company.name}</span></summary>
-                      <dl>
-                        <div><dt>国・地域</dt><dd><CountryRegion country={company.country} /></dd></div>
-                        <div><dt>ティッカー</dt><dd>{company.ticker}</dd></div>
-                        <div><dt>分類</dt><dd>{company.category}</dd></div>
-                        <div><dt>主な事業</dt><dd>{company.mainBusiness}</dd></div>
-                      </dl>
-                    </details>
+                    <dl className={styles.metadata}>
+                      <div><dt className={styles.srOnly}>国・地域</dt><dd><CountryRegion country={company.country} /></dd></div>
+                      <div><dt className={styles.srOnly}>分類</dt><dd><span aria-hidden="true">·</span>{company.category}</dd></div>
+                      <div><dt className={styles.srOnly}>ティッカー</dt><dd><span aria-hidden="true">·</span>{company.ticker}</dd></div>
+                    </dl>
+                    <div className={styles.business}><span className={styles.srOnly}>主な事業：</span>{company.mainBusiness}</div>
                   </th>
                   <td role="cell" className={`market-cap-value ${styles.value}`}>{metric(company.marketCapUsdB, company.marketCapDisplay)}</td>
                   <td role="cell" className={styles.compare}><RankingCompareButton id={company.id} source={scope} /></td>

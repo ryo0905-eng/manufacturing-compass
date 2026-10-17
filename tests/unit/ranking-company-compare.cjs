@@ -144,7 +144,7 @@ for (const [index, companies] of rankingSets.entries()) {
   const rows = rankedRows[index];
   for (const [rowIndex, company] of companies.entries()) {
     const row = rows[rowIndex];
-    for (const field of ['name', 'englishName', 'ticker', 'category', 'mainBusiness', 'marketCapDisplay']) assert.ok(row.includes(encoded(company[field])), `${index}/${company.id}/${field}`);
+    for (const field of ['name', 'englishName', 'country', 'ticker', 'category', 'mainBusiness', 'marketCapDisplay']) assert.ok(row.includes(encoded(company[field])), `${index}/${company.id}/${field}`);
     assert.equal((row.match(/scope="row"/g) || []).length, 1);
     assert.equal((row.match(/class="track"/g) || []).length, 1);
     assert.equal((row.match(/data-ranking-compare-id=/g) || []).length, 1);
@@ -152,8 +152,13 @@ for (const [index, companies] of rankingSets.entries()) {
     assert.ok(row.includes(index === 0 ? encoded(company.country) : `${company.rank}位`));
     assert.ok(row.includes(`class="market-cap-rank rank">${index === 0 ? company.rank : company.domesticRank}${index === 0 ? '</td>' : '<small>世界' + company.rank + '位</small></td>'}`));
     assert.equal((row.match(/<td\b/g) || []).length, 3);
-    assert.match(row, /<details class="details"><summary>企業情報を開く/);
-    assert.ok(!/<details[^>]*\sopen[\s=>]/.test(row));
+    assert.ok(!/<details\b|<summary\b|\shidden(?:[\s=>])/.test(row));
+    const metadata = row.match(/<dl class="metadata">([\s\S]*?)<\/dl>/)?.[1];
+    assert.ok(metadata, `${index}/${company.id}: visible metadata`);
+    assert.ok(metadata.indexOf(encoded(company.country)) < metadata.indexOf(encoded(company.category)));
+    assert.ok(metadata.indexOf(encoded(company.category)) < metadata.indexOf(encoded(company.ticker)));
+    assert.ok(row.includes(`<div class="business"><span class="srOnly">主な事業：</span>${encoded(company.mainBusiness)}</div>`));
+    assert.ok(row.indexOf(encoded(company.englishName)) < row.indexOf('<dl class="metadata">'));
   }
 }
 const legacy = renderReferenceTables(verifiedReference, 'another-guide');
@@ -276,7 +281,9 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   for (const match of body.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), match[1]);
   const rankingContent = body.slice(body.indexOf('id="world-ranking"'), body.indexOf('id="ranking-compare-title"'));
   assert.equal((rankingContent.match(/class="track"/g) || []).length, 50);
-  assert.equal((rankingContent.match(/<details class="details">/g) || []).length, 48);
+  assert.equal((rankingContent.match(/<dl class="metadata">/g) || []).length, 48);
+  assert.equal((rankingContent.match(/<div class="business">/g) || []).length, 48);
+  assert.ok(!rankingContent.includes('企業情報を開く'));
   assert.ok(!rankingContent.includes('link-callout'));
   const tableHeads = [...rankingContent.matchAll(/<thead[^>]*>([\s\S]*?)<\/thead>/g)];
   assert.deepEqual(tableHeads.map(head => (head[1].match(/scope="col"/g) || []).length), [4, 4]);

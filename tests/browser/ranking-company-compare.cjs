@@ -18,18 +18,24 @@ const fs = require('node:fs');
     await page.goto(base + route);
     assert.equal(await result.count(), 0);
 
-    // Both tables retain complete server-rendered details and fit the actual article width.
+    // Both tables show every company's overview without disclosure and fit the article width.
     for (const width of [360, 390, 768, 1280]) {
       await page.setViewportSize({ width, height: 900 });
       for (const scope of ['world', 'japan']) {
         const table = page.locator(`#${scope}-ranking table`);
-        const details = table.locator('details').filter({ hasText: scope === 'world' ? 'NVDA' : '8035.T' }).first();
-        for (const expanded of [false, true]) {
-          if (expanded) await details.locator('summary').click();
-          assert.ok(await table.evaluate(element => element.scrollWidth <= element.clientWidth + 1), `${scope}/${width}/${expanded}: table overflow`);
-          assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
+        assert.equal(await table.locator('details, summary').count(), 0);
+        const companyRows = table.locator('tbody tr').filter({ has: page.locator('[data-ranking-compare-id]') });
+        assert.equal(await companyRows.count(), scope === 'world' ? 30 : 18);
+        for (const row of await companyRows.all()) {
+          const metadata = row.locator('dl');
+          assert.equal(await metadata.isVisible(), true);
+          assert.equal(await metadata.locator('dd').count(), 3);
+          const business = row.locator('th[scope="row"] > div');
+          assert.equal(await business.isVisible(), true);
+          assert.ok(await business.evaluate(element => element.scrollHeight <= element.clientHeight + 1 && getComputedStyle(element).textOverflow !== 'ellipsis'));
         }
-        await details.locator('summary').click();
+        assert.ok(await table.evaluate(element => element.scrollWidth <= element.clientWidth + 1), `${scope}/${width}: table overflow`);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
       }
       const longNameButton = page.locator('#world-ranking').getByRole('button', { name: 'NXPセミコンダクターズを比較に追加', exact: true });
       const box = await longNameButton.boundingBox();
@@ -126,6 +132,6 @@ const fs = require('node:fs');
     assert.equal(await dialog.locator('a[href*="company=cxmt"]').count(), 0);
     assert.deepEqual(errors, []);
     fs.writeFileSync('/private/tmp/ranking-compare-browser-results.json', JSON.stringify({ widths: [360, 390, 768, 1280], selection: true, dialog: true, tabs: true, keyboard: true, focusReturn: true, share: true, copyFallback: true, invalidHash: true, pageErrors: errors }, null, 2));
-    console.log('PASS: responsive tables/dialog, details, selection, tabs, keyboard/focus return, sharing, copy fallback and map links.');
+    console.log('PASS: responsive tables/dialog, visible company overviews, selection, tabs, keyboard/focus return, sharing, copy fallback and map links.');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

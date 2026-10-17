@@ -6,8 +6,9 @@
 .unified thead th:first-child { width: 60px; border-top-left-radius: 8px; }
 .unified thead th:nth-child(3) { width: 172px; }
 .unified thead th:last-child { width: 112px; border-top-right-radius: 8px; }
-.unified tr > th, .unified tr > td { padding: 16px 12px; overflow-wrap: anywhere; }
-.unified .company { min-width: 0; font-weight: 600; }
+.unified tr > th, .unified tr > td { padding: 12px; overflow-wrap: anywhere; }
+.unified .company { min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.5; }
+.unified .company small { font-size: 12px; font-weight: 400; }
 .unified .rank { font-size: 18px; font-weight: 600; color: #1d1d1f; }
 .unified .rank small { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; color: var(--muted); }
 .unified .value { min-width: 0; white-space: normal; font-size: 16px; font-variant-numeric: tabular-nums; }
@@ -16,13 +17,10 @@
 /* One series: market capitalization, using the site's chart color. */
 .track i { display: block; height: 100%; background: #4c72b0; }
 .ratio { display: block; margin-top: 6px; color: var(--muted); font-size: 11px; font-weight: 400; }
-.details { margin-top: 8px; font-size: 13px; font-weight: 400; }
-.details summary { min-height: 44px; align-content: center; color: #1769aa; cursor: pointer; }
-.details summary:focus-visible { outline: 3px solid #1769aa; outline-offset: 3px; }
-.details[open] summary { margin-bottom: 6px; }
-.details dl { display: grid; gap: 8px; margin: 0; line-height: 1.6; }
-.details dt { color: var(--muted); font-size: 11px; }
-.details dd { margin: 0; color: #34383d; }
+.metadata { display: flex; flex-wrap: wrap; gap: 2px 8px; margin: 6px 0 0; color: var(--muted); font-size: 12px; font-weight: 400; line-height: 1.6; }
+.metadata > div { min-width: 0; max-width: 100%; }
+.metadata dd { display: flex; align-items: baseline; gap: 8px; min-width: 0; margin: 0; }
+.business { margin-top: 4px; color: #34383d; font-size: 13px; font-weight: 400; line-height: 1.6; }
 .reference { background: #f7f7f8; }
 .unified .reference > * { border-top: 1px solid var(--line); }
 .referenceCompany { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
@@ -34,7 +32,7 @@
 @container (width < 600px) {
   .unified table, .unified tbody { display: block; width: 100%; min-width: 0; }
   .unified thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .unified tbody tr { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px 8px; padding: 16px 12px; border-bottom: 1px solid var(--line); }
+  .unified tbody tr { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px 8px; padding: 12px; border-bottom: 1px solid var(--line); }
   .unified tbody tr:last-child { border-bottom: 0; }
   .unified tr > th, .unified tr > td { display: block; min-width: 0; padding: 0; border: 0; }
   .unified tr > .rank { grid-column: 1; grid-row: 1; padding-top: 2px; }
