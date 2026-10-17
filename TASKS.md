@@ -1,5 +1,12 @@
 # TASKS
 
+## 2026-10-17：業界地図の領域別の背景色を復元
+
+- ロゴカードへの共通化で見出し線だけになっていた色分けを見直し、業界地図8領域の淡い背景色と枠色を旧配色へ復元。白い企業カード・ロゴ枠、領域名、検索中・スマホの配置を維持。企業一覧の背景は従来どおり淡いグレーとする。
+- 変更ファイル：`src/components/CompanyExplorer.module.css`、`docs/design-system.md`、`docs/company-explorer-spec.md`、本記録。
+- Nodeによる対象CSSの確認でCSS Moduleの構文・pure制約、旧8色との一致、地図だけの背景適用を確認し成功。`git diff --check`と変更した公開ファイルの禁止語照合も成功。CSS・文書のみの変更のためtypecheck・lint・buildは未実行。実ブラウザ表示・本番反映は未確認。commit・pushは未実施。
+- 推奨コミット：`fix: restore industry map zone background colors`
+
 ## 2026-10-17：業界地図・企業一覧をロゴで探せる共通UIへ改善
 
 - `/industry-map`の代表31社と`/companies`の掲載37社を維持し、領域別のコンパクトなロゴカード、検索・地域・国内拠点条件、企業概要ダイアログを共通化。地図の職種表示、一覧の既存6セグメント、初期クエリ、企業指定hash、領域・日本企業一覧の既存アンカーを維持。地図未収録13社の主領域のみ追加し、既存セグメントは変更していない。
