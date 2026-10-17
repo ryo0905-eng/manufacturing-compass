@@ -61,9 +61,10 @@ assert.equal(referenceLib.formatMarketCapUsdB(200), '2,000億ドル');
 assert.equal(referenceLib.formatMarketCapUsdB(1250), '1.25兆ドル');
 
 const referenceLinkEvents = [];
-function renderReferenceTables(snapshot, sourceSlug = 'semiconductor-market-cap-ranking') {
+function renderReferenceTables(snapshot, sourceSlug = 'semiconductor-market-cap-ranking', rankingData = data) {
   const fixtureLoad = loader({
     '@/data/semiconductor-market-cap-reference': { toyotaMarketCapReference: snapshot },
+    '@/data/semiconductor-market-cap': rankingData,
     '@/components/TrackedInternalLink': { TrackedInternalLink: ({ eventName, eventProperties, ...props }) => {
       if (props.href.includes('company=toyota')) referenceLinkEvents.push({ eventName, eventProperties });
       return React.createElement('a', props);
@@ -88,20 +89,40 @@ for (const word of ['世界TOP30の時価総額ランキング', '日本企業TO
   '売上高や従業員数ではありません', '2014〜2025年の年末データ',
   '/tools/ranking-time-machine#mode=global&amp;year=2025&amp;company=toyota']) assert.ok(withReference.includes(word), word);
 assert.ok(!withReference.includes('<figure') && !withReference.includes('metric-bar-chart'));
-const tables = [...withReference.matchAll(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/g)].map(match => match[1]);
-assert.deepEqual(tables.map(table => (table.match(/<tr\b/g) || []).length), [30, 10]);
-assert.ok(tables.every(table => !table.includes('トヨタ自動車')));
-const referenceRows = [...withReference.matchAll(/<tfoot\b[^>]*>([\s\S]*?)<\/tfoot>/g)].map(match => match[1]);
+const tableRows = markup => [...markup.matchAll(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/g)].map(table => [...table[1].matchAll(/<tr\b[^>]*>[\s\S]*?<\/tr>/g)].map(row => row[0]));
+const isReferenceRow = row => row.includes('class="reference"');
+const referencePositions = markup => tableRows(markup).map(rows => rows.findIndex(isReferenceRow));
+const allRows = tableRows(withReference);
+assert.deepEqual(allRows.map(rows => rows.length), [31, 11]);
+assert.ok(!withReference.includes('<tfoot'));
+const rankedRows = allRows.map(rows => rows.filter(row => !isReferenceRow(row)));
+assert.deepEqual(rankedRows.map(rows => rows.length), [30, 10]);
+assert.ok(rankedRows.flat().every(row => !row.includes('トヨタ自動車')));
+const referenceRows = allRows.flat().filter(isReferenceRow);
 assert.equal(referenceRows.length, 2);
-for (const row of referenceRows) {
+for (const [index, row] of referenceRows.entries()) {
   assert.equal((row.match(/<tr\b/g) || []).length, 1);
-  assert.ok(row.includes('参考') && row.includes('トヨタ自動車'));
+  assert.ok(row.includes('<span class="referenceBadge">参考</span>') && row.includes('トヨタ自動車'));
+  assert.ok(row.includes('aria-label="参考：トヨタ自動車（順位対象外）"'));
   assert.ok(!row.includes('market-cap-rank') && !row.includes('比較に追加'));
+  const cells = [...row.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)];
+  assert.equal(cells[0][1], '');
+  assert.ok(cells[0][0].includes(index === 0 ? 'aria-label="順位対象外"' : 'aria-label="国内順位対象外"'));
+  if (index === 1) {
+    assert.equal(cells[1][1], '');
+    assert.ok(cells[1][0].includes('aria-label="世界順位対象外"'));
+  }
 }
+// Published values: Arm, Toyota, KLA in the world table; Toyota precedes Japan #1.
+assert.deepEqual(referencePositions(html), [14, 0]);
+const publishedRows = tableRows(html);
+assert.ok(publishedRows[0][13].includes('Arm') && publishedRows[0][15].includes('KLA'));
+assert.ok(publishedRows[1][1].includes('東京エレクトロン'));
 const encoded = value => renderToStaticMarkup(React.createElement(React.Fragment, null, value));
 const rankingSets = [data.worldSemiconductorMarketCapRanking, data.japanSemiconductorMarketCapRanking];
+const originalRankings = plain(rankingSets);
 for (const [index, companies] of rankingSets.entries()) {
-  const rows = [...tables[index].matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)].map(match => match[1]);
+  const rows = rankedRows[index];
   for (const [rowIndex, company] of companies.entries()) {
     const row = rows[rowIndex];
     for (const field of ['name', 'englishName', 'ticker', 'category', 'mainBusiness', 'marketCapDisplay']) assert.ok(row.includes(encoded(company[field])), `${index}/${company.id}/${field}`);
@@ -118,10 +139,28 @@ assert.equal((legacy.match(/class="salary-bar-chart metric-bar-chart"/g) || []).
 assert.ok(!legacy.includes('class="reference"') && !legacy.includes('class="track"') && !legacy.includes('unified'));
 for (const change of [{ status: 'pending', marketCapUsdB: null }, { dataAsOf: '2026-10-01' }, { currency: '円' }, { sourceName: 'Another provider' }, { marketCapUsdB: 0 }, { marketCapUsdB: -1 }, { marketCapUsdB: NaN }, { marketCapUsdB: Infinity }]) {
   const hidden = renderReferenceTables({ ...verifiedReference, ...change });
-  assert.ok(!hidden.includes('<tfoot') && !hidden.includes('class="ratio"'));
+  assert.ok(!hidden.includes('class="reference"') && !hidden.includes('class="ratio"'));
   assert.ok(!hidden.includes('トヨタ自動車') && !hidden.includes('トヨタと半導体企業の過去の変化を見る'));
   assert.equal((hidden.match(/class="track"/g) || []).length, 40);
+  assert.deepEqual(tableRows(hidden).map(rows => rows.length), [30, 10]);
 }
+
+// The reference is unranked even when largest, smallest, or tied with ranked firms.
+for (const [value, expected] of [
+  [10000, [0, 0]], [0.1, [30, 10]],
+  [data.worldSemiconductorMarketCapRanking[14].marketCapUsdB, [15, 0]],
+  [data.japanSemiconductorMarketCapRanking[0].marketCapUsdB, [20, 1]],
+]) {
+  const markup = renderReferenceTables({ ...verifiedReference, marketCapUsdB: value });
+  assert.deepEqual(referencePositions(markup), expected);
+  assert.deepEqual(tableRows(markup).map(rows => rows.filter(isReferenceRow).length), [1, 1]);
+  assert.equal((markup.match(/比較に追加<\/button>/g) || []).length, 40);
+}
+const tieValue = data.worldSemiconductorMarketCapRanking[14].marketCapUsdB;
+const tiedWorld = data.worldSemiconductorMarketCapRanking.map(company => company.rank === 16 ? { ...company, marketCapUsdB: tieValue, marketCapDisplay: referenceLib.formatMarketCapUsdB(tieValue) } : company);
+assert.deepEqual(referencePositions(renderReferenceTables({ ...verifiedReference, marketCapUsdB: tieValue }, 'semiconductor-market-cap-ranking', {
+  ...data, worldSemiconductorMarketCapRanking: Object.freeze(tiedWorld),
+})), [16, 0]);
 
 const Metric = load('src/components/MetricBarChart').MetricBarChart;
 const metricItem = (label, value) => ({ label, value, category: 'テスト', displayValue: String(value) });
@@ -136,12 +175,13 @@ for (const reference of [verifiedReference, { ...verifiedReference, marketCapUsd
   const expected = rankingSets.flatMap(companies => {
     const values = companies.map(company => company.marketCapUsdB);
     if (reference.status === 'verified') values.push(reference.marketCapUsdB);
-    return values.map(value => value / Math.max(...values) * 100);
+    return values.sort((first, second) => second - first).map(value => value / Math.max(...values) * 100);
   });
   assert.equal(actual.length, expected.length);
   actual.forEach((width, index) => assert.ok(Math.abs(width - expected[index]) < 1e-9));
   assert.ok(actual.every(width => width >= 0 && width <= 100));
 }
+assert.deepEqual(plain(rankingSets), originalRankings);
 assert.deepEqual(widths(renderMetric([metricItem('A', 400), metricItem('B', 10), metricItem('C', 0)], metricItem('参考企業', 200))), [100, 2.5, 0, 50]);
 assert.deepEqual(widths(renderMetric([metricItem('A', 50)], metricItem('参考企業', 200))), [25, 100]);
 assert.deepEqual(widths(renderMetric([metricItem('A', 0.1)], metricItem('参考企業', 0.2))), [50, 100]);
