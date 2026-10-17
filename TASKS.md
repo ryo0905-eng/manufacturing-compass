@@ -1,5 +1,14 @@
 # TASKS
 
+## 2026-10-17：トップのランキング枠をコンパクト化
+
+- 4記事への説明付きカードを見出し横の小型リンクへ変更。高さ44px以上・淡い背景・細い罫線・青い矢印とし、リンク先・クリック計測を維持した。全幅のホームプレビューは960px以上で左260pxに時間操作・NVIDIA追跡、右に上位5社の1行形式のグラフを配置。960px未満はリンクを折り返し、操作→追跡→グラフの順に縦配置する。
+- 比較対象・現在のランキングとの違い・出典・既存データ確認日は常時表示。補間中の注記はグラフに残し、補間・可変軸・対象範囲・解釈上の詳しい注意を閉じたnative detailsへ集約した。記事・専用ツールの説明、全行の高さ計測、データ、状態管理、画面外・背景タブ停止、表示年引き継ぎを維持。新API・依存・保存先は追加していない。
+- `node tests/unit/ranking-time-machine-preview.cjs`と`npm run typecheck`を175秒の上限付きで各1回実行し成功。初期HTMLの4リンク・掲載順・出典の常時表示・閉じた詳細説明、補間中の注記と記事／専用ツールの説明維持、16年分のデータ・再生・停止・リセット・表示年引き継ぎ、ホーム計測を確認。既存のnext/image模擬によるfill属性警告は出るがexit 0。型確認後の実装変更はホーム専用CSSの間隔・文字サイズ調整のみ。
+- CSSの構文と差分・変更した公開テキストの禁止語照合を確認。1366×768での一画面表示は設計目標であり、実ブラウザ・実端末の表示、本番反映・計測受信は未確認。dev・build・lint・commit・pushは未実行。
+- 変更ファイル：`src/app/(ja)/page.tsx`、`src/app/globals.css`、`src/components/ranking-time-machine/RankingTimeMachinePreview.tsx`・`RankingRaceChart.tsx`・`ranking-time-machine.module.css`、`tests/unit/ranking-time-machine-preview.cjs`、`docs/PRD.md`・`architecture.md`・`design-system.md`、本記録。
+- 推奨コミット：`refactor: compact homepage ranking section`
+
 ## 2026-10-17：主力ランキング記事の重複説明と読む順番を整理
 
 - 時価総額ランキング1記事の冒頭を短い結論と世界・日本・詳しい解説への3リンクに集約し、長い目次は閉じたnative detailsへ移設。世界TOP30→日本TOP10→2社比較→タイムマシンの順に変更。グラフ・全順位表・出典条件・比較ボタンは常時表示し、他記事の導入・目次は維持した。

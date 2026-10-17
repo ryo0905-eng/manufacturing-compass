@@ -75,13 +75,14 @@ export default function Home() {
       </section>
 
       <section id="home-rankings" className="home-focused__section home-focused__rankings" aria-labelledby="home-rankings-title">
-        <header className="home-focused__heading"><h2 id="home-rankings-title">ランキングで半導体企業を比べる</h2><p>時価総額の変化を動かして確認。売上高・市場シェア・平均年収など、知りたい指標から企業を調べられます。</p></header>
-        <div className="home-focused__ranking-grid">
-          <RankingTimeMachinePreview variant="home" />
+        <header className="home-focused__heading home-focused__ranking-heading">
+          <h2 id="home-rankings-title">ランキングで半導体企業を比べる</h2>
           <nav className="home-focused__ranking-links" aria-label="比較するランキングを選ぶ">
-            {homeRankingLinks.map((item) => <HomeLink href={item.href} key={item.id} section="rankings" destination={item.id} purpose="industry"><strong>{item.title}<span aria-hidden="true"> →</span></strong><p>{item.body}</p></HomeLink>)}
+            {homeRankingLinks.map((item) => <HomeLink href={item.href} key={item.id} section="rankings" destination={item.id} purpose="industry" title={item.body}>{item.title}<span aria-hidden="true">→</span></HomeLink>)}
           </nav>
-        </div>
+          <p>年を選ぶか再生して、時価総額の変化を体験。各ランキングから、企業の規模や特徴も比較できます。</p>
+        </header>
+        <RankingTimeMachinePreview variant="home" />
       </section>
 
       <section className="home-focused__section" aria-labelledby="home-tools-title">

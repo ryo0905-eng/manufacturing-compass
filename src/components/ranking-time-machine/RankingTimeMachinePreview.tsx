@@ -87,34 +87,61 @@ export function RankingTimeMachinePreview({ variant = 'article' }: { variant?: '
   }, [playing, index]);
 
   const href = `/tools/ranking-time-machine#mode=semiconductor&year=${year}&company=nvidia` as const;
-  return <div id={home ? 'home-ranking-time-machine' : 'ranking-time-machine-preview'} ref={workspace} className={styles.articlePreview}>
-    <h3>{home ? 'NVIDIAの順位はどう変わった？' : 'NVIDIAの順位はどう変わった？ 2010年から動かして見る'}</h3>
-    <p>{home ? '年を選ぶか再生して、時価総額の変化を見比べてみましょう。' : '再生すると年ごとの順位が変化します。年を選んで、NVIDIAと他社の時価総額を見比べてみましょう。'}</p>
-    <p className={styles.small}>2010〜2025年の各年末 · 装置5社を含む選定20社内の比較。{home ? '現在の世界ランキングとは対象・時点が異なり' : '上の現在の世界TOP30とは対象が異なり'}、各年の世界順位を再現したものではありません。</p>
-    <div ref={controls}>
-      <TimelineControls years={timeline.map(item => item.year)} index={index} playing={playing}
-        idPrefix={home ? 'ranking-home' : 'ranking-inline'} helpText="3秒ごとに1年進みます。年を選ぶか、画面外・背景タブへ移ると停止します。"
-        onPlay={() => { begin(); dispatch({ type: 'play' }); }}
-        onPause={() => dispatch({ type: 'pause' })}
-        onReset={() => { if (index !== 0) begin(); dispatch({ type: 'reset' }); }}
-        onYear={next => { if (next !== index) begin(); dispatch({ type: 'year', index: next }); }}
-        onYearCommit={() => {}} />
+  const timelineControls = <div ref={controls}>
+    <TimelineControls years={timeline.map(item => item.year)} index={index} playing={playing}
+      idPrefix={home ? 'ranking-home' : 'ranking-inline'} helpText="3秒ごとに1年進みます。年を選ぶか、画面外・背景タブへ移ると停止します。"
+      onPlay={() => { begin(); dispatch({ type: 'play' }); }}
+      onPause={() => dispatch({ type: 'pause' })}
+      onReset={() => { if (index !== 0) begin(); dispatch({ type: 'reset' }); }}
+      onYear={next => { if (next !== index) begin(); dispatch({ type: 'year', index: next }); }}
+      onYearCommit={() => {}} />
+  </div>;
+  const tracker = <div className={styles.inlineTracker} aria-label="NVIDIAの年末確定値">
+    <strong>{year}年末のNVIDIA</strong>
+    <span>選定20社内 {nvidia.rank}位 · {formatMarketCap(nvidia.valueUsdB)}十億米ドル</span>
+    {nvidia.rank > visibleCount && <span>この年はチャートの上位{visibleCount}社圏外です。</span>}
+  </div>;
+  const raceChart = <div ref={chart} className={home ? styles.homeChart : undefined}>
+    <RankingRaceChart rows={rows} year={year} selectedId="nvidia" animate={animate} variant={variant} />
+  </div>;
+  const noScript = <noscript><p>再生・年選択にはJavaScriptが必要です。2010年末のチャート・NVIDIAの順位・出典はそのまま読めます。</p></noscript>;
+
+  if (home) return <div id="home-ranking-time-machine" ref={workspace} className={`${styles.articlePreview} ${styles.homePreview}`}>
+    <h3>NVIDIAの順位はどう変わった？</h3>
+    <div className={styles.homeStage}>
+      <div className={styles.homeSidebar}>{timelineControls}{tracker}</div>
+      {raceChart}
     </div>
-    <div className={styles.inlineTracker} aria-label="NVIDIAの年末確定値">
-      <strong>{year}年末のNVIDIA</strong>
-      <span>選定20社内 {nvidia.rank}位 · {formatMarketCap(nvidia.valueUsdB)}十億米ドル</span>
-      {nvidia.rank > visibleCount && <span>この年はチャートの上位{visibleCount}社圏外です。</span>}
-    </div>
-    <div ref={chart}>
-      <RankingRaceChart rows={rows} year={year} selectedId="nvidia" animate={animate} variant={variant} />
-    </div>
+    <footer className={styles.homeFooter}>
+      <div className={styles.homeNotes}>
+        <p className={styles.small}>2010〜2025年末 · 選定20社内の比較。現在の世界ランキングとは対象・時点が異なります。</p>
+        <p className={styles.small}>出典：<a href={meta.sourceUrl}>{meta.sourceName}</a> · データ確認日：<time dateTime={meta.checkedAt}>{meta.checkedAt}</time></p>
+        <details className={styles.homeDetails}>
+          <summary>データについて</summary>
+          <p className={styles.small}>装置5社を含む選定20社の各年末時価総額を比較しています。各年の世界順位を再現したものではありません。単位は十億米ドルです。</p>
+          <p className={styles.small}>再生時は年末値間の順位・数値を補間します。補間中の値は実測値ではなく、横軸も変動します。停止・年選択で表示年の確定値に戻ります。NVIDIAの追跡欄は常に年末の確定値です。</p>
+          <p className={styles.small}>順位上昇だけで技術力や働きやすさは判断できません。<a href="/tools/ranking-time-machine#ranking-scope">対象・集計方法と注意事項</a></p>
+        </details>
+      </div>
+      <HomeLink href={href} className={styles.homeFullLink} section="rankings" destination="ranking-time-machine" purpose="industry">
+        企業を選んで詳しく比べる <span aria-hidden="true">→</span>
+      </HomeLink>
+    </footer>
+    {noScript}
+  </div>;
+
+  return <div id="ranking-time-machine-preview" ref={workspace} className={styles.articlePreview}>
+    <h3>NVIDIAの順位はどう変わった？ 2010年から動かして見る</h3>
+    <p>再生すると年ごとの順位が変化します。年を選んで、NVIDIAと他社の時価総額を見比べてみましょう。</p>
+    <p className={styles.small}>2010〜2025年の各年末 · 装置5社を含む選定20社内の比較。上の現在の世界TOP30とは対象が異なり、各年の世界順位を再現したものではありません。</p>
+    {timelineControls}
+    {tracker}
+    {raceChart}
     <p className={styles.small}>出典：<a href={meta.sourceUrl}>{meta.sourceName}</a>の各社年末時価総額。データ確認日：<time dateTime={meta.checkedAt}>{meta.checkedAt}</time>。<a href="/tools/ranking-time-machine#ranking-scope">対象・集計方法と注意事項</a>。順位上昇だけで技術力や働きやすさは判断できません。</p>
-    {home ? <HomeLink href={href} className="button ghost" section="rankings" destination="ranking-time-machine" purpose="industry">
-      企業を選んで詳しく比べる →
-    </HomeLink> : <TrackedInternalLink href={href} className="button ghost" eventName="ranking_timemachine_entry_click"
+    <TrackedInternalLink href={href} className="button ghost" eventName="ranking_timemachine_entry_click"
       eventProperties={{ ...context, placement: 'inline_open_full', destination: href, year }}>
       企業を選んで詳しく見る →
-    </TrackedInternalLink>}
-    <noscript><p>再生・年選択にはJavaScriptが必要です。2010年末のチャート・NVIDIAの順位・出典はそのまま読めます。</p></noscript>
+    </TrackedInternalLink>
+    {noScript}
   </div>;
 }

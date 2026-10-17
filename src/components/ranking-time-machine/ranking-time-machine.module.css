@@ -153,3 +153,29 @@
   .articlePreview .raceButton { grid-template-columns: 1.75rem minmax(0, 1fr) 4.75rem; gap: 4px; }
   .articlePreview .axis { margin-left: calc(1.75rem + 9px); margin-right: calc(4.75rem + 9px); }
 }
+
+/* Home keeps controls and results together without changing article/tool layouts. */
+.homeStage, .homeSidebar, .homeNotes { display: grid; gap: 12px; min-width: 0; }
+.homeStage { align-items: start; }
+.homeChart { min-width: 0; }
+.homePreview .inlineTracker { font-size: 13px; line-height: 1.6; }
+.homeFooter { display: grid; gap: 8px 16px; align-items: start; padding-top: 12px; border-top: 1px solid var(--mc-border); }
+.homeNotes { gap: 4px; }
+.homePreview a { color: var(--mc-action); text-underline-offset: 3px; }
+.homeDetails summary { display: list-item; width: fit-content; min-height: 44px; padding: 12px 0; color: var(--mc-action); font-size: 12px; cursor: pointer; }
+.homeDetails summary:focus-visible { outline: 3px solid var(--mc-focus); outline-offset: 3px; }
+.homeDetails[open] { display: grid; gap: 8px; }
+.homeFullLink { display: inline-flex; align-items: center; justify-content: center; justify-self: start; gap: 8px; min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--mc-border); border-radius: 6px; background: var(--mc-surface-subtle); font-size: 13px; font-weight: 600; }
+.homeFullLink:hover { border-color: var(--mc-action); background: var(--mc-selection-surface); }
+@media (min-width: 960px) {
+  .homeStage { grid-template-columns: 260px minmax(0, 1fr); gap: 16px; }
+  .homePreview .controlHeading { display: grid; gap: 8px; }
+  .homePreview .controls label { margin-top: 8px; }
+  .homePreview .year strong { font-size: 32px; }
+  .homeFooter { grid-template-columns: minmax(0, 1fr) auto; }
+  .homePreview .race { --race-row-height: 46px; }
+  .homePreview .raceButton { grid-template-columns: 2rem 120px minmax(0, 1fr) 5.5rem; min-height: 44px; gap: 8px; }
+  .homePreview :is(.rank, .companyIdentity, .track, .value) { grid-column: auto; grid-row: auto; }
+  .homePreview .track { height: 18px; }
+  .homePreview .axis { margin-left: calc(2rem + 141px); margin-right: calc(5.5rem + 13px); }
+}

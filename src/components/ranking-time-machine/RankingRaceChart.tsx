@@ -35,7 +35,7 @@ export function RankingRaceChart({ rows, year, selectedId, animate, onSelect, va
 
   return <figure className={styles.figure} aria-labelledby={titleId}>
     <figcaption><Heading id={titleId}>{year}年末の上位{visibleCount}社{frame.interpolating ? 'へ' : ''}</Heading><p className={styles.small}>選定{rows.length}社内 · 十億米ドル{!article && ' · 企業を選ぶと詳細を表示'}</p>
-      <p className={styles.small}>{frame.interpolating ? `${frame.fromYear}→${year}年末：順位・数値を補間表示中（実測値ではありません）` : `${year}年末の確定値 · 再生時は年末値間を補間します`}</p></figcaption>
+      <p className={styles.small}>{frame.interpolating ? `${frame.fromYear}→${year}年末：順位・数値を補間表示中（実測値ではありません）` : variant === 'home' ? `${year}年末の確定値` : `${year}年末の確定値 · 再生時は年末値間を補間します`}</p></figcaption>
     {hasReferences && <p className={styles.legend}><span>半導体・装置</span><span data-reference="true">比較対象（GAFAM・トヨタ）</span></p>}
     <div className={styles.axis} aria-label={`横軸：0〜${formatMarketCap(max)}十億米ドル`}>
       {[0, .5, 1].map(fraction => <span key={fraction}>{formatMarketCap(max * fraction)}</span>)}
@@ -61,6 +61,6 @@ export function RankingRaceChart({ rows, year, selectedId, animate, onSelect, va
         </li>;
       })}
     </ol>
-    <p className={styles.small}>横軸も変動します。停止・年選択で表示年の確定値に戻ります。{article ? 'NVIDIAの追跡欄は常に年末の確定値です。' : '表・企業詳細は常に年末の確定値です。'}</p>
+    {variant !== 'home' && <p className={styles.small}>横軸も変動します。停止・年選択で表示年の確定値に戻ります。{article ? 'NVIDIAの追跡欄は常に年末の確定値です。' : '表・企業詳細は常に年末の確定値です。'}</p>}
   </figure>;
 }

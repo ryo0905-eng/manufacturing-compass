@@ -211,6 +211,11 @@ const rankingSection = homeHtml.slice(homeHtml.indexOf('id="home-rankings"'), ho
 const homeLinks = load('src/data/home').homeRankingLinks;
 assert.equal(homeLinks.length, 4);
 for (const item of homeLinks) assert.ok(rankingSection.includes(`href="${item.href}"`));
+const rankingHeader = rankingSection.slice(0, rankingSection.indexOf('</header>'));
+for (const item of homeLinks) {
+  assert.ok(rankingHeader.includes(`href="${item.href}"`), 'Ranking links belong beside the section heading');
+  assert.ok(!rankingHeader.includes(`<p>${item.body}</p>`), 'Links no longer render description cards');
+}
 const previewHtml = renderToStaticMarkup(React.createElement(RankingTimeMachinePreview, { variant: 'home' }));
 assert.equal((previewHtml.match(/data-visible="true"/g) || []).length, 5);
 assert.equal((previewHtml.match(/<button/g) || []).length, 2);
@@ -221,6 +226,30 @@ assert.match(previewHtml, /id="ranking-home-year"/);
 assert.match(previewHtml, /aria-describedby="ranking-home-playback-help"/);
 assert.ok(!previewHtml.includes('aria-controls="ranking-company-detail"'));
 assert.ok(!previewHtml.includes('上の現在'));
+const detailsMatch = previewHtml.match(/<details\b([^>]*)>([\s\S]*?)<\/details>/);
+assert.ok(detailsMatch, 'Methodology remains in the initial HTML');
+assert.ok(!/\bopen(?:\s|=|$)/.test(detailsMatch[1]), 'Methodology starts collapsed');
+assert.match(detailsMatch[2], /<summary>データについて<\/summary>/);
+for (const note of ['装置5社', '世界順位を再現したものではありません', '実測値ではなく', '横軸も変動', '追跡欄は常に年末の確定値', '技術力や働きやすさ', '#ranking-scope']) {
+  assert.ok(detailsMatch[2].includes(note), note);
+}
+const alwaysVisible = previewHtml.replace(detailsMatch[0], '');
+for (const text of ['2010〜2025年末', '選定20社内の比較', '現在の世界ランキングとは対象・時点が異なり', data.rankingTimeMachineMetadata.sourceUrl, data.rankingTimeMachineMetadata.checkedAt]) {
+  assert.ok(alwaysVisible.includes(text), `Always visible: ${text}`);
+}
+assert.ok(previewHtml.indexOf('ranking-home-year') < previewHtml.indexOf('NVIDIAの年末確定値'));
+assert.ok(previewHtml.indexOf('NVIDIAの年末確定値') < previewHtml.indexOf('id="ranking-home-race-title"'));
+assert.ok(!html.includes('<details'), 'Article preview keeps its existing visible explanations');
+
+// Home condenses static chart help but still labels interpolation explicitly.
+const interpolatedLoad = loader({ './useRankingAnimation': { useRankingAnimation: rows => ({ rows, interpolating: true, fromYear: 2010 }) } });
+const Chart = interpolatedLoad('src/components/ranking-time-machine/RankingRaceChart').RankingRaceChart;
+for (const variant of ['home', 'article', 'tool']) {
+  const chartHtml = renderToStaticMarkup(React.createElement(Chart, { rows: full[1].rows, year: 2011, selectedId: 'nvidia', animate: true, variant }));
+  assert.match(chartHtml, /2010→2011年末：順位・数値を補間表示中（実測値ではありません）/);
+  assert.equal(chartHtml.includes('横軸も変動します'), variant !== 'home');
+  assert.equal((chartHtml.match(/data-visible="true"/g) || []).length, variant === 'home' ? 5 : 10);
+}
 const allIds = [...homeHtml.matchAll(/\sid="([^"]+)"/g)].map(m => m[1]);
 assert.equal(allIds.length, new Set(allIds).size);
 const headerHtml = renderToStaticMarkup(React.createElement(load('src/components/Header').Header));
@@ -284,6 +313,11 @@ assert.equal(clickEvents.length, 1);
 assert.equal(clickEvents[0][0], 'home_link_click');
 assert.equal(clickEvents[0][1].section_id, 'rankings');
 assert.equal(clickEvents[0][1].destination_id, 'ranking-time-machine');
+for (const props of nodes(home(), node => node.type?.name === 'HomeLink' && node.props.section === 'rankings').map(node => node.props)) {
+  clickLoad('src/components/HomeLink').HomeLink(props).props.onClick({});
+}
+assert.deepEqual(clickEvents.slice(1).map(([, props]) => props.destination_id), plain(homeLinks.map(item => item.id)));
+assert.ok(clickEvents.slice(1).every(([name, props]) => name === 'home_link_click' && props.section_id === 'rankings' && props.purpose === 'industry'));
 homeUi.cleanup();
 assert.equal(homeUi.timers.size, 0); assert.equal(homeObserver.connected, false);
 console.log('PASS: article/home SSR, crawlable ranking links/header, all 16 snapshots, playback/stop/reset, inherited year, logo fallback and isolated/deduplicated analytics.');

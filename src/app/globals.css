@@ -20057,13 +20057,15 @@ body {
 .home-focused a:focus-visible { outline: 2px solid #1769aa; outline-offset: 4px; }
 .home-focused__entry-grid a:hover, .home-focused__tool-card:hover { border-color: #c9cdd2; background: #fafafa; }
 .home-focused__rankings { scroll-margin-top: 88px; }
-.home-focused__ranking-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; align-items: start; }
-.home-focused__ranking-links { display: grid; gap: 12px; min-width: 0; }
-.home-focused__ranking-links a { display: block; padding: 20px; border: 1px solid #e5e7eb; border-radius: 6px; color: inherit; }
-.home-focused__ranking-links a:hover { border-color: #c9cdd2; background: #fafafa; }
-.home-focused__ranking-links strong { font-size: 18px; font-weight: 600; }
-.home-focused__ranking-links strong span { color: #1769aa; }
-.home-focused__ranking-links p { margin-top: 8px; font-size: 14px; }
+.home-focused__ranking-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px 16px; margin-bottom: 16px; }
+.home-focused__ranking-heading p { grid-column: 1 / -1; margin: 0; font-size: 14px; }
+.home-focused__ranking-links { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.home-focused__ranking-links a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 6px; background: #f7f7f8; color: inherit; font-size: 13px; font-weight: 600; }
+.home-focused__ranking-links a:hover { border-color: #1769aa; background: #eef4fa; }
+.home-focused__ranking-links span { color: #1769aa; font-size: 14px; }
+@media (max-width: 959px) {
+  .home-focused__ranking-heading { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
 .home-focused__tool-card { display: flex; flex-direction: column; min-width: 0; padding: 20px; border: 1px solid #e5e7eb; border-radius: 6px; color: inherit; }
 .home-focused__tool-card p { font-size: 14px; margin-bottom: 16px; }
 .home-focused__tool-card > span { margin-top: auto; }
@@ -20276,7 +20278,7 @@ body {
   .home-focused__research-heading { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .home-focused__research-heading img { width: 180px; height: 120px; }
   .home-focused__section { margin-top: 48px; }
-  .home-focused__entry-grid, .home-focused__tool-grid, .home-focused__research-grid, .home-focused__article-grid, .home-focused__ranking-grid { grid-template-columns: 1fr; }
+  .home-focused__entry-grid, .home-focused__tool-grid, .home-focused__research-grid, .home-focused__article-grid { grid-template-columns: 1fr; }
   .home-focused__entry-grid { gap: 8px; }
   .home-focused__entry-grid a { min-height: 52px; padding: 12px 16px; }
   .home-focused__button { width: 100%; }

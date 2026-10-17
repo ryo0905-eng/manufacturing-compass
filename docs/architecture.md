@@ -35,6 +35,8 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ### ランキング・タイムマシン
 
+- 2026-10-17（ホームのコンパクト化）：4記事へのHomeLinkをセクション見出し横へ移し、ホームプレビューを全幅化。home専用CSSで960px以上は時間操作・追跡とチャートを左右配置し、グラフの順位・企業・棒・金額を1行にする。既存の全行計測で長い代替企業名と画面幅変更に追従する。960px未満は縦配置。比較範囲・出典・確認日を常設し、詳しい注意はnative detailsにSSRする。home以外の構造・計測、データ・状態管理は維持し、新API・依存・保存先は追加しない。
+
 - 2026-10-17：Server Componentのトップに`RankingTimeMachinePreview variant="home"`を配置。入口は`src/data/home.ts`の`homeRankingLinks`へ集約する。プレビューの既定値articleは維持し、homeは固有ID・ホーム用計測・HomeLinkを使用する。RankingRaceChartのhome表示は非操作の上位5社、articleは上位10社、toolは既存の操作行。データ・年次計算・再生・画面外停止・reduced-motion対応を共用し、URLを読み書きせず専用ツールへ表示年を渡す。新API・依存・保存先は追加しない。
 
 - 2026-10-15：`GuideBlock`の`ranking-time-machine-preview`を`GuideBlocks`から専用Client Componentへ接続する。既存の20社静的データ・`prepareRanking`・`reduceTimeline`・再生間隔・アニメーションを再利用し、4比較モードを組み立てるフル画面は読み込まない。記事内はURLを読み書きせず、表示年付きの既存専用URLへリンクする。初期チャート・出典・NVIDIA追跡をSSRし、ロゴはlazy、失敗時は企業名へ戻す。`RankingRaceChart`のarticle表示は非操作行・固有見出し、`TimelineControls`は固有ID・説明を受け取り、専用画面の既定値は維持する。画面外・背景タブで停止し、自動再開しない。登録・DB・外部API・保存機能は追加しない。
