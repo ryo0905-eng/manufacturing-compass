@@ -1742,6 +1742,11 @@ html {
   scroll-behavior: smooth;
 }
 
+#location-directory-title,
+#factory-comparison-title {
+  scroll-margin-top: 88px;
+}
+
 body {
   margin: 0;
   background:

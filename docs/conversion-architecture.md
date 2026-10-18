@@ -2,6 +2,18 @@
 
 最終更新日: 2026-10-18
 
+## 企業研究3ページの役割と案内（2026-10-18）
+
+業界地図は「企業が何をつくり、産業のどの役割を担うか」、国内拠点マップは「国内拠点の所在地と役割」、新設・増設記事は「建設・試作・量産の段階と予定」を冒頭で説明する。既存のタイトル・URL・canonicalを維持する。案件数は既存データから取得し、情報の確認日を導線の実装日で更新しない。
+
+- `src/data/research-navigation.ts` を役割説明・リンク文言・URL・主要操作の正本とし、`ResearchNavigation` を3ページで共有する。「別の調べ方」には現在のページを除く2リンクを表示する。表示名は「企業の役割を調べる」「勤務地・拠点を探す」「新設・増設の進捗を見る」。記事ルートでの表示は工場新設記事だけに限定する。
+- 主要操作への近道は、業界地図の `#company-search`、拠点マップの `#location-directory-title`、新設記事の `#projects`・`#factory-comparison-title`。固定ヘッダー分のスクロール余白を確保する。拠点検索の初期表示・カード配置・フィルター・施設ピンは今回変更しない。
+- 既存の業界地図・拠点マップ末尾の相互リンクも同じ文言へ揃える。拠点マップ末尾の「業界地図」「企業一覧」は同じURLのため1リンクにまとめる。記事本文の既存リンクと地域選択・企業概要・案件比較のイベントは維持する。
+- 新しい案内は `research_navigation_click`。`source_page` は3ページの固定パス、`destination` は industry_map / semiconductor_map / factory_projects / company_search / location_search / factory_list / factory_compare、`action` は intro_link / related_link / quick_link、`ui_version` は research-roles-v1。共通の `ResearchNavigationLink` から既存の `TrackedInternalLink` を通して1クリックにつき1イベントを送る。検索語や入力内容は送信しない。
+- 本番反映と通常利用のGA4受信を確認後14日・28日に、新しい案内・既存の固有操作・企業詳細へのクリックを確認する。同一セッションで結合できる場合だけ遷移率を算出する。新規イベントの過去値は存在しないため、導入直後の改善率を算出しない。GSCは検索語×URLと旧 `/companies` を含む流入を観察し、GA4ではBing等の流入元も分けて確認する。アクセス実数を公開文書へ転記しない。
+
+今回の導線の本番反映・新イベント受信・実画面確認・観測開始日は未確認。過去期間の既存イベント受信を、今回の実装の確認として扱わない。
+
 ## トップのランキング入口（2026-10-17）
 
 ヒーローのランキング入口と共通ヘッダーから`/#home-rankings`へ接続し、時価総額・装置売上・メモリ・平均年収の既存記事と、操作できるタイムマシンプレビューを案内する。トップのクリックは既存`home_link_click`を維持し、専用枠は`section_id=rankings`、ヒーローは`section_id=hero`・`destination_id=rankings`。4記事のdestination_idはmarket_cap / equipment_sales / memory / salary、専用ツールはranking-time-machine。purposeはindustry、versionは既存purpose-entry-v1。ヘッダーは`header_nav_click`・`destination_id=rankings`と既存display_modeを使用する。同じクリックで記事用イベントを重ねない。

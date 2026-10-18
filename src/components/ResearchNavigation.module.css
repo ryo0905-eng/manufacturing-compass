@@ -1,0 +1,67 @@
+.root {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-block: 16px;
+}
+
+.quickLinks,
+.alternatives,
+.alternatives > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+}
+
+.alternatives p {
+  margin: 0;
+  color: #555b62;
+  font-size: 13px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+  max-width: 100%;
+  color: #1769aa;
+  font-size: 14px;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.quickLinks .link {
+  border: 1px solid #d9dde2;
+  border-radius: 6px;
+  background: #f7f7f8;
+  padding: 10px 14px;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.link:focus-visible {
+  outline: 2px solid #1769aa;
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .alternatives {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .quickLinks {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

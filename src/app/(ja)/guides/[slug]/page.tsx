@@ -12,6 +12,8 @@ import { StructuredData } from "@/components/StructuredData";
 import { TodayAction } from "@/components/TodayAction";
 import { GuideBlocks } from "@/components/guide/GuideBlocks";
 import { GuideLanguageLink } from "@/components/guide/GuideLanguageLink";
+import { ResearchNavigation } from "@/components/ResearchNavigation";
+import { researchPages } from "@/data/research-navigation";
 import { getPublishedEnglishTranslation } from "@/content/guides/en";
 import { semiconductorMarketCapRankingHero, semiconductorMarketCapRankingSectionAliases } from "@/content/guides/semiconductor-market-cap-ranking";
 import { semiconductorMarketCapMeta } from "@/data/semiconductor-market-cap";
@@ -94,6 +96,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
     guide.showExperienceBasis !== false &&
     guide.basisLabel !== "この記事の調査・編集方針";
   const isMarketCapRanking = guide.slug === "semiconductor-market-cap-ranking";
+  const isFactoryProjects = guide.slug === "japan-semiconductor-factory-projects";
   const rankingTitlePeriod = isMarketCapRanking ? guide.title.match(/【[^】]+】/)?.[0] : undefined;
   const tableOfContents = guide.sections.length >= 4 ? (
     <nav className="guide-toc" aria-label="記事の目次">
@@ -135,7 +138,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </> : <>
             <p className="section-label">製造業・半導体の記事・{guide.readTime}</p>
             <h1>{guide.title}</h1>
-            <p>{guide.description}</p>
+            <p>{isFactoryProjects ? researchPages.factory_projects.lead : guide.description}</p>
             <small>{guide.reviewedBy ? `執筆・確認：${guide.reviewedBy}（製造業経験 約10年）` : "Manufacturing Compass編集部・公開情報に基づく解説"}・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
           </>}
           {guide.showIntroSummary !== false ? (
@@ -157,6 +160,8 @@ export default async function GuidePage({ params }: GuidePageProps) {
             </aside>
           ) : null}
         </header>
+
+        {isFactoryProjects ? <ResearchNavigation page="factory_projects" /> : null}
 
         {isMarketCapRanking ? (
           <nav className="ranking-quick-links" aria-label="ランキングと解説へ移動">

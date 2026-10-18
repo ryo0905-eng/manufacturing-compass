@@ -3,11 +3,13 @@ import type { Route } from "next";
 import Link from "next/link";
 import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { IndustryAtlas } from "@/components/IndustryAtlas";
+import { ResearchNavigation, ResearchNavigationLink } from "@/components/ResearchNavigation";
 import { EarningsInternalLink } from "@/components/earnings/EarningsLinks";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { companies, segments } from "@/data/companies";
 import { industryMapFields } from "@/data/industry-map";
+import { researchPages } from "@/data/research-navigation";
 import { buildAtlasCompanies, buildDirectoryCompanies } from "@/lib/company-explorer";
 import { siteUrl } from "@/lib/format";
 
@@ -77,10 +79,11 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
       <header className="industry-map-hero">
         <div>
           <h1>半導体業界地図・企業一覧</h1>
-          <p>日本・海外の企業を8つの役割で俯瞰。ロゴや社名を選ぶと、企業概要を確認できます。</p>
+          <p>{researchPages.industry_map.lead}</p>
         </div>
         <p><strong>8領域 × {atlasCompanies.length}社</strong><span>企業詳細{companies.length}社・簡易紹介7社</span></p>
       </header>
+      <ResearchNavigation page="industry_map" />
       <IndustryAtlas companies={companies} initialQuery={query} segments={segments} />
 
       <section className="companies-japan" id="japanese-companies" aria-labelledby="companies-japan-title">
@@ -137,8 +140,8 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
       </section>
 
       <nav className="companies-next-links" aria-label="半導体業界の主要な企業研究ページ">
-        <Link href="/semiconductor-map"><strong>日本の半導体企業・工場マップ</strong><span>都道府県と職種から国内拠点を探す</span></Link>
-        <Link href="/guides/japan-semiconductor-factory-projects"><strong>日本の半導体工場の新設・増設一覧</strong><span>主要5案件の場所、稼働状況、今後の予定を確認する</span></Link>
+        <ResearchNavigationLink source="industry_map" destination="semiconductor_map" action="related_link" href={researchPages.semiconductor_map.href}><strong>{researchPages.semiconductor_map.label}</strong><span>都道府県と職種から国内拠点を探す</span></ResearchNavigationLink>
+        <ResearchNavigationLink source="industry_map" destination="factory_projects" action="related_link" href={researchPages.factory_projects.href}><strong>{researchPages.factory_projects.label}</strong><span>主要5案件の場所、稼働状況、今後の予定を確認する</span></ResearchNavigationLink>
         <Link href="/segments/fabless"><strong>ファブレス企業一覧</strong><span>日本・海外の設計企業と主力分野を見る</span></Link>
         <Link href="/guides/semiconductor-foundry"><strong>ファウンドリとは</strong><span>ファブレス・IDM・OSATとの違いを見る</span></Link>
         <Link href="/guides/semiconductor-market-cap-ranking"><strong>2026年の世界・日本ランキング</strong><span>時価総額と売上高の違いを踏まえて比較する</span></Link>

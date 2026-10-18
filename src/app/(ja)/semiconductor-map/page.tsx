@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SemiconductorLocationExplorer } from "@/components/SemiconductorLocationExplorer";
+import { ResearchNavigation, ResearchNavigationLink } from "@/components/ResearchNavigation";
 import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import styles from "@/components/semiconductor-location-map.module.css";
 import { companies } from "@/data/companies";
 import { locationSources } from "@/data/company-locations";
+import { researchPages } from "@/data/research-navigation";
 import {
   filterCompanyLocations,
   getHiringSignals,
@@ -128,8 +130,7 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
           <p className="section-label">SEMICONDUCTOR LOCATIONS IN JAPAN</p>
           <h1>日本の半導体企業・工場・研究拠点マップ</h1>
           <p className={styles.lead}>
-            日本のどこに、どのような半導体関連の仕事につながる拠点があるか。
-            企業公式情報をもとに、工場、研究開発、設計、本社・事業所を勤務地単位で整理しています。
+            {researchPages.semiconductor_map.lead}
           </p>
         </div>
         <dl className={styles.summary} aria-label="掲載範囲">
@@ -139,6 +140,7 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
           <div><dt>拠点の確認日</dt><dd>{firstVerifiedAt ?? "掲載なし"}{firstVerifiedAt && lastVerifiedAt !== firstVerifiedAt ? <><br />〜{lastVerifiedAt}</> : null}</dd></div>
         </dl>
       </header>
+      <ResearchNavigation page="semiconductor_map" />
       <p className="tool-related-links"><Link href="/companies/global-japan">外資系企業は日本で何をしている？ 仕事内容から探す →</Link></p>
 
 
@@ -189,9 +191,8 @@ export default async function SemiconductorMapPage({ searchParams }: Semiconduct
       </section>
 
       <nav className={styles.nextLinks} aria-label="次に確認するページ">
-        <Link href="/guides/japan-semiconductor-factory-projects"><strong>半導体工場の新設・増設一覧</strong><span>主要5案件の場所と稼働時期を比較する</span></Link>
-        <Link href="/industry-map"><strong>半導体業界地図</strong><span>工程と企業の役割を理解する</span></Link>
-        <Link href="/industry-map"><strong>半導体企業一覧</strong><span>会社単位で事業と職種を比較する</span></Link>
+        <ResearchNavigationLink source="semiconductor_map" destination="factory_projects" action="related_link" href={researchPages.factory_projects.href}><strong>{researchPages.factory_projects.label}</strong><span>主要5案件の場所と稼働時期を比較する</span></ResearchNavigationLink>
+        <ResearchNavigationLink source="semiconductor_map" destination="industry_map" action="related_link" href={researchPages.industry_map.href}><strong>{researchPages.industry_map.label}</strong><span>工程と企業の役割、会社単位の事業と職種を調べる</span></ResearchNavigationLink>
         <TrackedInternalLink
           eventName="location_map_career_compass_click"
           eventProperties={{ source_page: "semiconductor_map", cta_location: "related_links" }}
