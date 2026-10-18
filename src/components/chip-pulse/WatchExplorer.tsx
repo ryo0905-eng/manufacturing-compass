@@ -4,10 +4,10 @@ import { useEffect, useState, type ReactNode } from "react";
 import { trackEvent } from "@/lib/analytics";
 import { annualWindow, type AnnualSeries } from "@/lib/earnings-history-math";
 import { WatchFinancialCard } from "./WatchFinancialCard";
-import { watchFinancialDomain, watchMetrics } from "@/lib/watch-financials";
+import { watchExchange, watchFinancialDomain, watchMetrics } from "@/lib/watch-financials";
 import { watchDate, watchTopics, type WatchItem } from "@/lib/watch-types";
 import {
-  companiesForTopic, readWatchSelection, watchNewsForTopic, watchSelectionHash,
+  companiesForTopic, readWatchSelection, sortWatchCompanies, watchNewsForTopic, watchSelectionHash,
   type WatchCompany, type WatchSelection,
 } from "@/lib/watch-explorer";
 import { MediaLink } from "./MediaLinks";
@@ -20,6 +20,7 @@ export function WatchExplorer({ companies, news, now, histories = [], children }
   const [selection, setSelection] = useState<WatchSelection>(() => readWatchSelection("", companies));
   const [expanded, setExpanded] = useState(false);
   const visible = companiesForTopic(companies, selection.topic);
+  const ordered = sortWatchCompanies(visible, histories, selection.metric, selection.sort, selection.years);
   const articles = watchNewsForTopic(news, selection.topic, now);
   const domain = watchFinancialDomain(histories.filter(series => companies.some(company => company.id === series.companyId)), selection.metric, selection.years);
   const metric = watchMetrics.find(item => item.id === selection.metric)!;
@@ -48,15 +49,16 @@ export function WatchExplorer({ companies, news, now, histories = [], children }
     target.scrollIntoView({ block: "start" });
   }, [selection, expanded]);
 
-  function select(next: WatchSelection, dimension: "theme" | "metric" | "period") {
+  function select(next: WatchSelection, dimension: "theme" | "metric" | "period" | "sort") {
     if (dimension === "theme" && next.topic === selection.topic) return;
     if (dimension === "metric" && next.metric === selection.metric) return;
     if (dimension === "period" && next.years === selection.years) return;
+    if (dimension === "sort" && next.sort === selection.sort) return;
     setSelection(next);
     if (dimension === "theme") setExpanded(false);
     window.history.pushState(null, "", watchSelectionHash(next));
     if (dimension !== "metric") trackEvent("chip_pulse_filter_change", {
-      dimension, value: dimension === "theme" ? next.topic : String(next.years), years: next.years, result_count: companiesForTopic(companies, next.topic).length, ui_version: uiVersion,
+      dimension, value: dimension === "theme" ? next.topic : dimension === "sort" ? next.sort : String(next.years), years: next.years, result_count: companiesForTopic(companies, next.topic).length, ui_version: uiVersion,
     });
     else trackEvent("chip_pulse_metric_select", { metric: next.metric, years: next.years, ui_version: uiVersion });
   }
@@ -76,10 +78,15 @@ export function WatchExplorer({ companies, news, now, histories = [], children }
       <div className={styles.sectionHead}><div><h2 id="watch-chart-title">企業の業績を、ひと目で</h2><p>年次{selection.years}年 · 気になる企業から詳しく見る</p></div><span aria-live="polite">{visible.length}社</span></div>
       <div className={styles.controlBar}><div className={styles.metrics} role="group" aria-label="財務指標を選ぶ">{watchMetrics.map(metric => <button type="button" key={metric.id} aria-pressed={selection.metric === metric.id} aria-controls="watch-chart" onClick={() => select({ ...selection, metric: metric.id }, "metric")}>{metric.label}</button>)}</div>
       <div className={styles.metrics} role="group" aria-label="掲載期間を選ぶ">{([5, 10, 20] as const).map(years => <button type="button" key={years} aria-pressed={selection.years === years} aria-controls="watch-chart" onClick={() => select({ ...selection, years }, "period")}>{years}年</button>)}</div></div>
-      <p className={styles.chartNote}>{metric.chartLabel}（%）の推移。縦軸は全12社で共通、破線は0%です。通期実績の比較であり、各社で決算期・対象範囲が異なります。金額・出典は企業詳細へ。</p>
+      {selection.metric === "revenue" ? <div className={styles.metrics} role="group" aria-label="売上高カードの並び順">{([{ id: "revenue", label: "売上高順" }, { id: "growth", label: "売上前年比順" }] as const).map(sort => <button type="button" key={sort.id} aria-pressed={selection.sort === sort.id} aria-controls="watch-chart" onClick={() => select({ ...selection, sort: sort.id }, "sort")}>{sort.label}</button>)}</div> : null}
+      <p className={styles.chartNote}>{selection.metric === "revenue" ? <>
+        同一為替で円換算した規模比較用の概算です（為替基準日 <time dateTime={watchExchange.asOf}>{watchExchange.asOf}</time>）。過去当時の円建て実績とは異なります。
+        <MediaLink href={watchExchange.source.url} articleId="watch-exchange" action="source" placement="explore" uiVersion={uiVersion}>換算元：FRB H.10</MediaLink>。
+      </> : "営業利益率（%）の推移。"}縦軸は全12社で共通、破線は{selection.metric === "revenue" ? "0円" : "0%"}です。通期実績の比較であり、各社で決算期・対象範囲が異なります。ホバー・タップ・左右キーで各期の値を確認できます。</p>
+      <p className={styles.sortNote}>{selection.metric === "operating_margin" ? "直近通期の営業利益率が高い順" : selection.sort === "growth" ? "直近通期の売上前年比が高い順" : "直近通期の円換算売上高が大きい順"}</p>
       <p className={styles.srOnly} role="status">{metric.chartLabel}を{visible.length}社に表示（最大{selection.years}年）</p>
       <div id="watch-chart">
-        {visible.length ? <ul className={styles.financialGrid} aria-label={`企業別の年次${metric.chartLabel}`}>{visible.map(company => <WatchFinancialCard key={company.id} company={company} series={histories.find(series => series.companyId === company.id)} years={selection.years} metric={selection.metric} domain={domain} selected={selection.company === company.id} />)}</ul>
+        {visible.length ? <ul className={styles.financialGrid} aria-label={`企業別の年次${metric.chartLabel}`}>{ordered.map(company => <WatchFinancialCard key={company.id} company={company} series={histories.find(series => series.companyId === company.id)} years={selection.years} metric={selection.metric} domain={domain} selected={selection.company === company.id} />)}</ul>
           : <div className={styles.empty}><p>このテーマの掲載決算はありません。</p><button type="button" onClick={() => selectTheme("all")}>すべての企業へ戻る</button></div>}
       </div>
       <details className={styles.disclosure}><summary>掲載期間が短い企業・比較の注意</summary><ul>{histories.filter(series => visible.some(company => company.id === series.companyId)).map(series => <li key={series.companyId}><strong>{series.name}：{annualWindow(series, selection.years).periods.length}期掲載（最大{selection.years}年）</strong><p>{series.coverageNote}</p></li>)}</ul></details>

@@ -10,10 +10,11 @@ import { watchNewsForTopic } from "@/lib/watch-explorer";
 import { inWatchWindow, watchDate, watchTopics } from "@/lib/watch-types";
 import { siteUrl } from "@/lib/format";
 import { annualHistories, annualHistoryUpdatedAt } from "@/lib/earnings-history";
+import { watchExchange } from "@/lib/watch-financials";
 import styles from "@/components/chip-pulse/WatchExplorer.module.css";
 
 const title = "半導体業界ウォッチ｜12社の財務グラフ・ニュース・発表予定";
-const description = "主要半導体12社の売上前年比・営業利益率を、共通の縦軸の小さなグラフで一覧。最大20年の通期推移を切り替え、金額・出典は企業別分析で確認。最新四半期の決算、ニュース・発表予定も掲載しています。";
+const description = "主要半導体12社の売上高を円換算の棒グラフで一覧。共通の縦軸で規模を比べ、最新通期の売上高・前年比、最大20年の推移と営業利益率を確認できます。原通貨・出典、最新四半期の決算、ニュース・発表予定も掲載。";
 export const metadata: Metadata = { title, description, alternates: { canonical: "/semiconductor-watch" }, openGraph: { title, description, url: "/semiconductor-watch", type: "website" } };
 export const revalidate = 3600;
 const uiVersion = "cards-v2";
@@ -30,7 +31,7 @@ export default function SemiconductorWatchPage() {
   const unreviewed = media.updates.filter(update => !watchCalendar.reviews.some(review => review.id === update.id && review.sourceUrl === update.sourceUrl && review.status !== "recheck")).length;
 
   return <main className={styles.page}><div className={styles.shell}>
-    <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: siteUrl + "/semiconductor-watch", dateModified: [watchUpdatedAt, annualHistoryUpdatedAt].sort().at(-1) }} />
+    <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: siteUrl + "/semiconductor-watch", dateModified: [watchUpdatedAt, annualHistoryUpdatedAt, watchExchange.checkedAt].sort().at(-1) }} />
     <header className={styles.header}><h1>半導体業界ウォッチ</h1><p>掲載内容・日程の更新 <time dateTime={watchUpdatedAt}>{watchDate(watchUpdatedAt)}</time></p></header>
     {media.status.state !== "success" || staleCollection ? <p className={styles.notice} role="status">{media.status.state === "partial" ? "一部の取得先を更新できませんでした。" : media.status.state === "failed" ? "直近の収集に失敗しました。" : staleCollection ? "収集確認から2日以上経過しています。" : "収集処理の稼働前です。"} 前回確認時の掲載内容を表示しています。</p> : null}
     <WatchExplorer companies={buildWatchCompanies(now)} news={news} now={now} histories={annualHistories}>

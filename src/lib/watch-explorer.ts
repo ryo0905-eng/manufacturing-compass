@@ -1,6 +1,7 @@
 import { inWatchWindow, readWatchHash, type WatchItem, type WatchTopic } from "./watch-types";
 import { readAnnualYears, type AnnualYears } from "./earnings-history-math";
-import { watchMetrics, type WatchMetric } from "./watch-financials";
+import { watchFinancials, watchMetrics, type WatchMetric, type WatchSort } from "./watch-financials";
+import type { AnnualSeries } from "./earnings-history-math";
 
 export type WatchCompany = {
   id: string; anchorId: string; name: string; segment: string; segmentLabel: string;
@@ -10,10 +11,19 @@ export type WatchCompany = {
   nextEvent: { label: string; href: string } | null;
 };
 export type { WatchMetric } from "./watch-financials";
-export type WatchSelection = { topic: WatchTopic | "all"; company: string | null; metric: WatchMetric; years: AnnualYears };
+export type WatchSelection = { topic: WatchTopic | "all"; company: string | null; metric: WatchMetric; years: AnnualYears; sort: WatchSort };
 
 export function companiesForTopic(companies: WatchCompany[], topic: WatchSelection["topic"]) {
   return companies.filter(company => topic === "all" || company.topics.includes(topic));
+}
+
+export function sortWatchCompanies(companies: WatchCompany[], histories: AnnualSeries[], metric: WatchMetric, sort: WatchSort, years: AnnualYears) {
+  return companies.map((company, index) => {
+    const history = histories.find(series => series.companyId === company.id);
+    const data = history ? watchFinancials(history, metric, years) : null;
+    return { company, index, value: metric === "revenue" && sort === "growth" ? data?.revenueYoY ?? null : data?.latest ?? null };
+  }).sort((a, b) => a.value === null ? b.value === null ? a.index - b.index : 1
+    : b.value === null ? -1 : b.value - a.value || a.index - b.index).map(item => item.company);
 }
 
 export function defaultWatchCompany(companies: WatchCompany[]) {
@@ -26,7 +36,7 @@ export function readWatchSelection(hash: string, companies: WatchCompany[]): Wat
   const requested = params.get("company");
   const metric = watchMetrics.find(item => item.id === params.get("metric"))?.id ?? "revenue";
   const visible = companiesForTopic(companies, topic);
-  return { topic, metric, years: readAnnualYears(params.get("years")), company: visible.some(company => company.id === requested) ? requested : null };
+  return { topic, metric, years: readAnnualYears(params.get("years")), sort: params.get("sort") === "growth" ? "growth" : "revenue", company: visible.some(company => company.id === requested) ? requested : null };
 }
 
 export function watchSelectionHash(selection: WatchSelection) {
@@ -35,6 +45,7 @@ export function watchSelectionHash(selection: WatchSelection) {
   if (selection.company) params.set("company", selection.company);
   if (selection.metric !== "revenue") params.set("metric", selection.metric);
   if (selection.years !== 10) params.set("years", String(selection.years));
+  if (selection.sort === "growth") params.set("sort", "growth");
   return params.size ? `#${params}` : "#explore";
 }
 

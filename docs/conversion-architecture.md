@@ -466,9 +466,9 @@ GA4の分析には `product_id`・`retailer` をイベントスコープで用�
 
 ## 業界ウォッチの企業探索（2026-10-18）
 
-トップを`cards-v2`で識別する。テーマ変更は`chip_pulse_filter_change`の`dimension=theme`、期間変更は同じイベントの`dimension=period`・`value=5/10/20`。両方に数値の`years`と`result_count`（対象企業数）を付ける。指標変更は`chip_pulse_metric_select`に`metric=revenue/operating_margin`・`years`・`ui_version=cards-v2`。2026-10-18の小型化改訂からrevenueは「売上の伸び」（通期売上前年比）を意味し、営業利益単独の選択は廃止。旧hashのoperating_incomeはrevenueとして復元する。初期表示・hash履歴復元・同じ指標／期間の再押下では操作イベントを送らない。
+トップを`cards-v2`で識別する。テーマ変更は`chip_pulse_filter_change`のdimension=theme、期間変更はdimension=period・value=5/10/20、売上高側の並べ替えはdimension=sort・value=revenue/growth。いずれもyearsとresult_countを付ける。指標変更は`chip_pulse_metric_select`へmetric=revenue/operating_margin・yearsを送る。revenueは円換算売上高、operating_marginは利益率。旧operating_income指定はrevenueとして復元する。利益率時は自動で利益率順、売上高へ戻ると保持したsortを使い、自動の並べ直し自体はイベントにしない。初期表示・hash履歴復元・同一選択の再押下では操作イベントを送らない。グラフのホバー・タップ・キー操作はローカル表示のみでイベント・保存を追加しない。
 
-カード遷移は既存`chip_pulse_read`の`destination_type=earnings`・`placement=explore`・固定企業IDと`cards-v2`を用い、企業別`?years=…#annual-history`へ接続する。ニュース・予定の既存destination_typeとplacementを維持。原資料・詳細の既存計測は継続し、独自IDは追加しない。
+企業名・主数値と末尾の詳細リンクの遷移は既存`chip_pulse_read`の`destination_type=earnings`・`placement=explore`・固定企業IDと`cards-v2`を用い、企業別`?years=…#annual-history`へ接続する。ニュース・予定の既存destination_typeとplacementを維持。原資料・詳細の既存計測は継続し、独自IDは追加しない。
 
 ## 最大20期の企業分析（2026-10-18）
 

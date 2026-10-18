@@ -7,11 +7,18 @@ test("watchの財務カード・指標・テーマ・履歴と旧記事を5画�
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/semiconductor-watch");
     await expect(page.getByRole("heading", { name: "企業の業績を、ひと目で" })).toBeVisible();
-    const cards = page.locator('#watch-chart a[href$="#annual-history"]');
+    const cards = page.locator('#watch-chart > ul > li');
     await expect(cards).toHaveCount(12);
     const columns = await page.locator('#watch-chart ul').evaluate(el => getComputedStyle(el).gridTemplateColumns.split(' ').length);
     expect(columns).toBe(width >= 1280 ? 6 : width >= 1024 ? 4 : width >= 768 ? 3 : 2);
-    await expect(page.getByRole('button', { name: '売上の伸び', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: '売上高', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(cards.first().locator('svg rect').first()).toBeVisible();
+    const chart = cards.first().getByRole('slider');
+    await chart.hover(); await expect(cards.first().getByRole('tooltip')).toBeVisible();
+    await chart.focus(); await chart.press('Home'); await expect(chart).toHaveAttribute('aria-valuenow', '0');
+    await chart.press('End'); await chart.press('Escape'); await expect(cards.first().getByRole('tooltip')).toHaveCount(0);
+    await page.getByRole('button', { name: '売上前年比順', exact: true }).click();
+    await expect(page).toHaveURL(/sort=growth/);
     const profit = page.getByRole('button', { name: '営業利益率', exact: true });
     await profit.focus(); await page.keyboard.press('Enter');
     await expect(profit).toHaveAttribute('aria-pressed', 'true');
@@ -20,14 +27,17 @@ test("watchの財務カード・指標・テーマ・履歴と旧記事を5画�
     const theme = page.getByRole('button', { name: '製造装置・材料', exact: true });
     await theme.click(); await expect(cards).toHaveCount(5);
     await expect(profit).toHaveAttribute('aria-pressed', 'true');
-    await page.getByRole('button', { name: '売上の伸び', exact: true }).click();
-    await expect(page.locator('#watch-chart ul')).toHaveAttribute('aria-label', '企業別の年次売上前年比');
+    await page.getByRole('button', { name: '売上高', exact: true }).click();
+    await expect(page.locator('#watch-chart ul')).toHaveAttribute('aria-label', '企業別の年次売上高');
+    await expect(page.getByRole('button', { name: '売上前年比順', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await page.goBack(); await expect(profit).toHaveAttribute('aria-pressed', 'true');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     const heights = await cards.evaluateAll(nodes => nodes.map(el => el.getBoundingClientRect().height));
     expect(heights.every(height => height >= 180)).toBe(true);
-    await cards.first().focus(); await page.keyboard.press('Enter');
-    await expect(page).toHaveURL(/earnings\/applied-materials\?years=10#annual-history/);
+    const link = cards.first().locator('a').first();
+    const href = await link.getAttribute('href');
+    await link.focus(); await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(new URL(href!, page.url()).href);
     await expect(page.getByRole('heading', { name: '年次10年の業績', exact: true })).toBeVisible();
     await page.goBack(); await expect(profit).toHaveAttribute('aria-pressed', 'true');
     await page.goto('/semiconductor-watch#signal-tsmc-capital-appropriation-2026-09');
@@ -41,11 +51,27 @@ test("JavaScriptなしでも12社の年次グラフ・数値表と最新四半�
   try {
     const page = await context.newPage();
     await page.goto(`${baseURL}/semiconductor-watch`);
-    await expect(page.locator('#watch-chart a[href$="#annual-history"]')).toHaveCount(12);
+    await expect(page.locator('#watch-chart > ul > li')).toHaveCount(12);
     await expect(page.locator('#watch-chart table')).toHaveCount(12);
     await page.getByText('最新四半期の決算一覧', { exact: true }).click();
     await expect(page.locator('a[href="/semiconductor-watch/earnings/asml"]').first()).toBeVisible();
     await page.getByText('過去の掲載・工場の状況', { exact: false }).click();
     await expect(page.locator('#signal-sec-0000950103-26-013682 a')).toBeVisible();
+  } finally { await context.close(); }
+});
+
+test("スマホのグラフをタップすると値を確認でき、詳細へ移動しない", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
+  try {
+    const page = await context.newPage();
+    await page.goto(`${baseURL}/semiconductor-watch`);
+    const card = page.locator('#watch-chart > ul > li').first();
+    const before = page.url();
+    await card.getByRole('slider').tap();
+    await expect(card.getByRole('tooltip')).toBeVisible();
+    await expect(card.getByRole('tooltip')).toContainText('原通貨');
+    expect(page.url()).toBe(before);
+    await page.getByRole('button', { name: '営業利益率', exact: true }).click();
+    await expect(page.getByRole('tooltip')).toHaveCount(0);
   } finally { await context.close(); }
 });

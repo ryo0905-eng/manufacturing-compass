@@ -29,15 +29,29 @@
 .metrics button[aria-pressed=true] { color:var(--blue); border-color:#aec6e3; background:#f2f6fc; font-weight:600; }
 .financialGrid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); list-style:none; margin:0; padding:0; gap:10px; }
 .financialItem { display:flex; flex-direction:column; min-width:0; position:relative; scroll-margin-top:90px; }
-.page a.financialCard { display:flex; flex:1; flex-direction:column; gap:0; min-height:180px; padding:12px; border:1px solid var(--line); border-radius:12px; color:var(--ink); text-decoration:none; }
-.page a.financialCard:hover { border-color:#9db8da; background:#fcfdff; }
+.financialCard { display:flex; flex:1; flex-direction:column; position:relative; gap:0; min-height:180px; padding:12px; border:1px solid var(--line); border-radius:12px; color:var(--ink); }
+.financialCard:focus-within { border-color:#9db8da; }
+.page a.cardPrimaryLink { display:block; color:var(--ink); text-decoration:none; }
+.page a.cardPrimaryLink:hover { color:var(--blue); }
 .financialItem[data-selected=true] .financialCard { border-color:var(--blue); outline:1px solid var(--blue); }
-.cardHeading { display:flex; align-items:start; min-height:40px; }
+.cardHeading { display:flex; align-items:start; gap:6px; min-height:40px; }
 .cardHeading h3 { margin:0; flex:1; min-width:0; font-size:14px; line-height:1.45; font-weight:600; overflow-wrap:anywhere; }
+.cardLogo { flex:0 0 48px; width:48px; overflow:hidden; }
+.cardHeading .cardLogo>span { width:48px; --logo-height:20px; }
 .cardMetric { display:flex; align-items:baseline; flex-wrap:wrap; gap:0 5px; min-height:32px; font-variant-numeric:tabular-nums; }
 .cardMetric strong { font-size:24px; line-height:1.25; font-weight:600; letter-spacing:-.035em; overflow-wrap:anywhere; }
 .cardMetric>span { font-size:11px; color:var(--muted); }
-.sparkline { display:block; width:100%; height:36px; flex:0 0 36px; overflow:visible; margin-top:auto; }
+.cardLatest { margin:2px 0 0; font-size:11px; line-height:1.5; color:var(--muted); font-variant-numeric:tabular-nums; }
+.sortNote { margin:0 0 10px; font-size:12px; color:var(--muted); }
+.chartFigure { margin:16px 0 0; }
+.chartUnit { display:block; margin-top:-12px; height:12px; font-size:10px; line-height:1; color:var(--muted); }
+.chartRow { display:grid; grid-template-columns:32px minmax(0,1fr); }
+.chartAxis { position:relative; height:48px; color:var(--muted); font-size:10px; line-height:1; font-variant-numeric:tabular-nums; }
+.chartAxis>span { position:absolute; right:4px; transform:translateY(-50%); }
+.chartControl { min-width:0; height:48px; touch-action:pan-y; cursor:crosshair; }
+.sparkline { display:block; width:100%; height:48px; overflow:visible; }
+.chartTooltip { position:absolute; z-index:2; top:8px; left:8px; right:8px; display:grid; gap:3px; padding:8px; max-height:calc(100% - 16px); overflow:auto; border:1px solid #b8cbdf; border-radius:6px; background:#fff; box-shadow:0 2px 8px #1d1d1f14; color:var(--ink); font-size:11px; line-height:1.5; overflow-wrap:anywhere; }
+.page a.cardDetailLink { display:flex; align-items:center; justify-content:space-between; gap:4px; margin-top:auto; padding:8px 0 0; min-height:36px; font-size:11px; color:var(--blue); }
 .cardDates { display:flex; justify-content:space-between; gap:4px; font-size:11px; line-height:1.5; color:var(--muted); margin-top:5px; font-variant-numeric:tabular-nums; }
 .cardScope { margin:4px 0 0; min-height:16px; font-size:11px; line-height:1.5; color:var(--muted); overflow-wrap:anywhere; }
 .news { border-top:1px solid var(--line); padding:28px 0; scroll-margin-top:90px; }
@@ -71,7 +85,7 @@
  .sectionHead h2 { font-size:19px; }
  .metrics button { padding:9px 12px; }
  .financialGrid { grid-template-columns:repeat(2,minmax(0,1fr)); }
- .page a.financialCard { padding:10px; }
+ .financialCard { padding:10px; }
  .cardMetric strong { font-size:22px; }
  .cardMetric { align-content:start; }
  .newsRows li { grid-template-columns:1fr; gap:5px; padding:16px 0; }

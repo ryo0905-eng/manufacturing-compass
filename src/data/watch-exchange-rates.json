@@ -1,0 +1,15 @@
+{
+  "asOf": "2026-10-09",
+  "releasedAt": "2026-10-13",
+  "checkedAt": "2026-10-18",
+  "source": {
+    "url": "https://www.federalreserve.gov/releases/h10/current/",
+    "locator": "H.10 Weekly, release 2026-10-13, column Oct. 9; JAPAN, EMU MEMBERS, SOUTH KOREA, TAIWAN; asterisk means U.S. dollars per currency unit."
+  },
+  "quotes": {
+    "jpyPerUsd": 158.34,
+    "usdPerEur": 1.1193,
+    "krwPerUsd": 1342.13,
+    "twdPerUsd": 31.94
+  }
+}

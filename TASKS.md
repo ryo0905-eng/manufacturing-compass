@@ -1,5 +1,32 @@
 # TASKS
 
+## 2026-10-18：円換算売上高の棒グラフ・ロゴ・数値確認・並べ替え
+
+- 初期を売上高・10年・円換算売上高の降順へ変更。主数値は直近通期の「約○兆円／○億円」、前年比と期末年月を補足し、売上高を棒、営業利益率を折れ線で表示。既存ロゴをPC・スマホへ復帰し、6／4／3／2列・最小180pxで内容に応じて伸ばす。48px高のグラフに共通軸・単位・目盛り・ゼロ線・比較不能な境界を表示する。
+- FRB H.10の2026-10-13公表、2026-10-09列を2026-10-18に原資料で再確認。円／ドル・ドル／ユーロ・ウォン／ドル・台湾ドル／ドルの原値、出典と箇所・基準日・公表日・確認日を新しい静的JSONへ保持。全社・全期間へ同一為替を適用し、規模比較用の概算と表示。原通貨・前年比を保ち、過去当時の円建て実績と区別。企業詳細・比較のグラフ、年次の原通貨データ、日次固定6ファイルと権限は変更していない。
+- グラフを詳細リンクから分離。ホバー・タップ・左右キー／Home／Endで各期の金額・原通貨・範囲・率・欠測理由をカード内へ表示し、Escape・blurで閉じる。指標・期間をkeyにして表示をリセット。企業名／主数値と末尾の「業績・出典を見る」から通常文書遷移で期間を引き継ぐ。SSR数値表には円換算額・原数値・前年実績・前年比・理由を保持。
+- 売上高側は売上高順／売上前年比順、利益率側は利益率順。丸め前で降順、同値は元の企業順、算出不可は末尾。sort=growthだけhashへ保存し、利益率から戻っても保持。無指定・不正値は売上高順、旧operating_income指定は売上高に復元する。下段の最新四半期とニュースの順序は維持。既存filterイベントへdimension=sortを追加し、初期表示・復元・同じ選択では送らず、グラフ値の確認は計測・保存しない。
+- PRD・構成・画面仕様・metadata・計測と固定為替の更新手順を整合。新規依存・閲覧時取得・日次更新の追加は行っていない。
+
+検証と実行コマンド：
+
+- `node --test tests/unit/watch-explorer.cjs tests/unit/earnings-history.cjs`：Python subprocessの175秒上限付きで1回実行、28件すべて成功。5通貨と百万／十億単位・ユーロ方向・円等倍・固定為替での前年比不変、通期による順序／同値／欠測／丸め前比較、全テーマ×指標×期間×sort、履歴・イベント重複防止、SSRロゴ／数値表／原資料、ホバー／タップ／キー操作／欠測理由／境界／リンク分離と既存企業別・比較を確認。
+- `npm run typecheck`：175秒上限付きで最大1回実行し成功。
+- `git diff --check`と公開禁止語・差分の点検：成功。公開差分に非公開の取材・個人情報を含めていない。
+- E2E仕様は5画面幅・棒／ロゴ・数値操作・並べ替え・タッチ操作へ更新したが、Playwrightランナー・実ブラウザ・実端末は未実行。実画面・本番反映・GA4受信は未確認。dev・build・lint・ブラウザ操作・commit・pushは未実施。
+
+変更ファイル：
+
+- `src/data/watch-exchange-rates.json`（新規）
+- `src/lib/watch-financials.ts`・`src/lib/watch-explorer.ts`
+- `src/components/chip-pulse/WatchFinancialChart.tsx`（新規）・`WatchFinancialCard.tsx`・`WatchExplorer.tsx`・`WatchExplorer.module.css`
+- `src/app/(ja)/semiconductor-watch/page.tsx`
+- `tests/unit/watch-explorer.cjs`・`tests/e2e/chip-pulse.spec.ts`
+- `docs/PRD.md`・`docs/architecture.md`・`docs/semiconductor-watch-editorial.md`・`docs/earnings-ir-operations.md`・`docs/conversion-architecture.md`
+- `TASKS.md`
+
+推奨コミット：`feat: compare watch revenues with fixed yen bars`
+
 ## 2026-10-18：業界ウォッチを小型の成長率・利益率カードへ変更
 
 - 一覧の指標を「売上の伸び」（通期売上前年比）と「営業利益率」に整理。初期は売上の伸び・10年、5／10／20年を維持。金額の長期推移と出典は既存の企業詳細に保持し、企業別分析・比較ページ・年次データ・日次固定6ファイルは変更していない。

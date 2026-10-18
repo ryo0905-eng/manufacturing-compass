@@ -16,11 +16,11 @@ const { media } = require('../../src/lib/chip-pulse-media.ts');
 const { earningsReleases } = require('../../src/lib/earnings.ts');
 const { watchCalendar } = require('../../src/lib/watch-calendar.ts');
 const { watchTopics } = require('../../src/lib/watch-types.ts');
-const { companiesForTopic, defaultWatchCompany, readWatchSelection, watchSelectionHash, relatedWatchNews, watchNewsForTopic, watchChartDomain, watchBar } = require('../../src/lib/watch-explorer.ts');
+const { companiesForTopic, defaultWatchCompany, sortWatchCompanies, readWatchSelection, watchSelectionHash, relatedWatchNews, watchNewsForTopic, watchChartDomain, watchBar } = require('../../src/lib/watch-explorer.ts');
 const { WatchExplorer } = require('../../src/components/chip-pulse/WatchExplorer.tsx');
 const Page = require('../../src/app/(ja)/semiconductor-watch/page.tsx').default;
 const { annualHistories } = require('../../src/lib/earnings-history.ts');
-const { watchFinancials, watchFinancialDomain, watchMetrics } = require('../../src/lib/watch-financials.ts');
+const { watchFinancials, watchFinancialDomain, watchMetrics, watchExchange, watchYenRates, watchYenValue, watchYenAmount } = require('../../src/lib/watch-financials.ts');
 const now = '2026-10-17T00:00:00Z';
 const companies = buildWatchCompanies(now);
 const news = buildWatchNews();
@@ -58,17 +58,17 @@ test('company projection preserves raw values, sources, periods, scope and segme
 });
 
 test('hash restores all metric/theme combinations; highlights only explicitly requested valid companies', () => {
-  for (const topic of watchTopics) for (const metric of watchMetrics) for (const years of [5,10,20]) {
-    const selection = readWatchSelection(`#theme=${topic.id}&metric=${metric.id}&company=unknown&years=${years}`, companies);
+  for (const topic of watchTopics) for (const metric of watchMetrics) for (const years of [5,10,20]) for (const sort of ['revenue', 'growth']) {
+    const selection = readWatchSelection(`#theme=${topic.id}&metric=${metric.id}&company=unknown&years=${years}&sort=${sort}`, companies);
     assert.equal(selection.company, null);
-    assert.equal(selection.metric, metric.id); assert.equal(selection.years, years);
+    assert.equal(selection.metric, metric.id); assert.equal(selection.years, years); assert.equal(selection.sort, sort);
     assert.deepEqual(readWatchSelection(watchSelectionHash(selection), companies), selection);
   }
-  assert.deepEqual(readWatchSelection('#theme=equipment&company=micron', companies), { topic: 'equipment', company: null, metric: 'revenue', years: 10 });
-  assert.deepEqual(readWatchSelection('#theme=unknown&company=micron&metric=bad', companies), { topic: 'all', company: 'micron', metric: 'revenue', years: 10 });
+  assert.deepEqual(readWatchSelection('#theme=equipment&company=micron', companies), { topic: 'equipment', company: null, metric: 'revenue', years: 10, sort: 'revenue' });
+  assert.deepEqual(readWatchSelection('#theme=unknown&company=micron&metric=bad', companies), { topic: 'all', company: 'micron', metric: 'revenue', years: 10, sort: 'revenue' });
   assert.equal(readWatchSelection('#signal-old-article', companies).company, null);
   assert.equal(readWatchSelection('', companies).metric, 'revenue');
-  assert.deepEqual(readWatchSelection('#theme=equipment&company=asml&metric=operating_income&years=20', companies), { topic: 'equipment', company: 'asml', metric: 'revenue', years: 20 });
+  assert.deepEqual(readWatchSelection('#theme=equipment&company=asml&metric=operating_income&years=20', companies), { topic: 'equipment', company: 'asml', metric: 'revenue', years: 20, sort: 'revenue' });
   assert.deepEqual(watchMetrics.map(metric => metric.id), ['revenue', 'operating_margin']);
 });
 
@@ -77,14 +77,14 @@ test('annual growth uses the preceding year outside the window and preserves dec
   const data = watchFinancials(series, 'revenue', 5);
   assert.equal(data.points.length, 5);
   assert.equal(data.points[0].previousPeriod, series.periods[0]);
-  assert.ok(Math.abs(data.points[0].value - 20) < 1e-9);
-  assert.ok(Math.abs(data.points[2].value + 20) < 1e-9);
-  assert.equal(data.displayValue, '+10');
-  assert.equal(watchFinancials(series, 'revenue', 20).points[0].value, null);
-  assert.match(watchFinancials(series, 'revenue', 20).points[0].missingReason, /前年.*未取得/);
+  assert.ok(Math.abs(data.points[0].revenueYoY - 20) < 1e-9);
+  assert.ok(Math.abs(data.points[2].revenueYoY + 20) < 1e-9);
+  assert.ok(Math.abs(data.revenueYoY - 10) < 1e-9); assert.equal(data.displayValue, watchYenAmount(data.latest));
+  assert.equal(watchFinancials(series, 'revenue', 20).points[0].revenueYoY, null);
+  assert.match(watchFinancials(series, 'revenue', 20).points[0].growthMissingReason, /前年.*未取得/);
   const decline = watchFinancials(growthSeries([100, 75]), 'revenue');
-  assert.equal(decline.latest, -25); assert.equal(decline.displayValue, '-25');
-  assert.equal(watchFinancials(growthSeries([100, 0]), 'revenue').latest, -100);
+  assert.equal(decline.revenueYoY, -25); assert.ok(decline.latest > 0);
+  assert.equal(watchFinancials(growthSeries([100, 0]), 'revenue').revenueYoY, -100);
   const last = series.periods.at(-1);
   last.operatingIncome.value = -20;
   assert.ok(watchFinancials(series, 'operating_margin').latest < 0);
@@ -95,7 +95,7 @@ test('annual growth uses the preceding year outside the window and preserves dec
   assert.match(watchFinancials(series, 'operating_margin').missingReason, /利益未公表/);
   last.revenue = { status: 'unretrieved', reason: '確認できない' };
   const missing = watchFinancials(series, 'revenue');
-  assert.equal(missing.latest, null); assert.equal(missing.displayValue, '算出不可'); assert.match(missing.missingReason, /確認できない/);
+  assert.equal(missing.latest, null); assert.equal(missing.displayValue, '未取得'); assert.match(missing.missingReason, /確認できない/);
   assert.equal(missing.points.length, 6, 'Missing latest must not pull in older observations');
   assert.equal(watchFinancials(series, 'revenue', 5).points.length, 5);
   const kla = annualHistories.find(item => item.companyId === 'kla');
@@ -106,16 +106,16 @@ test('annual growth uses the preceding year outside the window and preserves dec
 test('growth excludes invalid prior revenue and incomparable years without bridging gaps', () => {
   for (const previous of [0, -100]) {
     const data = watchFinancials(growthSeries([previous, 100]), 'revenue');
-    assert.equal(data.latest, null); assert.match(data.missingReason, /前年.*ゼロ以下/);
+    assert.equal(data.revenueYoY, null); assert.match(data.growthMissingReason, /前年.*ゼロ以下/); assert.ok(data.latest > 0);
   }
   for (const status of ['unretrieved', 'unpublished']) {
     const series = growthSeries([100, 120, 140, 160, 180, 200]);
     series.periods[2].revenue = { status, reason: '前年欠測' };
     const data = watchFinancials(series, 'revenue');
-    assert.equal(data.points[2].value, null); assert.equal(data.points[3].value, null);
-    assert.match(data.points[3].missingReason, /前年欠測/);
+    assert.equal(data.points[2].value, null); assert.equal(data.points[3].revenueYoY, null); assert.ok(data.points[3].value > 0);
+    assert.match(data.points[3].growthMissingReason, /前年欠測/);
     assert.deepEqual(data.segments.map(segment => segment.map(point => point.period.end)), [
-      [series.periods[1].end], [series.periods[4].end, series.periods[5].end],
+      [series.periods[0].end, series.periods[1].end], [series.periods[3].end, series.periods[4].end, series.periods[5].end],
     ]);
   }
   for (const change of [
@@ -125,8 +125,8 @@ test('growth excludes invalid prior revenue and incomparable years without bridg
     const series = growthSeries([100, 120, 140]);
     Object.assign(series.periods[2], change);
     const data = watchFinancials(series, 'revenue');
-    assert.equal(data.latest, null, JSON.stringify(change)); assert.ok(data.missingReason);
-    assert.ok(data.segments.every(segment => segment.every(point => point.period !== series.periods[2])));
+    assert.equal(data.revenueYoY, null, JSON.stringify(change)); assert.ok(data.growthMissingReason);
+    assert.ok(data.latest > 0, 'A sourced amount remains visible at a comparison boundary');
   }
   const margin = growthSeries([100, 120, 140, 160]);
   margin.periods[2].breakBefore = '部門変更';
@@ -144,7 +144,7 @@ test('annual common domain includes all values and zero, including outliers, wit
     }
   }
   const domain = watchFinancialDomain([normal, outlier], 'revenue');
-  assert.ok(domain.min < -50 && domain.max > 1300);
+  assert.equal(domain.min, 0); assert.ok(domain.max > watchFinancials(outlier, 'revenue').points[1].value);
   assert.deepEqual(watchFinancialDomain([], 'revenue'), { min: 0, max: 1 });
 });
 
@@ -208,9 +208,9 @@ test('no-JS HTML exposes every company value and source, article links, unique l
   assert.equal((html.match(/class="financialCard"/g) ?? []).length, 12);
   assert.equal((html.match(/data-selected="true"/g) ?? []).length, 0);
   for (const company of companies) assert.ok(html.includes(`${company.href}?years=10#annual-history`));
-  assert.match(html, /DS部門/); assert.match(html, /年次売上前年比/);
+  assert.match(html, /DS部門/); assert.match(html, /年次売上高/);
   assert.match(html, /前年売上高/); assert.match(html, /各社で決算期・対象範囲が異なります/);
-  assert.doesNotMatch(html, /cardLogo/);
+  assert.match(html, /cardLogo/);
   const zeroLines = [...html.matchAll(/<line[^>]*y1="([^"]+)"[^>]*stroke-dasharray="3 3"/g)];
   assert.equal(zeroLines.length, 12); assert.equal(new Set(zeroLines.map(match => match[1])).size, 1);
   const complete = renderToStaticMarkup(React.createElement(Page));
@@ -262,9 +262,10 @@ function controller(initialHash = '', mobile = false, props = { companies, news,
   const buttons = () => nodes(render(), node => node.type === 'button');
   const theme = id => buttons().find(node => node.props.children === watchTopics.find(topic => topic.id === id)?.label);
   const metric = id => buttons().find(node => node.props.children === watchMetrics.find(item => item.id === id)?.label);
+  const sort = value => buttons().find(node => node.props.children === (value === 'growth' ? '売上前年比順' : '売上高順'));
   const period = years => buttons().find(node => Array.isArray(node.props.children) && node.props.children[0] === years && node.props.children[1] === '年');
   const card = id => nodes(render(), node => node.props.company?.id === id)[0];
-  return { render, theme, metric, period, card, events, window, listeners,
+  return { render, theme, metric, period, sort, card, events, window, listeners,
     back(hash) { window.location.hash = hash; listeners.get('popstate')(); render(); },
     stats: () => ({ focused, scrolled, opened }), cleanup: () => effects.forEach(effect => effect?.cleanup?.()),
   };
@@ -327,7 +328,7 @@ test('server-rendered card metrics, losses, missing latest and calculated scope 
     const html = render(metric.id);
     assert.match(html, /<table/); assert.match(html, /<title/);
     assert.match(html, /stroke-dasharray="3 3"/);
-    assert.doesNotMatch(html, /cardLogo/);
+    assert.match(html, /cardLogo/);
     assert.ok(html.includes(company.href + '?years=10#annual-history'));
     if (metric.id !== 'revenue') assert.match(html, /営業利益は算出値/);
   }
@@ -344,7 +345,11 @@ test('server-rendered card metrics, losses, missing latest and calculated scope 
   }));
   assert.ok(html.includes(fixture.periods[0].end), 'The source year outside the chart window stays in the accessible table');
   assert.match(html, /前年比＝本期売上高÷前年売上高/);
-  assert.match(html, /前年比<\/span><strong>\+10<\/strong><span>%/);
+  assert.match(html, /前年比 \+10%/);
+  assert.match(html, /円換算・概算/); assert.match(html, /<rect/);
+  const links = [...html.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/g)];
+  assert.equal(links.length, 2);
+  assert.ok(links.every(link => !link[0].includes('role="slider"')), 'Chart interaction must not be inside a navigation link');
   assert.ok(html.includes(company.href + '?years=5#annual-history'));
 });
 
@@ -376,4 +381,127 @@ test('watch period selection retains metric/theme, card URL years and history wi
   const count = ui.events.length; ui.back('#theme=equipment&metric=operating_income&years=5');
   assert.equal(ui.card('asml').props.years, 5); assert.equal(ui.card('asml').props.metric, 'revenue');
   assert.equal(ui.events.length, count); ui.cleanup();
+});
+
+test('fixed FRB quotes convert all currencies and both amount units without changing growth', () => {
+  assert.equal(watchExchange.asOf, '2026-10-09');
+  assert.equal(watchExchange.releasedAt, '2026-10-13');
+  assert.equal(new URL(watchExchange.source.url).hostname, 'www.federalreserve.gov');
+  assert.ok(watchExchange.checkedAt >= watchExchange.asOf);
+  assert.equal(watchYenValue(2.5, { currency: 'JPY', unit: 'million' }), 2500000);
+  assert.equal(watchYenValue(2.5, { currency: 'JPY', unit: 'billion' }), 2500000000);
+  assert.equal(watchYenValue(1, { currency: 'USD', unit: 'million' }), 158340000);
+  assert.ok(Math.abs(watchYenValue(1, { currency: 'EUR', unit: 'million' }) - 177229962) < .001);
+  for (const [currency, value] of [['KRW', 1342.13], ['TWD', 31.94]]) {
+    assert.ok(Math.abs(watchYenValue(value, { currency, unit: 'million' }) - 158340000) < .001);
+  }
+  for (const currency of ['JPY', 'USD', 'EUR', 'KRW', 'TWD']) {
+    assert.ok(Number.isFinite(watchYenRates[currency]) && watchYenRates[currency] > 0);
+    assert.equal(watchYenValue(1, { currency, unit: 'billion' }), watchYenValue(1000, { currency, unit: 'million' }));
+    const before = watchYenValue(100, { currency, unit: 'million' });
+    const after = watchYenValue(125, { currency, unit: 'million' });
+    assert.ok(Math.abs((after / before - 1) * 100 - 25) < 1e-9);
+  }
+  assert.equal(watchYenValue(null, { currency: 'USD', unit: 'million' }), null);
+  assert.equal(watchYenValue(Infinity, { currency: 'USD', unit: 'million' }), null);
+  assert.equal(watchYenAmount(5.2e12), '約5.2兆円');
+  assert.equal(watchYenAmount(8500e8), '約8,500億円');
+});
+
+test('sorting uses annual amounts or growth, keeps ties stable and missing latest last', () => {
+  const cohort = copy(companies.slice(0, 5));
+  const values = [[500, 550], [100, 200], [100, 200], [100, 50], [100, 300]];
+  const histories = values.map((values, index) => ({ ...growthSeries(values), companyId: cohort[index].id }));
+  histories[1].periods.at(-1).operatingIncome.value = 120;
+  histories[2].periods.at(-1).operatingIncome.value = -20;
+  histories[4].periods.at(-1).revenue = { status: 'unpublished', reason: '最新期未公表' };
+  cohort.forEach((company, index) => { company.revenueYoY = 1000 * index; });
+  const ids = (metric, sort) => sortWatchCompanies(cohort, histories, metric, sort, 10).map(company => company.id);
+  assert.deepEqual(ids('revenue', 'revenue'), [0, 1, 2, 3, 4].map(index => cohort[index].id));
+  assert.deepEqual(ids('revenue', 'growth'), [1, 2, 0, 3, 4].map(index => cohort[index].id));
+  assert.deepEqual(ids('operating_margin', 'growth'), [1, 0, 3, 2, 4].map(index => cohort[index].id));
+  assert.deepEqual(sortWatchCompanies(cohort, [], 'revenue', 'revenue', 10), cohort);
+  const precise = [110.0000001, 110.0000002].map((value, index) => ({ ...growthSeries([100, value]), companyId: cohort[index].id }));
+  assert.equal(watchFinancials(precise[0], 'revenue').displayValue, watchFinancials(precise[1], 'revenue').displayValue);
+  assert.equal(sortWatchCompanies(cohort.slice(0, 2), precise, 'revenue', 'revenue', 10)[0].id, cohort[1].id);
+});
+
+test('sort controls persist across metric, theme, years and history and emit only on user changes', () => {
+  const ui = controller('', false, { companies, histories: annualHistories, news, now }); ui.render();
+  assert.equal(ui.events.length, 0);
+  ui.sort('growth').props.onClick(); ui.render();
+  assert.match(ui.window.location.hash, /sort=growth/);
+  assert.equal(ui.events[0][1].dimension, 'sort'); assert.equal(ui.events[0][1].value, 'growth');
+  ui.sort('growth').props.onClick(); ui.render(); assert.equal(ui.events.length, 1);
+  ui.metric('operating_margin').props.onClick(); ui.theme('equipment').props.onClick(); ui.period(20).props.onClick(); ui.render();
+  assert.equal(ui.sort('growth'), undefined);
+  ui.metric('revenue').props.onClick(); ui.render();
+  assert.equal(ui.sort('growth').props['aria-pressed'], true);
+  assert.match(ui.window.location.hash, /years=20/); assert.match(ui.window.location.hash, /sort=growth/);
+  const count = ui.events.length;
+  ui.back('#theme=equipment&metric=revenue&sort=bad&years=5');
+  assert.equal(ui.sort('revenue').props['aria-pressed'], true); assert.equal(ui.events.length, count);
+  ui.back('#theme=equipment&metric=operating_income&sort=growth&years=20');
+  assert.equal(ui.sort('growth').props['aria-pressed'], true); assert.equal(ui.card('asml').props.years, 20);
+  const tree = ui.render();
+  const cardIds = nodes(tree, node => node.props.company?.id).map(node => node.props.company.id);
+  assert.deepEqual(cardIds, sortWatchCompanies(companiesForTopic(companies, 'equipment'), annualHistories, 'revenue', 'growth', 20).map(company => company.id));
+  ui.cleanup();
+});
+
+function chartController(series, metric = 'revenue', years = 10) {
+  const { watchPlot } = require('../../src/components/chip-pulse/WatchFinancialChart.tsx');
+  const data = watchFinancials(series, metric, years);
+  const domain = watchFinancialDomain([series], metric, years);
+  const filename = path.resolve('src/components/chip-pulse/WatchFinancialChart.tsx');
+  const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } }).outputText;
+  const slots = [], exports = {}; let cursor = 0;
+  const hooks = { ...React, useState(initial) { const slot = cursor++; if (!(slot in slots)) slots[slot] = initial; return [slots[slot], value => { slots[slot] = typeof value === 'function' ? value(slots[slot]) : value; }]; } };
+  vm.runInNewContext(code, { exports, require(id) { return id === 'react' ? hooks : require(id.startsWith('.') ? path.resolve(path.dirname(filename), id) : id); } }, { filename });
+  const props = { companyId: series.companyId, name: series.name, points: data.points, segments: data.segments, domain, metric };
+  const render = () => { cursor = 0; return exports.WatchFinancialChart(props); };
+  const control = () => nodes(render(), node => node.props.role === 'slider')[0];
+  const tooltip = () => nodes(render(), node => node.props.role === 'tooltip')[0];
+  const plot = watchPlot(data.points, domain);
+  const target = { getBoundingClientRect: () => ({ left: 50, width: 240 }), focus: () => control().props.onFocus() };
+  return { render, control, tooltip, data, plot,
+    hover(index) { control().props.onPointerMove({ clientX: 50 + plot.x(data.points[index].period.end), currentTarget: target, pointerType: 'mouse' }); },
+    tap(index) { control().props.onPointerDown({ clientX: 50 + plot.x(data.points[index].period.end), currentTarget: target, pointerType: 'touch' }); },
+    leave(pointerType = 'mouse') { render().props.onPointerLeave({ pointerType }); },
+    key(key) { control().props.onKeyDown({ key, preventDefault() {} }); },
+  };
+}
+
+test('chart hover, touch and keyboard expose dates, raw amounts, scope and missing reasons without links', () => {
+  const series = growthSeries([100, 125, 150, 200]);
+  series.periods[1].revenue = { status: 'unpublished', reason: '検証用の欠測理由' };
+  series.periods[2].breakBefore = '対象範囲の変更';
+  const ui = chartController(series);
+  assert.equal(ui.tooltip(), undefined);
+  ui.hover(0); assert.equal(ui.control().props['aria-valuenow'], 0);
+  let html = renderToStaticMarkup(ui.tooltip());
+  assert.match(html, /2019\/12期/); assert.match(html, /原通貨/); assert.match(html, /連結全体/);
+  ui.leave(); assert.equal(ui.tooltip(), undefined);
+  ui.tap(1); ui.leave('touch');
+  assert.equal(ui.control().props['aria-valuenow'], 1);
+  html = renderToStaticMarkup(ui.tooltip());
+  assert.match(html, /欠測理由/); assert.match(html, /未取得/);
+  ui.key('ArrowRight'); assert.equal(ui.control().props['aria-valuenow'], 2);
+  assert.match(renderToStaticMarkup(ui.tooltip()), /対象範囲の変更/);
+  ui.key('Home'); assert.equal(ui.control().props['aria-valuenow'], 0);
+  ui.key('ArrowLeft'); assert.equal(ui.control().props['aria-valuenow'], 0);
+  ui.key('End'); ui.key('ArrowRight'); assert.equal(ui.control().props['aria-valuenow'], 3);
+  ui.key('Escape'); assert.equal(ui.tooltip(), undefined);
+  ui.control().props.onBlur(); assert.equal(ui.tooltip(), undefined);
+  assert.equal(nodes(ui.render(), node => node.type === 'a').length, 0);
+  const bars = nodes(ui.render(), node => node.type === 'rect');
+  assert.equal(bars.length, 3, 'Missing observations have no bar');
+  assert.equal(bars[0].props.x, ui.plot.x(series.periods[0].end) - ui.plot.barWidth / 2);
+  const last = bars.at(-1).props;
+  assert.ok(last.x + last.width <= 240 && last.y >= 0 && last.y + last.height <= 48);
+  const margin = chartController(series, 'operating_margin');
+  margin.control().props.onFocus(); assert.equal(margin.control().props['aria-valuenow'], 3);
+  assert.match(renderToStaticMarkup(margin.tooltip()), /営業利益率/);
+  assert.equal(nodes(margin.render(), node => node.type === 'rect').length, 0);
+  assert.ok(nodes(margin.render(), node => node.type === 'polyline').length >= 2);
 });
