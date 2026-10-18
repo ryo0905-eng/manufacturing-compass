@@ -22,6 +22,7 @@ export type AnnualSeries = {
   checkedAt: string;
   coverageNote: string;
   periods: AnnualPeriod[];
+  contextNotes?: Array<{ period: string; text: string; kind: "company" | "editorial"; source: AnnualSource; checkedAt: string }>;
 };
 export type AnnualChartMetric = "margin" | "revenueIndex";
 export type AnnualPoint = { period: AnnualPeriod; value: number | null };
@@ -44,15 +45,35 @@ export function comparableAnnualPeriods(previous: AnnualPeriod, next: AnnualPeri
     && previous.financialScope === next.financialScope;
 }
 
+export type AnnualYears = 5 | 10 | 20;
+export function readAnnualYears(value: unknown): AnnualYears {
+  return value === 5 || value === "5" ? 5 : value === 20 || value === "20" ? 20 : 10;
+}
+
+/** A missing year must not pull an older observation into the requested window. */
+export function annualWindow(series: AnnualSeries, years: AnnualYears): AnnualSeries {
+  const last = series.periods.at(-1);
+  if (!last) return { ...series, periods: [] };
+  const cutoff = new Date(last.end);
+  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - years);
+  return { ...series, periods: series.periods.filter(period => Date.parse(period.end) > cutoff.getTime()).slice(-years) };
+}
+
+export function annualIndexBase(series: AnnualSeries) {
+  let index = 0;
+  for (let i = 1; i < series.periods.length; i++) {
+    if (!comparableAnnualPeriods(series.periods[i - 1], series.periods[i])) index = i;
+  }
+  return series.periods[index];
+}
+
 export function annualPoints(series: AnnualSeries, metric: AnnualChartMetric): AnnualPoint[] {
-  const base = series.periods[0];
+  const base = annualIndexBase(series);
   const baseRevenue = base ? reportedValue(base.revenue) : null;
-  let sharesBase = true;
-  return series.periods.map((period, index) => {
-    if (index > 0 && !comparableAnnualPeriods(series.periods[index - 1], period)) sharesBase = false;
+  return series.periods.map(period => {
     const revenue = reportedValue(period.revenue);
     return { period, value: metric === "margin" ? operatingMargin(period)
-      : sharesBase && baseRevenue !== null && baseRevenue > 0 && revenue !== null && revenue > 0
+      : base && period.end >= base.end && baseRevenue !== null && baseRevenue > 0 && revenue !== null && revenue > 0
         ? revenue / baseRevenue * 100 : null };
   });
 }

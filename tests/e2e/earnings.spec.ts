@@ -6,7 +6,7 @@ test("決算一覧・根拠・比較をPCとスマートフォンで読める", 
   for (const width of [1280, 390]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto("/semiconductor-watch");
-    await page.getByRole("link", { name: /決算・IRを読み比べる/ }).click();
+    await page.getByRole("link", { name: /決算一覧・比較へ/ }).click();
     await expect(page.getByRole("heading", { level: 1 })).toContainText("主要半導体企業の決算一覧");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://mfg-compass.com/semiconductor-watch/earnings");
     await expect(page.getByRole("row", { name: /東京エレクトロン/ })).toBeVisible();
@@ -53,4 +53,21 @@ test("決算一覧・根拠・比較をPCとスマートフォンで読める", 
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
   expect(errors).toEqual([]);
+});
+
+
+test("長期期間をウォッチから企業別・比較へ引き継ぐ", async ({ page }) => {
+  await page.goto('/semiconductor-watch#years=20');
+  await expect(page.getByRole('button', { name: '20年', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('#watch-chart a[href*="/earnings/asml?"]').click();
+  await expect(page).toHaveURL(/years=20#annual-history/);
+  await expect(page.getByRole('heading', { name: '年次20年の業績' })).toBeVisible();
+  await expect(page.locator('#annual-history table tbody tr')).toHaveCount(20);
+  await page.getByRole('link', { name: '同業他社と年次20年を比較する →' }).click();
+  await expect(page.locator('#compare-annual').getByRole('button', { name: '20年', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('#compare-annual').getByRole('button', { name: '5年', exact: true }).click();
+  await expect(page).toHaveURL(/years=5/);
+  await expect(page.locator('#compare-annual table tbody tr')).toHaveCount(10);
+  await page.goBack({ waitUntil: 'commit' });
+  await expect(page.locator('#compare-annual').getByRole('button', { name: '20年', exact: true })).toHaveAttribute('aria-pressed', 'true');
 });

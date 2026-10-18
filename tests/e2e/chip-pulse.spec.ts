@@ -26,8 +26,8 @@ test("watchの財務カード・指標・テーマ・履歴と旧記事を4画�
     const heights = await cards.evaluateAll(nodes => nodes.map(el => el.getBoundingClientRect().height));
     expect(heights.every(height => height >= 200 && height <= 220)).toBe(true);
     await cards.first().focus(); await page.keyboard.press('Enter');
-    await expect(page).toHaveURL(/earnings\/applied-materials#annual-history/);
-    await expect(page.getByRole('heading', { name: '年次5年の業績', exact: true })).toBeVisible();
+    await expect(page).toHaveURL(/earnings\/applied-materials\?years=10#annual-history/);
+    await expect(page.getByRole('heading', { name: '年次10年の業績', exact: true })).toBeVisible();
     await page.goBack(); await expect(profit).toHaveAttribute('aria-pressed', 'true');
     await page.goto('/semiconductor-watch#signal-tsmc-capital-appropriation-2026-09');
     await expect(page.locator('#signal-tsmc-capital-appropriation-2026-09')).toBeVisible();

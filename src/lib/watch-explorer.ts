@@ -1,4 +1,5 @@
 import { inWatchWindow, readWatchHash, type WatchItem, type WatchTopic } from "./watch-types";
+import { readAnnualYears, type AnnualYears } from "./earnings-history-math";
 import { watchMetrics, type WatchMetric } from "./watch-financials";
 
 export type WatchCompany = {
@@ -9,7 +10,7 @@ export type WatchCompany = {
   nextEvent: { label: string; href: string } | null;
 };
 export type { WatchMetric } from "./watch-financials";
-export type WatchSelection = { topic: WatchTopic | "all"; company: string | null; metric: WatchMetric };
+export type WatchSelection = { topic: WatchTopic | "all"; company: string | null; metric: WatchMetric; years: AnnualYears };
 
 export function companiesForTopic(companies: WatchCompany[], topic: WatchSelection["topic"]) {
   return companies.filter(company => topic === "all" || company.topics.includes(topic));
@@ -25,7 +26,7 @@ export function readWatchSelection(hash: string, companies: WatchCompany[]): Wat
   const requested = params.get("company");
   const metric = watchMetrics.find(item => item.id === params.get("metric"))?.id ?? "revenue";
   const visible = companiesForTopic(companies, topic);
-  return { topic, metric, company: visible.some(company => company.id === requested) ? requested : null };
+  return { topic, metric, years: readAnnualYears(params.get("years")), company: visible.some(company => company.id === requested) ? requested : null };
 }
 
 export function watchSelectionHash(selection: WatchSelection) {
@@ -33,6 +34,7 @@ export function watchSelectionHash(selection: WatchSelection) {
   if (selection.topic !== "all") params.set("theme", selection.topic);
   if (selection.company) params.set("company", selection.company);
   if (selection.metric !== "revenue") params.set("metric", selection.metric);
+  if (selection.years !== 10) params.set("years", String(selection.years));
   return params.size ? `#${params}` : "#explore";
 }
 

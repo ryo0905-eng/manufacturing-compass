@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { trackEvent } from "@/lib/analytics";
-import type { AnnualSeries } from "@/lib/earnings-history-math";
+import { annualWindow, type AnnualSeries } from "@/lib/earnings-history-math";
 import { WatchFinancialCard } from "./WatchFinancialCard";
 import { watchMetrics } from "@/lib/watch-financials";
 import { watchDate, watchTopics, type WatchItem } from "@/lib/watch-types";
@@ -13,7 +13,7 @@ import {
 import { MediaLink } from "./MediaLinks";
 import styles from "./WatchExplorer.module.css";
 
-const uiVersion = "cards-v1";
+const uiVersion = "cards-v2";
 type Props = { companies: WatchCompany[]; news: WatchItem[]; now: string; histories?: AnnualSeries[]; children?: ReactNode };
 
 export function WatchExplorer({ companies, news, now, histories = [], children }: Props) {
@@ -46,16 +46,17 @@ export function WatchExplorer({ companies, news, now, histories = [], children }
     target.scrollIntoView({ block: "start" });
   }, [selection, expanded]);
 
-  function select(next: WatchSelection, dimension: "theme" | "metric") {
+  function select(next: WatchSelection, dimension: "theme" | "metric" | "period") {
     if (dimension === "theme" && next.topic === selection.topic) return;
     if (dimension === "metric" && next.metric === selection.metric) return;
+    if (dimension === "period" && next.years === selection.years) return;
     setSelection(next);
     if (dimension === "theme") setExpanded(false);
     window.history.pushState(null, "", watchSelectionHash(next));
-    if (dimension === "theme") trackEvent("chip_pulse_filter_change", {
-      dimension: "theme", value: next.topic, result_count: companiesForTopic(companies, next.topic).length, ui_version: uiVersion,
+    if (dimension !== "metric") trackEvent("chip_pulse_filter_change", {
+      dimension, value: dimension === "theme" ? next.topic : String(next.years), years: next.years, result_count: companiesForTopic(companies, next.topic).length, ui_version: uiVersion,
     });
-    else trackEvent("chip_pulse_metric_select", { metric: next.metric, ui_version: uiVersion });
+    else trackEvent("chip_pulse_metric_select", { metric: next.metric, years: next.years, ui_version: uiVersion });
   }
 
   function selectTheme(topic: WatchSelection["topic"]) {
@@ -70,14 +71,16 @@ export function WatchExplorer({ companies, news, now, histories = [], children }
     </nav>
 
     <section className={styles.explorer} id="explore" aria-labelledby="watch-chart-title">
-      <div className={styles.sectionHead}><div><h2 id="watch-chart-title">企業の業績を、ひと目で</h2><p>年次5年 · 気になる企業から詳しく見る</p></div><span aria-live="polite">{visible.length}社</span></div>
-      <div className={styles.metrics} role="group" aria-label="財務指標を選ぶ">{watchMetrics.map(metric => <button type="button" key={metric.id} aria-pressed={selection.metric === metric.id} aria-controls="watch-chart" onClick={() => select({ ...selection, metric: metric.id }, "metric")}>{metric.label}</button>)}</div>
+      <div className={styles.sectionHead}><div><h2 id="watch-chart-title">企業の業績を、ひと目で</h2><p>年次{selection.years}年 · 気になる企業から詳しく見る</p></div><span aria-live="polite">{visible.length}社</span></div>
+      <div className={styles.controlBar}><div className={styles.metrics} role="group" aria-label="財務指標を選ぶ">{watchMetrics.map(metric => <button type="button" key={metric.id} aria-pressed={selection.metric === metric.id} aria-controls="watch-chart" onClick={() => select({ ...selection, metric: metric.id }, "metric")}>{metric.label}</button>)}</div>
+      <div className={styles.metrics} role="group" aria-label="掲載期間を選ぶ">{([5, 10, 20] as const).map(years => <button type="button" key={years} aria-pressed={selection.years === years} aria-controls="watch-chart" onClick={() => select({ ...selection, years }, "period")}>{years}年</button>)}</div></div>
       <p className={styles.chartNote}>原通貨・各社ごとの縦軸です。グラフの高さは企業間の規模比較ではありません。</p>
-      <p className={styles.srOnly} role="status">{watchMetrics.find(metric => metric.id === selection.metric)!.label}を{visible.length}社に表示</p>
+      <p className={styles.srOnly} role="status">{watchMetrics.find(metric => metric.id === selection.metric)!.label}を{visible.length}社に表示（最大{selection.years}年）</p>
       <div id="watch-chart">
-        {visible.length ? <ul className={styles.financialGrid} aria-label={`企業別の年次${watchMetrics.find(metric => metric.id === selection.metric)!.label}`}>{visible.map(company => <WatchFinancialCard key={company.id} company={company} series={histories.find(series => series.companyId === company.id)} metric={selection.metric} selected={selection.company === company.id} />)}</ul>
+        {visible.length ? <ul className={styles.financialGrid} aria-label={`企業別の年次${watchMetrics.find(metric => metric.id === selection.metric)!.label}`}>{visible.map(company => <WatchFinancialCard key={company.id} company={company} series={histories.find(series => series.companyId === company.id)} years={selection.years} metric={selection.metric} selected={selection.company === company.id} />)}</ul>
           : <div className={styles.empty}><p>このテーマの掲載決算はありません。</p><button type="button" onClick={() => selectTheme("all")}>すべての企業へ戻る</button></div>}
       </div>
+      <details className={styles.disclosure}><summary>掲載期間が短い企業・比較の注意</summary><ul>{histories.filter(series => visible.some(company => company.id === series.companyId)).map(series => <li key={series.companyId}><strong>{series.name}：{annualWindow(series, selection.years).periods.length}期掲載（最大{selection.years}年）</strong><p>{series.coverageNote}</p></li>)}</ul></details>
       <MediaLink href="/semiconductor-watch/earnings" articleId="watch" action="background" destination="earnings" placement="navigation" uiVersion={uiVersion} className={styles.allEarnings}>決算一覧・比較へ <span aria-hidden="true">→</span></MediaLink>
       <details className={styles.disclosure}><summary>最新四半期の決算一覧</summary><ul>{visible.map(company => <li key={company.id}>
         <h3>{company.name} · 売上前年比 {company.metricLabel}</h3>

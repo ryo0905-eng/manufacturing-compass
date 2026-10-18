@@ -1,5 +1,58 @@
 # TASKS
 
+## 2026-10-18：財務グラフを最大20期へ拡張
+
+- 既存12社の公式年報・有報・SEC提出資料・公式通期発表から218期を掲載。9社は20期、キオクシア7期、SK hynix17期、Samsung DS14期。古い期を未掲載とする理由、掲載期間、原通貨・単位・基準・範囲を明記。前身企業の別範囲やダミー値で補完していない。既存直近5期の数値も再照合し、丸め・修正表示との整合を確認。数値ごとの出典・箇所を保持し、KLAの算出式と費用の二重控除防止も照合した。各社の範囲・採用資料・不足と境界は[収集記録](docs/earnings-long-history-audit.md)を参照。
+- watch・企業別・比較に5／10／20年、既定10年を追加。最新期末から期間を抽出し、欠測を古い期で穴埋めしない。指標・テーマを変えても期間を維持し、カードのグラフ・掲載年月・読み上げ説明を同時更新。実際の期末日と独立したカード縦軸を維持し、企業別の棒グラフの目盛りを間引いた。欠測・赤字・ゼロ基準線・部門・算出値の扱いを維持。
+- 共通期間型と不正値の10年への復元を実装。watchはhashのyears、企業別・比較はクエリyearsで引き継ぐ。企業指定・テーマ・指標・旧ニュースアンカー・#annual-history・戻る／進むを保持。canonicalは基底URL、期間指定付き企業別と条件付き比較はnoindex/follow。比較指数は選択期間内で直近期につながる比較可能区間の最古期=100とし、起点を明記。会計基準・範囲・未照合の修正表示・確認した買収／売却の境界は接続しない。
+- 「長期推移を読む」へ各社最大3件の背景注記を追加。対象期・会社説明／編集上の解釈・原資料と箇所・確認日を保持。AI・HBM・データセンターに加え、在庫・価格・費用管理・買収・再編を扱い、全社増収をAI需要の寄与額とはみなさない。既存四半期の補足にはその対象期と元の確認日を保持。
+- 期間操作はwatchでchip_pulse_filter_changeのdimension=period、企業別・比較でearnings_history_actionのaction=period_select。選択yearsを付け、cards-v2／annual-v2へ更新。初期表示・履歴復元・同じ指標／期間の再押下は操作イベントを送らない。既存リンク・原資料の計測、年次と最新四半期の分離、日次固定6ファイル・commit/push権限は維持。新規依存・閲覧時API・DBは追加していない。
+
+検証と実行コマンド（対象検証はPython subprocessのtimeout=175付き）：
+
+- `node --test tests/unit/earnings-history.cjs tests/unit/watch-explorer.cjs`：21件中20件成功、1件失敗。期間抽出、短い履歴、欠測・赤字・ゼロ除算、指数、異通貨、テーマ×指標×期間、hashと期間引継ぎ、実コンポーネントの操作／履歴復元とイベント重複防止、12社のSSR・出典・リンク、社数制限、既存四半期・metadataを確認。失敗は範囲変更／期間欠落のテスト用日付を別の期末と重複させたことで、起点の検索が別行を拾ったもの。fixtureを重複しない日付と同じperiod参照の検索へ修正。再実行禁止に従い修正後の完走は未確認。後半で追加した買収境界・注記も単体テストの再実行対象にしていない。
+- `npm run earnings:history:check`：成功（12社218期）。買収境界・背景注記を追記したため、その実データ変更後に同コマンドをもう1回実行し成功。失敗した検証の再試行ではない。
+- `npm run dev -- --webpack --hostname 127.0.0.1 --port 3100`：画面確認時のみ権限昇格で起動、175秒のプロセス監視付き。主検証後にプロセス群を停止し、その後型チェックを実施。
+- browser-actスキルの専用ChromeセッションとCDPを使用。`node /tmp/watch-long-history-qa.cjs`：成功。1280・1024pxは4列、768pxは3列、390・320pxは2列。12カードは全幅で220px、図50px、文字・単位のはみ出しとページ横スクロールなし。5幅で10年初期・20／5年・指標・テーマ保持・戻る／進むを確認。企業hashの強調、キーボードEnter、カード→企業別→比較への20年引継ぎ、数値表20／40／10行、比較から戻る操作、最新四半期切替、キオクシア7期、旧ニュースアンカーを確認。pageerrorは0。結果は`/tmp/watch-long-history-qa.json`。`tests/e2e/*.spec.ts`を更新したが、Playwrightテストランナーは未実行。
+- `npm run typecheck`：dev停止後、175秒上限・最大1回で成功。型チェック後の編集はデータの境界・注記と公開文書・作業記録のみ。追加の型チェックは行っていない。
+- PC・スマホの冒頭画像を`/tmp/watch-long-history-desktop.png`・`/tmp/watch-long-history-mobile.png`へ保存して目視確認。画像と5幅の主検証は買収境界・背景注記の最終追記前。最終データの追加撮影用にdevと別の専用セッションを起動し、`node /tmp/watch-long-final-screens.cjs`を175秒上限で実行したが、SVGのpolylineをpathと誤指定した追加assertでタイムアウトし、画像保存前に停止。期間20年・20点の表示までは通過。再撮影は繰り返しておらず、最終境界追記後の画像は未取得。devプロセス群と専用セッションは停止・閉鎖済み。BrowserAct手順の再読込はsandboxのログ書込権限エラー後、権限昇格で取得した（画面検証の再実行ではない）。
+- 公式資料の取得・表抽出に一時PythonスクリプトとPDFスキルを使用。調査資料は非公開作業領域、PDF抽出用ライブラリは/tmpのみへ置き、package.json・ロックファイルを変更していない。
+- `git diff --check`成功。src全体・変更公開文書・本記録を公開禁止辞書と部分一致照合し該当なし。差分を点検し、非公開の取材・オファー・分析数値を転載していない。変更28ファイルを下記へ列挙。既存四半期・予定データ、日次運用、package.json・ロックファイルは変更なし。一時CDP接続情報は削除済み。
+- build・lint・commit・pushは未実施。本番反映・GA4属性登録／イベント受信・28日観測開始は未確認。
+
+変更ファイル：
+
+- `TASKS.md`
+- `docs/PRD.md`
+- `docs/architecture.md`
+- `docs/conversion-architecture.md`
+- `docs/documentation-map.md`
+- `docs/earnings-ir-operations.md`
+- `docs/earnings-long-history-audit.md`
+- `docs/semiconductor-watch-editorial.md`
+- `scripts/earnings-history-check.cjs`
+- `src/app/(ja)/semiconductor-watch/earnings/[companyId]/page.tsx`
+- `src/app/(ja)/semiconductor-watch/earnings/compare/page.tsx`
+- `src/app/(ja)/semiconductor-watch/page.tsx`
+- `src/components/chip-pulse/WatchExplorer.module.css`
+- `src/components/chip-pulse/WatchExplorer.tsx`
+- `src/components/chip-pulse/WatchFinancialCard.tsx`
+- `src/components/earnings/AnnualCharts.tsx`
+- `src/components/earnings/AnnualCompanyExplorer.tsx`
+- `src/components/earnings/AnnualCompare.tsx`
+- `src/components/earnings/AnnualHistory.tsx`
+- `src/components/earnings/AnnualPeriodControl.tsx`
+- `src/components/earnings/EarningsAnalysisCompare.tsx`
+- `src/data/earnings-history.json`
+- `src/lib/earnings-history-math.ts`
+- `src/lib/watch-explorer.ts`
+- `tests/e2e/chip-pulse.spec.ts`
+- `tests/e2e/earnings.spec.ts`
+- `tests/unit/earnings-history.cjs`
+- `tests/unit/watch-explorer.cjs`
+
+推奨コミット：`feat: extend financial histories to twenty years`
+
 ## 2026-10-18：業界ウォッチを12社の財務カードへ再設計
 
 - 冒頭を年次5年の12社カードへ置換。初期は売上高、営業利益・営業利益率を一括切替し、原通貨の十億単位・約50px高の青いSVG・実際の期末年月・連結／部門範囲を表示。企業間の規模比較ではないと明記。欠測を補完せず、比較不能な境界を接続しない。赤字のゼロ線、Samsung DS部門、KLA営業利益の算出値を維持。初期HTMLへ対応数値表を出力し、詳細の出典・確認日・計算式へ接続する。

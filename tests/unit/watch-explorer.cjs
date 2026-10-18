@@ -46,20 +46,20 @@ test('company projection preserves raw values, sources, periods, scope and segme
 });
 
 test('hash restores all metric/theme combinations; highlights only explicitly requested valid companies', () => {
-  for (const topic of watchTopics) for (const metric of watchMetrics) {
-    const selection = readWatchSelection(`#theme=${topic.id}&metric=${metric.id}&company=unknown`, companies);
+  for (const topic of watchTopics) for (const metric of watchMetrics) for (const years of [5,10,20]) {
+    const selection = readWatchSelection(`#theme=${topic.id}&metric=${metric.id}&company=unknown&years=${years}`, companies);
     assert.equal(selection.company, null);
-    assert.equal(selection.metric, metric.id);
+    assert.equal(selection.metric, metric.id); assert.equal(selection.years, years);
     assert.deepEqual(readWatchSelection(watchSelectionHash(selection), companies), selection);
   }
-  assert.deepEqual(readWatchSelection('#theme=equipment&company=micron', companies), { topic: 'equipment', company: null, metric: 'revenue' });
-  assert.deepEqual(readWatchSelection('#theme=unknown&company=micron&metric=bad', companies), { topic: 'all', company: 'micron', metric: 'revenue' });
+  assert.deepEqual(readWatchSelection('#theme=equipment&company=micron', companies), { topic: 'equipment', company: null, metric: 'revenue', years: 10 });
+  assert.deepEqual(readWatchSelection('#theme=unknown&company=micron&metric=bad', companies), { topic: 'all', company: 'micron', metric: 'revenue', years: 10 });
   assert.equal(readWatchSelection('#signal-old-article', companies).company, null);
   assert.equal(readWatchSelection('', companies).metric, 'revenue');
 });
 
 test('three annual projections preserve missing latest, losses and incomparable boundaries', () => {
-  const series = copy(annualHistories[0]);
+  const series = { ...copy(annualHistories[0]), periods: copy(annualHistories[0].periods.slice(-5)) };
   for (const metric of watchMetrics) assert.equal(watchFinancials(series, metric.id).points.length, 5);
   assert.equal(watchFinancials(series, 'revenue').latest, series.periods.at(-1).revenue.value);
   const last = series.periods.at(-1);
@@ -141,7 +141,7 @@ test('no-JS HTML exposes every company value and source, article links, unique l
   }
   assert.equal((html.match(/class="financialCard"/g) ?? []).length, 12);
   assert.equal((html.match(/data-selected="true"/g) ?? []).length, 0);
-  for (const company of companies) assert.ok(html.includes(`${company.href}#annual-history`));
+  for (const company of companies) assert.ok(html.includes(`${company.href}?years=10#annual-history`));
   assert.match(html, /DS部門/); assert.match(html, /年次売上高/);
   const complete = renderToStaticMarkup(React.createElement(Page));
   const ids = [...complete.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
@@ -192,8 +192,9 @@ function controller(initialHash = '', mobile = false, props = { companies, news,
   const buttons = () => nodes(render(), node => node.type === 'button');
   const theme = id => buttons().find(node => node.props.children === watchTopics.find(topic => topic.id === id)?.label);
   const metric = id => buttons().find(node => node.props.children === watchMetrics.find(item => item.id === id)?.label);
+  const period = years => buttons().find(node => Array.isArray(node.props.children) && node.props.children[0] === years && node.props.children[1] === '年');
   const card = id => nodes(render(), node => node.props.company?.id === id)[0];
-  return { render, theme, metric, card, events, window, listeners,
+  return { render, theme, metric, period, card, events, window, listeners,
     back(hash) { window.location.hash = hash; listeners.get('popstate')(); render(); },
     stats: () => ({ focused, scrolled, opened }), cleanup: () => effects.forEach(effect => effect?.cleanup?.()),
   };
@@ -219,7 +220,7 @@ test('metric selection persists across themes and history without duplicate even
   assert.equal(ui.events.length, before);
   ui.back('#signal-existing'); assert.equal(ui.stats().opened, true);
   assert.equal(ui.card('tsmc').props.selected, false);
-  assert.ok(ui.events.every(([, properties]) => properties.ui_version === 'cards-v1'));
+  assert.ok(ui.events.every(([, properties]) => properties.ui_version === 'cards-v2'));
   assert.equal(ui.events[0][0], 'chip_pulse_metric_select');
   ui.cleanup(); assert.equal(ui.listeners.size, 0);
 });
@@ -231,7 +232,7 @@ test('server-rendered card metrics, losses, missing latest and calculated scope 
   for (const metric of watchMetrics) {
     const html = renderToStaticMarkup(React.createElement(WatchFinancialCard, { company, series, metric: metric.id, selected: false }));
     assert.match(html, /<table/); assert.match(html, /<title/);
-    assert.ok(html.includes(company.href + '#annual-history'));
+    assert.ok(html.includes(company.href + '?years=10#annual-history'));
     if (metric.id !== 'revenue') assert.match(html, /営業利益は算出値/);
   }
   series.periods.at(-1).operatingIncome.value = -100;
@@ -247,12 +248,26 @@ test('card links keep existing read analytics and use document navigation to pre
   const filename = path.resolve('src/components/chip-pulse/MediaLinks.tsx');
   const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } }).outputText;
   vm.runInNewContext(code, { exports, require(id) { return id === '@/lib/analytics' ? { trackEvent: (...args) => events.push(args) } : require(id); } });
-  const link = exports.MediaLink({ href: '/semiconductor-watch/earnings/asml#annual-history', articleId: 'asml', action: 'article', destination: 'earnings', placement: 'explore', uiVersion: 'cards-v1', reloadDocument: true, children: 'ASML' });
+  const link = exports.MediaLink({ href: '/semiconductor-watch/earnings/asml#annual-history', articleId: 'asml', action: 'article', destination: 'earnings', placement: 'explore', uiVersion: 'cards-v2', reloadDocument: true, children: 'ASML' });
   assert.equal(link.type, 'a'); assert.equal(events.length, 0);
   link.props.onClick();
   assert.equal(events.length, 1);
   assert.equal(events[0][0], 'chip_pulse_read');
-  assert.equal(events[0][1].ui_version, 'cards-v1');
+  assert.equal(events[0][1].ui_version, 'cards-v2');
   assert.equal(events[0][1].destination_type, 'earnings');
   assert.equal(events[0][1].article_id, 'asml');
+});
+
+
+test('watch period selection retains metric/theme, card URL years and history without duplicate actions', () => {
+  const ui = controller(); ui.render();
+  assert.equal(ui.card('asml').props.years, 10);
+  ui.period(20).props.onClick(); ui.render(); assert.equal(ui.events.length, 1);
+  assert.equal(ui.events[0][1].dimension, 'period'); assert.equal(ui.events[0][1].years, 20);
+  ui.period(20).props.onClick(); ui.render(); assert.equal(ui.events.length, 1);
+  ui.metric('operating_income').props.onClick(); ui.theme('equipment').props.onClick(); ui.render();
+  assert.equal(ui.card('asml').props.years, 20); assert.equal(ui.card('asml').props.metric, 'operating_income');
+  assert.match(ui.window.location.hash, /years=20/);
+  const count = ui.events.length; ui.back('#theme=equipment&metric=operating_income&years=5');
+  assert.equal(ui.card('asml').props.years, 5); assert.equal(ui.events.length, count); ui.cleanup();
 });

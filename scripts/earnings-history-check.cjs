@@ -9,7 +9,7 @@ function validSource(source) {
   if (!source || !hasText(source.locator)) return false;
   try {
     const url = new URL(source.url);
-    return url.protocol === 'https:' && ['sec.gov', 'asml.com', 'appliedmaterials.com', 'lamresearch.com', 'kla.com', 'tel.com', 'tel.co.jp', 'micron.com', 'kioxia-holdings.com', 'skhynix.com', 'samsung.com', 'nvidia.com', 'tsmc.com', 'intc.com'].some(host => url.hostname === host || url.hostname.endsWith(`.${host}`))
+    return url.protocol === 'https:' && ['sec.gov', 'asml.com', 'appliedmaterials.com', 'lamresearch.com', 'kla.com', 'tel.com', 'tel.co.jp', 'micron.com', 'kioxia-holdings.com', 'skhynix.com', 'samsung.com', 'nvidia.com', 'tsmc.com', 'intc.com', 'links.sgx.com'].some(host => url.hostname === host || url.hostname.endsWith(`.${host}`))
       && (!/\.pdf$/i.test(url.pathname) || (/page=\d+/.test(url.hash) && /p(?:age)?\.?\s*\d+/i.test(source.locator)));
   } catch { return false; }
 }
@@ -24,7 +24,11 @@ function validateHistory(data) {
     if (!release || release.segment !== series.segment || ids.has(series.companyId)) errors.push(`${prefix}: invalid/duplicate company or segment`);
     ids.add(series.companyId);
     if (!hasText(series.name) || !hasText(series.coverageNote) || !isDate(series.checkedAt) || series.checkedAt > data.updatedAt) errors.push(`${prefix}: missing coverage/verification metadata`);
-    if (!Array.isArray(series.periods) || series.periods.length !== 5) { errors.push(`${prefix}: exactly five annual periods required`); continue; }
+    if (!Array.isArray(series.periods) || series.periods.length < 1 || series.periods.length > 20) { errors.push(`${prefix}: one to twenty annual periods required`); continue; }
+    if (!Array.isArray(series.contextNotes) || series.contextNotes.length < 1 || series.contextNotes.length > 3) errors.push(`${prefix}: one to three sourced context notes required`);
+    for (const note of series.contextNotes ?? []) {
+      if (!hasText(note.period) || !hasText(note.text) || !["company", "editorial"].includes(note.kind) || !validSource(note.source) || !isDate(note.checkedAt) || note.checkedAt > data.updatedAt) errors.push(`${prefix}: invalid context note`);
+    }
     let previous;
     for (const period of series.periods) {
       const label = `${prefix}/${period.end}`;

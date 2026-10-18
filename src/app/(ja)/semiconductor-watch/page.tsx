@@ -13,10 +13,10 @@ import { annualHistories, annualHistoryUpdatedAt } from "@/lib/earnings-history"
 import styles from "@/components/chip-pulse/WatchExplorer.module.css";
 
 const title = "半導体業界ウォッチ｜12社の財務グラフ・ニュース・発表予定";
-const description = "主要半導体12社の年次5年を、小さなグラフで一覧。売上高・営業利益・営業利益率を切り替え、企業別分析、最新四半期の決算、ニュース・発表予定を確認できます。";
+const description = "主要半導体12社の最大20年の年次推移を、小さなグラフで一覧。売上高・営業利益・営業利益率を切り替え、企業別分析、最新四半期の決算、ニュース・発表予定を確認できます。";
 export const metadata: Metadata = { title, description, alternates: { canonical: "/semiconductor-watch" }, openGraph: { title, description, url: "/semiconductor-watch", type: "website" } };
 export const revalidate = 3600;
-const uiVersion = "cards-v1";
+const uiVersion = "cards-v2";
 
 export default function SemiconductorWatchPage() {
   const now = new Date().toISOString();

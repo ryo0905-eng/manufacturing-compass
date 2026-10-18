@@ -45,6 +45,7 @@
 | [`docs/semiconductor-watch-editorial.md`](./semiconductor-watch-editorial.md) | 業界ウォッチのテーマ探索、確認付き記事の掲載、初回供給記録、計測 | 画面・記事・編集運用を更新する時 |
 | [`docs/watch-daily-operations.md`](./watch-daily-operations.md) | 毎朝の原資料確認、固定データの反映権限、定期タスクの登録指示と稼働状態 | 日次実行・反映・復旧・観察を変更する時 |
 | [`docs/earnings-ir-operations.md`](./earnings-ir-operations.md) | 決算・IRの初期対象、出典、更新と訂正の手順 | 決算データや公開範囲を変更する時 |
+| [`docs/earnings-long-history-audit.md`](./earnings-long-history-audit.md) | 年次最大20期の収集範囲、出典、未取得と比較不能な境界 | 通期更新・訂正・掲載期間を変えた時 |
 | [`docs/conversion-architecture.md`](./conversion-architecture.md) | 現行導線と CTA の役割 | 主要導線や計測イベントを変えた時 |
 | [`docs/role-map-pilot.md`](./role-map-pilot.md) | 半導体職種マップの4職務群・根拠台帳・業務選択票・結果カード | 出典、対応付け、試用モデルを更新する時 |
 | [`docs/role-map-validation.md`](./role-map-validation.md) | 公開β版のイベント・問い合わせ・根拠レビューによる運用検証 | 継続・修正・停止、職務群の拡張を判断する時 |

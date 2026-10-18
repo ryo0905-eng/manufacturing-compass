@@ -23,15 +23,18 @@ export function AnnualAmountChart({ series, mini = false }: { series: AnnualSeri
   const y = (value: number) => top + (domain.max - value) / (domain.max - domain.min) * (height - top - bottom);
   const slot = (width - left - right) / series.periods.length;
   const barWidth = Math.min(32, slot / (keys.length + 1.5));
+  const start = Date.parse(first.end);
+  const span = Date.parse(series.periods.at(-1)!.end) - start || 1;
+  const x = (date: string) => left + slot / 2 + (Date.parse(date) - start) / span * (width - left - right - slot);
   return <figure className={styles.chart}>
-    <figcaption>{mini ? "年次5年の売上高" : "売上高・営業利益"} <small>（{annualUnit(first)}）</small></figcaption>
+    <figcaption>{mini ? "年次の売上高" : "売上高・営業利益"} <small>（{annualUnit(first)}）</small></figcaption>
     <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={id}>
       <title id={id}>{`${series.name}の${mini ? "売上高" : "売上高と営業利益"}。通期実績、${first.label}から${series.periods.at(-1)?.label}。数値と出典は表で確認できます。`}</title>
       {[domain.min, (domain.min + domain.max) / 2, domain.max].map(value => <g key={value}><line className={styles.grid} x1={left} x2={width - right} y1={y(value)} y2={y(value)} /><text x={left - 8} y={y(value) + 4} textAnchor="end">{compactNumber(value)}</text></g>)}
       <line className={styles.zero} x1={left} x2={width - right} y1={y(0)} y2={y(0)} />
       {series.periods.map((period, index) => <g key={period.end}>
-        {keys.map((key, keyIndex) => { const value = reportedValue(period[key]); return value === null ? null : <rect key={key} x={left + slot * (index + 0.5) + (keyIndex - keys.length / 2) * barWidth} y={Math.min(y(value), y(0))} width={barWidth - 3} height={value === 0 ? 1 : Math.abs(y(value) - y(0))} rx={2} fill={annualColors[keyIndex]}><title>{`${period.label}：${key === "revenue" ? "売上高" : "営業利益"} ${annualNumber(value)} ${annualUnit(period)}`}</title></rect>; })}
-        <text x={left + slot * (index + 0.5)} y={height - 12} textAnchor="middle">{period.end.slice(0, 7)}</text>
+        {keys.map((key, keyIndex) => { const value = reportedValue(period[key]); return value === null ? null : <rect key={key} x={x(period.end) + (keyIndex - keys.length / 2) * barWidth} y={Math.min(y(value), y(0))} width={barWidth - 3} height={value === 0 ? 1 : Math.abs(y(value) - y(0))} rx={2} fill={annualColors[keyIndex]}><title>{`${period.label}：${key === "revenue" ? "売上高" : "営業利益"} ${annualNumber(value)} ${annualUnit(period)}`}</title></rect>; })}
+        {(index === 0 || index === series.periods.length - 1 || index % Math.max(1, Math.ceil(series.periods.length / 4)) === 0) ? <text x={x(period.end)} y={height - 12} textAnchor="middle">{period.end.slice(0, 7)}</text> : null}
       </g>)}
     </svg>
     {!mini ? <div className={styles.legend}>{keys.map((key, index) => <span key={key}><i className={styles.key} style={{ background: annualColors[index] }} aria-hidden="true" />{key === "revenue" ? "売上高" : "営業利益"}</span>)}</div> : null}
@@ -48,7 +51,7 @@ export function AnnualLineChart({ series, metric }: { series: AnnualSeries[]; me
   const x = (date: string) => left + (Date.parse(date) - start) / span * (width - left - right);
   const domain = annualDomain(all.flatMap(item => item.points.map(point => point.value)));
   const y = (value: number) => top + (domain.max - value) / (domain.max - domain.min) * (height - top - bottom);
-  const label = metric === "margin" ? "営業利益率（%）" : "売上高指数（各社の掲載最古期＝100）";
+  const label = metric === "margin" ? "営業利益率（%）" : "売上高指数（各社の比較可能区間の最古期＝100）";
   const ticks = [...new Set([dates[0], dates[Math.floor((dates.length - 1) / 2)], dates.at(-1)!])];
   return <figure className={styles.chart}>
     <figcaption>{label}</figcaption>

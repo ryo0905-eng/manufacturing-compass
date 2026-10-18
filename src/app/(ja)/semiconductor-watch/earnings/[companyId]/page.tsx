@@ -8,27 +8,30 @@ import { earningsBackground, earningsCompanyName, earningsCompanySlug, earningsF
 import { earningsFreshness, nextCompanyEvent, watchCalendar, watchEventDate } from "@/lib/watch-calendar";
 import { siteUrl } from "@/lib/format";
 import { getAnnualHistory } from "@/lib/earnings-history";
-import { AnnualCompanyAnalysis } from "@/components/earnings/AnnualHistory";
+import { AnnualCompanyExplorer } from "@/components/earnings/AnnualCompanyExplorer";
+import { readAnnualYears } from "@/lib/earnings-history-math";
 import styles from "@/components/earnings/Earnings.module.css";
 
 export const revalidate = 3600;
 
-type Props = { params: Promise<{ companyId: string }> };
+type Props = { params: Promise<{ companyId: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> };
 export function generateStaticParams() { return earningsReleases.map((release) => ({ companyId: release.companyId })); }
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { companyId } = await params;
+  const query = await searchParams ?? {};
   const release = getEarningsRelease(companyId);
   if (!release) return {};
   const name = earningsCompanyName(companyId);
-  return { title: `${name}の業績推移・決算分析｜Chip Pulse`, description: `${name}の売上高・営業利益・営業利益率の年次5年と、${release.period.label}の決算要点を公式資料から確認。`, alternates: { canonical: `/semiconductor-watch/earnings/${companyId}` }, openGraph: { title: `${name}の業績推移・決算分析`, type: "article", url: `/semiconductor-watch/earnings/${companyId}` } };
+  return { title: `${name}の業績推移・決算分析｜Chip Pulse`, description: `${name}の売上高・営業利益・営業利益率の最大20年の年次推移と、${release.period.label}の決算要点を公式資料から確認。`, robots: { index: query.years === undefined, follow: true }, alternates: { canonical: `/semiconductor-watch/earnings/${companyId}` }, openGraph: { title: `${name}の業績推移・決算分析`, type: "article", url: `/semiconductor-watch/earnings/${companyId}` } };
 }
 
 function EvidenceList({ release, items }: { release: EarningsRelease; items: EarningsStatement[] }) {
   return <ul className={styles.evidenceList}>{items.map((item) => { const href = earningsSourceHref(release, item.source); return <li key={item.text}>{item.text}{href ? <span><EarningsSourceLink href={href} companyId={release.companyId} documentId={item.source.documentId}>根拠：{item.source.locator} ↗</EarningsSourceLink></span> : null}</li>; })}</ul>;
 }
 
-export default async function EarningsDetailPage({ params }: Props) {
+export default async function EarningsDetailPage({ params, searchParams }: Props) {
   const { companyId } = await params;
+  const query = await searchParams ?? {};
   const release = getEarningsRelease(companyId);
   if (!release) notFound();
   const name = earningsCompanyName(companyId);
@@ -49,7 +52,7 @@ export default async function EarningsDetailPage({ params }: Props) {
       <aside className={styles.notice}><p>{freshness.text}{freshness.check?.checkedAt ? `（${freshness.check.checkedAt.slice(0, 10)}確認）` : ""}</p>{freshness.check?.latestSourceUrl && freshness.state === "pending" ? <EarningsSourceLink href={freshness.check.latestSourceUrl} companyId={companyId} documentId="latest">確認中の新しい原資料 ↗</EarningsSourceLink> : null}{freshness.check?.notice ? <p><EarningsSourceLink href={freshness.check.notice.sourceUrl} companyId={companyId} documentId="notice">{freshness.check.notice.text} ↗</EarningsSourceLink></p> : null}<p>次回決算：{calendar ? <EarningsSourceLink href={calendar.sourceUrl} companyId={companyId} documentId="calendar">{calendar.date && !nextEvent ? "予定日経過・結果確認中" : watchEventDate(calendar)} ↗</EarningsSourceLink> : "未確認"}</p></aside>
       <div className={styles.detailLayout}>
         <div>
-          {history ? <AnnualCompanyAnalysis series={history} /> : null}
+          {history ? <AnnualCompanyExplorer series={history} initialYears={readAnnualYears(query.years)} /> : null}
           <section className={styles.brief}><p className={styles.eyebrow}>THREE POINTS</p><h2>今回の決算で押さえること</h2><EvidenceList release={release} items={release.highlights} /></section>
           <p className={styles.detailCareerLink}><EarningsInternalLink href={`/companies/${earningsCompanySlug(companyId)}#career-prep`} companyId={companyId} destination="company_career_prep">この会社の事業・仕事内容とキャリア準備を見る →</EarningsInternalLink></p>
           <section className={styles.section}><p className={styles.eyebrow}>RESULTS</p><h2>主要数値</h2><p className={styles.fine}>数値範囲：{earningsFinancialScope(release)}。{release.period.kind === "quarter" ? "単四半期" : release.period.kind === "cumulative" ? "累計" : "通期"}実績。{release.accountingStandard}、{release.currency}建て、原資料単位は{earningsUnitName(release)}。会社予想ではありません。</p><dl className={styles.detailMetrics}>{(["revenue", "operatingIncome", "revenueYoY"] as const).map((key) => { const metric = release.metrics[key]; const label = key === "revenue" ? "売上高" : key === "operatingIncome" ? "営業利益" : "売上高・前年同期比"; const href = metric.status === "reported" ? earningsSourceHref(release, metric.source) : null; return <div key={key}><dt>{label}</dt><dd>{earningsMetricText(metric, release, key === "revenueYoY")}</dd><small>{metric.status === "reported" ? <>{metric.calculation ? `算出：${metric.calculation} · ` : ""}{href ? <EarningsSourceLink href={href} companyId={companyId} documentId={metric.source.documentId}>{metric.source.locator} ↗</EarningsSourceLink> : null}</> : metric.reason}</small></div>; })}</dl></section>
