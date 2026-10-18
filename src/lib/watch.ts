@@ -103,6 +103,8 @@ export function buildWatchCompanies(now: string, releases: EarningsRelease[] = e
       href: `/semiconductor-watch/earnings/${release.companyId}`, announcedAt: release.announcedAt,
       period: release.period.label, scope: earningsFinancialScope(release),
       periodKind: release.period.kind === "quarter" ? "単四半期" : release.period.kind === "cumulative" ? "累計" : "通期",
+      revenueLabel: earningsMetricText(release.metrics.revenue, release),
+      operatingIncomeLabel: earningsMetricText(release.metrics.operatingIncome, release),
       revenueYoY: metric.status === "reported" && Number.isFinite(metric.value) ? metric.value : null,
       metricLabel: metric.status === "reported" && !Number.isFinite(metric.value) ? "未取得" : earningsMetricText(metric, release, true),
       metricNote: metric.status === "reported" ? null : metric.reason,

@@ -1,5 +1,26 @@
 # TASKS
 
+## 2026-10-18：業界ウォッチを12社の財務カードへ再設計
+
+- 冒頭を年次5年の12社カードへ置換。初期は売上高、営業利益・営業利益率を一括切替し、原通貨の十億単位・約50px高の青いSVG・実際の期末年月・連結／部門範囲を表示。企業間の規模比較ではないと明記。欠測を補完せず、比較不能な境界を接続しない。赤字のゼロ線、Samsung DS部門、KLA営業利益の算出値を維持。初期HTMLへ対応数値表を出力し、詳細の出典・確認日・計算式へ接続する。
+- 最大1180px、1024px以上4列・768〜1023px3列・767px以下2列。カード220px・12px角丸・薄い罫線、企業名は省略せず折返し。PCのみ既存ロゴを48px幅で添え、強い影・初期アニメーションは追加していない。読み上げ用の表はクリップ用ラッパーに収め、表の最小内容幅による横はみ出しを修正。
+- カード全体から企業別`#annual-history`へ直接遷移。既存MediaLinkの計測を再利用し、カードのみ通常の文書遷移にして、Nextのhash履歴と詳細へのクライアント遷移の組合せで戻り先が古い指標になる問題を回避。大きな要点パネルと前年比棒グラフは削除。最新四半期の金額・前年比・対象期間・範囲・要点・原資料・確認状態・次回決算は下段の「最新四半期の決算一覧」へ保持し、その後にテーマニュース・発表予定を続ける。
+- WatchMetricとhashへ`revenue/operating_income/operating_margin`を追加。テーマ変更でも指標を保持。企業は明示された有効IDだけ強調し、未指定・テーマ対象外は強調なし。テーマ・指標・企業指定・旧ニュースアンカー・戻る／進むの復元を維持。指標変更は`chip_pulse_metric_select`、カード遷移は既存`chip_pulse_read`、トップの画面版は`cards-v1`。初期描画・履歴復元・同じ指標の再押下は操作イベントを送らない。
+- 年次データ・企業別分析・比較・日次固定6ファイルと更新権限は変更していない。PRD・architecture・編集仕様・計測文書とmetadataを更新。本番反映・イベント受信・28日観測開始は未確認。
+
+検証と実行コマンド：
+
+- `node --test tests/unit/watch-explorer.cjs tests/unit/earnings-history.cjs`：初回17件成功。四半期の金額表示・通常文書遷移の追加後に更新したテストを実行し18件成功。いずれも175秒上限。3指標、欠測・赤字・ゼロ除算・範囲変更、全テーマと指標の組合せ、hash・イベント重複防止、12社の初期HTMLとリンク先、既存企業別分析・比較・四半期・出典を確認。後続の数値表のクリップ用ラッパー変更はブラウザと型チェックで確認。
+- `npm run dev -- --webpack --hostname 127.0.0.1 --port 3100`：画面確認時のみ起動。初回sandboxのbind拒否後、権限昇格で起動。修正時に一度停止・再起動し、最後のサーバーは175秒の監視上限で停止済み。その後に型チェックを実施。ブラウザ専用セッションも閉じた。
+- browser-actスキルの`--version`・`get-skills core --skill-version 2.0.2`・専用`browser open`・`state/eval/get cdp-url`・`session close`を使用。CDPで同セッションの実Chromeを指定幅にして計測。1280px・1024pxは4列、768pxは3列、390px・320pxは2列を確認。12カードの高さ220px・図50px、文字・単位のはみ出しなし、ページ横スクロールなしを確認。PCとスマホの冒頭を`/tmp/watch-cards-desktop.png`・`/tmp/watch-cards-mobile.png`へ保存し目視確認。
+- 一時CDPスクリプト`node /tmp/watch-cards-qa.cjs`でPCの指標切替・テーマ保持・キーボードEnter・企業年次への遷移・戻る／進むを確認。企業詳細から戻る時のロード待ちがタイムアウトしたが、その時点のURLと表示テーマ・指標の一致は別途読み取り確認できた。一括の自動ブラウザ検証は成功扱いにしていない。
+- `node /tmp/watch-cards-layout.cjs`は1024pxのレイアウト確認後、切替直後の即時属性判定で停止。`node /tmp/watch-cards-remaining.cjs`は未確認だった768・390・320pxのレイアウト確認に成功。`node /tmp/watch-cards-anchors.cjs`はdev停止後の接続拒否で未実施。モバイル各幅の全操作、および企業指定・旧アンカー・四半期展開の実ブラウザ確認は未完了（対応する単体・SSR検証は成功）。失敗した検証は別設定で繰り返していない。`tests/e2e/chip-pulse.spec.ts`を新UIへ更新したがテストランナーは未実行。
+- `npm run typecheck`：175秒上限・最大1回で成功。`git diff --check`と公開禁止語・差分の点検で問題なし。公開差分へ非公開の取材・分析数値を転載していない。build・lint・commit・pushは未実施。
+
+変更ファイル：`src/app/(ja)/semiconductor-watch/page.tsx`、`src/components/chip-pulse/WatchExplorer.tsx`・`WatchExplorer.module.css`・`WatchFinancialCard.tsx`・`MediaLinks.tsx`、`src/lib/watch-explorer.ts`・`watch-financials.ts`・`watch.ts`、`tests/unit/watch-explorer.cjs`・`tests/e2e/chip-pulse.spec.ts`、`docs/PRD.md`・`architecture.md`・`semiconductor-watch-editorial.md`・`conversion-architecture.md`、本記録。
+
+推奨コミット：`feat: redesign semiconductor watch with compact financial cards`
+
 ## 2026-10-18：業界ウォッチへ年次5年の企業分析を追加
 
 - 既存12社×5期（60期間）の売上高・営業利益を公式IR・SECの原資料で照合し、`earnings-history.json`へ数値・期間・通貨・単位・範囲・会計基準・確認日・出典と該当箇所を記録。ASMLはUS GAAP、キオクシアはIFRS、SamsungはDS部門を維持。KLA営業利益は独立行がないため営業費用控除の式・入力値と「算出」を併記。資料の暫定・監査前・丸め条件を画面と更新手順に残した。

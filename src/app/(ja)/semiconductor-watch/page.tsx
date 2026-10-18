@@ -12,11 +12,11 @@ import { siteUrl } from "@/lib/format";
 import { annualHistories, annualHistoryUpdatedAt } from "@/lib/earnings-history";
 import styles from "@/components/chip-pulse/WatchExplorer.module.css";
 
-const title = "半導体業界ウォッチ｜企業の売上前年比・ニュース・発表予定";
-const description = "主要半導体企業の掲載決算を、売上前年比のグラフから探索。企業を選んで決算の要点、関連ニュース、次回発表を確認できます。";
+const title = "半導体業界ウォッチ｜12社の財務グラフ・ニュース・発表予定";
+const description = "主要半導体12社の年次5年を、小さなグラフで一覧。売上高・営業利益・営業利益率を切り替え、企業別分析、最新四半期の決算、ニュース・発表予定を確認できます。";
 export const metadata: Metadata = { title, description, alternates: { canonical: "/semiconductor-watch" }, openGraph: { title, description, url: "/semiconductor-watch", type: "website" } };
 export const revalidate = 3600;
-const uiVersion = "explorer-v2";
+const uiVersion = "cards-v1";
 
 export default function SemiconductorWatchPage() {
   const now = new Date().toISOString();
@@ -56,7 +56,7 @@ export default function SemiconductorWatchPage() {
       <details className={styles.disclosure}><summary>公式リンク・更新と出典</summary>
         <p>候補収集 {media.status.checkedAt ? `${newsDate(media.status.checkedAt, true)} JST` : "未実施"} · 原文確認待ち {unreviewed}件</p>
         <p>公式発表の原文・数値・対象期間を確認できた内容を掲載しています。収集日時、公表日、数値確認日、内容更新日はそれぞれ異なります。取得の成功は、原文の確認完了を意味しません。</p>
-        <p>グラフは各社の前年同期との比較です。企業間では対象期・事業範囲・会計基準が異なります。実績と会社見通し、工場の計画と稼働実績は区別しています。</p>
+        <p>グラフは各社の通期実績5期で、縦軸は企業ごとに異なります。企業間では通貨・対象期・事業範囲・会計基準が異なります。実績と会社見通し、工場の計画と稼働実績は区別しています。</p>
         <p>以下は本文の要約を掲載していない公式開示です。SECの日付は提出の受理日で、企業発表日とは異なる場合があります。</p>
         <ul>{media.updates.map(update => {
           const review = watchCalendar.reviews.find(entry => entry.id === update.id && entry.sourceUrl === update.sourceUrl);

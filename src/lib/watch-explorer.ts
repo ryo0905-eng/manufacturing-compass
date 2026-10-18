@@ -1,13 +1,15 @@
 import { inWatchWindow, readWatchHash, type WatchItem, type WatchTopic } from "./watch-types";
+import { watchMetrics, type WatchMetric } from "./watch-financials";
 
 export type WatchCompany = {
   id: string; anchorId: string; name: string; segment: string; segmentLabel: string;
   topics: WatchTopic[]; href: string; announcedAt: string; period: string; periodKind: string; scope: string;
-  revenueYoY: number | null; metricLabel: string; metricNote: string | null; sourceHref: string | null;
+  revenueLabel: string; operatingIncomeLabel: string; revenueYoY: number | null; metricLabel: string; metricNote: string | null; sourceHref: string | null;
   checkedAt: string; summary: string; freshness: { state: string; text: string };
   nextEvent: { label: string; href: string } | null;
 };
-export type WatchSelection = { topic: WatchTopic | "all"; company: string | null };
+export type { WatchMetric } from "./watch-financials";
+export type WatchSelection = { topic: WatchTopic | "all"; company: string | null; metric: WatchMetric };
 
 export function companiesForTopic(companies: WatchCompany[], topic: WatchSelection["topic"]) {
   return companies.filter(company => topic === "all" || company.topics.includes(topic));
@@ -19,15 +21,18 @@ export function defaultWatchCompany(companies: WatchCompany[]) {
 
 export function readWatchSelection(hash: string, companies: WatchCompany[]): WatchSelection {
   const topic = readWatchHash(hash);
-  const requested = new URLSearchParams(hash.replace(/^#/, "")).get("company");
+  const params = new URLSearchParams(hash.replace(/^#/, ""));
+  const requested = params.get("company");
+  const metric = watchMetrics.find(item => item.id === params.get("metric"))?.id ?? "revenue";
   const visible = companiesForTopic(companies, topic);
-  return { topic, company: visible.some(company => company.id === requested) ? requested : defaultWatchCompany(visible) };
+  return { topic, metric, company: visible.some(company => company.id === requested) ? requested : null };
 }
 
 export function watchSelectionHash(selection: WatchSelection) {
   const params = new URLSearchParams();
   if (selection.topic !== "all") params.set("theme", selection.topic);
   if (selection.company) params.set("company", selection.company);
+  if (selection.metric !== "revenue") params.set("metric", selection.metric);
   return params.size ? `#${params}` : "#explore";
 }
 
