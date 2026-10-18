@@ -1,5 +1,30 @@
 # TASKS
 
+## 2026-10-18：業界ウォッチを小型の成長率・利益率カードへ変更
+
+- 一覧の指標を「売上の伸び」（通期売上前年比）と「営業利益率」に整理。初期は売上の伸び・10年、5／10／20年を維持。金額の長期推移と出典は既存の企業詳細に保持し、企業別分析・比較ページ・年次データ・日次固定6ファイルは変更していない。
+- カードは最小180px高・小グラフ36px高・ロゴなし。1280px以上6列、1024〜1279px4列、768〜1023px3列、767px以下2列。企業名・範囲・欠測理由を省略せず、長い場合は高さを伸ばす。共通縦軸・0%破線・各社の決算期／範囲の違いを説明する。
+- 前年比は期間切出し前の実績から算出し、最初の表示年も期間外の前年を利用。前年欠測・前年売上ゼロ以下・比較不能な境界では算出せず、直近期の欠測を過去値で代用しない。共通軸は指標・期間ごとに全12社から求め、テーマ変更で変えず極端な値を切らない。初期HTMLの数値表に元売上・前年期末日／前年売上・算出不可理由を保持。
+- テーマ・期間・企業強調・履歴復元・企業別年次への期間引継ぎ・通常文書遷移と既存イベントを維持。指標IDはrevenue／operating_margin、旧operating_incomeはrevenueへ復元。Samsung DS部門・KLA営業利益率の元になる営業利益の算出注記を維持。metadata・PRD・構成・画面仕様・計測文書を更新。
+
+検証と実行コマンド：
+
+- `node --test tests/unit/watch-explorer.cjs tests/unit/earnings-history.cjs`：Python subprocessの175秒上限付きで1回実行、24件すべて成功。前年比・減収・ゼロ売上・前年欠測・比較不能な変更・期間外の前年参照・共通軸・極端値・履歴復元・イベント重複防止・SSR数値表・企業詳細／比較の維持を確認。
+- `npm run typecheck`：同じく175秒上限付きで最大1回実行し成功。
+- `git diff --check`・公開禁止語と差分の点検：成功。公開差分に非公開の取材・個人情報を含めていない。
+- E2E仕様を6／4／3／2列と2指標へ更新したが、テストランナー・実ブラウザ・実端末では未確認。dev・build・lint・ブラウザ操作・commit・pushは未実施。本番反映・GA4受信も未確認。
+
+変更ファイル：
+
+- `src/app/(ja)/semiconductor-watch/page.tsx`
+- `src/components/chip-pulse/WatchExplorer.tsx`・`WatchExplorer.module.css`・`WatchFinancialCard.tsx`
+- `src/lib/watch-financials.ts`
+- `tests/unit/watch-explorer.cjs`・`tests/e2e/chip-pulse.spec.ts`
+- `docs/PRD.md`・`docs/architecture.md`・`docs/semiconductor-watch-editorial.md`・`docs/conversion-architecture.md`
+- `TASKS.md`
+
+推奨コミット：`feat: show watch growth and margins in compact cards`
+
 ## 2026-10-18：財務グラフを最大20期へ拡張
 
 - 既存12社の公式年報・有報・SEC提出資料・公式通期発表から218期を掲載。9社は20期、キオクシア7期、SK hynix17期、Samsung DS14期。古い期を未掲載とする理由、掲載期間、原通貨・単位・基準・範囲を明記。前身企業の別範囲やダミー値で補完していない。既存直近5期の数値も再照合し、丸め・修正表示との整合を確認。数値ごとの出典・箇所を保持し、KLAの算出式と費用の二重控除防止も照合した。各社の範囲・採用資料・不足と境界は[収集記録](docs/earnings-long-history-audit.md)を参照。

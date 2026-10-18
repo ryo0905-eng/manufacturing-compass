@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { trackEvent } from "@/lib/analytics";
 import { annualWindow, type AnnualSeries } from "@/lib/earnings-history-math";
 import { WatchFinancialCard } from "./WatchFinancialCard";
-import { watchMetrics } from "@/lib/watch-financials";
+import { watchFinancialDomain, watchMetrics } from "@/lib/watch-financials";
 import { watchDate, watchTopics, type WatchItem } from "@/lib/watch-types";
 import {
   companiesForTopic, readWatchSelection, watchNewsForTopic, watchSelectionHash,
@@ -21,6 +21,8 @@ export function WatchExplorer({ companies, news, now, histories = [], children }
   const [expanded, setExpanded] = useState(false);
   const visible = companiesForTopic(companies, selection.topic);
   const articles = watchNewsForTopic(news, selection.topic, now);
+  const domain = watchFinancialDomain(histories.filter(series => companies.some(company => company.id === series.companyId)), selection.metric, selection.years);
+  const metric = watchMetrics.find(item => item.id === selection.metric)!;
 
   useEffect(() => {
     const restore = () => {
@@ -74,10 +76,10 @@ export function WatchExplorer({ companies, news, now, histories = [], children }
       <div className={styles.sectionHead}><div><h2 id="watch-chart-title">企業の業績を、ひと目で</h2><p>年次{selection.years}年 · 気になる企業から詳しく見る</p></div><span aria-live="polite">{visible.length}社</span></div>
       <div className={styles.controlBar}><div className={styles.metrics} role="group" aria-label="財務指標を選ぶ">{watchMetrics.map(metric => <button type="button" key={metric.id} aria-pressed={selection.metric === metric.id} aria-controls="watch-chart" onClick={() => select({ ...selection, metric: metric.id }, "metric")}>{metric.label}</button>)}</div>
       <div className={styles.metrics} role="group" aria-label="掲載期間を選ぶ">{([5, 10, 20] as const).map(years => <button type="button" key={years} aria-pressed={selection.years === years} aria-controls="watch-chart" onClick={() => select({ ...selection, years }, "period")}>{years}年</button>)}</div></div>
-      <p className={styles.chartNote}>原通貨・各社ごとの縦軸です。グラフの高さは企業間の規模比較ではありません。</p>
-      <p className={styles.srOnly} role="status">{watchMetrics.find(metric => metric.id === selection.metric)!.label}を{visible.length}社に表示（最大{selection.years}年）</p>
+      <p className={styles.chartNote}>{metric.chartLabel}（%）の推移。縦軸は全12社で共通、破線は0%です。通期実績の比較であり、各社で決算期・対象範囲が異なります。金額・出典は企業詳細へ。</p>
+      <p className={styles.srOnly} role="status">{metric.chartLabel}を{visible.length}社に表示（最大{selection.years}年）</p>
       <div id="watch-chart">
-        {visible.length ? <ul className={styles.financialGrid} aria-label={`企業別の年次${watchMetrics.find(metric => metric.id === selection.metric)!.label}`}>{visible.map(company => <WatchFinancialCard key={company.id} company={company} series={histories.find(series => series.companyId === company.id)} years={selection.years} metric={selection.metric} selected={selection.company === company.id} />)}</ul>
+        {visible.length ? <ul className={styles.financialGrid} aria-label={`企業別の年次${metric.chartLabel}`}>{visible.map(company => <WatchFinancialCard key={company.id} company={company} series={histories.find(series => series.companyId === company.id)} years={selection.years} metric={selection.metric} domain={domain} selected={selection.company === company.id} />)}</ul>
           : <div className={styles.empty}><p>このテーマの掲載決算はありません。</p><button type="button" onClick={() => selectTheme("all")}>すべての企業へ戻る</button></div>}
       </div>
       <details className={styles.disclosure}><summary>掲載期間が短い企業・比較の注意</summary><ul>{histories.filter(series => visible.some(company => company.id === series.companyId)).map(series => <li key={series.companyId}><strong>{series.name}：{annualWindow(series, selection.years).periods.length}期掲載（最大{selection.years}年）</strong><p>{series.coverageNote}</p></li>)}</ul></details>

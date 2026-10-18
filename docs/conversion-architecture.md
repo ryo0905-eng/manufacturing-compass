@@ -466,7 +466,7 @@ GA4の分析には `product_id`・`retailer` をイベントスコープで用�
 
 ## 業界ウォッチの企業探索（2026-10-18）
 
-トップを`cards-v2`で識別する。テーマ変更は`chip_pulse_filter_change`の`dimension=theme`、期間変更は同じイベントの`dimension=period`・`value=5/10/20`。両方に数値の`years`と`result_count`（対象企業数）を付ける。指標変更は`chip_pulse_metric_select`に`metric=revenue/operating_income/operating_margin`・`years`・`ui_version=cards-v2`。初期表示・hash履歴復元・同じ指標／期間の再押下では操作イベントを送らない。
+トップを`cards-v2`で識別する。テーマ変更は`chip_pulse_filter_change`の`dimension=theme`、期間変更は同じイベントの`dimension=period`・`value=5/10/20`。両方に数値の`years`と`result_count`（対象企業数）を付ける。指標変更は`chip_pulse_metric_select`に`metric=revenue/operating_margin`・`years`・`ui_version=cards-v2`。2026-10-18の小型化改訂からrevenueは「売上の伸び」（通期売上前年比）を意味し、営業利益単独の選択は廃止。旧hashのoperating_incomeはrevenueとして復元する。初期表示・hash履歴復元・同じ指標／期間の再押下では操作イベントを送らない。
 
 カード遷移は既存`chip_pulse_read`の`destination_type=earnings`・`placement=explore`・固定企業IDと`cards-v2`を用い、企業別`?years=…#annual-history`へ接続する。ニュース・予定の既存destination_typeとplacementを維持。原資料・詳細の既存計測は継続し、独自IDは追加しない。
 

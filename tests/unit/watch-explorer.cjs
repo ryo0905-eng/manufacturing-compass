@@ -20,11 +20,23 @@ const { companiesForTopic, defaultWatchCompany, readWatchSelection, watchSelecti
 const { WatchExplorer } = require('../../src/components/chip-pulse/WatchExplorer.tsx');
 const Page = require('../../src/app/(ja)/semiconductor-watch/page.tsx').default;
 const { annualHistories } = require('../../src/lib/earnings-history.ts');
-const { watchFinancials, watchMetrics } = require('../../src/lib/watch-financials.ts');
+const { watchFinancials, watchFinancialDomain, watchMetrics } = require('../../src/lib/watch-financials.ts');
 const now = '2026-10-17T00:00:00Z';
 const companies = buildWatchCompanies(now);
 const news = buildWatchNews();
 const copy = value => structuredClone(value);
+
+function growthSeries(values) {
+  const series = copy(annualHistories[0]);
+  const template = copy(series.periods.at(-1));
+  delete template.breakBefore;
+  template.currency = 'EUR'; template.unit = 'million';
+  series.periods = values.map((value, index) => ({ ...copy(template),
+    label: `${2019 + index}年通期`, start: `${2019 + index}-01-01`, end: `${2019 + index}-12-31`,
+    revenue: { ...template.revenue, value }, operatingIncome: { ...template.operatingIncome, value: value / 5 },
+  }));
+  return series;
+}
 
 test('company projection preserves raw values, sources, periods, scope and segment order', () => {
   assert.equal(companies.length, 12);
@@ -56,30 +68,84 @@ test('hash restores all metric/theme combinations; highlights only explicitly re
   assert.deepEqual(readWatchSelection('#theme=unknown&company=micron&metric=bad', companies), { topic: 'all', company: 'micron', metric: 'revenue', years: 10 });
   assert.equal(readWatchSelection('#signal-old-article', companies).company, null);
   assert.equal(readWatchSelection('', companies).metric, 'revenue');
+  assert.deepEqual(readWatchSelection('#theme=equipment&company=asml&metric=operating_income&years=20', companies), { topic: 'equipment', company: 'asml', metric: 'revenue', years: 20 });
+  assert.deepEqual(watchMetrics.map(metric => metric.id), ['revenue', 'operating_margin']);
 });
 
-test('three annual projections preserve missing latest, losses and incomparable boundaries', () => {
-  const series = { ...copy(annualHistories[0]), periods: copy(annualHistories[0].periods.slice(-5)) };
-  for (const metric of watchMetrics) assert.equal(watchFinancials(series, metric.id).points.length, 5);
-  assert.equal(watchFinancials(series, 'revenue').latest, series.periods.at(-1).revenue.value);
+test('annual growth uses the preceding year outside the window and preserves declines and missing latest', () => {
+  const series = growthSeries([100, 120, 150, 120, 180, 198]);
+  const data = watchFinancials(series, 'revenue', 5);
+  assert.equal(data.points.length, 5);
+  assert.equal(data.points[0].previousPeriod, series.periods[0]);
+  assert.ok(Math.abs(data.points[0].value - 20) < 1e-9);
+  assert.ok(Math.abs(data.points[2].value + 20) < 1e-9);
+  assert.equal(data.displayValue, '+10');
+  assert.equal(watchFinancials(series, 'revenue', 20).points[0].value, null);
+  assert.match(watchFinancials(series, 'revenue', 20).points[0].missingReason, /前年.*未取得/);
+  const decline = watchFinancials(growthSeries([100, 75]), 'revenue');
+  assert.equal(decline.latest, -25); assert.equal(decline.displayValue, '-25');
+  assert.equal(watchFinancials(growthSeries([100, 0]), 'revenue').latest, -100);
   const last = series.periods.at(-1);
   last.operatingIncome.value = -20;
-  assert.equal(watchFinancials(series, 'operating_income').latest, -20);
   assert.ok(watchFinancials(series, 'operating_margin').latest < 0);
-  assert.ok(watchFinancials(series, 'operating_income').domain.min < 0);
   last.revenue.value = 0;
   assert.equal(watchFinancials(series, 'operating_margin').latest, null);
+  last.revenue.value = 198;
+  last.operatingIncome = { status: 'unpublished', reason: '利益未公表' };
+  assert.match(watchFinancials(series, 'operating_margin').missingReason, /利益未公表/);
   last.revenue = { status: 'unretrieved', reason: '確認できない' };
   const missing = watchFinancials(series, 'revenue');
-  assert.equal(missing.latest, null); assert.equal(missing.displayValue, '未取得'); assert.equal(missing.missingReason, '確認できない');
-  series.periods[2].breakBefore = '部門変更';
-  assert.equal(watchFinancials(series, 'revenue').segments.length, 2);
-  delete series.periods[2].breakBefore;
-  series.periods[2].financialScope = '変更後';
-  assert.equal(watchFinancials(series, 'operating_income').segments.length, 3);
+  assert.equal(missing.latest, null); assert.equal(missing.displayValue, '算出不可'); assert.match(missing.missingReason, /確認できない/);
+  assert.equal(missing.points.length, 6, 'Missing latest must not pull in older observations');
+  assert.equal(watchFinancials(series, 'revenue', 5).points.length, 5);
   const kla = annualHistories.find(item => item.companyId === 'kla');
-  assert.equal(watchFinancials(kla, 'operating_income').calculated, true);
   assert.equal(watchFinancials(kla, 'operating_margin').calculated, true);
+  assert.equal(watchFinancials(kla, 'revenue').calculated, false);
+});
+
+test('growth excludes invalid prior revenue and incomparable years without bridging gaps', () => {
+  for (const previous of [0, -100]) {
+    const data = watchFinancials(growthSeries([previous, 100]), 'revenue');
+    assert.equal(data.latest, null); assert.match(data.missingReason, /前年.*ゼロ以下/);
+  }
+  for (const status of ['unretrieved', 'unpublished']) {
+    const series = growthSeries([100, 120, 140, 160, 180, 200]);
+    series.periods[2].revenue = { status, reason: '前年欠測' };
+    const data = watchFinancials(series, 'revenue');
+    assert.equal(data.points[2].value, null); assert.equal(data.points[3].value, null);
+    assert.match(data.points[3].missingReason, /前年欠測/);
+    assert.deepEqual(data.segments.map(segment => segment.map(point => point.period.end)), [
+      [series.periods[1].end], [series.periods[4].end, series.periods[5].end],
+    ]);
+  }
+  for (const change of [
+    { breakBefore: '部門変更' }, { financialScope: '変更後' }, { currency: 'JPY' },
+    { accountingStandard: '変更後' }, { unit: 'billion' }, { end: '2022-06-30' },
+  ]) {
+    const series = growthSeries([100, 120, 140]);
+    Object.assign(series.periods[2], change);
+    const data = watchFinancials(series, 'revenue');
+    assert.equal(data.latest, null, JSON.stringify(change)); assert.ok(data.missingReason);
+    assert.ok(data.segments.every(segment => segment.every(point => point.period !== series.periods[2])));
+  }
+  const margin = growthSeries([100, 120, 140, 160]);
+  margin.periods[2].breakBefore = '部門変更';
+  assert.equal(watchFinancials(margin, 'operating_margin').segments.length, 2);
+});
+
+test('annual common domain includes all values and zero, including outliers, with no theme input', () => {
+  const normal = growthSeries([100, 120, 140]);
+  const outlier = growthSeries([100, 1400, 700]);
+  for (const metric of watchMetrics) for (const years of [5, 10, 20]) {
+    const domain = watchFinancialDomain([normal, outlier], metric.id, years);
+    assert.ok(domain.min <= 0 && domain.max > 0);
+    for (const series of [normal, outlier]) for (const point of watchFinancials(series, metric.id, years).points) {
+      if (point.value !== null) assert.ok(point.value >= domain.min && point.value <= domain.max);
+    }
+  }
+  const domain = watchFinancialDomain([normal, outlier], 'revenue');
+  assert.ok(domain.min < -50 && domain.max > 1300);
+  assert.deepEqual(watchFinancialDomain([], 'revenue'), { min: 0, max: 1 });
 });
 
 test('one global linear domain handles zero, negatives, missing and very large values', () => {
@@ -142,7 +208,11 @@ test('no-JS HTML exposes every company value and source, article links, unique l
   assert.equal((html.match(/class="financialCard"/g) ?? []).length, 12);
   assert.equal((html.match(/data-selected="true"/g) ?? []).length, 0);
   for (const company of companies) assert.ok(html.includes(`${company.href}?years=10#annual-history`));
-  assert.match(html, /DS部門/); assert.match(html, /年次売上高/);
+  assert.match(html, /DS部門/); assert.match(html, /年次売上前年比/);
+  assert.match(html, /前年売上高/); assert.match(html, /各社で決算期・対象範囲が異なります/);
+  assert.doesNotMatch(html, /cardLogo/);
+  const zeroLines = [...html.matchAll(/<line[^>]*y1="([^"]+)"[^>]*stroke-dasharray="3 3"/g)];
+  assert.equal(zeroLines.length, 12); assert.equal(new Set(zeroLines.map(match => match[1])).size, 1);
   const complete = renderToStaticMarkup(React.createElement(Page));
   const ids = [...complete.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(ids.length, new Set(ids).size, 'Every legacy anchor occurs once');
@@ -204,13 +274,13 @@ test('metric selection persists across themes and history without duplicate even
   const ui = controller(); ui.render();
   assert.equal(ui.events.length, 0);
   assert.equal(ui.card('tsmc').props.selected, false);
-  ui.metric('operating_income').props.onClick(); ui.render();
-  assert.equal(ui.card('tsmc').props.metric, 'operating_income');
-  ui.metric('operating_income').props.onClick(); ui.render();
+  ui.metric('operating_margin').props.onClick(); ui.render();
+  assert.equal(ui.card('tsmc').props.metric, 'operating_margin');
+  ui.metric('operating_margin').props.onClick(); ui.render();
   assert.equal(ui.events.length, 1);
   ui.theme('equipment').props.onClick(); ui.render();
   assert.equal(ui.card('tsmc'), undefined);
-  assert.equal(ui.card('asml').props.metric, 'operating_income');
+  assert.equal(ui.card('asml').props.metric, 'operating_margin');
   ui.theme('equipment').props.onClick(); ui.render();
   assert.equal(ui.events.length, 2);
   const before = ui.events.length;
@@ -225,22 +295,57 @@ test('metric selection persists across themes and history without duplicate even
   ui.cleanup(); assert.equal(ui.listeners.size, 0);
 });
 
+test('theme filtering preserves the full cohort scale and period and metric changes recompute it', () => {
+  const ui = controller('', false, { companies, news, now, histories: annualHistories });
+  ui.render();
+  const domain = ui.card('asml').props.domain;
+  assert.deepEqual(domain, watchFinancialDomain(annualHistories, 'revenue', 10));
+  assert.deepEqual(ui.card('tsmc').props.domain, domain);
+  ui.theme('equipment').props.onClick(); ui.render();
+  assert.deepEqual(ui.card('asml').props.domain, domain);
+  ui.period(5).props.onClick(); ui.render();
+  assert.deepEqual(ui.card('asml').props.domain, watchFinancialDomain(annualHistories, 'revenue', 5));
+  ui.metric('operating_margin').props.onClick(); ui.render();
+  assert.deepEqual(ui.card('asml').props.domain, watchFinancialDomain(annualHistories, 'operating_margin', 5));
+  const count = ui.events.length;
+  ui.back('#theme=equipment&company=asml&metric=operating_income&years=20');
+  assert.equal(ui.card('asml').props.metric, 'revenue');
+  assert.equal(ui.card('asml').props.selected, true);
+  assert.deepEqual(ui.card('asml').props.domain, watchFinancialDomain(annualHistories, 'revenue', 20));
+  assert.equal(ui.events.length, count);
+  ui.cleanup();
+});
+
 test('server-rendered card metrics, losses, missing latest and calculated scope remain accessible', () => {
   const { WatchFinancialCard } = require('../../src/components/chip-pulse/WatchFinancialCard.tsx');
   const company = companies.find(item => item.id === 'kla');
   const series = copy(annualHistories.find(item => item.companyId === 'kla'));
+  const render = (metric, years = 10) => renderToStaticMarkup(React.createElement(WatchFinancialCard, {
+    company, series, metric, years, domain: watchFinancialDomain([series], metric, years), selected: false,
+  }));
   for (const metric of watchMetrics) {
-    const html = renderToStaticMarkup(React.createElement(WatchFinancialCard, { company, series, metric: metric.id, selected: false }));
+    const html = render(metric.id);
     assert.match(html, /<table/); assert.match(html, /<title/);
+    assert.match(html, /stroke-dasharray="3 3"/);
+    assert.doesNotMatch(html, /cardLogo/);
     assert.ok(html.includes(company.href + '?years=10#annual-history'));
     if (metric.id !== 'revenue') assert.match(html, /営業利益は算出値/);
   }
   series.periods.at(-1).operatingIncome.value = -100;
-  const loss = renderToStaticMarkup(React.createElement(WatchFinancialCard, { company, series, metric: 'operating_income' }));
+  const loss = render('operating_margin');
   assert.match(loss, /stroke-dasharray="3 3"/);
   series.periods.at(-1).revenue = { status: 'unretrieved', reason: '欠測の理由' };
-  const missing = renderToStaticMarkup(React.createElement(WatchFinancialCard, { company, series, metric: 'revenue' }));
+  const missing = render('revenue');
   assert.match(missing, /未取得/); assert.match(missing, /欠測の理由/);
+  assert.match(missing, /data-missing="true"/);
+  const fixture = growthSeries([100, 120, 150, 120, 180, 198]);
+  const html = renderToStaticMarkup(React.createElement(WatchFinancialCard, {
+    company, series: fixture, metric: 'revenue', years: 5, domain: watchFinancialDomain([fixture], 'revenue', 5), selected: false,
+  }));
+  assert.ok(html.includes(fixture.periods[0].end), 'The source year outside the chart window stays in the accessible table');
+  assert.match(html, /前年比＝本期売上高÷前年売上高/);
+  assert.match(html, /前年比<\/span><strong>\+10<\/strong><span>%/);
+  assert.ok(html.includes(company.href + '?years=5#annual-history'));
 });
 
 test('card links keep existing read analytics and use document navigation to preserve return history', () => {
@@ -265,9 +370,10 @@ test('watch period selection retains metric/theme, card URL years and history wi
   ui.period(20).props.onClick(); ui.render(); assert.equal(ui.events.length, 1);
   assert.equal(ui.events[0][1].dimension, 'period'); assert.equal(ui.events[0][1].years, 20);
   ui.period(20).props.onClick(); ui.render(); assert.equal(ui.events.length, 1);
-  ui.metric('operating_income').props.onClick(); ui.theme('equipment').props.onClick(); ui.render();
-  assert.equal(ui.card('asml').props.years, 20); assert.equal(ui.card('asml').props.metric, 'operating_income');
+  ui.metric('operating_margin').props.onClick(); ui.theme('equipment').props.onClick(); ui.render();
+  assert.equal(ui.card('asml').props.years, 20); assert.equal(ui.card('asml').props.metric, 'operating_margin');
   assert.match(ui.window.location.hash, /years=20/);
   const count = ui.events.length; ui.back('#theme=equipment&metric=operating_income&years=5');
-  assert.equal(ui.card('asml').props.years, 5); assert.equal(ui.events.length, count); ui.cleanup();
+  assert.equal(ui.card('asml').props.years, 5); assert.equal(ui.card('asml').props.metric, 'revenue');
+  assert.equal(ui.events.length, count); ui.cleanup();
 });
