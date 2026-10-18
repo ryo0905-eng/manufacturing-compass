@@ -20,7 +20,7 @@ const { companiesForTopic, defaultWatchCompany, sortWatchCompanies, readWatchSel
 const { WatchExplorer } = require('../../src/components/chip-pulse/WatchExplorer.tsx');
 const Page = require('../../src/app/(ja)/semiconductor-watch/page.tsx').default;
 const { annualHistories } = require('../../src/lib/earnings-history.ts');
-const { watchFinancials, watchFinancialDomain, watchMetrics, watchExchange, watchYenRates, watchYenValue, watchYenAmount } = require('../../src/lib/watch-financials.ts');
+const { watchFinancials, watchFinancialDomain, watchMetrics, watchExchange, watchYenRates, watchYenValue, watchYenAmount, watchYearMonth } = require('../../src/lib/watch-financials.ts');
 const now = '2026-10-17T00:00:00Z';
 const companies = buildWatchCompanies(now);
 const news = buildWatchNews();
@@ -330,7 +330,7 @@ test('server-rendered card metrics, losses, missing latest and calculated scope 
     assert.match(html, /stroke-dasharray="3 3"/);
     assert.match(html, /cardLogo/);
     assert.ok(html.includes(company.href + '?years=10#annual-history'));
-    if (metric.id !== 'revenue') assert.match(html, /営業利益は算出値/);
+    if (metric.id !== 'revenue') assert.match(html, /算出値/);
   }
   series.periods.at(-1).operatingIncome.value = -100;
   const loss = render('operating_margin');
@@ -653,4 +653,82 @@ test('native dialog lifecycle restores scroll and focus; close, cancel and genui
   tree.props.onPointerDown(event(200, 200)); tree.props.onClick(event(50, 50)); assert.equal(closed, 2, 'Dragging from the plot onto the backdrop does not dismiss');
   tree.props.onPointerDown(event(50, 50)); tree.props.onClick(event(50, 50)); assert.equal(closed, 3);
   ui.cleanup(); assert.equal(nativeClosed, 1); assert.equal(ui.document.body.style.overflow, 'auto'); assert.equal(focused, 1);
+});
+
+function cardParts(history, metric = 'revenue', years = 10) {
+  const { WatchFinancialCard } = require('../../src/components/chip-pulse/WatchFinancialCard.tsx');
+  const company = companies.find(company => company.id === history.companyId);
+  const tree = WatchFinancialCard({ company, series: history, metric, years, domain: watchFinancialDomain([history], metric, years), selected: false });
+  const markup = renderToStaticMarkup(nodes(tree, node => node.props.className === 'financialCard')[0]);
+  return {
+    // Attribute values do not take up visual space; retain aria-valuetext for screen readers.
+    visible: markup.replace(/<[^>]*>/g, ''), markup,
+    table: renderToStaticMarkup(nodes(tree, node => node.type === 'table')[0]),
+    notes: nodes(tree, node => node.props.className === 'cardScope').map(node => renderToStaticMarkup(node)),
+  };
+}
+
+test('compact cards omit detailed explanations and reserve notes for scope, calculation, boundaries and short coverage', () => {
+  const normal = cardParts(growthSeries(Array.from({ length: 10 }, (_, index) => 100 + index)));
+  assert.equal(normal.notes.length, 0);
+  assert.doesNotMatch(normal.visible, /連結全体/);
+  assert.match(normal.table, /連結全体/);
+  assert.match(normal.visible, /業績・出典を見る/);
+  const samsung = cardParts(annualHistories.find(series => series.companyId === 'samsung-electronics'));
+  assert.match(samsung.notes.join(''), /DS部門/);
+  assert.doesNotMatch(samsung.notes.join(''), /事業間売上/);
+  const kla = annualHistories.find(series => series.companyId === 'kla');
+  assert.match(cardParts(kla, 'operating_margin').notes.join(''), /算出値/);
+  assert.doesNotMatch(cardParts(kla, 'revenue').notes.join(''), /算出値/);
+  const short = growthSeries([100, 120]);
+  assert.match(cardParts(short).notes.join(''), /2期掲載/);
+  short.periods[1].breakBefore = '検証用の長い範囲変更の説明';
+  const boundary = cardParts(short);
+  assert.match(boundary.notes.join(''), /比較に注意/);
+  assert.doesNotMatch(boundary.visible, /検証用の長い範囲変更の説明/);
+  assert.match(boundary.table, /検証用の長い範囲変更の説明/);
+  short.periods[1].revenue = { status: 'unretrieved', reason: '検証用の詳しい欠測理由' };
+  const missing = cardParts(short);
+  assert.match(missing.visible, /未取得/); assert.match(missing.visible, /前年比 算出不可/);
+  assert.doesNotMatch(missing.visible, /検証用の詳しい欠測理由/);
+  assert.match(missing.markup, /aria-valuetext="[^"]*検証用の詳しい欠測理由/);
+  assert.match(missing.table, /検証用の詳しい欠測理由/);
+});
+
+test('expanded comparison notes show Intel boundaries and latest missing reasons without selecting their periods', () => {
+  const renderNotes = (history, years = 10) => {
+    const ui = historyController('WatchFinancialDialog', { history, years, href: `/semiconductor-watch/earnings/${history.companyId}?years=${years}#annual-history`,
+      initialIndex: 0, opener: { focus() {} }, onClose() {} });
+    return renderToStaticMarkup(nodes(ui.render(), node => node.props.className === 'zoomCautions')[0]);
+  };
+  const intel = annualHistories.find(series => series.companyId === 'intel');
+  const reason = watchFinancials(intel, 'revenue').growthMissingReason;
+  assert.ok(reason);
+  assert.equal(cardParts(intel).visible.includes(reason), false);
+  const notes = renderNotes(intel);
+  assert.match(notes, /比較上の注意/); assert.match(notes, /対象範囲：連結全体/);
+  assert.ok(notes.includes(reason));
+  assert.ok(notes.includes(intel.coverageNote));
+  for (const point of watchFinancials(intel, 'revenue').points.filter(point => point.period.breakBefore)) {
+    assert.ok(notes.includes(point.period.breakBefore));
+    assert.ok(notes.includes(watchYearMonth(point.period.end)));
+  }
+  const fixture = growthSeries([100, 120, 140]);
+  fixture.periods[1].financialScope = '検証用の旧範囲';
+  fixture.periods[2].revenue = { status: 'unpublished', reason: '直近期の売上高未公表' };
+  fixture.periods[2].operatingIncome = { status: 'unretrieved', reason: '直近期の営業利益未取得' };
+  const missing = renderNotes(fixture);
+  assert.match(missing, /検証用の旧範囲/);
+  assert.match(missing, /期間・会計基準・対象範囲・通貨・単位が比較できない/);
+  assert.match(missing, /直近通期（2021\/12期）の注意/);
+  assert.match(missing, /直近期の売上高未公表/);
+  assert.match(missing, /直近期の営業利益未取得/);
+  assert.match(missing, /本期の売上高/);
+  const marginMissing = growthSeries([100, 120]);
+  marginMissing.periods[1].operatingIncome = { status: 'unretrieved', reason: '営業利益の詳しい欠測理由' };
+  assert.match(cardParts(marginMissing, 'operating_margin').visible, /算出不可/);
+  assert.doesNotMatch(cardParts(marginMissing, 'operating_margin').visible, /営業利益の詳しい欠測理由/);
+  assert.match(renderNotes(marginMissing), /営業利益の詳しい欠測理由/);
+  assert.match(renderNotes(annualHistories.find(series => series.companyId === 'samsung-electronics')), /DS部門（事業間売上を含む）/);
+  assert.match(renderNotes(annualHistories.find(series => series.companyId === 'kla')), /営業利益に算出値を含みます/);
 });

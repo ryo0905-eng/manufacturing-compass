@@ -20,6 +20,8 @@ export function WatchFinancialCard({ company, series: history, metric, domain, s
   const first = data?.points[0]?.period;
   const last = data?.points.at(-1)?.period;
   const boundary = data?.points.some(point => point.previousPeriod && !comparableAnnualPeriods(point.previousPeriod, point.period));
+  const notes = [company.id === "samsung-electronics" ? "DS部門" : null, data?.calculated ? "算出値" : null,
+    boundary ? "比較に注意" : null, data && data.points.length < years ? `${data.points.length}期掲載` : null].filter(Boolean);
   const linkProps = { href: `${company.href}?years=${years}#annual-history`, articleId: company.id, action: "article", destination: "earnings", placement: "explore", uiVersion: "cards-v2", reloadDocument: true } as const;
   return <li id={company.anchorId} className={styles.financialItem} data-selected={selected} data-missing={data?.latest == null}>
     <div className={styles.financialCard}>
@@ -31,9 +33,7 @@ export function WatchFinancialCard({ company, series: history, metric, domain, s
         {metric === "revenue" ? <><br />前年比 {watchPercent(data?.revenueYoY ?? null, true)}</> : null}</p>
       {data && history ? <WatchFinancialHistory key={`${metric}-${years}`} history={history} years={years} href={linkProps.href} companyId={company.id} name={company.name} metric={metric} domain={domain} points={data.points} segments={data.segments} /> : <p className={styles.cardScope}>年次履歴未取得</p>}
       <div className={styles.cardDates}>{first && last ? <><time dateTime={first.end}>{watchYearMonth(first.end)}</time><time dateTime={last.end}>{watchYearMonth(last.end)}</time></> : null}</div>
-      <p className={styles.cardScope}>{company.id === "samsung-electronics" ? "DS部門" : last?.financialScope ?? company.scope}{data && data.points.length < years ? ` · ${data.points.length}期掲載` : ""}{data?.calculated ? " · 営業利益は算出値" : ""}{boundary ? " · 範囲・期間等の変更あり" : ""}
-        {data?.latest == null ? <><br />{data?.missingReason ?? "年次履歴未取得"}</> : null}
-        {metric === "revenue" && data?.revenueYoY == null ? <><br />{data?.growthMissingReason ?? "前年の通期実績が未取得"}</> : null}</p>
+      {notes.length ? <p className={styles.cardScope}>{notes.join(" · ")}</p> : null}
       <MediaLink {...linkProps} className={styles.cardDetailLink}>業績・出典を見る <span aria-hidden="true">→</span><span className={styles.srOnly}>（{company.name}）</span></MediaLink>
     </div>
     {data ? <div className={styles.srOnly}><table>

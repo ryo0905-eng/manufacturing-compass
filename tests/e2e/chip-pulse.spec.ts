@@ -36,7 +36,7 @@ test("watchの財務カード・指標・テーマ・履歴と旧記事を5画�
     await profit.focus(); await page.keyboard.press('Enter');
     await expect(profit).toHaveAttribute('aria-pressed', 'true');
     await expect(page).toHaveURL(/metric=operating_margin/);
-    await expect(page.locator('#watch-chart')).toContainText('営業利益は算出値');
+    await expect(page.locator('#watch-chart')).toContainText('算出値');
     const theme = page.getByRole('button', { name: '製造装置・材料', exact: true });
     await theme.click(); await expect(cards).toHaveCount(5);
     await expect(profit).toHaveAttribute('aria-pressed', 'true');

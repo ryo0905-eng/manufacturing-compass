@@ -27,6 +27,14 @@ export function WatchFinancialDialog({ history, years, href, initialIndex, opene
   const revenue = watchFinancials(history, "revenue", years);
   const margin = watchFinancials(history, "operating_margin", years);
   const titleId = `watch-zoom-title-${history.companyId}`;
+  const notesId = `watch-zoom-notes-${history.companyId}`;
+  const scopes = [...new Set(revenue.points.map(point => point.period.financialScope))];
+  const boundaries = revenue.points.filter(point => point.previousPeriod && !comparableAnnualPeriods(point.previousPeriod, point.period));
+  const latest = revenue.points.at(-1);
+  const income = latest?.period.operatingIncome;
+  const latestReasons = [...new Set([revenue.missingReason, margin.missingReason, revenue.growthMissingReason,
+    income && income.status !== "reported" ? `営業利益：${income.reason}` : null])].filter(Boolean);
+  const calculated = margin.points.some(point => point.period.operatingIncome.status === "reported" && point.period.operatingIncome.calculation);
   useEffect(() => {
     const element = dialog.current;
     const overflow = document.body.style.overflow;
@@ -50,7 +58,17 @@ export function WatchFinancialDialog({ history, years, href, initialIndex, opene
       <p className={styles.zoomNote}>この企業の推移を読みやすくするため、縦軸を一覧から変更しています。売上高は左軸、営業利益率は右軸です。棒と線の高さの一致は、同じ数値や相関を意味しません。</p>
       <WatchFinancialComboChart companyId={history.companyId} revenue={revenue} margin={margin}
         revenueDomain={watchFinancialDomain([history], "revenue", years)} marginDomain={watchFinancialDomain([history], "operating_margin", years)} initialIndex={initialIndex} />
-      <p className={styles.zoomNote}>{history.coverageNote}<br />数値確認日：{history.checkedAt}。各期の対象範囲・欠測理由は選択した期の数値に表示します。</p>
+      <section className={styles.zoomCautions} aria-labelledby={notesId}>
+        <h3 id={notesId}>比較上の注意</h3>
+        <p>対象範囲：{scopes.join(" ／ ") || "未取得"}</p>
+        {boundaries.length ? <ul>{boundaries.map(point => <li key={point.period.end}>
+          {watchYearMonth(point.previousPeriod!.end)}期 → {watchYearMonth(point.period.end)}期：{point.period.breakBefore ?? "期間・会計基準・対象範囲・通貨・単位が比較できないため、比較の区切りとしています。"}
+        </li>)}</ul> : null}
+        {latest && latestReasons.length ? <><h4>直近通期（{watchYearMonth(latest.period.end)}期）の注意</h4><ul>{latestReasons.map(reason => <li key={reason}>{reason}</li>)}</ul></> : null}
+        {calculated ? <p>営業利益に算出値を含みます。各期の算出方法は、グラフで期を選ぶと数値欄に表示されます。</p> : null}
+        <p>{history.coverageNote}</p>
+        <p>数値確認日：{history.checkedAt}。各期の対象範囲・欠測理由は、選択した期の数値欄でも確認できます。</p>
+      </section>
       <p className={styles.zoomNote}>売上高は為替基準日 {watchExchange.asOf}の同一為替で円換算した規模比較用の概算です。過去当時の円建て実績とは異なります。<MediaLink href={watchExchange.source.url} articleId="watch-exchange" action="source" placement="explore" uiVersion="cards-v2">換算元：FRB H.10 ↗</MediaLink></p>
       <MediaLink href={href} articleId={history.companyId} action="article" destination="earnings" placement="explore" uiVersion="cards-v2" reloadDocument>業績・出典を見る →</MediaLink>
     </div>

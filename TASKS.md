@@ -1,5 +1,27 @@
 # TASKS
 
+## 2026-10-18：業界ウォッチの一覧カード説明を拡大へ集約
+
+- グラフ下の通常の「連結全体」・長い範囲変更・欠測・前年比算出不可の理由を常設表示から外し、該当時だけ「DS部門」「算出値」（営業利益率時）「比較に注意」「○期掲載」を短く表示。主数値の未取得・前年比算出不可、一覧のホバー／キー操作、読み上げ用の欠測理由、初期HTMLの数値表を維持した。
+- 拡大ポップアップに「比較上の注意」を常設。同じ選択期間の静的履歴から対象範囲、比較の区切りの前後の期と理由、直近通期の欠測・前年比算出不可理由、算出値の有無・掲載範囲・数値確認日を表示する。開いた期が直近期以外でも説明を読める。データ形式・公開URL・日次タスク対象は変更していない。
+- 詳細リンクのmargin-topをautoから8pxへ変更し、掲載期間・短い注記に続けて配置。既存の列数・グラフサイズ・内容に応じたカードの高さ・拡大操作・期間引継ぎを維持。PRD・構成文書・画面仕様と、算出値を確認する既存E2Eの文言期待値を更新した。
+- 検証：`node --test tests/unit/watch-explorer.cjs tests/unit/earnings-history.cjs`を175秒上限付きで実行。初回は既存33件が成功し、新規2件が読み上げ用属性を画面の文章として扱うテストの誤りで失敗。表示文章と属性を区別し、属性に理由が残ることも検証するよう修正後、同じコマンドを再実行して35件すべて成功。通常・Samsung・KLA・短い掲載期間・範囲変更・欠測・Intelの説明移動・直近期以外から開いた場合の注意表示を確認した。
+- `npm run typecheck`は175秒上限付きで1回実行して成功。`git diff --check`成功。公開禁止語はsrcと対象仕様書で該当なし。実ブラウザ・実端末・E2E実行・dev・build・lint・commit・pushは未実施。実画面・本番反映は未確認。
+
+変更ファイル：
+
+- `src/components/chip-pulse/WatchFinancialCard.tsx`
+- `src/components/chip-pulse/WatchFinancialHistory.tsx`
+- `src/components/chip-pulse/WatchExplorer.module.css`
+- `tests/unit/watch-explorer.cjs`
+- `tests/e2e/chip-pulse.spec.ts`
+- `docs/PRD.md`
+- `docs/architecture.md`
+- `docs/semiconductor-watch-editorial.md`
+- `TASKS.md`
+
+推奨コミット：`fix: compact watch cards and move details into dialog`
+
 ## 2026-10-18：業界ウォッチのグラフ拡大と複合表示
 
 - 一覧の共通縦軸・指標切替・並べ替えを維持し、各グラフのクリック／タップと44px以上の「拡大」ボタンからネイティブdialogを開く。ホバー・左右キー／Home／Endによる一覧の数値確認を残し、選択期はボタンへのフォーカス移動後も引き継ぐ。未選択時は直近期。選択期間5／10／20年を保持し、拡大内の期間切替やURL変更は追加していない。
