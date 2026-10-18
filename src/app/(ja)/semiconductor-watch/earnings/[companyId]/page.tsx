@@ -7,6 +7,8 @@ import { EarningsShell } from "@/components/earnings/EarningsShell";
 import { earningsBackground, earningsCompanyName, earningsCompanySlug, earningsFinancialScope, earningsMetricText, earningsReleases, earningsSegmentName, earningsSourceHref, earningsUnitName, getEarningsRelease, type EarningsRelease, type EarningsStatement } from "@/lib/earnings";
 import { earningsFreshness, nextCompanyEvent, watchCalendar, watchEventDate } from "@/lib/watch-calendar";
 import { siteUrl } from "@/lib/format";
+import { getAnnualHistory } from "@/lib/earnings-history";
+import { AnnualCompanyAnalysis } from "@/components/earnings/AnnualHistory";
 import styles from "@/components/earnings/Earnings.module.css";
 
 export const revalidate = 3600;
@@ -18,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const release = getEarningsRelease(companyId);
   if (!release) return {};
   const name = earningsCompanyName(companyId);
-  return { title: `${name}の決算・IR要点｜Chip Pulse`, description: `${name}の${release.period.label}の業績、成長要因、見通しを公式資料に基づき整理。`, alternates: { canonical: `/semiconductor-watch/earnings/${companyId}` }, openGraph: { title: `${name}の決算・IR要点`, type: "article", url: `/semiconductor-watch/earnings/${companyId}` } };
+  return { title: `${name}の業績推移・決算分析｜Chip Pulse`, description: `${name}の売上高・営業利益・営業利益率の年次5年と、${release.period.label}の決算要点を公式資料から確認。`, alternates: { canonical: `/semiconductor-watch/earnings/${companyId}` }, openGraph: { title: `${name}の業績推移・決算分析`, type: "article", url: `/semiconductor-watch/earnings/${companyId}` } };
 }
 
 function EvidenceList({ release, items }: { release: EarningsRelease; items: EarningsStatement[] }) {
@@ -30,6 +32,7 @@ export default async function EarningsDetailPage({ params }: Props) {
   const release = getEarningsRelease(companyId);
   if (!release) notFound();
   const name = earningsCompanyName(companyId);
+  const history = getAnnualHistory(companyId);
   const revision = release.forecastRevision;
   const now = new Date().toISOString();
   const freshness = earningsFreshness(release, now);
@@ -39,13 +42,14 @@ export default async function EarningsDetailPage({ params }: Props) {
   const comparable = release.segment === "equipment" || release.segment === "memory";
   return <EarningsShell>
     <EarningsView companyId={companyId} />
-    <StructuredData data={{ "@context": "https://schema.org", "@type": "WebPage", name: `${name}の決算・IR要点`, url: `${siteUrl}/semiconductor-watch/earnings/${companyId}`, dateModified: release.contentUpdatedAt ?? release.checkedAt, citation: release.documents.map((document) => document.url) }} />
+    <StructuredData data={{ "@context": "https://schema.org", "@type": "WebPage", name: `${name}の業績推移・決算分析`, url: `${siteUrl}/semiconductor-watch/earnings/${companyId}`, dateModified: [release.contentUpdatedAt ?? release.checkedAt, history?.checkedAt ?? ""].sort().at(-1), citation: [...new Set([...release.documents.map((document) => document.url), ...(history?.periods.flatMap(period => [period.source.url, period.revenue.source?.url, period.operatingIncome.source?.url].filter((url): url is string => Boolean(url))) ?? [])])] }} />
     <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "業界ウォッチ", item: `${siteUrl}/semiconductor-watch` }, { "@type": "ListItem", position: 2, name: "決算・IR", item: `${siteUrl}/semiconductor-watch/earnings` }, { "@type": "ListItem", position: 3, name, item: `${siteUrl}/semiconductor-watch/earnings/${companyId}` }] }} />
     <article className={styles.detail}>
       <header className={styles.hero}><p className={styles.eyebrow}>EARNINGS DETAIL / {earningsSegmentName(release.segment)} / {release.business}</p><h1>{name}の決算を読む</h1><p>{release.period.label} · {release.period.start ? `${release.period.start}〜` : "期首未取得 / 終了日 "}{release.period.end}</p><small>発表 {release.announcedAt} · 数値確認 {release.checkedAt} · 内容更新 {release.contentUpdatedAt ?? release.checkedAt} · データ第{release.version}版</small></header>
       <aside className={styles.notice}><p>{freshness.text}{freshness.check?.checkedAt ? `（${freshness.check.checkedAt.slice(0, 10)}確認）` : ""}</p>{freshness.check?.latestSourceUrl && freshness.state === "pending" ? <EarningsSourceLink href={freshness.check.latestSourceUrl} companyId={companyId} documentId="latest">確認中の新しい原資料 ↗</EarningsSourceLink> : null}{freshness.check?.notice ? <p><EarningsSourceLink href={freshness.check.notice.sourceUrl} companyId={companyId} documentId="notice">{freshness.check.notice.text} ↗</EarningsSourceLink></p> : null}<p>次回決算：{calendar ? <EarningsSourceLink href={calendar.sourceUrl} companyId={companyId} documentId="calendar">{calendar.date && !nextEvent ? "予定日経過・結果確認中" : watchEventDate(calendar)} ↗</EarningsSourceLink> : "未確認"}</p></aside>
       <div className={styles.detailLayout}>
         <div>
+          {history ? <AnnualCompanyAnalysis series={history} /> : null}
           <section className={styles.brief}><p className={styles.eyebrow}>THREE POINTS</p><h2>今回の決算で押さえること</h2><EvidenceList release={release} items={release.highlights} /></section>
           <p className={styles.detailCareerLink}><EarningsInternalLink href={`/companies/${earningsCompanySlug(companyId)}#career-prep`} companyId={companyId} destination="company_career_prep">この会社の事業・仕事内容とキャリア準備を見る →</EarningsInternalLink></p>
           <section className={styles.section}><p className={styles.eyebrow}>RESULTS</p><h2>主要数値</h2><p className={styles.fine}>数値範囲：{earningsFinancialScope(release)}。{release.period.kind === "quarter" ? "単四半期" : release.period.kind === "cumulative" ? "累計" : "通期"}実績。{release.accountingStandard}、{release.currency}建て、原資料単位は{earningsUnitName(release)}。会社予想ではありません。</p><dl className={styles.detailMetrics}>{(["revenue", "operatingIncome", "revenueYoY"] as const).map((key) => { const metric = release.metrics[key]; const label = key === "revenue" ? "売上高" : key === "operatingIncome" ? "営業利益" : "売上高・前年同期比"; const href = metric.status === "reported" ? earningsSourceHref(release, metric.source) : null; return <div key={key}><dt>{label}</dt><dd>{earningsMetricText(metric, release, key === "revenueYoY")}</dd><small>{metric.status === "reported" ? <>{metric.calculation ? `算出：${metric.calculation} · ` : ""}{href ? <EarningsSourceLink href={href} companyId={companyId} documentId={metric.source.documentId}>{metric.source.locator} ↗</EarningsSourceLink> : null}</> : metric.reason}</small></div>; })}</dl></section>

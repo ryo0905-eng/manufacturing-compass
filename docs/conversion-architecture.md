@@ -467,3 +467,9 @@ GA4の分析には `product_id`・`retailer` をイベントスコープで用�
 ## 業界ウォッチの企業探索（2026-10-17）
 
 トップだけを`explorer-v2`で識別する。テーマ変更は`chip_pulse_filter_change`の`dimension=theme`、`result_count`は図の対象企業数。企業選択は`chip_pulse_company_select`の`source=chart`・`action=select`。詳細・原資料は既存`chip_pulse_read`のdestination_typeとplacementを維持し、MediaLinkへ画面版を渡す。初期選択・履歴復元では操作イベントを発火しない。記事詳細と決算画面の既存イベント版は変更しない。受信・詳細遷移・再訪の本番計測は未確認で、独自IDは追加しない。
+
+## 年次5年の企業分析（2026-10-18）
+
+watchの選択企業→企業別`#annual-history`→同業比較→原資料・企業研究へ接続する。入口は既存`earnings_related_click`の`destination=annual_history/annual_compare`、原資料は既存`earnings_source_click`で`document_id=annual-{指標}-{期末日}`等を使用し、既存daily-v1を維持する。年次の指標切替・比較実行は`earnings_history_action`の`action=metric_select/compare_run`、`metric=margin/revenueIndex`、固定企業IDをソート連結した`company_ids`、比較実行時の`company_count`、`ui_version=annual-v1`で識別する。初期描画・同じ指標の再押下では操作イベントを送らない。四半期の比較実行は既存イベントのまま。
+
+本番反映とイベント・属性値の受信を確認した後28日間、watchから企業別分析・同業比較への同一セッション遷移、指標切替、原資料クリックを確認する。イベント件数を人数や理解度と扱わない。GSCの企業別・比較ページの検索流入は別に観察し、UI変更との因果を断定しない。本番反映・必要属性の登録状況・受信・観測開始日は未確認。

@@ -2,6 +2,7 @@ import { jobNoteMeta } from "@/data/job-posting-note";
 import { media } from "@/lib/chip-pulse-media";
 import { articleWatchItem, watchUpdatedAt } from "@/lib/watch";
 import { earningsReleases, earningsUpdatedAt } from "@/lib/earnings";
+import { annualHistoryUpdatedAt, getAnnualHistory } from "@/lib/earnings-history";
 import { defectPareto } from "@/data/defect-pareto";
 import { improvementReportMeta } from "@/data/improvement-report";
 import { measurementPlanner } from "@/data/measurement-planner";
@@ -104,8 +105,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/career-priorities" ? { lastModified: contentDate("2026-10-04") } : {}),
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
-    ...(path === "/semiconductor-watch" ? { lastModified: new Date(watchUpdatedAt) } : {}),
-    ...(path === "/semiconductor-watch/earnings" || path === "/semiconductor-watch/earnings/compare" ? { lastModified: contentDate(earningsUpdatedAt) } : {}),
+    ...(path === "/semiconductor-watch" ? { lastModified: new Date([watchUpdatedAt, annualHistoryUpdatedAt].sort().at(-1)!) } : {}),
+    ...(path === "/semiconductor-watch/earnings" ? { lastModified: contentDate(earningsUpdatedAt) } : {}),
+    ...(path === "/semiconductor-watch/earnings/compare" ? { lastModified: contentDate([earningsUpdatedAt, annualHistoryUpdatedAt].sort().at(-1)!) } : {}),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/career-agents" || path === "/semiconductor-map" ? 0.85 : 0.8,
   }));
@@ -163,6 +165,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const newsRoutes = media.articles.map(article => ({ url: `${siteUrl}/semiconductor-watch/${article.id}`, lastModified: new Date(articleWatchItem(article).updatedAt) }));
-  const earningsRoutes = earningsReleases.map(release => ({ url: `${siteUrl}/semiconductor-watch/earnings/${release.companyId}`, lastModified: contentDate(release.contentUpdatedAt ?? release.checkedAt) }));
+  const earningsRoutes = earningsReleases.map(release => ({ url: `${siteUrl}/semiconductor-watch/earnings/${release.companyId}`, lastModified: contentDate([release.contentUpdatedAt ?? release.checkedAt, getAnnualHistory(release.companyId)?.checkedAt ?? ""].sort().at(-1)!) }));
   return [...newsRoutes, ...earningsRoutes, ...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
 }

@@ -1,0 +1,1894 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-18",
+  "series": [
+    {
+      "companyId": "asml",
+      "name": "ASML",
+      "segment": "equipment",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "全期US GAAPの連結実績。別に公表されるIFRS数値は混ぜていません。",
+      "periods": [
+        {
+          "label": "2021年12月期",
+          "start": "2021-01-01",
+          "end": "2021-12-31",
+          "currency": "EUR",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796623000014/R3.htm",
+            "locator": "Consolidated Statements of Operations / 2021 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 18611,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796623000014/R3.htm",
+              "locator": "Consolidated Statements of Operations / 2021 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 6750.1,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796623000014/R3.htm",
+              "locator": "Consolidated Statements of Operations / 2021 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2022年12月期",
+          "start": "2022-01-01",
+          "end": "2022-12-31",
+          "currency": "EUR",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796623000014/R3.htm",
+            "locator": "Consolidated Statements of Operations / 2022 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 21173.4,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796623000014/R3.htm",
+              "locator": "Consolidated Statements of Operations / 2022 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 6500.7,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796623000014/R3.htm",
+              "locator": "Consolidated Statements of Operations / 2022 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年12月期",
+          "start": "2023-01-01",
+          "end": "2023-12-31",
+          "currency": "EUR",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796625000009/asml-20241231.htm",
+            "locator": "Operating results of 2024 compared to 2023 / 2023 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 27558.5,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796625000009/asml-20241231.htm",
+              "locator": "Operating results of 2024 compared to 2023 / 2023 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 9042.3,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000093796625000009/asml-20241231.htm",
+              "locator": "Operating results of 2024 compared to 2023 / 2023 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年12月期",
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "currency": "EUR",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/asml-20251231.htm",
+            "locator": "Operating results of 2025 compared to 2024 / 2024 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 28262.9,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/asml-20251231.htm",
+              "locator": "Operating results of 2025 compared to 2024 / 2024 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 9022.6,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/asml-20251231.htm",
+              "locator": "Operating results of 2025 compared to 2024 / 2024 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年12月期",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "currency": "EUR",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/asml-20251231.htm",
+            "locator": "Operating results of 2025 compared to 2024 / 2025 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 32667.3,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/asml-20251231.htm",
+              "locator": "Operating results of 2025 compared to 2024 / 2025 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 11301.4,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/937966/000162828026011378/asml-20251231.htm",
+              "locator": "Operating results of 2025 compared to 2024 / 2025 / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "applied-materials",
+      "name": "アプライド マテリアルズ",
+      "segment": "equipment",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体の通期実績。数値は原資料の表示精度を保持しています。",
+      "periods": [
+        {
+          "label": "2021年10月期",
+          "start": "2020-10-26",
+          "end": "2021-10-31",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+            "locator": "Consolidated Statements of Operations / FY2021 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 23063,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+              "locator": "Consolidated Statements of Operations / FY2021 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 6889,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+              "locator": "Consolidated Statements of Operations / FY2021 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2022年10月期",
+          "start": "2021-11-01",
+          "end": "2022-10-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+            "locator": "Consolidated Statements of Operations / FY2022 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 25785,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+              "locator": "Consolidated Statements of Operations / FY2022 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 7788,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+              "locator": "Consolidated Statements of Operations / FY2022 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年10月期",
+          "start": "2022-10-31",
+          "end": "2023-10-29",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+            "locator": "Consolidated Statements of Operations / FY2023 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 26517,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+              "locator": "Consolidated Statements of Operations / FY2023 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 7654,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/6951/000000695123000041/amat-20231029.htm",
+              "locator": "Consolidated Statements of Operations / FY2023 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年10月期",
+          "start": "2023-10-30",
+          "end": "2024-10-27",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-fourth-quarter-and-fiscal-year-2025",
+            "locator": "Twelve Months Ended October 27, 2024 / GAAP / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 27176,
+            "source": {
+              "url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-fourth-quarter-and-fiscal-year-2025",
+              "locator": "Twelve Months Ended October 27, 2024 / GAAP / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 7867,
+            "source": {
+              "url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-fourth-quarter-and-fiscal-year-2025",
+              "locator": "Twelve Months Ended October 27, 2024 / GAAP / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年10月期",
+          "start": "2024-10-28",
+          "end": "2025-10-26",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-fourth-quarter-and-fiscal-year-2025",
+            "locator": "Twelve Months Ended October 26, 2025 / GAAP / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 28368,
+            "source": {
+              "url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-fourth-quarter-and-fiscal-year-2025",
+              "locator": "Twelve Months Ended October 26, 2025 / GAAP / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 8289,
+            "source": {
+              "url": "https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-announces-fourth-quarter-and-fiscal-year-2025",
+              "locator": "Twelve Months Ended October 26, 2025 / GAAP / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "lam-research",
+      "name": "ラムリサーチ",
+      "segment": "equipment",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体の通期実績。数値は原資料の表示精度を保持しています。",
+      "periods": [
+        {
+          "label": "2022年6月期",
+          "start": "2021-06-28",
+          "end": "2022-06-26",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754924000106/lrcx-20240630.htm",
+            "locator": "Consolidated Statements of Operations / FY2022 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 17227.039,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754924000106/lrcx-20240630.htm",
+              "locator": "Consolidated Statements of Operations / FY2022 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 5381.822,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754924000106/lrcx-20240630.htm",
+              "locator": "Consolidated Statements of Operations / FY2022 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年6月期",
+          "start": "2022-06-27",
+          "end": "2023-06-25",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754924000106/lrcx-20240630.htm",
+            "locator": "Consolidated Statements of Operations / FY2023 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 17428.516,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754924000106/lrcx-20240630.htm",
+              "locator": "Consolidated Statements of Operations / FY2023 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 5174.86,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754924000106/lrcx-20240630.htm",
+              "locator": "Consolidated Statements of Operations / FY2023 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年6月期",
+          "start": "2023-06-26",
+          "end": "2024-06-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+            "locator": "Consolidated Statements of Operations / FY2024 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 14905.386,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+              "locator": "Consolidated Statements of Operations / FY2024 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 4263.913,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+              "locator": "Consolidated Statements of Operations / FY2024 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年6月期",
+          "start": "2024-07-01",
+          "end": "2025-06-29",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+            "locator": "Consolidated Statements of Operations / FY2025 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 18435.591,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+              "locator": "Consolidated Statements of Operations / FY2025 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 5900.968,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+              "locator": "Consolidated Statements of Operations / FY2025 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2026年6月期",
+          "start": "2025-06-30",
+          "end": "2026-06-28",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+            "locator": "Consolidated Statements of Operations / FY2026 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 23232.69,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+              "locator": "Consolidated Statements of Operations / FY2026 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 8199.795,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/707549/000070754926000037/lrcx-20260628.htm",
+              "locator": "Consolidated Statements of Operations / FY2026 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "kla",
+      "name": "KLA",
+      "segment": "equipment",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体。営業利益は原資料に独立行がないため、売上高から売上原価・研究開発費・販売管理費・減損費用を差し引いて算出。支払利息・その他損益を含めません。",
+      "periods": [
+        {
+          "label": "2022年6月期",
+          "start": "2021-07-01",
+          "end": "2022-06-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://ir.kla.com/sec-filings/all-sec-filings/content/0000319201-24-000021/klac-20240630.htm",
+            "locator": "Consolidated Statements of Operations / FY2022 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 9211.883,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/all-sec-filings/content/0000319201-24-000021/klac-20240630.htm",
+              "locator": "Consolidated Statements of Operations / FY2022 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 3654.181,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/all-sec-filings/content/0000319201-24-000021/klac-20240630.htm",
+              "locator": "Consolidated Statements of Operations / FY2022 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益 / Total revenues, Costs of revenues, R&D, SG&A, Impairment"
+            },
+            "calculation": "9211.883 - 3592.441 - 1105.254 - 860.007 - 0（百万米ドル）",
+            "calculationInputs": [
+              9211.883,
+              3592.441,
+              1105.254,
+              860.007,
+              0.0
+            ]
+          }
+        },
+        {
+          "label": "2023年6月期",
+          "start": "2022-07-01",
+          "end": "2023-06-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://ir.kla.com/sec-filings/all-sec-filings/content/0000319201-24-000021/klac-20240630.htm",
+            "locator": "Consolidated Statements of Operations / FY2023 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 10496.056,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/all-sec-filings/content/0000319201-24-000021/klac-20240630.htm",
+              "locator": "Consolidated Statements of Operations / FY2023 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 3994.696,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/all-sec-filings/content/0000319201-24-000021/klac-20240630.htm",
+              "locator": "Consolidated Statements of Operations / FY2023 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益 / Total revenues, Costs of revenues, R&D, SG&A, Impairment"
+            },
+            "calculation": "10496.056 - 4218.307 - 1296.727 - 986.326 - 0（百万米ドル）",
+            "calculationInputs": [
+              10496.056,
+              4218.307,
+              1296.727,
+              986.326,
+              0.0
+            ]
+          }
+        },
+        {
+          "label": "2024年6月期",
+          "start": "2023-07-01",
+          "end": "2024-06-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+            "locator": "Consolidated Statements of Operations / FY2024 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 9812.247,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+              "locator": "Consolidated Statements of Operations / FY2024 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 3346.21,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+              "locator": "Consolidated Statements of Operations / FY2024 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益 / Total revenues, Costs of revenues, R&D, SG&A, Impairment"
+            },
+            "calculation": "9812.247 - 3928.073 - 1278.981 - 969.509 - 289.474（百万米ドル）",
+            "calculationInputs": [
+              9812.247,
+              3928.073,
+              1278.981,
+              969.509,
+              289.474
+            ]
+          }
+        },
+        {
+          "label": "2025年6月期",
+          "start": "2024-07-01",
+          "end": "2025-06-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+            "locator": "Consolidated Statements of Operations / FY2025 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 12156.162,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+              "locator": "Consolidated Statements of Operations / FY2025 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 4775.127,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+              "locator": "Consolidated Statements of Operations / FY2025 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益 / Total revenues, Costs of revenues, R&D, SG&A, Impairment"
+            },
+            "calculation": "12156.162 - 4751.867 - 1360.334 - 1029.734 - 239.1（百万米ドル）",
+            "calculationInputs": [
+              12156.162,
+              4751.867,
+              1360.334,
+              1029.734,
+              239.1
+            ]
+          }
+        },
+        {
+          "label": "2026年6月期",
+          "start": "2025-07-01",
+          "end": "2026-06-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+            "locator": "Consolidated Statements of Operations / FY2026 / 千米ドルを百万米ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 13579.476,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+              "locator": "Consolidated Statements of Operations / FY2026 / 千米ドルを百万米ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 5660.78,
+            "source": {
+              "url": "https://ir.kla.com/sec-filings/annual-reports/content/0000319201-26-000027/klac-20260630.htm",
+              "locator": "Consolidated Statements of Operations / FY2026 / 千米ドルを百万米ドルへ換算 / Operating income / 営業利益 / Total revenues, Costs of revenues, R&D, SG&A, Impairment"
+            },
+            "calculation": "13579.476 - 5255.06 - 1532.118 - 1131.518 - 0（百万米ドル）",
+            "calculationInputs": [
+              13579.476,
+              5255.06,
+              1532.118,
+              1131.518,
+              0.0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "tokyo-electron",
+      "name": "東京エレクトロン",
+      "segment": "equipment",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体。公式Financial Highlightsの十億円・小数第1位の表示値。日本基準。",
+      "periods": [
+        {
+          "label": "2022年3月期",
+          "start": "2021-04-01",
+          "end": "2022-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "日本基準",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.tel.com/ir/finance/chart/",
+            "locator": "Operating Results / FY2022 / Billions of Yen / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 2003.8,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2022 / Billions of Yen / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 599.2,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2022 / Billions of Yen / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年3月期",
+          "start": "2022-04-01",
+          "end": "2023-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "日本基準",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.tel.com/ir/finance/chart/",
+            "locator": "Operating Results / FY2023 / Billions of Yen / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 2209,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2023 / Billions of Yen / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 617.7,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2023 / Billions of Yen / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年3月期",
+          "start": "2023-04-01",
+          "end": "2024-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "日本基準",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.tel.com/ir/finance/chart/",
+            "locator": "Operating Results / FY2024 / Billions of Yen / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 1830.5,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2024 / Billions of Yen / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 456.2,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2024 / Billions of Yen / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年3月期",
+          "start": "2024-04-01",
+          "end": "2025-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "日本基準",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.tel.com/ir/finance/chart/",
+            "locator": "Operating Results / FY2025 / Billions of Yen / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 2431.5,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2025 / Billions of Yen / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 697.3,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2025 / Billions of Yen / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2026年3月期",
+          "start": "2025-04-01",
+          "end": "2026-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "日本基準",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.tel.com/ir/finance/chart/",
+            "locator": "Operating Results / FY2026 / Billions of Yen / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 2443.5,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2026 / Billions of Yen / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 624.9,
+            "source": {
+              "url": "https://www.tel.com/ir/finance/chart/",
+              "locator": "Operating Results / FY2026 / Billions of Yen / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "micron",
+      "name": "マイクロン",
+      "segment": "memory",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体の通期実績。数値は原資料の表示精度を保持しています。",
+      "periods": [
+        {
+          "label": "2022年9月期",
+          "start": "2021-09-03",
+          "end": "2022-09-01",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+            "locator": "Consolidated Statements of Operations / FY2022 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 30758,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+              "locator": "Consolidated Statements of Operations / FY2022 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 9702,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+              "locator": "Consolidated Statements of Operations / FY2022 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年8月期",
+          "start": "2022-09-02",
+          "end": "2023-08-31",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+            "locator": "Consolidated Statements of Operations / FY2023 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 15540,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+              "locator": "Consolidated Statements of Operations / FY2023 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": -5745,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+              "locator": "Consolidated Statements of Operations / FY2023 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年8月期",
+          "start": "2023-09-01",
+          "end": "2024-08-29",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+            "locator": "Consolidated Statements of Operations / FY2024 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 25111,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+              "locator": "Consolidated Statements of Operations / FY2024 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 1304,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/723125/000072312524000027/mu-20240829.htm",
+              "locator": "Consolidated Statements of Operations / FY2024 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年8月期",
+          "start": "2024-08-30",
+          "end": "2025-08-28",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+            "locator": "Annual Financial Results / FY2025 / GAAP / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 37378,
+            "source": {
+              "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+              "locator": "Annual Financial Results / FY2025 / GAAP / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 9770,
+            "source": {
+              "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+              "locator": "Annual Financial Results / FY2025 / GAAP / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2026年9月期",
+          "start": "2025-08-29",
+          "end": "2026-09-03",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+            "locator": "Annual Financial Results / FY2026 / GAAP / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 133188,
+            "source": {
+              "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+              "locator": "Annual Financial Results / FY2026 / GAAP / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 99340,
+            "source": {
+              "url": "https://investors.micron.com/news/press-release/2026/Micron-Technology-Inc--Reports-Record-Fiscal-Fourth-Quarter-and-Full-Year-2026-Results/default.aspx",
+              "locator": "Annual Financial Results / FY2026 / GAAP / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "kioxia",
+      "name": "キオクシア",
+      "segment": "memory",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "IFRS連結実績。Non-GAAP営業利益は使用していません。公式英訳の十億円・小数第1位の表示値。英訳と日本語原本が異なる場合は原本を優先。",
+      "periods": [
+        {
+          "label": "2022年3月期",
+          "start": "2021-04-01",
+          "end": "2022-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/about/asset/Financial-Results-FY2022-4Q-en.pdf#page=3",
+            "locator": "p.3 / Financial Results Overview / FY21 / IFRS / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 1526.5,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/about/asset/Financial-Results-FY2022-4Q-en.pdf#page=3",
+              "locator": "p.3 / Financial Results Overview / FY21 / IFRS / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 216.2,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/about/asset/Financial-Results-FY2022-4Q-en.pdf#page=3",
+              "locator": "p.3 / Financial Results Overview / FY21 / IFRS / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年3月期",
+          "start": "2022-04-01",
+          "end": "2023-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/about/asset/Financial-Results-FY2022-4Q-en.pdf#page=3",
+            "locator": "p.3 / Financial Results Overview / FY22 / IFRS / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 1282.1,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/about/asset/Financial-Results-FY2022-4Q-en.pdf#page=3",
+              "locator": "p.3 / Financial Results Overview / FY22 / IFRS / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": -99,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/about/asset/Financial-Results-FY2022-4Q-en.pdf#page=3",
+              "locator": "p.3 / Financial Results Overview / FY22 / IFRS / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年3月期",
+          "start": "2023-04-01",
+          "end": "2024-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2024-EN.pdf#page=80",
+            "locator": "PDF p.80（本文p.79）/ Operating Results / March 2024 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 1076.6,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2024-EN.pdf#page=80",
+              "locator": "PDF p.80（本文p.79）/ Operating Results / March 2024 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": -252.7,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2024-EN.pdf#page=80",
+              "locator": "PDF p.80（本文p.79）/ Operating Results / March 2024 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年3月期",
+          "start": "2024-04-01",
+          "end": "2025-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2025-EN.pdf#page=86",
+            "locator": "PDF p.86（本文p.84）/ Operating Results / March 2025 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 1706.5,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2025-EN.pdf#page=86",
+              "locator": "PDF p.86（本文p.84）/ Operating Results / March 2025 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 451.7,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2025-EN.pdf#page=86",
+              "locator": "PDF p.86（本文p.84）/ Operating Results / March 2025 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2026年3月期",
+          "start": "2025-04-01",
+          "end": "2026-03-31",
+          "currency": "JPY",
+          "unit": "billion",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2025-EN.pdf#page=86",
+            "locator": "PDF p.86（本文p.84）/ Operating Results / March 2026 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 2337.6,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2025-EN.pdf#page=86",
+              "locator": "PDF p.86（本文p.84）/ Operating Results / March 2026 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 870.4,
+            "source": {
+              "url": "https://www.kioxia-holdings.com/content/dam/kioxia-hd/en-jp/ir/library/securities/asset/Annual-Securities-Report-FY2025-EN.pdf#page=86",
+              "locator": "PDF p.86（本文p.84）/ Operating Results / March 2026 / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "sk-hynix",
+      "name": "SK hynix",
+      "segment": "memory",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体。会社の決算発表値で、発表時点の暫定値を含みます。原資料の兆ウォン表示は十億ウォンへ単位換算。",
+      "periods": [
+        {
+          "label": "2021年12月期",
+          "start": "2021-01-01",
+          "end": "2021-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://news.skhynix.com/en/sk-hynix-inc-reports-fiscal-year-2021-and-fourth-quarter-results/",
+            "locator": "FY2021 Financial Results / 連結通期実績 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 42998,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-inc-reports-fiscal-year-2021-and-fourth-quarter-results/",
+              "locator": "FY2021 Financial Results / 連結通期実績 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 12410,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-inc-reports-fiscal-year-2021-and-fourth-quarter-results/",
+              "locator": "FY2021 Financial Results / 連結通期実績 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2022年12月期",
+          "start": "2022-01-01",
+          "end": "2022-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://news.skhynix.com/en/sk-hynix-reports-2022-and-fourth-quarter-financial-results/",
+            "locator": "FY2022 Financial Results / 連結通期実績 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 44648,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-reports-2022-and-fourth-quarter-financial-results/",
+              "locator": "FY2022 Financial Results / 連結通期実績 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 7007,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-reports-2022-and-fourth-quarter-financial-results/",
+              "locator": "FY2022 Financial Results / 連結通期実績 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年12月期",
+          "start": "2023-01-01",
+          "end": "2023-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://news.skhynix.com/en/sk-hynix-announces-4q24-financial-results/",
+            "locator": "FY2023 Financial Results / 連結通期実績 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 32765.7,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-announces-4q24-financial-results/",
+              "locator": "FY2023 Financial Results / 連結通期実績 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": -7730.3,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-announces-4q24-financial-results/",
+              "locator": "FY2023 Financial Results / 連結通期実績 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年12月期",
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://news.skhynix.com/en/sk-hynix-announces-fy25-financial-results/",
+            "locator": "FY2024 Financial Results / 連結通期実績 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 66193,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-announces-fy25-financial-results/",
+              "locator": "FY2024 Financial Results / 連結通期実績 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 23467.3,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-announces-fy25-financial-results/",
+              "locator": "FY2024 Financial Results / 連結通期実績 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年12月期",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://news.skhynix.com/en/sk-hynix-announces-fy25-financial-results/",
+            "locator": "FY2025 Financial Results / 連結通期実績 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 97146.7,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-announces-fy25-financial-results/",
+              "locator": "FY2025 Financial Results / 連結通期実績 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 47206.3,
+            "source": {
+              "url": "https://news.skhynix.com/en/sk-hynix-announces-fy25-financial-results/",
+              "locator": "FY2025 Financial Results / 連結通期実績 / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "samsung-electronics",
+      "name": "サムスン電子",
+      "segment": "memory",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "DS部門（事業間売上を含む）。メモリ単独でも全社連結でもありません。会社の監査前決算説明資料の丸め値を、兆ウォンから十億ウォンへ単位換算。",
+      "periods": [
+        {
+          "label": "2021年12月期",
+          "start": "2021-01-01",
+          "end": "2021-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "DS部門（事業間売上を含む）",
+          "source": {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2022_4Q_conference_eng.pdf#page=4",
+            "locator": "p.4 / Results by Business Segment / DS / 2021 / 兆ウォン×1000 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 95390,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2022_4Q_conference_eng.pdf#page=4",
+              "locator": "p.4 / Results by Business Segment / DS / 2021 / 兆ウォン×1000 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 29190,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2022_4Q_conference_eng.pdf#page=4",
+              "locator": "p.4 / Results by Business Segment / DS / 2021 / 兆ウォン×1000 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2022年12月期",
+          "start": "2022-01-01",
+          "end": "2022-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "DS部門（事業間売上を含む）",
+          "source": {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2022_4Q_conference_eng.pdf#page=4",
+            "locator": "p.4 / Results by Business Segment / DS / 2022 / 兆ウォン×1000 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 98460,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2022_4Q_conference_eng.pdf#page=4",
+              "locator": "p.4 / Results by Business Segment / DS / 2022 / 兆ウォン×1000 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 23820,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2022_4Q_conference_eng.pdf#page=4",
+              "locator": "p.4 / Results by Business Segment / DS / 2022 / 兆ウォン×1000 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年12月期",
+          "start": "2023-01-01",
+          "end": "2023-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "DS部門（事業間売上を含む）",
+          "source": {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2024_4Q_conference_eng.pdf#page=7",
+            "locator": "p.7 / Results by Business Segment / DS / 2023 / 兆ウォン×1000 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 66600,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2024_4Q_conference_eng.pdf#page=7",
+              "locator": "p.7 / Results by Business Segment / DS / 2023 / 兆ウォン×1000 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": -14900,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2024_4Q_conference_eng.pdf#page=7",
+              "locator": "p.7 / Results by Business Segment / DS / 2023 / 兆ウォン×1000 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年12月期",
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "DS部門（事業間売上を含む）",
+          "source": {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_conference_eng.pdf#page=7",
+            "locator": "p.7 / Results by Business Segment / DS / 2024 / 兆ウォン×1000 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 111100,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_conference_eng.pdf#page=7",
+              "locator": "p.7 / Results by Business Segment / DS / 2024 / 兆ウォン×1000 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 15100,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_conference_eng.pdf#page=7",
+              "locator": "p.7 / Results by Business Segment / DS / 2024 / 兆ウォン×1000 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年12月期",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "currency": "KRW",
+          "unit": "billion",
+          "accountingStandard": "K-IFRS",
+          "financialScope": "DS部門（事業間売上を含む）",
+          "source": {
+            "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_conference_eng.pdf#page=7",
+            "locator": "p.7 / Results by Business Segment / DS / 2025 / 兆ウォン×1000 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 130100,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_conference_eng.pdf#page=7",
+              "locator": "p.7 / Results by Business Segment / DS / 2025 / 兆ウォン×1000 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 24900,
+            "source": {
+              "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2025_4Q_conference_eng.pdf#page=7",
+              "locator": "p.7 / Results by Business Segment / DS / 2025 / 兆ウォン×1000 / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "nvidia",
+      "name": "NVIDIA",
+      "segment": "fabless",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体の通期実績。数値は原資料の表示精度を保持しています。",
+      "periods": [
+        {
+          "label": "2022年1月期",
+          "start": "2021-02-01",
+          "end": "2022-01-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/nvda-20240128.htm",
+            "locator": "Consolidated Statements of Income / FY2022 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 26914,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/nvda-20240128.htm",
+              "locator": "Consolidated Statements of Income / FY2022 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 10041,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/nvda-20240128.htm",
+              "locator": "Consolidated Statements of Income / FY2022 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年1月期",
+          "start": "2022-01-31",
+          "end": "2023-01-29",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/nvda-20240128.htm",
+            "locator": "Consolidated Statements of Income / FY2023 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 26974,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/nvda-20240128.htm",
+              "locator": "Consolidated Statements of Income / FY2023 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 4224,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/nvda-20240128.htm",
+              "locator": "Consolidated Statements of Income / FY2023 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年1月期",
+          "start": "2023-01-30",
+          "end": "2024-01-28",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+            "locator": "Consolidated Statements of Income / FY2024 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 60922,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+              "locator": "Consolidated Statements of Income / FY2024 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 32972,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+              "locator": "Consolidated Statements of Income / FY2024 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年1月期",
+          "start": "2024-01-29",
+          "end": "2025-01-26",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+            "locator": "Consolidated Statements of Income / FY2025 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 130497,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+              "locator": "Consolidated Statements of Income / FY2025 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 81453,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+              "locator": "Consolidated Statements of Income / FY2025 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2026年1月期",
+          "start": "2025-01-27",
+          "end": "2026-01-25",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+            "locator": "Consolidated Statements of Income / FY2026 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 215938,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+              "locator": "Consolidated Statements of Income / FY2026 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 130387,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+              "locator": "Consolidated Statements of Income / FY2026 / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "tsmc",
+      "name": "TSMC",
+      "segment": "foundry",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体。原資料の千台湾ドルを百万台湾ドルへ単位換算。米ドル表記の参考値は混ぜていません。",
+      "periods": [
+        {
+          "label": "2021年12月期",
+          "start": "2021-01-01",
+          "end": "2021-12-31",
+          "currency": "TWD",
+          "unit": "million",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+            "locator": "Financial Highlights / 2021 / 千台湾ドルを百万台湾ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 1587415.037,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+              "locator": "Financial Highlights / 2021 / 千台湾ドルを百万台湾ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 649980.897,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+              "locator": "Financial Highlights / 2021 / 千台湾ドルを百万台湾ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2022年12月期",
+          "start": "2022-01-01",
+          "end": "2022-12-31",
+          "currency": "TWD",
+          "unit": "million",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+            "locator": "Financial Highlights / 2022 / 千台湾ドルを百万台湾ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 2263891.292,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+              "locator": "Financial Highlights / 2022 / 千台湾ドルを百万台湾ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 1121278.851,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+              "locator": "Financial Highlights / 2022 / 千台湾ドルを百万台湾ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年12月期",
+          "start": "2023-01-01",
+          "end": "2023-12-31",
+          "currency": "TWD",
+          "unit": "million",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+            "locator": "Financial Highlights / 2023 / 千台湾ドルを百万台湾ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 2161735.841,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+              "locator": "Financial Highlights / 2023 / 千台湾ドルを百万台湾ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 921465.606,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+              "locator": "Financial Highlights / 2023 / 千台湾ドルを百万台湾ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年12月期",
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "currency": "TWD",
+          "unit": "million",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+            "locator": "Financial Highlights / 2024 / 千台湾ドルを百万台湾ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 2894307.699,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+              "locator": "Financial Highlights / 2024 / 千台湾ドルを百万台湾ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 1322053.05,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+              "locator": "Financial Highlights / 2024 / 千台湾ドルを百万台湾ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年12月期",
+          "start": "2025-01-01",
+          "end": "2025-12-31",
+          "currency": "TWD",
+          "unit": "million",
+          "accountingStandard": "IFRS",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+            "locator": "Financial Highlights / 2025 / 千台湾ドルを百万台湾ドルへ換算 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 3809054.272,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+              "locator": "Financial Highlights / 2025 / 千台湾ドルを百万台湾ドルへ換算 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 1936091.677,
+            "source": {
+              "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+              "locator": "Financial Highlights / 2025 / 千台湾ドルを百万台湾ドルへ換算 / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "companyId": "intel",
+      "name": "Intel",
+      "segment": "idm",
+      "checkedAt": "2026-10-18",
+      "coverageNote": "連結全体のGAAP実績。買収・売却による事業構成の変化があり、同じ製品構成の成長率を表すものではありません。",
+      "periods": [
+        {
+          "label": "2021年12月期",
+          "start": "2020-12-27",
+          "end": "2021-12-25",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086324000010/intc-20231230.htm",
+            "locator": "Consolidated Statements of Income / 2021 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 79024,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086324000010/intc-20231230.htm",
+              "locator": "Consolidated Statements of Income / 2021 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 19456,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086324000010/intc-20231230.htm",
+              "locator": "Consolidated Statements of Income / 2021 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2022年12月期",
+          "start": "2021-12-26",
+          "end": "2022-12-31",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086324000010/intc-20231230.htm",
+            "locator": "Consolidated Statements of Income / 2022 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 63054,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086324000010/intc-20231230.htm",
+              "locator": "Consolidated Statements of Income / 2022 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 2334,
+            "source": {
+              "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086324000010/intc-20231230.htm",
+              "locator": "Consolidated Statements of Income / 2022 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2023年12月期",
+          "start": "2023-01-01",
+          "end": "2023-12-30",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+            "locator": "Consolidated Statements of Income / 2023 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 54228,
+            "source": {
+              "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+              "locator": "Consolidated Statements of Income / 2023 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": 93,
+            "source": {
+              "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+              "locator": "Consolidated Statements of Income / 2023 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2024年12月期",
+          "start": "2023-12-31",
+          "end": "2024-12-28",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+            "locator": "Consolidated Statements of Income / 2024 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 53101,
+            "source": {
+              "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+              "locator": "Consolidated Statements of Income / 2024 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": -11678,
+            "source": {
+              "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+              "locator": "Consolidated Statements of Income / 2024 / Operating income / 営業利益"
+            }
+          }
+        },
+        {
+          "label": "2025年12月期",
+          "start": "2024-12-29",
+          "end": "2025-12-27",
+          "currency": "USD",
+          "unit": "million",
+          "accountingStandard": "US GAAP",
+          "financialScope": "連結全体",
+          "source": {
+            "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+            "locator": "Consolidated Statements of Income / 2025 / 対象年度"
+          },
+          "revenue": {
+            "status": "reported",
+            "value": 52853,
+            "source": {
+              "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+              "locator": "Consolidated Statements of Income / 2025 / Revenue / 売上高"
+            }
+          },
+          "operatingIncome": {
+            "status": "reported",
+            "value": -2214,
+            "source": {
+              "url": "https://www.intc.com/filings-reports/all-sec-filings/xbrl_doc_only/4121",
+              "locator": "Consolidated Statements of Income / 2025 / Operating income / 営業利益"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

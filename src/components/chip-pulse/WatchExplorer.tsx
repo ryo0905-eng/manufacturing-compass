@@ -2,6 +2,8 @@
 
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { trackEvent } from "@/lib/analytics";
+import type { AnnualSeries } from "@/lib/earnings-history-math";
+import { AnnualMini } from "@/components/earnings/AnnualHistory";
 import { watchDate, watchTopics, type WatchItem } from "@/lib/watch-types";
 import {
   companiesForTopic, defaultWatchCompany, readWatchSelection, relatedWatchNews,
@@ -12,13 +14,14 @@ import { MediaLink } from "./MediaLinks";
 import styles from "./WatchExplorer.module.css";
 
 const uiVersion = "explorer-v2";
-type Props = { companies: WatchCompany[]; news: WatchItem[]; now: string; children?: ReactNode };
+type Props = { companies: WatchCompany[]; news: WatchItem[]; now: string; histories?: AnnualSeries[]; children?: ReactNode };
 
-export function WatchExplorer({ companies, news, now, children }: Props) {
+export function WatchExplorer({ companies, news, now, histories = [], children }: Props) {
   const [selection, setSelection] = useState<WatchSelection>(() => readWatchSelection("", companies));
   const [expanded, setExpanded] = useState(false);
   const visible = companiesForTopic(companies, selection.topic);
   const selected = visible.find(company => company.id === selection.company);
+  const selectedHistory = histories.find(series => series.companyId === selected?.id);
   const articles = watchNewsForTopic(news, selection.topic, now);
   const related = selected ? relatedWatchNews(news, selected.id, now) : [];
   const domain = watchChartDomain(companies);
@@ -115,6 +118,7 @@ export function WatchExplorer({ companies, news, now, children }: Props) {
           <p className={styles.subtle}>発表 <time dateTime={selected.announcedAt}>{watchDate(selected.announcedAt)}</time> · 数値確認 {watchDate(selected.checkedAt)}</p>
           <p className={styles.freshness} data-warning={selected.freshness.state !== "verified"}>{selected.freshness.text}</p>
           <MediaLink href={selected.href} articleId={selected.id} action="article" destination="earnings" placement="featured" uiVersion={uiVersion} className={styles.primary}>決算を見る <span aria-hidden="true">→</span></MediaLink>
+          {selectedHistory ? <AnnualMini series={selectedHistory} /> : null}
           <div className={styles.nextEvent}><h3>次回の決算発表</h3>{selected.nextEvent ? <MediaLink href={selected.nextEvent.href} articleId={selected.id} action="source" placement="schedule" uiVersion={uiVersion}>{selected.nextEvent.label} ↗</MediaLink> : <p>日程は未確認です。</p>}</div>
           <div className={styles.related}><h3>関連ニュース</h3>{related.length ? related.map(item => <MediaLink key={item.id} href={item.href} articleId={item.id} action="article" placement="featured" uiVersion={uiVersion}><time dateTime={item.date}>{watchDate(item.date)}</time>{item.title}<span aria-hidden="true"> →</span>{item.changed ? <small>出典変更・再確認中</small> : null}</MediaLink>) : <p>直近30日の関連ニュースはありません。</p>}</div>
           <button className={styles.backToChart} type="button" onClick={() => {

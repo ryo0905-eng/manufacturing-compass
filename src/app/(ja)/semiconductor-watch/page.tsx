@@ -9,6 +9,7 @@ import { earningsCompanyName } from "@/lib/earnings";
 import { watchNewsForTopic } from "@/lib/watch-explorer";
 import { inWatchWindow, watchDate, watchTopics } from "@/lib/watch-types";
 import { siteUrl } from "@/lib/format";
+import { annualHistories, annualHistoryUpdatedAt } from "@/lib/earnings-history";
 import styles from "@/components/chip-pulse/WatchExplorer.module.css";
 
 const title = "半導体業界ウォッチ｜企業の売上前年比・ニュース・発表予定";
@@ -29,10 +30,10 @@ export default function SemiconductorWatchPage() {
   const unreviewed = media.updates.filter(update => !watchCalendar.reviews.some(review => review.id === update.id && review.sourceUrl === update.sourceUrl && review.status !== "recheck")).length;
 
   return <main className={styles.page}><div className={styles.shell}>
-    <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: siteUrl + "/semiconductor-watch", dateModified: watchUpdatedAt }} />
+    <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: siteUrl + "/semiconductor-watch", dateModified: [watchUpdatedAt, annualHistoryUpdatedAt].sort().at(-1) }} />
     <header className={styles.header}><h1>半導体業界ウォッチ</h1><p>掲載内容・日程の更新 <time dateTime={watchUpdatedAt}>{watchDate(watchUpdatedAt)}</time></p></header>
     {media.status.state !== "success" || staleCollection ? <p className={styles.notice} role="status">{media.status.state === "partial" ? "一部の取得先を更新できませんでした。" : media.status.state === "failed" ? "直近の収集に失敗しました。" : staleCollection ? "収集確認から2日以上経過しています。" : "収集処理の稼働前です。"} 前回確認時の掲載内容を表示しています。</p> : null}
-    <WatchExplorer companies={buildWatchCompanies(now)} news={news} now={now}>
+    <WatchExplorer companies={buildWatchCompanies(now)} news={news} now={now} histories={annualHistories}>
       <details className={styles.disclosure}><summary>今後14日の発表予定 <span>· {events.length}件</span></summary>
         {events.length ? <ul>{events.map(event => <li key={event.id}>
           <strong>{earningsCompanyName(event.companyId)}</strong> · {event.period} · {event.kind === "monthly" ? "月次売上" : "決算・説明会"}

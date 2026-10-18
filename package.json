@@ -16,6 +16,7 @@
     "chip-pulse:publish": "node scripts/chip-pulse-publish.cjs",
     "chip-pulse:check": "node scripts/chip-pulse-check.cjs",
     "earnings:check": "node scripts/earnings-publish.cjs --check",
+    "earnings:history:check": "node scripts/earnings-history-check.cjs",
     "earnings:publish": "node scripts/earnings-publish.cjs",
     "chip-pulse:test": "node --test scripts/chip-pulse.test.cjs scripts/chip-pulse-media.test.cjs tests/unit/watch.cjs",
     "chip-pulse:reserve": "node scripts/chip-pulse-media.cjs --reserve",

@@ -1,5 +1,17 @@
 # TASKS
 
+## 2026-10-18：業界ウォッチへ年次5年の企業分析を追加
+
+- 既存12社×5期（60期間）の売上高・営業利益を公式IR・SECの原資料で照合し、`earnings-history.json`へ数値・期間・通貨・単位・範囲・会計基準・確認日・出典と該当箇所を記録。ASMLはUS GAAP、キオクシアはIFRS、SamsungはDS部門を維持。KLA営業利益は独立行がないため営業費用控除の式・入力値と「算出」を併記。資料の暫定・監査前・丸め条件を画面と更新手順に残した。
+- watchの既存前年比・テーマ・企業選択に、選択企業の通期売上高ミニグラフ・出典付き表・年次詳細リンクを追加。企業別決算に金額棒グラフ・利益率線グラフ・初期HTMLの数値表を追加し、既存決算要点と四半期データは維持。SVGの読み上げタイトル、スマホ縦配置・表内スクロールを用意した。
+- 比較は年次5年を初期表示に最新四半期へ切替。装置・メモリの2〜3社で利益率または最古期=100の売上高指数を比較し、横軸は実際の期末日、表は原通貨。欠測・ゼロ以下の売上高・基準／範囲／通貨変更・期間欠落は補完・接続しない。企業別から群・企業を引継ぎ、不正IDは初期2社へ戻す。条件付き比較URLのcanonical/noindexを設定し、既存URLとsitemap・構造化データ更新日を整合させた。
+- 指標切替・年次比較を`earnings_history_action`の`annual-v1`で識別。既存リンク・出典・四半期比較のイベントは維持。初期描画では操作イベントを送らない。年次専用検証と通期公表・訂正時の更新手順を追加し、日次の固定6ファイル・commit/push権限は拡張していない。
+- `node --test tests/unit/earnings-history.cjs tests/unit/earnings.cjs tests/unit/watch-explorer.cjs`を175秒上限で1回実行し20件成功。計算・欠測・赤字・ゼロ除算・出典検証・範囲変更・指数起点・異通貨・社数制限・計測・SSR・metadata・最新四半期の維持、既存hash／旧アンカー／モバイルのフォーカス処理を確認した。テスト時のSVG titleのReact警告は単一文字列へ修正し、変更後のSSRだけを`node --test --test-name-pattern='SSR exposes' tests/unit/earnings-history.cjs`で再確認、1件成功・標準エラー出力なし。
+- `npm run typecheck`と`npm run earnings:history:check`をそれぞれ175秒上限で1回実行し成功。型チェック後の変更はwatchの構造化データ更新日の式とCSSのmin-width指定。追加の型チェックは実行していない。E2E仕様を年次初期表示と期間切替へ更新したが、実ブラウザは未実行。dev・build・lint・commit・pushは未実施。本番反映・GA4受信・観測開始・実画面は未確認。
+- `git diff --check`成功。src全体・対象公開文書・作業記録の公開禁止語照合で該当なし。公開差分に非公開の取材・分析情報は含めていない。
+- 変更ファイル：`src/data/earnings-history.json`、`src/lib/earnings-history.ts`・`earnings-history-math.ts`、`src/components/earnings/AnnualCharts.tsx`・`AnnualHistory.tsx`・`AnnualHistory.module.css`・`AnnualCompare.tsx`・`EarningsAnalysisCompare.tsx`、`src/components/chip-pulse/WatchExplorer.tsx`・`WatchExplorer.module.css`、`src/app/(ja)/semiconductor-watch/page.tsx`・`earnings/[companyId]/page.tsx`・`earnings/compare/page.tsx`、`src/app/sitemap.ts`、`scripts/earnings-history-check.cjs`、`package.json`、`tests/unit/earnings-history.cjs`・`tests/e2e/earnings.spec.ts`、`docs/PRD.md`・`architecture.md`・`earnings-ir-operations.md`・`semiconductor-watch-editorial.md`・`conversion-architecture.md`、本記録。
+- 推奨コミット：`feat: add five-year financial analysis to semiconductor watch`
+
 ## 2026-10-18：工場マップ・新設一覧をトップの主要入口へ追加
 
 - ランキング直後、技術ツールの前に「半導体工場を場所・計画から探す」を追加。工場・研究拠点マップ、新設・増設一覧の順にカード全体から直接アクセスできる。既存カードのデザインでPCは2列、720px以下は1列とし、画像・操作プレビューは追加していない。
