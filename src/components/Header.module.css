@@ -90,12 +90,7 @@
   outline-offset: 3px;
 }
 
-@media (1024px <= width < 1160px) {
-  .panel { gap: 10px; }
-  .link { font-size: 13px; }
-}
-
-@media (width < 1024px) {
+@media (width < 1160px) {
   .inner { min-height: 55px; width: calc(100% - 28px); gap: 12px; }
   .toggle {
     display: inline-flex;

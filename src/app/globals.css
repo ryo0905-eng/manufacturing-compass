@@ -20146,11 +20146,13 @@ body {
 .home-focused__heading p { margin-top: 12px; }
 .home-focused__entry-grid, .home-focused__tool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .home-focused__entry-grid { grid-area: entry; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.home-focused__entry-grid > a:last-child { grid-column: 1 / -1; }
 .home-focused__entry-grid a { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 64px; padding: 16px; border: 1px solid #e5e7eb; border-radius: 6px; color: #1d1d1f; font-size: 15px; font-weight: 600; }
 .home-focused__entry-grid a span, .home-focused__research-grid strong span { color: #1769aa; }
 .home-focused a:focus-visible { outline: 2px solid #1769aa; outline-offset: 4px; }
 .home-focused__entry-grid a:hover, .home-focused__tool-card:hover { border-color: #c9cdd2; background: #fafafa; }
 .home-focused__rankings { scroll-margin-top: 88px; }
+#home-factories { scroll-margin-top: 88px; }
 .home-focused__ranking-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px 16px; margin-bottom: 16px; }
 .home-focused__ranking-heading p { grid-column: 1 / -1; margin: 0; font-size: 14px; }
 .home-focused__ranking-links { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }

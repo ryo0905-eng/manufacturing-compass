@@ -8,7 +8,7 @@ import { headerNavItems } from "@/data/header";
 import { trackEvent } from "@/lib/analytics";
 import styles from "@/components/Header.module.css";
 
-const desktopQuery = "(min-width: 1024px)";
+const desktopQuery = "(min-width: 1160px)";
 
 function currentPage(pathname: string, href: string): "page" | "location" | undefined {
   if (pathname === href) return "page";

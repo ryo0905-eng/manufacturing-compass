@@ -60,6 +60,7 @@ export default function Home() {
           <HomeLink href="/#home-rankings" section="hero" destination="rankings" purpose="industry">ランキングで企業を比べる<span aria-hidden="true">→</span></HomeLink>
           <HomeLink href="/tools" section="hero" destination="tools" purpose="technology">技術を学ぶ・使う<span aria-hidden="true">→</span></HomeLink>
           <HomeLink href="/industry-map" section="hero" destination="industry_map" purpose="industry">企業・業界を調べる<span aria-hidden="true">→</span></HomeLink>
+          <HomeLink href="/#home-factories" section="hero" destination="factories" purpose="industry">工場・拠点を探す<span aria-hidden="true">→</span></HomeLink>
           <CareerCompassLink ctaLocation="home_hero_purpose" ctaVariant="purpose_entry_v1" sourcePage="/">キャリアを整理する<span aria-hidden="true">→</span></CareerCompassLink>
         </nav>
         <div className="home-focused__hero-visual" aria-hidden="true">

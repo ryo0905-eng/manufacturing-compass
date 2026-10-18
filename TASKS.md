@@ -1,5 +1,12 @@
 # TASKS
 
+## 2026-10-18：TOP冒頭・共通メニューから工場と拠点へ案内
+
+- TOPの目的別入口と共通メニューへ「工場・拠点を探す」を追加し、既存の `/#home-factories` の2カードへ接続。TOPは5入口を指定順に配置し、PCでは最後のキャリアを横幅いっぱい、720px以下は1列にする。移動先に88pxのスクロール余白を設定。
+- ヘッダーの横並び開始幅をCSS・JavaScriptとも1160pxへ変更。既存の開閉・フォーカス処理と表示形式の計測にも同じ判定を使用。TOPは `home_link_click` の `section_id=hero`・`destination_id=factories`・`purpose=industry`、共通メニューは `header_nav_click` の `destination_id=factories` で記録する。
+- 検証：`npm run typecheck` を1回実行して成功。`git diff --check` と対象差分・リンク先・幅判定・メニューを閉じる処理を静的確認。公開禁止語は `src` と導線仕様書で該当なし。ブラウザ確認・build・commit・pushは未実施。本番反映・GA4受信は未確認。
+- 推奨コミット：`feat: add factory navigation to hero and header`
+
 ## 2026-10-18：円換算売上高の棒グラフ・ロゴ・数値確認・並べ替え
 
 - 初期を売上高・10年・円換算売上高の降順へ変更。主数値は直近通期の「約○兆円／○億円」、前年比と期末年月を補足し、売上高を棒、営業利益率を折れ線で表示。既存ロゴをPC・スマホへ復帰し、6／4／3／2列・最小180pxで内容に応じて伸ばす。48px高のグラフに共通軸・単位・目盛り・ゼロ線・比較不能な境界を表示する。

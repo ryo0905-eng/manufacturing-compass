@@ -1,6 +1,6 @@
 # Conversion Architecture
 
-最終更新日: 2026-10-17
+最終更新日: 2026-10-18
 
 ## トップのランキング入口（2026-10-17）
 
@@ -404,10 +404,11 @@ Career Compass
 
 ## トップの目的別入口（2026-10-18更新）
 
-トップはランキング・技術・企業研究・キャリアの4入口を並列で案内し、本文をランキング、工場・拠点探索、代表ツール、企業・業界研究、キャリア支援、おすすめ記事、新着、運営方針の順に表示する。代表ツールは工程条件の比較・Cp/Cpk・歩留まり原因調査。
+トップはランキング・技術・企業研究・工場と拠点・キャリアの5入口をこの順で案内し、本文をランキング、工場・拠点探索、代表ツール、企業・業界研究、キャリア支援、おすすめ記事、新着、運営方針の順に表示する。目的別入口はPCで2列、最後のキャリアは横幅いっぱいに配置し、720px以下は1列にする。代表ツールは工程条件の比較・Cp/Cpk・歩留まり原因調査。
 
 - 一般リンクは `home_link_click`。`section_id` は hero/rankings/factories/tools/research/career/recommended/latest/about、`destination_id` は実装内の固定リンクID・公開記事slug・カテゴリID、`purpose` は technology/industry/career/articles/about、`version` は `purpose-entry-v1`。自由入力や回答は送信しない。
 - 工場・拠点探索はランキング直後の `#home-factories` に2カードを配置。工場・研究拠点マップ（`/semiconductor-map`）、新設・増設一覧（`/guides/japan-semiconductor-factory-projects`）の順で、既存拠点と計画を分けて案内する。カード全体をリンクにし、PCは2列、720px以下は1列。既存カードのデザインを再利用し、画像・操作プレビューは追加しない。計測は `section_id=factories`、`destination_id=semiconductor_map/factory_projects`、`purpose=industry`。
+- TOP冒頭と共通メニューに「工場・拠点を探す」を置き、`/#home-factories` へ案内する。共通メニューでは「業界地図・企業一覧」の次に配置する。移動先は `scroll-margin-top: 88px` を確保する。TOP冒頭は `home_link_click` の `section_id=hero`、`destination_id=factories`、`purpose=industry`、共通メニューは `header_nav_click` の `destination_id=factories` を使用する。ヘッダーは1160px以上で横並び、未満で開閉メニューとし、CSSとJavaScriptの判定、フォーカス移動、`display_mode=desktop/mobile_menu` の計測を合わせる。
 - Career Compassは既存の表示・クリックイベントを使い、位置は `home_hero_purpose` / `home_career_section`、variantは `purpose_entry_v1`。軸ノートは既存イベントで `home_career_support`。いずれも `home_link_click` を重ねない。共通ヘッダーの計測は維持する。
 - 新着は公開日降順（同日はslug順）の4件で、おすすめと重複させない。おすすめは公開済み記事だけを参照する。代表ツールID・おすすめslug・ランキング・工場・研究リンクの順序は `src/data/home.ts`、ツール情報は `src/data/learning-tools.ts` を正本にする。
 - 本番反映日から4週間、トップ閲覧セッションに対する目的別の入口クリックと、既存イベントで追える利用開始・完了を確認する。クリック数を人数・完了数と混同しない。新設の一般リンク計測には変更前の同一定義の基準値がないため、導入前後の改善率を算出しない。少数の場合は観察期間を延長する。
