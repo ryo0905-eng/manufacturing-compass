@@ -45,6 +45,11 @@
 .sortNote { margin:0 0 10px; font-size:12px; color:var(--muted); }
 .chartFigure { margin:16px 0 0; }
 .chartUnit { display:block; margin-top:-12px; height:12px; font-size:10px; line-height:1; color:var(--muted); }
+.chartToolbar { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:-12px; min-height:44px; }
+.chartToolbar .chartUnit { margin:0; height:auto; }
+.chartExpand { min-height:44px; min-width:44px; padding:4px; border:0; background:transparent; color:var(--blue); font-size:11px!important; }
+.chartFigure[data-zoom=true] .chartControl { cursor:zoom-in; }
+.chartFigure[data-zoom=true] .chartTooltip { pointer-events:none; }
 .chartRow { display:grid; grid-template-columns:32px minmax(0,1fr); }
 .chartAxis { position:relative; height:48px; color:var(--muted); font-size:10px; line-height:1; font-variant-numeric:tabular-nums; }
 .chartAxis>span { position:absolute; right:4px; transform:translateY(-50%); }
@@ -73,9 +78,48 @@
 .disclosure time,.disclosure small { font-size:12px; color:var(--muted); }
 .disclosure h3 { font-size:14px; margin:16px 0 10px; }
 .notice { font-size:13px; padding:12px 16px; background:#fff8e9; color:#70500c; border-radius:5px; line-height:1.8; margin:0 0 12px; }
+.financialDialog { width:min(960px,calc(100% - 48px)); max-width:none; max-height:90dvh; margin:auto; padding:0; border:1px solid var(--line); border-radius:12px; background:#fff; color:var(--ink); overflow:auto; overscroll-behavior:contain; }
+.financialDialog::backdrop { background:rgb(29 29 31 / 45%); }
+.financialDialog :is(button,a,[tabindex]):focus-visible { outline:3px solid var(--blue); outline-offset:3px; }
+.zoomHeader { position:sticky; top:0; z-index:1; display:flex; align-items:start; justify-content:space-between; gap:12px; padding:20px 24px 14px; border-bottom:1px solid var(--line); background:#fff; }
+.zoomHeader h2 { margin:0; font-size:21px; font-weight:600; line-height:1.5; overflow-wrap:anywhere; }
+.zoomHeader p { margin:4px 0 0; font-size:12px; color:var(--muted); }
+.zoomHeader button { flex-shrink:0; min-height:44px; padding:8px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); font-size:13px; }
+.zoomBody { padding:16px 24px 24px; overflow-wrap:anywhere; }
+.zoomBody a { color:var(--blue); text-decoration:underline; text-underline-offset:3px; }
+.zoomBody>a { display:inline-flex; align-items:center; min-height:44px; }
+.zoomNote { margin:8px 0 16px; font-size:12px; line-height:1.8; color:var(--muted); }
+.comboFigure { margin:20px 0; }
+.comboLegend { display:flex; flex-wrap:wrap; gap:8px 20px; font-size:13px; }
+.comboLegend span { display:inline-flex; align-items:center; gap:6px; }
+.revenueSwatch { width:12px; height:12px; background:#3976bd; }
+.marginSwatch { width:20px; height:0; border-top:2px solid #b95d12; }
+.comboAxisNames { display:flex; justify-content:space-between; gap:12px; margin:18px 0 12px; font-size:11px; color:var(--muted); }
+.comboRow { display:grid; grid-template-columns:48px minmax(0,1fr) 48px; padding-bottom:26px; }
+.comboAxis { position:relative; height:280px; font-size:11px; line-height:1; color:var(--muted); font-variant-numeric:tabular-nums; }
+.comboAxis>span { position:absolute; right:6px; transform:translateY(-50%); }
+.comboRightAxis>span { right:auto; left:6px; }
+.comboControl { position:relative; min-width:0; height:280px; touch-action:pan-y; cursor:crosshair; }
+.comboControl svg { display:block; width:100%; height:100%; overflow:visible; }
+.comboDates { position:relative; height:20px; margin-top:8px; font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; }
+.comboDates span { position:absolute; white-space:nowrap; }
+.comboValues { padding:14px 16px; border:1px solid var(--line); border-radius:8px; font-size:13px; line-height:1.7; font-variant-numeric:tabular-nums; }
+.comboValues dl { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:12px 0; }
+.comboValues dt { font-size:12px; color:var(--muted); }
+.comboValues dd { margin:2px 0 0; font-size:22px; font-weight:600; }
+.comboValues p { margin:4px 0; }
 @media(min-width:1280px) { .financialGrid { grid-template-columns:repeat(6,minmax(0,1fr)); } }
 @media(min-width:768px) and (max-width:1023px) { .financialGrid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 @media(max-width:767px) {
+ .financialDialog { position:fixed; inset:0; width:100%; height:100dvh; max-height:100dvh; margin:0; border:0; border-radius:0; }
+ .zoomHeader { padding:max(12px,env(safe-area-inset-top)) 16px 12px; }
+ .zoomHeader h2 { font-size:18px; }
+ .zoomBody { padding:12px 16px max(24px,env(safe-area-inset-bottom)); }
+ .comboRow { grid-template-columns:40px minmax(0,1fr) 40px; }
+ .comboAxis,.comboControl { height:240px; }
+ .comboDates,.comboAxis { font-size:10px; }
+ .comboValues { padding:12px; }
+ .comboValues dd { font-size:20px; }
  .page { padding:20px 12px 48px; }
  .header { align-items:start; flex-direction:column; gap:6px; margin-bottom:16px; }
  .header h1 { font-size:26px; }

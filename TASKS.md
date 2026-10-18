@@ -1,5 +1,29 @@
 # TASKS
 
+## 2026-10-18：業界ウォッチのグラフ拡大と複合表示
+
+- 一覧の共通縦軸・指標切替・並べ替えを維持し、各グラフのクリック／タップと44px以上の「拡大」ボタンからネイティブdialogを開く。ホバー・左右キー／Home／Endによる一覧の数値確認を残し、選択期はボタンへのフォーカス移動後も引き継ぐ。未選択時は直近期。選択期間5／10／20年を保持し、拡大内の期間切替やURL変更は追加していない。
+- 拡大表示は売上高の青い棒・左軸、営業利益率のオレンジの線・右軸。既存の投影・軸・線分処理とサイズ可変の座標計算を使い、企業・期間ごとの全有効値から独立した軸を求める。売上高は0始まり、利益率は赤字・0%を含める。軸名・単位・凡例・「企業ごとの目盛り」を常設し、ホバー／タップ／左右キー／Home／Endで同一期の両指標を確認。欠測や比較不能な境界は補完・接続しない。
+- PCは最大960pxの中央表示、767px以下は全画面。閉じるボタン・Escape・背景クリックで終了し、背景へのドラッグでは閉じない。表示中は背景スクロールを止め、終了時にスクロール制御と起点のフォーカスを復帰する。原通貨・前年比・範囲・基準・算出値・欠測理由・掲載期数・数値確認日・為替基準日・FRB出典と期間付き企業別リンクを表示。初期HTMLの数値表、データ形式、日次タスク対象を維持。
+- 検証：`node --test tests/unit/watch-explorer.cjs tests/unit/earnings-history.cjs`を175秒上限付きで1回実行、33件すべて成功。`npm run typecheck`も175秒上限付きで1回実行して成功。`git diff --check`成功。公開禁止語はsrcと対象仕様書で該当なし。新しいコンポーネントテストはモックによる操作・開閉・スクロール復帰・フォーカス復帰の処理を確認しており、ブラウザのネイティブフォーカストラップや実レイアウトを確認したものではない。
+- E2E仕様を5画面幅での複合表示・選択期・Escape・フォーカス復帰とスマホのタップ・全画面表示へ更新。E2E実行、実ブラウザ・実端末確認、dev・build・lint・commit・pushは未実施。本番反映は未確認。
+
+変更ファイル：
+
+- `src/components/chip-pulse/WatchFinancialHistory.tsx`（新規）
+- `src/components/chip-pulse/WatchFinancialChart.tsx`
+- `src/components/chip-pulse/WatchFinancialCard.tsx`
+- `src/components/chip-pulse/WatchExplorer.tsx`
+- `src/components/chip-pulse/WatchExplorer.module.css`
+- `tests/unit/watch-explorer.cjs`
+- `tests/e2e/chip-pulse.spec.ts`
+- `docs/PRD.md`
+- `docs/architecture.md`
+- `docs/semiconductor-watch-editorial.md`
+- `TASKS.md`
+
+推奨コミット：`feat: add expanded watch financial combo charts`
+
 ## 2026-10-18：企業研究3ページの役割・主要操作・相互案内を明確化
 
 - 業界地図は企業の役割、国内拠点マップは所在地と拠点の役割、新設・増設記事は建設・試作・量産の段階と予定を冒頭で説明。共通の静的データとServer Componentを追加し、「別の調べ方」では現在のページを除く2リンクを表示。記事への追加は工場新設記事だけに限定した。

@@ -449,7 +449,7 @@ test('sort controls persist across metric, theme, years and history and emit onl
   ui.cleanup();
 });
 
-function chartController(series, metric = 'revenue', years = 10) {
+function chartController(series, metric = 'revenue', years = 10, onZoom) {
   const { watchPlot } = require('../../src/components/chip-pulse/WatchFinancialChart.tsx');
   const data = watchFinancials(series, metric, years);
   const domain = watchFinancialDomain([series], metric, years);
@@ -458,7 +458,7 @@ function chartController(series, metric = 'revenue', years = 10) {
   const slots = [], exports = {}; let cursor = 0;
   const hooks = { ...React, useState(initial) { const slot = cursor++; if (!(slot in slots)) slots[slot] = initial; return [slots[slot], value => { slots[slot] = typeof value === 'function' ? value(slots[slot]) : value; }]; } };
   vm.runInNewContext(code, { exports, require(id) { return id === 'react' ? hooks : require(id.startsWith('.') ? path.resolve(path.dirname(filename), id) : id); } }, { filename });
-  const props = { companyId: series.companyId, name: series.name, points: data.points, segments: data.segments, domain, metric };
+  const props = { companyId: series.companyId, name: series.name, points: data.points, segments: data.segments, domain, metric, onZoom };
   const render = () => { cursor = 0; return exports.WatchFinancialChart(props); };
   const control = () => nodes(render(), node => node.props.role === 'slider')[0];
   const tooltip = () => nodes(render(), node => node.props.role === 'tooltip')[0];
@@ -504,4 +504,153 @@ test('chart hover, touch and keyboard expose dates, raw amounts, scope and missi
   assert.match(renderToStaticMarkup(margin.tooltip()), /営業利益率/);
   assert.equal(nodes(margin.render(), node => node.type === 'rect').length, 0);
   assert.ok(nodes(margin.render(), node => node.type === 'polyline').length >= 2);
+});
+
+test('chart and expand button open the selected period, retaining it after keyboard blur', () => {
+  const opened = [], opener = {};
+  const ui = chartController(growthSeries([100, 125, 150, 200]), 'revenue', 5, (...args) => opened.push(args));
+  const button = () => nodes(ui.render(), node => node.type === 'button')[0];
+  assert.equal(button().props['aria-haspopup'], 'dialog');
+  button().props.onClick({ currentTarget: opener }); assert.deepEqual(opened.at(-1), [3, opener]);
+  ui.hover(1);
+  ui.control().props.onClick({ currentTarget: opener }); assert.deepEqual(opened.at(-1), [1, opener]);
+  ui.tap(2);
+  ui.control().props.onClick({ currentTarget: opener }); assert.deepEqual(opened.at(-1), [2, opener]);
+  ui.key('Home'); ui.control().props.onBlur();
+  button().props.onClick({ currentTarget: opener }); assert.deepEqual(opened.at(-1), [0, opener]);
+});
+
+// Component-level interaction tests use the same hook simulation as the existing chart tests.
+// Native layout, focus trapping and platform Escape handling still require a browser check.
+function historyController(component, props) {
+  const filename = path.resolve('src/components/chip-pulse/WatchFinancialHistory.tsx');
+  const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } }).outputText;
+  const slots = [], pending = [], exports = {};
+  let cursor = 0;
+  const hooks = { ...React,
+    useState(initial) { const slot = cursor++; if (!(slot in slots)) slots[slot] = typeof initial === 'function' ? initial() : initial; return [slots[slot], value => { slots[slot] = typeof value === 'function' ? value(slots[slot]) : value; }]; },
+    useRef(initial) { const slot = cursor++; return slots[slot] ??= { current: initial }; },
+    useEffect(effect, deps) { const slot = cursor++; if (!slots[slot] || deps.some((value, index) => value !== slots[slot].deps[index])) { const previous = slots[slot]; slots[slot] = { deps }; pending.push(() => { previous?.cleanup?.(); slots[slot].cleanup = effect(); }); } },
+  };
+  const document = { body: { style: { overflow: 'auto' } } };
+  vm.runInNewContext(code, { exports, document, require(id) { return id === 'react' ? hooks : require(id.startsWith('.') ? path.resolve(path.dirname(filename), id) : id); } }, { filename });
+  return { document, render() { cursor = 0; return exports[component](props); }, flush() { pending.splice(0).forEach(effect => effect()); }, cleanup() { slots.forEach(slot => slot?.cleanup?.()); } };
+}
+
+function comboController(series, years = 10, initialIndex = series.periods.length - 1) {
+  const props = { companyId: series.companyId, revenue: watchFinancials(series, 'revenue', years), margin: watchFinancials(series, 'operating_margin', years),
+    revenueDomain: watchFinancialDomain([series], 'revenue', years), marginDomain: watchFinancialDomain([series], 'operating_margin', years), initialIndex };
+  const ui = historyController('WatchFinancialComboChart', props);
+  return { ...ui, props, control: () => nodes(ui.render(), node => node.props.role === 'slider')[0] };
+}
+
+test('expanded combo plots use company axes and the selected window, preserve losses and never bridge gaps', () => {
+  const { watchPlot } = require('../../src/components/chip-pulse/WatchFinancialChart.tsx');
+  const series = growthSeries(Array.from({ length: 20 }, (_, index) => 100 + index * 20));
+  series.periods[16].operatingIncome = { status: 'unretrieved', reason: '営業利益の欠測' };
+  series.periods[18].breakBefore = '対象範囲の変更';
+  series.periods[18].operatingIncome.value = -100;
+  for (const years of [5, 10, 20]) {
+    const ui = comboController(series, years, 1);
+    const tree = ui.render();
+    assert.equal(ui.props.revenue.points.length, years);
+    assert.equal(ui.control().props['aria-valuenow'], 1);
+    assert.equal(ui.props.revenueDomain.min, 0);
+    const large = copy(series); large.periods.at(-1).revenue.value *= 100;
+    assert.ok(ui.props.revenueDomain.max < watchFinancialDomain([large, series], 'revenue', years).max);
+    const size = { width: 720, height: 280, inset: 8, maxBarWidth: 40 };
+    const plot = watchPlot(ui.props.revenue.points, ui.props.revenueDomain, size);
+    const right = watchPlot(ui.props.margin.points, ui.props.marginDomain, size);
+    const bars = nodes(tree, node => node.type === 'rect');
+    assert.equal(bars.length, years);
+    assert.ok(bars.at(-1).props.height > 150, 'The smaller company uses most of the expanded plot height');
+    for (let index = 0; index < bars.length; index++) {
+      const bar = bars[index].props, point = ui.props.revenue.points[index];
+      assert.equal(bar.y, plot.y(point.value));
+      assert.ok(bar.x >= 0 && bar.x + bar.width <= 720 && bar.y + bar.height <= 280);
+    }
+    assert.ok(ui.props.marginDomain.min < 0);
+    const lines = nodes(tree, node => node.type === 'polyline');
+    assert.equal(lines.length, 3, 'Both the missing income and reporting boundary split the margin line');
+    ui.props.margin.segments.forEach((segment, index) => assert.equal(lines[index].props.points, segment.map(point => `${plot.x(point.period.end)},${right.y(point.value)}`).join(' ')));
+    assert.ok(nodes(tree, node => node.type === 'circle').some(node => node.props.cy > right.y(0)), 'Negative margin is below the right-axis zero');
+    ui.control().props.onKeyDown({ key: 'End', preventDefault() {} });
+    assert.match(ui.control().props['aria-valuetext'], /営業利益率/);
+    ui.control().props.onKeyDown({ key: 'Home', preventDefault() {} });
+    assert.equal(ui.control().props['aria-valuenow'], 0);
+    ui.control().props.onKeyDown({ key: 'ArrowLeft', preventDefault() {} });
+    assert.equal(ui.control().props['aria-valuenow'], 0);
+    ui.control().props.onKeyDown({ key: 'ArrowRight', preventDefault() {} });
+    assert.equal(ui.control().props['aria-valuenow'], 1);
+    let prevented = false;
+    ui.control().props.onKeyDown({ key: 'Escape', preventDefault() { prevented = true; } });
+    assert.equal(prevented, false, 'Escape must reach the native dialog');
+  }
+});
+
+test('combo selection handles hover, taps, missing values, a single period and empty histories', () => {
+  const series = growthSeries([100, 120, 140]);
+  series.periods[1].revenue = { status: 'unpublished', reason: '売上高未公表' };
+  const ui = comboController(series);
+  const { watchPlot } = require('../../src/components/chip-pulse/WatchFinancialChart.tsx');
+  const plot = watchPlot(ui.props.revenue.points, ui.props.revenueDomain, { width: 720, height: 280, inset: 8, maxBarWidth: 40 });
+  const target = { getBoundingClientRect: () => ({ left: 50, width: 720 }), focus() {} };
+  ui.control().props.onPointerMove({ pointerType: 'mouse', clientX: 50 + plot.x(series.periods[0].end), currentTarget: target });
+  assert.equal(ui.control().props['aria-valuenow'], 0);
+  ui.control().props.onPointerDown({ pointerType: 'touch', clientX: 50 + plot.x(series.periods[1].end), currentTarget: target });
+  assert.equal(ui.control().props['aria-valuenow'], 1);
+  const values = nodes(ui.render(), node => node.props.className === 'comboValues')[0];
+  assert.match(renderToStaticMarkup(values), /売上高未公表/);
+  assert.match(renderToStaticMarkup(values), /算出不可/);
+  assert.equal(nodes(ui.render(), node => node.type === 'rect').length, 2);
+  const single = comboController(growthSeries([100]));
+  assert.equal(single.control().props['aria-valuenow'], 0);
+  const bar = nodes(single.render(), node => node.type === 'rect')[0].props;
+  assert.equal(bar.x + bar.width / 2, 360);
+  assert.ok(Number.isFinite(bar.height));
+  const empty = growthSeries([]);
+  assert.match(renderToStaticMarkup(comboController(empty).render()), /年次履歴未取得/);
+});
+
+test('history wrapper carries selection and years into the dialog and closes without URL changes', () => {
+  const series = growthSeries([100, 120, 140]), opener = {};
+  const props = { history: series, companyId: series.companyId, name: series.name, years: 5, href: '/semiconductor-watch/earnings/asml?years=5#annual-history',
+    ...watchFinancials(series, 'revenue', 5), metric: 'revenue', domain: watchFinancialDomain([series], 'revenue', 5) };
+  const ui = historyController('WatchFinancialHistory', props);
+  const chart = nodes(ui.render(), node => typeof node.props.onZoom === 'function')[0];
+  chart.props.onZoom(1, opener);
+  const dialog = nodes(ui.render(), node => node.type?.name === 'WatchFinancialDialog')[0];
+  assert.equal(dialog.props.initialIndex, 1); assert.equal(dialog.props.opener, opener);
+  assert.equal(dialog.props.years, 5); assert.equal(dialog.props.href, props.href);
+  dialog.props.onClose();
+  assert.equal(nodes(ui.render(), node => node.type?.name === 'WatchFinancialDialog').length, 0);
+});
+
+test('native dialog lifecycle restores scroll and focus; close, cancel and genuine backdrop clicks exit', () => {
+  const history = copy(annualHistories.find(series => series.companyId === 'kla'));
+  let closed = 0, focused = 0, shown = 0, nativeClosed = 0;
+  const props = { history, years: 5, href: '/semiconductor-watch/earnings/kla?years=5#annual-history', initialIndex: 1,
+    opener: { focus() { focused++; } }, onClose() { closed++; } };
+  const ui = historyController('WatchFinancialDialog', props);
+  const tree = ui.render();
+  const element = { showModal() { shown++; }, close() { nativeClosed++; }, getBoundingClientRect: () => ({ left: 100, right: 900, top: 100, bottom: 700 }) };
+  tree.props.ref.current = element;
+  ui.flush(); assert.equal(shown, 1); assert.equal(ui.document.body.style.overflow, 'hidden');
+  const combo = nodes(tree, node => node.type?.name === 'WatchFinancialComboChart')[0];
+  assert.equal(combo.props.initialIndex, 1);
+  assert.equal(combo.props.revenue.points.length, 5);
+  assert.deepEqual(combo.props.revenueDomain, watchFinancialDomain([history], 'revenue', 5));
+  const html = renderToStaticMarkup(tree);
+  assert.match(html, /企業ごとの目盛り/); assert.match(html, /算出値/); assert.match(html, /FRB H.10/);
+  assert.match(html, new RegExp(watchExchange.asOf)); assert.ok(html.includes(props.href));
+  const close = nodes(tree, node => node.type === 'button')[0];
+  assert.equal(close.props.autoFocus, true); close.props.onClick(); assert.equal(closed, 1);
+  let prevented = false;
+  tree.props.onCancel({ preventDefault() { prevented = true; } });
+  assert.equal(prevented, true); assert.equal(closed, 2);
+  const event = (x, y) => ({ target: element, currentTarget: element, clientX: x, clientY: y });
+  tree.props.onPointerDown(event(200, 200)); tree.props.onClick(event(200, 200)); assert.equal(closed, 2);
+  tree.props.onPointerDown(event(200, 200)); tree.props.onClick(event(50, 50)); assert.equal(closed, 2, 'Dragging from the plot onto the backdrop does not dismiss');
+  tree.props.onPointerDown(event(50, 50)); tree.props.onClick(event(50, 50)); assert.equal(closed, 3);
+  ui.cleanup(); assert.equal(nativeClosed, 1); assert.equal(ui.document.body.style.overflow, 'auto'); assert.equal(focused, 1);
 });

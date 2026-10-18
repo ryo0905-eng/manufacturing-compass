@@ -2,7 +2,7 @@ import { CompanyCardLogo } from "@/components/CompanyCardLogo";
 import { annualNumber, annualUnit, comparableAnnualPeriods, reportedValue, type AnnualPeriod, type AnnualYears, type AnnualSeries } from "@/lib/earnings-history-math";
 import { watchExchange, watchFinancials, watchMetrics, watchPercent, watchYenAmount, watchYearMonth, type WatchMetric, type WatchFinancialDomain } from "@/lib/watch-financials";
 import type { WatchCompany } from "@/lib/watch-explorer";
-import { WatchFinancialChart } from "./WatchFinancialChart";
+import { WatchFinancialHistory } from "./WatchFinancialHistory";
 import { MediaLink } from "./MediaLinks";
 import styles from "./WatchExplorer.module.css";
 
@@ -29,7 +29,7 @@ export function WatchFinancialCard({ company, series: history, metric, domain, s
       </MediaLink>
       <p className={styles.cardLatest}>{last ? <time dateTime={last.end}>{watchYearMonth(last.end)}期 · 通期</time> : "直近期未取得"}
         {metric === "revenue" ? <><br />前年比 {watchPercent(data?.revenueYoY ?? null, true)}</> : null}</p>
-      {data ? <WatchFinancialChart key={`${metric}-${years}`} companyId={company.id} name={company.name} metric={metric} domain={domain} points={data.points} segments={data.segments} /> : <p className={styles.cardScope}>年次履歴未取得</p>}
+      {data && history ? <WatchFinancialHistory key={`${metric}-${years}`} history={history} years={years} href={linkProps.href} companyId={company.id} name={company.name} metric={metric} domain={domain} points={data.points} segments={data.segments} /> : <p className={styles.cardScope}>年次履歴未取得</p>}
       <div className={styles.cardDates}>{first && last ? <><time dateTime={first.end}>{watchYearMonth(first.end)}</time><time dateTime={last.end}>{watchYearMonth(last.end)}</time></> : null}</div>
       <p className={styles.cardScope}>{company.id === "samsung-electronics" ? "DS部門" : last?.financialScope ?? company.scope}{data && data.points.length < years ? ` · ${data.points.length}期掲載` : ""}{data?.calculated ? " · 営業利益は算出値" : ""}{boundary ? " · 範囲・期間等の変更あり" : ""}
         {data?.latest == null ? <><br />{data?.missingReason ?? "年次履歴未取得"}</> : null}

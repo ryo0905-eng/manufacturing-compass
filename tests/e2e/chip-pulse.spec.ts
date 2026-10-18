@@ -17,6 +17,19 @@ test("watchの財務カード・指標・テーマ・履歴と旧記事を5画�
     await chart.hover(); await expect(cards.first().getByRole('tooltip')).toBeVisible();
     await chart.focus(); await chart.press('Home'); await expect(chart).toHaveAttribute('aria-valuenow', '0');
     await chart.press('End'); await chart.press('Escape'); await expect(cards.first().getByRole('tooltip')).toHaveCount(0);
+    await chart.press('Home');
+    const expand = cards.first().getByRole('button', { name: /業績グラフを拡大/ });
+    await expand.focus(); await expand.press('Enter');
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText('企業ごとの目盛り');
+    await expect(dialog.locator('svg rect').first()).toBeVisible();
+    await expect(dialog.locator('svg polyline').first()).toBeVisible();
+    const zoomChart = dialog.getByRole('slider');
+    await expect(zoomChart).toHaveAttribute('aria-valuenow', '0');
+    await zoomChart.focus(); await zoomChart.press('End');
+    await zoomChart.press('Escape'); await expect(dialog).toHaveCount(0);
+    await expect(expand).toBeFocused();
     await page.getByRole('button', { name: '売上前年比順', exact: true }).click();
     await expect(page).toHaveURL(/sort=growth/);
     const profit = page.getByRole('button', { name: '営業利益率', exact: true });
@@ -60,7 +73,7 @@ test("JavaScriptなしでも12社の年次グラフ・数値表と最新四半�
   } finally { await context.close(); }
 });
 
-test("スマホのグラフをタップすると値を確認でき、詳細へ移動しない", async ({ browser, baseURL }) => {
+test("スマホのグラフをタップすると複合グラフが全画面で開き、詳細へ移動しない", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
   try {
     const page = await context.newPage();
@@ -68,9 +81,16 @@ test("スマホのグラフをタップすると値を確認でき、詳細へ�
     const card = page.locator('#watch-chart > ul > li').first();
     const before = page.url();
     await card.getByRole('slider').tap();
-    await expect(card.getByRole('tooltip')).toBeVisible();
-    await expect(card.getByRole('tooltip')).toContainText('原通貨');
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText('売上高（原通貨）');
+    await expect(dialog).toContainText('営業利益率（右軸・%）');
+    const bounds = await dialog.boundingBox();
+    expect(bounds?.width).toBe(390); expect(bounds?.height).toBe(844);
+    await dialog.getByRole('slider').tap();
     expect(page.url()).toBe(before);
+    await dialog.getByRole('button', { name: '業績グラフを閉じる' }).tap();
+    await expect(dialog).toHaveCount(0);
     await page.getByRole('button', { name: '営業利益率', exact: true }).click();
     await expect(page.getByRole('tooltip')).toHaveCount(0);
   } finally { await context.close(); }

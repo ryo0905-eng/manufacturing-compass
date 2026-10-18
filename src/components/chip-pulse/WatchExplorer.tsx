@@ -82,7 +82,7 @@ export function WatchExplorer({ companies, news, now, histories = [], children }
       <p className={styles.chartNote}>{selection.metric === "revenue" ? <>
         同一為替で円換算した規模比較用の概算です（為替基準日 <time dateTime={watchExchange.asOf}>{watchExchange.asOf}</time>）。過去当時の円建て実績とは異なります。
         <MediaLink href={watchExchange.source.url} articleId="watch-exchange" action="source" placement="explore" uiVersion={uiVersion}>換算元：FRB H.10</MediaLink>。
-      </> : "営業利益率（%）の推移。"}縦軸は全12社で共通、破線は{selection.metric === "revenue" ? "0円" : "0%"}です。通期実績の比較であり、各社で決算期・対象範囲が異なります。ホバー・タップ・左右キーで各期の値を確認できます。</p>
+      </> : "営業利益率（%）の推移。"}縦軸は全12社で共通、破線は{selection.metric === "revenue" ? "0円" : "0%"}です。通期実績の比較であり、各社で決算期・対象範囲が異なります。ホバー・左右キーで各期の値を確認できます。グラフのクリック・タップ、または「拡大」で、企業ごとの目盛りで売上高と営業利益率を重ねて表示します。</p>
       <p className={styles.sortNote}>{selection.metric === "operating_margin" ? "直近通期の営業利益率が高い順" : selection.sort === "growth" ? "直近通期の売上前年比が高い順" : "直近通期の円換算売上高が大きい順"}</p>
       <p className={styles.srOnly} role="status">{metric.chartLabel}を{visible.length}社に表示（最大{selection.years}年）</p>
       <div id="watch-chart">

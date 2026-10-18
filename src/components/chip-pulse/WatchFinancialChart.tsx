@@ -7,22 +7,25 @@ import styles from "./WatchExplorer.module.css";
 
 const width = 240, height = 48, inset = 4;
 
-export function watchPlot(points: WatchFinancialPoint[], domain: WatchFinancialDomain) {
+export function watchPlot(points: AnnualPoint[], domain: WatchFinancialDomain, size = { width, height, inset, maxBarWidth: 24 }) {
+  const { width, height, inset, maxBarWidth } = size;
   const start = Date.parse(points[0]?.period.end ?? "2000-01-01");
   const span = Math.max(1, Date.parse(points.at(-1)?.period.end ?? "2000-01-01") - start);
   const gap = Math.min(...points.slice(1).map((point, index) => Date.parse(point.period.end) - Date.parse(points[index].period.end)));
-  const barWidth = Math.min(24, (width - inset * 2) / Math.max(1, points.length) * .65, gap / span * (width - inset * 2) * .65);
+  const barWidth = Math.min(maxBarWidth, (width - inset * 2) / Math.max(1, points.length) * .65, gap / span * (width - inset * 2) * .65);
   const x = (date: string) => points.length === 1 ? width / 2 : inset + barWidth / 2 + (Date.parse(date) - start) / span * (width - inset * 2 - barWidth);
   const y = (value: number) => height - inset - (value - domain.min) / (domain.max - domain.min) * (height - inset * 2);
   const nearest = (position: number) => points.reduce((best, point, index) => Math.abs(x(point.period.end) - position) < Math.abs(x(points[best].period.end) - position) ? index : best, 0);
   return { x, y, barWidth, nearest };
 }
 
-export function WatchFinancialChart({ companyId, name, points, segments, metric, domain }: {
+export function WatchFinancialChart({ companyId, name, points, segments, metric, domain, onZoom }: {
   companyId: string; name: string; points: WatchFinancialPoint[]; segments: AnnualPoint[][]; metric: WatchMetric; domain: WatchFinancialDomain;
+  onZoom?: (index: number, opener: HTMLElement) => void;
 }) {
   const [active, setActive] = useState<number | null>(null);
   const [focused, setFocused] = useState(false);
+  const [lastActive, setLastActive] = useState<number | null>(null);
   const plot = watchPlot(points, domain);
   const point = active === null ? null : points[active];
   const label = metric === "revenue" ? "売上高" : "営業利益率";
@@ -39,19 +42,24 @@ export function WatchFinancialChart({ companyId, name, points, segments, metric,
   function choose(event: PointerEvent<HTMLDivElement>) {
     if (!points.length) return;
     const rect = event.currentTarget.getBoundingClientRect();
-    if (rect.width > 0) setActive(plot.nearest((event.clientX - rect.left) / rect.width * width));
+    if (rect.width > 0) {
+      const index = plot.nearest((event.clientX - rect.left) / rect.width * width);
+      setActive(index); setLastActive(index);
+    }
   }
   function keyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (!points.length) return;
     const current = active ?? points.length - 1;
     const next = event.key === "ArrowLeft" ? Math.max(0, current - 1) : event.key === "ArrowRight" ? Math.min(points.length - 1, current + 1)
       : event.key === "Home" ? 0 : event.key === "End" ? points.length - 1 : event.key === "Escape" ? null : undefined;
-    if (next !== undefined) { event.preventDefault(); setActive(next); }
+    if (next !== undefined) { event.preventDefault(); setActive(next); if (next !== null) setLastActive(next); }
   }
 
-  return <figure className={styles.chartFigure} onPointerLeave={event => { if (event.pointerType !== "touch" && !focused) setActive(null); }}>
+  return <figure className={styles.chartFigure} data-zoom={Boolean(onZoom)} onPointerLeave={event => { if (event.pointerType !== "touch" && !focused) setActive(null); }}>
     <figcaption className={styles.srOnly}>{name}の年次{label}。全12社で共通の縦軸。</figcaption>
-    <span className={styles.chartUnit} aria-hidden="true">{unit}</span>
+    <div className={styles.chartToolbar}><span className={styles.chartUnit} aria-hidden="true">{unit}</span>
+    {onZoom && points.length ? <button type="button" className={styles.chartExpand} aria-haspopup="dialog" aria-label={`${name}の業績グラフを拡大`}
+      onClick={event => onZoom(active ?? lastActive ?? points.length - 1, event.currentTarget)}>拡大 <span aria-hidden="true">↗</span></button> : null}</div>
     <div className={styles.chartRow}>
       <div className={styles.chartAxis} aria-hidden="true">{ticks.map(value => <span key={value} style={{ top: `${plot.y(value) / height * 100}%` }}>{annualNumber(value / divisor)}</span>)}</div>
       <div className={styles.chartControl} role={points.length ? "slider" : "img"} tabIndex={points.length ? 0 : undefined}
@@ -60,8 +68,9 @@ export function WatchFinancialChart({ companyId, name, points, segments, metric,
         aria-valuenow={points.length ? active ?? points.length - 1 : undefined} aria-valuetext={points.length ? valueText : undefined}
         aria-describedby={`${helpId}${point ? ` ${tooltipId}` : ""}`}
         onPointerMove={choose} onPointerDown={event => { event.currentTarget.focus({ preventScroll: true }); choose(event); }}
-        onPointerCancel={() => setActive(null)} onFocus={() => { setFocused(true); setActive(active ?? points.length - 1); }}
-        onBlur={() => { setFocused(false); setActive(null); }} onKeyDown={keyDown}>
+        onPointerCancel={() => setActive(null)} onFocus={() => { setFocused(true); setActive(active ?? lastActive ?? points.length - 1); }}
+        onBlur={() => { setFocused(false); setActive(null); }} onKeyDown={keyDown}
+        onClick={onZoom ? event => onZoom(active ?? lastActive ?? points.length - 1, event.currentTarget) : undefined}>
         <svg className={styles.sparkline} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" aria-hidden="true">
           <title>{`${name}の年次${label}。${metric === "revenue" ? "同一為替で円換算した規模比較用の概算。" : ""}全12社で共通の縦軸。`}</title>
           {ticks.map(value => <line key={value} x1={inset} x2={width - inset} y1={plot.y(value)} y2={plot.y(value)} stroke="#e5e7eb" />)}
@@ -81,7 +90,7 @@ export function WatchFinancialChart({ companyId, name, points, segments, metric,
         </svg>
       </div>
     </div>
-    <span id={helpId} className={styles.srOnly}>ホバー・タップ、または左右キーで各期の値を確認。Homeで最初、Endで最後、Escapeで閉じます。</span>
+    <span id={helpId} className={styles.srOnly}>ホバー・左右キーで各期の値を確認。Homeで最初、Endで最後、Escapeで閉じます。{onZoom ? "クリック・タップ、または拡大ボタンで売上高と営業利益率を拡大表示します。" : "タップでも値を確認できます。"}</span>
     {point ? <div id={tooltipId} role="tooltip" className={styles.chartTooltip}>
       <strong>{watchYearMonth(point.period.end)}期 · {label} {format(point.value)}</strong>
       {metric === "revenue" ? <span>原通貨：{reportedValue(point.period.revenue) === null ? "未公表・未取得" : `${annualNumber(reportedValue(point.period.revenue))}${annualUnit(point.period)}`}</span> : null}
