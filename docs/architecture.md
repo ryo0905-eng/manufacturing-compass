@@ -1,6 +1,6 @@
 # Architecture
 
-最終更新日: 2026-10-18
+最終更新日: 2026-10-20
 
 ## 方針
 
@@ -445,3 +445,9 @@ Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示�
 質問・選択肢は `src/data/job-posting-note.ts`、整理とコピー文は `src/lib/job-posting-note.ts`、操作は `JobPostingNote.tsx` とCSS Module。既存 `priorityItems` から共通の質問文を参照する。相談準備のServer Componentページ内へ追加し、既存canonicalとsitemap URLを継続する。
 
 native selectと明示的な作成・コピーを使用。回答変更・クリアで結果とコピー状態を無効化し、非同期コピーの通知は改訂番号で制御する。入力保存・外部API・新規依存なし。露出監視は既存 `observeVisibleOnce`、計測は固定actionのみ。[仕様](./job-posting-note-spec.md)。
+
+## 2026-10-20：拠点探索アプリ
+
+`/semiconductor-map`はServer Componentで公開拠点・マップ用会社情報・案件・出典・期限判定済み採用情報を準備し、`SemiconductorLocationApp`をSSRする。`location-explorer.ts`は複数条件、URLの許可値、案件／物理拠点の計数、座標公開条件、8地域集計、参照検査を共有する。`location-companies.ts`は企業詳細の有無から独立した表示情報を提供し、Rapidusを既存Company詳細へ追加しない。`company-location-coordinates.ts`に公式案内由来の座標・根拠を分離する。
+
+Leaflet 1.9.4と型定義を追加し、地図だけ遅延読み込みする。地理院淡色タイルを取得し、出典を常設。初期化解除時にmap.remove、ResizeObserverでサイズ再計算。地図取得失敗でもSSR一覧を維持する。URLは複数条件と選択をpushState/popstateで同期し、検索語はメモリ内だけで扱う。FactoryProjectにlocationId・facilityId・operationalStatus・milestonesを追加して既存比較と地図で共用。両既存URLを維持する。[現行仕様](./semiconductor-location-explorer-spec.md)。

@@ -1,5 +1,6 @@
 import type { GuideArticle } from "@/content/guides/types";
 import { factoryProjects, factoryProjectSources } from "@/data/factory-projects";
+import { factoryProjectMapHref } from "@/lib/location-explorer";
 
 export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
   "slug": "japan-semiconductor-factory-projects",
@@ -16,7 +17,7 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
   "showExperienceBasis": false,
   "showCareerCtas": false,
   "publishedAt": "2026-09-20",
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-20",
   "sources": factoryProjectSources,
   "readTime": "4分",
   "intro": {
@@ -49,6 +50,14 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
         },
         {
           "type": "factory-project-comparison"
+        },
+        {
+          type: "links",
+          items: factoryProjects.map(project => ({
+            label: `${project.name}を地図で見る`,
+            href: factoryProjectMapHref(project),
+            description: `${project.location}の拠点情報と、確認できた節目・予定を開く`,
+          })),
         },
         {
           "type": "link-callout",
@@ -85,7 +94,7 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
       "id": "locations",
       "heading": "工場の場所から企業研究につなげる",
       "paragraphs": [
-        "気になる地域が見つかったら、日本の半導体企業・工場マップで、掲載されている周辺拠点や企業情報も確認できます。マップは工場だけでなく、研究開発や設計などの拠点を探すためのページです。この記事の5案件すべてがマップに登録されているわけではありません。",
+        "気になる地域が見つかったら、日本の半導体企業・工場マップで、周辺拠点や企業情報も確認できます。主要5案件を拠点情報に結び付け、同じ敷地の既存工場と新棟は分けて説明しています。地図には座標を照合できた拠点だけピンを表示し、座標未確認の拠点も一覧から確認できます。",
         "勤務地として検討する場合は、企業の採用ページで、雇用する法人、募集職種、配属予定地を確認しましょう。工場の建設予定と、現在応募できる求人は別の情報です。"
       ],
       "blocks": [

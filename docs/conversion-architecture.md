@@ -498,3 +498,7 @@ watchのカード→企業別`#annual-history`→同業比較→原資料・企�
 初期描画・履歴復元・同じ期間／指標の再押下では操作イベントを送らない。四半期の比較実行は既存イベントのまま。
 
 本番反映とイベント・属性値の受信を確認した後28日間、watchから企業別分析・同業比較への同一セッション遷移、選択期間・指標切替、原資料クリックを確認する。イベント件数を人数や理解度と扱わない。GSCの検索流入は別に観察し、UI変更との因果を断定しない。本番反映・必要属性の登録状況・受信・観測開始日は未確認。非公開の分析数値を公開文書へ転載しない。
+
+## 2026-10-20：地理探索の計測
+
+マップのlocation_map_location_openへselection_source（pin/list/url）と任意のproject_idを追加。filter_useはcompany/status/region/clearを拡張、view_changeはmap/cards/tableを拡張する。location_map_mode_change、location_map_project_entry（既存2件比較からの地図リンク）、location_map_official_clickを追加する。記事の案件別リンクは既存article_internal_clickでも追える。自由入力・座標・地図移動ログは送信しない。拠点・案件IDは掲載データの有限値。イベント受信・本番反映は実装と区別して確認する。[現行仕様](./semiconductor-location-explorer-spec.md)。

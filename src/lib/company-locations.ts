@@ -1,4 +1,4 @@
-import { companies } from "@/data/companies";
+import { locationCompanies } from "@/data/location-companies";
 import { companyLocations, locationSources } from "@/data/company-locations";
 import { hiringSignals } from "@/data/hiring-signals";
 import type {
@@ -8,7 +8,7 @@ import type {
   HiringSignal,
 } from "@/types/company-location";
 
-const companyById = new Map(companies.map((company) => [company.id, company]));
+const companyById = new Map(locationCompanies.map((company) => [company.id, company]));
 const locationById = new Map(companyLocations.map((location) => [location.id, location]));
 const sourceIdSet = new Set(locationSources.map((source) => source.id));
 

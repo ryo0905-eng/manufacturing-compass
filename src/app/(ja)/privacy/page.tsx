@@ -56,6 +56,11 @@ export default function PrivacyPage() {
         </article>
 
         <article>
+          <h2>半導体拠点マップについて</h2>
+          <p>地図を表示すると、国土地理院の配信サーバーから地図画像を取得します。この通信にはIPアドレスなど通常の接続情報が含まれます。端末の現在地は取得しません。検索語はURLやアクセス解析へ送信せず、企業・地域などの選択条件だけを共有URLへ含めます。</p>
+        </article>
+
+        <article>
           <h2>アクセス解析について</h2>
           <p>
             当サイトでは、サイト改善のために Vercel Analytics および Google Analytics 4 を利用します。

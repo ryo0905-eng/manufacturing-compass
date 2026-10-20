@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Route } from "next";
 import { factoryProjects, factoryProjectSources, factoryProjectMeta } from "@/data/factory-projects";
 import { getFactoryProjectPair, factoryProjectComparisonText } from "@/lib/factory-project-comparison";
+import { factoryProjectMapHref } from "@/lib/location-explorer";
 import { trackEvent } from "@/lib/analytics";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import styles from "./FactoryProjectComparison.module.css";
@@ -74,6 +75,7 @@ export function FactoryProjectComparison() {
       <section className={styles.row}><h5>出典と企業情報</h5><div className={styles.pair}>{pair.map((project, index) => <div key={project.id}>
         <strong>{index === 0 ? "A" : "B"}：{project.name}</strong>
         <ul>{project.sourceNumbers.map(number => <li key={number}><a href={factoryProjectSources[number - 1].url} target="_blank" rel="noopener noreferrer">{factoryProjectSources[number - 1].title}</a></li>)}</ul>
+        <p><TrackedInternalLink href={factoryProjectMapHref(project) as Route} eventName="location_map_project_entry" eventProperties={{ source_page: "factory_projects", project_id: project.id }}>この案件を地図で見る →</TrackedInternalLink></p>
         {project.companySlug && <TrackedInternalLink href={`/companies/${project.companySlug}` as Route} eventName="article_company_click" eventProperties={{ source_slug: factoryProjectMeta.sourceSlug, company_id: project.companySlug }}>関連企業の情報を見る →</TrackedInternalLink>}
       </div>)}</div></section>
       <p>工場の計画は、現在の求人や配属先を示すものではありません。</p>

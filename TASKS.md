@@ -1,5 +1,55 @@
 # TASKS
 
+## 2026-10-20：日本地図で探す半導体拠点アプリ
+
+- 既存の全国マップを、複数条件・地図・一覧／表・地域別掲載件数・詳細と実績／予定の時系列が連動する探索アプリへ変更。PCは3列、スマホは地図を先に出し、詳細をネイティブdialogで開く。検索条件・選択を共有URLと履歴へ反映し、自由入力検索語はURL・計測に送らない。
+- 既存26拠点にRapidus IIM・キオクシア北上を追加して13社28物理拠点。主要5案件を4物理拠点へ対応付け、同じ敷地の既存工場・新棟を分ける。新設記事の比較表・2件比較・URLを維持し、案件別の地図リンクを追加。記事編集日は10月20日、案件資料の確認日は既存スナップショットと区別する。
+- Leaflet 1.9.4と型定義を導入し、地理院淡色地図を遅延取得。地図内に出典を表示。地図ライブラリ・タイル失敗時も一覧を維持する。公式ページの地図案内から9拠点の施設座標を照合し、agent-verifiedと根拠・確認日を保持。旧パイロットの第三者地図由来座標は転用していない。残る19拠点（JASM熊本を含む）は一覧のみで、仮位置のピンを置かない。
+- マップ用の会社表示情報を既存Company詳細から分離。Rapidusの会社詳細・会員機能・保存・実行時住所検索・求人API・写真・投資額は追加していない。現行仕様、PRD、構成、SEO、計測、プライバシー説明を更新し、旧V1の人による確認限定条件を承認された照合方法へ改めた。
+- 対象単体テストは最終10件すべて成功。初回のSSRテストはHTMLの&エスケープを考慮していないテスト側の誤りで1件失敗し、修正後に成功。既存2案件比較・外資系日本拠点のテストも成功。型チェックは175秒上限付きで1回成功。型チェック後、未確認座標候補を一覧に残せるよう検証条件を修正し、同じ対象単体テスト10件を再実行して成功。型の再実行は回数制限に従い行っていない。
+- 実行：npm install（Leafletと型定義、ignore-scripts・no-audit・no-fund）、node --test tests/unit/location-explorer.cjs tests/unit/factory-project-comparison.cjs tests/unit/japan-work.cjs、npm run typecheck、git diff --check、公開禁止語照合。各検証を175秒以内で制限。依存取得はsandboxのDNSエラー後に権限昇格して取得。ホストNodeは24.1.0で、package.jsonの指定（22系）とは異なる。
+- ブラウザ・E2E実行・実端末・dev・build・lint・commit・pushは未実施。E2E仕様はPC／スマホの28拠点・選択・条件・戻る・再読込・表・地図失敗・JavaScript無効へ更新。実レイアウト・ネイティブフォーカストラップ・本番反映・イベント受信・検索効果は未確認。反映日を別途記録し、28日・56日後の両URL合算と用途別利用を観察する。
+
+変更ファイル：
+
+- `TASKS.md`
+- `docs/PRD.md`
+- `docs/architecture.md`
+- `docs/conversion-architecture.md`
+- `docs/documentation-map.md`
+- `docs/factory-project-comparison-spec.md`
+- `docs/semiconductor-location-explorer-spec.md`
+- `docs/semiconductor-location-map-implementation-plan.md`
+- `docs/semiconductor-location-map-review.md`
+- `docs/semiconductor-location-map-spec.md`
+- `docs/semiconductor-location-map-technical-decision.md`
+- `docs/semiconductor-location-map-ui-spec.md`
+- `docs/seo.md`
+- `package-lock.json`
+- `package.json`
+- `src/app/(ja)/privacy/page.tsx`
+- `src/app/(ja)/semiconductor-map/page.tsx`
+- `src/components/FactoryProjectComparison.tsx`
+- `src/components/SemiconductorLocationApp.tsx`
+- `src/components/SemiconductorLocationCard.tsx`
+- `src/components/SemiconductorLocationExplorer.module.css`
+- `src/components/SemiconductorLocationExplorer.tsx`
+- `src/components/SemiconductorLocationMap.tsx`
+- `src/components/SemiconductorPrefectureSelector.tsx`
+- `src/content/guides/japan-semiconductor-factory-projects.ts`
+- `src/data/company-location-coordinates.ts`
+- `src/data/company-locations.ts`
+- `src/data/factory-projects.ts`
+- `src/data/location-companies.ts`
+- `src/lib/analytics.ts`
+- `src/lib/company-locations.ts`
+- `src/lib/location-explorer.ts`
+- `src/types/company-location.ts`
+- `tests/e2e/semiconductor-location-map.spec.ts`
+- `tests/unit/location-explorer.cjs`
+
+推奨コミット：`feat: add interactive semiconductor location explorer`
+
 ## 2026-10-18：業界ウォッチの一覧カード説明を拡大へ集約
 
 - グラフ下の通常の「連結全体」・長い範囲変更・欠測・前年比算出不可の理由を常設表示から外し、該当時だけ「DS部門」「算出値」（営業利益率時）「比較に注意」「○期掲載」を短く表示。主数値の未取得・前年比算出不可、一覧のホバー／キー操作、読み上げ用の欠測理由、初期HTMLの数値表を維持した。

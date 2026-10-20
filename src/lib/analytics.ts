@@ -27,12 +27,15 @@ export type LocationMapAnalyticsEventMap = {
     selection_source: "filter" | "result_nav" | "selector";
   };
   location_map_filter_use: {
-    filter_type: "job_family" | "keyword" | "location_type";
+    filter_type: "job_family" | "keyword" | "location_type" | "company" | "status" | "region" | "clear";
     filter_value?: string;
     result_count?: number;
   };
-  location_map_view_change: { view: "list" | "regions" };
-  location_map_location_open: { company_id: string; location_id: string };
+  location_map_view_change: { view: "list" | "regions" | "map" | "cards" | "table" };
+  location_map_location_open: { company_id: string; location_id: string; project_id?: string; selection_source?: "pin" | "list" | "url" };
+  location_map_mode_change: { mode: "locations" | "projects" };
+  location_map_project_entry: { project_id: string; source_page: "factory_projects" };
+  location_map_official_click: { company_id: string; location_id: string };
   location_map_company_click: { company_id: string; location_id: string };
   location_map_official_career_click: {
     company_id: string;

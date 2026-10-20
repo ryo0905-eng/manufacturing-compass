@@ -1,9 +1,14 @@
 import type { CompanyLocation, LocationSource } from "@/types/company-location";
+import { coordinateSources, verifiedLocationCoordinates } from "@/data/company-location-coordinates";
 
 const verifiedAt = "2026-09-03";
 const nextReviewAt = "2027-03-03";
 
 export const locationSources: LocationSource[] = [
+  ...coordinateSources,
+  { id: "RP-IIM", title: "Rapidus IIM：所在地と試作・量産の節目", url: "https://www.rapidus.inc/iim/", publisher: "Rapidus", accessedAt: "2026-10-20", supports: ["identity", "address", "location-type", "products", "operational-status", "status-event"] },
+  { id: "KI-ABOUT", title: "キオクシア岩手：会社概要", url: "https://www.kioxia-iwate.co.jp/about/about-us.html", publisher: "キオクシア岩手", accessedAt: "2026-10-20", supports: ["identity", "address", "location-type", "products"] },
+  { id: "KI-K2", title: "キオクシア岩手：第2製造棟の稼働開始", url: "https://www.kioxia-iwate.co.jp/news/20250930-1.html", publisher: "キオクシア岩手", accessedAt: "2026-10-20", supports: ["operational-status", "status-event"] },
   { id: "JW-KLA", title: "KLA Japan オフィス所在地", url: "https://www.kla.com/careers/locations/japan", publisher: "KLA", accessedAt: "2026-09-22", supports: ["identity", "address", "location-type"] },
   { id: "JW-INF", title: "Infineon Japan / Japan office introduction", url: "https://www.infineon.com/regional/japan", publisher: "Infineon Technologies", accessedAt: "2026-09-22", supports: ["identity", "address", "location-type", "roles"] },
   { id: "T1", title: "TSMC 2025 Annual Report", url: "https://investor.tsmc.com/static/annualReports/2025/english/index.html", publisher: "TSMC", accessedAt: verifiedAt, supports: ["products", "operational-status"] },
@@ -54,7 +59,24 @@ export const locationSources: LocationSource[] = [
   { id: "U4", title: "SUMCO 採用サイト", url: "https://www.sumcosi.com/recruit/", publisher: "SUMCO", accessedAt: "2026-10-01", supports: ["roles", "hiring"] },
 ];
 
-export const companyLocations: CompanyLocation[] = [
+const locationRecords: CompanyLocation[] = [
+  {
+    id: "rapidus-chitose-iim", companyId: "rapidus", slug: "chitose-iim", name: "IIM（半導体開発製造拠点）",
+    legalEntities: [{ legalEntityName: "Rapidus株式会社", relationship: "operator", sourceIds: ["RP-IIM"] }],
+    prefectureCode: "01", prefectureSlug: "hokkaido", prefectureName: "北海道", municipality: "千歳市", address: "北海道千歳市美々758-62",
+    locationTypes: ["factory", "research-development"], industryCategories: ["foundry"], processIds: ["wafer-fabrication"],
+    mainProducts: ["先端ロジック半導体の開発・量産を計画"], jobFamilies: [], sourceIds: ["RP-IIM"],
+    operationalStatus: "pilot", contentStatus: "complete", lastVerifiedAt: "2026-10-20", nextReviewAt: "2026-11-20",
+  },
+  {
+    id: "kioxia-kitakami", companyId: "kioxia", slug: "kitakami", name: "北上工場（キオクシア岩手）",
+    legalEntities: [{ legalEntityName: "キオクシア岩手株式会社", relationship: "operator", sourceIds: ["KI-ABOUT"] }],
+    prefectureCode: "03", prefectureSlug: "iwate", prefectureName: "岩手県", municipality: "北上市", address: "岩手県北上市北工業団地5番29号",
+    locationTypes: ["factory"], industryCategories: ["memory"], processIds: ["wafer-fabrication"],
+    mainProducts: ["フラッシュメモリ"], jobFamilies: [], sourceIds: ["KI-ABOUT", "KI-K2"],
+    facilities: [{ id: "kioxia-kitakami-k2", name: "第2製造棟（K2）", locationTypes: ["factory"], mainProducts: ["フラッシュメモリ"], jobFamilies: [], operationalStatus: "operating", sourceIds: ["KI-K2"] }],
+    operationalStatus: "operating", contentStatus: "complete", lastVerifiedAt: "2026-10-20", nextReviewAt: "2026-11-20",
+  },
   {
     id: "kla-yokohama-hq", companyId: "kla", slug: "yokohama-headquarters", name: "横浜本社",
     legalEntities: [],
@@ -290,3 +312,8 @@ export const companyLocations: CompanyLocation[] = [
     sourceIds: ["U1", "U2", "U3"], lastVerifiedAt: verifiedAt, nextReviewAt, operationalStatus: "operating", contentStatus: "complete",
   },
 ];
+
+export const companyLocations: CompanyLocation[] = locationRecords.map(location => ({
+  ...location,
+  coordinates: verifiedLocationCoordinates[location.id],
+}));

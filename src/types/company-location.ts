@@ -28,6 +28,7 @@ export type JobFamily =
 
 export type OperationalStatus =
   | "operating"
+  | "pilot"
   | "under-construction"
   | "planned"
   | "status-unconfirmed";
@@ -43,6 +44,7 @@ export type LocationSource = Source & {
     | "operational-status"
     | "status-event"
     | "hiring"
+    | "coordinates"
   >;
 };
 
@@ -79,7 +81,17 @@ export type LocationCoordinates = {
   method: "official-map" | "address-geocode" | "named-facility";
   sourceId: string;
   verifiedAt: string;
-  reviewStatus: "automated-check" | "human-reviewed";
+  reviewStatus: "automated-check" | "agent-verified" | "human-reviewed";
+  verificationNote?: string;
+  evidenceUrl?: string;
+};
+
+export type LocationCompany = {
+  id: string;
+  name: string;
+  nameJa: string;
+  slug?: string;
+  websiteUrl: string;
 };
 
 export type CompanyLocation = {

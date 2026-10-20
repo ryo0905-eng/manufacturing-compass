@@ -1,9 +1,19 @@
 import type { Source } from "@/types/content";
+import type { OperationalStatus } from "@/types/company-location";
+
+export type FactoryProjectMilestone = {
+  dateLabel: string;
+  label: string;
+  outcome: "actual" | "planned";
+  sourceNumbers: number[];
+};
 
 export type FactoryProject = {
   id: string; name: string; location: string; stage: string;
   actual: string; planned: string; note: string; checkedAt: string;
   sourceNumbers: number[]; summary: string; companySlug?: string;
+  locationId: string; facilityId?: string; operationalStatus: OperationalStatus;
+  milestones: FactoryProjectMilestone[];
 };
 export const factoryProjectMeta = {
   sourceSlug: "japan-semiconductor-factory-projects",
@@ -53,6 +63,8 @@ export const factoryProjectSources: Source[] = [
 export const factoryProjects: FactoryProject[] = [
   {
     "id": "jasm-1",
+    locationId: "tsmc-jasm-kumamoto", facilityId: "tsmc-jasm-kumamoto-fab23", operationalStatus: "operating",
+    milestones: [{ dateLabel: "2024年末", label: "量産開始", outcome: "actual", sourceNumbers: [1] }],
     "name": "JASM 第1工場",
     "location": "熊本県菊陽町",
     "stage": "量産開始",
@@ -68,6 +80,11 @@ export const factoryProjects: FactoryProject[] = [
   },
   {
     "id": "jasm-2",
+    locationId: "tsmc-jasm-kumamoto", facilityId: "tsmc-jasm-kumamoto-fab2", operationalStatus: "under-construction",
+    milestones: [
+      { dateLabel: "2025年", label: "建設開始", outcome: "actual", sourceNumbers: [1] },
+      { dateLabel: "2028年", label: "量産開始予定（2026年4月の説明時点）", outcome: "planned", sourceNumbers: [6] },
+    ],
     "name": "JASM 第2工場",
     "location": "熊本県菊陽町",
     "stage": "建設中",
@@ -84,6 +101,11 @@ export const factoryProjects: FactoryProject[] = [
   },
   {
     "id": "rapidus-iim",
+    locationId: "rapidus-chitose-iim", operationalStatus: "pilot",
+    milestones: [
+      { dateLabel: "2025年4月", label: "試作ライン稼働", outcome: "actual", sourceNumbers: [2] },
+      { dateLabel: "2027年", label: "量産開始予定", outcome: "planned", sourceNumbers: [2] },
+    ],
     "name": "Rapidus IIM",
     "location": "北海道千歳市",
     "stage": "パイロットライン稼働",
@@ -98,6 +120,8 @@ export const factoryProjects: FactoryProject[] = [
   },
   {
     "id": "kioxia-k2",
+    locationId: "kioxia-kitakami", facilityId: "kioxia-kitakami-k2", operationalStatus: "operating",
+    milestones: [{ dateLabel: "2025年9月", label: "第2製造棟の稼働開始を発表。能力は段階的に拡大", outcome: "actual", sourceNumbers: [3, 4] }],
     "name": "キオクシア 北上工場第2製造棟（K2）",
     "location": "岩手県北上市",
     "stage": "稼働開始を発表済み",
@@ -114,6 +138,11 @@ export const factoryProjects: FactoryProject[] = [
   },
   {
     "id": "micron-hiroshima-cleanroom",
+    locationId: "micron-hiroshima", facilityId: "micron-hiroshima-new-cleanroom", operationalStatus: "under-construction",
+    milestones: [
+      { dateLabel: "2026年7月", label: "着工を発表", outcome: "actual", sourceNumbers: [5] },
+      { dateLabel: "2028年後半", label: "装置搬入開始予定（量産開始日ではありません）", outcome: "planned", sourceNumbers: [5] },
+    ],
     "name": "マイクロン 広島工場の新クリーンルーム",
     "location": "広島県東広島市",
     "stage": "着工を発表済み",
