@@ -4,7 +4,7 @@
 
 ## 方針
 
-株式市場ウォッチ（2026-10-20）：`stock-market.ts`の静的銘柄対応表と`lib/stock-market.ts`の企業・決算・記事投影をServer Componentで合成。`/semiconductor-watch/stocks`はSSRの説明・企業リンク・SEOと、限定したClient Componentの企業選択・hash復元・外部埋め込みを組み合わせる。Mini Chart・Market Dataは公式Web Component、Symbol Overviewは銘柄ごとに破棄する公式iframeスクリプト。価格は閲覧時にブラウザがTradingViewから表示し、自社API・DB・保存・集計は追加しない。共通WatchNavigationと既存企業／決算の導線を再利用。商用条件・実表示未確認のためProductionは`STOCK_MARKET_ENABLED`未設定／falseで404・非掲載、developmentはnoindexプレビュー。trueと再ビルドでページ・導線・sitemapを揃えて有効化する。[仕様と公開条件](./stock-market-spec.md)。
+株式市場ウォッチ（2026-10-20）：`stock-market.ts`の静的銘柄対応表と`lib/stock-market.ts`の企業・決算・記事投影をServer Componentで合成。`/semiconductor-watch/stocks`はSSRの説明・企業リンク・SEOと、限定したClient Componentの企業選択・hash復元・外部埋め込みを組み合わせる。Mini Chart・Market Dataは公式Web Component、Symbol Overviewは銘柄ごとに破棄する公式iframeスクリプト。価格は閲覧時にブラウザがTradingViewから表示し、自社API・DB・保存・集計は追加しない。共通WatchNavigationと既存企業／決算の導線を再利用。公式のビジネス用途・無料提供の案内に基づく標準利用として公開設定を有効化。`STOCK_MARKET_ENABLED`未設定／trueでProductionのページ・導線・index・sitemapを揃えて有効にし、falseまたは不正値と再ビルドで404・非掲載へ停止する。developmentでは停止設定時もnoindexプレビューを利用できる。[仕様と公開条件](./stock-market-spec.md)。
 
 Manufacturing Compass は、Next.js App Router 上で動く静的データ中心の実務・コンテンツ・キャリア支援サービスです。
 

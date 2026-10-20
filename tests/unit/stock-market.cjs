@@ -57,21 +57,23 @@ test('related news uses company IDs and announcement dates; excludes future, cha
   assert.equal(JSON.stringify(news), original);
 });
 
-test('production route, discovery navigation and indexing stay off until explicitly enabled', () => {
-  assert.equal(isStockMarketAvailable({ NODE_ENV: 'production' }), false);
+test('production route, discovery navigation and indexing are public by default and can be stopped together', () => {
+  assert.equal(isStockMarketAvailable({ NODE_ENV: 'production' }), true);
+  assert.equal(isStockMarketAvailable({ NODE_ENV: 'production', STOCK_MARKET_ENABLED: 'false' }), false);
   assert.equal(isStockMarketAvailable({ NODE_ENV: 'development', STOCK_MARKET_ENABLED: 'false' }), true);
-  assert.equal(isStockMarketIndexable({}), false);
+  assert.equal(isStockMarketIndexable({}), true);
   assert.equal(isStockMarketIndexable({ STOCK_MARKET_ENABLED: 'false' }), false);
   assert.equal(isStockMarketIndexable({ STOCK_MARKET_ENABLED: 'true' }), true);
+  assert.equal(isStockMarketIndexable({ STOCK_MARKET_ENABLED: 'invalid' }), false);
   const previousNode = process.env.NODE_ENV;
   const previousFlag = process.env.STOCK_MARKET_ENABLED;
   try {
     process.env.NODE_ENV = 'production';
-    delete process.env.STOCK_MARKET_ENABLED;
+    process.env.STOCK_MARKET_ENABLED = 'false';
     assert.throws(() => Page(), /NEXT_HTTP_ERROR_FALLBACK;404/);
     assert.ok(!sitemap().some(entry => entry.url.endsWith('/semiconductor-watch/stocks')));
     assert.doesNotMatch(renderToStaticMarkup(React.createElement(WatchNavigation)), /href="\/semiconductor-watch\/stocks"/);
-    process.env.STOCK_MARKET_ENABLED = 'true';
+    delete process.env.STOCK_MARKET_ENABLED;
     const html = renderToStaticMarkup(React.createElement(Page));
     assert.match(html, /半導体株式市場ウォッチ/);
     assert.match(html, /CollectionPage/);

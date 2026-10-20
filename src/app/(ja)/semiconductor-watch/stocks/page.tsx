@@ -33,7 +33,7 @@ export default function StockMarketPage() {
       { "@type": "ListItem", position: 2, name: "株式市場", item: `${siteUrl}${stockMarketMeta.route}` },
     ] }} />
     <WatchNavigation current="stocks" />
-    {!isStockMarketIndexable() ? <p className={styles.preview}>確認用プレビューです。無料埋め込みの利用条件と個別銘柄の実表示を確認するまで、本番公開・検索登録は無効です。</p> : null}
+    {!isStockMarketIndexable() ? <p className={styles.preview}>確認用プレビューです。公開設定が無効のため、本番ページ・検索登録は停止しています。</p> : null}
     <header className={styles.hero}><p className={styles.eyebrow}>SEMICONDUCTOR / STOCK MARKET</p><h1>半導体株式市場ウォッチ</h1><p>市場の動きを見渡し、気になる企業の決算・事業・ニュースを読み直す。</p><p className={styles.fine}>株価はTradingView提供の外部表示です。遅延・休場・提供範囲によって表示できない場合があります。株価の動きだけで採用状況や企業の将来性は判断できません。</p><p className={styles.fine}>説明・掲載対象の更新 {stockMarketMeta.updatedAt.replaceAll("-", "/")} · 価格時点は各ウィジェットで確認</p></header>
     <section aria-labelledby="stock-indices-title"><div className={styles.sectionHead}><h2 id="stock-indices-title">主要指数で市場の広がりを見る</h2></div>
       <div className={styles.indices}>{stockIndices.map(index => <article className={styles.index} key={index.id}><h3>{index.name}</h3><p>{index.description}</p>
