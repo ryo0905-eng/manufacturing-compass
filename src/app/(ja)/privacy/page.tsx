@@ -22,6 +22,11 @@ export default function PrivacyPage() {
 
       <section className="legal-layout">
         <article>
+          <h2>株式市場の外部表示について</h2>
+          <p>株式市場ウォッチでは、TradingViewのウィジェットを読み込み、株価・チャート・期間別パフォーマンスを表示します。表示時にブラウザからTradingViewへ通信し、埋め込み元ページのURL、表示銘柄、ウィジェットの種類、IPアドレスが処理されます。TradingViewの公式説明では、ウィジェットはCookieを設定しないとされています。</p>
+          <p>当サイトでは株価を収集・保存しません。企業切替と関連ページへの移動は、固定の企業IDと操作区分で計測します。自由入力や個人情報の入力欄はありません。詳しくは<a href="https://www.tradingview.com/widget-docs/faq/general/">TradingViewのウィジェットに関する説明</a>と<a href="https://www.tradingview.com/privacy-policy/">プライバシーポリシー</a>をご確認ください。</p>
+        </article>
+        <article>
           <h2>Chip Pulseのニュース編集について</h2>
           <p>公式に公開された資料の必要な範囲を、定期更新時にVercel AI Gateway経由でAIへ送信し、事実要約と根拠の照合に使用します。閲覧者の個人情報、閲覧履歴、フォーム入力を要約処理へ送信しません。記事閲覧・出典リンク・解説への移動は、記事IDと固定の操作区分で計測します。ページを開くたびにAIを呼び出すことはありません。</p>
           <p>外部処理は<a href="https://vercel.com/legal/privacy-policy">Vercelのプライバシーポリシー</a>と<a href="https://ai.google.dev/gemini-api/terms">モデル提供元の利用条件</a>に従います。</p>

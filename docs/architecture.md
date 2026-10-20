@@ -4,6 +4,8 @@
 
 ## 方針
 
+株式市場ウォッチ（2026-10-20）：`stock-market.ts`の静的銘柄対応表と`lib/stock-market.ts`の企業・決算・記事投影をServer Componentで合成。`/semiconductor-watch/stocks`はSSRの説明・企業リンク・SEOと、限定したClient Componentの企業選択・hash復元・外部埋め込みを組み合わせる。Mini Chart・Market Dataは公式Web Component、Symbol Overviewは銘柄ごとに破棄する公式iframeスクリプト。価格は閲覧時にブラウザがTradingViewから表示し、自社API・DB・保存・集計は追加しない。共通WatchNavigationと既存企業／決算の導線を再利用。商用条件・実表示未確認のためProductionは`STOCK_MARKET_ENABLED`未設定／falseで404・非掲載、developmentはnoindexプレビュー。trueと再ビルドでページ・導線・sitemapを揃えて有効化する。[仕様と公開条件](./stock-market-spec.md)。
+
 Manufacturing Compass は、Next.js App Router 上で動く静的データ中心の実務・コンテンツ・キャリア支援サービスです。
 
 Career Compass、インタラクティブ実務学習ツール、業界地図の操作部分だけを Client Component で動かし、企業、ガイド、ランキング、SEO メタデータは Server Components と静的データを基本にします。中心機能はログイン、個人情報保存、外部データベース、AI API に依存しません。Jev実験ページのみ、下記の限定した外部APIを使用します。実務ツールの入力と計算はブラウザ内で完結し、生データを外部へ送信しません。

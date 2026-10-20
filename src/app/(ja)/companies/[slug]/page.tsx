@@ -11,6 +11,8 @@ import { StructuredData } from "@/components/StructuredData";
 import { companies, getCareerInfo, getCompanyBySlug, getSegmentById, isCompanyIndexable } from "@/data/companies";
 import { filterCompanyLocations } from "@/lib/company-locations";
 import { getEarningsRelease } from "@/lib/earnings";
+import { getStockListing, stockHref } from "@/lib/stock-market";
+import { isStockMarketAvailable } from "@/lib/stock-market-release";
 import { companyCompareSlug, siteUrl } from "@/lib/format";
 import type { LocationType } from "@/types/company-location";
 
@@ -110,6 +112,7 @@ export default async function CompanyPage({ params }: CompanyPageProps) {
         segmentNames={companySegments.flatMap((segment) => segment ? [segment.name] : [])}
       />
       {getEarningsRelease(company.id) ? <p className="tool-related-links"><EarningsInternalLink href={`/semiconductor-watch/earnings/${company.id}`} companyId={company.id} destination="detail">この企業の最新決算・会社見通しを見る →</EarningsInternalLink></p> : null}
+      {isStockMarketAvailable() && getStockListing(company.id) ? <p className="tool-related-links"><Link href={stockHref(company.id)}>この企業の株価・関連情報を見る →</Link></p> : null}
 
       {japanWorkCompanies.some((profile) => profile.companyId === company.id && profile.status === "published") ? (
         <p className="tool-related-links"><Link href={`/companies/global-japan#evidence-${company.id}` as Route}>日本で確認できた仕事内容と公式の根拠を見る →</Link></p>

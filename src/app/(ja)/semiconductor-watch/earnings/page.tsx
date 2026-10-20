@@ -16,7 +16,7 @@ export const revalidate = 3600;
 
 export default function EarningsPage() {
   const now = new Date().toISOString();
-  return <EarningsShell>
+  return <EarningsShell current="earnings">
     <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: `${siteUrl}/semiconductor-watch/earnings`, dateModified: earningsUpdatedAt }} />
     <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "業界ウォッチ", item: `${siteUrl}/semiconductor-watch` }, { "@type": "ListItem", position: 2, name: "決算・IR", item: `${siteUrl}/semiconductor-watch/earnings` }] }} />
     <div className={styles.hero}><p className={styles.eyebrow}>EARNINGS / IR</p><h1>主要半導体企業の決算一覧</h1><p>掲載決算の数字と変化を見渡し、気になる会社の見通し・原資料へ。</p><small>{earningsReleases.length}社 · 内容更新 {earningsUpdatedAt.replaceAll("-", "/")} · 最新発表の確認状況は企業ごとに表示</small></div>

@@ -1,4 +1,6 @@
 import { jobNoteMeta } from "@/data/job-posting-note";
+import { stockMarketMeta } from "@/data/stock-market";
+import { isStockMarketIndexable } from "@/lib/stock-market-release";
 import { media } from "@/lib/chip-pulse-media";
 import { articleWatchItem, watchUpdatedAt } from "@/lib/watch";
 import { earningsReleases, earningsUpdatedAt } from "@/lib/earnings";
@@ -71,6 +73,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/roles",
     "/industry-map",
     "/semiconductor-watch",
+    ...(isStockMarketIndexable() ? [stockMarketMeta.route] : []),
     "/semiconductor-watch/earnings",
     "/semiconductor-watch/earnings/compare",
     "/semiconductor-map",
@@ -106,6 +109,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(path === "/guides" || path === "/guides/industry" ? { lastModified: guidesLastModified } : {}),
     ...(path === "/semiconductor-map" ? { lastModified: contentDate(latestLocationVerifiedAt) } : {}),
     ...(path === "/semiconductor-watch" ? { lastModified: new Date([watchUpdatedAt, annualHistoryUpdatedAt].sort().at(-1)!) } : {}),
+    ...(path === stockMarketMeta.route ? { lastModified: contentDate(stockMarketMeta.updatedAt) } : {}),
     ...(path === "/semiconductor-watch/earnings" ? { lastModified: contentDate(earningsUpdatedAt) } : {}),
     ...(path === "/semiconductor-watch/earnings/compare" ? { lastModified: contentDate([earningsUpdatedAt, annualHistoryUpdatedAt].sort().at(-1)!) } : {}),
     changeFrequency: "weekly" as const,

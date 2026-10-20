@@ -1,0 +1,6 @@
+.nav { display:flex; gap:20px; overflow-x:auto; margin:0 0 22px; border-bottom:1px solid #e5e7eb; color:#60666d; }
+.nav a { display:flex; flex-shrink:0; align-items:center; min-height:48px; padding:8px 2px; font-size:13px; text-decoration:none; color:inherit; border-bottom:2px solid transparent; }
+.nav a[aria-current] { border-bottom-color:#1769aa; color:#1769aa; font-weight:600; }
+.nav a:hover { color:#1769aa; }
+.nav a:focus-visible { outline:3px solid #1769aa; outline-offset:-3px; }
+@media(max-width:600px) { .nav { gap:16px; } }

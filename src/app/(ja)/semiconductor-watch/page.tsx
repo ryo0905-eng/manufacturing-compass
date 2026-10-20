@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { StructuredData } from "@/components/StructuredData";
 import { WatchExplorer } from "@/components/chip-pulse/WatchExplorer";
+import { WatchNavigation } from "@/components/chip-pulse/WatchNavigation";
 import { MediaLink } from "@/components/chip-pulse/MediaLinks";
 import { media, newsDate } from "@/lib/chip-pulse-media";
 import { buildWatchCompanies, buildWatchNews, watchItems, watchUpdatedAt } from "@/lib/watch";
@@ -33,6 +34,7 @@ export default function SemiconductorWatchPage() {
   return <main className={styles.page}><div className={styles.shell}>
     <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: siteUrl + "/semiconductor-watch", dateModified: [watchUpdatedAt, annualHistoryUpdatedAt, watchExchange.checkedAt].sort().at(-1) }} />
     <header className={styles.header}><h1>半導体業界ウォッチ</h1><p>掲載内容・日程の更新 <time dateTime={watchUpdatedAt}>{watchDate(watchUpdatedAt)}</time></p></header>
+    <WatchNavigation current="watch" />
     {media.status.state !== "success" || staleCollection ? <p className={styles.notice} role="status">{media.status.state === "partial" ? "一部の取得先を更新できませんでした。" : media.status.state === "failed" ? "直近の収集に失敗しました。" : staleCollection ? "収集確認から2日以上経過しています。" : "収集処理の稼働前です。"} 前回確認時の掲載内容を表示しています。</p> : null}
     <WatchExplorer companies={buildWatchCompanies(now)} news={news} now={now} histories={annualHistories}>
       <details className={styles.disclosure}><summary>今後14日の発表予定 <span>· {events.length}件</span></summary>
