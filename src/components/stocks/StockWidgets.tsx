@@ -26,7 +26,7 @@ function WebWidget({ kind, symbol, onSelect }: { kind: keyof typeof modules; sym
     element.style.height = "100%";
     if (kind === "mini" && symbol) {
       element.setAttribute("symbol", symbol);
-      element.setAttribute("time-frame", "1M");
+      element.setAttribute("time-frame", "6M");
     } else {
       element.setAttribute("symbol-sectors", marketSymbols);
       element.setAttribute("view", "performance");
@@ -79,7 +79,7 @@ export function SymbolOverview({ symbol, name, sourceUrl }: { symbol: string; na
     script.async = true;
     script.textContent = JSON.stringify({
       symbols: [[name, `${symbol}|1D`]], locale: "ja", colorTheme: "light", autosize: true,
-      width: "100%", height: "100%", chartOnly: false, chartType: "area", showVolume: false,
+      width: "100%", height: "100%", chartOnly: false, chartType: "candlesticks", showVolume: true,
       showMA: false, hideDateRanges: false, hideMarketStatus: false, hideSymbolLogo: false,
       scalePosition: "right", scaleMode: "Normal", changeMode: "price-and-percent", valuesTracking: "1",
       dateRanges: ["1w|15", "1m|60", "3m|60", "12m|1D"],
@@ -99,6 +99,35 @@ export function SymbolOverview({ symbol, name, sourceUrl }: { symbol: string; na
       </div>
     </div>
   </>;
+}
+
+// A compact official watchlist beside the chart; the full Performance table remains below.
+export function StockQuotes() {
+  const host = useRef<HTMLDivElement>(null);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    const container = host.current;
+    if (!container) return;
+    const mount = document.createElement("div");
+    mount.style.height = "100%";
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js";
+    script.async = true;
+    script.onerror = () => setFailed(true);
+    script.textContent = JSON.stringify({
+      colorTheme: "light", dateRange: "1M", showChart: false, locale: "ja",
+      width: "100%", height: "100%", isTransparent: true, showSymbolLogo: true,
+      tabs: [{ title: "米国上場 · USD", symbols: stockListings.filter(item => item.embedding !== "external").map(item => ({ s: item.symbol, d: item.ticker })) }],
+    });
+    mount.appendChild(script);
+    container.appendChild(mount);
+    return () => { script.onerror = null; script.remove(); mount.remove(); };
+  }, []);
+  if (failed) return <p className={styles.widgetError}>株価一覧を読み込めませんでした。企業ボタンから個別チャートを確認できます。</p>;
+  return <div className={`tradingview-widget-container ${styles.quotesContainer}`}>
+    <div ref={host} className={`tradingview-widget-container__widget ${styles.quotesMount}`} />
+    <div className={`tradingview-widget-copyright ${styles.attribution}`}><a href="https://www.tradingview.com/markets/stocks-usa/" target="_blank" rel="noopener nofollow">株式市場</a><span className="trademark"> by TradingView</span></div>
+  </div>;
 }
 
 export function StockMarketTable({ onSelect }: { onSelect: (id: string) => void }) {

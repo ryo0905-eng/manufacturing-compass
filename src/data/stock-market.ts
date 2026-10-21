@@ -1,6 +1,6 @@
 export const stockMarketMeta = {
   route: "/semiconductor-watch/stocks",
-  updatedAt: "2026-10-20",
+  updatedAt: "2026-10-21",
   sources: {
     widgets: "https://www.tradingview.com/widget-docs/",
     performance: "https://www.tradingview.com/widget-docs/whats-new/",

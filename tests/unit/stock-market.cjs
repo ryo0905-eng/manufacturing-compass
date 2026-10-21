@@ -130,7 +130,7 @@ function controller(filename, pick, initialProps = {}, hash = '') {
   const exports = {};
   const absolute = path.resolve(filename);
   const code = ts.transpileModule(fs.readFileSync(absolute, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } }).outputText;
-  vm.runInNewContext(code, { exports, window, document: { createElement: tag => new Element(tag) }, CustomEvent: WidgetEvent, IntersectionObserver: Observer,
+  vm.runInNewContext(code, { exports, window, URLSearchParams, document: { createElement: tag => new Element(tag) }, CustomEvent: WidgetEvent, IntersectionObserver: Observer,
     require(id) {
       if (id === 'react') return hooks;
       if (id === '@/lib/analytics') return { trackEvent: (...args) => events.push(args) };
@@ -168,6 +168,8 @@ test('company, chart, earnings, news and history stay aligned without events dur
   const eventCount = ui.events.length;
   ui.window.location.hash = '#company=tsmc'; ui.listeners.get('popstate')();
   assert.equal(select().props.value, 'tsmc');
+  ui.window.location.hash = '#stock-performance-title'; ui.listeners.get('hashchange')();
+  assert.equal(select().props.value, 'tsmc');
   ui.window.location.hash = '#company=unknown'; ui.listeners.get('hashchange')();
   assert.equal(select().props.value, 'nvidia');
   assert.equal(ui.events.length, eventCount);
@@ -181,6 +183,8 @@ test('each chart owns its async mount and removes it before a different symbol i
   const oldMount = host.children[0], oldScript = oldMount.children[0];
   assert.match(oldScript.src, /^https:\/\/s3\.tradingview\.com\/external-embedding\//);
   assert.equal(JSON.parse(oldScript.textContent).symbols[0][1], 'NASDAQ:NVDA|1D');
+  assert.equal(JSON.parse(oldScript.textContent).chartType, 'candlesticks');
+  assert.equal(JSON.parse(oldScript.textContent).showVolume, true);
   ui.render({ symbol: 'NASDAQ:AMD', name: 'AMD', sourceUrl: stockListings[1].sourceUrl });
   assert.equal(host.children.length, 1);
   assert.notEqual(host.children[0], oldMount);

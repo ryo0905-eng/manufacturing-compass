@@ -32,26 +32,24 @@ export default function StockMarketPage() {
       { "@type": "ListItem", position: 1, name: "業界ウォッチ", item: `${siteUrl}/semiconductor-watch` },
       { "@type": "ListItem", position: 2, name: "株式市場", item: `${siteUrl}${stockMarketMeta.route}` },
     ] }} />
-    <WatchNavigation current="stocks" />
+    <aside className={styles.watchSidebar}><Link href="/semiconductor-watch" className={styles.backLink}>← 半導体業界ウォッチ</Link><WatchNavigation current="stocks" /><p>市場の動きから、企業の事業・決算を読み解く。</p></aside><div className={styles.workspace}>
     {!isStockMarketIndexable() ? <p className={styles.preview}>確認用プレビューです。公開設定が無効のため、本番ページ・検索登録は停止しています。</p> : null}
-    <header className={styles.hero}><p className={styles.eyebrow}>SEMICONDUCTOR / STOCK MARKET</p><h1>半導体株式市場ウォッチ</h1><p>市場の動きを見渡し、気になる企業の決算・事業・ニュースを読み直す。</p><p className={styles.fine}>株価はTradingView提供の外部表示です。遅延・休場・提供範囲によって表示できない場合があります。株価の動きだけで採用状況や企業の将来性は判断できません。</p><p className={styles.fine}>説明・掲載対象の更新 {stockMarketMeta.updatedAt.replaceAll("-", "/")} · 価格時点は各ウィジェットで確認</p></header>
-    <section aria-labelledby="stock-indices-title"><div className={styles.sectionHead}><h2 id="stock-indices-title">主要指数で市場の広がりを見る</h2></div>
-      <div className={styles.indices}>{stockIndices.map(index => <article className={styles.index} key={index.id}><h3>{index.name}</h3><p>{index.description}</p>
-        {index.embedding === "verified" ? <MiniChart symbol={index.symbol} /> : <p className={styles.externalIndex}>指数の現在値・推移は外部で確認できます。</p>}
-        <a href={index.sourceUrl} target="_blank" rel="noopener noreferrer">{index.name}を確認 ↗</a>
+    <header className={styles.hero}><div><p className={styles.eyebrow}>SEMICONDUCTOR / MARKET WATCH</p><h1>半導体株式市場ウォッチ</h1><p>株価の変化から、半導体業界のいまを読み解く。</p></div><div className={styles.marketNote}><span>TradingView 市場データ</span><p>価格時点・遅延は各チャートに表示</p><a href="#stock-sources-title">表示の見方・出典 ↓</a></div></header>
+    <section aria-label="主要株価指数" className={styles.indexSection}>
+      <div className={styles.indices}>{stockIndices.map(index => <article className={styles.index} key={index.id}><div className={styles.indexHeading}><h2>{index.name}</h2><a href={index.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label={`${index.name}をTradingViewで確認`}>↗</a></div>
+        {index.embedding === "verified" ? <MiniChart symbol={index.symbol} /> : <div className={styles.externalIndex}><span>外部チャート</span><a href={index.sourceUrl} target="_blank" rel="noopener noreferrer">現在値・推移を確認 ↗</a></div>}
       </article>)}</div>
-      <p className={styles.fine}>指数そのものの埋め込み可否を確認できたものだけチャートを表示します。ETF・先物・CFDへの置き換えはしていません。</p>
     </section>
     <StockExplorer profiles={profiles} />
-    <section className={styles.section} aria-labelledby="stock-directory-title"><h2 id="stock-directory-title">掲載企業と上場市場</h2><p className={styles.fine}>比較表は米国上場分です。東京エレクトロンとAdvantestの日本株は外部リンクから確認できます。</p>
+    <details className={styles.directoryDisclosure}><summary id="stock-directory-title">掲載10社と上場市場を確認</summary><p className={styles.fine}>比較表は米国上場分です。東京エレクトロンとAdvantestの日本株は外部リンクから確認できます。</p>
       <ul className={styles.directory}>{profiles.map(profile => <li key={profile.companyId}><Link href={stockHref(profile.companyId)}>{profile.name}の株価・関連情報 →</Link><span>{profile.exchange} · {profile.ticker} · {profile.currency} · {profile.listing}</span><Link href={profile.companyHref}>企業情報</Link>{" / "}<a href={profile.sourceUrl} target="_blank" rel="noopener noreferrer">外部チャート ↗</a></li>)}</ul>
-    </section>
-    <section className={styles.sources} aria-labelledby="stock-sources-title"><h2 id="stock-sources-title">表示の見方と出典</h2><ul>
+    </details>
+    <section className={styles.sources} aria-labelledby="stock-sources-title"><h2 id="stock-sources-title">表示の見方と出典</h2><p className={styles.fine}>説明・掲載対象の更新 {stockMarketMeta.updatedAt.replaceAll("-", "/")} · 株価は原通貨表示。各チャートと比較表の期間は独立しています。</p><ul>
       <li>株価は市場による評価の一面です。企業の業績、事業範囲、採用情報は別に確認してください。売買の推奨を目的とした情報ではありません。</li>
       <li>異なる取引所の価格や変化率は、同時刻・同一条件の比較ではありません。ADRや米国上場株と、本国の上場株も区別しています。</li>
       <li>価格は外部ウィジェット内だけに表示し、当サイトでは収集・保存・再配信・独自集計していません。</li>
       <li><a href={stockMarketMeta.sources.data} target="_blank" rel="noopener noreferrer">TradingViewのデータ提供範囲・遅延について ↗</a></li>
       <li><a href={stockMarketMeta.sources.performance} target="_blank" rel="noopener noreferrer">期間別パフォーマンスの公式機能説明 ↗</a></li>
     </ul><p className={styles.fine}><Link href="/semiconductor-watch/earnings">主要企業の決算を読む →</Link>{" · "}<Link href="/industry-map">業界地図で役割を見る →</Link></p></section>
-  </div></main>;
+  </div></div></main>;
 }
