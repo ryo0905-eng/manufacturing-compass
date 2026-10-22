@@ -3,11 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=22 <24"
+    "node": ">=22.23.4 <23"
   },
   "scripts": {
+    "node:check": "node scripts/check-node-version.cjs",
+    "predev": "npm run node:check",
     "dev": "next dev",
+    "prebuild": "npm run node:check",
     "build": "next build --webpack",
+    "prestart": "npm run node:check",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
