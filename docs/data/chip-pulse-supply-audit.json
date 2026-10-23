@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-22T00:01:46.142Z",
-  "windowStart": "2026-09-22T00:00:00.000Z",
-  "windowEnd": "2026-10-22T00:00:00.000Z",
+  "generatedAt": "2026-10-23T00:00:44.907Z",
+  "windowStart": "2026-09-23T00:00:00.000Z",
+  "windowEnd": "2026-10-23T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -11,9 +11,29 @@
   "errors": [],
   "rows": [
     {
+      "id": "sec-0000707549-26-000054",
+      "sourceId": "lam-research",
+      "publishedAt": "2026-10-22T20:07:28.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0001046179-26-000728",
+      "sourceId": "tsmc",
+      "publishedAt": "2026-10-22T10:02:14.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
       "id": "sec-0000707549-26-000052",
       "sourceId": "lam-research",
-      "publishedAt": "2026-10-21T20:13:03.000Z",
+      "publishedAt": "2026-10-22T00:13:03.000Z",
       "datePrecision": "instant",
       "body": true,
       "eligible": false,
@@ -128,22 +148,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-23",
-    "end": "2026-10-22",
+    "start": "2026-09-24",
+    "end": "2026-10-23",
     "days": [
-      {
-        "date": "2026-09-23",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-24",
         "candidates": 1,
@@ -510,6 +517,19 @@
       },
       {
         "date": "2026-10-22",
+        "candidates": 2,
+        "deduplicated": 2,
+        "bodies": 2,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
+      },
+      {
+        "date": "2026-10-23",
         "candidates": 1,
         "deduplicated": 1,
         "bodies": 1,
@@ -525,26 +545,26 @@
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-16",
-        "end": "2026-10-22",
+        "start": "2026-10-17",
+        "end": "2026-10-23",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-09",
-        "end": "2026-10-15",
+        "start": "2026-10-10",
+        "end": "2026-10-16",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-02",
-        "end": "2026-10-08",
+        "start": "2026-10-03",
+        "end": "2026-10-09",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-25",
-        "end": "2026-10-01",
+        "start": "2026-09-26",
+        "end": "2026-10-02",
         "publishable": 1,
         "fields": [
           "design-manufacturing"
