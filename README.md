@@ -60,6 +60,8 @@ Supabase と OpenAI API は現在使用していません。
 
 Node.js `>=22.23.4 <23` が必要です。`.node-version` に対応したバージョン管理ツールで切り替え、`npm run node:check` で実行バージョンを確認してください。開発・ビルド・起動時にも確認し、未修正のNode.jsでは停止します。
 
+miseを使う場合は `mise install` で `mise.toml` の指定版を用意します。`mise.toml` と `.node-version` は同じバージョンに揃えてください。シェルの切替が効かない場合は `mise exec -- npm run node:check` のように実行できます。
+
 Vercelでは22系のパッチを基盤側で配布するため、バージョン指定だけでは修正済みと判断できません。[2026年10月の調査記録](docs/node-security-2026-10.md)に本番反映時の確認手順を記載しています。
 
 ```bash
