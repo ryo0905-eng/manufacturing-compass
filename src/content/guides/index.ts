@@ -32,6 +32,7 @@ import { semiconductorCmpSlurryManufacturersGuide } from "@/content/guides/semic
 import { semiconductorInspectionMetrologyGuide } from "@/content/guides/semiconductor-inspection-metrology";
 import { semiconductorInspectionEquipmentManufacturersGuide } from "@/content/guides/semiconductor-inspection-equipment-manufacturers";
 import { semiconductorMarketCapRankingGuide } from "@/content/guides/semiconductor-market-cap-ranking";
+import { semiconductorMarketCapGrowthRankingGuide } from "@/content/guides/semiconductor-market-cap-growth-ranking";
 import { semiconductorManufacturingProcessGuide } from "@/content/guides/semiconductor-manufacturing-process";
 import { semiconductorPackagingProcessGuide } from "@/content/guides/semiconductor-packaging-process";
 import { semiconductorPackagingEquipmentManufacturersGuide } from "@/content/guides/semiconductor-packaging-equipment-manufacturers";
@@ -165,6 +166,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorResumeImprovementResultsGuide,
   semiconductorCareerChatgptGuide,
   semiconductorMarketCapRankingGuide,
+  semiconductorMarketCapGrowthRankingGuide,
   semiconductorEquipmentSalesRankingGuide,
   japanSemiconductorMarketCapHistoryGuide,
   nvidiaIntelMarketCapHistoryGuide,

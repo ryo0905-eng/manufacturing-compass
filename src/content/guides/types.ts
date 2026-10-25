@@ -5,6 +5,7 @@ export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
   | { type: "career-compass-entry" }
+  | { type: "market-cap-growth-ranking" }
   | { type: "ranking-time-machine-preview" }
   | { type: "book-affiliate-entry" }
   | { type: "ranking-history"; kind: "japan" | "nvidia-intel" }

@@ -231,6 +231,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       items: [
         { label: "世界TOP30を見る", href: "#world-ranking", description: "世界の半導体メーカー・関連企業を比較" },
         { label: "日本18社を見る", href: "#japan-ranking", description: "同じ基準の日本企業ランキング" },
+        { label: "時価総額の増加率・増加額を見る", href: "/guides/semiconductor-market-cap-growth-ranking", description: "保存済みの過去スナップショットと直接比較できる期間を確認" },
         { label: "詳しい解説を読む", href: "#top-ten", description: "上位企業の特徴と業界での役割" },
       ],
     },

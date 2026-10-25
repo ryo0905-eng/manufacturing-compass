@@ -9,6 +9,7 @@ import { CareerCompassPreview } from "@/components/career-compass/CareerCompassP
 import type { Route } from "next";
 import Image from "next/image";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
+import { SemiconductorMarketCapGrowthRanking } from "@/components/SemiconductorMarketCapGrowthRanking";
 import { SalaryRankingTable } from "@/components/SalaryRankingTable";
 import { FactoryProjectComparison } from "@/components/FactoryProjectComparison";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
@@ -16,6 +17,7 @@ import { MoshimoBookLink } from "@/components/guide/MoshimoBookLink";
 import { BookAffiliateEntry } from "@/components/guide/BookAffiliateEntry";
 import type { GuideBlock } from "@/content/guides/types";
 import { readComparisonHash } from "@/lib/ranking-comparison";
+import { isStockMarketAvailable } from "@/lib/stock-market-release";
 
 type GuideBlocksProps = {
   blocks: GuideBlock[];
@@ -642,6 +644,10 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
 
         if (block.type === "market-cap-ranking") {
           return <MarketCapRankingTable key={`market-cap-ranking-${index}`} scope={block.scope} sourceSlug={sourceSlug} />;
+        }
+
+        if (block.type === "market-cap-growth-ranking") {
+          return <SemiconductorMarketCapGrowthRanking key={`market-cap-growth-ranking-${index}`} stockMarketAvailable={isStockMarketAvailable()} />;
         }
 
         if (block.type === "optical-companies") {
