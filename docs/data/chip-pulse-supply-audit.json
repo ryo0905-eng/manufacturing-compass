@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-24T23:19:21.113Z",
-  "windowStart": "2026-09-24T00:00:00.000Z",
-  "windowEnd": "2026-10-24T00:00:00.000Z",
+  "generatedAt": "2026-10-25T23:18:57.086Z",
+  "windowStart": "2026-09-25T00:00:00.000Z",
+  "windowEnd": "2026-10-25T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -131,39 +131,13 @@
         "design-manufacturing"
       ],
       "state": "editor-verified"
-    },
-    {
-      "id": "sec-0001046179-26-000660",
-      "sourceId": "tsmc",
-      "publishedAt": "2026-09-24T10:02:44.000Z",
-      "datePrecision": "instant",
-      "body": true,
-      "eligible": true,
-      "fields": [
-        "design-manufacturing",
-        "packaging"
-      ],
-      "state": "editor-verified"
     }
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-26",
-    "end": "2026-10-25",
+    "start": "2026-09-27",
+    "end": "2026-10-26",
     "days": [
-      {
-        "date": "2026-09-26",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-27",
         "candidates": 0,
@@ -540,31 +514,44 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-10-26",
+        "candidates": 0,
+        "deduplicated": 0,
+        "bodies": 0,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-19",
-        "end": "2026-10-25",
+        "start": "2026-10-20",
+        "end": "2026-10-26",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-12",
-        "end": "2026-10-18",
+        "start": "2026-10-13",
+        "end": "2026-10-19",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-05",
-        "end": "2026-10-11",
+        "start": "2026-10-06",
+        "end": "2026-10-12",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-28",
-        "end": "2026-10-04",
+        "start": "2026-09-29",
+        "end": "2026-10-05",
         "publishable": 1,
         "fields": [
           "design-manufacturing"
