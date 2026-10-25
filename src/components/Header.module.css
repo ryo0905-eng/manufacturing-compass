@@ -47,10 +47,11 @@
 .panel {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .link,
+.groupToggle,
 .cta {
   display: inline-flex;
   align-items: center;
@@ -64,6 +65,14 @@
 }
 
 .link { color: #555b62; }
+.group { position: relative; }
+.groupToggle { gap: 5px; border: 0; background: transparent; color: #555b62; font: inherit; font-size: 14px; cursor: pointer; }
+.groupToggle > span { font-size: 12px; }
+.groupToggle[aria-expanded="true"], .groupToggle[data-active="true"] { color: #1d1d1f; text-decoration: underline; text-underline-offset: 6px; }
+.groupLinks { display: none; position: absolute; top: 100%; left: 0; min-width: 230px; width: max-content; max-width: 320px; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; padding: 8px; box-shadow: 0 8px 20px #1d1d1f0d; }
+.groupLinks[data-open="true"] { display: flex; flex-direction: column; }
+.groupLinks .link { justify-content: flex-start; padding: 10px 12px; white-space: normal; }
+.mobileGroupLabel { display: none; }
 .link:hover { color: #1d1d1f; text-decoration: underline; text-underline-offset: 6px; }
 .link[aria-current] { color: #1d1d1f; font-weight: 600; }
 .link[aria-current],
@@ -84,6 +93,7 @@
 
 .brand:focus-visible,
 .toggle:focus-visible,
+.groupToggle:focus-visible,
 .link:focus-visible,
 .cta:focus-visible {
   outline: 2px solid #1769aa;
@@ -127,6 +137,11 @@
   }
   .panel[data-open="true"] { display: flex; flex-direction: column; align-items: stretch; }
   .link { justify-content: flex-start; padding: 12px 8px; }
+  .group { width: 100%; padding: 8px 0; border-bottom: 1px solid #e5e7eb; }
+  .groupToggle { display: none; }
+  .mobileGroupLabel { display: block; padding: 4px 8px; color: #60666d; font-size: 12px; font-weight: 600; }
+  .groupLinks, .groupLinks[data-open="true"] { display: flex; position: static; flex-direction: column; width: 100%; min-width: 0; max-width: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+  .groupLinks .link { padding: 10px 8px; }
   .cta { margin-top: 8px; white-space: normal; text-align: center; }
 }
 

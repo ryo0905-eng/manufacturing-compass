@@ -8,11 +8,15 @@ import { HomeToolPreview } from "@/components/HomeToolPreview";
 import { RankingTimeMachinePreview } from "@/components/ranking-time-machine/RankingTimeMachinePreview";
 import { GuideThumbnail } from "@/components/guide/GuideThumbnail";
 import { StructuredData } from "@/components/StructuredData";
+import { SiteSearch } from "@/components/SiteSearch";
+import discoveryStyles from "@/components/HomeDiscovery.module.css";
 import { guideCategoryDetails, guideCategoryOrder } from "@/content/guides/categories";
 import type { GuideArticle } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
 import { homeFactoryLinks, homeGuideSlugs, homeRankingLinks, homeResearchLinks, homeToolIds } from "@/data/home";
 import { learningTools } from "@/data/learning-tools";
+import { siteLinks, siteNavigationGroups } from "@/data/site-navigation";
+import { buildSiteSearchIndex } from "@/lib/site-search-index";
 import { siteUrl } from "@/lib/format";
 
 const title = "製造業の技術と、半導体の仕事を理解する。";
@@ -56,12 +60,17 @@ export default function Home() {
           <h1 id="home-title">{title}</h1>
           <p>{description}</p>
         </div>
-        <nav className="home-focused__entry-grid" aria-label="目的から選ぶ">
-          <HomeLink href="/#home-rankings" section="hero" destination="rankings" purpose="industry">ランキングで企業を比べる<span aria-hidden="true">→</span></HomeLink>
-          <HomeLink href="/tools" section="hero" destination="tools" purpose="technology">技術を学ぶ・使う<span aria-hidden="true">→</span></HomeLink>
-          <HomeLink href="/industry-map" section="hero" destination="industry_map" purpose="industry">企業・業界を調べる<span aria-hidden="true">→</span></HomeLink>
-          <HomeLink href="/#home-factories" section="hero" destination="factories" purpose="industry">工場・拠点を探す<span aria-hidden="true">→</span></HomeLink>
-          <CareerCompassLink ctaLocation="home_hero_purpose" ctaVariant="purpose_entry_v1" sourcePage="/">キャリアを整理する<span aria-hidden="true">→</span></CareerCompassLink>
+        <SiteSearch entries={buildSiteSearchIndex()} />
+        <nav className={discoveryStyles.journeys} aria-label="目的から選ぶ">
+          {siteNavigationGroups.map((group) => <section className={discoveryStyles.journey} key={group.id} aria-labelledby={`home-purpose-${group.id}`}>
+            <h2 id={`home-purpose-${group.id}`}>{group.label}</h2>
+            <ol className={discoveryStyles.steps}>
+              {group.journeyIds.map((id) => <li key={id}>{id === "career_compass"
+                ? <CareerCompassLink ctaLocation="home_hero_purpose" ctaVariant="purpose_entry_v1" sourcePage="/">{siteLinks[id].label}</CareerCompassLink>
+                : <HomeLink href={siteLinks[id].href} section="hero" destination={id} purpose={group.purpose}>{siteLinks[id].label}</HomeLink>}
+              </li>)}
+            </ol>
+          </section>)}
         </nav>
         <div className="home-focused__hero-visual" aria-hidden="true">
           <Image

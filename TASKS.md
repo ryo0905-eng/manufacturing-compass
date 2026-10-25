@@ -1,5 +1,16 @@
 # TASKS
 
+## 2026-10-25：トップ横断検索と4目的の共通ナビ
+
+- Semiraiの検索・目的別導線を参考に、日本語トップで記事・企業・ツール・案内ページを横断検索できるようにした。既存の公開データから165件を重複なく投影。企業詳細の充実度は既存公開条件で判定し、その他は業界地図の該当概要へ案内する。
+- 全半角・英字大小・複数語、名称優先、種類別、12件ずつの追加表示、日本語変換の確定待ち、未入力／0件を実装。検索語は画面内だけで扱い、URL・保存領域・計測へ渡さない。検索開始・種別変更・結果クリックは固定ID・種類・件数のみで観測する。
+- 共通の静的定義で4目的の道順と共通メニューを揃え、ランキングを直後に配置。PCは単一ドロップダウン、1160px未満はグループ別リンク一覧。Escape・外側クリック・フォーカス離脱・遷移・幅変更で閉じ、検索入力や開閉ボタンへのフォーカスを扱う。
+- 検証：新規site-search単体テストと既存company-explorer単体テストが成功。公開範囲・企業の案内先・重複URL・表記正規化・一致優先順位・種類・件数・IME・検索計測・トップSSRを確認。追加したメニュー操作検証はテスト用DOM参照の不一致を修正後に再実行して成功し、単一展開、Escapeの復帰、外側クリック、フォーカス離脱、hash移動、検索フォーカス、幅変更とCSS Moduleを確認した。npm run typecheckは175秒上限で1回成功。公開禁止辞書に基づくsrc・docsの部分一致検索は0件、git diff --check成功。
+- 実画面のキーボード操作・スマホ表示、本番反映・GA4受信・公開後効果は未確認。観察期間は実際の本番反映から28日。dev・build・lint・commit・pushは未実施。
+- 変更ファイル：src/app/(ja)/page.tsx、src/app/globals.css、src/components/SiteSearch.tsx、src/components/HomeDiscovery.module.css、src/components/HeaderNavigation.tsx、src/components/Header.module.css、src/data/site-navigation.ts、src/data/header.ts、src/lib/site-search.ts、src/lib/site-search-index.ts、src/lib/analytics.ts、tests/unit/site-search.cjs、docs/site-navigation-search-spec.md、docs/PRD.md、docs/architecture.md、docs/design-system.md、docs/conversion-architecture.md、docs/documentation-map.md、TASKS.md。
+- 実行コマンド：node --test tests/unit/site-search.cjs tests/unit/company-explorer.cjs、node --test tests/unit/site-search.cjs（追加したメニュー検証・テスト用DOM修正後に再実行）、npm run typecheck（最大1回）。テスト・型確認はPython subprocessのtimeout=175で制限。git diff --check、git status --short、git diff、公開禁止辞書に基づく静的検索も実行。
+- 推奨コミット：feat: add site search and purpose-based navigation
+
 ## 2026-10-25：ランキング書籍広告の到達導線・読み込み・計測
 
 - 本番Chromeで既存2冊の購入リンク生成とready状態を確認し、発行済み広告データとリンク先を照合。広告クリック・購入・ASP設定変更は行わず、生成が成功することと過去の全環境で正常だったことは区別した。GA4ともしもASPの同一期間を、メディア別・販売先別で読み取り照合済み。サイト単位のASPクリックを記事単位の成果と断定せず、実数と差異は非公開のgrowth-operationsへ記録した。

@@ -2,6 +2,15 @@
 
 最終更新日: 2026-10-25
 
+## トップ横断検索・目的別ナビ（2026-10-25）
+
+現在の日本語トップは検索・4目的の道順・ランキングの順で案内する。共通ヘッダーも4目的に揃え、検索と記事一覧、独立したCareer Compass CTAへ直接接続する。技術は記事シリーズ→工程体験→実務ツール、企業研究はランキング→業界地図→比較、拠点は国内マップ→新設増設、キャリアは職種マップ→Career Compass→軸ノート。[対象データ・操作・イベント仕様](./site-navigation-search-spec.md)。
+
+- 検索開始は`site_search_start`、種別変更は`site_search_filter`（result_kind、result_count）、結果クリックは`site_search_result_click`（result_id、result_kind）。開始は変換確定済みの初回検索のみ、マウント中1回。検索語・URL・回答・自由入力は送らない。
+- 検索結果のクリックは専用イベント1つ。トップの道順は既存`home_link_click`のsection_id=heroと共通リンクの固定IDを使い、Career Compassだけはhome_hero_purpose／purpose_entry_v1の専用CTAイベントとする。検索結果をCareer CompassのCTAクリックへ重複計上しない。
+- ヘッダーは既存`header_nav_click`と共通リンクの固定ID、1160px境界のdesktop/mobile_menuを使う。グループ開閉自体は遷移として数えず、独立CTAはglobal_header／header_navigation_v2の専用イベントのみ。
+- 本番反映日から28日間、検索開始→結果クリック、種類別の結果クリック、メニューから各ページへの遷移を観察する。過去の5入口や平坦なメニューと同じUIの実績として合算しない。本番反映日・GA4受信・実画面・効果は未確認。
+
 ## ランキングから企業研究・経験整理への入口（2026-10-25）
 
 時価総額ランキング記事の世界・日本一覧と2社比較の直後、過去順位の体験より前に `#research-next` を置く。企業の役割を調べる `/industry-map#company-search` と国内拠点の `/semiconductor-map` の2リンクに続けて、共通の短い見本付きCareer Compass入口を置く。同じ場所の通常Career Compassリンクは置き換え、重複追加しない。後半の企業研究4ステップも残す。数値・出典・データ確認日は変更せず、記事の編集更新日だけを更新する。

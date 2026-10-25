@@ -1,6 +1,7 @@
 "use client";
 
 import type { RankingMode } from '@/lib/ranking-comparison';
+import type { SiteSearchFilter, SiteSearchKind } from "@/lib/site-search";
 
 import { sendGAEvent } from "@next/third-parties/google";
 import { track as trackVercelEvent } from "@vercel/analytics";
@@ -89,6 +90,20 @@ export function trackEvent(eventName: string, properties: AnalyticsProperties = 
 
   if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && isProductionGaHost()) {
     sendGAEvent("event", eventName, eventProperties);
+  }
+}
+
+type SiteSearchAnalyticsEventMap = {
+  site_search_start: { result_kind: SiteSearchFilter; result_count: number };
+  site_search_filter: { result_kind: SiteSearchFilter; result_count: number };
+  site_search_result_click: { result_id: string; result_kind: SiteSearchKind };
+};
+
+export function trackSiteSearchEvent<EventName extends keyof SiteSearchAnalyticsEventMap>(eventName: EventName, properties: SiteSearchAnalyticsEventMap[EventName]) {
+  try {
+    trackEvent(eventName, properties);
+  } catch {
+    // Search and navigation remain usable when analytics is unavailable.
   }
 }
 
