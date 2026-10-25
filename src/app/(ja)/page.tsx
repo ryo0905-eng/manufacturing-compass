@@ -81,7 +81,7 @@ export default function Home() {
           <nav className="home-focused__ranking-links" aria-label="比較するランキングを選ぶ">
             {homeRankingLinks.map((item) => <HomeLink href={item.href} key={item.id} section="rankings" destination={item.id} purpose="industry" title={item.body}>{item.title}<span aria-hidden="true">→</span></HomeLink>)}
           </nav>
-          <p>年を選ぶか再生して、時価総額の変化を体験。各ランキングから、企業の規模や特徴も比較できます。</p>
+          <p>年末時価総額の推移や、保存値で比較できる期間別の増加率・増加額を確認。各ランキングから企業の規模や特徴も比べられます。</p>
         </header>
         <RankingTimeMachinePreview variant="home" />
       </section>
