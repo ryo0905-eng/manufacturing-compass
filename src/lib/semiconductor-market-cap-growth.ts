@@ -1,11 +1,30 @@
 import type { SemiconductorMarketCapCompany } from "@/data/semiconductor-market-cap";
+import type { SemiconductorMarketCapChartHistorySnapshot } from "@/data/semiconductor-market-cap-chart-history";
 import type { SemiconductorMarketCapHistorySnapshot } from "@/data/semiconductor-market-cap-history";
 
 export type MarketCapGrowthMetric = "rate" | "amount";
 
+export type MarketCapComparisonSnapshot = {
+  dataAsOf: string;
+  retrievedAt: string;
+  currency: string;
+  sourceName: string;
+  sourceUrl: string;
+  isChartHistory?: boolean;
+  entries: readonly {
+    companyId: string;
+    ticker: string;
+    marketCapUsdB: number;
+    sourceUrl: string;
+    observedAt?: string;
+  }[];
+};
+
 export type MarketCapGrowthRow = {
   company: SemiconductorMarketCapCompany;
   previousMarketCapUsdB: number;
+  previousDataAsOf: string;
+  previousSourceUrl: string;
   changeUsdB: number;
   changePercent: number;
   growthRank: number;
@@ -26,18 +45,35 @@ export function findMarketCapComparisonSnapshot(
   latestAsOf: string,
   months: number,
   snapshots: readonly SemiconductorMarketCapHistorySnapshot[],
+  chartHistory: readonly SemiconductorMarketCapChartHistorySnapshot[] = [],
 ) {
   const targetDate = subtractCalendarMonths(latestAsOf, months);
+  const chartSnapshot = chartHistory.find((candidate) => candidate.periodMonths === months && candidate.targetDate === targetDate);
+  if (chartSnapshot) {
+    return {
+      targetDate,
+      snapshot: {
+        dataAsOf: chartSnapshot.targetDate,
+        retrievedAt: chartSnapshot.retrievedAt,
+        currency: chartSnapshot.currency,
+        sourceName: chartSnapshot.sourceName,
+        sourceUrl: chartSnapshot.sourceUrl,
+        isChartHistory: true,
+        entries: chartSnapshot.entries,
+      } satisfies MarketCapComparisonSnapshot,
+    };
+  }
+
   const snapshot = snapshots
     .filter((candidate) => candidate.dataAsOf <= targetDate)
     .sort((first, second) => second.dataAsOf.localeCompare(first.dataAsOf))[0];
 
-  return { targetDate, snapshot };
+  return { targetDate, snapshot: snapshot as MarketCapComparisonSnapshot | undefined };
 }
 
 export function buildMarketCapGrowthRanking(
   companies: readonly SemiconductorMarketCapCompany[],
-  snapshot: SemiconductorMarketCapHistorySnapshot | undefined,
+  snapshot: MarketCapComparisonSnapshot | undefined,
   metric: MarketCapGrowthMetric,
   category = "all",
 ): MarketCapGrowthRow[] {
@@ -52,6 +88,8 @@ export function buildMarketCapGrowthRanking(
     return [{
       company,
       previousMarketCapUsdB: previous.marketCapUsdB,
+      previousDataAsOf: previous.observedAt ?? snapshot.dataAsOf,
+      previousSourceUrl: previous.sourceUrl,
       changeUsdB,
       changePercent: (changeUsdB / previous.marketCapUsdB) * 100,
     }];

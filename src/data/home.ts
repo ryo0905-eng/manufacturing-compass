@@ -9,7 +9,7 @@ export const homeGuideSlugs = [
 
 export const homeRankingLinks = [
   { id: "market_cap", href: "/guides/semiconductor-market-cap-ranking", title: "時価総額", body: "世界・日本の順位を確認し、2社を比較する" },
-  { id: "market_cap_growth", href: "/guides/semiconductor-market-cap-growth-ranking", title: "時価総額増加率", body: "保存値で比較できる1・3か月の増加率と増加額を見る" },
+  { id: "market_cap_growth", href: "/guides/semiconductor-market-cap-growth-ranking", title: "時価総額増加率", body: "1か月・3か月・6か月・1年の増加率と増加額を比較する" },
   { id: "equipment_sales", href: "/guides/semiconductor-equipment-sales-ranking", title: "装置売上", body: "工程を選んで、関連するメーカーを比較する" },
   { id: "memory", href: "/guides/memory-manufacturer-ranking", title: "メモリ", body: "DRAM・NANDを切り替えて、売上シェアを比較する" },
   { id: "salary", href: "/guides/semiconductor-salary-ranking", title: "平均年収", body: "企業が公表した平均年収と集計条件を確認する" },

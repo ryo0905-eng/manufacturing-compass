@@ -7,8 +7,10 @@ import {
   buildMarketCapGrowthRanking,
   daysBetween,
   findMarketCapComparisonSnapshot,
+  type MarketCapComparisonSnapshot,
   type MarketCapGrowthMetric,
 } from "@/lib/semiconductor-market-cap-growth";
+import { semiconductorMarketCapChartHistory } from "@/data/semiconductor-market-cap-chart-history";
 import {
   japanSemiconductorMarketCapRanking,
   semiconductorMarketCapMeta,
@@ -82,8 +84,10 @@ function movementLabel(value: number) {
   return "変動なし";
 }
 
-function SourceLinks({ snapshot, label }: { snapshot: SemiconductorMarketCapHistorySnapshot; label: string }) {
-  const urls = [...new Set([snapshot.sourceUrl, ...snapshot.entries.map((entry) => entry.sourceUrl)])];
+function SourceLinks({ snapshot, label }: { snapshot: MarketCapComparisonSnapshot; label: string }) {
+  const urls = snapshot.isChartHistory
+    ? [snapshot.sourceUrl]
+    : [...new Set([snapshot.sourceUrl, ...snapshot.entries.map((entry) => entry.sourceUrl)])];
   return (
     <span className={styles.sources}>
       {urls.map((url, index) => (
@@ -164,12 +168,19 @@ export function SemiconductorMarketCapGrowthRanking({ stockMarketAvailable }: { 
   const categories = useMemo(() => [...new Set(scopeCompanies.map((company) => company.category))].sort((a, b) => a.localeCompare(b, "ja")), [scopeCompanies]);
   const selectedCategory = category === "all" || categories.includes(category) ? category : "all";
   const period = periods.find((item) => item.id === periodId) ?? periods[0];
-  const comparison = findMarketCapComparisonSnapshot(semiconductorMarketCapMeta.dataAsOf, period.months, semiconductorMarketCapHistory);
+  const comparison = findMarketCapComparisonSnapshot(
+    semiconductorMarketCapMeta.dataAsOf,
+    period.months,
+    semiconductorMarketCapHistory,
+    semiconductorMarketCapChartHistory,
+  );
   const rows = useMemo(
     () => buildMarketCapGrowthRanking(scopeCompanies, comparison.snapshot, metric, selectedCategory),
     [scopeCompanies, comparison.snapshot, metric, selectedCategory],
   );
-  const days = comparison.snapshot ? daysBetween(comparison.snapshot.dataAsOf, semiconductorMarketCapMeta.dataAsOf) : undefined;
+  const days = comparison.snapshot && !comparison.snapshot.isChartHistory
+    ? daysBetween(comparison.snapshot.dataAsOf, semiconductorMarketCapMeta.dataAsOf)
+    : undefined;
   const currentSource = latestSnapshot;
 
   return (
@@ -214,9 +225,13 @@ export function SemiconductorMarketCapGrowthRanking({ stockMarketAvailable }: { 
       {comparison.snapshot ? (
         <>
           <div className={styles.comparisonMeta}>
-            <p><strong>{period.label}</strong>の目標日は{japaneseDate(comparison.targetDate)}。比較にはその日以前で最も新しい保存値、{japaneseDate(comparison.snapshot.dataAsOf)}を使用しました（実際の比較期間 {days} 日）。</p>
+            {comparison.snapshot.isChartHistory ? (
+              <p><strong>{period.label}</strong>の目標日は{japaneseDate(comparison.targetDate)}。比較には目標日以前で最も新しい企業別のチャート観測値を使い、各社の実際の観測日は表に記載しています。</p>
+            ) : (
+              <p><strong>{period.label}</strong>の目標日は{japaneseDate(comparison.targetDate)}。比較にはその日以前で最も新しい保存値、{japaneseDate(comparison.snapshot.dataAsOf)}を使用しました（実際の比較期間 {days} 日）。</p>
+            )}
             <p>比較可能な企業：<strong>{rows.length}社</strong> / {selectedCategory === "all" ? scopeCompanies.length : scopeCompanies.filter((company) => company.category === selectedCategory).length}社。両方の基準日に時価総額がある企業だけを掲載しています。</p>
-            <p>過去値の出典：<SourceLinks label={comparison.snapshot.sourceName} snapshot={comparison.snapshot} />（取得日 {japaneseDate(comparison.snapshot.retrievedAt)}）</p>
+            <p>過去値の出典：<SourceLinks label={comparison.snapshot.sourceName} snapshot={comparison.snapshot} />（取得日 {japaneseDate(comparison.snapshot.retrievedAt)}。企業別のチャート履歴は各行から確認できます）</p>
           </div>
 
           {rows.length > 0 ? (
@@ -236,7 +251,10 @@ export function SemiconductorMarketCapGrowthRanking({ stockMarketAvailable }: { 
                           {listing ? <Link className={styles.stockLink} href={stockHref(row.company.id)}>株式市場ウォッチ ↗</Link> : null}
                         </th>
                         <td>{marketCap(row.company.marketCapUsdB)}</td>
-                        <td>{marketCap(row.previousMarketCapUsdB)}</td>
+                        <td>
+                          {marketCap(row.previousMarketCapUsdB)}
+                          <small>{japaneseDate(row.previousDataAsOf)} · <a href={row.previousSourceUrl} rel="noopener noreferrer" target="_blank">出典 ↗</a></small>
+                        </td>
                         <td className={row.changePercent >= 0 ? styles.positive : styles.negative}>{changeRate(row.changePercent)}</td>
                         <td className={row.changeUsdB >= 0 ? styles.positive : styles.negative}>{changeAmount(row.changeUsdB)}</td>
                         <td><span>{row.previousMarketCapRank}位 → {row.currentMarketCapRank}位</span><small>{movementLabel(row.rankMovement)}</small></td>
