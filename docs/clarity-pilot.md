@@ -1,6 +1,16 @@
-# ランキング記事限定のClarity
+# ランキング記事限定のClarity（撤去済み）
 
-実装日：2026-09-28。本番設定・配信・Clarity管理画面の受信は未確認。
+導入実装日：2026-09-28。撤去実装日：2026-10-25。本番への撤去反映は未確認。
+
+## 撤去
+
+操作記録が改善にほぼ活用されておらず、記事上部の設定欄が閲覧を妨げるため、ClarityのUI・タグ読み込み・同意管理・専用テストを削除した。ランキングは通常の記事ルートと静的生成対象に戻し、URL・canonical・OG/X画像・記事内容を維持する。GA4・Vercel Analyticsは変更しない。
+
+本番の収集停止には、この変更のデプロイが必要。Vercelの既存環境変数とローカルの設定値は今回操作していないが、撤去後のコードからは参照しない。過去の収集データ、Clarity管理画面、ブラウザに残る既存Cookie・同意設定は削除していない。
+
+撤去時の検証：`npm run typecheck`（1回）と `git diff --check` は成功。`src`・`tests`・`.env.example` にClarityへの参照がないことを確認した。既存単体テストは `ranking-company-compare.cjs` と `book-affiliates.cjs` が成功。`memory-ranking.cjs`（関連記事）、`ranking-time-machine-preview.cjs`（記事ブロック）、`ranking-time-machine.cjs`（記事内アンカー）は期待値との不一致で失敗した。失敗箇所が参照する記事データとテストには今回差分がなく、修正・再実行はしていない。build・dev・ブラウザ確認・commit・pushは未実施。
+
+以下は導入時の履歴であり、現在の設定・運用手順ではない。導入時の本番設定・受信確認は未確認のまま保持する。
 
 ## 目的と対象
 
