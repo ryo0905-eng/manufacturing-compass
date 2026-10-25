@@ -32,7 +32,8 @@ export default function StockMarketPage() {
       { "@type": "ListItem", position: 1, name: "業界ウォッチ", item: `${siteUrl}/semiconductor-watch` },
       { "@type": "ListItem", position: 2, name: "株式市場", item: `${siteUrl}${stockMarketMeta.route}` },
     ] }} />
-    <aside className={styles.watchSidebar}><Link href="/semiconductor-watch" className={styles.backLink}>← 半導体業界ウォッチ</Link><WatchNavigation current="stocks" /><p>市場の動きから、企業の事業・決算を読み解く。</p></aside><div className={styles.workspace}>
+    <WatchNavigation current="stocks" />
+    <div className={styles.workspace}>
     {!isStockMarketIndexable() ? <p className={styles.preview}>確認用プレビューです。公開設定が無効のため、本番ページ・検索登録は停止しています。</p> : null}
     <header className={styles.hero}><div><p className={styles.eyebrow}>SEMICONDUCTOR / MARKET WATCH</p><h1>半導体株式市場ウォッチ</h1><p>株価の変化から、半導体業界のいまを読み解く。</p></div><div className={styles.marketNote}><span>TradingView 市場データ</span><p>価格時点・遅延は各チャートに表示</p><a href="#stock-sources-title">表示の見方・出典 ↓</a></div></header>
     <section aria-label="主要株価指数" className={styles.indexSection}>
