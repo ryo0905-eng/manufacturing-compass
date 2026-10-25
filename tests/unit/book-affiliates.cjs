@@ -12,10 +12,12 @@ class Link {
   closest(selector) { return selector === 'a' ? this : null; }
 }
 
-function fixture(product, realReact = false, failAnalytics = false) {
+function fixture(product, realReact = false, failAnalytics = false, supported = true) {
   const events = [], scripts = [], refs = [], states = [], effects = [], timers = new Map(), observers = new Set(), visible = new Map(), cache = new Map();
   let cursor = 0, nextTimer = 0;
   const root = { links: [], dataset: {}, querySelectorAll() { return this.links; }, contains(link) { return this.links.includes(link); } };
+  const card = {};
+  const destination = { tabIndex: undefined, focusCalls: 0, focus() { this.focusCalls++; } };
   const react = realReact ? React : {
     useRef(value) { const i = cursor++; return refs[i] ??= { current: value }; },
     useState(value) { const i = cursor++; if (!(i in states)) states[i] = value; return [states[i], next => { states[i] = next; }]; },
@@ -28,7 +30,8 @@ function fixture(product, realReact = false, failAnalytics = false) {
     const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX } }).outputText;
     vm.runInNewContext(code, {
       exports, URL, Set, Element: Link,
-      document: { createElement() { return {}; }, body: { appendChild(script) { scripts.push(script); } } },
+      ...(supported ? { IntersectionObserver: class {} } : {}),
+      document: { createElement() { return {}; }, getElementById: () => destination, body: { appendChild(script) { scripts.push(script); } } },
       window: { location: { reload() {} } },
       setTimeout(callback, delay) { assert.equal(delay, 10000); const id = ++nextTimer; timers.set(id, callback); return id; },
       clearTimeout(id) { timers.delete(id); },
@@ -37,7 +40,7 @@ function fixture(product, realReact = false, failAnalytics = false) {
         if (id === 'react') return react;
         if (id.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => key }) };
         if (id === '@/lib/analytics') return { trackEvent(name, props) { if (failAnalytics) throw Error('analytics unavailable'); events.push({ name, props }); } };
-        if (id === '@/lib/observe-visible') return { observeVisibleOnce(target, callback) { visible.set(target, callback); return () => visible.delete(target); } };
+        if (id === '@/lib/observe-visible') return { observeVisibleOnce(target, callback) { if (supported) visible.set(target, callback); return () => visible.delete(target); } };
         if (id.startsWith('@/')) {
           const stem = 'src/' + id.slice(2);
           return load([stem + '.ts', stem + '.tsx'].find(file => fs.existsSync(file)));
@@ -50,6 +53,7 @@ function fixture(product, realReact = false, failAnalytics = false) {
   const lib = load('src/lib/book-affiliates.ts');
   const books = load('src/data/book-affiliates.ts').moshimoBookAffiliates;
   const Component = load('src/components/guide/MoshimoBookLink.tsx').MoshimoBookLink;
+  const Entry = load('src/components/guide/BookAffiliateEntry.tsx').BookAffiliateEntry;
   function visit(element, predicate) {
     if (!element || typeof element !== 'object') return null;
     if (predicate(element)) return element;
@@ -58,9 +62,17 @@ function fixture(product, realReact = false, failAnalytics = false) {
   }
   let tree;
   return {
-    lib, books, events, scripts, root, timers, visible, observers, Component,
+    lib, books, events, scripts, root, timers, visible, observers, Component, destination,
+    renderEntry() {
+      cursor = 0; tree = Entry({ sourceSlug: 'semiconductor-market-cap-ranking' });
+      tree.props.ref.current = root;
+      for (const effect of effects) if (effect?.pending) { effect.cleanup = effect.fn(); effect.pending = false; }
+      return tree;
+    },
+    clickEntry(event = {}) { visit(tree, element => element.props?.href === '#industry-map-books').props.onClick({ button: 0, ...event }); },
     render() {
       cursor = 0; tree = Component({ product });
+      tree.props.ref.current = card;
       visit(tree, element => element.props?.onClickCapture).props.ref.current = root;
       for (const effect of effects) if (effect?.pending) { effect.cleanup = effect.fn(); effect.pending = false; }
       return tree;
@@ -68,6 +80,7 @@ function fixture(product, realReact = false, failAnalytics = false) {
     mutate() { for (const observer of [...observers]) observer.callback(); },
     wait() { for (const [id, callback] of [...timers]) { timers.delete(id); callback(); } },
     expose() { const callback = visible.get(root); visible.delete(root); callback?.(); },
+    reach() { const callback = visible.get(card); visible.delete(card); callback?.(); },
     click(link) { visit(tree, element => element.props?.onClickCapture).props.onClickCapture({ target: link, currentTarget: root }); },
     strictReplay() { for (const effect of effects) if (effect) { effect.cleanup?.(); effect.cleanup = effect.fn(); } },
     cleanup() { for (const effect of effects) effect?.cleanup?.(); },
@@ -87,13 +100,20 @@ for (const product of ['nikkei-industry-map-2027', 'shikiho-industry-map-2027'])
   for (const href of ['#industry-map-books', 'javascript:alert(1)', 'https://af.moshimo.com/af/c/click?a_id=wrong&p_id=54', 'https://example.org/Amazon', 'https://af.moshimo.com.evil.test/af/c/click?a_id=' + amazon.a_id]) assert.equal(f.lib.getBookRetailer(href, product), null);
 
   f.render(); assert.equal(f.events.length, 0, 'Mount is not readiness or exposure');
-  assert.equal(f.visible.size, 0); assert.equal(f.observers.size, 1);
+  assert.equal(f.visible.size, 1); assert.equal(f.observers.size, 0);
+  assert.equal(f.status(), 'idle'); assert.equal(f.scripts.length, 0); assert.equal(f.timers.size, 0);
+  f.strictReplay(); f.wait();
+  assert.equal(f.scripts.length, 0, 'Offscreen cards do not fetch the vendor embed');
+  assert.equal(f.events.length, 0, 'Waiting offscreen must not emit unavailable');
+  f.reach();
+  assert.equal(f.events[0].props.action, 'section_view');
+  assert.equal(f.status(), 'loading'); assert.equal(f.scripts.length, 1); assert.equal(f.observers.size, 1);
   f.strictReplay(); assert.equal(f.scripts.length, 1, 'StrictMode effect replay must not duplicate the embed');
   f.wait(); assert.equal(f.status(), 'slow');
-  assert.deepEqual(f.events.map(e => e.props.action), ['unavailable']);
+  assert.deepEqual(f.events.map(e => e.props.action), ['section_view', 'unavailable']);
   const purchase = new Link(tracking(amazon)); purchase.textContent = '楽天市場という不正確なラベル';
   f.root.links = [purchase]; f.mutate(); assert.equal(f.status(), 'ready');
-  assert.deepEqual(f.events.map(e => e.props.action), ['unavailable', 'ready']);
+  assert.deepEqual(f.events.map(e => e.props.action), ['section_view', 'unavailable', 'ready']);
   assert.equal(f.events.some(e => e.props.action === 'view'), false, 'Offscreen readiness is not exposure');
   f.mutate(); f.expose(); f.strictReplay(); f.expose();
   assert.equal(f.events.filter(e => e.props.action === 'view').length, 1);
@@ -104,16 +124,20 @@ for (const product of ['nikkei-industry-map-2027', 'shikiho-industry-map-2027'])
   const unknown = new Link(tracking({ ...amazon, p_id: 999 })); f.root.links.push(unknown); f.click(unknown); assert.equal(f.events.at(-1).props.retailer, 'unknown');
   f.root.links = []; f.mutate(); assert.equal(f.status(), 'loading'); assert.equal(f.visible.size, 0);
   f.wait(); f.root.links = [purchase]; f.mutate(); f.expose();
-  for (const action of ['ready', 'view', 'unavailable']) assert.equal(f.events.filter(e => e.props.action === action).length, 1);
+  for (const action of ['section_view', 'ready', 'view', 'unavailable']) assert.equal(f.events.filter(e => e.props.action === action).length, 1);
   for (const event of f.events) {
-    assert.equal(event.props.product_id, product); assert.equal(event.props.ui_version, 'books-v1');
+    assert.equal(event.props.product_id, product); assert.equal(event.props.ui_version, 'books-v2');
     assert.equal(event.props.source_page, 'semiconductor-market-cap-ranking');
     assert.ok(Object.keys(event.props).every(key => ['action', 'product_id', 'source_page', 'cta_location', 'ui_version', 'service_id', 'retailer'].includes(key)));
   }
   assert.ok(!JSON.stringify(f.events).includes('private-destination'));
+  const lateMutation = [...f.observers][0].callback;
   f.cleanup(); assert.equal(f.observers.size, 0); assert.equal(f.visible.size, 0); assert.equal(f.timers.size, 0);
-  const remount = fixture(product); remount.root.links = [purchase]; remount.render(); remount.expose(); assert.equal(remount.events.filter(e => e.props.action === 'view').length, 1); remount.cleanup();
-  const unavailableAnalytics = fixture(product, false, true); unavailableAnalytics.root.links = [purchase]; assert.doesNotThrow(() => { unavailableAnalytics.render(); unavailableAnalytics.expose(); unavailableAnalytics.click(purchase); }); unavailableAnalytics.cleanup();
+  f.root.links = []; lateMutation(); assert.equal(f.timers.size, 0, 'Queued mutations after cleanup cannot restart timers');
+  const remount = fixture(product); remount.root.links = [purchase]; remount.render(); remount.reach(); remount.expose(); assert.equal(remount.events.filter(e => e.props.action === 'view').length, 1); remount.cleanup();
+  const unavailableAnalytics = fixture(product, false, true); unavailableAnalytics.root.links = [purchase]; assert.doesNotThrow(() => { unavailableAnalytics.render(); unavailableAnalytics.reach(); unavailableAnalytics.expose(); unavailableAnalytics.click(purchase); }); unavailableAnalytics.cleanup();
+  const unsupported = fixture(product, false, false, false); unsupported.render(); assert.equal(unsupported.scripts.length, 1, 'Unsupported visibility still loads usable purchase links'); assert.ok(!unsupported.events.some(e => e.props.action === 'section_view')); unsupported.cleanup();
+  const offscreen = fixture(product); offscreen.render(); offscreen.cleanup(); offscreen.reach(); offscreen.wait(); assert.equal(offscreen.scripts.length, 0); assert.equal(offscreen.events.length, 0);
 
   const ssr = fixture(product, true);
   const html = renderToStaticMarkup(React.createElement(ssr.Component, { product }));
@@ -125,4 +149,14 @@ for (const product of ['nikkei-industry-map-2027', 'shikiho-industry-map-2027'])
 const data = fs.readFileSync('src/content/guides/semiconductor-market-cap-ranking.ts', 'utf8');
 assert.match(data, /type: "market-cap-ranking", scope: "world"[^]*?type: "book-affiliate-entry"/);
 assert.match(data, /id: "industry-map-books"/);
-console.log('PASS: two independent books, loading/recovery, StrictMode/remount, real-exposure gating, rel attributes, purchase-only URL classification, analytics failure isolation, privacy and SSR reading order (mock embed/observers/timers; no vendor or production requests).');
+const entry = fixture('nikkei-industry-map-2027');
+entry.renderEntry(); assert.equal(entry.events.length, 0);
+entry.expose(); entry.strictReplay(); entry.expose();
+assert.equal(entry.events.length, 1); assert.equal(entry.events[0].name, 'book_affiliate_entry_view');
+entry.clickEntry(); assert.equal(entry.events.at(-1).name, 'article_internal_click');
+assert.equal(entry.events.at(-1).props.destination_path, '#industry-map-books');
+assert.equal(entry.events.at(-1).props.ui_version, 'books-v2');
+assert.equal(entry.destination.focusCalls, 1);
+entry.clickEntry({ ctrlKey: true }); assert.equal(entry.destination.focusCalls, 1, 'Modified clicks keep native navigation');
+entry.cleanup(); assert.equal(entry.visible.size, 0);
+console.log('PASS: two books, lazy loading after section exposure, no offscreen failure, recovery, StrictMode/remount/queued cleanup, unsupported fallback, URL classification, analytics isolation, privacy and SSR (mock vendor requests).');

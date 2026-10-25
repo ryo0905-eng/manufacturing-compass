@@ -2,8 +2,8 @@ import { moshimoBookAffiliates, type MoshimoBookProduct } from "@/data/book-affi
 import { observeVisibleOnce } from "@/lib/observe-visible";
 
 export type BookRetailer = "amazon" | "rakuten" | "unknown";
-export type BookAffiliateAction = "ready" | "view" | "unavailable";
-export type BookAffiliateStatus = "loading" | "ready" | "slow";
+export type BookAffiliateAction = "section_view" | "ready" | "view" | "unavailable";
+export type BookAffiliateStatus = "idle" | "loading" | "ready" | "slow";
 
 /** Recognize this card's purchase links without inferring a shop from visible text. */
 export function getBookRetailer(href: string, product: MoshimoBookProduct): BookRetailer | null {
@@ -26,14 +26,17 @@ export function observeBookAffiliate(
   onStatus: (status: BookAffiliateStatus) => void,
   onAction: (action: BookAffiliateAction) => void,
 ) {
+  let disposed = false;
   let ready = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
   let stopVisibility: (() => void) | undefined;
   const startTimer = () => setTimeout(() => {
+    if (disposed) return;
     onStatus("slow");
     onAction("unavailable");
   }, 10_000);
   const check = () => {
+    if (disposed) return;
     let hasPurchase = false;
     for (const link of target.querySelectorAll<HTMLAnchorElement>("a[href]")) {
       if (getBookRetailer(link.getAttribute("href") ?? "", product) === null) continue;
@@ -60,5 +63,5 @@ export function observeBookAffiliate(
   // Some embeds add an anchor before assigning its href; attributes matter too.
   observer.observe(target, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
   check();
-  return () => { clearTimeout(timer); observer.disconnect(); stopVisibility?.(); };
+  return () => { disposed = true; clearTimeout(timer); observer.disconnect(); stopVisibility?.(); };
 }

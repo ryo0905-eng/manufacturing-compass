@@ -239,7 +239,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "world-ranking",
       heading: "半導体メーカー・関連企業の世界時価総額ランキングTOP30",
-      blocks: [{ type: "market-cap-ranking", scope: "world" }],
+      blocks: [{ type: "market-cap-ranking", scope: "world" }, { type: "book-affiliate-entry" }],
       paragraphs: [],
     },
     {

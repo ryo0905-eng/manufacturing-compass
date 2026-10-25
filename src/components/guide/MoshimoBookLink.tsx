@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { moshimoBookAffiliates, type MoshimoBookProduct } from "@/data/book-affiliates";
 import { getBookRetailer, observeBookAffiliate, type BookAffiliateAction, type BookAffiliateStatus } from "@/lib/book-affiliates";
 import { trackEvent } from "@/lib/analytics";
+import { observeVisibleOnce } from "@/lib/observe-visible";
 import styles from "./MoshimoBookLink.module.css";
 
 function makeEmbedScript(card: object) {
@@ -21,12 +22,15 @@ msmaflink(${JSON.stringify(card)});
 export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {
   const book = moshimoBookAffiliates[product];
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [status, setStatus] = useState<BookAffiliateStatus>("loading");
+  const [status, setStatus] = useState<BookAffiliateStatus>("idle");
   const seen = useRef(new Set<BookAffiliateAction>());
+  const cardRef = useRef<HTMLElement>(null);
+  const started = useRef(false);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
-    if (!wrapper) return;
+    const cardElement = cardRef.current;
+    if (!wrapper || !cardElement) return;
 
     const record = (action: BookAffiliateAction) => {
       if (seen.current.has(action)) return;
@@ -34,21 +38,33 @@ export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {
       try {
         trackEvent("book_affiliate_state", {
           action, product_id: book.productId, source_page: "semiconductor-market-cap-ranking",
-          cta_location: "industry_map_books", ui_version: "books-v1",
+          cta_location: "industry_map_books", ui_version: "books-v2",
         });
       } catch { /* An unavailable analytics service must not interrupt the card. */ }
     };
-    const stop = observeBookAffiliate(wrapper, product, setStatus, record);
+    let stopEmbed: (() => void) | undefined;
+    const initialize = () => {
+      started.current = true;
+      setStatus("loading");
+      stopEmbed = observeBookAffiliate(wrapper, product, setStatus, record);
 
-    // 毎回の表示で発行コードを実行する。Next.js のクライアント遷移で戻った時もカードを再描画できる。
-    if (!wrapper.dataset.moshimoInitialized) {
-      wrapper.dataset.moshimoInitialized = "true";
-      const script = document.createElement("script");
-      script.textContent = makeEmbedScript(book.card);
-      document.body.appendChild(script);
-    }
+      // Keep the issued embed intact; replay restores observation without inserting it twice.
+      if (!wrapper.dataset.moshimoInitialized) {
+        wrapper.dataset.moshimoInitialized = "true";
+        const script = document.createElement("script");
+        script.textContent = makeEmbedScript(book.card);
+        document.body.appendChild(script);
+      }
+    };
+    const stopCardVisibility = seen.current.has("section_view") ? () => {} : observeVisibleOnce(cardElement, () => {
+      record("section_view");
+      if (!started.current) initialize();
+    });
 
-    return stop;
+    // Older browsers still get purchase links, without fabricating section exposure.
+    if (started.current || typeof IntersectionObserver === "undefined") initialize();
+
+    return () => { stopCardVisibility(); stopEmbed?.(); };
   }, [book, product]);
 
   function handleClick(event: MouseEvent<HTMLDivElement>) {
@@ -60,20 +76,20 @@ export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {
     try {
       trackEvent("affiliate_outbound_click", {
         service_id: "moshimo", product_id: book.productId, retailer,
-        source_page: "semiconductor-market-cap-ranking", cta_location: "industry_map_books", ui_version: "books-v1",
+        source_page: "semiconductor-market-cap-ranking", cta_location: "industry_map_books", ui_version: "books-v2",
       });
     } catch { /* Keep the original purchase link usable. */ }
   }
 
   return (
-    <article className={styles.card} aria-labelledby={`book-title-${book.id}`} data-book-product={product} data-book-status={status}>
+    <article className={styles.card} ref={cardRef} aria-labelledby={`book-title-${book.id}`} data-book-product={product} data-book-status={status}>
       <h3 className={styles.title} id={`book-title-${book.id}`}>{book.title}</h3>
       <p className={styles.description}>{book.description}</p>
       <p className={styles.purpose}>{book.purpose}</p>
       <p className={styles.note}>広告・アフィリエイトリンクです。購入されると運営者に報酬が入る場合があります。</p>
       <p className={styles.note}>Amazonは書名の検索結果が開きます。購入前に2027年版であることをご確認ください。</p>
       <div className={`${styles.embed} ${status === "slow" ? styles.slow : ""}`} onClickCapture={handleClick} ref={wrapperRef}>
-        <div id={`msmaflink-${book.id}`}><span className={styles.loading}>購入先を読み込んでいます。</span></div>
+        <div id={`msmaflink-${book.id}`}><span className={styles.loading}>{status === "idle" ? "購入先は、この紹介欄が表示されたときに読み込みます。" : "購入先を読み込んでいます。"}</span></div>
       </div>
       {status === "slow" && <div className={styles.status} role="status">
         <p>購入先の読み込みに時間がかかっています。通信環境やブラウザの設定をご確認ください。</p>

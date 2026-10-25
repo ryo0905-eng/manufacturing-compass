@@ -56,7 +56,7 @@
 
 時価総額ランキング1記事だけ、冒頭を短い結論と世界・日本・詳しい解説への3リンクにし、目次は閉じたnative detailsへ移す。世界TOP30→日本TOP10→2社比較→タイムマシンの順とし、グラフ・順位表・出典条件・選択ボタンは常時表示する。書籍紹介は後半1か所、業界マップと決算の案内は対応する解説へ移す。指標の説明、企業研究の注意点、調査方法を統合し、旧アンカーは統合先へ残す。他記事の目次・導入は変更しない。
 
-3リンクは既存article_internal_clickのsource_slug／destination_path、比較とタイムマシンも既存のイベント名・属性を維持する。移動した業界マップ・決算案内のcta_location=world_ranking_after_tableは過去との識別を維持する旧名称で、現在の物理的位置ではない。書籍への旧記事内入口は撤去し、紹介欄の既存外部クリック計測を維持する。位置の変更による露出差を需要の変化と混同しない。
+3リンクは既存article_internal_clickのsource_slug／destination_path、比較とタイムマシンも既存のイベント名・属性を維持する。移動した業界マップ・決算案内のcta_location=world_ranking_after_tableは過去との識別を維持する旧名称で、現在の物理的位置ではない。書籍への記事内入口は10-17に撤去したが、10-25のbooks-v2で世界表直後に復帰する。紹介欄の既存外部クリック計測を維持する。位置の変更による露出差を需要の変化と混同しない。
 
 本番反映日・受信・観測開始日は未確認。反映確認後14日で異常、28日で検索語・端末別のGSCクリック／表示／CTR／順位と、関連記事遷移・比較・タイムマシン利用を別に評価する。タイトル・URL・ランキング数値・データ確認日は変更せず、編集更新日のみ更新。検索需要や順位変動を考慮し、前後差を施策の因果効果とは断定しない。実績は非公開記録に保持し、未実施の本番確認を完了扱いにしない。
 
@@ -481,11 +481,13 @@ Career Compass
 
 回答・項目ID・記載状況・件数・ノート本文は送信しない。コピー成功を実際の相談や応募と同一視しない。本番反映後14日から入口／開始／結果とコピーを観測し、利用が少ない場合は需要未検証と扱う。本番受信は未確認。
 
-## ランキング記事の書籍導線（2026-10-15）
+## ランキング記事の書籍導線（2026-10-25更新）
 
-世界表直後の短い入口は `article_internal_click` を使い、`source_slug`・`source_page=semiconductor-market-cap-ranking`、`destination_path=#industry-map-books`、`cta_location=world_ranking_after_table`、`ui_version=books-v1` を送る。同一ページ内の移動であり、購入先クリックと合算しない。通常操作では移動先をフォーカス可能にしてキーボードの読み順をつなぎ、修飾キーによる別タブ操作は維持する。
+世界表直後の短い入口を復帰し、前景25%以上の露出を `book_affiliate_entry_view`、クリックを既存 `article_internal_click` で送る。属性は `source_slug`・`source_page=semiconductor-market-cap-ranking`、`destination_path=#industry-map-books`、`cta_location=world_ranking_after_table`、`ui_version=books-v2`。露出はマウント中1回。同一ページ内の移動であり、購入先クリックと合算しない。通常操作では移動先をフォーカス可能にしてキーボードの読み順をつなぎ、修飾キーによる別タブ操作は維持する。
 
-書籍カードは `book_affiliate_state` に `action=ready/view/unavailable`、固定の `product_id`、`source_page=semiconductor-market-cap-ranking`、`cta_location=industry_map_books`、`ui_version=books-v1` を送る。readyは発行データに対応する購入先リンクの生成、viewはその後に購入先領域が前景で25%以上露出した時、unavailableはマウント後10秒未生成の場合。各actionは商品ごと・マウント中1回。unavailableは恒久的な故障ではなく、後からready/viewへ進める。生成リンクがなくなった場合は露出監視を解除し、10秒の待機を再開する。再訪は新しいマウントとして扱う。
+書籍カードは `book_affiliate_state` に `action=section_view/ready/view/unavailable`、固定の `product_id`、`source_page=semiconductor-market-cap-ranking`、`cta_location=industry_map_books`、`ui_version=books-v2` を送る。section_viewは紹介カードの前景25%到達で、その後に発行済み埋め込みと10秒待機を開始する。画面外では開始しない。readyは発行データに対応する購入先リンクの生成、viewはその後に購入先領域が前景で25%以上露出した時、unavailableは読み込み開始後10秒未生成の場合。各actionは商品ごと・マウント中1回。監視非対応時も購入先は即時読込するがsection_view/viewを推定しない。unavailableは恒久的な故障ではなく、後からready/viewへ進める。生成リンクがなくなった場合は露出監視を解除し、10秒の待機を再開する。解除後の遅延通知でイベントや待機を復活させない。再訪は新しいマウントとして扱う。
+
+旧books-v1のunavailableは画面外でもマウント後10秒で発火したため、読者が書籍欄に到達して購入できなかった人数には読み替えない。books-v2とは読み込み・待機条件が異なる。背景へ移った後も開始済みの読み込み待機は実時間で進むため、新版もunavailableだけで画面内の故障率を算出しない。紹介文の露出と購入先ボタンの露出は別の意味であり、section_viewは読了や購入意向を保証しない。
 
 `affiliate_outbound_click` は既存名を維持し、`service_id=moshimo`、`product_id`、`retailer=amazon/rakuten/unknown`、同じsource_page・cta_location・ui_versionを送る。カード内の購入先だけを対象とし、発行済みのURLまたはもしもの生成クリックURLの広告ID・プログラムIDを照合する。既知の広告IDに対し販売先を特定できない時だけunknownとし、その他のリンクは送信しない。表示ラベルだけで販売先を推定せず、完全なURL・書名・自由記述・識別子をイベントへ追加しない。広告コードと遷移先は書き換えない。
 

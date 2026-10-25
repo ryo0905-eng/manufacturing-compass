@@ -268,7 +268,7 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.equal((body.match(/class="salary-bar-chart metric-bar-chart"/g) || []).length, 0);
   assert.equal((body.match(/data-ranking-compare-id=/g) || []).length, 48);
   assert.ok(body.indexOf('id="industry-map-books"') > body.indexOf('id="research-flow"'));
-  assert.ok(!body.includes('読んでよかった2冊（広告あり）'));
+  assert.equal((body.match(/業界地図2冊の特徴と購入先を見る（広告）/g) || []).length, 1);
   assert.ok(body.includes('同一企業、二重上場、ADR') && body.includes('各社の公式企業情報'));
 
   // Merged sections retain incoming anchors; every local link resolves outside the closed TOC.
@@ -287,7 +287,8 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.ok(!rankingContent.includes('link-callout'));
   const tableHeads = [...rankingContent.matchAll(/<thead[^>]*>([\s\S]*?)<\/thead>/g)];
   assert.deepEqual(tableHeads.map(head => (head[1].match(/scope="col"/g) || []).length), [4, 4]);
-  assert.ok(!rankingContent.includes('href="/industry-map"') && !rankingContent.includes('industry-map-books'));
+  assert.ok(!rankingContent.includes('href="/industry-map"'));
+  assert.equal((rankingContent.match(/href="#industry-map-books"/g) || []).length, 1);
 
   const schemas = [...rendered.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(match => JSON.parse(match[1]));
   const article = schemas.find(schema => schema['@type'] === 'Article');

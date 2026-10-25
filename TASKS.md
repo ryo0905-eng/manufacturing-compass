@@ -1,5 +1,15 @@
 # TASKS
 
+## 2026-10-25：ランキング書籍広告の到達導線・読み込み・計測
+
+- 本番Chromeで既存2冊の購入リンク生成とready状態を確認し、発行済み広告データとリンク先を照合。広告クリック・購入・ASP設定変更は行わず、生成が成功することと過去の全環境で正常だったことは区別した。GA4ともしもASPの同一期間を、メディア別・販売先別で読み取り照合済み。サイト単位のASPクリックを記事単位の成果と断定せず、実数と差異は非公開のgrowth-operationsへ記録した。
+- 世界TOP30表直後に、工程・装置・材料のつながりを調べるという読む目的と広告表記を添えた書籍紹介への短い入口を復帰。購入カード本体は後半1か所に維持し、書籍の読書体験・紹介文・発行データ・広告URL・ランキング数値・出典確認日は維持。記事編集日は同日10-25を保持。
+- books-v2では紹介カードの前景25%到達をsection_viewとして計測してから外部広告と10秒待機を開始。画面外のまま未生成件数が増えないようにし、入口表示・紹介到達・リンク生成・購入先領域露出・外部クリックを分離。購入先の監視非対応時も即時読込を維持し、露出は推定しない。Strict Modeの解除再設定は監視だけ復元して広告コードを重複挿入せず、解除後の遅延MutationObserverやタイマーで状態・待機を復活させない。旧版と新版の未生成件数を同じ条件として比較しない。
+- 対象単体テスト3ファイル成功（2冊の遅延読込・画面外無発火・復旧・Strict Mode／再訪・解除後通知・監視非対応・外部リンク判定・計測失敗分離・SSR、共通表示監視、ランキング配置／アンカー／メタデータ）。型チェックは175秒制限で1回成功。テストは広告生成・タイマー・監視を模擬し、ASPクリック・本人購入を発生させていない。
+- 変更後のローカル画面確認をnpm run dev -- --hostname 127.0.0.1 --port 3000で試みたが、listen EPERMにより起動せず終了。別ポート・別設定・権限変更で再試行していない。devプロセスは終了済み。変更後の実画面・本番反映・GA4の新版受信・効果は未確認。build・lint・commit・pushは未実施。
+- 変更ファイル：src/components/guide/BookAffiliateEntry.tsx、src/components/guide/MoshimoBookLink.tsx、src/components/guide/MoshimoBookLink.module.css、src/lib/book-affiliates.ts、src/content/guides/semiconductor-market-cap-ranking.ts、tests/unit/book-affiliates.cjs、tests/unit/ranking-company-compare.cjs、docs/architecture.md、docs/conversion-architecture.md、docs/monetization.md、TASKS.md。非公開記録：.private/growth-operations.md（Git管理外）。
+- 実行：node --test tests/unit/book-affiliates.cjs tests/unit/observe-visible.cjs tests/unit/ranking-company-compare.cjs、npm run typecheck（各175秒制限）、git diff --check、npm run dev -- --hostname 127.0.0.1 --port 3000（失敗）。反映・受信後14日に商品・販売先・端末・検索流入別の到達とクリックを観察し、ASPを同期間で照合する。少数クリックから成約率の良否を断定しない。
+
 ## 2026-10-25：Career Compassの見本付き入口と開始体験
 
 - 製造業の経験者向けに、静的な説明・短い結果見本・注意・利用条件を共通データへ分離。ランキングのresearch-nextは企業研究・国内拠点の2リンク＋見本付き入口にし、同じ場所の通常Career Compassリンクは置き換えた。着地ページは説明→見本→フォームの順にして下部の重複見本を削除。スマホは短い縦並び、見本全体はリンクにしない。
