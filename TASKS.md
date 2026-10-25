@@ -1,5 +1,23 @@
 # TASKS
 
+## 2026-10-25：Career Compassの見本付き入口と開始体験
+
+- 製造業の経験者向けに、静的な説明・短い結果見本・注意・利用条件を共通データへ分離。ランキングのresearch-nextは企業研究・国内拠点の2リンク＋見本付き入口にし、同じ場所の通常Career Compassリンクは置き換えた。着地ページは説明→見本→フォームの順にして下部の重複見本を削除。スマホは短い縦並び、見本全体はリンクにしない。
+- 公開表示は経験と次の準備の整理を中心にし、フォームの自動遷移と戻る操作を説明。12問の構成・順序・自動遷移・結果ロジック・検索用タイトル・canonical・出典確認日は維持。記事編集更新日は同日の先行変更を引き継ぐ。
+- 見本はServer Component、小さな表示監視だけClient Component。既存の前景25%監視を使いcareer_compass_preview_viewを1回送る。属性はsource_page・cta_location・cta_variantの固定値のみ。記事CTAはranking_after_comparison / preview_entry_v1、着地見本はcareer_compass_intro / preview_entry_v1。着地CTAは既存フォームへの通常アンカーで、開始やCTAクリックを送らない。1問目回答が利用開始という既存定義を維持。
+- 対象単体テスト4ファイル成功（新しい入口のSSR・順序・CTA重複防止・他記事隔離、既存CTA、共通表示監視、ランキング・アンカー・メタデータ）。新しい見本監視は25%閾値・背景／前景復帰・再描画・Strict Modeの解除再設定・解除後通知・非対応・送信属性を確認。型チェックは175秒制限で1回成功。差分確認と変更・新規公開ファイルの禁止語照合も成功。
+- 実画面・本番反映・GA4設定／受信・効果は未確認。dev・build・lint・commit・pushは未実施。反映・受信後14日／28日に検索流入と端末別の見本→クリック→着地→最初の回答を観察し、100セッション未満は延長する。これは有意性の基準ではない。
+- 今回の変更ファイル：src/data/career-compass-entry.ts、src/components/career-compass/CareerCompassPreview.tsx、src/components/career-compass/CareerCompassPreview.module.css、src/components/career-compass/CareerCompassPreviewView.tsx、src/components/CareerCompassTool.tsx、src/app/(ja)/career-compass/page.tsx、src/components/guide/GuideBlocks.tsx、src/content/guides/types.ts、src/content/guides/semiconductor-market-cap-ranking.ts、src/lib/analytics.ts、tests/unit/career-compass-entry.cjs、tests/unit/ranking-company-compare.cjs、docs/architecture.md、docs/conversion-architecture.md、TASKS.md。先行作業のCareerCompassLink.tsx・CompanyExplorer.tsx・career-compass-link.cjsの変更も保持。先行のガイドページへのsectionId追加は専用GuideBlockに置き換えたため不要となり、元の呼び出しへ戻した。
+- 実行：node --test tests/unit/career-compass-entry.cjs tests/unit/career-compass-link.cjs tests/unit/observe-visible.cjs tests/unit/ranking-company-compare.cjs、npm run typecheck（各175秒制限）、git diff --check、変更・新規公開ファイルの禁止語照合。
+
+## 2026-10-25：検索流入から企業研究・Career Compassへの導線改善
+
+- Direct急増の調査を保留し、時価総額ランキングの一覧・2社比較直後に企業の役割、国内拠点、経験と職種の接点への3リンクを追加。後半の企業研究4ステップは保持。ランキング値・基準日・出典確認日は変えず、編集更新日のみ更新。
+- 新しいCareer Compass入口はranking_after_comparison / research_to_experience_v1で既存の後半リンクと区別。CompanyExplorerの職種との接点からのリンクも共通CTA表示・クリック計測へ接続し、領域ごとの固定IDで区別する。共通リンクは50%可視の条件を保持し、背景タブや表示後・解除後の遅延通知を表示数に含めない。
+- 対象単体テスト3ファイル成功（CTA表示の背景／前景復帰・遅延通知・解除・クリック、企業探索、ランキングのSSR／アンカー／メタデータ／他記事への影響）。型チェックは175秒制限で1回実行し成功。差分・変更した公開ファイルの禁止語照合も成功。実画面・本番反映・GA4受信・効果は未確認。dev・build・lint・commit・pushは未実施。
+- 変更ファイル：src/content/guides/semiconductor-market-cap-ranking.ts、src/app/(ja)/guides/[slug]/page.tsx、src/components/guide/GuideBlocks.tsx、src/components/CompanyExplorer.tsx、src/components/CareerCompassLink.tsx、tests/unit/career-compass-link.cjs、docs/conversion-architecture.md、TASKS.md。
+- 実行：node --test tests/unit/career-compass-link.cjs tests/unit/company-explorer.cjs tests/unit/ranking-company-compare.cjs、npm run typecheck（175秒制限）、git diff --check、変更した公開ファイルの禁止語照合。反映・受信確認後14日・28日に検索流入を中心に、位置別の表示→クリック→開始→完了をセッション単位で観察する。
+
 ## 2026-10-20：日本地図で探す半導体拠点アプリ
 
 - 既存の全国マップを、複数条件・地図・一覧／表・地域別掲載件数・詳細と実績／予定の時系列が連動する探索アプリへ変更。PCは3列、スマホは地図を先に出し、詳細をネイティブdialogで開く。検索条件・選択を共有URLと履歴へ反映し、自由入力検索語はURL・計測に送らない。

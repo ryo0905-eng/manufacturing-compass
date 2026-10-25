@@ -4,6 +4,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { CompanyCardLogo } from "@/components/CompanyCardLogo";
+import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { industryMapCareers, industryMapMetadata, industryMapZones } from "@/data/industry-map";
 import { trackEvent } from "@/lib/analytics";
 import { filterExplorerCompanies, normalizeCompanySearch } from "@/lib/company-explorer";
@@ -156,7 +157,7 @@ export function CompanyExplorer({ items, initialQuery = "", segments = [] }: Com
               <strong>{company.nameJa}</strong>{company.profileKind === "map" ? <small className={styles.profileLabel} aria-hidden="true">簡易紹介</small> : null}
             </button>
           </article>)}</div>
-          {showCareers ? <div className={styles.careers}><strong>この領域と接点のある職種</strong>{zone.careerIds.map((id) => industryMapCareers.find((career) => career.id === id)).filter((career) => career !== undefined).slice(0, 2).map((career) => <p key={career.id}><b>{career.label}</b><span>{career.description}</span><Link href={`/industry-map?query=${encodeURIComponent(career.query)}` as Route}>関連企業を探す</Link></p>)}<Link href="/career-compass">経験との接点を整理する</Link></div> : null}
+          {showCareers ? <div className={styles.careers}><strong>この領域と接点のある職種</strong>{zone.careerIds.map((id) => industryMapCareers.find((career) => career.id === id)).filter((career) => career !== undefined).slice(0, 2).map((career) => <p key={career.id}><b>{career.label}</b><span>{career.description}</span><Link href={`/industry-map?query=${encodeURIComponent(career.query)}` as Route}>関連企業を探す</Link></p>)}<CareerCompassLink ctaLocation={`industry_map_zone_${zone.id}`} ctaVariant="zone_to_experience_v1" sourcePage="/industry-map">自分の経験に近い職種と、次の準備を整理する</CareerCompassLink></div> : null}
         </section>)}
       </div>
       <details className={styles.linkIndex} data-company-link-index="">

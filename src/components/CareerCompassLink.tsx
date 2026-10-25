@@ -29,20 +29,33 @@ export function CareerCompassLink({
     const key = `${source}:${ctaLocation}:${ctaVariant}`;
     if (!element || observed.current === key || typeof IntersectionObserver === "undefined") return;
 
+    let stopped = false;
     const observer = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.5)) {
+      if (!stopped && !document.hidden && entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.5)) {
         observed.current = key;
+        cleanup();
         trackCareerCompassEvent("career_compass_cta_view", {
           source_page: source,
           cta_location: ctaLocation,
           cta_variant: ctaVariant,
         });
-        observer.disconnect();
       }
     }, { threshold: 0.5 });
 
+    const resume = () => {
+      if (!document.hidden && !stopped) {
+        observer.unobserve(element);
+        observer.observe(element);
+      }
+    };
+    function cleanup() {
+      stopped = true;
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", resume);
+    }
     observer.observe(element);
-    return () => observer.disconnect();
+    document.addEventListener("visibilitychange", resume);
+    return cleanup;
   }, [source, ctaLocation, ctaVariant]);
 
   return (

@@ -604,9 +604,9 @@ export function CareerCompassTool() {
         />
 
         <div className="quiz-question-head">
-          <p className="eyebrow">12問のキャリア診断</p>
+          <p className="eyebrow">12問で経験と次の準備を整理</p>
           <h2>{currentStep.question}</h2>
-          <small>迷ったら、最も実態に近いものを1つ。選択すると次へ進みます。</small>
+          <small>迷ったら、最も実態に近いものを1つ。選ぶと次の質問へ進みます。回答は「戻る」で変更できます。</small>
         </div>
 
         <div className="quiz-options" aria-label={currentStep.label}>

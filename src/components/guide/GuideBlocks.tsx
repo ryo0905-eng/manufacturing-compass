@@ -5,6 +5,7 @@ import { MemoryRanking } from "@/components/MemoryRanking";
 import { EquipmentSalesRanking } from "@/components/EquipmentSalesRanking";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
 import { CareerCompassLink } from "@/components/CareerCompassLink";
+import { CareerCompassPreview } from "@/components/career-compass/CareerCompassPreview";
 import type { Route } from "next";
 import Image from "next/image";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
@@ -32,6 +33,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
+        if (block.type === "career-compass-entry") return <CareerCompassPreview placement="ranking" key={`career-entry-${index}`} />;
         if (block.type === "ranking-time-machine-preview") return <RankingTimeMachinePreview key={`ranking-preview-${index}`} />;
         if (block.type === "book-affiliate-entry") return <BookAffiliateEntry sourceSlug={sourceSlug} key={`book-entry-${index}`} />;
         if (block.type === "factory-project-comparison") return <FactoryProjectComparison key={`factory-project-comparison-${index}`} />;

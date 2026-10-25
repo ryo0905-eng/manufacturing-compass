@@ -30,7 +30,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "上位企業と日本企業の事業分類は、各社の公式企業情報、IR、製品情報を優先して確認",
   ],
   publishedAt: "2026-07-14",
-  updatedAt: "2026-10-17",
+  updatedAt: "2026-10-25",
   sources: [
     {
       title: "Largest semiconductor companies by market cap — Page 2",
@@ -250,6 +250,19 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       paragraphs: [
         "同じカテゴリの全2ページから、日本企業18社をすべて掲載しています。デバイス・装置・検査・材料に加え、半導体商社も含みます。提供元のカテゴリに掲載されていない企業は含まないため、日本の半導体関連企業を網羅した一覧ではありません。",
       ],
+    },
+    {
+      id: "research-next",
+      heading: "気になる企業が見つかったら、次に調べること",
+      lead: "順位を見た次は、企業の役割、日本の拠点、自分の経験との接点を確かめてみましょう。時価総額の大きさだけで、仕事内容や働き方は決まりません。",
+      blocks: [{
+        type: "links",
+        items: [
+          { label: "気になる企業の事業・役割を調べる", href: "/industry-map#company-search", description: "業界地図で企業名を探し、事業と業界内の役割を確認。掲載企業は概要から企業詳細へ進めます" },
+          { label: "日本の勤務地・拠点を調べる", href: "/semiconductor-map", description: "国内の掲載拠点と公式採用情報を確認。拠点があることと、現在募集中であることは分けて見ます" },
+        ],
+      }, { type: "career-compass-entry" }],
+      paragraphs: [],
     },
     {
       id: "ranking-history",

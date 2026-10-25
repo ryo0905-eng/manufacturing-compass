@@ -1,6 +1,6 @@
 # Architecture
 
-最終更新日: 2026-10-20
+最終更新日: 2026-10-25
 
 ## 方針
 
@@ -32,6 +32,7 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 - `PracticalToolNextSteps`：Cpk・工程比較の結果欄で日英の関連ツールを案内する共通部品。英語ページの公開ゲートを参照し、リンクは別タブ・データ転送なし。クリックのみ固定カテゴリで計測する。
 
 - `CareerFeedback`：Career Compassの「今日やること」直後に置く任意の1タップ質問。回答後の理由選択も任意。状態はコンポーネント内だけで保持し、既存Analyticsへ固定カテゴリだけを送る。新規の保存先や外部サービスは追加しない。
+- `CareerCompassPreview`（2026-10-25）：ランキングの明示的なGuideBlock `career-compass-entry` と着地ページ冒頭で、`src/data/career-compass-entry.ts` の説明・短い見本・注記を共有するServer Component。`CareerCompassPreviewView`だけを小さなClient Componentに分離し、既存observeVisibleOnceの前景25%監視で見本表示を1回記録する。記事のCTAはCareerCompassLink、着地のCTAは既存フォームへの通常アンカー。12問・結果ロジック・保存方針・URLは維持する。計測と観測条件はconversion-architectureに記載。
 
 - ツール一覧：`learning-tools.ts` の `toolUsage` が全ToolIdの用途・入力方法を保持する。`ToolsLearningLab` は初期SSRで全カードを表示し、同じ用途フィルターをロードマップとカードへ適用。`mc-tools-opened-v1` は一覧から開いたIDのブラウザ内履歴として継続し、`readOpenedTools` で配列型、現行公開ID、重複を検証する。完了・実利用履歴ではない。
 
