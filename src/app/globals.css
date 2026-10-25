@@ -17798,8 +17798,38 @@ body {
 }
 
 .guide-page.ranking-article .article-hero {
+  position: relative;
   display: grid;
   gap: 10px;
+}
+
+.ranking-article .ranking-hero-illustration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 90px;
+  opacity: 0.18;
+  pointer-events: none;
+  mask-image: linear-gradient(to right, transparent, #000);
+}
+
+.guide-page.ranking-article .article-hero > :not(.ranking-hero-illustration) {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .guide-page.ranking-article .article-hero {
+    max-width: 960px;
+    padding-right: 244px;
+  }
+
+  .ranking-article .ranking-hero-illustration {
+    width: 220px;
+    height: 160px;
+    opacity: 1;
+    mask-image: none;
+  }
 }
 
 .guide-page.ranking-article .article-hero h1 {

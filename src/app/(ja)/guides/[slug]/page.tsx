@@ -1,4 +1,5 @@
 import { RankingCompanyCompareProvider, RankingCompanyComparePanel } from "@/components/RankingCompanyCompare";
+import { RankingHeroIllustration } from "@/components/RankingHeroIllustration";
 import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
 import type { Route } from "next";
@@ -116,6 +117,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <header className="article-hero">
           {getPublishedEnglishTranslation(guide.slug) ? <GuideLanguageLink slug={guide.slug} locale="ja" /> : null}
           {isMarketCapRanking ? <>
+            <RankingHeroIllustration />
             <h1>
               <span className="ranking-hero-title-main">{semiconductorMarketCapRankingHero.titleParts.map((part, index) => <Fragment key={part}>
                 {index > 0 ? <wbr /> : null}<span className="ranking-hero-chunk">{part}</span>
