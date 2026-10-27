@@ -1,5 +1,18 @@
 # TASKS
 
+## 2026-10-27：ランキングの目的別案内と承認広告
+
+- 世界ランキング直後に4目的の任意選択を追加。初期未選択、等しい強さ、2列／スマホ1列、選び直し、読み上げの選択状態・領域、JavaScript無効時の主要リンク一覧を用意。世界表後の書籍入口と比較後の独立枠を統合し、research-nextアンカー、後半の企業研究・書籍本体、順位・数値・出典・URL・SEO情報は維持（編集更新日だけ更新）。
+- 転職選択時にメーカーズジョブ、JAC Recruitment、半導体Jobを公開情報ベースで紹介。新規2社は対象サイトの管理画面で提携中・発行済みコードを確認、JACは提携中の既存アクセストレード広告を再利用。指定広告文言・URLを維持し、半導体Jobは明示的に編集可能な自由テキストのみ設定。既存の利用経験5社は変更しない。半導体Jobの運営者申告と管理画面確認は非公開台帳に分けて記録。提携申請・本人申込・広告クリックなし。
+- ranking_purposeのview/select/related_clickを固定のsource_page・位置・目的・遷移先ID・UI版で計測。前景25%表示を1回、同じ選択の重複防止、背景復帰・解除・非対応・計測失敗を扱う。内部リンクに旧記事イベントを重ねず、広告は既存affiliate_outbound_clickだけ。共通広告の任意contextを追加し、従来の既定値を維持。API・DB・回答保存なし。
+- GA4既存19定義を確認し、reader_purposeとdestination_idをイベントスコープで追加保存。目的別の選択状況（通常／同一セッション未選択）と目的から次の行動（内部先／3社別広告クリック）の2探索・各2タブを保存。チャネル・端末別、イベント数とセッションを分け、データ未受信・順序未確認のため遷移率は算出しない。実データが属性付きで集計できることは未確認。
+- 対象テスト5ファイル成功、npm run typecheck最大1回成功、差分と公開禁止語の照合成功。監視・広告・送信を模擬した単体検証であり実画面確認ではない。dev・build・lint・commit・pushなし。ASP・GA4管理画面操作は実施。
+- 本番反映・新イベント受信・観測開始は未実施。計測導入の完了は本番で表示→選択→内部遷移／広告クリックと探索の属性利用を確認した時。受信後14日で異常、28日で初回評価。表示100セッション未満は延長（統計的有意性の基準ではない）。旧書籍入口との分母・計測条件の差を仕様へ記録。
+- 変更ファイル：TASKS.md、docs/architecture.md、docs/conversion-architecture.md、docs/monetization.md、src/components/TrackedAffiliateCreative.tsx、src/components/guide/GuideBlocks.tsx、src/components/guide/RankingPurposeChooser.tsx、src/components/guide/RankingPurposeEntry.module.css、src/components/guide/RankingPurposeEntry.tsx、src/content/guides/semiconductor-market-cap-ranking.ts、src/content/guides/types.ts、src/data/ranking-career-affiliates.ts、src/data/ranking-purpose.ts、src/lib/ranking-purpose-analytics.ts、tests/unit/book-affiliates.cjs、tests/unit/career-compass-entry.cjs、tests/unit/ranking-company-compare.cjs、tests/unit/ranking-purpose.cjs。
+- 非公開・Git管理外：.private/affiliate-operations.md、.private/affiliate-cross-asp-research-2026-10-27.md、.private/ranking-purpose-operations.md（設定URL・反映後手順・段階別状態）。
+- 実行：node --test tests/unit/ranking-purpose.cjs tests/unit/book-affiliates.cjs tests/unit/career-compass-entry.cjs tests/unit/ranking-company-compare.cjs tests/unit/observe-visible.cjs、npm run typecheck（各Python subprocess timeout=175）、git diff --check、git diff、git status --short、禁止語静的検索。
+- 推奨コミット：feat: add ranking purpose guidance and affiliate tracking
+
 ## 2026-10-25：トップ横断検索と4目的の共通ナビ
 
 - Semiraiの検索・目的別導線を参考に、日本語トップで記事・企業・ツール・案内ページを横断検索できるようにした。既存の公開データから165件を重複なく投影。企業詳細の充実度は既存公開条件で判定し、その他は業界地図の該当概要へ案内する。

@@ -52,14 +52,14 @@ assert.ok(!/Power Score|年収|\/100/.test(preview));
 assert.equal((preview.match(/<a /g) || []).length, 1, 'Only the action is a link');
 
 const guide = load('src/content/guides/semiconductor-market-cap-ranking').semiconductorMarketCapRankingGuide;
-const section = guide.sections.find(section => section.id === 'research-next');
-assert.equal(section.blocks.filter(block => block.type === 'career-compass-entry').length, 1);
-assert.deepEqual(Array.from(section.blocks.find(block => block.type === 'links').items, item => item.href), ['/industry-map#company-search', '/semiconductor-map']);
+const section = guide.sections.find(section => section.id === 'world-ranking');
+assert.equal(section.blocks.filter(block => block.type === 'ranking-purpose-entry').length, 1);
+assert.ok(!guide.sections.some(section => section.id === 'research-next'));
 const Blocks = load('src/components/guide/GuideBlocks').GuideBlocks;
 const article = renderToStaticMarkup(React.createElement(Blocks, { blocks: section.blocks, sourceSlug: guide.slug }));
-assert.equal((article.match(/href="\/career-compass"/g) || []).length, 1);
-assert.ok(article.includes('data-career-compass-preview="ranking"'));
-assert.ok(article.includes(data.placements.ranking.buttonLabel));
+assert.equal((article.match(/href="\/career-compass"/g) || []).length, 1, 'No-JS fallback retains Career Compass');
+assert.ok(article.includes('id="research-next"'));
+assert.ok(!article.includes('data-career-compass-preview="ranking"'));
 const unrelated = renderToStaticMarkup(React.createElement(Blocks, { blocks: [{ type: 'note', title: 'Example', body: 'Other article' }], sourceSlug: 'example' }));
 assert.ok(!unrelated.includes('data-career-compass-preview'));
 

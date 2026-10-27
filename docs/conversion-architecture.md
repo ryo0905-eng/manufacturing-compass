@@ -1,6 +1,38 @@
 # Conversion Architecture
 
-最終更新日: 2026-10-25
+最終更新日: 2026-10-27
+
+## ランキングの目的別案内（2026-10-27）
+
+時価総額ランキング1記事に `ranking-purpose-entry` を設置する。世界ランキング直後の4目的は初期未選択・回答任意・同じ強さのボタンとし、PC2列、スマホ縦並び。選択の直下に案内を表示し、選び直しを可能にする。自動遷移・自動スクロール・回答保存は行わない。キーボード、選択状態、表示領域の読み上げ、JavaScript無効時の主要リンク一覧を備える。
+
+- 企業・業界：業界地図、企業比較、記事後半の業界地図2冊、国内拠点。
+- 株価・業績：株式市場ウォッチ、決算・IR、業績比較。
+- 仕事・転職：メーカーズジョブ、JAC Recruitment、半導体Jobエージェントの順で、相談内容・対象者の目安・登録前の確認事項・広告を表示。並びは推奨順位ではない。相談先比較とCareer Compass、職種マップも案内する。
+- 技術・データ分析：工程解説、工程体験、実務ツール。
+
+世界表直後の旧書籍入口と、2社比較後の独立した「次に調べること」はこの枠へ統合する。既存 `#research-next` は新枠に保持し、後半の企業研究4ステップ・書籍紹介本体、ランキング値・出典・URL・SEOメタデータを維持する。下記2026-10-25のランキング配置は旧仕様であり、本節が置き換える。CompanyExplorer等の既存導線は継続する。
+
+静的定義は `src/data/ranking-purpose.ts` と `ranking-career-affiliates.ts`。Server Componentで案内を用意し、Client Componentは選択と計測だけを担う。選択中の案内のみDOMに置く。3社は発行済み広告を使用し、指定文言・計測URLを維持する（自由テキスト広告は許可された表示文言のみ設定）。広告情報がない会社は広告を出さない。新規2社は利用経験の既存5社と分離し、未確認の体験・報酬額は公開しない。
+
+### 計測
+
+`src/lib/analytics.ts` の本番ドメイン限定送信を維持する。新枠の内部リンクに旧記事イベントを重ねず、広告は既存外部クリックのみ。送信失敗でも操作・遷移を継続する。目的をユーザープロパティや保存領域へ残さない。
+
+| イベント | 条件・属性 |
+| --- | --- |
+| `ranking_purpose` / `view` | 4選択肢が前景タブで25%以上表示。マウント中1回。背景復帰で再確認し、解除後通知を無視。非対応環境は表示を推定しない |
+| 同 / `select` | 選択・変更時。同じ選択の再押下は無送信。`reader_purpose=research/investment/career/learning` |
+| 同 / `related_click` | 選択後の内部案内リンク。`reader_purpose`と固定`destination_id` |
+| `affiliate_outbound_click` | 3社の広告リンクのみ。既存`agent_id`、`reader_purpose=career` |
+
+共通値は `source_page=/guides/semiconductor-market-cap-ranking`、`cta_location=ranking_after_world`、`ui_version=purpose-v1`。JavaScript無効時は計測しない。既存広告コンポーネントの省略時の`career_agents` / `affiliate_creative`は維持する。
+
+GA4はイベントスコープの既存action・source_page・cta_location・ui_version・agent_idを再利用し、reader_purpose・destination_idだけを追加する。[Google公式のイベントパラメータ説明](https://developers.google.com/analytics/devguides/collection/ga4/event-parameters)。受信と探索での属性利用開始には差があり、設定保存を受信確認とは扱わない。
+
+探索は「目的別の選択状況」と「目的から次の行動」。前者は表示・選択・目的別選択セッション、表示後未選択を分離。複数目的選択があるため割合合計は100%を超え得る。後者は内部遷移先と3社別広告クリックを分け、同一セッション内の順序を確認できた時だけ遷移率を計算する。単なるイベント件数の比を遷移率にしない。検索流入／Direct、スマホ／PCを分け、「選択された次の関心」を全訪問者の来訪目的と断定しない。ASPとは同期間・サイト・案件で照合し、個人単位では結合しない。
+
+本番受信確認を起点に14日で異常確認、28日で初回評価。案内表示100セッション未満は延長する運用目安で、有意性の基準ではない。旧`book_affiliate_entry_view`／`books-v2`の全員向け入口と、新しい選択後の書籍リンクは母集団が異なり、単純な前後比較をしない。書籍本体のbooks-v2監視は継続する。実装、GA4設定、本番反映、本番受信、観測開始を別々に運用台帳へ記録する。
 
 ## トップ横断検索・目的別ナビ（2026-10-25）
 

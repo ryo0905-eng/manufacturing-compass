@@ -1,6 +1,10 @@
 # Architecture
 
-最終更新日: 2026-10-25
+最終更新日: 2026-10-27
+
+## ランキング目的別案内（2026-10-27）
+
+`ranking-purpose-entry` GuideBlockを時価総額ランキングだけで使用。`RankingPurposeEntry`は静的な目的・リンク・公開情報ベースの3社をサーバーで構成し、`RankingPurposeChooser`が未選択からの切替と専用イベントを担当する。新しいデータは`ranking-purpose.ts`と`ranking-career-affiliates.ts`、既存の利用経験5社は変更しない。小さな`ranking-purpose-analytics.ts`が既存送信関数へ接続し、前景25%監視は共通`observe-visible.ts`を利用する。広告には既存`TrackedAffiliateCreative`の任意contextを渡し、従来の既定値は維持。API・DB・認証・回答保存は追加しない。[現行導線仕様](./conversion-architecture.md)。過去の世界表後書籍入口／比較後Career Compass枠は新しい目的案内へ統合した。
 
 ## 方針
 

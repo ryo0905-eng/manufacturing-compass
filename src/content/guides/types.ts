@@ -4,6 +4,7 @@ export type GuideStatus = "draft" | "published";
 export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
+  | { type: "ranking-purpose-entry" }
   | { type: "career-compass-entry" }
   | { type: "market-cap-growth-ranking" }
   | { type: "ranking-time-machine-preview" }

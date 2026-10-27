@@ -147,7 +147,7 @@ for (const product of ['nikkei-industry-map-2027', 'shikiho-industry-map-2027'])
   assert.ok(html.includes('book-title-' + book.id));
 }
 const data = fs.readFileSync('src/content/guides/semiconductor-market-cap-ranking.ts', 'utf8');
-assert.match(data, /type: "market-cap-ranking", scope: "world"[^]*?type: "book-affiliate-entry"/);
+assert.match(data, /type: "market-cap-ranking", scope: "world"[^]*?type: "ranking-purpose-entry"/);
 assert.match(data, /id: "industry-map-books"/);
 const entry = fixture('nikkei-industry-map-2027');
 entry.renderEntry(); assert.equal(entry.events.length, 0);

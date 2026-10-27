@@ -236,7 +236,7 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   const rendered = renderToStaticMarkup(await page.default({ params }));
   const { semiconductorMarketCapRankingGuide: guide, semiconductorMarketCapRankingHero: hero } = load('src/content/guides/semiconductor-market-cap-ranking');
   const body = rendered.slice(rendered.indexOf('<article'));
-  const orderedIds = ['world-ranking', 'japan-ranking', 'ranking-compare-title', 'research-next', 'ranking-history', 'ranking-time-machine-preview', 'top-ten'];
+  const orderedIds = ['world-ranking', 'research-next', 'japan-ranking', 'ranking-compare-title', 'ranking-history', 'ranking-time-machine-preview', 'top-ten'];
   for (let index = 1; index < orderedIds.length; index++) {
     const previous = body.indexOf(`id="${orderedIds[index - 1]}"`);
     const current = body.indexOf(`id="${orderedIds[index]}"`);
