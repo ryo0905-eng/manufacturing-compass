@@ -1,5 +1,16 @@
 # TASKS
 
+## 2026-10-27：ランキングの華やかなヒーロー・目的別カード（purpose-v2）
+
+- 時価総額ランキング1記事に限定して濃紺・青・オレンジのチップ画像ヒーローを実装。HTML見出し・データ由来の結論・ゴールドの対象範囲を維持し、基準日・更新日・執筆者を画像直下へ移動。「この記事でわかること」を3点追加。編集更新日は実作業日と同じ2026-10-27のため既存値を維持。順位・数値・データ基準日・出典・SEOメタデータは変更なし。
+- 世界TOP30直後に株価・仕事・技術・企業研究の写真付きカードを配置。PC2列／600px以下1列、青・緑・紫・オレンジで区別。選択式・初期未選択・4枚の下の詳細・全既存リンク・JavaScript無効時案内を維持。転職3社はテーマ・対象者・広告に絞り、登録前確認・出典・確認日は非表示（根拠データ保持）。共通開示は1か所、各広告付近のラベルも維持。1100px以上で3社横並び。
+- built-in imagegenで5点を制作し、目視確認してWebPへ最適化。ヒーロー1440×810、カード960×420、合計307002 bytes。元画像は保持。使用プロンプトはdocs/design-system.md。ヒーロー優先・カード遅延、画像領域確保、選択状態とフォーカス・44px以上の操作領域、reduced-motion対応。色と白地・淡色背景の静的コントラスト計算は全9組4.5:1以上。
+- 計測は既存名・目的ID・遷移先ID・source_page・位置を維持し、ui_versionをpurpose-v2へ変更。初期状態で広告DOMを出さず、選択／内部遷移／広告クリックを分離。新規広告・依存関係・API・個人情報保存なし。
+- 検証：対象テスト5ファイル成功、npm run typecheck最大1回成功。git diff --check、公開禁止辞書によるsrc/docs部分一致検索0件、変更差分・画像寸法／容量を確認。ブラウザ・実端末での375/768/1280px表示確認は未実施。dev・build・lint・本番送信・広告クリック・commit・pushは未実施。本番反映・purpose-v2受信・28日観測開始は未確認。
+- 変更ファイル：src/app/(ja)/guides/[slug]/page.tsx、src/app/globals.css、src/components/RankingHeroIllustration.tsx、src/components/guide/RankingPurposeChooser.tsx、src/components/guide/RankingPurposeEntry.tsx、src/components/guide/RankingPurposeEntry.module.css、src/data/ranking-purpose.ts、tests/unit/ranking-purpose.cjs、tests/unit/ranking-company-compare.cjs、docs/architecture.md、docs/conversion-architecture.md、docs/design-system.md、docs/monetization.md、TASKS.md、public/images/guides/*-v2.webp（今回の5点）。
+- 実行：node --test tests/unit/ranking-purpose.cjs tests/unit/ranking-company-compare.cjs tests/unit/book-affiliates.cjs tests/unit/career-compass-entry.cjs tests/unit/observe-visible.cjs、npm run typecheck（各Python subprocess timeout=175）、git diff --check、git diff、git status --short、辞書照合／コントラスト計算、画像WebP変換。
+- 推奨コミット：feat: refresh ranking visuals and purpose-based guidance
+
 ## 2026-10-27：ランキング広告の注釈とクリック領域
 
 - ランキング目的別案内の広告開示・出典・確認日を13px、カード内広告ラベルを12pxの落ち着いたグレーに調整。記事本文のグローバルCSSが注釈サイズを上書きしていたため、対象枠に限定した詳細度で修正。

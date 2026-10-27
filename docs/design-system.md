@@ -242,3 +242,20 @@ Cp・Cpk、DoE、管理図、Gage R&R、業界地図のように、操作しな�
 ## watch・決算一覧（2026-10-16）
 
 watchと決算一覧・詳細・比較を白い情報面と淡い背景、青いリンクで統一する。決算は数値一覧を共通テーマより先に置く。PCは表、1000px以下は同じsemantic tableを企業カード表示にし、通貨・対象期・範囲を残す。watchは冒頭と下部で同じ記事を重複させず、予定を元資料の現地日付で表示する。ブラウザでの幅・コントラスト・キーボード実動作は今回未確認。
+
+
+## 時価総額ランキングのビジュアル（2026-10-27）
+
+対象は時価総額ランキング1記事。濃紺に青・オレンジが光るチップの横長ヒーロー、白いHTML見出しとゴールドの対象範囲を配置。日付・執筆者は画像外に表示。スマホは文字優先で背景画像を見せ、固定高さによる文字切れを避ける。
+
+世界TOP30後の4カードは株価（青）・仕事（緑）・技術（紫）・企業研究（オレンジ）。横長画像→色付き見出し→説明→選択状態付きボタンの順。PC2列、600px以下1列。広告3社は1100px以上で3列、それ以外1列。選択・フォーカスを色以外でも示し、reduced-motionでは遷移を止める。
+
+画像はbuilt-in imagegenで制作し、ロゴ・文字・実在サービス画面なしの装飾素材として使用。生成元は保持し、public/images/guidesの-v2.webpへ最適化。ヒーロー1440×810（約107KiB）、カード各960×420（約41〜55KiB）、合計約300KiB。AI生成の架空人物・模式的なグラフであり、実在の工場・企業データを示す写真ではない。
+
+### 使用した画像プロンプト（built-in imagegen）
+
+- Hero: Wide cinematic photorealistic semiconductor chip on intricate circuit board. Navy black background, luminous electric blue traces and warm orange edge lights, luxurious editorial technology photography. Chip on RIGHT third, LEFT half dark clean negative space for HTML headline. No text, letters, numbers, logos, watermark. Landscape 16:9.
+- Investment: Wide landscape editorial photograph of abstract financial market visualization on glass screen, electric blue glowing chart lines, navy background, sophisticated semiconductor business research mood, no text numbers letters logos, no recognizable trading app. Landscape 16:9.
+- Career: Wide landscape professional editorial photograph of a Japanese semiconductor factory engineer in pale cleanroom clothing, approachable thoughtful expression, bright modern cleanroom, teal green lighting accents, premium realistic photography, no text letters numbers logos. Landscape 16:9.
+- Learning: Wide landscape premium editorial photograph of hands working on laptop with abstract colorful data visualization, purple violet lighting accents, modern technical learning workspace, realistic photography, no readable text letters numbers logos, no recognizable software. Landscape 16:9.
+- Research: Wide landscape premium editorial photograph of open laptop showing abstract blue business charts and globe shapes beside printed research sheets, sunlit modern desk, warm amber orange accents, no readable text letters numbers logos, no recognizable software. Landscape 16:9.

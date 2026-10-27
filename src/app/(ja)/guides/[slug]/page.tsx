@@ -118,6 +118,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           {getPublishedEnglishTranslation(guide.slug) ? <GuideLanguageLink slug={guide.slug} locale="ja" /> : null}
           {isMarketCapRanking ? <>
             <RankingHeroIllustration />
+            <span className="ranking-hero-eyebrow">時価総額で見る、半導体業界の現在地</span>
             <h1>
               <span className="ranking-hero-title-main">{semiconductorMarketCapRankingHero.titleParts.map((part, index) => <Fragment key={part}>
                 {index > 0 ? <wbr /> : null}<span className="ranking-hero-chunk">{part}</span>
@@ -130,11 +131,6 @@ export default async function GuidePage({ params }: GuidePageProps) {
               </span>
             </h1>
             <p>{semiconductorMarketCapRankingHero.conclusion}</p>
-            <small className="ranking-hero-meta">
-              <span>基準日 <time dateTime={semiconductorMarketCapMeta.dataAsOf}>{semiconductorMarketCapMeta.dataAsOf.replaceAll("-", ".")}</time></span>
-              <span>更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></span>
-              <span>執筆・確認：{guide.reviewedBy ?? guide.author}</span>
-            </small>
           </> : <>
             <p className="section-label">製造業・半導体の記事・{guide.readTime}</p>
             <h1>{guide.title}</h1>
@@ -160,6 +156,18 @@ export default async function GuidePage({ params }: GuidePageProps) {
             </aside>
           ) : null}
         </header>
+
+        {isMarketCapRanking ? <>
+            <small className="ranking-hero-meta">
+              <span>基準日 <time dateTime={semiconductorMarketCapMeta.dataAsOf}>{semiconductorMarketCapMeta.dataAsOf.replaceAll("-", ".")}</time></span>
+              <span>更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></span>
+              <span>執筆・確認：{guide.reviewedBy ?? guide.author}</span>
+            </small>
+          <aside className="ranking-learnings" aria-label="この記事でわかること">
+            <strong>この記事でわかること</strong>
+            <ul><li>世界の半導体企業の勢力図</li><li>日本企業の世界での位置</li><li>企業研究に役立つランキングの読み方</li></ul>
+          </aside>
+        </> : null}
 
         {isFactoryProjects ? <ResearchNavigation page="factory_projects" /> : null}
 

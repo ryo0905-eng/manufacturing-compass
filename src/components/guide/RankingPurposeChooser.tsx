@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode, type MouseEvent } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { Route } from "next";
 import { rankingPurposes, type ReaderPurpose, type RankingPurposeDestination } from "@/data/ranking-purpose";
 import { observeVisibleOnce } from "@/lib/observe-visible";
@@ -31,8 +32,10 @@ export function RankingPurposeChooser({ panels }: { panels: Record<ReaderPurpose
   return <>
     <div className={styles.choices} ref={choices} role="group" aria-label="次に調べたいこと">
       {rankingPurposes.map(purpose => <button key={purpose.id} id={`ranking-purpose-${purpose.id}`} type="button"
-        aria-pressed={selected === purpose.id} aria-controls="ranking-purpose-panel" onClick={() => select(purpose.id)}>
-        <strong>{purpose.label}</strong><span>{purpose.description}</span>
+        className={styles[purpose.tone]} aria-pressed={selected === purpose.id} aria-controls="ranking-purpose-panel" onClick={() => select(purpose.id)}>
+        <span className={styles.cardImage}><Image src={purpose.image} alt="" fill sizes="(max-width: 600px) 100vw, (max-width: 960px) 50vw, 440px" loading="lazy" /></span>
+        <strong>{purpose.label}</strong><span className={styles.description}>{purpose.description}</span>
+        <span className={styles.cardAction}>{selected === purpose.id ? "案内を表示中" : "案内を見る"}<span aria-hidden="true"> →</span></span>
       </button>)}
     </div>
     <p className={styles.status} role="status">{selected ? "選んだ目的に合う案内を下に表示しました。" : ""}</p>

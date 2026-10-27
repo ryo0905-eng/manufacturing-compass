@@ -1,21 +1,13 @@
 export const rankingPurposeContext = {
   source_page: "/guides/semiconductor-market-cap-ranking",
   cta_location: "ranking_after_world",
-  ui_version: "purpose-v1",
+  ui_version: "purpose-v2",
 } as const;
 
 export const rankingPurposes = [
   {
-    id: "research", label: "企業・業界を詳しく知る", description: "企業の役割や、業界全体のつながりを調べる",
-    links: [
-      { id: "industry_map", label: "企業の事業・役割を業界地図で調べる", href: "/industry-map#company-search" },
-      { id: "company_compare", label: "気になる企業を比較する", href: "/compare" },
-      { id: "industry_books", label: "業界地図2冊の特徴と購入先を見る（広告）", href: "#industry-map-books" },
-      { id: "location_map", label: "日本の勤務地・拠点を調べる", href: "/semiconductor-map" },
-    ],
-  },
-  {
-    id: "investment", label: "株価・業績を調べる", description: "市場の動きと決算を、企業研究の材料にする",
+    id: "investment", label: "株価・業績を見る", description: "時価総額と決算を見比べ、企業を深く知る",
+    image: "/images/guides/ranking-investment-v2.webp", tone: "blue",
     links: [
       { id: "stock_market", label: "半導体株式市場ウォッチを見る", href: "/semiconductor-watch/stocks" },
       { id: "earnings", label: "決算・IRを調べる", href: "/semiconductor-watch/earnings" },
@@ -23,7 +15,8 @@ export const rankingPurposes = [
     ],
   },
   {
-    id: "career", label: "半導体の仕事・転職を考える", description: "相談したい内容に合うサービスや、次の準備を探す",
+    id: "career", label: "仕事・転職を考える", description: "仕事内容と、自分の経験との接点を探す",
+    image: "/images/guides/ranking-career-v2.webp", tone: "green",
     links: [
       { id: "career_agents", label: "運営者の利用経験から相談先を比較する", href: "/career-agents" },
       { id: "career_compass", label: "Career Compassで経験と次の準備を整理する", href: "/career-compass" },
@@ -31,11 +24,22 @@ export const rankingPurposes = [
     ],
   },
   {
-    id: "learning", label: "技術・データ分析を学ぶ", description: "工程の解説や、動かして学べる実務ツールへ進む",
+    id: "learning", label: "技術を学ぶ", description: "半導体工程やデータ分析を、動かして理解する",
+    image: "/images/guides/ranking-learning-v2.webp", tone: "violet",
     links: [
       { id: "process_guides", label: "半導体工程の記事シリーズを読む", href: "/guides/semiconductor-manufacturing-process" },
       { id: "process_experience", label: "半導体の工程を体験する", href: "/tools/semiconductor-process" },
       { id: "tools", label: "品質・改善・データ分析の実務ツールを見る", href: "/tools" },
+    ],
+  },
+  {
+    id: "research", label: "企業・業界を知る", description: "企業の役割や競合、業界のつながりを整理する",
+    image: "/images/guides/ranking-research-v2.webp", tone: "amber",
+    links: [
+      { id: "industry_map", label: "企業の事業・役割を業界地図で調べる", href: "/industry-map#company-search" },
+      { id: "company_compare", label: "気になる企業を比較する", href: "/compare" },
+      { id: "industry_books", label: "業界地図2冊の特徴と購入先を見る（広告）", href: "#industry-map-books" },
+      { id: "location_map", label: "日本の勤務地・拠点を調べる", href: "/semiconductor-map" },
     ],
   },
 ] as const;

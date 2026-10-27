@@ -17799,80 +17799,63 @@ body {
 
 .guide-page.ranking-article .article-hero {
   position: relative;
+  isolation: isolate;
   display: grid;
-  gap: 10px;
+  align-content: center;
+  gap: 14px;
+  min-height: 300px;
+  max-width: none;
+  padding: clamp(24px, 4vw, 44px);
+  overflow: hidden;
+  border-radius: 18px;
+  background: #031324;
+  color: #fff;
 }
-
 .ranking-article .ranking-hero-illustration {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 120px;
-  height: 90px;
-  opacity: 0.18;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
   pointer-events: none;
-  mask-image: linear-gradient(to right, transparent, #000);
 }
-
-.guide-page.ranking-article .article-hero > :not(.ranking-hero-illustration) {
-  position: relative;
+.guide-page.ranking-article .article-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, #031324fa 0%, #031324eb 38%, #03132480 66%, #03132418);
 }
-
-@media (min-width: 768px) {
-  .guide-page.ranking-article .article-hero {
-    max-width: 960px;
-    padding-right: 244px;
-  }
-
-  .ranking-article .ranking-hero-illustration {
-    width: 220px;
-    height: 160px;
-    opacity: 1;
-    mask-image: none;
-  }
-}
-
+.ranking-article .article-hero nav a { display: inline-flex; align-items: center; min-height: 44px; color: #bce4ff; }
+.ranking-article .article-hero nav a:focus-visible { outline: 3px solid #ffd270; outline-offset: 4px; }
+.ranking-hero-eyebrow { font-size: 13px; font-weight: 600; color: #bce4ff; letter-spacing: .04em; }
 .guide-page.ranking-article .article-hero h1 {
   display: grid;
-  gap: 8px;
-  font-size: clamp(28px, 4vw, 36px);
+  gap: 12px;
+  max-width: 720px;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(28px, 3.5vw, 42px);
   line-height: 1.35;
-  text-wrap: wrap;
 }
-
+.ranking-article .ranking-hero-title-main { max-width: 600px; }
 .ranking-article .ranking-hero-chunk { white-space: nowrap; }
-
-.guide-page.ranking-article .article-hero > p { margin: 0; }
-
-.ranking-article .ranking-hero-title-detail {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 12px;
-  font-size: clamp(16px, 2.2vw, 22px);
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 1.5;
-}
-
-.ranking-article .ranking-hero-period {
-  color: #60666d;
-  font-size: 0.85em;
-}
-
-.guide-page.ranking-article .article-hero > small.ranking-hero-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  margin-top: 4px;
-  font-size: 12px;
-}
-
-.ranking-article .ranking-hero-meta > span {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 4px;
-  white-space: nowrap;
+.ranking-article .ranking-hero-title-detail { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; font-size: clamp(17px, 2.2vw, 24px); line-height: 1.5; }
+.ranking-article .ranking-hero-period { color: #e3edf7; font-size: .8em; }
+.ranking-article .ranking-hero-scope { color: #ffd270; font-weight: 700; }
+.guide-page.ranking-article .article-hero > p { max-width: 600px; margin: 0; color: #edf6ff; font-size: 15px; line-height: 1.8; }
+.ranking-hero-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; color: #526171; font-size: 13px; line-height: 1.7; }
+.ranking-hero-meta > span { display: inline-flex; gap: 5px; align-items: baseline; white-space: nowrap; }
+.ranking-learnings { padding: 16px 20px; border: 1px solid #dce7f1; border-radius: 12px; background: #f1f7fd; color: #173c64; }
+.ranking-learnings strong { font-size: 15px; }
+.ranking-learnings ul { display: flex; flex-wrap: wrap; gap: 6px 28px; margin: 8px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.7; }
+@media (max-width: 600px) {
+  .guide-page.ranking-article .article-hero { min-height: 260px; padding: 24px 20px; gap: 12px; }
+  .guide-page.ranking-article .article-hero::after { background: linear-gradient(90deg, #031324f5, #031324c9 70%, #03132499); }
+  .ranking-article .ranking-hero-illustration { object-position: 65% center; }
+  .ranking-learnings ul { display: grid; gap: 4px; }
 }
 
 .ranking-article .ranking-quick-links a {

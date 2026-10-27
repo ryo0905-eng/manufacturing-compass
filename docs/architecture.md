@@ -6,6 +6,8 @@
 
 `ranking-purpose-entry` GuideBlockを時価総額ランキングだけで使用。`RankingPurposeEntry`は静的な目的・リンク・公開情報ベースの3社をサーバーで構成し、`RankingPurposeChooser`が未選択からの切替と専用イベントを担当する。新しいデータは`ranking-purpose.ts`と`ranking-career-affiliates.ts`、既存の利用経験5社は変更しない。小さな`ranking-purpose-analytics.ts`が既存送信関数へ接続し、前景25%監視は共通`observe-visible.ts`を利用する。広告には既存`TrackedAffiliateCreative`の任意contextを渡し、従来の既定値は維持。API・DB・認証・回答保存は追加しない。[現行導線仕様](./conversion-architecture.md)。過去の世界表後書籍入口／比較後Career Compass枠は新しい目的案内へ統合した。
 
+purpose-v2（2026-10-27）：目的定義に画像パスと配色を追加し、カードの並びを株価・仕事・技術・企業研究へ変更。5点の生成画像はローカルWebPをnext/imageで配信（ヒーロー優先、カード遅延）。転職の出典URL・確認日・確認事項はデータに保持し、表示は相談テーマ・対象者・広告に絞る。既存イベント名とIDを維持し、UI版だけpurpose-v2へ更新。
+
 ## 方針
 
 トップの検索・共通ナビ（2026-10-25）：`site-navigation.ts`を4目的のメニュー・道順・固定リンクの正本とする。トップのServer Componentが`site-search-index.ts`から公開記事・企業・ツールのメタデータを投影し、`SiteSearch`だけで検索語・種別・12件ずつの表示数を管理する。`site-search.ts`に正規化・一致順位・表示件数を分離し、本文や公開前の記事をクライアントへ渡さない。企業詳細の充実度は既存`isCompanyIndexable`で判定し、その他は地図の概要へ接続する。`HeaderNavigation`は1160px境界で単一ドロップダウン／グループ一覧を切り替え、検索の固定アンカーへ接続する。検索語の保存・送信、新API・依存・検索ルートは追加しない。[仕様](./site-navigation-search-spec.md)。

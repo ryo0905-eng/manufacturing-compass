@@ -8,12 +8,11 @@ import styles from "./RankingPurposeEntry.module.css";
 export function RankingPurposeEntry() {
   const panels = Object.fromEntries(rankingPurposes.map(purpose => [purpose.id, <div key={purpose.id}>
     {purpose.id === "career" ? <>
-      <p>相談したい内容に合うサービスから確認できます。以下は公開情報をもとにした紹介です。並び順はおすすめ順位ではありません。</p>
-      <p className={styles.note}>広告・アフィリエイトを含みます。申込み等により当サイトが報酬を受け取る場合があります。担当者や時期によって紹介求人は変わり、求人紹介や転職成功を保証するものではありません。</p>
+      <h3>相談したいテーマから、相談先を探す</h3>
+      <p className={styles.note}>広告・アフィリエイトを含み、申込み等により当サイトが報酬を受け取る場合があります。公開情報に基づく紹介で、並び順はおすすめ順位ではありません。求人紹介・転職成功を保証するものではありません。</p>
       <div className={styles.agents}>{rankingCareerAffiliates.map(agent => <article key={agent.id}>
         <h3>{agent.name}</h3><p className={styles.topic}>{agent.topic}</p>
-        <dl><div><dt>対象者の目安</dt><dd>{agent.audience}</dd></div><div><dt>登録前に確認</dt><dd>{agent.check}</dd></div></dl>
-        <p className={styles.source}><a href={agent.sourceUrl} target="_blank" rel="noopener noreferrer">説明の出典：公式サイト</a> · 確認日 {agent.checkedAt}</p>
+        <dl><div><dt>こんな方に</dt><dd>{agent.audience}</dd></div></dl>
         {agent.partnership === "approved" && agent.creativeHtml ? <TrackedAffiliateCreative agentId={agent.id} html={agent.creativeHtml}
           sourcePage={rankingPurposeContext.source_page} ctaLocation={rankingPurposeContext.cta_location} readerPurpose="career" uiVersion={rankingPurposeContext.ui_version} /> : null}
       </article>)}</div>
@@ -25,8 +24,8 @@ export function RankingPurposeEntry() {
   </div>])) as Record<ReaderPurpose, ReactNode>;
 
   return <section className={styles.entry} id="research-next" aria-labelledby="ranking-purpose-title">
-    <h2 id="ranking-purpose-title">ランキングを見たあと、何を調べたいですか？</h2>
-    <p>今の関心に近いものを選ぶと、次の調べ方が表示されます。選ばずに記事を読み続けても大丈夫です。</p>
+    <h2 id="ranking-purpose-title">気になった企業から、次に調べる</h2>
+    <p>株価、仕事、技術、企業研究。今の関心に近いカードから、次の調べ方を見つけられます。</p>
     <RankingPurposeChooser panels={panels} />
     <noscript><div className={styles.fallback}><p>目的に合うページから、続きを調べられます。</p>
       {rankingPurposes.map(purpose => <div key={purpose.id}><h3>{purpose.label}</h3><ul>{purpose.links.map(link => <li key={link.id}><a href={link.href}>{link.label}</a></li>)}</ul></div>)}

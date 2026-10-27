@@ -8,12 +8,20 @@
 
 - 企業・業界：業界地図、企業比較、記事後半の業界地図2冊、国内拠点。
 - 株価・業績：株式市場ウォッチ、決算・IR、業績比較。
-- 仕事・転職：メーカーズジョブ、JAC Recruitment、半導体Jobエージェントの順で、相談内容・対象者の目安・登録前の確認事項・広告を表示。並びは推奨順位ではない。相談先比較とCareer Compass、職種マップも案内する。
+- 仕事・転職：メーカーズジョブ、JAC Recruitment、半導体Jobエージェントの順で、相談テーマ・対象者の目安・広告を表示。並びは推奨順位ではない。相談先比較とCareer Compass、職種マップも案内する。
 - 技術・データ分析：工程解説、工程体験、実務ツール。
 
 世界表直後の旧書籍入口と、2社比較後の独立した「次に調べること」はこの枠へ統合する。既存 `#research-next` は新枠に保持し、後半の企業研究4ステップ・書籍紹介本体、ランキング値・出典・URL・SEOメタデータを維持する。下記2026-10-25のランキング配置は旧仕様であり、本節が置き換える。CompanyExplorer等の既存導線は継続する。
 
 静的定義は `src/data/ranking-purpose.ts` と `ranking-career-affiliates.ts`。Server Componentで案内を用意し、Client Componentは選択と計測だけを担う。選択中の案内のみDOMに置く。3社は発行済み広告を使用し、指定文言・計測URLを維持する（自由テキスト広告は許可された表示文言のみ設定）。広告情報がない会社は広告を出さない。新規2社は利用経験の既存5社と分離し、未確認の体験・報酬額は公開しない。
+
+### ビジュアル改訂（purpose-v2）
+
+濃紺のチップ画像ヒーロー、HTMLのタイトル・結論、直下の基準日・更新日・執筆者、3点の「この記事でわかること」を設置。世界TOP30直後のカードは株価・仕事・技術・企業研究の順。画像と青・緑・紫・オレンジの見出しを使い、PC2列／600px以下1列。初期未選択、4枚の下に選択中の案内を表示する。新規広告・ランキングデータの変更はない。
+
+転職3社の登録前確認・出典・確認日は表示から外し、根拠データは保持。共通の広告開示・報酬可能性・非推奨順位・非保証を1か所、各広告近くにも広告ラベルを表示する。十分な幅（1100px以上）では3社を3列にする。
+
+本番反映・purpose-v2受信・観測開始は未確認。反映後28日間、表示から選択、目的別内部遷移、広告クリックを旧版と分けて比較する。流入・端末構成と同一セッションの順序を確認し、件数比だけで改善を断定しない。
 
 ### 計測
 
@@ -26,7 +34,7 @@
 | 同 / `related_click` | 選択後の内部案内リンク。`reader_purpose`と固定`destination_id` |
 | `affiliate_outbound_click` | 3社の広告リンクのみ。既存`agent_id`、`reader_purpose=career` |
 
-共通値は `source_page=/guides/semiconductor-market-cap-ranking`、`cta_location=ranking_after_world`、`ui_version=purpose-v1`。JavaScript無効時は計測しない。既存広告コンポーネントの省略時の`career_agents` / `affiliate_creative`は維持する。
+共通値は `source_page=/guides/semiconductor-market-cap-ranking`、`cta_location=ranking_after_world`、`ui_version=purpose-v2`。JavaScript無効時は計測しない。既存広告コンポーネントの省略時の`career_agents` / `affiliate_creative`は維持する。
 
 GA4はイベントスコープの既存action・source_page・cta_location・ui_version・agent_idを再利用し、reader_purpose・destination_idだけを追加する。[Google公式のイベントパラメータ説明](https://developers.google.com/analytics/devguides/collection/ga4/event-parameters)。受信と探索での属性利用開始には差があり、設定保存を受信確認とは扱わない。
 

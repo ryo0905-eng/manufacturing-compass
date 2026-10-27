@@ -255,10 +255,13 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.ok(!heroHtml.includes('<p class="ranking-hero-scope">'));
   assert.ok(heroHtml.includes(`<p>${hero.conclusion}</p>`));
   assert.equal(hero.conclusion, `世界1位は${data.worldSemiconductorMarketCapRanking[0].name}、日本1位は${data.japanSemiconductorMarketCapRanking[0].name}。`);
-  const dateTags = [...heroHtml.matchAll(/<time datetime="([^"]+)">([^<]+)<\/time>/gi)];
+  const dateTags = [...prefix.matchAll(/<time datetime="([^"]+)">([^<]+)<\/time>/gi)];
   assert.deepEqual(dateTags.map(match => match[1]), [data.semiconductorMarketCapMeta.dataAsOf, guide.updatedAt]);
   assert.deepEqual(dateTags.map(match => match[2]), [data.semiconductorMarketCapMeta.dataAsOf, guide.updatedAt].map(date => date.replaceAll('-', '.')));
-  assert.ok(heroHtml.includes(`執筆・確認：${guide.reviewedBy}`));
+  assert.ok(prefix.includes(`執筆・確認：${guide.reviewedBy}`));
+  assert.ok(!heroHtml.includes('<time'), 'Metadata appears below the image');
+  assert.ok(prefix.includes('ranking-learnings') && prefix.includes('企業研究に役立つランキングの読み方'));
+  assert.ok(heroHtml.includes('semiconductor-ranking-hero-v2.webp'));
   for (const removed of ['section-label', guide.readTime, '製造業経験', 'トヨタ', guide.intro.conclusion]) assert.ok(!heroHtml.includes(removed), removed);
   assert.ok(!prefix.includes('guide-intro-summary') && !prefix.includes('guide-experience-basis'));
   assert.match(prefix, /<details class="ranking-toc"><summary>/);

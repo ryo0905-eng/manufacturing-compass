@@ -21,6 +21,7 @@ function loader(overrides = {}, globals = {}) {
     vm.runInNewContext(code, { exports, process, ...globals, require(id) {
       if (id in overrides) return overrides[id];
       if (id === '@/lib/analytics') return { trackCareerCompassEvent() {}, trackEvent() {} };
+      if (id === 'next/image') return { __esModule: true, default: ({ fill, sizes, ...props }) => React.createElement('img', props) };
       if (id === 'next/link') return { __esModule: true, default: ({ children, ...props }) => React.createElement('a', props, children) };
       if (id === 'next/navigation') return { usePathname: () => '/career-compass' };
       if (id.endsWith('.css')) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
@@ -60,7 +61,20 @@ const career = renderToStaticMarkup(panels.career);
 assert.ok(career.indexOf('メーカーズジョブ') < career.indexOf('JAC Recruitment'));
 assert.ok(career.indexOf('JAC Recruitment') < career.indexOf('半導体Jobエージェント'));
 assert.equal((career.match(/広告・アフィリエイトリンク/g)||[]).length, 3);
-assert.ok(career.indexOf('登録前に確認') < career.indexOf('px.a8.net'));
+for (const removed of ['登録前に確認', '説明の出典', '確認日']) assert.ok(!career.includes(removed), removed);
+assert.equal((career.match(/並び順はおすすめ順位ではありません/g)||[]).length, 1);
+assert.ok(career.includes('求人紹介・転職成功を保証するものではありません'));
+assert.equal(rankingPurposeContext.ui_version, 'purpose-v2');
+assert.deepEqual(Array.from(rankingPurposes, p => p.id), ['investment', 'career', 'learning', 'research']);
+assert.equal((html.match(/loading="lazy"/g)||[]).length, 4);
+for (const purpose of rankingPurposes) {
+  assert.ok(html.includes(`src="${purpose.image}"`));
+  assert.ok(html.includes(purpose.description));
+  assert.ok(fs.existsSync('public' + purpose.image), purpose.image);
+}
+for (const agent of load('src/data/ranking-career-affiliates').rankingCareerAffiliates) {
+  assert.ok(agent.sourceUrl.startsWith('https://') && agent.checkedAt && agent.check, 'Keep source records');
+}
 const agents = load('src/data/affiliateLinks').affiliateAgents;
 assert.equal(agents.length, 5);
 assert.ok(!agents.some(a => ['makers-job','semiconductor-job'].includes(a.id)));
@@ -114,7 +128,7 @@ for(const e of h.events) { assert.equal(e.name,'ranking_purpose'); for(const [k,
 const unsupported=harness({supported:false}); unsupported.render(); unsupported.effects[0](); assert.equal(unsupported.events.length,0);
 const replay=harness(); replay.render(); replay.effects[0]()(); replay.render(); replay.effects.at(-1)(); expose(replay.observers[0],1); assert.equal(replay.events.length,0); expose(replay.observers[1],1); assert.equal(replay.events.length,1);
 const failed=harness({fail:true});
-assert.doesNotThrow(()=>{const t=failed.render(); failed.effects[0](); expose(failed.observers[0],1); t.props.children[0].props.children[2].props.onClick();});
+assert.doesNotThrow(()=>{const t=failed.render(); failed.effects[0](); expose(failed.observers[0],1); t.props.children[0].props.children[1].props.onClick();});
 assert.equal(failed.render().props.children[2].props.children,panels.career);
 assert.doesNotThrow(()=>failed.RankingPurposeLink({purpose:'career',destination:'career_compass',href:'/career-compass',children:'link'}).props.onClick({}));
 const creative=h.mock('src/components/TrackedAffiliateCreative').TrackedAffiliateCreative;
@@ -125,10 +139,10 @@ assert.equal(h.events.at(-1).name,'affiliate_outbound_click');
 assert.equal(h.events.at(-1).props.source_page,'career_agents');
 assert.equal(h.events.at(-1).props.cta_location,'affiliate_creative');
 for(const agent of load('src/data/ranking-career-affiliates').rankingCareerAffiliates) {
-  creative({agentId:agent.id,html:agent.creativeHtml,sourcePage:rankingPurposeContext.source_page,ctaLocation:rankingPurposeContext.cta_location,readerPurpose:'career',uiVersion:'purpose-v1'}).props.onClick(click);
+  creative({agentId:agent.id,html:agent.creativeHtml,sourcePage:rankingPurposeContext.source_page,ctaLocation:rankingPurposeContext.cta_location,readerPurpose:'career',uiVersion:rankingPurposeContext.ui_version}).props.onClick(click);
   assert.equal(h.events.at(-1).props.agent_id,agent.id);
   assert.equal(h.events.at(-1).props.reader_purpose,'career');
-  assert.equal(h.events.at(-1).props.ui_version,'purpose-v1');
+  assert.equal(h.events.at(-1).props.ui_version,rankingPurposeContext.ui_version);
 }
 assert.doesNotThrow(()=>failed.mock('src/components/TrackedAffiliateCreative').TrackedAffiliateCreative({agentId:'test',html:'original'}).props.onClick(click));
 console.log('PASS: four purposes, SSR/no-JS links, deferred ads, foreground exposure, replay/cleanup, duplicate selection, fixed events, legacy affiliate defaults and analytics failure isolation');
