@@ -15,7 +15,10 @@ class Link {
 function fixture(product, realReact = false, failAnalytics = false, supported = true) {
   const events = [], scripts = [], refs = [], states = [], effects = [], timers = new Map(), observers = new Set(), visible = new Map(), cache = new Map();
   let cursor = 0, nextTimer = 0;
-  const root = { links: [], dataset: {}, querySelectorAll() { return this.links; }, contains(link) { return this.links.includes(link); } };
+  const root = { links: [], querySelectorAll() { return this.links; }, contains(link) { return this.links.includes(link); }, querySelector() { return scripts[0] ?? null; }, appendChild(frame) { scripts.push(frame); } };
+  const frameEvents = new Map(), bodyEvents = new Map();
+  const frameBody = { links: [], scrollHeight: 280, querySelectorAll() { return this.links; }, contains(link) { return this.links.includes(link); }, addEventListener(name, callback) { bodyEvents.set(name, callback); }, removeEventListener(name) { bodyEvents.delete(name); } };
+  const frame = { style: {}, contentDocument: { body: frameBody }, addEventListener(name, callback) { frameEvents.set(name, callback); }, removeEventListener(name) { frameEvents.delete(name); } };
   const card = {};
   const destination = { tabIndex: undefined, focusCalls: 0, focus() { this.focusCalls++; } };
   const react = realReact ? React : {
@@ -31,7 +34,7 @@ function fixture(product, realReact = false, failAnalytics = false, supported = 
     vm.runInNewContext(code, {
       exports, URL, Set, Element: Link,
       ...(supported ? { IntersectionObserver: class {} } : {}),
-      document: { createElement() { return {}; }, getElementById: () => destination, body: { appendChild(script) { scripts.push(script); } } },
+      document: { createElement(tag) { assert.equal(tag, 'iframe', 'Vendor scripts must run in a fresh document'); return frame; }, getElementById: () => destination },
       window: { location: { reload() {} } },
       setTimeout(callback, delay) { assert.equal(delay, 10000); const id = ++nextTimer; timers.set(id, callback); return id; },
       clearTimeout(id) { timers.delete(id); },
@@ -62,7 +65,9 @@ function fixture(product, realReact = false, failAnalytics = false, supported = 
   }
   let tree;
   return {
-    lib, books, events, scripts, root, timers, visible, observers, Component, destination,
+    lib, books, events, scripts, root, timers, visible, observers, Component, destination, frame, frameBody, frameEvents, bodyEvents,
+    loadFrame() { frameBody.id = `book-embed-${books[product].id}`; frameEvents.get('load')?.(); },
+    clickFrame(link) { bodyEvents.get('click')?.({ target: link }); },
     renderEntry() {
       cursor = 0; tree = Entry({ sourceSlug: 'semiconductor-market-cap-ranking' });
       tree.props.ref.current = root;
@@ -138,6 +143,30 @@ for (const product of ['nikkei-industry-map-2027', 'shikiho-industry-map-2027'])
   const unavailableAnalytics = fixture(product, false, true); unavailableAnalytics.root.links = [purchase]; assert.doesNotThrow(() => { unavailableAnalytics.render(); unavailableAnalytics.reach(); unavailableAnalytics.expose(); unavailableAnalytics.click(purchase); }); unavailableAnalytics.cleanup();
   const unsupported = fixture(product, false, false, false); unsupported.render(); assert.equal(unsupported.scripts.length, 1, 'Unsupported visibility still loads usable purchase links'); assert.ok(!unsupported.events.some(e => e.props.action === 'section_view')); unsupported.cleanup();
   const offscreen = fixture(product); offscreen.render(); offscreen.cleanup(); offscreen.reach(); offscreen.wait(); assert.equal(offscreen.scripts.length, 0); assert.equal(offscreen.events.length, 0);
+
+  // Scrolling after the outer page's load still gives the vendor its own load
+  // lifecycle, including a second card and client-navigation remounts.
+  const embedded = fixture(product);
+  embedded.render(); embedded.reach();
+  assert.match(embedded.frame.srcdoc, /^<!doctype html>/);
+  assert.ok(embedded.frame.srcdoc.includes(`id="msmaflink-${book.id}"`));
+  assert.ok(embedded.frame.srcdoc.includes('msmaflink(' + JSON.stringify(book.card) + ')'));
+  assert.ok(embedded.frame.srcdoc.includes('https://dn.msmstatic.com/site/cardlink/bundle.js?20220329'));
+  embedded.frameBody.links = [new Link(tracking(amazon))];
+  embedded.loadFrame();
+  assert.equal(embedded.status(), 'ready', 'Observe purchase links inside the frame');
+  assert.equal(embedded.frame.style.height, '280px');
+  assert.equal([...embedded.observers][0].target, embedded.frameBody);
+  assert.ok(embedded.visible.has(embedded.root), 'Exposure is observed in the outer page');
+  embedded.expose();
+  embedded.clickFrame(embedded.frameBody.links[0]);
+  assert.equal(embedded.events.at(-1).props.retailer, 'amazon', 'Frame clicks retain outbound analytics');
+  embedded.strictReplay(); embedded.expose();
+  assert.equal(embedded.scripts.length, 1);
+  assert.equal(embedded.events.filter(e => e.props.action === 'view').length, 1);
+  embedded.cleanup();
+  assert.equal(embedded.frameEvents.size, 0); assert.equal(embedded.bodyEvents.size, 0);
+  assert.equal(embedded.observers.size, 0); assert.equal(embedded.timers.size, 0);
 
   const ssr = fixture(product, true);
   const html = renderToStaticMarkup(React.createElement(ssr.Component, { product }));

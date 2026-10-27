@@ -25,6 +25,7 @@ export function observeBookAffiliate(
   product: MoshimoBookProduct,
   onStatus: (status: BookAffiliateStatus) => void,
   onAction: (action: BookAffiliateAction) => void,
+  purchaseRoot: HTMLElement = target,
 ) {
   let disposed = false;
   let ready = false;
@@ -38,7 +39,7 @@ export function observeBookAffiliate(
   const check = () => {
     if (disposed) return;
     let hasPurchase = false;
-    for (const link of target.querySelectorAll<HTMLAnchorElement>("a[href]")) {
+    for (const link of purchaseRoot.querySelectorAll<HTMLAnchorElement>("a[href]")) {
       if (getBookRetailer(link.getAttribute("href") ?? "", product) === null) continue;
       hasPurchase = true;
       const rel = new Set(link.rel.split(/\s+/).filter(Boolean));
@@ -61,7 +62,7 @@ export function observeBookAffiliate(
   timer = startTimer();
   const observer = new MutationObserver(check);
   // Some embeds add an anchor before assigning its href; attributes matter too.
-  observer.observe(target, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
+  observer.observe(purchaseRoot, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
   check();
   return () => { disposed = true; clearTimeout(timer); observer.disconnect(); stopVisibility?.(); };
 }

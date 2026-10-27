@@ -19,6 +19,12 @@ msmaflink(${JSON.stringify(card)});
 `;
 }
 
+function makeEmbedDocument(id: string, card: object) {
+  // The vendor renders only on DOMContentLoaded/load. A fresh document keeps
+  // those events available even after scrolling or an App Router navigation.
+  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{margin:0}</style></head><body id="book-embed-${id}"><div id="msmaflink-${id}"></div><script>${makeEmbedScript(card)}</script></body></html>`;
+}
+
 export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {
   const book = moshimoBookAffiliates[product];
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -43,18 +49,49 @@ export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {
       } catch { /* An unavailable analytics service must not interrupt the card. */ }
     };
     let stopEmbed: (() => void) | undefined;
+    let stopFrame: (() => void) | undefined;
     const initialize = () => {
       started.current = true;
       setStatus("loading");
       stopEmbed = observeBookAffiliate(wrapper, product, setStatus, record);
 
-      // Keep the issued embed intact; replay restores observation without inserting it twice.
-      if (!wrapper.dataset.moshimoInitialized) {
-        wrapper.dataset.moshimoInitialized = "true";
-        const script = document.createElement("script");
-        script.textContent = makeEmbedScript(book.card);
-        document.body.appendChild(script);
+      const existing = wrapper.querySelector<HTMLIFrameElement>("iframe");
+      const frame = existing ?? document.createElement("iframe");
+      let stopResize: (() => void) | undefined;
+      let stopClicks: (() => void) | undefined;
+      const connect = () => {
+        const body = frame.contentDocument?.body;
+        // The vendor renames its own msmaflink element after rendering.
+        if (!body || body.id !== `book-embed-${book.id}`) return;
+        stopEmbed?.();
+        stopEmbed = observeBookAffiliate(wrapper, product, setStatus, record, body);
+        const resize = () => { frame.style.height = `${body.scrollHeight}px`; };
+        resize();
+        stopResize?.();
+        if (typeof ResizeObserver !== "undefined") {
+          const observer = new ResizeObserver(resize);
+          observer.observe(body);
+          stopResize = () => observer.disconnect();
+        }
+        stopClicks?.();
+        const click = (event: Event) => handlePurchaseClick(event.target, body);
+        body.addEventListener("click", click, true);
+        stopClicks = () => body.removeEventListener("click", click, true);
+      };
+      frame.addEventListener("load", connect);
+      if (existing) {
+        connect();
+      } else {
+        frame.title = `${book.title}の購入先`;
+        frame.className = styles.frame;
+        frame.srcdoc = makeEmbedDocument(book.id, book.card);
+        wrapper.appendChild(frame);
       }
+      stopFrame = () => {
+        frame.removeEventListener("load", connect);
+        stopResize?.();
+        stopClicks?.();
+      };
     };
     const stopCardVisibility = seen.current.has("section_view") ? () => {} : observeVisibleOnce(cardElement, () => {
       record("section_view");
@@ -64,13 +101,17 @@ export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {
     // Older browsers still get purchase links, without fabricating section exposure.
     if (started.current || typeof IntersectionObserver === "undefined") initialize();
 
-    return () => { stopCardVisibility(); stopEmbed?.(); };
+    return () => { stopCardVisibility(); stopEmbed?.(); stopFrame?.(); };
   }, [book, product]);
 
   function handleClick(event: MouseEvent<HTMLDivElement>) {
-    const target = event.target;
-    const link = target instanceof Element ? target.closest("a") : null;
-    if (!link || !event.currentTarget.contains(link)) return;
+    handlePurchaseClick(event.target, event.currentTarget);
+  }
+
+  function handlePurchaseClick(target: EventTarget | null, container: HTMLElement) {
+    // iframe elements belong to another realm, so instanceof Element fails.
+    const link = (target as Element | null)?.closest?.("a");
+    if (!link || !container.contains(link)) return;
     const retailer = getBookRetailer(link.getAttribute("href") ?? "", product);
     if (retailer === null) return;
     try {
@@ -88,7 +129,7 @@ export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {
       <p className={styles.purpose}>{book.purpose}</p>
       <p className={styles.note}>広告・アフィリエイトリンクです。購入されると運営者に報酬が入る場合があります。</p>
       <p className={styles.note}>Amazonは書名の検索結果が開きます。購入前に2027年版であることをご確認ください。</p>
-      <div className={`${styles.embed} ${status === "slow" ? styles.slow : ""}`} onClickCapture={handleClick} ref={wrapperRef}>
+      <div className={`${styles.embed} ${status === "slow" || status === "ready" ? styles.loaded : ""}`} onClickCapture={handleClick} ref={wrapperRef}>
         <div id={`msmaflink-${book.id}`}><span className={styles.loading}>{status === "idle" ? "購入先は、この紹介欄が表示されたときに読み込みます。" : "購入先を読み込んでいます。"}</span></div>
       </div>
       {status === "slow" && <div className={styles.status} role="status">

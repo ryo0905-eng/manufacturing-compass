@@ -9,7 +9,8 @@
 .card p.purpose { font-weight: 600; }
 .card p.note { margin: 8px 0; color: var(--mc-text-muted); font-size: 13px; line-height: 1.7; }
 .embed { min-width: 0; min-height: 220px; max-width: 100%; margin-top: 16px; overflow-wrap: anywhere; }
-.slow .loading { display: none; }
+.loaded .loading { display: none; }
+.frame { display: block; width: 100%; min-height: 220px; border: 0; }
 .status { margin-top: 12px; padding: 12px; background: var(--mc-surface-subtle); border-radius: var(--mc-radius-panel); }
 .status p { margin: 0 0 8px; }
 .status button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--mc-border-strong); border-radius: var(--mc-radius-control); background: var(--mc-surface); color: var(--mc-text); cursor: pointer; font: inherit; }

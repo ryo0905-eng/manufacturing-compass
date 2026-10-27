@@ -88,6 +88,8 @@ Career Compass、インタラクティブ実務学習ツール、業界地図の
 
 ランキングの書籍導線は `BookAffiliateEntry` が世界表直後の入口露出・ページ内移動とフォーカスを担当し、`MoshimoBookLink` がローカル書籍データの紹介文と既存のもしも埋め込みを表示する。2026-10-25のbooks-v2では初期状態idleとし、紹介カードの前景25%到達後に初めて発行コードと読み込み待機を開始する。カード到達と生成済み購入先領域の露出を分け、監視非対応時は到達を推定せず即時読込へフォールバックする。`src/lib/book-affiliates.ts` が生成された購入先URLの判別、表示準備・遅延・露出の監視と解除を担当し、解除後の遅延MutationObserver／タイマー通知も無視する。発行済み広告データは維持し、状態・クリックは固定カテゴリの既存Analytics経由で送る。新しい保存先や閲覧時のサーバーAPIは追加しない。イベントと公開後の確認は `docs/conversion-architecture.md`、編集・広告方針は `docs/monetization.md` を参照する。
 
+2026-10-27：もしもの配信コードはDOMContentLoaded／loadで生成処理を行うため、遅延読込は商品ごとの同一オリジンiframeのsrcdoc内で実行する。各iframeが独立した読込イベントを持ち、スクロール後・2冊目・App Router遷移後にも発行データを実行できる。購入先DOMとクリックはiframe内で監視し、露出は親ページの購入先枠で判定する。高さは内容に追従し、再実行でiframeを重複作成せず、監視とリスナーを解除する。
+
 `src/styles/tokens.css` を日英共通の `globals.css` から読み込み、意味別の `--mc-*` トークンと既存CSS変数の互換エイリアスを一元管理する。`src/components/ui/Controls.tsx` は標準HTML属性を受け取る状態を持たない共通部品。Cpkの日英共通Client Componentsで先行利用し、配置は専用CSS Moduleへ分離する。操作・計算・計測は呼び出し側に残し、UIライブラリや新しいAPIへの依存は追加しない。部品の契約と移行ルールは `docs/design-system.md` を参照。
 
 ### 共通スタック

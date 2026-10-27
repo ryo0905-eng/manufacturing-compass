@@ -532,6 +532,8 @@ Career Compass
 
 ## ランキング記事の書籍導線（2026-10-25更新）
 
+2026-10-27の表示不具合修正：遅延読込したもしも配信コードが親ページのDOMContentLoaded／loadを受け取れず購入先を生成しないため、発行済みコードを商品別iframeのsrcdoc内で実行する。生成URLと広告データは維持する。購入先の生成監視・クリック計測はiframe内、前景露出は親ページの購入先枠で行い、books-v2のイベント名・属性・到達後の読込条件は維持する。通信遮断時の遅延表示と後からの復帰監視も継続する。
+
 世界表直後の短い入口を復帰し、前景25%以上の露出を `book_affiliate_entry_view`、クリックを既存 `article_internal_click` で送る。属性は `source_slug`・`source_page=semiconductor-market-cap-ranking`、`destination_path=#industry-map-books`、`cta_location=world_ranking_after_table`、`ui_version=books-v2`。露出はマウント中1回。同一ページ内の移動であり、購入先クリックと合算しない。通常操作では移動先をフォーカス可能にしてキーボードの読み順をつなぎ、修飾キーによる別タブ操作は維持する。
 
 書籍カードは `book_affiliate_state` に `action=section_view/ready/view/unavailable`、固定の `product_id`、`source_page=semiconductor-market-cap-ranking`、`cta_location=industry_map_books`、`ui_version=books-v2` を送る。section_viewは紹介カードの前景25%到達で、その後に発行済み埋め込みと10秒待機を開始する。画面外では開始しない。readyは発行データに対応する購入先リンクの生成、viewはその後に購入先領域が前景で25%以上露出した時、unavailableは読み込み開始後10秒未生成の場合。各actionは商品ごと・マウント中1回。監視非対応時も購入先は即時読込するがsection_view/viewを推定しない。unavailableは恒久的な故障ではなく、後からready/viewへ進める。生成リンクがなくなった場合は露出監視を解除し、10秒の待機を再開する。解除後の遅延通知でイベントや待機を復活させない。再訪は新しいマウントとして扱う。
