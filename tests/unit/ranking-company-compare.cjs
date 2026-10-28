@@ -109,7 +109,15 @@ for (const word of ['世界TOP30の時価総額ランキング', '日本18社の
   '2026年10月16日基準', '2026.10.17', verifiedReference.sourceUrl, '世界と日本の一覧では尺度が異なります',
   '売上高や従業員数ではありません', '2014〜2025年の年末データ',
   '/tools/ranking-time-machine#mode=global&amp;year=2025&amp;company=toyota']) assert.ok(withReference.includes(word), word);
-assert.ok(!withReference.includes('<figure') && !withReference.includes('metric-bar-chart'));
+// The world overview includes ten ranked issuers; Toyota remains an unranked reference only.
+const overviewFigure = withReference.match(/<figure\b[^>]*>[\s\S]*?<\/figure>/g) || [];
+assert.equal(overviewFigure.length, 1);
+assert.equal((overviewFigure[0].match(/<li\b/g) || []).length, 10);
+assert.ok(!overviewFigure[0].includes('トヨタ自動車'));
+for (const company of data.worldSemiconductorMarketCapRanking.slice(0, 10)) {
+  assert.ok(overviewFigure[0].includes(`href="#world-company-${company.id}"`));
+  assert.ok(withReference.includes(`id="world-company-${company.id}"`));
+}
 const tableRows = markup => [...markup.matchAll(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/g)].map(table => [...table[1].matchAll(/<tr\b[^>]*>[\s\S]*?<\/tr>/g)].map(row => row[0]));
 const isReferenceRow = row => row.includes('class="reference"');
 const referencePositions = markup => tableRows(markup).map(rows => rows.findIndex(isReferenceRow));
@@ -198,7 +206,7 @@ const renderMetric = (items, reference) => renderToStaticMarkup(React.createElem
 const widths = markup => [...markup.matchAll(/style="width:([\d.]+)%"/g)].map(match => Number(match[1]));
 // Every company uses a zero-based scale, including when the reference is largest.
 for (const reference of [verifiedReference, { ...verifiedReference, marketCapUsdB: 10000 }, { ...verifiedReference, status: 'pending', marketCapUsdB: null }]) {
-  const actual = widths(renderReferenceTables(reference));
+  const actual = tableRows(renderReferenceTables(reference)).flatMap(rows => widths(rows.join('')));
   const expected = rankingSets.flatMap(companies => {
     const values = companies.map(company => company.marketCapUsdB);
     if (reference.status === 'verified') values.push(reference.marketCapUsdB);
@@ -256,8 +264,9 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.ok(heroHtml.includes(`<p>${hero.conclusion}</p>`));
   assert.equal(hero.conclusion, `世界1位は${data.worldSemiconductorMarketCapRanking[0].name}、日本1位は${data.japanSemiconductorMarketCapRanking[0].name}。`);
   const dateTags = [...prefix.matchAll(/<time datetime="([^"]+)">([^<]+)<\/time>/gi)];
-  assert.deepEqual(dateTags.map(match => match[1]), [data.semiconductorMarketCapMeta.dataAsOf, guide.updatedAt]);
-  assert.deepEqual(dateTags.map(match => match[2]), [data.semiconductorMarketCapMeta.dataAsOf, guide.updatedAt].map(date => date.replaceAll('-', '.')));
+  const expectedDates = [data.semiconductorMarketCapMeta.dataAsOf, guide.updatedAt, data.semiconductorMarketCapMeta.dataAsOf];
+  assert.deepEqual(dateTags.map(match => match[1]), expectedDates);
+  assert.deepEqual(dateTags.map(match => match[2]), expectedDates.map(date => date.replaceAll('-', '.')));
   assert.ok(prefix.includes(`執筆・確認：${guide.reviewedBy}`));
   assert.ok(!heroHtml.includes('<time'), 'Metadata appears below the image');
   assert.ok(prefix.includes('ranking-learnings') && prefix.includes('企業研究に役立つランキングの読み方'));
@@ -268,7 +277,7 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.ok(!/<details[^>]*\sopen[\s=>]/.test(prefix));
   assert.equal((prefix.match(/class="ranking-quick-links"/g) || []).length, 1);
   assert.equal((body.match(/class="market-cap-table"/g) || []).length, 2);
-  assert.equal((body.match(/class="salary-bar-chart metric-bar-chart"/g) || []).length, 0);
+  assert.equal((body.match(/class="salary-bar-chart metric-bar-chart overviewChart"/g) || []).length, 1);
   assert.equal((body.match(/data-ranking-compare-id=/g) || []).length, 48);
   assert.ok(body.indexOf('id="industry-map-books"') > body.indexOf('id="research-flow"'));
   assert.equal((body.match(/業界地図2冊の特徴と購入先を見る（広告）/g) || []).length, 1);
@@ -290,7 +299,7 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   assert.ok(!rankingContent.includes('link-callout'));
   const tableHeads = [...rankingContent.matchAll(/<thead[^>]*>([\s\S]*?)<\/thead>/g)];
   assert.deepEqual(tableHeads.map(head => (head[1].match(/scope="col"/g) || []).length), [4, 4]);
-  assert.ok(!rankingContent.includes('href="/industry-map"'));
+  assert.ok(rankingContent.includes('href="/industry-map"'));
   assert.equal((rankingContent.match(/href="#industry-map-books"/g) || []).length, 1);
 
   const schemas = [...rendered.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(match => JSON.parse(match[1]));

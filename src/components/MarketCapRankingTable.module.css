@@ -9,10 +9,10 @@
 .unified tr > th, .unified tr > td { padding: 12px; overflow-wrap: anywhere; }
 .unified .company { min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.5; }
 .unified .company small { font-size: 12px; font-weight: 400; }
-.unified .rank { font-size: 18px; font-weight: 600; color: #1d1d1f; }
+.unified .rank { font-size: 22px; font-weight: 650; color: #1d1d1f; font-variant-numeric: tabular-nums; }
 .unified .rank small { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; color: var(--muted); }
 .unified .value { min-width: 0; white-space: normal; font-size: 16px; font-variant-numeric: tabular-nums; }
-.value strong { font-weight: 600; }
+.value strong { font-size: 20px; font-weight: 650; }
 .track { display: block; height: 6px; margin-top: 9px; overflow: hidden; border-radius: 3px; background: #eef0f3; }
 /* One series: market capitalization, using the site's chart color. */
 .track i { display: block; height: 100%; background: #4c72b0; }
@@ -27,18 +27,42 @@
 .referenceBadge { padding: 2px 6px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-size: 11px; font-weight: 500; white-space: nowrap; }
 .referenceNote { display: block; margin-top: 8px; color: var(--muted); font-size: 11px; font-weight: 400; line-height: 1.6; }
 .srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.unified tr[id] { scroll-margin-top: 90px; }
+.unified tr[id]:target { outline: 2px solid #4c72b0; outline-offset: -2px; background: #f3f7fc; }
+.unified tr[id]:focus-visible { outline: 3px solid #1769aa; outline-offset: -3px; }
+.unified .compareHint { padding: 12px 14px; border-left: 3px solid #4c72b0; background: #eef3fa; color: #34383d; font-size: 13px; line-height: 1.7; }
+.unified .overviewChart { margin: 20px 0; padding: 18px 0; border-top-color: #d9e0e8; background: #fff; }
+.overviewChart figcaption > strong { font-size: 22px; font-weight: 600; }
+.overviewChart figcaption > small { font-size: 12px; }
+.overviewChart ol li { grid-template-columns: 24px minmax(0, 1fr) minmax(0, 1.5fr) 108px; gap: 10px; padding: 5px 0; }
+.overviewChart :global(.salary-bar-chart__rank) { color: #60666d; font-size: 13px; font-weight: 500; }
+.overviewChart :global(.salary-bar-chart__company) a { display: flex; align-items: center; min-height: 44px; color: #1d1d1f; text-decoration: none; font-size: 13px; font-weight: 600; }
+.overviewChart :global(.salary-bar-chart__company) a:hover { color: #1769aa; text-decoration: underline; }
+.overviewChart a:focus-visible { outline: 3px solid #1769aa; outline-offset: 2px; }
+.overviewChart :global(.salary-bar-chart__company) > small { display: none; }
+.overviewChart :global(.salary-bar-chart__track) { grid-column: auto; grid-row: auto; height: 20px; background: #f1f3f6; }
+.overviewChart :global(.salary-bar-chart__track) i { background: #4c72b0; }
+.overviewChart :global(.salary-bar-chart__value) { grid-column: auto; grid-row: auto; color: #1d1d1f; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+@container (width < 600px) {
+  .overviewChart ol li { grid-template-columns: 20px minmax(0, 1fr) 100px; gap: 2px 8px; padding: 5px 0 8px; }
+  .overviewChart :global(.salary-bar-chart__track) { grid-column: 2 / -1; grid-row: 2; height: 12px; }
+  .overviewChart :global(.salary-bar-chart__value) { grid-column: 3; grid-row: 1; font-size: 14px; }
+}
 
 /* Respond to the article column's width, including on a wide desktop. */
 @container (width < 600px) {
   .unified table, .unified tbody { display: block; width: 100%; min-width: 0; }
   .unified thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .unified tbody tr { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px 8px; padding: 12px; border-bottom: 1px solid var(--line); }
+  .unified tbody tr { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 6px 8px; padding: 14px 10px; border-bottom: 1px solid var(--line); }
   .unified tbody tr:last-child { border-bottom: 0; }
   .unified tr > th, .unified tr > td { display: block; min-width: 0; padding: 0; border: 0; }
   .unified tr > .rank { grid-column: 1; grid-row: 1; padding-top: 2px; }
   .unified tr > .company { grid-column: 2 / -1; grid-row: 1; }
   .unified tr > .value { grid-column: 2; grid-row: 2; }
-  .unified tr > .compare { grid-column: 3; grid-row: 2; align-self: start; }
+  .unified tr > .compare { grid-column: 3; grid-row: 2; align-self: center; }
+  .unified .company small { display: inline; margin-left: 5px; font-size: 11px; }
+  .unified .track { height: 4px; margin-top: 6px; }
+  .unified .ratio { margin-top: 3px; }
   .unified .reference > .compare { grid-column: 2 / -1; grid-row: 3; }
   .unified .referenceNote { margin-top: 0; }
   .unified .referenceCompany + .referenceNote { margin-top: 6px; }

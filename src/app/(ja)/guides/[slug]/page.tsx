@@ -1,5 +1,6 @@
 import { RankingCompanyCompareProvider, RankingCompanyComparePanel } from "@/components/RankingCompanyCompare";
 import { RankingHeroIllustration } from "@/components/RankingHeroIllustration";
+import { MarketCapRankingOverview } from "@/components/MarketCapRankingOverview";
 import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
 import type { Route } from "next";
@@ -163,6 +164,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
               <span>更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></span>
               <span>執筆・確認：{guide.reviewedBy ?? guide.author}</span>
             </small>
+          <MarketCapRankingOverview />
           <aside className="ranking-learnings" aria-label="この記事でわかること">
             <strong>この記事でわかること</strong>
             <ul><li>世界の半導体企業の勢力図</li><li>日本企業の世界での位置</li><li>企業研究に役立つランキングの読み方</li></ul>

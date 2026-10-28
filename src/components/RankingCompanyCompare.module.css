@@ -2,11 +2,11 @@
 .panel h2 { margin-top: 0; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 12px 0; }
 .button, .primary, .remove, .tabs button { min-height: 44px; border: 1px solid #c9cdd2; border-radius: 6px; padding: 9px 12px; color: #1d1d1f; background: white; font: inherit; font-size: 14px; cursor: pointer; touch-action: manipulation; }
-.button { white-space: nowrap; font-weight: 500; }
+.button { white-space: nowrap; font-weight: 600; border-color: #9cabc0; color: #244d80; background: #f7f9fc; }
 .panel .actions .button { white-space: normal; text-align: left; }
-.button[aria-pressed="true"] { background: #eef3fa; border-color: #4c72b0; color: #244d80; }
+.button[aria-pressed="true"] { background: #244d80; border-color: #244d80; color: #fff; }
 .button:hover, .remove:hover { background: #f7f7f8; }
-.button[aria-pressed="true"]:hover { background: #e3ebf7; }
+.button[aria-pressed="true"]:hover { background: #1c3c65; }
 .primary { background: #1d1d1f; color: white; border-color: #1d1d1f; font-weight: 600; white-space: nowrap; }
 .primary:hover { background: #34383d; }
 .primary:disabled { background: #eef0f3; border-color: #e5e7eb; color: #60666d; cursor: default; }
@@ -16,11 +16,12 @@
 .slots { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); flex: 1; gap: 8px; min-width: 0; }
 .slot { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 3px 4px 3px 10px; border: 1px solid #c9d7ea; border-radius: 6px; background: #eef3fa; color: #1d1d1f; font-size: 13px; overflow-wrap: anywhere; }
 .slot > span:nth-child(2) { flex: 1; min-width: 0; }
+.slot > span:nth-child(2) > span[aria-hidden="true"] { width: 32px; }
 .slotLabel { color: #60666d; font-size: 11px; font-weight: 500; }
 .remove { flex: 0 0 44px; width: 44px; padding: 0; border: 0; background: transparent; font-size: 20px; }
 .emptySlot { min-height: 50px; border-style: dashed; border-color: #c9cdd2; background: #fafafa; color: #60666d; }
 .small { color: #60666d; font-size: 13px; line-height: 1.6; }
-.tray { position: fixed; bottom: max(12px,env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(780px,calc(100% - 24px)); max-height: 40dvh; overflow-y: auto; box-sizing: border-box; z-index: 45; padding: 12px; background: #fff; border: 1px solid #c9cdd2; border-radius: 8px; }
+.tray { position: fixed; bottom: max(12px,env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(780px,calc(100% - 24px)); max-height: 40dvh; overflow-y: auto; box-sizing: border-box; z-index: 45; padding: 12px; background: #fff; border: 1px solid #9cabc0; border-radius: 12px; box-shadow: 0 4px 16px rgb(29 29 31 / 10%); }
 .tray[hidden] { display: none; }
 .tray p { margin: 8px 0 0; font-size: 13px; color: #60666d; line-height: 1.5; }
 .reserve { padding-bottom: 200px; }
@@ -64,6 +65,10 @@
   .selection { flex-direction: column; align-items: stretch; gap: 8px; }
   .slots { flex: auto; }
   .slot { padding-left: 8px; font-size: 12px; }
+  .tray .slot { gap: 4px; }
+  .tray .slotLabel { display: none; }
+  .tray .slot > span:nth-child(2) { gap: 4px; }
+  .tray .slot > span:nth-child(2) > span[aria-hidden="true"] { width: 24px; }
   .tray { padding: 10px; }
   .reserve { padding-bottom: 240px; }
   .dialog { position: fixed; inset: 0; width: 100%; height: 100dvh; max-height: 100dvh; margin: 0; border: 0; border-radius: 0; }

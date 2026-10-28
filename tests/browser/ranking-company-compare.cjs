@@ -17,10 +17,51 @@ const fs = require('node:fs');
     const result = page.locator('[data-ranking-comparison-result]');
     await page.goto(base + route);
     assert.equal(await result.count(), 0);
+    const overview = page.getByRole('complementary', { name: 'ランキングの要点', exact: true });
+    const chart = page.locator('#world-ranking figure').first();
+    assert.match(await overview.innerText(), /世界1位/);
+    assert.match(await overview.innerText(), /日本企業1位/);
+    assert.equal(await chart.locator('ol li').count(), 10);
+    const values = await chart.locator('.salary-bar-chart__track i').evaluateAll(bars => bars.map(bar => parseFloat(bar.style.width)));
+    assert.equal(values[0], 100);
+    assert.ok(values.every((value, index) => value > 0 && (index === 0 || value <= values[index - 1])));
+    for (const link of await chart.locator('a').all()) {
+      const href = await link.getAttribute('href');
+      assert.equal(await page.locator(href).count(), 1, `Chart target missing: ${href}`);
+    }
+    await chart.locator('a').first().click();
+    await page.waitForURL('**#world-company-nvidia');
+    assert.equal(new URL(page.url()).hash, '#world-company-nvidia');
+    assert.equal(await result.count(), 0);
+    await overview.getByRole('link', { name: /日本企業1位/ }).click();
+    await page.waitForURL('**#japan-company-tokyo-electron');
+    assert.equal(new URL(page.url()).hash, '#japan-company-tokyo-electron');
+    await overview.getByRole('link', { name: '出典・調査方法', exact: true }).click();
+    await page.waitForURL('**#sources-method');
+    assert.equal(await page.locator(new URL(page.url()).hash).count(), 1);
+
+    // Essential content is rendered even without client JavaScript.
+    const staticContext = await browser.newContext({ javaScriptEnabled: false });
+    const staticPage = await staticContext.newPage();
+    await staticPage.goto(base + route);
+    assert.equal(await staticPage.locator('#world-ranking tbody tr').count(), 31); // Includes the reference.
+    assert.equal(await staticPage.locator('#japan-ranking tbody tr').count(), 19);
+    assert.equal(await staticPage.locator('#world-ranking figure ol li').count(), 10);
+    assert.equal(await staticPage.locator('link[rel="canonical"]').getAttribute('href'), 'https://mfg-compass.com' + route);
+    assert.ok(await staticPage.locator('script[type="application/ld+json"]').count() > 0);
+    assert.match(await staticPage.title(), /半導体メーカー世界ランキング【2026年10月】時価総額TOP30・日本18社/);
+    await staticContext.close();
 
     // Both tables show every company's overview without disclosure and fit the article width.
     for (const width of [360, 390, 768, 1280]) {
       await page.setViewportSize({ width, height: 900 });
+      assert.ok(await overview.evaluate(element => element.scrollWidth <= element.clientWidth + 1), `Overview overflow at ${width}`);
+      assert.ok(await chart.evaluate(element => element.scrollWidth <= element.clientWidth + 1), `Chart overflow at ${width}`);
+      if (width === 390 || width === 1280) {
+        await page.goto(base + route);
+        await page.screenshot({ path: `/private/tmp/ranking-overview-${width}.png`, fullPage: false, caret: 'initial' });
+        await chart.screenshot({ path: `/private/tmp/ranking-chart-${width}.png`, caret: 'initial' });
+      }
       for (const scope of ['world', 'japan']) {
         const table = page.locator(`#${scope}-ranking table`);
         assert.equal(await table.locator('details, summary').count(), 0);
@@ -93,7 +134,7 @@ const fs = require('node:fs');
     await dialog.getByRole('tab', { name: '日本の仕事', exact: true }).click();
     assert.match(await dialog.getByRole('tabpanel', { name: '日本の仕事', exact: true }).innerText(), /TSMC/);
     await dialog.getByRole('tab', { name: '違いの概要', exact: true }).click();
-    await result.screenshot({ path: '/private/tmp/ranking-compare-desktop.png' });
+    await result.screenshot({ path: '/private/tmp/ranking-compare-desktop.png', caret: 'initial' });
 
     // Background clicks close the desktop dialog without clearing the pair.
     await page.mouse.click(2, 2);
@@ -106,6 +147,7 @@ const fs = require('node:fs');
 
     for (const width of [360, 390, 768, 1280]) {
       await page.setViewportSize({ width, height: 844 });
+      await page.goto(base + route); // A closed dialog does not reopen on an identical URL.
       await page.goto(shared);
       await dialog.waitFor();
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
@@ -116,9 +158,10 @@ const fs = require('node:fs');
       assert.equal(await tray.isVisible(), true);
     }
     await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(base + route);
     await page.goto(shared);
     await dialog.waitFor();
-    await page.screenshot({ path: '/private/tmp/ranking-compare-mobile.png' });
+    await page.screenshot({ path: '/private/tmp/ranking-compare-mobile.png', caret: 'initial' });
 
     await page.goto(base + route + '#compare=unknown,nvidia');
     await tray.getByText('比較リンクを復元できませんでした。掲載中の異なる2社を選んでください。', { exact: true }).waitFor();

@@ -2,6 +2,7 @@ import { RankingCompareButton } from "@/components/RankingCompanyCompare";
 import type { Route } from "next";
 import { Fragment } from "react";
 import { MetricBarChart } from "@/components/MetricBarChart";
+import { MarketCapRankingExplore } from "@/components/MarketCapRankingOverview";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
 import { CompanyLogoAttribution } from "@/components/CompanyLogoAttribution";
 import { CountryRegion } from "@/components/CountryRegion";
@@ -61,6 +62,25 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
         <div><dt>主要出典</dt><dd><a href={semiconductorMarketCapMeta.sourceUrl} rel="noopener noreferrer" target="_blank">{semiconductorMarketCapMeta.sourceName}</a></dd></div>
       </dl>
       <p className="market-cap-caution">時価総額は株価や為替レートによって変動します。本ランキングは上記基準日時点の参考値です。</p>
+      {unified && isWorld ? <>
+        <MetricBarChart
+          className={styles.overviewChart}
+          eyebrow="Market cap · TOP 10"
+          title="時価総額TOP10をひと目で比較"
+          sourceSlug={sourceSlug}
+          items={[...companies].sort((a, b) => b.marketCapUsdB - a.marketCapUsdB).slice(0, 10).map(company => ({
+            category: company.category,
+            displayValue: company.marketCapDisplay,
+            label: company.name,
+            logoId: company.companySlug ?? company.id,
+            value: company.marketCapUsdB,
+            href: `#world-company-${company.id}` as Route,
+          }))}
+          note={`${formattedDate}基準・米ドル。0から世界1位までの共通尺度です。企業名をタップすると、下のランキング内の企業情報へ移動します。`}
+        />
+        <MarketCapRankingExplore />
+        <p className={styles.compareHint}>気になる企業は「＋ 比較」で2社を選択。事業・規模・日本での仕事を並べて確認できます。</p>
+      </> : null}
       {unified ? <>
         <p className={styles.note}>棒の長さは0ドルを基準に、{reference ? "参考のトヨタを含む" : ""}各一覧内の最大値との比率で表示しています。世界と日本の一覧では尺度が異なります。</p>
         {reference ? <p className={styles.note}>
@@ -118,7 +138,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
                 {company.englishName !== company.name ? <small>{company.englishName}</small> : null}
               </RankingCompanyName>;
               const companyRow = unified ? (
-                <tr role="row">
+                <tr role="row" id={`${scope}-company-${company.id}`} tabIndex={-1}>
                   <td role="cell" className={`market-cap-rank ${styles.rank}`}>{displayRank}{!isWorld && <small>世界{company.rank}位</small>}</td>
                   <th scope="row" role="rowheader" className={styles.company}>
                     {identity}

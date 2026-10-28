@@ -81,7 +81,7 @@ function Selection({ context }: { context: Context }) {
   return <div className={styles.selection}>
     <div className={styles.slots}>{[0, 1].map(index => {
       const company = comparisonCompanyById.get(context.ids[index]);
-      return company ? <div className={styles.slot} key={index}><span className={styles.slotLabel}>{index === 0 ? "A" : "B"}</span><span>{company.name}</span><button type="button" className={styles.remove} onClick={() => context.remove(company.id)} aria-label={`${company.name}を比較から外す`}>×</button></div>
+      return company ? <div className={styles.slot} key={index}><span className={styles.slotLabel}>{index === 0 ? "A" : "B"}</span><RankingCompanyName companyId={company.companySlug ?? company.id} name={company.name} /><button type="button" className={styles.remove} onClick={() => context.remove(company.id)} aria-label={`${company.name}を比較から外す`}>×</button></div>
         : <div className={`${styles.slot} ${styles.emptySlot}`} key={index}><span className={styles.slotLabel}>B</span><span>あと1社を選択</span></div>;
     })}</div>
     <button type="button" className={styles.primary} disabled={context.ids.length !== 2} onClick={context.open}>2社を比較する<span aria-hidden="true"> →</span></button>
@@ -135,7 +135,19 @@ function ComparisonDialog({ context, opener }: { context: Context; opener: React
     const rect = event.currentTarget.getBoundingClientRect();
     return event.target === event.currentTarget && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom);
   }
-  return <dialog ref={dialog} className={styles.dialog} aria-labelledby="ranking-comparison-title" onCancel={event => { event.preventDefault(); context.close(); }}
+  function keepFocus(event: KeyboardEvent<HTMLDialogElement>) {
+    if (event.key !== "Tab") return;
+    const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not(:disabled), textarea:not(:disabled), [tabindex="0"]'))
+      .filter(element => element.getClientRects().length > 0);
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (event.shiftKey && (document.activeElement === first || document.activeElement === heading.current)) {
+      event.preventDefault(); last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault(); first?.focus();
+    }
+  }
+  return <dialog ref={dialog} className={styles.dialog} aria-labelledby="ranking-comparison-title" onKeyDown={keepFocus} onCancel={event => { event.preventDefault(); context.close(); }}
     onPointerDown={event => { backdropPress.current = outside(event); }}
     onClick={event => { if (backdropPress.current && outside(event)) context.close(); backdropPress.current = false; }}>
     <ComparisonResult context={context} heading={heading} />
