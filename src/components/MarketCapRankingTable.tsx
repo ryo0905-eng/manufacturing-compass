@@ -2,6 +2,7 @@ import { RankingCompareButton } from "@/components/RankingCompanyCompare";
 import type { Route } from "next";
 import { Fragment } from "react";
 import { MetricBarChart } from "@/components/MetricBarChart";
+import { MarketCapRankingChart } from "@/components/MarketCapRankingChart";
 import { MarketCapRankingExplore } from "@/components/MarketCapRankingOverview";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
 import { CompanyLogoAttribution } from "@/components/CompanyLogoAttribution";
@@ -35,6 +36,14 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
   const chartTitle = isWorld ? "世界ランキング上位10社" : "日本企業ランキング上位10社";
   const firstSmallerCompany = reference ? companies.findIndex((company) => company.marketCapUsdB < reference.marketCapUsdB) : -1;
   const referencePosition = firstSmallerCompany < 0 ? companies.length : firstSmallerCompany;
+  const worldIds = new Set(worldSemiconductorMarketCapRanking.map(company => company.id));
+  const combined = [...worldSemiconductorMarketCapRanking, ...japanSemiconductorMarketCapRanking.filter(company => !worldIds.has(company.id))]
+    .sort((a, b) => b.marketCapUsdB - a.marketCapUsdB || a.rank - b.rank);
+  const chartItem = (company: (typeof worldSemiconductorMarketCapRanking)[number], targetScope: "world" | "japan", rank: number) => ({
+    category: company.category, displayValue: company.marketCapDisplay, label: company.name,
+    logoId: company.companySlug ?? company.id, value: company.marketCapUsdB, rank,
+    href: `#${targetScope}-company-${company.id}` as Route,
+  });
   const maxValue = Math.max(...companies.map((company) => company.marketCapUsdB), reference?.marketCapUsdB ?? 1);
   const metric = (value: number, display: string, isReference = false) => {
     const ratio = reference ? (value / reference.marketCapUsdB).toFixed(1) : undefined;
@@ -63,21 +72,11 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
       </dl>
       <p className="market-cap-caution">時価総額は株価や為替レートによって変動します。本ランキングは上記基準日時点の参考値です。</p>
       {unified && isWorld ? <>
-        <MetricBarChart
-          className={styles.overviewChart}
-          eyebrow="Market cap · TOP 10"
-          title="時価総額TOP10をひと目で比較"
-          sourceSlug={sourceSlug}
-          items={[...companies].sort((a, b) => b.marketCapUsdB - a.marketCapUsdB).slice(0, 10).map(company => ({
-            category: company.category,
-            displayValue: company.marketCapDisplay,
-            label: company.name,
-            logoId: company.companySlug ?? company.id,
-            value: company.marketCapUsdB,
-            href: `#world-company-${company.id}` as Route,
-          }))}
-          note={`${formattedDate}基準・米ドル。0から世界1位までの共通尺度です。企業名をタップすると、下のランキング内の企業情報へ移動します。`}
-        />
+        <MarketCapRankingChart sourceSlug={sourceSlug} formattedDate={formattedDate} groups={{
+          world: { items: worldSemiconductorMarketCapRanking.map(company => chartItem(company, "world", company.rank)), description: `世界上位${worldSemiconductorMarketCapRanking.length}社。`, scale: "順位は世界順位。" },
+          japan: { items: japanSemiconductorMarketCapRanking.map(company => chartItem(company, "japan", company.domesticRank)), description: `日本企業${japanSemiconductorMarketCapRanking.length}社。`, scale: "順位は国内順位。" },
+          all: { items: combined.map(company => chartItem(company, worldIds.has(company.id) ? "world" : "japan", company.rank)), description: `世界上位と日本企業の掲載${combined.length}社（重複を除く）。世界全企業の一覧ではありません。`, scale: "順位は世界順位。" },
+        }} />
         <MarketCapRankingExplore />
         <p className={styles.compareHint}>気になる企業は「＋ 比較」で2社を選択。事業・規模・日本での仕事を並べて確認できます。</p>
       </> : null}

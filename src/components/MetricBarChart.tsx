@@ -12,6 +12,7 @@ export type MetricBarChartItem = {
   country?: string;
   value: number;
   href?: Route;
+  rank?: number;
 };
 
 type MetricBarChartProps = {
@@ -23,9 +24,13 @@ type MetricBarChartProps = {
   referenceNote?: ReactNode;
   className?: string;
   sourceSlug?: string;
+  controls?: ReactNode;
+  footer?: ReactNode;
+  panelId?: string;
+  panelLabelledBy?: string;
 };
 
-export function MetricBarChart({ eyebrow, items, note, title, reference, referenceNote, className, sourceSlug }: MetricBarChartProps) {
+export function MetricBarChart({ eyebrow, items, note, title, reference, referenceNote, className, sourceSlug, controls, footer, panelId, panelLabelledBy }: MetricBarChartProps) {
   const comparison = reference && Number.isFinite(reference.value) && reference.value > 0 ? reference : undefined;
   const maxValue = Math.max(...items.map((item) => item.value), comparison?.value ?? 1);
   const percentage = (value: number) => Math.max(0, Math.min(100, (value / maxValue) * 100));
@@ -40,14 +45,16 @@ export function MetricBarChart({ eyebrow, items, note, title, reference, referen
       <figcaption>
         <span>{eyebrow}</span>
         <strong>{title}</strong>
+        {controls}
         <small>{note}</small>
         {comparison && referenceNote ? <small>{referenceNote}</small> : null}
       </figcaption>
+      <div role={panelId ? "tabpanel" : undefined} id={panelId} aria-labelledby={panelLabelledBy}>
       <ol>
         {items.map((item, index) => {
           return (
             <li key={item.label}>
-              <span className="salary-bar-chart__rank">{String(index + 1).padStart(2, "0")}</span>
+              <span className="salary-bar-chart__rank">{String(item.rank ?? index + 1).padStart(2, "0")}</span>
               <div className="salary-bar-chart__company">
                 <strong>{item.href ? <TrackedInternalLink href={item.href} eventName="article_internal_click" eventProperties={{ source_slug: sourceSlug, destination_path: item.href }}><RankingCompanyName companyId={item.logoId} name={item.label} /></TrackedInternalLink> : <RankingCompanyName companyId={item.logoId} name={item.label} />}</strong>
                 <small className={item.country ? "salary-bar-chart__region" : undefined}>{item.country ? <><CountryRegion country={item.country} /> / </> : null}{item.category}</small>
@@ -63,6 +70,8 @@ export function MetricBarChart({ eyebrow, items, note, title, reference, referen
           );
         })}
       </ol>
+      {footer}
+      </div>
       {comparison ? (
         <div className="metric-bar-chart__reference" role="group" aria-label={`参考：${comparison.label}`}>
           <span className="salary-bar-chart__rank">参考</span>
