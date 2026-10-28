@@ -44,7 +44,7 @@ export default function CareerCompassPage() {
       <nav className="cpk-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span>/</span><span>Career Compass</span></nav>
       <header className="career-compass-landing-hero">
         <p className="section-label">Career Compass ・ 登録不要</p>
-        <h1>製造業の経験を、半導体の仕事と次の準備につなげる</h1>
+        <div className="compass-intro-title"><div><h1>あなたの経験から、<br />次の可能性を見つけよう。</h1><p>製造業で積み重ねた経験と、半導体の仕事をつなぐ小さな旅。12問・約3分で、次の一歩を整理します。</p></div><div className="compass-intro-mark" aria-hidden="true"><svg viewBox="0 0 160 160" fill="none"><circle cx="80" cy="80" r="67"/><circle cx="80" cy="80" r="48"/><path d="M80 13v134M13 80h134M32 32l96 96M128 32l-96 96"/><path className="compass-needle" d="m100 51-14 35-35 23 23-35 26-23Z"/><circle cx="80" cy="80" r="4"/></svg></div></div>
         <CareerCompassPreview placement="intro" />
       </header>
       <section id="career-compass-tool" aria-label="Career Compass 経験整理フォーム"><CareerCompassTool /></section>

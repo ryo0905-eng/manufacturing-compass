@@ -20,7 +20,7 @@ export function DiagnosisStepNavigation({
   const progress = (currentQuestion / total) * 100;
 
   return (
-    <section className="diagnosis-step-nav" aria-label="診断の進捗">
+    <section className="diagnosis-step-nav" aria-label="質問の進捗">
       <div className="diagnosis-step-nav__summary">
         <div>
           <span>Question {String(currentQuestion).padStart(2, "0")}</span>
@@ -64,8 +64,8 @@ export function DiagnosisStepNavigation({
       </ol>
 
       <div className="diagnosis-step-nav__outcome">
-        <span>診断後に分かること</span>
-        <p>近い職種・想定年収・伸ばすスキル・Today Quest</p>
+        <span>この旅で見つけること</span>
+        <p>経験とつながる仕事・活かせる強み・次の一歩</p>
       </div>
     </section>
   );

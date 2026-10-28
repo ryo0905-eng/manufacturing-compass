@@ -176,6 +176,8 @@ export function CareerCompassTool() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [completedQuestIds, setCompletedQuestIds] = useState<string[]>([]);
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
+  const questionHeadingRef = useRef<HTMLHeadingElement>(null);
+  const previousStepRef = useRef(step);
   const nextTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const analysisTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -393,6 +395,11 @@ export function CareerCompassTool() {
   }, []);
 
   useEffect(() => {
+    if (step !== previousStepRef.current && !isResult) questionHeadingRef.current?.focus();
+    previousStepRef.current = step;
+  }, [step, isResult]);
+
+  useEffect(() => {
     const reachedStep = step + 1;
     if (hasTrackedStartRef.current && !isResult && !trackedStepsRef.current.has(reachedStep)) {
       trackedStepsRef.current.add(reachedStep);
@@ -516,7 +523,14 @@ export function CareerCompassTool() {
     setStep((current) => Math.max(0, current - 1));
   }
 
+  function reviewAnswers() {
+    trackCareerCompassEvent("career_compass_retry", { action: "review" });
+    setCompletedQuestIds([]);
+    setStep(0);
+  }
+
   function restart() {
+    trackCareerCompassEvent("career_compass_retry", { action: "restart" });
     setAnswers({});
     setStep(0);
     setIsAnalyzing(false);
@@ -582,6 +596,7 @@ export function CareerCompassTool() {
         });
       }}
       onRestart={restart}
+      onReview={reviewAnswers}
       onToggleQuest={toggleQuest}
       powerQuests={result.powerQuests}
       prioritizeLocation={answers.workStyle === "location"}
@@ -604,14 +619,15 @@ export function CareerCompassTool() {
         />
 
         <div className="quiz-question-head">
-          <p className="eyebrow">12問で経験と次の準備を整理</p>
-          <h2>{currentStep.question}</h2>
+          <p className="eyebrow">YOUR CAREER JOURNEY ・ 12問で可能性を探す</p>
+          <h2 ref={questionHeadingRef} tabIndex={-1}>{currentStep.question}</h2>
           <small>迷ったら、最も実態に近いものを1つ。選ぶと次の質問へ進みます。回答は「戻る」で変更できます。</small>
         </div>
 
-        <div className="quiz-options" aria-label={currentStep.label}>
+        <div className="quiz-options" role="group" aria-label={currentStep.label}>
           {currentStep.options.map((option, index) => (
             <button
+              aria-pressed={currentValue === option.id}
               className={currentValue === option.id ? "quiz-option active" : "quiz-option"}
               disabled={!isHydrated}
               key={option.id}

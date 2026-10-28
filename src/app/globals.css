@@ -21164,3 +21164,54 @@ body {
 @media (max-width: 720px) {
   .industry-map-page--overview .industry-map-hero h1 { font-size: 24px; }
 }
+
+/* Career Compass: an inviting, mobile-first journey. */
+.career-compass-landing-hero { background: linear-gradient(145deg, #f1f7f4, #fff 72%); border-color: #d8e7df; }
+.compass-intro-title { display: grid; grid-template-columns: minmax(0, 1fr) 155px; align-items: center; gap: 24px; }
+.compass-intro-title h1 { font-size: clamp(2rem, 4.7vw, 3.7rem); line-height: 1.3; letter-spacing: -.04em; color: #173d34; }
+.compass-intro-title p { max-width: 620px; color: #526d64; line-height: 1.8; margin: 18px 0 0; }
+.compass-intro-mark svg, .compass-result-art svg { width: 100%; stroke: #74a894; stroke-width: 1; }
+.compass-needle { fill: #78ae98; stroke: #5c9580; }
+.career-compass-page .quiz-shell { grid-template-columns: minmax(0, 680px); }
+.career-compass-page .quiz-card { width: 100%; gap: 24px; border: 1px solid #d8e7df; border-radius: 26px; background: #fff; box-shadow: 0 20px 60px rgba(36, 82, 65, .09); padding: clamp(22px, 5vw, 40px); }
+.career-compass-page .quiz-question-head h2 { color: #173d34; line-height: 1.45; outline: none; }
+.career-compass-page .quiz-option { min-height: 68px; border: 1px solid #d8e7df; border-radius: 14px; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
+.career-compass-page .quiz-option:hover, .career-compass-page .quiz-option.active { border-color: #589882; background: #edf7f1; }
+.career-compass-page .quiz-option:active { transform: scale(.99); }
+.career-compass-page .quiz-option:focus-visible, .compass-share button:focus-visible, .compass-retry button:focus-visible, .compass-context-details summary:focus-visible { outline: 3px solid #318369; outline-offset: 3px; }
+.career-compass-page .diagnosis-step-nav__outcome { color: #436b5c; }
+.career-compass-page .career-result-experience { gap: clamp(36px, 6vw, 72px); }
+.career-compass-page .result-story-hero { position: relative; overflow: hidden; border-radius: 26px; background: linear-gradient(135deg, #eaf4ee, #f8fbf8); padding: clamp(26px, 5vw, 52px); }
+.career-compass-page .result-story-copy { position: relative; z-index: 1; }
+.career-compass-page .result-story-hero .result-kicker { color: #477d68; }
+.career-compass-page .result-story-copy h2 { margin: 0; color: #173d34; font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1.4; }
+.compass-result-art { position: absolute; width: clamp(170px, 25vw, 300px); right: -25px; top: -35px; opacity: .25; pointer-events: none; }
+.compass-strengths, .compass-share, .compass-retry { border: 1px solid #dce9e1; border-radius: 24px; padding: clamp(24px, 4vw, 42px); background: #f8fbf9; }
+.compass-overline { margin: 0 0 10px; color: #477d68; font-size: .75rem; font-weight: 700; letter-spacing: .12em; }
+.compass-strengths h2, .compass-share h2, .compass-retry h2 { margin: 0; color: #173d34; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.4; }
+.compass-strengths > div > p:last-child, .compass-share > div > p:last-child, .compass-retry > div > p:last-child { color: #526d64; line-height: 1.8; }
+.compass-strengths ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 24px 0 0; padding: 0; list-style: none; }
+.compass-strengths li { display: grid; align-content: start; gap: 14px; padding: 20px; border: 1px solid #e0ebe4; border-radius: 16px; background: #fff; line-height: 1.65; }
+.compass-strengths li span { color: #72a58f; font-size: .8rem; font-weight: 700; }
+.compass-share { background: #fff; }
+.compass-share-preview { display: grid; gap: 12px; margin: 24px 0; padding: clamp(24px, 4vw, 40px); border-radius: 18px; color: #173d34; background: radial-gradient(circle at 95% 0%, #d5e9de, transparent 40%), #eef5f2; overflow-wrap: anywhere; }
+.compass-share-preview > span { color: #477d68; font-size: .75rem; font-weight: 700; letter-spacing: .12em; }
+.compass-share-preview > small { color: #59756c; }
+.compass-share-preview > strong { font-size: clamp(1.5rem, 4vw, 2.6rem); line-height: 1.4; }
+.compass-share-preview > p { margin: 6px 0; }
+.compass-share-actions, .compass-retry-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.compass-share-status { min-height: 1.5em; margin: 10px 0 0; color: #526d64; }
+.compass-share-fallback { display: grid; gap: 8px; margin-top: 12px; font-weight: 700; }
+.compass-share-fallback textarea { min-height: 110px; width: 100%; padding: 12px; border: 1px solid #abc6b8; border-radius: 10px; }
+.compass-retry-actions { margin-top: 20px; }
+.compass-context-details { border: 1px solid #dce9e1; border-radius: 20px; padding: 22px clamp(20px, 4vw, 36px); }
+.compass-context-details > summary { color: #173d34; cursor: pointer; font-weight: 700; }
+.compass-context-details > section { margin-top: 32px; }
+@media (max-width: 640px) {
+  .compass-intro-title { grid-template-columns: minmax(0, 1fr) 65px; gap: 8px; }
+  .compass-intro-title h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); }
+  .compass-strengths ul { grid-template-columns: 1fr; }
+  .compass-share-actions, .compass-retry-actions { display: grid; }
+  .compass-share-actions .button, .compass-retry-actions .button { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .career-compass-page .quiz-option { transition: none; } }

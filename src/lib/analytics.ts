@@ -10,6 +10,8 @@ type AnalyticsValue = boolean | number | string;
 type AnalyticsProperties = Record<string, AnalyticsValue | undefined>;
 
 export type AnalyticsEventMap = {
+  career_compass_share: { action: "image_save" | "image_share" | "text_copy"; result: "success" | "unavailable" };
+  career_compass_retry: { action: "review" | "restart" };
   career_compass_preview_view: { source_page: string; cta_location: string; cta_variant: string };
   career_compass_start: { source_page: "career_compass" };
   career_compass_step: { step_number: number; total_steps: number };

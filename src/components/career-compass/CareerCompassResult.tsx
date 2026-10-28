@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import type { Route } from "next";
 import type { MarketValueProfile } from "@/data/career-compass";
 import { officialLinkDisclosureText, type AgentFocus } from "@/data/affiliateLinks";
@@ -6,6 +7,7 @@ import { salaryMethodology } from "@/data/salary-methodology";
 import type { Company } from "@/types/content";
 import { ResultCareerRoute, type ResultCareerRouteStage } from "@/components/career-compass/ResultCareerRoute";
 import { TodayQuest } from "@/components/career-compass/TodayQuest";
+import { CareerShareCard } from "@/components/career-compass/CareerShareCard";
 import { CareerFeedback } from "@/components/career-compass/CareerFeedback";
 import { trackCareerCompassEvent, trackEvent } from "@/lib/analytics";
 
@@ -27,6 +29,7 @@ type CareerCompassResultProps = {
   onCopyConsultMemo: () => void;
   onAgentCtaClick: () => void;
   onRestart: () => void;
+  onReview: () => void;
   onToggleQuest: (id: string) => void;
   powerQuests: PowerQuest[];
   prioritizeLocation: boolean;
@@ -86,6 +89,8 @@ function MarketValueSummary({ profile, rewardGap, showRewardGap }: Pick<CareerCo
 }
 
 function ResultHero({ currentRole, profile }: Pick<CareerCompassResultProps, "currentRole" | "profile">) {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => { headingRef.current?.focus(); }, []);
   const targetRole = profile.reachableRoles[0];
   const resultHeading = currentRole && targetRole
     ? currentRole === targetRole
@@ -95,9 +100,12 @@ function ResultHero({ currentRole, profile }: Pick<CareerCompassResultProps, "cu
 
   return (
     <header className="result-story-hero">
+      <div className="compass-result-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="88"/><circle cx="100" cy="100" r="65"/><path d="M100 12v176M12 100h176M45 45l110 110M155 45 45 155"/><path className="compass-needle" d="m123 66-15 42-42 26 26-42 31-26Z"/><circle cx="100" cy="100" r="5"/></svg>
+      </div>
       <div className="result-story-copy">
-        <p className="result-kicker">今回の整理結果</p>
-        <h2>{resultHeading}</h2>
+        <p className="result-kicker">YOUR CAREER COMPASS ・ 今回の発見</p>
+        <h2 ref={headingRef} tabIndex={-1}>{resultHeading}</h2>
         {profile.summary ? <p className="result-lead">{profile.summary}</p> : null}
         {currentRole && targetRole ? (
           <div className="result-at-a-glance">
@@ -118,7 +126,7 @@ function ResultHero({ currentRole, profile }: Pick<CareerCompassResultProps, "cu
         ) : null}
         <div className="result-hero-actions">
           <a className="button primary" href="#today-quest">今日やることを見る</a>
-          <a className="result-inline-link" href="#result-reasoning">そう整理した理由を見る</a>
+          <a className="result-inline-link" href="#compass-result-details">結果の詳しい情報へ</a>
         </div>
         <small className="result-rule-note">
           回答と静的ルールによる参考整理です。企業評価や選考結果を示すものではありません。
@@ -225,7 +233,7 @@ function CareerRoadmap({ currentRole, profile, roadmap }: Pick<CareerCompassResu
   return <ResultCareerRoute currentRole={currentRole} stages={steps} />;
 }
 
-function ConsultationCTA({ agentFocus, onAgentCtaClick, onRestart, profile }: Pick<CareerCompassResultProps, "agentFocus" | "onAgentCtaClick" | "onRestart" | "profile">) {
+function ConsultationCTA({ agentFocus, onAgentCtaClick, profile }: Pick<CareerCompassResultProps, "agentFocus" | "onAgentCtaClick" | "profile">) {
   return (
     <section className="consultation-cta-result" aria-labelledby="consultation-title">
       <div>
@@ -235,7 +243,7 @@ function ConsultationCTA({ agentFocus, onAgentCtaClick, onRestart, profile }: Pi
       <div className="consultation-cta-actions">
         <Link className="button ghost" href="/career-consultation#job-posting-note">求人票で確認することを整理する</Link>
         <Link className="button primary" href={`/career-agents?focus=${agentFocus}`} onClick={onAgentCtaClick}>相談先の特徴を見る</Link>
-        <button className="button ghost" onClick={onRestart} type="button">回答をやり直す</button>
+
       </div>
       <small className="result-disclosure">{officialLinkDisclosureText}</small>
     </section>
@@ -452,13 +460,21 @@ export function CareerCompassResult(props: CareerCompassResultProps) {
     <div className="quiz-result-shell">
       <article className="career-result-experience">
         <ResultHero currentRole={props.currentRole} profile={props.profile} />
+        <section className="compass-strengths" aria-labelledby="compass-strengths-title">
+          <div><p className="compass-overline">01 / YOUR STRENGTHS</p><h2 id="compass-strengths-title">今の経験から、活かせること。</h2><p>これまで積み重ねてきた経験を、次の仕事につなげるヒントです。</p></div>
+          <ul>{props.profile.strengths.map((strength, index) => <li key={strength}><span>0{index + 1}</span><strong>{strength}</strong></li>)}</ul>
+        </section>
         <div className="career-result-action-feedback">
           <TodayQuest action={props.profile.todayQuest} reason={props.profile.bottlenecks[0]} resultType={props.profile.id} />
           {props.profile.todayQuest ? <CareerFeedback /> : null}
         </div>
-        <ResultReasoning profile={props.profile} />
-        <ExperienceTranslation items={props.profile.semiconductorTranslation} />
         <CareerRoadmap currentRole={props.currentRole} profile={props.profile} roadmap={props.roadmap} />
+        <CareerShareCard role={props.profile.reachableRoles[0] ?? "半導体の仕事"} />
+        <section className="compass-retry" aria-label="回答の見直し">
+          <div><p className="compass-overline">EXPLORE AGAIN</p><h2>別の可能性も、探してみよう。</h2><p>回答を変えると、経験の見せ方や次の一歩を比べられます。</p></div>
+          <div className="compass-retry-actions"><button className="button primary" type="button" onClick={props.onReview}>回答を見直す</button><button className="button ghost" type="button" onClick={props.onRestart}>最初からやり直す</button></div>
+        </section>
+        <details className="compass-context-details" id="compass-result-details"><summary>結果の理由と言い換え例を見る</summary><ResultReasoning profile={props.profile} /><ExperienceTranslation items={props.profile.semiconductorTranslation} /></details>
         <DetailedReportAccordion {...props} />
         <section className="result-section result-related-links" aria-labelledby="result-related-title">
           <div className="result-section-heading">
