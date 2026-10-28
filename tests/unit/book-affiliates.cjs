@@ -152,8 +152,16 @@ for (const product of ['nikkei-industry-map-2027', 'shikiho-industry-map-2027'])
   assert.ok(embedded.frame.srcdoc.includes(`id="msmaflink-${book.id}"`));
   assert.ok(embedded.frame.srcdoc.includes('msmaflink(' + JSON.stringify(book.card) + ')'));
   assert.ok(embedded.frame.srcdoc.includes('https://dn.msmstatic.com/site/cardlink/bundle.js?20220329'));
-  embedded.frameBody.links = [new Link(tracking(amazon))];
+  assert.ok(embedded.frame.srcdoc.includes('<base target="_blank">'), 'Generated links default to opening outside the iframe');
+  embedded.frameBody.links = [new Link(tracking(amazon)), new Link(tracking(rakuten))];
+  for (const link of embedded.frameBody.links) link.target = '_self';
   embedded.loadFrame();
+  for (const [index, retailer] of [amazon, rakuten].entries()) {
+    const link = embedded.frameBody.links[index];
+    assert.equal(link.target, '_blank', 'Explicit same-frame targets must also open outside the iframe');
+    assert.equal(link.href, tracking(retailer), 'Preserve issued affiliate URLs');
+    assert.ok(link.rel.split(' ').includes('noopener'));
+  }
   assert.equal(embedded.status(), 'ready', 'Observe purchase links inside the frame');
   assert.equal(embedded.frame.style.height, '280px');
   assert.equal([...embedded.observers][0].target, embedded.frameBody);

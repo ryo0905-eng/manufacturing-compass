@@ -22,7 +22,7 @@ msmaflink(${JSON.stringify(card)});
 function makeEmbedDocument(id: string, card: object) {
   // The vendor renders only on DOMContentLoaded/load. A fresh document keeps
   // those events available even after scrolling or an App Router navigation.
-  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{margin:0}</style></head><body id="book-embed-${id}"><div id="msmaflink-${id}"></div><script>${makeEmbedScript(card)}</script></body></html>`;
+  return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base target="_blank"><style>body{margin:0}</style></head><body id="book-embed-${id}"><div id="msmaflink-${id}"></div><script>${makeEmbedScript(card)}</script></body></html>`;
 }
 
 export function MoshimoBookLink({ product }: { product: MoshimoBookProduct }) {

@@ -42,6 +42,8 @@ export function observeBookAffiliate(
     for (const link of purchaseRoot.querySelectorAll<HTMLAnchorElement>("a[href]")) {
       if (getBookRetailer(link.getAttribute("href") ?? "", product) === null) continue;
       hasPurchase = true;
+      // Retailers may reject iframe navigation; keep checkout outside the embed.
+      link.target = "_blank";
       const rel = new Set(link.rel.split(/\s+/).filter(Boolean));
       for (const value of ["sponsored", "nofollow", "noopener", "noreferrer"]) rel.add(value);
       link.rel = [...rel].join(" ");
