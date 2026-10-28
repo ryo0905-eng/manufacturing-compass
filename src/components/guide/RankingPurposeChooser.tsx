@@ -13,6 +13,7 @@ export function RankingPurposeChooser({ panels }: { panels: Record<ReaderPurpose
   const [selected, setSelected] = useState<ReaderPurpose | null>(null);
   const current = useRef<ReaderPurpose | null>(null);
   const choices = useRef<HTMLDivElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
   const viewed = useRef(false);
   useEffect(() => {
     if (!choices.current || viewed.current) return;
@@ -22,8 +23,20 @@ export function RankingPurposeChooser({ panels }: { panels: Record<ReaderPurpose
     });
   }, []);
 
+  function showPanel() {
+    panel.current?.focus({ preventScroll: true });
+    panel.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+  }
+
+  useEffect(() => {
+    if (selected) showPanel();
+  }, [selected]);
+
   function select(purpose: ReaderPurpose) {
-    if (current.current === purpose) return;
+    if (current.current === purpose) {
+      showPanel();
+      return;
+    }
     current.current = purpose;
     setSelected(purpose);
     trackRankingPurposeEvent({ action: "select", reader_purpose: purpose });
@@ -38,9 +51,14 @@ export function RankingPurposeChooser({ panels }: { panels: Record<ReaderPurpose
         <span className={styles.cardAction}>{selected === purpose.id ? "案内を表示中" : "案内を見る"}<span aria-hidden="true"> →</span></span>
       </button>)}
     </div>
-    <p className={styles.status} role="status">{selected ? "選んだ目的に合う案内を下に表示しました。" : ""}</p>
-    <div id="ranking-purpose-panel" role="region" aria-labelledby={selected ? `ranking-purpose-${selected}` : "ranking-purpose-title"} hidden={!selected} className={styles.panel}>
+    <div id="ranking-purpose-panel" ref={panel} role="region" aria-labelledby="ranking-purpose-panel-title" tabIndex={-1} hidden={!selected} className={styles.panel}>
+      {selected ? <h3 id="ranking-purpose-panel-title">{rankingPurposes.find(purpose => purpose.id === selected)?.label}の案内</h3> : null}
       {selected ? panels[selected] : null}
+      {selected ? <button type="button" className={styles.back} onClick={() => {
+        const choice = document.getElementById(`ranking-purpose-${selected}`);
+        choice?.focus({ preventScroll: true });
+        choice?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+      }}>← 目的を選び直す</button> : null}
     </div>
   </>;
 }
