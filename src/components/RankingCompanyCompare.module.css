@@ -30,6 +30,7 @@
 .tray .primary:not(:disabled):hover { background: #12559f; }
 .tray button:focus-visible { outline-color: #fff; }
 .reserve { padding-bottom: 200px; }
+:global(body):has(.tray:not([hidden])) { padding-bottom: calc(40dvh + env(safe-area-inset-bottom)); }
 
 .dialog { width: min(1040px,calc(100% - 32px)); max-width: none; max-height: 90dvh; margin: auto; padding: 0; border: 1px solid #c9cdd2; border-radius: 8px; background: #fff; color: #1d1d1f; overflow: hidden; }
 .dialog::backdrop { background: rgb(29 29 31 / 42%); }

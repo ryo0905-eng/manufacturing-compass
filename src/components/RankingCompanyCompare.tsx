@@ -57,10 +57,11 @@ export function RankingCompanyCompareProvider({ children }: { children: ReactNod
       const next = addComparisonCompany(ids, id); setNotice(next.notice);
       if (next.ids.length === ids.length) return;
       clearSharedHash(); setIds(next.ids); setShown(false);
+      try { trackEvent("ranking_compare_add", { company_id: id, source: origin }); } catch { /* Selection remains usable without analytics. */ }
       if (!ids.length) { setSource(origin); emit("selection_start", next.ids, origin); }
     },
     remove(id) { clearSharedHash(); setIds(ids.filter(value => value !== id)); setShown(false); setNotice(""); },
-    open() { if (ids.length === 2) { rememberOpener(); setShown(true); setNotice(""); } },
+    open() { if (ids.length === 2) { rememberOpener(); setShown(true); setNotice(""); try { trackEvent("ranking_compare_execute", { company_a: ids[0], company_b: ids[1], source }); } catch { /* Comparison remains usable without analytics. */ } } },
     close() { setShown(false); },
     example(pair) { rememberOpener(); clearSharedHash(); setIds(pair); setSource("example"); setShown(true); setNotice(""); emit("selection_start", pair, "example"); },
     record(action, destination) { emit(action, ids, source, destination); },

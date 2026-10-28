@@ -13,6 +13,7 @@ export type MetricBarChartItem = {
   value: number;
   href?: Route;
   rank?: number;
+  companyId?: string;
 };
 
 type MetricBarChartProps = {
@@ -56,7 +57,7 @@ export function MetricBarChart({ eyebrow, items, note, title, reference, referen
             <li key={item.label}>
               <span className="salary-bar-chart__rank">{String(item.rank ?? index + 1).padStart(2, "0")}</span>
               <div className="salary-bar-chart__company">
-                <strong>{item.href ? <TrackedInternalLink href={item.href} eventName="article_internal_click" eventProperties={{ source_slug: sourceSlug, destination_path: item.href }}><RankingCompanyName companyId={item.logoId} name={item.label} /></TrackedInternalLink> : <RankingCompanyName companyId={item.logoId} name={item.label} />}</strong>
+                <strong>{item.href ? <TrackedInternalLink href={item.href} eventName={item.companyId ? "ranking_chart_company_click" : "article_internal_click"} eventProperties={{ source_slug: sourceSlug, destination_path: item.href, company_id: item.companyId }}><RankingCompanyName companyId={item.logoId} name={item.label} /></TrackedInternalLink> : <RankingCompanyName companyId={item.logoId} name={item.label} />}</strong>
                 <small className={item.country ? "salary-bar-chart__region" : undefined}>{item.country ? <><CountryRegion country={item.country} /> / </> : null}{item.category}</small>
               </div>
               <div className="salary-bar-chart__track" aria-hidden="true">

@@ -12,7 +12,7 @@ a.card:hover { border-color: #1769aa; }
 .insight > strong { font-size: 34px; }
 .overview .note { margin: 10px 0 0; color: #60666d; font-size: 12px; line-height: 1.7; }
 .note a { margin-left: 8px; color: #1769aa; }
-.explore { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 16px 0 24px; }
+.explore { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; margin: 24px 0; }
 .explore a { display: grid; align-content: start; gap: 8px; border: 1px solid #dce5ee; border-radius: 10px; padding: 14px; background: #fff; text-decoration: none; font-size: 13px; line-height: 1.6; }
 .explore a:hover { border-color: #87afd5; background: #f8fbff; }
 .explore span { color: #60666d; }

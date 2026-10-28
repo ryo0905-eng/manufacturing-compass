@@ -42,7 +42,8 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
   const chartItem = (company: (typeof worldSemiconductorMarketCapRanking)[number], targetScope: "world" | "japan", rank: number) => ({
     category: company.category, displayValue: company.marketCapDisplay, label: company.name,
     logoId: company.companySlug ?? company.id, value: company.marketCapUsdB, rank,
-    href: `#${targetScope}-company-${company.id}` as Route,
+    href: (company.companySlug ? `/companies/${company.companySlug}` : `#${targetScope}-company-${company.id}`) as Route,
+    companyId: company.id,
   });
   const maxValue = Math.max(...companies.map((company) => company.marketCapUsdB), reference?.marketCapUsdB ?? 1);
   const metric = (value: number, display: string, isReference = false) => {
@@ -77,7 +78,6 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
           japan: { items: japanSemiconductorMarketCapRanking.map(company => chartItem(company, "japan", company.domesticRank)), description: `日本企業${japanSemiconductorMarketCapRanking.length}社。`, scale: "順位は国内順位。" },
           all: { items: combined.map(company => chartItem(company, worldIds.has(company.id) ? "world" : "japan", company.rank)), description: `世界上位と日本企業の掲載${combined.length}社（重複を除く）。世界全企業の一覧ではありません。`, scale: "順位は世界順位。" },
         }} />
-        <MarketCapRankingExplore />
         <p className={styles.compareHint}>気になる企業は「＋ 比較」で2社を選択。事業・規模・日本での仕事を並べて確認できます。</p>
       </> : null}
       {unified ? <>
@@ -134,7 +134,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
                   eventProperties={{ company_id: company.companySlug, source_slug: sourceSlug }}
                   href={`/companies/${company.companySlug}` as Route}
                 >{company.name}</TrackedInternalLink> : company.name}
-                {company.englishName !== company.name ? <small>{company.englishName}</small> : null}
+                {!unified && company.englishName !== company.name ? <small>{company.englishName}</small> : null}
               </RankingCompanyName>;
               const companyRow = unified ? (
                 <tr role="row" id={`${scope}-company-${company.id}`} tabIndex={-1}>
@@ -144,9 +144,8 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
                     <dl className={styles.metadata}>
                       <div><dt className={styles.srOnly}>国・地域</dt><dd><CountryRegion country={company.country} /></dd></div>
                       <div><dt className={styles.srOnly}>分類</dt><dd><span aria-hidden="true">·</span>{company.category}</dd></div>
-                      <div><dt className={styles.srOnly}>ティッカー</dt><dd><span aria-hidden="true">·</span>{company.ticker}</dd></div>
                     </dl>
-                    <div className={styles.business}><span className={styles.srOnly}>主な事業：</span>{company.mainBusiness}</div>
+                    <details className={styles.business}><summary>事業・銘柄情報</summary><div>{company.englishName !== company.name ? `${company.englishName} · ` : ""}{company.ticker} · {company.mainBusiness}</div></details>
                   </th>
                   <td role="cell" className={`market-cap-value ${styles.value}`}>{metric(company.marketCapUsdB, company.marketCapDisplay)}</td>
                   <td role="cell" className={styles.compare}><RankingCompareButton id={company.id} source={scope} /></td>
@@ -173,6 +172,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
           </tbody>
         </table>
       </div>
+      {unified && isWorld ? <MarketCapRankingExplore /> : null}
       <small>取得日：{semiconductorMarketCapMeta.retrievedAt.replaceAll("-", ".")}。総合企業の時価総額は、半導体部門だけではなく企業全体の数値です。</small>
       {isWorld && <small>国・地域は本社所在地を基準とし、工場や日本法人の所在地を示すものではありません。</small>}
       <CompanyLogoAttribution />

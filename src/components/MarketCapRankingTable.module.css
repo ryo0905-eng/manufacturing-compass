@@ -74,3 +74,28 @@
   .unified .referenceNote { margin-top: 0; }
   .unified .referenceCompany + .referenceNote { margin-top: 6px; }
 }
+
+/* The company link covers the full chart row, including its bar and value. */
+.overviewChart ol li { position: relative; }
+.overviewChart :global(.salary-bar-chart__company) a::after { content: ""; position: absolute; inset: 0; }
+.overviewChart ol li:hover { background: #f5f9fd; }
+.business summary { width: fit-content; min-height: 44px; display: flex; align-items: center; color: #1769aa; cursor: pointer; font-size: 12px; }
+.business summary::before { content: "+"; margin-right: 4px; }
+.business[open] summary::before { content: "−"; }
+.business summary:focus-visible { outline: 3px solid #1769aa; outline-offset: 2px; }
+@container (width < 600px) {
+  .unified tbody tr { grid-template-columns: 24px minmax(0, 1fr) auto; gap: 2px 8px; padding: 8px 4px; }
+  .unified tr > .company { grid-column: 2; grid-row: 1; }
+  .unified tr > .value { grid-column: 2; grid-row: 2; }
+  .unified tr > .compare { grid-column: 3; grid-row: 1 / 3; }
+  .unified .rank { font-size: 18px; }
+  .unified .company { font-size: 14px; }
+  .unified .metadata { margin-top: 2px; line-height: 1.4; }
+  .unified .business { margin-top: 0; }
+  .unified .business summary { min-height: 44px; }
+  .unified .value strong { font-size: 16px; }
+  .unified .track { margin-top: 3px; }
+  .unified .ratio { margin-top: 2px; }
+  .unified .reference > .company { grid-column: 2 / -1; }
+  .unified .reference > .compare { grid-column: 2 / -1; grid-row: 3; }
+}

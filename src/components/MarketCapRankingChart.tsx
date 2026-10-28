@@ -43,7 +43,7 @@ export function MarketCapRankingChart({ groups, formattedDate, sourceSlug }: Pro
     onClick={() => setExpanded(!expanded)}>{expanded ? "上位10社に戻す" : `掲載${group.items.length}社をすべて見る`} <span aria-hidden="true">{expanded ? "↑" : "↓"}</span></button> : null;
 
   return <MetricBarChart className={styles.overviewChart} eyebrow="Market cap · ranking"
-      title="時価総額の早見グラフ" sourceSlug={sourceSlug} items={items} controls={controls} footer={footer}
+      title={expanded ? "時価総額 早見グラフ" : "時価総額 TOP10 早見グラフ"} sourceSlug={sourceSlug} items={items} controls={controls} footer={footer}
       panelId="market-cap-chart-panel" panelLabelledBy={`market-cap-tab-${scope}`}
-      note={`${formattedDate}基準・米ドル。${group.description} ${group.scale}棒は0から対象内の1位までの共通尺度です。企業名から一覧へ移動できます。`} />;
+      note={`${formattedDate}基準・米ドル。${group.description} ${group.scale}棒は0から対象内の1位までの共通尺度です。企業を選ぶと詳細ページへ移動します。詳細未掲載の企業は一覧へ移動します。`} />;
 }

@@ -34,12 +34,14 @@ export function MarketCapRankingOverview() {
 
 export function MarketCapRankingExplore() {
   const links = [
+    { href: "#ranking-compare-title", title: "気になる企業を並べて調べる", label: "2社を比較する" },
+    { href: "/career-compass", title: "経験と半導体の仕事の接点を探す", label: "キャリアの準備を整理する" },
     { href: "/industry-map", title: "つくる会社と、装置の会社はどう違う？", label: "業界地図で役割を見る" },
     { href: "/semiconductor-watch/earnings", title: "時価総額が大きい会社は、売上も大きい？", label: "掲載決算で売上・利益を見る" },
     ...(isStockMarketAvailable() ? [{ href: "/semiconductor-watch/stocks", title: "株価は今、どう動いている？", label: "株式市場ウォッチを見る" }] : []),
   ];
   return <nav className={styles.explore} aria-label="ランキングから企業理解を深める">
-    {links.map(link => <TrackedInternalLink key={link.href} href={link.href as Route} eventName="article_internal_click" eventProperties={{ source_slug: "semiconductor-market-cap-ranking", destination_path: link.href }}>
+    {links.map(link => <TrackedInternalLink key={link.href} href={link.href as Route} eventName="ranking_related_click" eventProperties={{ source_slug: "semiconductor-market-cap-ranking", destination_path: link.href }}>
       <span>{link.title}</span><strong>{link.label} →</strong>
     </TrackedInternalLink>)}
   </nav>;
