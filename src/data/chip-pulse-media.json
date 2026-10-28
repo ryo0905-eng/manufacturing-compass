@@ -1,100 +1,100 @@
 {
   "schemaVersion": 1,
-  "contentUpdatedAt": "2026-10-27T00:30:30.568Z",
+  "contentUpdatedAt": "2026-10-28T00:33:12.182Z",
   "edition": {
-    "date": "2026-10-27",
-    "start": "2026-10-25T21:00:00.000Z",
-    "end": "2026-10-26T21:00:00.000Z",
+    "date": "2026-10-28",
+    "start": "2026-10-26T21:00:00.000Z",
+    "end": "2026-10-27T21:00:00.000Z",
     "articleIds": []
   },
   "status": {
-    "checkedAt": "2026-10-27T00:30:30.568Z",
-    "lastSuccessfulAt": "2026-10-27T00:30:30.568Z",
+    "checkedAt": "2026-10-28T00:33:12.182Z",
+    "lastSuccessfulAt": "2026-10-28T00:33:12.182Z",
     "state": "success",
     "sources": [
       {
         "id": "amkor",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "entegris",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "ase",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "globalfoundries",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "nvidia",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "amd",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "broadcom",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "micron",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "intel",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "applied-materials",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "lam-research",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "kla",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "tsmc",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       },
       {
         "id": "asml",
         "state": "success",
-        "checkedAt": "2026-10-27T00:30:30.568Z",
-        "lastSuccessfulAt": "2026-10-27T00:30:30.568Z"
+        "checkedAt": "2026-10-28T00:33:12.182Z",
+        "lastSuccessfulAt": "2026-10-28T00:33:12.182Z"
       }
     ],
     "ai": "disabled"
@@ -361,6 +361,24 @@
     }
   ],
   "updates": [
+    {
+      "id": "sec-0001193125-26-434271",
+      "sourceId": "broadcom",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1730168/000119312526434271/d148323d8k.htm",
+      "title": "Broadcomの公式開示（8-K）",
+      "publishedAt": "2026-10-27T20:23:36.000Z",
+      "datePrecision": "instant"
+    },
+    {
+      "id": "sec-0001047127-26-000052",
+      "sourceId": "amkor",
+      "sourceName": "SEC EDGAR",
+      "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1047127/000104712726000052/amkr-20260930.htm",
+      "title": "Amkorの公式開示（10-Q）",
+      "publishedAt": "2026-10-27T19:01:56.000Z",
+      "datePrecision": "instant"
+    },
     {
       "id": "sec-0001628280-26-067303",
       "sourceId": "applied-materials",

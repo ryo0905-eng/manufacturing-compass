@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-27T00:30:30.568Z",
-  "windowStart": "2026-09-27T00:00:00.000Z",
-  "windowEnd": "2026-10-27T00:00:00.000Z",
+  "generatedAt": "2026-10-28T00:33:12.182Z",
+  "windowStart": "2026-09-28T00:00:00.000Z",
+  "windowEnd": "2026-10-28T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -10,6 +10,26 @@
   },
   "errors": [],
   "rows": [
+    {
+      "id": "sec-0001047127-26-000052",
+      "sourceId": "amkor",
+      "publishedAt": "2026-10-27T19:01:56.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0001193125-26-434271",
+      "sourceId": "broadcom",
+      "publishedAt": "2026-10-27T20:23:36.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
     {
       "id": "sec-0001047127-26-000049",
       "sourceId": "amkor",
@@ -155,22 +175,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-28",
-    "end": "2026-10-27",
+    "start": "2026-09-29",
+    "end": "2026-10-28",
     "days": [
-      {
-        "date": "2026-09-28",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-29",
         "candidates": 1,
@@ -547,31 +554,44 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-10-28",
+        "candidates": 2,
+        "deduplicated": 2,
+        "bodies": 2,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-21",
-        "end": "2026-10-27",
+        "start": "2026-10-22",
+        "end": "2026-10-28",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-14",
-        "end": "2026-10-20",
+        "start": "2026-10-15",
+        "end": "2026-10-21",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-07",
-        "end": "2026-10-13",
+        "start": "2026-10-08",
+        "end": "2026-10-14",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-09-30",
-        "end": "2026-10-06",
+        "start": "2026-10-01",
+        "end": "2026-10-07",
         "publishable": 0,
         "fields": []
       }
