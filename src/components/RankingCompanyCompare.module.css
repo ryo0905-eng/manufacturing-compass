@@ -21,9 +21,14 @@
 .remove { flex: 0 0 44px; width: 44px; padding: 0; border: 0; background: transparent; font-size: 20px; }
 .emptySlot { min-height: 50px; border-style: dashed; border-color: #c9cdd2; background: #fafafa; color: #60666d; }
 .small { color: #60666d; font-size: 13px; line-height: 1.6; }
-.tray { position: fixed; bottom: max(12px,env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(780px,calc(100% - 24px)); max-height: 40dvh; overflow-y: auto; box-sizing: border-box; z-index: 45; padding: 12px; background: #fff; border: 1px solid #9cabc0; border-radius: 12px; box-shadow: 0 4px 16px rgb(29 29 31 / 10%); }
+.tray { position: fixed; bottom: max(12px,env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(780px,calc(100% - 24px)); max-height: 40dvh; overflow-y: auto; box-sizing: border-box; z-index: 45; padding: 12px; background: #10213a; border: 1px solid #293f5b; border-radius: 12px; box-shadow: 0 4px 16px rgb(16 33 58 / 20%); }
 .tray[hidden] { display: none; }
-.tray p { margin: 8px 0 0; font-size: 13px; color: #60666d; line-height: 1.5; }
+.tray p { margin: 8px 0 0; font-size: 13px; color: #e1eaf4; line-height: 1.5; }
+.tray .slot { background: #fff; border-color: #fff; }
+.tray .emptySlot { background: #e8eff6; border-color: #c9d7ea; }
+.tray .primary:not(:disabled) { background: #1769c2; border-color: #1769c2; }
+.tray .primary:not(:disabled):hover { background: #12559f; }
+.tray button:focus-visible { outline-color: #fff; }
 .reserve { padding-bottom: 200px; }
 
 .dialog { width: min(1040px,calc(100% - 32px)); max-width: none; max-height: 90dvh; margin: auto; padding: 0; border: 1px solid #c9cdd2; border-radius: 8px; background: #fff; color: #1d1d1f; overflow: hidden; }

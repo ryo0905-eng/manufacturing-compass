@@ -31,7 +31,7 @@
 .unified tr[id]:target { outline: 2px solid #4c72b0; outline-offset: -2px; background: #f3f7fc; }
 .unified tr[id]:focus-visible { outline: 3px solid #1769aa; outline-offset: -3px; }
 .unified .compareHint { padding: 12px 14px; border-left: 3px solid #4c72b0; background: #eef3fa; color: #34383d; font-size: 13px; line-height: 1.7; }
-.unified .overviewChart { margin: 20px 0; padding: 18px 0; border-top-color: #d9e0e8; background: #fff; }
+.unified .overviewChart { margin: 20px 0; padding: 22px; border: 1px solid #dce7f1; border-radius: 12px; background: #fff; }
 .overviewChart figcaption > strong { font-size: 22px; font-weight: 600; }
 .overviewChart figcaption > small { font-size: 12px; }
 .overviewChart ol li { grid-template-columns: 24px minmax(0, 1fr) minmax(0, 1.5fr) 108px; gap: 10px; padding: 5px 0; }
@@ -40,10 +40,11 @@
 .overviewChart :global(.salary-bar-chart__company) a:hover { color: #1769aa; text-decoration: underline; }
 .overviewChart a:focus-visible { outline: 3px solid #1769aa; outline-offset: 2px; }
 .overviewChart :global(.salary-bar-chart__company) > small { display: none; }
-.overviewChart :global(.salary-bar-chart__track) { grid-column: auto; grid-row: auto; height: 20px; background: #f1f3f6; }
-.overviewChart :global(.salary-bar-chart__track) i { background: #4c72b0; }
+.overviewChart :global(.salary-bar-chart__track) { grid-column: auto; grid-row: auto; height: 20px; overflow: hidden; border-radius: 3px; background: #edf3f9; }
+.overviewChart :global(.salary-bar-chart__track) i { background: #398fe5; }
 .overviewChart :global(.salary-bar-chart__value) { grid-column: auto; grid-row: auto; color: #1d1d1f; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
 @container (width < 600px) {
+  .unified .overviewChart { padding: 16px 12px; }
   .overviewChart ol li { grid-template-columns: 20px minmax(0, 1fr) 100px; gap: 2px 8px; padding: 5px 0 8px; }
   .overviewChart :global(.salary-bar-chart__track) { grid-column: 2 / -1; grid-row: 2; height: 12px; }
   .overviewChart :global(.salary-bar-chart__value) { grid-column: 3; grid-row: 1; font-size: 14px; }
