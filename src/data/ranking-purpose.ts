@@ -1,7 +1,7 @@
 export const rankingPurposeContext = {
   source_page: "/guides/semiconductor-market-cap-ranking",
   cta_location: "ranking_after_world",
-  ui_version: "purpose-v2",
+  ui_version: "purpose-v3",
 } as const;
 
 export const rankingPurposes = [
@@ -18,9 +18,9 @@ export const rankingPurposes = [
     id: "career", label: "仕事・転職を考える", description: "仕事内容と、自分の経験との接点を探す",
     image: "/images/guides/ranking-career-v2.webp", tone: "green",
     links: [
-      { id: "career_agents", label: "運営者の利用経験から相談先を比較する", href: "/career-agents" },
-      { id: "career_compass", label: "Career Compassで経験と次の準備を整理する", href: "/career-compass" },
       { id: "role_map", label: "半導体の職種と仕事内容を調べる", href: "/roles" },
+      { id: "career_compass", label: "Career Compassで経験と次の準備を整理する", href: "/career-compass" },
+      { id: "career_agents", label: "運営者の利用経験から相談先を比較する", href: "/career-agents" },
     ],
   },
   {

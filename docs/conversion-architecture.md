@@ -12,7 +12,7 @@
 
 - 企業・業界：業界地図、企業比較、記事後半の業界地図2冊、国内拠点。
 - 株価・業績：株式市場ウォッチ、決算・IR、業績比較。
-- 仕事・転職：メーカーズジョブ、JAC Recruitment、半導体Jobエージェントの順で、相談テーマ・対象者の目安・広告を表示。並びは推奨順位ではない。相談先比較とCareer Compass、職種マップも案内する。
+- 仕事・転職：職種マップ、Career Compass、相談先比較を先に案内し、その後にメーカーズジョブ、JAC Recruitment、半導体Jobエージェントの相談テーマ・対象者の目安・広告を表示する。並びは推奨順位ではない。
 - 技術・データ分析：工程解説、工程体験、実務ツール。
 
 世界表直後の旧書籍入口と、2社比較後の独立した「次に調べること」はこの枠へ統合する。既存 `#research-next` は新枠に保持し、後半の企業研究4ステップ・書籍紹介本体、ランキング値・出典・URL・SEOメタデータを維持する。下記2026-10-25のランキング配置は旧仕様であり、本節が置き換える。CompanyExplorer等の既存導線は継続する。
@@ -38,7 +38,7 @@
 | 同 / `related_click` | 選択後の内部案内リンク。`reader_purpose`と固定`destination_id` |
 | `affiliate_outbound_click` | 3社の広告リンクのみ。既存`agent_id`、`reader_purpose=career` |
 
-共通値は `source_page=/guides/semiconductor-market-cap-ranking`、`cta_location=ranking_after_world`、`ui_version=purpose-v2`。JavaScript無効時は計測しない。既存広告コンポーネントの省略時の`career_agents` / `affiliate_creative`は維持する。
+共通値は `source_page=/guides/semiconductor-market-cap-ranking`、`cta_location=ranking_after_world`、`ui_version=purpose-v3`。2026-10-28のv3は仕事・転職の内部リンクを広告より前に置く変更であり、v2とは分けて集計する。本番反映と受信は未確認。JavaScript無効時は計測しない。既存広告コンポーネントの省略時の`career_agents` / `affiliate_creative`は維持する。
 
 GA4はイベントスコープの既存action・source_page・cta_location・ui_version・agent_idを再利用し、reader_purpose・destination_idだけを追加する。[Google公式のイベントパラメータ説明](https://developers.google.com/analytics/devguides/collection/ga4/event-parameters)。受信と探索での属性利用開始には差があり、設定保存を受信確認とは扱わない。
 

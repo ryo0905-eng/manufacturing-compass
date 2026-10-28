@@ -26,7 +26,7 @@
 .links a { display: inline-flex; align-items: center; min-height: 44px; line-height: 1.7; text-underline-offset: .2em; }
 .agents { display: grid; gap: 1rem; }
 .agents article { display: flex; flex-direction: column; min-width: 0; padding: 1rem; border: 1px solid #dbe3e9; border-radius: 12px; background: #fff; overflow-wrap: anywhere; }
-.agents h3 { margin: 0 0 .5rem; }
+.agents h5 { margin: 0 0 .5rem; font-size: 1rem; }
 .agents dl { display: grid; gap: .65rem; margin: .75rem 0; }
 .agents dt { font-size: .8rem; font-weight: 700; color: #475569; }
 .agents dd { margin: .2rem 0 0; font-size: .9rem; line-height: 1.7; }
