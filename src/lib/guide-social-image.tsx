@@ -1,3 +1,4 @@
+import { semiconductorMarketCapMeta, worldSemiconductorMarketCapRanking } from "@/data/semiconductor-market-cap";
 import { ImageResponse } from "next/og";
 import { guideCategoryDetails } from "@/content/guides/categories";
 import { getGuideBySlug } from "@/data/editorial";
@@ -15,8 +16,14 @@ const careerSteps = [
   ["03", "NEXT ACTION", "次の準備を決める"],
 ] as const;
 
+export function getRankingSocialData() {
+  const [year, month, day] = semiconductorMarketCapMeta.dataAsOf.split("-");
+  return { date: `${year}年${Number(month)}月${Number(day)}日`, companies: worldSemiconductorMarketCapRanking.slice(0, 5).map(({ rank, name, marketCapDisplay }) => ({ rank, name, marketCapDisplay })) };
+}
+
 export function createGuideSocialImage(slug: string) {
   const guide = getGuideBySlug(slug);
+  const ranking = slug === "semiconductor-market-cap-ranking" ? getRankingSocialData() : undefined;
   const isProcessGuide = guide?.category === "technology";
   const steps: ReadonlyArray<readonly [string, string, string]> = isProcessGuide ? processSteps : careerSteps;
   const title = guide?.title ?? "製造業経験を半導体キャリアへ";
@@ -78,10 +85,10 @@ export function createGuideSocialImage(slug: string) {
           }}
         >
           <div style={{ display: "flex", marginBottom: 22, color: "#85ddec", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em" }}>
-            {isProcessGuide ? "PROCESS FLOW" : "CAREER GUIDE"}
+            {ranking ? "WORLD TOP 5" : isProcessGuide ? "PROCESS FLOW" : "CAREER GUIDE"}
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {steps.map(([number, label, detail], index) => (
+            {ranking ? <>{ranking.companies.map(company => <div key={company.rank} style={{ display: "flex", flexDirection: "column", marginBottom: 16 }}><strong style={{ display: "flex", fontSize: 17 }}>{company.rank}. {company.name}</strong><span style={{ display: "flex", color: "#b8e4eb", fontSize: 14 }}>{company.marketCapDisplay}</span></div>)}<span style={{ display: "flex", fontSize: 12, color: "#b8e4eb" }}>{ranking.date}基準</span></> : steps.map(([number, label, detail], index) => (
               <div key={number} style={{ position: "relative", display: "flex", minHeight: isProcessGuide ? 86 : 105 }}>
                 {index < steps.length - 1 ? <span style={{ position: "absolute", top: 29, bottom: 0, left: 13, display: "flex", width: 1, background: "rgba(110, 231, 168, 0.34)" }} /> : null}
                 <span style={{ zIndex: 1, display: "flex", width: 28, height: 28, flexShrink: 0, alignItems: "center", justifyContent: "center", border: "1px solid rgba(110, 231, 168, 0.7)", background: "#0f4450", color: "#6ee7a8", fontSize: 9, fontWeight: 700 }}>

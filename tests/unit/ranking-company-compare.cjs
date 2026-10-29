@@ -112,6 +112,24 @@ for (const word of ['世界TOP30の時価総額ランキング', '日本18社の
 // The world overview includes ten ranked issuers; Toyota remains an unranked reference only.
 const overviewFigure = withReference.match(/<figure\b[^>]*>[\s\S]*?<\/figure>/g) || [];
 assert.equal(overviewFigure.length, 1);
+assert.match(overviewFigure[0], /aria-pressed="true"[^>]*>棒グラフ/);
+assert.match(overviewFigure[0], /aria-pressed="false"[^>]*>ツリーマップ/);
+assert.ok(!overviewFigure[0].includes('<svg class="treemap"'));
+const { layoutTreemap } = load('src/lib/treemap-layout');
+for (const input of [[9, 4, 3, 2, 1], data.worldSemiconductorMarketCapRanking.map(c => c.marketCapUsdB), [1], []]) {
+  const rects = layoutTreemap(input.map((value, id) => ({ id: String(id), value })), 900, 500);
+  assert.equal(rects.length, input.length);
+  if (input.length) assert.ok(Math.abs(rects.reduce((sum, r) => sum + r.width * r.height, 0) - 450000) < 1e-6);
+  for (const [i, r] of rects.entries()) {
+    assert.ok(r.x >= -1e-8 && r.y >= -1e-8 && r.x + r.width <= 900 + 1e-8 && r.y + r.height <= 500 + 1e-8);
+    assert.ok(Math.abs(r.width * r.height / 450000 - input[Number(r.id)] / input.reduce((a, b) => a + b, 0)) < 1e-10);
+    for (const other of rects.slice(i + 1)) assert.ok(Math.min(r.x + r.width, other.x + other.width) - Math.max(r.x, other.x) < 1e-8 || Math.min(r.y + r.height, other.y + other.height) - Math.max(r.y, other.y) < 1e-8);
+  }
+}
+const social = load('src/lib/guide-social-image').getRankingSocialData();
+assert.equal(social.companies.length, 5);
+assert.equal(social.companies[0].name, 'NVIDIA');
+assert.equal(social.date, '2026年10月16日');
 assert.equal((overviewFigure[0].match(/<li\b/g) || []).length, 10);
 assert.ok(!overviewFigure[0].includes('トヨタ自動車'));
 for (const company of data.worldSemiconductorMarketCapRanking.slice(0, 10)) {
@@ -334,6 +352,14 @@ for(const e of events){assert.ok(['ranking_company_compare','ranking_compare_add
   assert.equal((rankingContent.match(/href="#industry-map-books"/g) || []).length, 1);
 
   const schemas = [...rendered.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+  const lists = schemas.filter(schema => schema['@type'] === 'ItemList');
+  assert.equal(lists.length, 2);
+  for (const [index, count, scope] of [[0, 30, 'world'], [1, 18, 'japan']]) {
+    assert.equal(lists[index].itemListElement.length, count);
+    assert.deepEqual(lists[index].itemListElement.map(item => item.position), Array.from({length: count}, (_, i) => i + 1));
+    for (const item of lists[index].itemListElement) assert.ok(item.url.includes(`#${scope}-company-`));
+  }
+  assert.equal(lists[0].itemListElement[0].name, 'NVIDIA');
   const article = schemas.find(schema => schema['@type'] === 'Article');
   assert.equal(article.dateModified, guide.updatedAt);
   assert.equal(article.headline, guide.title);

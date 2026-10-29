@@ -18,7 +18,7 @@ import { ResearchNavigation } from "@/components/ResearchNavigation";
 import { researchPages } from "@/data/research-navigation";
 import { getPublishedEnglishTranslation } from "@/content/guides/en";
 import { semiconductorMarketCapRankingHero, semiconductorMarketCapRankingSectionAliases } from "@/content/guides/semiconductor-market-cap-ranking";
-import { semiconductorMarketCapMeta } from "@/data/semiconductor-market-cap";
+import { semiconductorMarketCapMeta, worldSemiconductorMarketCapRanking, japanSemiconductorMarketCapRanking } from "@/data/semiconductor-market-cap";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
 import { companies } from "@/data/companies";
@@ -114,6 +114,10 @@ export default async function GuidePage({ params }: GuidePageProps) {
       <StructuredData data={{ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, author: { "@type": guide.author === "RYO" ? "Person" : "Organization", name: guide.author }, publisher: { "@type": "Organization", name: "Manufacturing Compass" }, datePublished: guide.publishedAt, dateModified: guide.updatedAt, citation: guide.sources.map((source) => source.url), mainEntityOfPage: `${siteUrl}/guides/${guide.slug}`, inLanguage: "ja", isPartOf: processSeriesIndex >= 0 ? { "@type": "CreativeWorkSeries", name: "半導体製造工程シリーズ", url: `${siteUrl}/guides#process-series-title` } : undefined, position: processSeriesIndex >= 0 ? processSeriesIndex + 1 : undefined }} />
       <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl }, { "@type": "ListItem", position: 2, name: "記事・読みもの", item: `${siteUrl}/guides` }, { "@type": "ListItem", position: 3, name: guide.title, item: `${siteUrl}/guides/${guide.slug}` }] }} />
       {faqItems.length > 0 ? <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }} /> : null}
+      {isMarketCapRanking ? <>
+        <StructuredData data={{ "@context": "https://schema.org", "@type": "ItemList", name: "半導体メーカー世界ランキング（時価総額）", itemListElement: worldSemiconductorMarketCapRanking.map(company => ({ "@type": "ListItem", position: company.rank, name: company.name, url: `${siteUrl}/guides/${guide.slug}#world-company-${company.id}` })) }} />
+        <StructuredData data={{ "@context": "https://schema.org", "@type": "ItemList", name: "半導体メーカー日本ランキング（時価総額）", itemListElement: japanSemiconductorMarketCapRanking.map(company => ({ "@type": "ListItem", position: company.domesticRank, name: company.name, url: `${siteUrl}/guides/${guide.slug}#japan-company-${company.id}` })) }} />
+      </> : null}
       <article className="article-layout">
         <header className="article-hero">
           {getPublishedEnglishTranslation(guide.slug) ? <GuideLanguageLink slug={guide.slug} locale="ja" /> : null}

@@ -5,6 +5,7 @@ import { RankingCompareButton } from "@/components/RankingCompanyCompare";
 import type { Route } from "next";
 import { Fragment } from "react";
 import { MetricBarChart } from "@/components/MetricBarChart";
+import { layoutTreemap } from "@/lib/treemap-layout";
 import { MarketCapRankingChart } from "@/components/MarketCapRankingChart";
 import { MarketCapRankingExplore } from "@/components/MarketCapRankingOverview";
 import { RankingCompanyName } from "@/components/RankingCompanyName";
@@ -49,6 +50,18 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
     href: (company.companySlug ? `/companies/${company.companySlug}` : `#${targetScope}-company-${company.id}`) as Route,
     companyId: company.id,
   });
+  const treemap = (items: ReturnType<typeof chartItem>[]) => {
+    const total = items.reduce((sum, item) => sum + item.value, 0);
+    const byId = new Map(items.map(item => [item.companyId, item]));
+    return layoutTreemap(items.map(item => ({ id: item.companyId, value: item.value })), 900, 500).map(rect => {
+      const item = byId.get(rect.id)!;
+      return { ...rect, name: item.label, displayValue: item.displayValue, share: `${(item.value / total * 100).toFixed(1)}%`, href: item.href,
+        labelLevel: rect.width >= 150 && rect.height >= 56 ? 2 as const : rect.width >= 84 && rect.height >= 36 ? 1 as const : 0 as const };
+    });
+  };
+  const worldChartItems = worldSemiconductorMarketCapRanking.map(company => chartItem(company, "world", company.rank));
+  const japanChartItems = japanSemiconductorMarketCapRanking.map(company => chartItem(company, "japan", company.domesticRank));
+  const allChartItems = combined.map(company => chartItem(company, worldIds.has(company.id) ? "world" : "japan", company.rank));
   const maxValue = Math.max(...companies.map((company) => company.marketCapUsdB), reference?.marketCapUsdB ?? 1);
   const metric = (value: number, display: string, isReference = false) => {
     const ratio = reference ? (value / reference.marketCapUsdB).toFixed(1) : undefined;
@@ -78,9 +91,9 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
       <p className="market-cap-caution">時価総額は株価や為替レートによって変動します。本ランキングは上記基準日時点の参考値です。</p>
       {unified && isWorld ? <>
         <MarketCapRankingChart sourceSlug={sourceSlug} formattedDate={formattedDate} groups={{
-          world: { items: worldSemiconductorMarketCapRanking.map(company => chartItem(company, "world", company.rank)), description: `世界上位${worldSemiconductorMarketCapRanking.length}社。`, scale: "順位は世界順位。" },
-          japan: { items: japanSemiconductorMarketCapRanking.map(company => chartItem(company, "japan", company.domesticRank)), description: `日本企業${japanSemiconductorMarketCapRanking.length}社。`, scale: "順位は国内順位。" },
-          all: { items: combined.map(company => chartItem(company, worldIds.has(company.id) ? "world" : "japan", company.rank)), description: `世界上位と日本企業の掲載${combined.length}社（重複を除く）。世界全企業の一覧ではありません。`, scale: "順位は世界順位。" },
+          world: { items: worldChartItems, rectangles: treemap(worldChartItems), description: `世界上位${worldSemiconductorMarketCapRanking.length}社。`, scale: "順位は世界順位。" },
+          japan: { items: japanChartItems, rectangles: treemap(japanChartItems), description: `日本企業${japanSemiconductorMarketCapRanking.length}社。`, scale: "順位は国内順位。" },
+          all: { items: allChartItems, rectangles: treemap(allChartItems), description: `世界上位と日本企業の掲載${combined.length}社（重複を除く）。世界全企業の一覧ではありません。`, scale: "順位は世界順位。" },
         }} />
         <p className={styles.compareHint}>気になる企業は「＋ 比較」で2社を選択。事業・規模・日本での仕事を並べて確認できます。</p>
       </> : null}

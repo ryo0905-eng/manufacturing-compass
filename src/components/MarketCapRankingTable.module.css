@@ -116,3 +116,9 @@
   .unified .reference > .change { grid-column: 2; grid-row: 3; }
   .unified .reference > .compare { grid-row: 4; }
 }
+
+.viewToggle { display: flex; gap: 8px; margin: 12px 0; }
+.viewToggle button { border: 1px solid #b8cce0; border-radius: 6px; background: #fff; color: #145db7; padding: 6px 12px; cursor: pointer; }
+.viewToggle button[aria-pressed="true"] { background: #145db7; color: #fff; }
+.treemap { display: block; width: 100%; height: auto; }
+.treemapLink:hover rect, .treemapLink:focus-visible rect { stroke: #145db7; stroke-width: 4px; }
