@@ -57,18 +57,13 @@ export function ToolsLearningLab() {
   return <>
     <nav className="tools-breadcrumb" aria-label="パンくず"><Link href="/">ホーム</Link><span aria-hidden="true">/</span><span>学習ツール</span></nav>
     <section className="tools-lab-hero">
-      <div className="tools-lab-hero__copy"><p className="tools-eyebrow"><span aria-hidden="true" />無料・登録不要の計算・学習ツール</p><h1>製造技術を、計算して、<br />動かして理解する。</h1><p>品質管理・統計手法と現場改善を、数値やグラフを動かしながら学び、試せます。</p><div className="tools-hero-actions"><a className="tools-primary-cta" href="#tool-finder">困りごとから選ぶ <span aria-hidden="true">↓</span></a><a className="tools-secondary-cta" href="#tool-lab">{tools.length}個のツールを見る</a><Link className="tools-secondary-cta" href="/games/palm-fab">工場ゲームで遊ぶ →</Link></div></div>
+      <div className="tools-lab-hero__copy"><p className="tools-eyebrow"><span aria-hidden="true" />無料・登録不要の計算・学習ツール</p><h1>製造技術を、計算して、<br />動かして理解する。</h1><p>品質管理・統計手法と現場改善を、数値やグラフを動かしながら学び、試せます。</p><div className="tools-hero-actions"><a className="tools-primary-cta" href="#tool-finder">困りごとから選ぶ <span aria-hidden="true">↓</span></a><a className="tools-secondary-cta" href="#tool-lab">{tools.length}個のツールを見る</a><Link className="tools-secondary-cta" href="/tools/navigator" onClick={() => trackEvent("tool_card_click", { tool_name: "Tool Navigator", source_section: "tools_hero", device_type: deviceType() })}>ソフトウェアを探して比較 →</Link><Link className="tools-secondary-cta" href="/games/palm-fab">工場ゲームで遊ぶ →</Link></div></div>
       <div className="tools-flow-visual" aria-label="測定、安定性、能力、改善の4段階"><span>測定</span><i>→</i><span>安定性</span><i>→</i><span>能力</span><i>→</i><span>改善</span><small>DATA → DECISION → ACTION</small></div>
     </section>
 
     <aside className="tools-game-entry">
       <div><p className="section-label">COZY FACTORY GAME</p><h2>手のひら半導体工場</h2><p>小さな工場で加工・洗浄・検査の流れを眺め、たまったケースを見つけて装置を強化。出荷が増えていく様子を楽しむ、登録不要のブラウザゲームです。</p></div>
       <Link href="/games/palm-fab">手のひら半導体工場で遊ぶ <span aria-hidden="true">→</span></Link>
-    </aside>
-
-    <aside className="tools-game-entry">
-      <div><p className="section-label">TOOL NAVIGATOR</p><h2>製造データのソフトウェアを比較する</h2><p>歩留まり・工程能力・データ基盤の課題から候補を探し、製品の役割と導入条件を整理します。</p></div>
-      <Link href="/tools/navigator">Tool Navigatorを開く <span aria-hidden="true">→</span></Link>
     </aside>
 
     <ToolFinder />

@@ -41,6 +41,7 @@ export function buildSiteSearchIndex(): SiteSearchEntry[] {
       id: `tool:${tool.id}`, kind: "tool", title: tool.title, description: tool.description,
       href: tool.href as Route, keywords: [...(toolAliases[tool.id] ?? []), tool.role, ...tool.features],
     })),
+    { id: "tool:tool-navigator", kind: "tool", title: "Tool Navigator｜ソフトウェアを探して比較", description: siteLinks.tool_navigator.description, href: siteLinks.tool_navigator.href, keywords: [...siteLinks.tool_navigator.keywords] },
     ...Object.entries(siteLinks).filter(([id]) => id !== "search").map(([id, link]): SiteSearchEntry => ({
       id: `page:${id}`, kind: "page", title: link.label, description: link.description,
       href: link.href, keywords: [...link.keywords],

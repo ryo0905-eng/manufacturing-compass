@@ -77,7 +77,10 @@ for (const entry of entries) {
   assert.ok(entry.title && entry.description && entry.href.startsWith('/'));
 }
 assert.equal(entries.filter(entry => entry.kind === 'article').length, beginnerGuides.length);
-assert.equal(entries.filter(entry => entry.kind === 'tool').length, learningTools.length);
+assert.equal(entries.filter(entry => entry.kind === 'tool').length, learningTools.length + 1);
+assert.ok(searchSiteEntries(entries, 'Tool Navigator', 'tool').some(entry => entry.href === '/tools/navigator'));
+assert.ok(searchSiteEntries(entries, 'ソフトウェア選定', 'tool').some(entry => entry.href === '/tools/navigator'));
+assert.equal(entries.filter(entry => entry.href === '/tools/navigator').length, 1);
 assert.equal(entries.filter(entry => entry.kind === 'company').length, buildAtlasCompanies(buildDirectoryCompanies(companies, [], [])).length);
 for (const entry of entries.filter(entry => entry.kind === 'company')) {
   const company = companies.find(company => `company:${company.id}` === entry.id);

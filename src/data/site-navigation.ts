@@ -6,6 +6,7 @@ export const siteLinks = {
   process_series: { href: "/guides#process-series-title", label: "工程の記事シリーズ", description: "半導体ができるまでを、全体像から工程順に読みます。", keywords: ["製造工程", "前工程", "後工程"] },
   semiconductor_process: { href: "/tools/semiconductor-process", label: "工程の体験", description: "ウエハから製品までの加工の変化を、動く図で確かめます。", keywords: ["工程図鑑", "半導体ができるまで"] },
   tools: { href: "/tools", label: "実務ツール", description: "品質管理・統計・工程改善のツールを、今の用事から選びます。", keywords: ["計算", "学習", "品質", "統計"] },
+  tool_navigator: { href: "/tools/navigator", label: "ソフトウェアを探して比較", description: "歩留まり分析や工程能力、データ基盤に使うソフトウェアを探し、比較します。", keywords: ["Tool Navigator", "ツールナビゲーター", "ソフトウェア選定", "JMP", "Minitab", "Power BI"] },
   rankings: { href: "/#home-rankings", label: "ランキング", description: "時価総額、装置売上、メモリ、平均年収などの比較へ進みます。", keywords: ["順位", "企業規模", "年収"] },
   industry_map: { href: "/industry-map", label: "業界地図・企業一覧", description: "半導体企業の役割と、製品・職種とのつながりを調べます。", keywords: ["メーカー", "企業研究", "業界構造"] },
   compare: { href: "/compare", label: "企業比較", description: "気になる2社の事業とキャリア準備を同じ軸で比べます。", keywords: ["企業研究", "違い"] },
@@ -25,7 +26,7 @@ export const siteLinks = {
 export type SiteLinkId = keyof typeof siteLinks;
 
 export const siteNavigationGroups = [
-  { id: "technology", label: "技術を学ぶ", menuLabel: "技術を学ぶ", purpose: "technology", linkIds: ["process_series", "semiconductor_process", "tools"], journeyIds: ["process_series", "semiconductor_process", "tools"] },
+  { id: "technology", label: "技術を学ぶ", menuLabel: "技術を学ぶ", purpose: "technology", linkIds: ["process_series", "semiconductor_process", "tools", "tool_navigator"], journeyIds: ["process_series", "semiconductor_process", "tools", "tool_navigator"] },
   { id: "industry", label: "企業・業界を調べる", menuLabel: "企業・業界", purpose: "industry", linkIds: ["rankings", "industry_map", "compare", "semiconductor_watch", "industry_guides"], journeyIds: ["rankings", "industry_map", "compare"] },
   { id: "factories", label: "工場・拠点を探す", menuLabel: "工場・拠点", purpose: "industry", linkIds: ["semiconductor_map", "factory_projects"], journeyIds: ["semiconductor_map", "factory_projects"] },
   { id: "career", label: "仕事・キャリアを考える", menuLabel: "仕事・キャリア", purpose: "career", linkIds: ["roles", "career_priorities", "career_consultation", "career_guides"], journeyIds: ["roles", "career_compass", "career_priorities"] },
