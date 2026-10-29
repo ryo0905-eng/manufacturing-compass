@@ -85,6 +85,6 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
       ] }],
     },
   ],
-  relatedGuideSlugs: ["semiconductor-equipment-manufacturers", "semiconductor-market-cap-ranking", "semiconductor-manufacturing-process"],
+  relatedGuideSlugs: ["semiconductor-equipment-manufacturers", "semiconductor-market-cap-ranking", "semiconductor-manufacturing-process", "memory-manufacturer-ranking", "semiconductor-market-cap-growth-ranking"],
   relatedCompanyIds: ["tokyo-electron", "screen", "advantest", "asml", "applied-materials", "lam-research", "kla", "teradyne"],
 };

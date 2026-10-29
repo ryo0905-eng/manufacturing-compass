@@ -51,6 +51,6 @@ export default function StockMarketPage() {
       <li>価格は外部ウィジェット内だけに表示し、当サイトでは収集・保存・再配信・独自集計していません。</li>
       <li><a href={stockMarketMeta.sources.data} target="_blank" rel="noopener noreferrer">TradingViewのデータ提供範囲・遅延について ↗</a></li>
       <li><a href={stockMarketMeta.sources.performance} target="_blank" rel="noopener noreferrer">期間別パフォーマンスの公式機能説明 ↗</a></li>
-    </ul><p className={styles.fine}><Link href="/semiconductor-watch/earnings">主要企業の決算を読む →</Link>{" · "}<Link href="/industry-map">業界地図で役割を見る →</Link></p></section>
+    </ul><p className={styles.fine}><Link href="/semiconductor-watch/earnings">主要企業の決算を読む →</Link>{" · "}<Link href="/industry-map">業界地図で役割を見る →</Link>{" · "}<Link href="/guides/semiconductor-market-cap-ranking">半導体メーカーの時価総額ランキング →</Link></p></section>
   </div></div></main>;
 }

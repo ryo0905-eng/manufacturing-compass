@@ -82,6 +82,6 @@ export const memoryManufacturerRankingGuide: GuideArticle = {
       ] }],
     },
   ],
-  relatedGuideSlugs: ["optical-semiconductor-manufacturers", "semiconductor-market-cap-ranking", "semiconductor-equipment-sales-ranking"],
+  relatedGuideSlugs: ["optical-semiconductor-manufacturers", "semiconductor-market-cap-ranking", "semiconductor-equipment-sales-ranking", "semiconductor-market-cap-growth-ranking", "semiconductor-salary-ranking"],
   relatedCompanyIds: ["micron", "kioxia", "samsung-electronics", "sk-hynix"],
 };

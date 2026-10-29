@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AffiliateCta } from "@/components/AffiliateCta";
 import { rankings } from "@/data/editorial";
+import { homeRankingLinks } from "@/data/home";
 
 export const metadata: Metadata = {
   title: "経験別に探す半導体企業",
@@ -30,6 +31,18 @@ export default function RankingsPage() {
             <small>{ranking.criteria.join(" / ")}</small>
           </Link>
         ))}
+      </section>
+
+      <section aria-labelledby="ranking-comparisons">
+        <h2 id="ranking-comparisons">ランキングで比べる</h2>
+        <div className="article-grid">
+          {homeRankingLinks.map((item) => (
+            <Link className="article-card" href={item.href} key={item.id}>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <AffiliateCta title="企業リストを見た後、狙い方を相談する" />

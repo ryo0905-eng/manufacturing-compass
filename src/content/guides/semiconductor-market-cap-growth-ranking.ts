@@ -85,6 +85,9 @@ export const semiconductorMarketCapGrowthRankingGuide: GuideArticle = {
         items: [
           { label: "半導体企業の時価総額ランキング", href: "/guides/semiconductor-market-cap-ranking", description: "基準日時点の世界TOP30・日本18社を確認する" },
           { label: "時価総額ランキングの長期推移", href: "/tools/ranking-time-machine", description: "年末値をもとに2010〜2025年の変化を見る" },
+          { label: "半導体製造装置メーカーの売上高ランキング", href: "/guides/semiconductor-equipment-sales-ranking", description: "装置売上高でメーカーを比較する" },
+          { label: "メモリメーカーランキング｜DRAM・NANDの売上シェア", href: "/guides/memory-manufacturer-ranking", description: "製品市場別の売上シェアを比較する" },
+          { label: "半導体企業の平均年収ランキング", href: "/guides/semiconductor-salary-ranking", description: "企業が公表した平均年収と集計条件を確認する" },
           { label: "半導体業界地図", href: "/industry-map", description: "企業の事業領域や業界内の役割を調べる" },
           { label: "半導体株式市場ウォッチ", href: "/semiconductor-watch/stocks", description: "掲載企業の株価チャートや関連記事を見る" },
         ],

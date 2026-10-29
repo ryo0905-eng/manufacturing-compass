@@ -2,6 +2,7 @@ import { japanCompanies } from '@/data/ranking-japan';
 import { referenceCompanies } from '@/data/ranking-reference';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { TrackedInternalLink } from '@/components/TrackedInternalLink';
 import { StructuredData } from '@/components/StructuredData';
 import { Notice } from '@/components/ui/Controls';
 import { RankingTimeMachine } from '@/components/ranking-time-machine/RankingTimeMachine';
@@ -73,6 +74,15 @@ export default function RankingTimeMachinePage() {
         <p>CompaniesMarketCapの年末データをもとに、Manufacturing Compassが比較対象の選定・可視化・解説を作成しました。数値は将来の株価や採用を予測するものではありません。</p>
         <p>ロゴは企業識別のための参考表示です。各年当時のロゴを再現したものではありません。画像は各社の出典ページ経由で取得した<a href="https://companieslogo.com/">CompaniesLogo</a>由来のもので、権利は各権利者に帰属します。2010〜2015年のAvagoには現在のBroadcomロゴを表示していません。</p>
       </section>
+      <nav className="tool-related-links" aria-label="関連ガイド">
+        <h2>関連ガイド</h2>
+        {[
+          { href: '/guides/semiconductor-market-cap-ranking', label: '半導体企業の時価総額ランキング' },
+          { href: '/guides/japan-semiconductor-market-cap-history', label: '日本の半導体関連10社の時価総額推移' },
+          { href: '/guides/nvidia-intel-market-cap-history', label: 'NVIDIAとIntelの時価総額推移' },
+          { href: '/guides/semiconductor-market-cap-growth-ranking', label: '時価総額の増加率・増加額を見る' },
+        ].map(item => <TrackedInternalLink key={item.href} href={item.href} eventName="tool_related_content_click" eventProperties={{ tool_id: 'ranking-time-machine', destination_path: item.href }}>{item.label} →</TrackedInternalLink>)}
+      </nav>
     </article>
   </main>;
 }
