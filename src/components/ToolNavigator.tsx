@@ -1,0 +1,73 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { comparisonFields, features, goals, products, productSources, stages, type ComparisonField, type Environment, type Product, type Skill, type Volume } from "@/data/tool-navigator";
+import { findCandidates, initialState, parseNavigatorState, serializeNavigatorState, type NavigatorState } from "@/lib/tool-navigator";
+import { trackEvent } from "@/lib/analytics";
+import styles from "./ToolNavigator.module.css";
+
+type View = "conditions" | "results" | "comparison" | "map";
+function track(name: string, props: Record<string, string | number> = {}) { try { trackEvent(name, props); } catch { /* The workspace remains usable without analytics. */ } }
+function toggle<T>(items: T[], item: T): T[] { return items.includes(item) ? items.filter(value => value !== item) : [...items, item]; }
+function ProductDetails({ product, onSelect, selected, disabled }: { product: Product; onSelect: () => void; selected: boolean; disabled: boolean }) {
+  const alternatives = products.filter(p => p.id !== product.id && p.stages.some(stage => product.stages.includes(stage)));
+  const complements = products.filter(p => p.id !== product.id && !p.stages.some(stage => product.stages.includes(stage)));
+  return <div className={styles.detail}><div className={styles.detailHead}><div><span className={styles.eyebrow}>製品の役割</span><h3>{product.name}</h3></div><button type="button" disabled={disabled} onClick={onSelect}>{selected ? "比較から外す" : "＋ 比較に追加"}</button></div><p>{product.summary}</p><dl><div><dt>強み</dt><dd>{product.strength}</dd></div><div><dt>導入時の確認</dt><dd>{product.limitation}</dd></div><div><dt>同じ領域の代替候補</dt><dd>{alternatives.map(p => p.name).join("、") || "掲載なし"}</dd></div><div><dt>別領域の補完候補</dt><dd>{complements.map(p => p.name).join("、") || "掲載なし"}</dd></div></dl><p className={styles.note}>役割の重なりによる案内です。製品間の接続や互換性を保証するものではありません。</p><div className={styles.sources}>{[{ label: product.sourceLabel, url: product.source }, ...(productSources[product.id] ?? [])].map(source => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer" onClick={() => track("tool_navigator_external_click", { product_id: product.id })}>公式情報：{source.label} ↗</a>)}</div><small>確認日 {product.verified}</small></div>;
+}
+
+export function ToolNavigator() {
+  const [state, setState] = useState<NavigatorState>(initialState);
+  const [ready, setReady] = useState(false);
+  const [view, setView] = useState<View>("conditions");
+  const [focused, setFocused] = useState("jmp");
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    const restore = () => { setState(parseNavigatorState(new URLSearchParams(window.location.search))); setReady(true); };
+    restore(); window.addEventListener("popstate", restore); return () => window.removeEventListener("popstate", restore);
+  }, []);
+  function update(next: NavigatorState) {
+    if (next.goal !== state.goal || next.skill !== state.skill || next.volume !== state.volume || next.environment !== state.environment || next.required !== state.required || next.preferred !== state.preferred || next.confirmedOnly !== state.confirmedOnly) {
+      track("tool_navigator_diagnosis", { goal: next.goal });
+    }
+    setState(next);
+    const url = `${window.location.pathname}?${serializeNavigatorState(next)}`;
+    window.history.replaceState(null, "", url);
+  }
+  const goal = goals.find(g => g.id === state.goal)!;
+  const candidates = findCandidates(state);
+  const selected = state.selected.flatMap(id => { const p = products.find(item => item.id === id); return p ? [p] : []; });
+  const focusProduct = products.find(p => p.id === focused) ?? products[0];
+  function selectProduct(id: string) {
+    if (!state.selected.includes(id) && state.selected.length >= 4) { setMessage("比較できるのは最大4製品です。先に製品を外してください。"); return; }
+    const next = toggle(state.selected, id); update({ ...state, selected: next }); setMessage(next.includes(id) ? "比較に追加しました。" : "比較から外しました。");
+    track("tool_navigator_compare_change", { product_id: id, action: next.includes(id) ? "add" : "remove", count: next.length });
+  }
+  async function share() {
+    const url = `${window.location.origin}${window.location.pathname}?${serializeNavigatorState(state)}`;
+    try { await navigator.clipboard.writeText(url); setMessage("共有URLをコピーしました。"); track("tool_navigator_share", { result: "copied" }); }
+    catch { setMessage("コピーできませんでした。下の共有URLを選択してコピーしてください。"); track("tool_navigator_share", { result: "shown" }); }
+  }
+  const classes = (section: View) => `${styles.section} ${styles[section]} ${view === section ? styles.active : ""}`;
+  if (!ready) return <div className={styles.loading} role="status">ワークスペースを準備しています…</div>;
+  return <div className={styles.shell}>
+    <header className={styles.hero}><div><Link href="/tools" className={styles.back}>← 学習ツール</Link><p className={styles.eyebrow}>MANUFACTURING COMPASS / TOOL NAVIGATOR</p><h1>課題から、道具を選ぶ。</h1><p>製造データの活用に必要な役割を整理し、候補を比較するワークスペース。</p></div><div className={styles.heroAside}><span>YOUR WORKSPACE</span><strong>探す <b>→</b> 比べる <b>→</b> 試す</strong><small>登録不要・選択内容はURLで共有</small></div></header>
+    <nav className={styles.mobileNav} aria-label="ワークスペース"><button type="button" aria-current={view === "conditions" ? "step" : undefined} onClick={() => setView("conditions")}>1 条件</button><button type="button" aria-current={view === "results" ? "step" : undefined} onClick={() => setView("results")}>2 候補</button><button type="button" aria-current={view === "comparison" ? "step" : undefined} onClick={() => setView("comparison")}>3 比較 ({selected.length})</button><button type="button" aria-current={view === "map" ? "step" : undefined} onClick={() => setView("map")}>マップ</button></nav>
+    <div className={styles.workspace}>
+      <section className={classes("conditions")} aria-labelledby="navigator-conditions"><div className={styles.heading}><div><span className={styles.step}>01</span><h2 id="navigator-conditions">課題と条件</h2></div><button className={styles.textButton} onClick={() => { update(initialState); setMessage("条件と比較をリセットしました。"); }} type="button">リセット</button></div><p className={styles.note}>条件を変えると候補にすぐ反映されます。</p>
+        <fieldset><legend>何をしたいですか？</legend><div className={styles.goalList}>{goals.map(g => <label key={g.id} className={state.goal === g.id ? styles.chosen : ""}><input type="radio" name="goal" checked={state.goal === g.id} onChange={() => update({ ...state, goal: g.id })} /><span>{g.label}</span></label>)}</div></fieldset>
+        <div className={styles.selectGrid}><label>プログラミング経験<select value={state.skill} onChange={e => update({ ...state, skill: e.target.value as Skill })}><option value="any">指定しない</option><option value="nocode">コードを書かずに使いたい</option><option value="code">コードも使える</option></select></label><label>データ規模<select value={state.volume} onChange={e => update({ ...state, volume: e.target.value as Volume })}><option value="any">指定しない</option><option value="files">Excel・CSVなどのファイル</option><option value="large">大規模・工場全体のデータ</option></select></label><label>導入環境<select value={state.environment} onChange={e => update({ ...state, environment: e.target.value as Environment })}><option value="any">指定しない</option><option value="local">ローカル</option><option value="cloud">クラウド</option></select></label></div>
+        <fieldset><legend>必要な機能・希望する機能</legend><p className={styles.note}>未確認の候補は確認事項に表示します。</p><div className={styles.featureTable}><div><span>機能</span><span>必要</span><span>希望</span></div>{features.map(f => <div key={f.id}><span>{f.label}</span><label><input type="checkbox" aria-label={`${f.label}を必須にする`} checked={state.required.includes(f.id)} onChange={() => update({ ...state, required: toggle(state.required, f.id), preferred: state.preferred.filter(id => id !== f.id) })} /></label><label><input type="checkbox" aria-label={`${f.label}を希望する`} checked={state.preferred.includes(f.id)} onChange={() => update({ ...state, preferred: toggle(state.preferred, f.id), required: state.required.filter(id => id !== f.id) })} /></label></div>)}</div><label className={styles.diff}><input type="checkbox" checked={state.confirmedOnly} onChange={e => update({ ...state, confirmedOnly: e.target.checked })} /> 必要な機能をすべて確認済みの候補だけ表示</label><p className={styles.note}>この絞り込みでは未確認の候補を一時的に隠します。非対応を意味するものではありません。</p></fieldset><button className={`${styles.primary} ${styles.mobileOnly}`} type="button" onClick={() => { setView("results"); track("tool_navigator_diagnosis", { goal: state.goal }); }}>候補を見る →</button>
+      </section>
+      <section className={classes("results")} aria-labelledby="navigator-results"><div className={styles.heading}><div><span className={styles.step}>02</span><h2 id="navigator-results">候補を見つける</h2></div><span className={styles.count}>{candidates.length} 候補</span></div><p className={styles.note}>「{goal.short}」に関わる候補。表示順は固定で、適合度や順位ではありません。</p><div className={styles.freeTool}><div><span>COMPASS 無料ツール</span><strong>{goal.toolLabel}</strong><small>{state.goal === "cpk" ? "生データではPp・Ppk、短期標準偏差の入力でCp・Cpkを計算します。" : "まずブラウザで分析・調査の流れを試せます。"}</small></div><Link href={goal.tool} onClick={() => track("tool_navigator_related_click", { goal: state.goal })}>試す ↗</Link></div>
+        {candidates.length === 0 ? <p role="status">候補がありません。課題や条件を変更してください。</p> : <div className={styles.cards}>{candidates.map(({ product, reasons, checks }) => <article key={product.id} className={styles.card}><div className={styles.cardTop}><div><span>{product.stages.map(id => stages.find(s => s.id === id)?.label).join(" / ")}</span><h3>{product.name}</h3></div><button type="button" className={state.selected.includes(product.id) ? styles.selectedButton : ""} onClick={() => selectProduct(product.id)}>{state.selected.includes(product.id) ? "✓ 追加済み" : "＋ 比較"}</button></div><p>{product.summary}</p><div className={styles.reason}><strong>選定の手がかり</strong><ul>{reasons.map(reason => <li key={reason}>{reason}</li>)}</ul></div><div className={styles.check}><strong>確認すること</strong><p>{[...checks, product.limitation].join(" / ")}</p></div><button className={styles.textButton} type="button" onClick={() => { setFocused(product.id); setView("map"); requestAnimationFrame(() => document.getElementById("navigator-map")?.scrollIntoView({ behavior: "smooth", block: "start" })); track("tool_navigator_map_open", { product_id: product.id }); }}>役割と詳細を見る →</button></article>)}</div>}
+      </section>
+      <section className={classes("comparison")} aria-labelledby="navigator-comparison"><div className={styles.heading}><div><span className={styles.step}>03</span><h2 id="navigator-comparison">比較ワークスペース</h2></div><span className={styles.count}>{selected.length} / 4</span></div><p className={styles.note}>候補を最大4つ追加し、確認したい項目を選べます。</p><details className={styles.settings}><summary>比較する項目を変更</summary><div>{comparisonFields.map(([id, label]) => <label key={id}><input type="checkbox" checked={state.fields.includes(id)} onChange={() => update({ ...state, fields: toggle(state.fields, id as ComparisonField) })} /> {label}</label>)}</div></details><label className={styles.diff}><input type="checkbox" checked={state.differences} onChange={e => update({ ...state, differences: e.target.checked })} /> 違いのある行を強調</label>
+        {selected.length === 0 ? <div className={styles.empty}><strong>比較する製品を追加</strong><p>候補またはマップから選ぶと、ここに比較表が表示されます。</p><button type="button" onClick={() => setView("results")}>候補を見る →</button></div> : <div className={styles.tableWrap}><table><thead><tr><th scope="col">比較項目</th>{selected.map(p => <th scope="col" key={p.id}>{p.name}<button type="button" onClick={() => selectProduct(p.id)} aria-label={`${p.name}を比較から外す`}>×</button></th>)}</tr></thead><tbody>{comparisonFields.filter(([id]) => state.fields.includes(id)).map(([id, label]) => <tr key={id} className={state.differences && selected.length > 1 && new Set(selected.map(p => p[id])).size > 1 ? styles.highlight : ""}><th scope="row">{label}</th>{selected.map(p => <td key={p.id}>{p[id]}</td>)}</tr>)}</tbody></table>{state.fields.length === 0 && <p>比較項目を選んでください。</p>}</div>}
+        <p className={styles.note}>強調は表示文の違いを示します。未確認の項目は製品間の違いを確定できません。</p><button className={styles.share} type="button" onClick={share}>↗ 共有URLをコピー</button><details className={styles.url} open={message.startsWith("コピーできませんでした") || undefined}><summary>共有URLを表示</summary><input aria-label="共有URL" readOnly value={`${typeof window === "undefined" ? "" : window.location.origin}/tools/navigator?${serializeNavigatorState(state)}`} onFocus={e => e.currentTarget.select()} /></details><p className={styles.note}>URLを知っている人は選択内容を見られます。機密情報を含めないでください。</p>
+      </section>
+      <section className={classes("map")} aria-labelledby="navigator-map"><div className={styles.heading}><div><span className={styles.step}>04</span><h2 id="navigator-map">エコシステムマップ</h2></div></div><p className={styles.note}>データの流れをたどり、製品を選択して役割・候補を確認。線は一般的な流れで、接続の保証ではありません。</p><div className={styles.stageFlow}>{stages.map((stage, index) => <div className={`${styles.stage} ${goal.stages.includes(stage.id) ? styles.needed : ""}`} key={stage.id}><div className={styles.stageHead}><span>{String(index + 1).padStart(2, "0")}</span><strong>{stage.label}</strong>{goal.stages.includes(stage.id) && <em>今回の課題</em>}</div><small>{stage.description}</small><div className={styles.nodes}>{products.filter(p => p.stages.includes(stage.id)).map(p => <button key={p.id} type="button" aria-pressed={focused === p.id} onClick={() => { setFocused(p.id); track("tool_navigator_map_open", { product_id: p.id }); }}>{p.name}</button>)}</div></div>)}</div><ProductDetails product={focusProduct} onSelect={() => selectProduct(focusProduct.id)} selected={state.selected.includes(focusProduct.id)} disabled={false} /><div className={styles.related}><strong>関連する無料ツール</strong><Link href="/tools/cpk">Cp・Cpk</Link><Link href="/tools/control-chart">管理図（SPC）</Link><Link href="/tools/doe">実験計画法（DOE）</Link></div></section>
+    </div>
+    <div className={styles.tray}><div><strong>比較中 <span>{selected.length} / 4</span></strong><div className={styles.trayItems}>{selected.length ? selected.map(p => <button key={p.id} type="button" onClick={() => selectProduct(p.id)} aria-label={`${p.name}を比較から外す`}>{p.name} ×</button>) : <small>候補を追加してください</small>}</div></div><button className={styles.primary} type="button" onClick={() => { setView("comparison"); requestAnimationFrame(() => document.getElementById("navigator-comparison")?.scrollIntoView({ behavior: "smooth", block: "start" })); }}>比較を見る →</button></div><div className={styles.status} role="status" aria-live="polite">{message}</div>
+  </div>;
+}

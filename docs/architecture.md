@@ -443,6 +443,8 @@ Server Componentが出典付き詳細を生成し、JapanWorkExplorerへ表示�
 
 ## 実務ツール案内（2026-09-23）
 
+Tool Navigator（`/tools/navigator`）は `src/data/tool-navigator.ts` の出典付き静的台帳、`src/lib/tool-navigator.ts` の条件解釈とURL変換、Client Componentの診断・最大4製品比較・役割マップで構成する。未確認を不適合扱いせず、製品間の役割の重なりは互換性を保証しない。選択はURLクエリに保持し、外部API・アカウント・サーバー保存は使わない。固定IDだけを `trackEvent` に送り、診断・比較・共有・外部遷移を計測する。詳細は [Tool Navigator仕様](./tool-navigator-spec.md)。
+
 `ToolsLearningLab` に `ToolFinder` を追加。質問・案内文は `src/data/tool-finder.ts`、純粋な分岐は `src/lib/tool-finder.ts`、操作はClient Componentと専用CSS Module。ツール名・URL・入力方式は既存 `learningTools` / `toolUsage` を参照し、台帳を複製しない。静的な入口・質問・出典は初期HTMLにも出力する。
 
 目的変更で使い方とデータを、使い方変更でデータを消去し、結果は回答から導出する。外部API・保存・追加依存はなし。見出し露出は `observeVisibleOnce`、イベントは `trackEvent` を使用。仕様・対象検証は [tool-finder-spec](./tool-finder-spec.md)。

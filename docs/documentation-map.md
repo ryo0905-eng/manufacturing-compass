@@ -33,6 +33,7 @@
 | [`docs/design-system.md`](./design-system.md) | UI の共通原則 | UI 言語、色、コンポーネント方針を変えた時 |
 | [`docs/ui-consistency-audit.md`](./ui-consistency-audit.md) | 公開ページへのUIルール適用状況と移行順 | 共通UIまたは監査対象ページを変更した時 |
 | [`docs/control-chart-learning-spec.md`](./control-chart-learning-spec.md) | 管理図学習ツールの目的、計算、初期スコープ | 管理図の学習体験や対象図を変えた時 |
+| [`docs/tool-navigator-spec.md`](./tool-navigator-spec.md) | 製造データ向け製品選定の操作、根拠、共有と検証の境界 | 診断・比較・役割マップを変更する時 |
 | [`docs/gage-rr-learning-spec.md`](./gage-rr-learning-spec.md) | Gage R&R学習ツールの目的、計算、初期スコープ | Gage R&Rの学習体験や対象調査を変えた時 |
 | [`docs/yield-learning-spec.md`](./yield-learning-spec.md) | 歩留まり・FPY・RTY学習ツールの目的、計算、初期スコープ | 歩留まりの学習体験や対象工程を変えた時 |
 | [`docs/semiconductor-location-explorer-spec.md`](./semiconductor-location-explorer-spec.md) | 実地図・一覧・案件・座標照合・SEOと計測の現行仕様 | 拠点探索アプリや座標公開条件を変更する時 |

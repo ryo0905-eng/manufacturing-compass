@@ -51,6 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(isCorrelationPublished() ? [correlationRoute] : []),
     "",
     "/tools",
+    "/tools/navigator",
     "/tools/cpk",
     "/tools/doe",
     "/tools/taguchi",

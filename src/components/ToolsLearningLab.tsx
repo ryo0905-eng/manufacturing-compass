@@ -66,6 +66,11 @@ export function ToolsLearningLab() {
       <Link href="/games/palm-fab">手のひら半導体工場で遊ぶ <span aria-hidden="true">→</span></Link>
     </aside>
 
+    <aside className="tools-game-entry">
+      <div><p className="section-label">TOOL NAVIGATOR</p><h2>製造データのソフトウェアを比較する</h2><p>歩留まり・工程能力・データ基盤の課題から候補を探し、製品の役割と導入条件を整理します。</p></div>
+      <Link href="/tools/navigator">Tool Navigatorを開く <span aria-hidden="true">→</span></Link>
+    </aside>
+
     <ToolFinder />
 
     <section className="learning-roadmap" id="learning-roadmap" aria-labelledby="roadmap-title"><header><div><p className="section-label">TOOL ROADMAP</p><h2 id="roadmap-title">今の用事からツールを選ぶ</h2></div><p>手元のデータを使いたい方も、まず仕組みを学びたい方も、目的に合わせて選べます。</p></header><div className="tools-purpose-filter" role="group" aria-label="ツールの用途で絞り込む">{([{ id: "all", label: "すべて" }, { id: "input", label: "自分のデータ・数値で使う" }, { id: "learn", label: "教材で学ぶ" }] as const).map(option => <button type="button" key={option.id} aria-pressed={purpose === option.id} onClick={() => setPurpose(option.id)}>{option.label}（{tools.filter(tool => option.id === "all" || toolUsage[tool.id].purpose === option.id).length}）</button>)}</div><p role="status">{visibleTools.length}件を表示中。入力方法や詳しい機能は下のカードで確認できます。</p><ol>{visibleTools.map((tool) => <li key={tool.id}><span>{tool.step}</span><div><small>{tool.role}</small><h3>{tool.question}</h3><p>{tool.title}</p><Link href={tool.href} onClick={() => recordOpen(tool.id, tool.title, "learning_roadmap")}>試す <i aria-hidden="true">→</i></Link></div></li>)}</ol></section>
