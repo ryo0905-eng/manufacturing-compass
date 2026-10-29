@@ -28,6 +28,7 @@ export default function ToolsPage() {
         <div><p className="section-label">企業研究の実験企画</p><h2>半導体企業ランキング・タイムマシン</h2><p>主要20社の2010〜2025年の年末時価総額を、再生・年の移動・企業選択で比較。GAFAM・トヨタとの比較や装置5社・日本企業10社への切り替え、比較URLの共有もできます。</p></div>
         <TrackedInternalLink href="/tools/ranking-time-machine" eventName="tool_card_click" eventProperties={{ tool_name: 'ランキング・タイムマシン', source_section: 'tools_experiment' }}>時価総額の推移を見る →</TrackedInternalLink>
         <TrackedInternalLink href="/guides/japan-semiconductor-market-cap-history" eventName="article_internal_click" eventProperties={{ source_slug: "tools", destination_path: "/guides/japan-semiconductor-market-cap-history" }}>日本企業10社の変化を記事で読む →</TrackedInternalLink>
+        <TrackedInternalLink href="/guides/cpk-low-causes" eventName="article_internal_click" eventProperties={{ source_slug: "tools", destination_path: "/guides/cpk-low-causes" }}>Cpkが低い原因は？平均のずれとばらつきの見分け方</TrackedInternalLink>
       </aside>
     </main>
   );
