@@ -99,3 +99,20 @@
   .unified .reference > .company { grid-column: 2 / -1; }
   .unified .reference > .compare { grid-column: 2 / -1; grid-row: 3; }
 }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin: 16px 0; }
+.controls label { display: grid; gap: 4px; flex: 1 1 140px; color: #34383d; font-size: 13px; font-weight: 600; }
+.controls input, .controls select, .controls button { min-height: 44px; width: 100%; padding: 8px; border: 1px solid #b8c2cd; border-radius: 6px; background: #fff; color: #1d1d1f; font: inherit; }
+.controls button { width: auto; cursor: pointer; }
+.unified thead th:nth-child(4) { width: 110px; }
+.change { font-variant-numeric: tabular-nums; font-size: 14px; }
+.change small { display: block; color: var(--muted); font-size: 11px; white-space: nowrap; }
+.positive { color: #13754c; }
+.negative { color: #b43b3b; }
+@container (width < 600px) {
+  .unified tr > .change { grid-column: 2; grid-row: 3; }
+  .unified tr > .change::before { content: "前回比 "; color: var(--muted); font-size: 11px; }
+  .change small { display: inline; margin-left: 8px; }
+  .unified .reference > .change { grid-column: 2; grid-row: 3; }
+  .unified .reference > .compare { grid-row: 4; }
+}

@@ -1,3 +1,6 @@
+import { MarketCapRankingTableBody } from "@/components/MarketCapRankingTableBody";
+import { getMarketCapRankingGroup } from "@/lib/market-cap-ranking-groups";
+import { getMarketCapPrevious } from "@/lib/market-cap-previous";
 import { RankingCompareButton } from "@/components/RankingCompanyCompare";
 import type { Route } from "next";
 import { Fragment } from "react";
@@ -26,6 +29,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
   const unified = sourceSlug === "semiconductor-market-cap-ranking";
   const isWorld = scope === "world";
   const companies = isWorld ? worldSemiconductorMarketCapRanking : japanSemiconductorMarketCapRanking;
+  const previousByCompany = unified ? getMarketCapPrevious(companies, semiconductorMarketCapMeta.dataAsOf) : new Map();
   const title = isWorld ? "世界TOP30" : `日本${companies.length}社`;
   const [year, month, day] = semiconductorMarketCapMeta.dataAsOf.split("-");
   const formattedDate = `${year}年${Number(month)}月${Number(day)}日`;
@@ -108,7 +112,12 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
         >トヨタと半導体企業の過去の変化を見る →</TrackedInternalLink>
         <small>移動先は2014〜2025年の年末データです。この記事の基準日とは異なります。</small>
       </p> : null}
-      <div className={`market-cap-table-wrap${unified ? ` ${styles.tableWrap}` : ""}`}>
+      {unified ? <MarketCapRankingTableBody
+        scope={scope}
+        title={title}
+        rows={companies.map(company => ({ company, group: getMarketCapRankingGroup(company), previous: previousByCompany.get(company.id) }))}
+        reference={reference ? { id: reference.id, name: reference.name, marketCapUsdB: reference.marketCapUsdB, comparisonLabel: reference.comparisonLabel, display: referenceValue! } : undefined}
+      /> : <div className={`market-cap-table-wrap${unified ? ` ${styles.tableWrap}` : ""}`}>
         <table className="market-cap-table" role={unified ? "table" : undefined} aria-label={`${title}の時価総額ランキング`}>
           <thead role={unified ? "rowgroup" : undefined}>
             <tr role={unified ? "row" : undefined}>
@@ -171,7 +180,7 @@ export function MarketCapRankingTable({ scope, sourceSlug }: MarketCapRankingTab
             {referencePosition === companies.length ? referenceRow : null}
           </tbody>
         </table>
-      </div>
+      </div>}
       {unified && isWorld ? <MarketCapRankingExplore /> : null}
       <small>取得日：{semiconductorMarketCapMeta.retrievedAt.replaceAll("-", ".")}。総合企業の時価総額は、半導体部門だけではなく企業全体の数値です。</small>
       {isWorld && <small>国・地域は本社所在地を基準とし、工場や日本法人の所在地を示すものではありません。</small>}

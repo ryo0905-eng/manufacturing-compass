@@ -115,7 +115,7 @@ assert.equal(overviewFigure.length, 1);
 assert.equal((overviewFigure[0].match(/<li\b/g) || []).length, 10);
 assert.ok(!overviewFigure[0].includes('トヨタ自動車'));
 for (const company of data.worldSemiconductorMarketCapRanking.slice(0, 10)) {
-  assert.ok(overviewFigure[0].includes(`href="#world-company-${company.id}"`));
+  assert.ok(overviewFigure[0].includes(`href="${company.companySlug ? `/companies/${company.companySlug}` : `#world-company-${company.id}`}"`));
   assert.ok(withReference.includes(`id="world-company-${company.id}"`));
 }
 const tableRows = markup => [...markup.matchAll(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/g)].map(table => [...table[1].matchAll(/<tr\b[^>]*>[\s\S]*?<\/tr>/g)].map(row => row[0]));
@@ -126,6 +126,8 @@ assert.deepEqual(allRows.map(rows => rows.length), [31, 19]);
 assert.ok(!withReference.includes('<tfoot'));
 const rankedRows = allRows.map(rows => rows.filter(row => !isReferenceRow(row)));
 assert.deepEqual(rankedRows.map(rows => rows.length), [30, 18]);
+assert.deepEqual(rankedRows.map(rows => rows.filter(row => row.includes("世界順位 ")).length), [29, 10]);
+assert.ok(rankedRows.flat().every(row => row.includes('class="change"')));
 assert.ok(rankedRows.flat().every(row => !row.includes('トヨタ自動車')));
 const referenceRows = allRows.flat().filter(isReferenceRow);
 assert.equal(referenceRows.length, 2);
@@ -137,7 +139,7 @@ for (const [index, row] of referenceRows.entries()) {
   const cells = [...row.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)];
   assert.equal(cells[0][1], '');
   assert.ok(cells[0][0].includes(index === 0 ? 'aria-label="順位対象外"' : 'aria-label="国内順位対象外"'));
-  assert.equal(cells.length, 3); // Rank, market cap and reference note, plus the row header.
+  assert.equal(cells.length, 4); // Rank, market cap, previous change and reference note, plus the row header.
   assert.ok(row.includes('業界外の比較対象・自動車／日本'));
 }
 // Published values: Arm, Toyota, KLA in the world table; Toyota precedes Japan #1.
@@ -159,14 +161,12 @@ for (const [index, companies] of rankingSets.entries()) {
     if (company.companySlug) assert.ok(row.includes(`href="/companies/${company.companySlug}"`));
     assert.ok(row.includes(index === 0 ? encoded(company.country) : `${company.rank}位`));
     assert.ok(row.includes(`class="market-cap-rank rank">${index === 0 ? company.rank : company.domesticRank}${index === 0 ? '</td>' : '<small>世界' + company.rank + '位</small></td>'}`));
-    assert.equal((row.match(/<td\b/g) || []).length, 3);
-    assert.ok(!/<details\b|<summary\b|\shidden(?:[\s=>])/.test(row));
+    assert.equal((row.match(/<td\b/g) || []).length, 4);
+    assert.ok(/<details\b/.test(row));
     const metadata = row.match(/<dl class="metadata">([\s\S]*?)<\/dl>/)?.[1];
     assert.ok(metadata, `${index}/${company.id}: visible metadata`);
     assert.ok(metadata.indexOf(encoded(company.country)) < metadata.indexOf(encoded(company.category)));
-    assert.ok(metadata.indexOf(encoded(company.category)) < metadata.indexOf(encoded(company.ticker)));
-    assert.ok(row.includes(`<div class="business"><span class="srOnly">主な事業：</span>${encoded(company.mainBusiness)}</div>`));
-    assert.ok(row.indexOf(encoded(company.englishName)) < row.indexOf('<dl class="metadata">'));
+    assert.ok(row.includes(encoded(company.mainBusiness)));
   }
 }
 const legacy = renderReferenceTables(verifiedReference, 'another-guide');
@@ -237,7 +237,38 @@ const interactive=loader({react,'react-dom':{createPortal:children=>children},'@
 function context(){cursor=0;return interactive.RankingCompanyCompareProvider({children:null}).props.value;}
 context().add('tokyo-electron','world');context().add('tokyo-electron','japan');assert.equal(context().ids.length,1);context().add('advantest','japan');assert.equal(context().ids.length,2);context().add('nvidia','world');assert.match(context().notice,/2社/);assert.equal(context().shown,false);context().open();assert.equal(context().shown,true);context().close();assert.equal(context().shown,false);assert.equal(context().ids.length,2);context().open();context().record('result_view');context().record('result_view');assert.equal(events.filter(e=>e.props.action==='result_view').length,1);context().remove('advantest');assert.equal(context().shown,false);context().example(['nvidia','tsmc']);assert.equal(context().source,'example');context().record('copy_success');context().record('related_click','industry_map');
 context().remove('nvidia');context().remove('tsmc');context().add('socionext','japan');context().add('tomen-devices','japan');assert.deepEqual(plain(context().ids),['socionext','tomen-devices']);assert.equal(context().source,'japan');context().open();assert.equal(context().shown,true);context().record('result_view');assert.ok(events.some(e=>e.props.action==='result_view'&&e.props.company_a==='socionext'&&e.props.company_b==='tomen-devices'));context().close();
-for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(Object.keys(e.props).every(k=>['action','source','company_a','company_b','destination'].includes(k)));assert.ok(!JSON.stringify(e).includes('https://'));}
+for(const e of events){assert.ok(['ranking_company_compare','ranking_compare_add','ranking_compare_execute'].includes(e.name));assert.ok(Object.keys(e.props).every(k=>['action','source','company_a','company_b','company_id','destination'].includes(k)));assert.ok(!JSON.stringify(e).includes('https://'));}
+// Exercise table controls with persistent state and inspect each resulting render.
+{
+  let position = 0; const state = [], controlEvents = [];
+  const hooks = { ...React, useState(initial) { const i = position++; if (!(i in state)) state[i] = initial; return [state[i], value => { state[i] = value; }]; } };
+  const controlLoad = loader({ react: hooks, '@/lib/analytics': { trackEvent: (name, props) => controlEvents.push({ name, props }) }, '@/components/RankingCompanyCompare': { RankingCompareButton: ({ id }) => React.createElement('button', { 'data-ranking-compare-id': id }) } });
+  const Body = controlLoad('src/components/MarketCapRankingTableBody').MarketCapRankingTableBody;
+  const groups = controlLoad('src/lib/market-cap-ranking-groups');
+  const previous = controlLoad('src/lib/market-cap-previous').getMarketCapPrevious(data.worldSemiconductorMarketCapRanking, data.semiconductorMarketCapMeta.dataAsOf);
+  const rows = data.worldSemiconductorMarketCapRanking.map(company => ({ company, group: groups.getMarketCapRankingGroup(company), previous: previous.get(company.id) }));
+  const props = { rows, scope: 'world', title: '世界TOP30', reference: { id: 'toyota', name: 'トヨタ自動車', marketCapUsdB: 229.21, comparisonLabel: 'トヨタ', display: '参考' } };
+  const render = () => { position = 0; return Body(props); };
+  const elements = (node, type) => !node || typeof node !== 'object' ? [] : [...(node.type === type ? [node] : []), ...React.Children.toArray(node.props?.children).flatMap(child => elements(child, type))];
+  let tree = render();
+  elements(tree, 'input')[0].props.onChange({ target: { value: 'NVIDIA' } }); tree = render();
+  let markup = renderToStaticMarkup(tree); assert.ok(markup.includes('world-company-nvidia') && !markup.includes('world-company-tsmc') && !markup.includes('参考：トヨタ'));
+  assert.equal(controlEvents.at(-1).props.result_count, 1); assert.ok(!JSON.stringify(controlEvents).includes('NVIDIA'));
+  elements(tree, 'button').find(button => button.props.children === 'リセット').props.onClick(); tree = render();
+  elements(tree, 'select')[0].props.onChange({ target: { value: 'ファウンドリ' } }); tree = render(); markup = renderToStaticMarkup(tree);
+  assert.ok(markup.includes('world-company-tsmc') && !markup.includes('world-company-nvidia'));
+  elements(tree, 'button').find(button => button.props.children === 'リセット').props.onClick(); tree = render();
+  elements(tree, 'select')[1].props.onChange({ target: { value: '日本' } }); tree = render(); markup = renderToStaticMarkup(tree);
+  assert.ok(markup.includes('world-company-tokyo-electron') && !markup.includes('world-company-nvidia'));
+  elements(tree, 'button').find(button => button.props.children === 'リセット').props.onClick(); tree = render();
+  elements(tree, 'select')[2].props.onChange({ target: { value: 'cap_asc' } }); tree = render(); markup = renderToStaticMarkup(tree);
+  assert.ok(markup.indexOf('world-company-umc') < markup.indexOf('参考：トヨタ') && markup.indexOf('参考：トヨタ') < markup.indexOf('world-company-nvidia'));
+  elements(tree, 'select')[2].props.onChange({ target: { value: 'change' } }); tree = render(); markup = renderToStaticMarkup(tree);
+  assert.ok(markup.indexOf('world-company-nxp') > markup.indexOf('world-company-nvidia'));
+  elements(tree, 'button').find(button => button.props.children === 'リセット').props.onClick(); tree = render(); markup = renderToStaticMarkup(tree);
+  assert.ok(markup.indexOf('world-company-nvidia') < markup.indexOf('world-company-tsmc'));
+  elements(tree, 'input')[0].props.onChange({ target: { value: 'no matching company' } }); tree = render(); assert.ok(renderToStaticMarkup(tree).includes('条件に合う企業がありません'));
+}
 (async () => {
   const page = load('src/app/(ja)/guides/[slug]/page');
   const params = Promise.resolve({ slug: 'semiconductor-market-cap-ranking' });
@@ -294,11 +325,11 @@ for(const e of events){assert.equal(e.name,'ranking_company_compare');assert.ok(
   const rankingContent = body.slice(body.indexOf('id="world-ranking"'), body.indexOf('id="ranking-compare-title"'));
   assert.equal((rankingContent.match(/class="track"/g) || []).length, 50);
   assert.equal((rankingContent.match(/<dl class="metadata">/g) || []).length, 48);
-  assert.equal((rankingContent.match(/<div class="business">/g) || []).length, 48);
+  assert.equal((rankingContent.match(/<details class="business">/g) || []).length, 48);
   assert.ok(!rankingContent.includes('企業情報を開く'));
   assert.ok(!rankingContent.includes('link-callout'));
   const tableHeads = [...rankingContent.matchAll(/<thead[^>]*>([\s\S]*?)<\/thead>/g)];
-  assert.deepEqual(tableHeads.map(head => (head[1].match(/scope="col"/g) || []).length), [4, 4]);
+  assert.deepEqual(tableHeads.map(head => (head[1].match(/scope="col"/g) || []).length), [5, 5]);
   assert.ok(rankingContent.includes('href="/industry-map"'));
   assert.equal((rankingContent.match(/href="#industry-map-books"/g) || []).length, 1);
 
