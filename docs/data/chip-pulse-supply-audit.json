@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-28T00:33:12.182Z",
-  "windowStart": "2026-09-28T00:00:00.000Z",
-  "windowEnd": "2026-10-28T00:00:00.000Z",
+  "generatedAt": "2026-10-29T01:00:53.848Z",
+  "windowStart": "2026-09-29T00:00:00.000Z",
+  "windowEnd": "2026-10-29T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -10,6 +10,16 @@
   },
   "errors": [],
   "rows": [
+    {
+      "id": "sec-0000319201-26-000032",
+      "sourceId": "kla",
+      "publishedAt": "2026-10-28T20:07:50.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
     {
       "id": "sec-0001047127-26-000052",
       "sourceId": "amkor",
@@ -159,38 +169,13 @@
       "eligible": false,
       "fields": [],
       "state": "metadata"
-    },
-    {
-      "id": "sec-0000002488-26-000182",
-      "sourceId": "amd",
-      "publishedAt": "2026-09-28T20:16:47.000Z",
-      "datePrecision": "instant",
-      "body": true,
-      "eligible": true,
-      "fields": [
-        "design-manufacturing"
-      ],
-      "state": "editor-verified"
     }
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-29",
-    "end": "2026-10-28",
+    "start": "2026-09-30",
+    "end": "2026-10-29",
     "days": [
-      {
-        "date": "2026-09-29",
-        "candidates": 1,
-        "deduplicated": 1,
-        "bodies": 1,
-        "publishable": 1,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 1,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-09-30",
         "candidates": 0,
@@ -567,31 +552,44 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-10-29",
+        "candidates": 1,
+        "deduplicated": 1,
+        "bodies": 1,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-22",
-        "end": "2026-10-28",
+        "start": "2026-10-23",
+        "end": "2026-10-29",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-15",
-        "end": "2026-10-21",
+        "start": "2026-10-16",
+        "end": "2026-10-22",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-08",
-        "end": "2026-10-14",
+        "start": "2026-10-09",
+        "end": "2026-10-15",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-01",
-        "end": "2026-10-07",
+        "start": "2026-10-02",
+        "end": "2026-10-08",
         "publishable": 0,
         "fields": []
       }
