@@ -58,13 +58,13 @@ for (const purpose of rankingPurposes) {
   }
 }
 const career = renderToStaticMarkup(panels.career);
-assert.ok(career.indexOf('メーカーズジョブ') < career.indexOf('JAC Recruitment'));
-assert.ok(career.indexOf('JAC Recruitment') < career.indexOf('半導体Jobエージェント'));
+assert.ok(career.indexOf('メーカーズジョブ') < career.indexOf('JACリクルートメント'));
+assert.ok(career.indexOf('JACリクルートメント') < career.indexOf('半導体Jobエージェント'));
 assert.equal((career.match(/広告・アフィリエイトリンク/g)||[]).length, 3);
 for (const removed of ['登録前に確認', '説明の出典', '確認日']) assert.ok(!career.includes(removed), removed);
 assert.equal((career.match(/並び順はおすすめ順位ではありません/g)||[]).length, 1);
 assert.ok(career.includes('求人紹介・転職成功を保証するものではありません'));
-assert.equal(rankingPurposeContext.ui_version, 'purpose-v2');
+assert.equal(rankingPurposeContext.ui_version, 'purpose-v3');
 assert.deepEqual(Array.from(rankingPurposes, p => p.id), ['investment', 'career', 'learning', 'research']);
 assert.equal((html.match(/loading="lazy"/g)||[]).length, 4);
 for (const purpose of rankingPurposes) {
@@ -72,12 +72,15 @@ for (const purpose of rankingPurposes) {
   assert.ok(html.includes(purpose.description));
   assert.ok(fs.existsSync('public' + purpose.image), purpose.image);
 }
-for (const agent of load('src/data/ranking-career-affiliates').rankingCareerAffiliates) {
-  assert.ok(agent.sourceUrl.startsWith('https://') && agent.checkedAt && agent.check, 'Keep source records');
-}
-const agents = load('src/data/affiliateLinks').affiliateAgents;
+const { affiliateAgents: agents, getAgentsByIds } = load('src/data/affiliateLinks');
+const rankingAgents = getAgentsByIds(['makers-job', 'jac-recruitment', 'semiconductor-job']);
 assert.equal(agents.length, 5);
-assert.ok(!agents.some(a => ['makers-job','semiconductor-job'].includes(a.id)));
+assert.deepEqual(Array.from(rankingAgents, a => a.id), ['makers-job', 'jac-recruitment', 'semiconductor-job']);
+for (const agent of rankingAgents) {
+  assert.ok(agent.sourceUrl.startsWith('https://') && agent.checkedAt && agent.pointsToConfirm);
+  assert.ok(agents.includes(agent));
+  assert.ok(career.includes(agent.name) && career.includes(agent.description) && career.includes(agent.recommendedFor));
+}
 
 function harness({ supported = true, fail = false } = {}) {
   const events = [], slots = [], effects = [], observers = [], listeners = new Map();
@@ -112,8 +115,8 @@ for(const purpose of rankingPurposes) {
   assert.equal(button.props.type,'button');
   button.props.onClick(); button.props.onClick();
   tree=h.render();
-  assert.equal(tree.props.children[2].props.hidden,false);
-  assert.equal(tree.props.children[2].props.children,panels[purpose.id]);
+  assert.equal(tree.props.children[1].props.hidden,false);
+  assert.equal(tree.props.children[1].props.children[1],panels[purpose.id]);
   assert.equal(tree.props.children[0].props.children.filter(b=>b.props['aria-pressed']).length,1);
   for(const link of purpose.links) {
     const node=h.RankingPurposeLink({purpose:purpose.id,destination:link.id,href:link.href,children:link.label});
@@ -126,10 +129,10 @@ for(const purpose of rankingPurposes) {
 assert.equal(h.events.filter(e=>e.props.action==='select').length,4);
 for(const e of h.events) { assert.equal(e.name,'ranking_purpose'); for(const [k,v] of Object.entries(rankingPurposeContext)) assert.equal(e.props[k],v); }
 const unsupported=harness({supported:false}); unsupported.render(); unsupported.effects[0](); assert.equal(unsupported.events.length,0);
-const replay=harness(); replay.render(); replay.effects[0]()(); replay.render(); replay.effects.at(-1)(); expose(replay.observers[0],1); assert.equal(replay.events.length,0); expose(replay.observers[1],1); assert.equal(replay.events.length,1);
+const replay=harness(); replay.render(); replay.effects[0]()(); replay.render(); replay.effects[2](); expose(replay.observers[0],1); assert.equal(replay.events.length,0); expose(replay.observers[1],1); assert.equal(replay.events.length,1);
 const failed=harness({fail:true});
 assert.doesNotThrow(()=>{const t=failed.render(); failed.effects[0](); expose(failed.observers[0],1); t.props.children[0].props.children[1].props.onClick();});
-assert.equal(failed.render().props.children[2].props.children,panels.career);
+assert.equal(failed.render().props.children[1].props.children[1],panels.career);
 assert.doesNotThrow(()=>failed.RankingPurposeLink({purpose:'career',destination:'career_compass',href:'/career-compass',children:'link'}).props.onClick({}));
 const creative=h.mock('src/components/TrackedAffiliateCreative').TrackedAffiliateCreative;
 const anchor={};
@@ -138,8 +141,8 @@ creative({agentId:'jac-recruitment',html:'original'}).props.onClick(click);
 assert.equal(h.events.at(-1).name,'affiliate_outbound_click');
 assert.equal(h.events.at(-1).props.source_page,'career_agents');
 assert.equal(h.events.at(-1).props.cta_location,'affiliate_creative');
-for(const agent of load('src/data/ranking-career-affiliates').rankingCareerAffiliates) {
-  creative({agentId:agent.id,html:agent.creativeHtml,sourcePage:rankingPurposeContext.source_page,ctaLocation:rankingPurposeContext.cta_location,readerPurpose:'career',uiVersion:rankingPurposeContext.ui_version}).props.onClick(click);
+for(const agent of rankingAgents) {
+  creative({agentId:agent.id,html:agent.affiliateCreativeHtml,sourcePage:rankingPurposeContext.source_page,ctaLocation:rankingPurposeContext.cta_location,readerPurpose:'career',uiVersion:rankingPurposeContext.ui_version}).props.onClick(click);
   assert.equal(h.events.at(-1).props.agent_id,agent.id);
   assert.equal(h.events.at(-1).props.reader_purpose,'career');
   assert.equal(h.events.at(-1).props.ui_version,rankingPurposeContext.ui_version);

@@ -127,6 +127,12 @@ async function main() {
       expected.sort((a, b) => Number(b.focusAreas.includes(focus)) - Number(a.focusAreas.includes(focus)));
     }
     assert.deepEqual(ids, Array.from(expected, agent => agent.id));
+    for (const article of nodes(page, node => node.type === 'article')) {
+      const agent = agents.getAffiliateAgent(article.props.id);
+      const content = JSON.stringify(article);
+      assert.ok(content.includes(agent.description));
+      assert.equal(content.includes('RYOの利用経験'), Boolean(agent.personalExperience));
+    }
   }
   console.log('PASS: clipboard success/denial/unavailable, manual fallback, duplicate click, anonymous event, three focus links, invalid focus fallback');
 }

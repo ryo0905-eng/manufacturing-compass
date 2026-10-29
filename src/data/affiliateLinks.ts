@@ -9,7 +9,7 @@ export type AffiliateAgent = {
   focusAreas: AgentFocus[];
   suitableRoles: string[];
   consultationTopics: string[];
-  personalExperience: string;
+  personalExperience?: string;
   pointsToConfirm: string;
   affiliateUrl?: string;
   /** 提携プログラムから提供された広告コード。文言・計測画像を変えずに表示する。 */
@@ -17,14 +17,16 @@ export type AffiliateAgent = {
   officialUrl: string;
   linkType: "affiliate" | "official";
   sourceUrl: string;
-  lastUpdated: string;
+  partnership: "approved" | "official";
+  asp: "accesstrade" | "a8" | "moshimo" | null;
+  checkedAt: string;
 };
 
 export const affiliateDisclosureText =
   "当サイトはアフィリエイト広告を利用しています。掲載内容は各社公式情報と運営者による調査をもとに作成していますが、サービス内容や条件は変更される場合があります。最新情報は各公式サイトをご確認ください。";
 
 export const officialLinkDisclosureText =
-  "現在掲載しているリンクは、各社公式サイトへの通常リンクです。掲載内容は公式情報をもとに編集しており、サービス内容や求人状況は変更される場合があります。最新情報は各公式サイトをご確認ください。";
+  "この案内のリンクは、各社公式サイトへの通常リンクです。掲載内容は公式情報をもとに編集しており、サービス内容や求人状況は変更される場合があります。最新情報は各公式サイトをご確認ください。";
 
 export const agentFocusOptions: Array<{ id: AgentFocus; label: string; description: string; note: string }> = [
   {
@@ -47,7 +49,7 @@ export const agentFocusOptions: Array<{ id: AgentFocus; label: string; descripti
   },
 ];
 
-const lastUpdated = "2026-07-13";
+const checkedAt = "2026-07-13";
 
 export const affiliateAgents: AffiliateAgent[] = [
   {
@@ -66,42 +68,10 @@ export const affiliateAgents: AffiliateAgent[] = [
       '<a href="https://h.accesstrade.net/sp/cc?rk=0100mzmm00ova3" rel="nofollow sponsored" referrerpolicy="no-referrer-when-downgrade">JAC Recruitment<img src="https://h.accesstrade.net/sp/rr?rk=0100mzmm00ova3" width="1" height="1" border="0" alt=""></a>',
     officialUrl: "https://www.jac-recruitment.jp/",
     linkType: "affiliate",
+    partnership: "approved",
+    asp: "accesstrade",
     sourceUrl: "https://www.jac-recruitment.jp/market/manufacture/",
-    lastUpdated,
-  },
-  {
-    id: "ties",
-    name: "タイズ",
-    category: "メーカー・製造業転職",
-    description: "メーカー、製造業、技術職の転職支援に特化した転職エージェントです。",
-    recommendedFor: "関西メーカー、製造業エンジニア、生産技術、品質、設計職で転職を考える人",
-    focusAreas: ["career-translation"],
-    suitableRoles: ["研究開発・設計", "生産技術", "品質管理・保証", "製造・保全"],
-    consultationTopics: ["製造業経験の職務経歴書への落とし込み", "メーカー技術職の求人比較", "現職に近い職種からのキャリア設計"],
-    personalExperience: "次の半導体の会社への転職は、タイズ経由で決まりました。工程改善、品質、海外勤務、データ活用などの経験を伝え、製造業の技術職、電子部品、半導体に関する求人を相談しました。",
-    pointsToConfirm: "希望勤務地で、半導体・電子部品・製造装置に近い求人を扱っているか",
-    affiliateUrl: undefined,
-    officialUrl: "https://www.ee-ties.com/",
-    linkType: "official",
-    sourceUrl: "https://www.ee-ties.com/",
-    lastUpdated,
-  },
-  {
-    id: "give-creation",
-    name: "ギブクリエーション",
-    category: "製造業・技術職転職",
-    description: "メーカー領域に特化し、転職軸やキャリアプランの整理を掲げる転職コンサルティング会社です。",
-    recommendedFor: "製造業エンジニアとして、職務経歴の見せ方から相談したい人",
-    focusAreas: ["career-translation", "specialist"],
-    suitableRoles: ["メーカー技術職", "設計・生産技術", "品質・製造関連職"],
-    consultationTopics: ["転職軸と価値観の整理", "メーカー経験の市場での見せ方", "今転職するか、現職で経験を積むか"],
-    personalExperience: "過去のメーカーへの転職は、ギブクリエーション経由で決まりました。求人を紹介してもらうだけでなく、自分が仕事内容に何を求めるか、転職軸を考える相談先として利用しました。",
-    pointsToConfirm: "希望地域・職種の支援範囲と、担当コンサルタントの専門領域",
-    affiliateUrl: undefined,
-    officialUrl: "https://givecreation.com/",
-    linkType: "official",
-    sourceUrl: "https://givecreation.com/",
-    lastUpdated,
+    checkedAt,
   },
   {
     id: "robert-walters",
@@ -119,8 +89,10 @@ export const affiliateAgents: AffiliateAgent[] = [
       '<a href="https://h.accesstrade.net/sp/cc?rk=0100ojgk00ova3" rel="nofollow" referrerpolicy="no-referrer-when-downgrade">ロバート・ウォルターズ<img src="https://h.accesstrade.net/sp/rr?rk=0100ojgk00ova3" width="1" height="1" border="0" alt=""></a>',
     officialUrl: "https://www.robertwalters.co.jp/",
     linkType: "affiliate",
+    partnership: "approved",
+    asp: "accesstrade",
     sourceUrl: "https://www.robertwalters.co.jp/expertise/industrial-and-electrical.html",
-    lastUpdated: "2026-07-17",
+    checkedAt: "2026-07-17",
   },
   {
     id: "enworld",
@@ -138,13 +110,58 @@ export const affiliateAgents: AffiliateAgent[] = [
       '<a href="https://h.accesstrade.net/sp/cc?rk=0100o60a00ova3" rel="nofollow" referrerpolicy="no-referrer-when-downgrade">外資系転職ならエンワールド・ジャパン<img src="https://h.accesstrade.net/sp/rr?rk=0100o60a00ova3" width="1" height="1" border="0" alt=""></a>',
     officialUrl: "https://www.enworld.com/",
     linkType: "affiliate",
+    partnership: "approved",
+    asp: "accesstrade",
     sourceUrl: "https://www.enworld.com/",
-    lastUpdated: "2026-07-17",
+    checkedAt: "2026-07-17",
+  },
+  {
+    id: "makers-job",
+    name: "メーカーズジョブ",
+    category: "製造業の技術職転職",
+    description: "製造業での経験を、次のメーカーでどう生かすか相談する",
+    recommendedFor: "製造業の技術職として、経験や専門性を生かせる仕事を探したい方",
+    focusAreas: ["career-translation"],
+    suitableRoles: ["製造業の技術職"],
+    consultationTopics: ["製造業の経験や専門性を生かせる仕事"],
+    pointsToConfirm: "希望する職種・勤務地の支援範囲と、自分の経験に合う求人があるかを確認してください。",
+    affiliateCreativeHtml: '<a href="https://px.a8.net/svt/ejp?a8mat=4BCH7M+7MGUNM+5B0Y+TS3OI" rel="nofollow">【メーカーズジョブ】</a> <img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=4BCH7M+7MGUNM+5B0Y+TS3OI" alt="">',
+    officialUrl: "https://makers-job.jp/",
+    linkType: "affiliate",
+    partnership: "approved",
+    asp: "a8",
+    sourceUrl: "https://makers-job.jp/",
+    checkedAt: "2026-10-27",
+  },
+  {
+    id: "semiconductor-job",
+    name: "半導体Jobエージェント",
+    category: "半導体業界の転職",
+    description: "半導体業界での正社員転職を相談する",
+    recommendedFor: "半導体業界の仕事を候補に、正社員としての転職を考えている方",
+    focusAreas: ["career-translation"],
+    suitableRoles: ["半導体業界の仕事"],
+    consultationTopics: ["半導体業界での正社員転職", "業界経験に応じた支援"],
+    pointsToConfirm: "希望職種・勤務地の求人と、業界経験に応じた支援があるかを確認してください。",
+    affiliateCreativeHtml: '<a href="//af.moshimo.com/af/c/click?a_id=5869608&p_id=6102&pc_id=17125&pl_id=78390" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>半導体Jobエージェントの公式サイトを見る</a><img src="//i.moshimo.com/af/i/impression?a_id=5869608&p_id=6102&pc_id=17125&pl_id=78390" width="1" height="1" style="border:none;" loading="lazy">',
+    officialUrl: "https://semiconductor-job.com/",
+    linkType: "affiliate",
+    partnership: "approved",
+    asp: "moshimo",
+    sourceUrl: "https://semiconductor-job.com/",
+    checkedAt: "2026-10-27",
   },
 ];
 
 export function getAffiliateAgent(agentId: string) {
   return affiliateAgents.find((agent) => agent.id === agentId);
+}
+
+export function getAgentsByIds(ids: readonly string[]) {
+  return ids.flatMap((id) => {
+    const agent = getAffiliateAgent(id);
+    return agent ? [agent] : [];
+  });
 }
 
 export function getPrimaryAgent() {

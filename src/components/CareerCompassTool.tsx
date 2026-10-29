@@ -21,7 +21,7 @@ import {
   type CompassOption,
 } from "@/data/career-compass";
 import { companies } from "@/data/companies";
-import type { AgentFocus } from "@/data/affiliateLinks";
+import { getAgentsByIds, type AgentFocus } from "@/data/affiliateLinks";
 
 type AnswerKey =
   | "background"
@@ -482,7 +482,7 @@ export function CareerCompassTool() {
       `強みとして整理できる経験: ${result.profile.strengths.join(" / ")}`,
       `半導体向けの翻訳: ${result.profile.semiconductorTranslation.join(" / ")}`,
       `Today Quest: ${result.profile.todayQuest}`,
-      `相性のよい相談先: ${result.profile.agentMatch.join(" / ")}`,
+      `相性のよい相談先: ${getAgentsByIds(result.profile.agentMatch).map((agent) => agent.name).join(" / ")}`,
       "相談したいこと:",
       ...result.profile.consultQuestions.map((question) => `- ${question}`),
     ].join("\n");

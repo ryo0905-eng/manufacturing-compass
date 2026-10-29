@@ -15,8 +15,8 @@ import {
 } from "@/data/affiliateLinks";
 
 export const metadata: Metadata = {
-  title: "私が使った製造業・半導体向け転職エージェント",
-  description: "RYOが実際に利用した製造業・半導体・外資系向け転職エージェントを、相談した内容、登録前に確認したいこと、広告の有無とともに紹介します。",
+  title: "製造業・半導体向け転職エージェントの比較",
+  description: "製造業・半導体・外資系向け転職エージェントを、運営者の利用経験と公開情報をもとに、相談内容や登録前の確認点とともに紹介します。",
   alternates: { canonical: "/career-agents" },
 };
 
@@ -37,10 +37,9 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
   return (
     <main className="page career-agents-page agent-editorial-page">
       <section className="page-hero editorial-page-hero">
-        <p className="section-label">RYOの利用経験</p>
-        <h1>私が使った製造業・半導体向け転職エージェント</h1>
-        <p>JACリクルートメント、タイズ、ギブクリエーション、ロバート・ウォルターズ、エンワールドを、実際に利用したり求人紹介を受けたりしました。</p>
-        <p>タイズ経由で次の転職が、ギブクリエーション経由で過去の転職が決まりました。以下は私個人の経験で、サービスの優劣を示すものではありません。</p>
+        <p className="section-label">利用経験と公開情報</p>
+        <h1>製造業・半導体向け転職エージェントの比較</h1>
+        <p>運営者の利用経験と各社の公開情報をもとに、相談先の特徴と登録前の確認点を整理します。利用経験は、実際に利用したサービスについてのみ紹介します。</p>
       </section>
 
       <AffiliateDisclosure label="広告表記" text={affiliateDisclosureText} />
@@ -59,22 +58,22 @@ export default async function CareerAgentsPage({ searchParams }: CareerAgentsPag
         </div>
       </nav>
 
-      <section className="agent-experience-list" id="agents" aria-label="転職エージェントの利用経験">
+      <section className="agent-experience-list" id="agents" aria-label="転職エージェントの比較">
         {orderedAgents.map((agent) => {
           const url = getAgentUrl(agent);
           return (
             <article id={agent.id} key={agent.id}>
-              <header><p>{agent.category}</p><h2>{agent.name}</h2></header>
+              <header><p>{agent.category}</p><h2>{agent.name}</h2><p>{agent.description}</p></header>
               <dl>
                 <div><dt>利用者像の目安</dt><dd><p>{agent.recommendedFor}</p></dd></div>
                 <div><dt>どんな相談に向くか</dt><dd><ul>{agent.consultationTopics.map((topic) => <li key={topic}>{topic}</li>)}</ul></dd></div>
-                <div><dt>RYOの利用経験</dt><dd><p>{agent.personalExperience}</p></dd></div>
+                {agent.personalExperience ? <div><dt>RYOの利用経験</dt><dd><p>{agent.personalExperience}</p></dd></div> : null}
                 <div><dt>登録前に確認すること</dt><dd><p>{agent.pointsToConfirm}</p></dd></div>
               </dl>
               <footer className="agent-link-row">
                 <div>
                   {!agent.affiliateCreativeHtml ? <a className="text-link" href={agent.sourceUrl} rel="noopener noreferrer" target="_blank">公式情報 ↗</a> : null}
-                  <small>確認日 {agent.lastUpdated}</small>
+                  <small>確認日 {agent.checkedAt}</small>
                 </div>
                 {agent.affiliateCreativeHtml ? <TrackedAffiliateCreative agentId={agent.id} html={agent.affiliateCreativeHtml} /> : url ? <a className="button secondary" href={url} rel={getAgentRel(agent)} target="_blank">{getAgentCtaLabel(agent)} ↗</a> : null}
               </footer>

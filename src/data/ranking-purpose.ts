@@ -20,7 +20,7 @@ export const rankingPurposes = [
     links: [
       { id: "role_map", label: "半導体の職種と仕事内容を調べる", href: "/roles" },
       { id: "career_compass", label: "Career Compassで経験と次の準備を整理する", href: "/career-compass" },
-      { id: "career_agents", label: "運営者の利用経験から相談先を比較する", href: "/career-agents" },
+      { id: "career_agents", label: "転職エージェントの相談先を比較する", href: "/career-agents" },
     ],
   },
   {
