@@ -127,6 +127,16 @@ async function main() {
       expected.sort((a, b) => Number(b.focusAreas.includes(focus)) - Number(a.focusAreas.includes(focus)));
     }
     assert.deepEqual(ids, Array.from(expected, agent => agent.id));
+    const pageContent = JSON.stringify(page);
+    for (const phrase of ['転職エージェントの使い方のコツ', '複数のエージェントに登録していることは伝えるべきですか？', '応募を強く勧められたらどうすればよいですか？', '情報収集と応募で使い分けは必要ですか？']) assert.ok(pageContent.includes(phrase));
+    for (const [id, phrases] of Object.entries({
+      'jac-recruitment': ['入社まで利用', '応募先ごとに担当'],
+      'robert-walters': ['求人紹介まで', '選考支援は評価できません'],
+      enworld: ['求人紹介まで', '選考支援は評価できません'],
+    })) {
+      const article = nodes(page, node => node.type === 'article' && node.props.id === id)[0];
+      for (const phrase of phrases) assert.ok(JSON.stringify(article).includes(phrase), `${id}: ${phrase}`);
+    }
     for (const article of nodes(page, node => node.type === 'article')) {
       const agent = agents.getAffiliateAgent(article.props.id);
       const content = JSON.stringify(article);

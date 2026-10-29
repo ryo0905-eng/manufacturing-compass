@@ -236,7 +236,6 @@ export const semiconductorResumeImprovementResultsGuide: GuideArticle = {
     "production-engineering-to-semiconductor-process-engineer",
     "semiconductor-career-chatgpt",
     "semiconductor-career-start",
-    "semiconductor-recruitment-agent-review",
   ],
   relatedCompanyIds: ["tsmc", "renesas"],
 };

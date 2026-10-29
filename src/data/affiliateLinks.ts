@@ -61,7 +61,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["global", "specialist"],
     suitableRoles: ["設計・研究開発", "製造マネジメント", "業界スペシャリスト"],
     consultationTopics: ["専門性を評価される職種・役職", "外資系・グローバル企業への接続", "年収条件とキャリアの優先順位"],
-    personalExperience: "専門性と年収帯に加え、外資系、管理職、専門職の可能性を確認するために利用しました。求人の選択肢を広げるとき、自分の経験がどの役割で評価されるかを相談しました。",
+    personalExperience: "専門性と年収帯に加え、外資系、管理職、専門職の可能性を確認するために利用しました。求人の選択肢を広げるとき、自分の経験がどの役割で評価されるかを相談しました。入社まで利用し、応募先ごとに担当コンサルタントが付き、企業側ともやり取りしていました。採用の背景や面接の雰囲気など、自分だけでは調べにくい情報を詳しく聞けたのが良かったです。一方、応募先が変わるたびに担当も変わり、経歴や希望を最初から説明し直す必要がありました。転職活動全体を一人の担当者に見てもらう形ではありませんでした。",
     pointsToConfirm: "希望する職種・年収帯・勤務地に合う求人の取り扱いがあるか",
     affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=0100mzmm00ova3",
     affiliateCreativeHtml:
@@ -82,7 +82,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["global", "specialist"],
     suitableRoles: ["製品開発", "品質保証", "技術営業", "マネジメント"],
     consultationTopics: ["英語を使うメーカー技術職", "外資系・日系グローバル企業の比較", "英文レジュメと面接準備"],
-    personalExperience: "外資系メーカー、半導体関連、新規事業、英語を使うポジションの求人紹介を受けました。日系メーカーだけを見ていたときとは異なる職種や要件を知るために利用しました。",
+    personalExperience: "外資系メーカー、半導体関連、新規事業、英語を使うポジションの求人紹介を受けました。日系メーカーだけを見ていたときとは異なる職種や要件を知るために利用しました。他のエージェントでは見なかった外資系企業も紹介され、日本での知名度は低くても規模や事業に魅力を感じる会社がありました。一方、求人票はシンプルで、担当者から得られる企業情報は少なめ、やり取りも軽めでした。利用は求人紹介までで応募していないため、選考支援は評価できません。",
     pointsToConfirm: "求人で求められる英語水準、勤務地、担当領域が現在の経験と合うか",
     affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=0100ojgk00ova3",
     affiliateCreativeHtml:
@@ -103,7 +103,7 @@ export const affiliateAgents: AffiliateAgent[] = [
     focusAreas: ["global", "specialist"],
     suitableRoles: ["半導体・電気・電子", "自動車・産業機械", "営業・専門職"],
     consultationTopics: ["外資系・日系グローバル企業への転職", "英語と専門性を使う職種", "入社後の活躍を含む長期的なキャリア"],
-    personalExperience: "外資系・グローバル企業の求人を確認する選択肢として利用しました。海外経験や英語を使う仕事を、どの職種で生かせるかを見るためです。",
+    personalExperience: "外資系・グローバル企業の求人を確認する選択肢として利用しました。海外経験や英語を使う仕事を、どの職種で生かせるかを見るためです。外資系に加えコンサルティング関連など幅広い求人を紹介され、視野が広がりました。応募を急かされる感覚が少なく、数年単位でキャリアを見る印象で付き合いやすかったです。当時は合う求人がなく、利用は求人紹介までで応募していないため、選考支援は評価できません。",
     pointsToConfirm: "希望職種の求人状況と、選考で必要になる英語・専門性の水準",
     affiliateUrl: "https://h.accesstrade.net/sp/cc?rk=0100o60a00ova3",
     affiliateCreativeHtml:

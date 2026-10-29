@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/companies", destination: "/industry-map", permanent: true },
+      { source: "/guides/semiconductor-recruitment-agent-review", destination: "/career-agents", permanent: true },
       {
         source: "/:path*",
         has: [

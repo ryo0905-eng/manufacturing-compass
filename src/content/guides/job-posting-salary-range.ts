@@ -188,7 +188,6 @@ export const jobPostingSalaryRangeGuide: GuideArticle = {
   relatedGuideSlugs: [
     "semiconductor-salary-ranking",
     "three-job-changes-compensation-negotiation",
-    "semiconductor-recruitment-agent-review",
     "company-selection-after-three-job-changes",
   ],
   relatedCompanyIds: [],

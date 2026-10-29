@@ -182,8 +182,8 @@ export const firstCareerChangeAnxietyGuide: GuideArticle = {
             },
             {
               label: "転職エージェント比較",
-              href: "/guides/semiconductor-recruitment-agent-review",
-              description: "3回の転職活動で実際に利用したエージェントの違いと使い分け",
+              href: "/career-agents",
+              description: "転職エージェントの特徴、利用経験と使い分けのコツ",
             },
           ],
         },
@@ -194,7 +194,6 @@ export const firstCareerChangeAnxietyGuide: GuideArticle = {
     "company-selection-after-three-job-changes",
     "semiconductor-career-start",
     "semiconductor-resume-improvement-results",
-    "semiconductor-recruitment-agent-review",
     "three-job-changes-compensation-negotiation",
   ],
   relatedCompanyIds: [],

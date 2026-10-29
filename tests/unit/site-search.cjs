@@ -40,7 +40,10 @@ const { normalizeSiteSearch, searchSiteEntries, getSiteSearchPage } = load('src/
 const { buildSiteSearchIndex } = load('src/lib/site-search-index');
 const entries = buildSiteSearchIndex();
 const { companies, isCompanyIndexable } = load('src/data/companies');
-const { beginnerGuides } = load('src/content/guides');
+const { beginnerGuides, getGuideBySlug } = load('src/content/guides');
+const closedGuide = 'semiconductor-recruitment-agent-review';
+assert.equal(getGuideBySlug(closedGuide), undefined);
+assert.ok(!entries.some(entry => entry.href === `/guides/${closedGuide}`));
 const { learningTools } = load('src/data/learning-tools');
 const { buildAtlasCompanies, buildDirectoryCompanies } = load('src/lib/company-explorer');
 const { siteLinks, siteNavigationGroups, currentNavigationPage } = load('src/data/site-navigation');

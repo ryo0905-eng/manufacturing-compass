@@ -253,6 +253,7 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   const redirects = await config.redirects();
   const redirect = redirects.find(rule => rule.source === '/companies');
   assert.deepEqual(plain(redirect), { source: '/companies', destination: '/industry-map', permanent: true });
+  assert.deepEqual(plain(redirects.find(rule => rule.source === '/guides/semiconductor-recruitment-agent-review')), { source: '/guides/semiconductor-recruitment-agent-review', destination: '/career-agents', permanent: true });
   assert.ok(!redirects.some(rule => rule.source.startsWith('/companies/')));
   for (const params of [{}, { query: '' }, { query: ['GPU', 'memory'], utm_source: 'test' }]) {
     const expected = new URLSearchParams();
@@ -263,6 +264,7 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   const { siteUrl } = load('src/lib/format');
   assert.ok(sitemap.some(entry => entry.url === siteUrl + '/industry-map'));
   assert.ok(!sitemap.some(entry => entry.url === siteUrl + '/companies'));
+  assert.ok(!sitemap.some(entry => entry.url === siteUrl + '/guides/semiconductor-recruitment-agent-review'));
   const { isCompanyIndexable } = load('src/data/companies');
   for (const company of companies) assert.equal(sitemap.some(entry => entry.url === siteUrl + '/companies/' + company.slug), isCompanyIndexable(company), company.id);
   assert.ok(sitemap.some(entry => entry.url === siteUrl + '/companies/global-japan'));
