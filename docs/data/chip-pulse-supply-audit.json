@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-29T01:00:53.848Z",
-  "windowStart": "2026-09-29T00:00:00.000Z",
-  "windowEnd": "2026-10-29T00:00:00.000Z",
+  "generatedAt": "2026-10-30T01:05:55.730Z",
+  "windowStart": "2026-09-30T00:00:00.000Z",
+  "windowEnd": "2026-10-30T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -10,6 +10,66 @@
   },
   "errors": [],
   "rows": [
+    {
+      "id": "sec-0000950103-26-016324",
+      "sourceId": "ase",
+      "publishedAt": "2026-10-29T10:11:45.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0000950103-26-016323",
+      "sourceId": "ase",
+      "publishedAt": "2026-10-29T10:08:03.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0001101302-26-000162",
+      "sourceId": "entegris",
+      "publishedAt": "2026-10-29T20:36:24.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0001101302-26-000159",
+      "sourceId": "entegris",
+      "publishedAt": "2026-10-29T11:01:19.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0000050863-26-000188",
+      "sourceId": "intel",
+      "publishedAt": "2026-10-29T20:08:53.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0000319201-26-000034",
+      "sourceId": "kla",
+      "publishedAt": "2026-10-29T20:08:32.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
     {
       "id": "sec-0000319201-26-000032",
       "sourceId": "kla",
@@ -173,22 +233,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-09-30",
-    "end": "2026-10-29",
+    "start": "2026-10-01",
+    "end": "2026-10-30",
     "days": [
-      {
-        "date": "2026-09-30",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-10-01",
         "candidates": 1,
@@ -555,9 +602,22 @@
       },
       {
         "date": "2026-10-29",
-        "candidates": 1,
-        "deduplicated": 1,
-        "bodies": 1,
+        "candidates": 4,
+        "deduplicated": 4,
+        "bodies": 4,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
+      },
+      {
+        "date": "2026-10-30",
+        "candidates": 3,
+        "deduplicated": 3,
+        "bodies": 3,
         "publishable": 0,
         "fields": {
           "equipment": 0,
@@ -570,26 +630,26 @@
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-23",
-        "end": "2026-10-29",
+        "start": "2026-10-24",
+        "end": "2026-10-30",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-16",
-        "end": "2026-10-22",
+        "start": "2026-10-17",
+        "end": "2026-10-23",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-09",
-        "end": "2026-10-15",
+        "start": "2026-10-10",
+        "end": "2026-10-16",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-02",
-        "end": "2026-10-08",
+        "start": "2026-10-03",
+        "end": "2026-10-09",
         "publishable": 0,
         "fields": []
       }
