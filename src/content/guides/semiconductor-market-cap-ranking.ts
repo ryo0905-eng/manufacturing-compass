@@ -491,6 +491,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     "japan-semiconductor-market-cap-history",
     "semiconductor-equipment-sales-ranking",
     "memory-manufacturer-ranking",
+    "optical-semiconductor-manufacturers",
     "semiconductor-salary-ranking",
     "semiconductor-silicon-wafer-manufacturers",
     "ic-chip-manufacturing-companies",

@@ -95,7 +95,7 @@ async function main() {
   assert.ok(ids.indexOf('japan-ranking') < ids.indexOf('top-ten'));
   assert.equal(ranking.sources.find(source => source.publisher === 'CompaniesMarketCap').accessedAt, '2026-10-17');
   assert.ok(ranking.description.includes('2026年10月16日'));
-  assert.equal(ranking.overviewBlocks[0].items.length, 3);
+  assert.deepEqual(JSON.parse(JSON.stringify(ranking.overviewBlocks[0].items.map(item => item.href))), ['#world-ranking', '#japan-ranking', '/guides/semiconductor-market-cap-growth-ranking', '#top-ten']);
   assert.equal(salary.title, '半導体企業の平均年収ランキング｜日本の主要20社・2026年10月確認');
   assert.equal(salary.updatedAt, '2026-10-01');
   assert.equal(salaryData.semiconductorSalaryMeta.retrievedAt, '2026-10-01');
@@ -134,7 +134,7 @@ async function main() {
   assert.ok(salaryHtml.includes('レーザーテック') && salaryHtml.includes('1,881万円') && salaryHtml.includes('2026年10月確認'));
   assert.ok(salaryHtml.includes('"dateModified":"2026-10-01"'));
   const rankingSitemapEntry = load('src/app/sitemap').default().find(item => item.url.endsWith(`/guides/${ranking.slug}`));
-  assert.equal(rankingSitemapEntry.lastModified.toISOString(), '2026-10-16T15:00:00.000Z');
+  assert.equal(rankingSitemapEntry.lastModified.toISOString(), new Date(`${ranking.updatedAt}T00:00:00+09:00`).toISOString());
   const salarySitemapEntry = load('src/app/sitemap').default().find(item => item.url.endsWith(`/guides/${salary.slug}`));
   assert.equal(salarySitemapEntry.lastModified.toISOString(), '2026-09-30T15:00:00.000Z');
   let tool = load('src/app/(ja)/tools/cpk/page').default;

@@ -82,11 +82,11 @@ async function main() {
     assert.equal(format.companyCompareSlug([...ids].reverse()), slug);
     assert.ok(!pairs.has(slug)); pairs.add(slug);
   }
-  const directory = load('src/app/(ja)/companies/page');
+  const directory = load('src/app/(ja)/industry-map/page');
   for (const query of ['no-such-company', '品質保証', '', ['NVIDIA', 'AMD']]) {
     const metadata = await directory.generateMetadata({ searchParams: Promise.resolve({ query }) });
     assert.equal(metadata.robots.index, false);
-    assert.equal(metadata.alternates.canonical, '/companies');
+    assert.equal(metadata.alternates.canonical, '/industry-map');
   }
   assert.notEqual((await directory.generateMetadata({ searchParams: Promise.resolve({}) })).robots?.index, false);
   const rankingPoints = load('src/data/career-research-lists').careerResearchLists;
@@ -113,12 +113,13 @@ async function main() {
   for (const article of media.articles) {
     const html = renderToStaticMarkup(await newsPage.default(props(article.id)));
     assert.equal(html.split(article.summary).length - 1, 2, 'summary occurs in schema description and standfirst only');
-    assert.ok(html.includes('この発表を比較・時系列から読む'));
-    assert.equal(updatedEditorial.articles[article.id].checkedAt, originalEditorial.articles[article.id].checkedAt, 'do not invent a source review date');
+    const entry = load('src/lib/watch').getArticleEditorial(article);
+    assert.equal(html.includes('この発表を比較・時系列から読む'), Boolean(entry?.readingPoints?.length));
+    assert.equal(updatedEditorial.articles[article.id]?.checkedAt, originalEditorial.articles[article.id]?.checkedAt, 'do not invent a source review date');
     const metadata = await newsPage.generateMetadata(props(article.id));
     assert.equal(metadata.alternates.canonical, '/semiconductor-watch/' + article.id);
-    assert.ok(metadata.openGraph.modifiedTime.startsWith('2026-10-08'));
+    assert.equal(metadata.openGraph.modifiedTime, article.updatedAt);
   }
-  console.log('PASS: real Next 308/404 route signals, 17 canonical/indexable profiles and sitemap URLs, 666 unique free pairs, SSR source/quality disclosures, directory parameter metadata, 31 research entries and material links.');
+  console.log('PASS: real Next 308/404 route signals, 17 canonical/indexable profiles and sitemap URLs, 666 unique free pairs, SSR source/quality disclosures, industry map parameter metadata, 31 research entries and material links.');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

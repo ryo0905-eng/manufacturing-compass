@@ -14,10 +14,11 @@ function moduleLoader(overrides = {}) {
       file += fs.existsSync(file + '.tsx') ? '.tsx' : '.ts';
     }
     if (file.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => String(key) }) };
+    if (file.endsWith('.json')) return JSON.parse(fs.readFileSync(file, 'utf8'));
     if (cache.has(file)) return cache.get(file);
     const exports = {};
     const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } }).outputText;
-    vm.runInNewContext(code, { exports, require: name => {
+    vm.runInNewContext(code, { exports, process, require: name => {
       if (name in overrides) return overrides[name];
       if (name === 'next/link') return { __esModule: true, default: props => React.createElement('a', props, props.children) };
       if (name.startsWith('@/')) return load(path.join(base, name.slice(2)));
@@ -90,7 +91,7 @@ assert.equal(actual.isCorrelationPublished(),true);
 const capture=[];const prior=console.error;console.error=(...args)=>capture.push(args.join(' '));
 try {
  for(const published of [false,true]) {
-  const load=moduleLoader({'@/lib/analytics':{trackEvent(){}},'@/lib/format':{siteUrl:'https://mfg-compass.com',companyCompareSlug:ids=>ids.join('-')},'@/data/correlation-causation':{...actual,isCorrelationPublished:()=>published}});
+  const load=moduleLoader({'@/lib/analytics':{trackEvent(){}},'@/data/correlation-causation':{...actual,isCorrelationPublished:()=>published}});
   const page=load(path.join(base,'app/(ja)/tools/correlation-causation/page.tsx'));
   assert.equal(page.metadata.robots.index,published);assert.equal(page.metadata.alternates.canonical,actual.correlationRoute);
   const html=renderToStaticMarkup(React.createElement(page.default));

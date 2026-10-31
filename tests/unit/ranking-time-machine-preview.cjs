@@ -194,7 +194,7 @@ assert.equal(fallback.controls().playing, false); fallback.cleanup();
 const guide = load('src/content/guides/semiconductor-market-cap-ranking').semiconductorMarketCapRankingGuide;
 const worldBlocks = guide.sections.find(section => section.id === 'world-ranking').blocks;
 const japanBlocks = guide.sections.find(section => section.id === 'japan-ranking').blocks;
-assert.deepEqual(plain(worldBlocks), [{ type: 'market-cap-ranking', scope: 'world' }]);
+assert.deepEqual(plain(worldBlocks), [{ type: 'market-cap-ranking', scope: 'world' }, { type: 'ranking-purpose-entry' }]);
 assert.deepEqual(plain(japanBlocks), [{ type: 'market-cap-ranking', scope: 'japan' }]);
 const historyIndex = guide.sections.findIndex(section => section.id === 'ranking-history');
 assert.equal(historyIndex, guide.sections.findIndex(section => section.id === 'japan-ranking') + 1);
@@ -209,7 +209,7 @@ assert.match(homeHtml, /id="home-rankings"/);
 assert.ok(homeHtml.indexOf('id="home-rankings"') < homeHtml.indexOf('id="home-tools-title"'));
 const rankingSection = homeHtml.slice(homeHtml.indexOf('id="home-rankings"'), homeHtml.indexOf('id="home-tools-title"'));
 const homeLinks = load('src/data/home').homeRankingLinks;
-assert.equal(homeLinks.length, 4);
+assert.deepEqual(plain(homeLinks.map(link => link.id)), ['market_cap', 'market_cap_growth', 'equipment_sales', 'memory', 'salary']);
 for (const item of homeLinks) assert.ok(rankingSection.includes(`href="${item.href}"`));
 const rankingHeader = rankingSection.slice(0, rankingSection.indexOf('</header>'));
 for (const item of homeLinks) {

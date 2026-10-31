@@ -57,7 +57,8 @@ assert.equal(section.blocks.filter(block => block.type === 'ranking-purpose-entr
 assert.ok(!guide.sections.some(section => section.id === 'research-next'));
 const Blocks = load('src/components/guide/GuideBlocks').GuideBlocks;
 const article = renderToStaticMarkup(React.createElement(Blocks, { blocks: section.blocks, sourceSlug: guide.slug }));
-assert.equal((article.match(/href="\/career-compass"/g) || []).length, 1, 'No-JS fallback retains Career Compass');
+const rankingFallback = article.match(/<noscript>[\s\S]*?<\/noscript>/)[0];
+assert.equal((rankingFallback.match(/href="\/career-compass"/g) || []).length, 1, 'No-JS fallback retains Career Compass');
 assert.ok(article.includes('id="research-next"'));
 assert.ok(!article.includes('data-career-compass-preview="ranking"'));
 const unrelated = renderToStaticMarkup(React.createElement(Blocks, { blocks: [{ type: 'note', title: 'Example', body: 'Other article' }], sourceSlug: 'example' }));

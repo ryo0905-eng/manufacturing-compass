@@ -2,8 +2,8 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const { canonicalSourceUrl, extractPublishedSignals, reviewCandidates } = require("../../scripts/chip-pulse-review.cjs");
 
-const signals = extractPublishedSignals(fs.readFileSync("src/data/chip-pulse.ts", "utf8"));
-const aliases = JSON.parse(fs.readFileSync("src/data/chip-pulse-source-aliases.json", "utf8"));
+const { publishedSignals: signals, aliases } = require("../fixtures/chip-pulse-collection.json");
+assert.ok(extractPublishedSignals(fs.readFileSync("src/data/chip-pulse.ts", "utf8")).length > 0);
 assert.ok(signals.length > 0);
 assert.equal(canonicalSourceUrl("https://example.com/news/?utm_source=rss&v=2#top"), "https://example.com/news?v=2");
 

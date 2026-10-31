@@ -14,6 +14,7 @@ function loader(react = React, globals = {}, events = [], overrides = {}) {
     const stem = path.resolve(root, relative);
     const filename = [stem, stem + '.ts', stem + '.tsx', path.join(stem, 'index.ts')].find(p => fs.existsSync(p) && fs.statSync(p).isFile());
     assert.ok(filename, relative);
+    if (filename.endsWith('.json')) return JSON.parse(fs.readFileSync(filename, 'utf8'));
     if (cache.has(filename)) return cache.get(filename);
     const result = {};
     cache.set(filename, result);

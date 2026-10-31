@@ -311,7 +311,8 @@ assert.match(firstDetail, /変化なし/);
 assert.equal((detail.match(/<tr[ >]/g) || []).length, 17);
 const mediaTek = renderToStaticMarkup(React.createElement(CompanyDetail, { companyId: 'mediatek', timeline, index: 0 }));
 assert.ok(!mediaTek.includes('/companies/mediatek'));
-assert.ok(fs.readFileSync(path.join(root, 'src/content/guides/semiconductor-market-cap-ranking.ts'), 'utf8').includes('#ranking-time-machine-preview'));
+const rankingGuide = load('src/content/guides/semiconductor-market-cap-ranking.ts').semiconductorMarketCapRankingGuide;
+assert.equal(rankingGuide.sections.find(section => section.id === 'ranking-history').blocks[0].type, 'ranking-time-machine-preview');
 for (const file of ['src/content/guides/semiconductor-equipment-sales-ranking.ts', 'src/app/(ja)/tools/page.tsx']) assert.ok(fs.readFileSync(path.join(root, file), 'utf8').includes('/tools/ranking-time-machine'));
 assert.match(fs.readFileSync(path.join(root, 'src/app/sitemap.ts'), 'utf8'), /rankingTimeMachineMetadata\.route/);
 

@@ -16,6 +16,7 @@ function load(relative, dependencies = {}, globals = {}) {
     exports,
     require(name) {
       if (name === '@/lib/confirm-input-replacement') return load('src/lib/confirm-input-replacement.ts', {}, { window: { confirm: () => true } }); if (name === '@/components/ToolWorkspaceFile') return { ToolWorkspaceFile: 'WorkspaceFile' }; if (name === '@/components/PracticalToolNextSteps') return { PracticalToolNextSteps: 'NextSteps' }; if (name === '@/lib/use-practical-tool-journey') return load('src/lib/use-practical-tool-journey.ts', { ...dependencies, react: { ...dependencies.react, useEffect() {} }, '@/lib/observe-visible': { observeVisibleOnce() {} } }); if (name.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => String(key) }) };
+      if (name === '@/components/TrackedInternalLink') return { TrackedInternalLink: 'TrackedLink' };
       if (name === '@/components/ui/Controls') return load('src/components/ui/Controls.tsx');
       if (name === '@/data/cpk-text') return load('src/data/cpk-text.ts');
       if (name === 'react/jsx-runtime') return { jsx: element, jsxs: element };

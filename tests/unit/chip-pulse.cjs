@@ -35,9 +35,12 @@ const data = load("src/data/chip-pulse");
 const lib = load("src/lib/chip-pulse");
 const { companies } = load("src/data/companies");
 
-assert.equal(data.pulseMarketCapAsOf, "2026-10-01");
-assert.equal(data.pulseCompanies.find((company) => company.id === "nvidia").marketCapUsdB, 5486);
-assert.equal(data.pulseCompanies.find((company) => company.id === "tokyo-electron").marketCapUsdB, 171.02);
+const marketCap = load("src/data/semiconductor-market-cap");
+assert.equal(data.pulseMarketCapAsOf, marketCap.semiconductorMarketCapMeta.dataAsOf);
+const rankingCompanies = [...marketCap.worldSemiconductorMarketCapRanking, ...marketCap.japanSemiconductorMarketCapRanking];
+for (const company of data.pulseCompanies) {
+  assert.equal(company.marketCapUsdB, rankingCompanies.find(entry => entry.id === company.id)?.marketCapUsdB, company.id);
+}
 assert.equal(new Set(data.pulseCompanies.map((company) => company.id)).size, data.pulseCompanies.length);
 assert.ok(data.pulseCompanies.length >= 20);
 assert.ok(data.pulseCompanies.every((company) => company.marketCapUsdB > 0));

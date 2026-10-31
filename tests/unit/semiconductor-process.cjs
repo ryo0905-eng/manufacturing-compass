@@ -14,10 +14,11 @@ function loader(overrides = {}) {
       file += fs.existsSync(file + '.tsx') ? '.tsx' : '.ts';
     }
     if (file.endsWith('.css')) return { default: new Proxy({}, { get: (_, key) => String(key) }) };
+    if (file.endsWith('.json')) return JSON.parse(fs.readFileSync(file, 'utf8'));
     if (cache.has(file)) return cache.get(file);
     const exports = {};
     const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } }).outputText;
-    vm.runInNewContext(code, { exports, require(name) {
+    vm.runInNewContext(code, { exports, process, require(name) {
       if (name in overrides) return overrides[name];
       if (name === 'next/link') return { __esModule: true, default: ({ children, ...props }) => React.createElement('a', props, children) };
       if (name.startsWith('@/')) return load(path.join(base, name.slice(2)));

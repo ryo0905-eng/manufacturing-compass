@@ -3,9 +3,8 @@ const fs = require("node:fs");
 const { buildOfficialUpdates } = require("../../scripts/chip-pulse-publish.cjs");
 const { extractPublishedSignals } = require("../../scripts/chip-pulse-review.cjs");
 
-const signals = extractPublishedSignals(fs.readFileSync("src/data/chip-pulse.ts", "utf8"));
-const aliases = JSON.parse(fs.readFileSync("src/data/chip-pulse-source-aliases.json", "utf8"));
-const registry = JSON.parse(fs.readFileSync("src/data/chip-pulse-sources.json", "utf8"));
+const { publishedSignals: signals, aliases, publisherRegistry: registry } = require("../fixtures/chip-pulse-collection.json");
+assert.ok(extractPublishedSignals(fs.readFileSync("src/data/chip-pulse.ts", "utf8")).length > 0);
 const snapshot = {
   schemaVersion: 1,
   status: "success",

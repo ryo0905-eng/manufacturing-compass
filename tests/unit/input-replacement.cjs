@@ -26,6 +26,7 @@ function mount(component, props) {
       if (id === 'react') return react;
       if (id === 'react/jsx-runtime') return { jsx, jsxs: jsx };
       if (id.endsWith('.css')) return { default: {} };
+      if (id === '@/components/TrackedInternalLink') return { TrackedInternalLink: 'TrackedLink' };
       if (id === '@/lib/analytics') return { trackEvent: (...args) => events.push(args) };
       if (id === '@/lib/observe-visible') return { observeVisibleOnce() {} };
       if (id === '@/components/ImprovementReportEditor') return { ImprovementReportEditor: 'Report', reportAction: action => events.push(['report', action]) };

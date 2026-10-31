@@ -14,6 +14,7 @@ function createLoader(react = React, events = []) {
     const filename = [stem, stem + '.ts', stem + '.tsx', path.join(stem, 'index.ts')]
       .find(file => fs.existsSync(file) && fs.statSync(file).isFile());
     assert.ok(filename, `Module exists: ${relative}`);
+    if (filename.endsWith('.json')) return JSON.parse(fs.readFileSync(filename, 'utf8'));
     if (cache.has(filename)) return cache.get(filename);
     const result = {};
     cache.set(filename, result);

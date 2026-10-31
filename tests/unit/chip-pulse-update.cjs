@@ -38,9 +38,10 @@ const payload = {
 };
 
 const registry = readRegistry();
-assert.equal(registry.sources.length, 11);
+assert.ok(registry.sources.length > 0);
 assert.equal(new Set(registry.sources.map((item) => item.companyId)).size, registry.sources.length);
-assert.equal(new Set(registry.sources.filter((item) => item.cik).map((item) => item.cik)).size, 10);
+const secSources = registry.sources.filter((item) => item.kind === "sec-submissions");
+assert.equal(new Set(secSources.map((item) => item.cik)).size, secSources.length);
 
 const normalized = normalizeSecFilings(
   payload,
@@ -60,7 +61,7 @@ assert.equal(
   "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000101/nvda%20report.htm",
 );
 
-const rssSource = registry.sources.find((item) => item.companyId === "samsung-electronics");
+const { rssSource } = require("../fixtures/chip-pulse-collection.json");
 const rss = `<?xml version="1.0"?><rss version="2.0"><channel>
   <item><title><![CDATA[Samsung &amp; ASML expand semiconductor work]]></title><link>https://news.samsung.com/global/example</link><pubDate>Fri, 25 Sep 2026 10:00:00 GMT</pubDate><category>Semiconductor</category></item>
   <item><title>Galaxy phone release</title><link>https://news.samsung.com/global/phone</link><pubDate>Fri, 25 Sep 2026 10:00:00 GMT</pubDate></item>

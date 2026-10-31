@@ -1,0 +1,26 @@
+{
+  "publishedSignals": [
+    { "id": "tsmc-capital-appropriation-2026-09", "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1046179/000104617926000660/tsm-monthend6kx20260924.htm" },
+    { "id": "samsung-asml-high-na-2026", "sourceUrl": "https://www.asml.com/en/news/press-releases/2026/samsung-electronics-and-asml-expand-collaboration-on-next-generation-semiconductor-manufacturing" },
+    { "id": "broadcom-q3-semiconductor-solutions-2026", "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1730168/000173016826000080/avgo-20260802.htm" }
+  ],
+  "aliases": {
+    "schemaVersion": 1,
+    "aliases": [
+      { "signalId": "samsung-asml-high-na-2026", "sourceUrl": "https://news.samsung.com/global/samsung-electronics-and-asml-expand-strategic-collaboration-for-next-generation-semiconductor-manufacturing" }
+    ]
+  },
+  "rssSource": {
+    "companyId": "samsung-electronics",
+    "companyName": "Samsung Electronics",
+    "kind": "official-rss",
+    "url": "https://news.samsung.com/global/feed",
+    "matchTerms": ["semiconductor", "HBM"]
+  },
+  "publisherRegistry": {
+    "sources": [
+      { "companyId": "amd", "companyName": "AMD" },
+      { "companyId": "samsung-electronics", "companyName": "Samsung Electronics" }
+    ]
+  }
+}
