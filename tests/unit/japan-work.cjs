@@ -81,7 +81,8 @@ assert.deepEqual(normalized(model.toggleJapanWorkComparison(['a', 'b'], 'a', all
 assert.deepEqual(normalized(model.toggleJapanWorkComparison(['a', 'a', 'unknown'], 'c', allowed)), ['a', 'c']);
 assert.equal(model.validateJapanWorkEvidence([{ ...sample, locationIds: ['infineon-shibuya'] }], companies.map((c) => c.id), data.japanWorkSources.map((s) => s.id), companyLocations, data.japanWorkCategories.map((c) => c.id)).length, 1);
 assert.equal(model.validateJapanWorkEvidence([{ ...sample, sourceIds: ['missing'], categories: ['wrong'] }], companies.map((c) => c.id), data.japanWorkSources.map((s) => s.id), companyLocations, data.japanWorkCategories.map((c) => c.id)).length, 2);
-for (const id of ['amd', 'kla', 'lam-research', 'infineon']) assert.equal(getCompanyContentStatus(id), 'draft');
+for (const id of ['kla', 'infineon']) assert.equal(getCompanyContentStatus(id), 'draft');
+for (const id of ['amd', 'lam-research']) assert.equal(getCompanyContentStatus(id), 'complete');
 const page = load('src/app/(ja)/companies/global-japan/page.tsx');
 assert.equal(page.metadata.robots.index, true);
 assert.equal(page.metadata.alternates.canonical, data.japanWorkRoute);
