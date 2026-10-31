@@ -64,6 +64,37 @@ assert.ok(!article.includes('data-career-compass-preview="ranking"'));
 const unrelated = renderToStaticMarkup(React.createElement(Blocks, { blocks: [{ type: 'note', title: 'Example', body: 'Other article' }], sourceSlug: 'example' }));
 assert.ok(!unrelated.includes('data-career-compass-preview'));
 
+const rankingEntries = [
+  ['memory-manufacturer-ranking', 'memoryManufacturerRankingGuide', 'memory-market-ranking', 'memoryRanking', 'memory_after_ranking'],
+  ['semiconductor-equipment-sales-ranking', 'semiconductorEquipmentSalesRankingGuide', 'equipment-sales-ranking', 'equipmentRanking', 'equipment_after_ranking'],
+  ['semiconductor-salary-ranking', 'semiconductorSalaryRankingGuide', 'salary-ranking', 'salaryRanking', 'salary_after_ranking'],
+  ['foundry-manufacturer-ranking', 'foundryManufacturerRankingGuide', 'foundry-market-ranking', 'foundryRanking', 'foundry_after_ranking'],
+];
+for (const [slug, exportName, rankingType, placement, location] of rankingEntries) {
+  const guide = load(`src/content/guides/${slug}`)[exportName];
+  const blocks = guide.sections.find(section => section.id === 'ranking').blocks;
+  const index = blocks.findIndex(block => block.type === rankingType);
+  assert.ok(index >= 0);
+  assert.equal(blocks[index + 1].type, 'career-compass-entry');
+  assert.equal(blocks[index + 1].placement, placement);
+  let linkProps, viewProps;
+  const testLoad = loader({
+    '@/components/CareerCompassLink': { CareerCompassLink: props => { linkProps = props; return React.createElement('a', { href: '/career-compass' }, props.children); } },
+    '@/components/career-compass/CareerCompassPreviewView': { CareerCompassPreviewView: props => { viewProps = props; return props.children; } },
+  });
+  const TestBlocks = testLoad('src/components/guide/GuideBlocks').GuideBlocks;
+  const result = renderToStaticMarkup(React.createElement(TestBlocks, { blocks: [blocks[index + 1]], sourceSlug: slug }));
+  assert.match(result, new RegExp(`data-career-compass-preview="${placement}"`));
+  assert.match(result, /<h3[^>]*>今の経験は、半導体のどんな仕事につながる？<\/h3>/);
+  assert.match(result, /href="\/career-compass"[^>]*>自分の経験で確かめる/);
+  assert.equal(linkProps.sourcePage, `/guides/${slug}`);
+  assert.equal(linkProps.ctaLocation, location);
+  assert.equal(linkProps.ctaVariant, 'preview_entry_v1');
+  assert.equal(viewProps.source_page, `/guides/${slug}`);
+  assert.equal(viewProps.cta_location, location);
+  assert.equal(viewProps.cta_variant, 'preview_entry_v1');
+}
+
 // Use the real visibility helper with mocked hooks and browser observation.
 function harness(supported = true) {
   const events = [], observers = [], effects = [], refs = [], listeners = new Map();

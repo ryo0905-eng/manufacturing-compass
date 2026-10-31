@@ -55,7 +55,7 @@ export const semiconductorSalaryRankingGuide: GuideArticle = {
       id: "ranking",
       heading: "日本の半導体関連20社の平均年間給与｜2026年10月確認",
       lead: "今回選定した20社では、レーザーテック、ディスコ、東京エレクトロンが上位3社です。",
-      blocks: [{ type: "salary-ranking" }],
+      blocks: [{ type: "salary-ranking" }, { type: "career-compass-entry", placement: "salaryRanking" }],
       paragraphs: [
         "ランキングは、日本上場の主要な半導体メーカー、製造装置、検査・計測、材料関連企業20社を編集部が選び、各社の直近有価証券報告書に記載された提出会社単体の平均年間給与を並べたものです。国内の全半導体関連企業を網羅した順位ではありません。",
         "平均年間給与は1万円単位の概数で表示しています。決算期が異なるため、2025年12月期、2026年2月期、2026年3月期、2026年6月期の直近開示が混在します。古い数字を新しい数字へ推計することはしていません。",

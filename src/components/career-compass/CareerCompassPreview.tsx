@@ -5,7 +5,7 @@ import styles from "./CareerCompassPreview.module.css";
 
 export function CareerCompassPreview({ placement }: { placement: keyof typeof careerCompassEntry.placements }) {
   const context = careerCompassEntry.placements[placement];
-  const Heading = placement === "ranking" ? "h3" : "h2";
+  const Heading = placement === "intro" ? "h2" : "h3";
 
   return (
     <aside className={`${styles.preview} ${placement === "intro" ? styles.intro : ""}`.trim()} data-career-compass-preview={placement}>
@@ -25,7 +25,7 @@ export function CareerCompassPreview({ placement }: { placement: keyof typeof ca
         <p className={styles.note}>{careerCompassEntry.note}</p>
       </CareerCompassPreviewView>
       <p className={styles.conditions}>{careerCompassEntry.conditions}</p>
-      {placement === "ranking" ? (
+      {placement !== "intro" ? (
         <CareerCompassLink className={`button primary ${styles.button}`} sourcePage={context.sourcePage}
           ctaLocation={context.ctaLocation} ctaVariant={careerCompassEntry.variant}>
           {context.buttonLabel}<span aria-hidden="true">→</span>

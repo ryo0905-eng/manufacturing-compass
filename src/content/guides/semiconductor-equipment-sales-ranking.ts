@@ -38,7 +38,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
       id: "ranking",
       heading: "2025年の世界上位10社を、工程から見る",
       paragraphs: ["2025暦年の半導体製造装置売上高では、ASML、Applied Materials、Lam Researchの順に並びます。工程ボタンで関連企業を確かめながら、気になる会社の製品や技術を調べられます。"],
-      blocks: [{ type: "equipment-sales-ranking" }],
+      blocks: [{ type: "equipment-sales-ranking" }, { type: "career-compass-entry", placement: "equipmentRanking" }],
     },
     {
       id: "method",

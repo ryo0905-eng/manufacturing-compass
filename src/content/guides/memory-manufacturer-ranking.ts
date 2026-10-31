@@ -37,7 +37,7 @@ export const memoryManufacturerRankingGuide: GuideArticle = {
       id: "ranking",
       heading: "DRAMとNANDのランキングを切り替えて見る",
       paragraphs: [],
-      blocks: [{ type: "memory-market-ranking" }],
+      blocks: [{ type: "memory-market-ranking" }, { type: "career-compass-entry", placement: "memoryRanking" }],
     },
     {
       id: "uses",

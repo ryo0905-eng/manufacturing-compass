@@ -20,5 +20,25 @@ export const careerCompassEntry = {
       ctaLocation: "career_compass_intro",
       buttonLabel: "自分の経験を整理する（12問）",
     },
+    memoryRanking: {
+      sourcePage: "/guides/memory-manufacturer-ranking",
+      ctaLocation: "memory_after_ranking",
+      buttonLabel: "自分の経験で確かめる",
+    },
+    equipmentRanking: {
+      sourcePage: "/guides/semiconductor-equipment-sales-ranking",
+      ctaLocation: "equipment_after_ranking",
+      buttonLabel: "自分の経験で確かめる",
+    },
+    salaryRanking: {
+      sourcePage: "/guides/semiconductor-salary-ranking",
+      ctaLocation: "salary_after_ranking",
+      buttonLabel: "自分の経験で確かめる",
+    },
+    foundryRanking: {
+      sourcePage: "/guides/foundry-manufacturer-ranking",
+      ctaLocation: "foundry_after_ranking",
+      buttonLabel: "自分の経験で確かめる",
+    },
   },
 } as const;

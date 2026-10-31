@@ -18,7 +18,7 @@ export const foundryManufacturerRankingGuide: GuideArticle = {
     learnings: "主要ファウンドリの売上シェア、先端プロセスと成熟プロセスの構図、比較対象の違いが分かります。",
   },
   sections: [
-    { id: "ranking", heading: "ファウンドリの売上ランキングを見る", paragraphs: [], blocks: [{ type: "foundry-market-ranking" }] },
+    { id: "ranking", heading: "ファウンドリの売上ランキングを見る", paragraphs: [], blocks: [{ type: "foundry-market-ranking" }, { type: "career-compass-entry", placement: "foundryRanking" }] },
     { id: "structure", heading: "ファウンドリ市場は先端プロセスと成熟プロセスで顔ぶれが変わる", paragraphs: [
       "ファウンドリは、他社が設計した半導体の製造を受託する事業です。スマートフォンやAIサーバー向けの先端プロセス（3nm、5nmなど）では量産できる企業が限られ、売上が一部の企業に集中します。一方、車載・産業向けの成熟プロセスでは、UMC、GlobalFoundries、中国のファウンドリなど、より多くの企業が供給を担います。",
       "そのため、売上シェアの順位は『どのプロセスの話か』とセットで読む必要があります。本ランキングは全プロセスを合計した売上高ベースの順位です。",

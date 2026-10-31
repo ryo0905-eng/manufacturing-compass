@@ -38,7 +38,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
     <div className="guide-blocks">
       {blocks.map((block, index) => {
         if (block.type === "ranking-purpose-entry") return <RankingPurposeEntry key={`ranking-purpose-${index}`} />;
-        if (block.type === "career-compass-entry") return <CareerCompassPreview placement="ranking" key={`career-entry-${index}`} />;
+        if (block.type === "career-compass-entry") return <CareerCompassPreview placement={block.placement ?? "ranking"} key={`career-entry-${index}`} />;
         if (block.type === "ranking-time-machine-preview") return <RankingTimeMachinePreview key={`ranking-preview-${index}`} />;
         if (block.type === "book-affiliate-entry") return <BookAffiliateEntry sourceSlug={sourceSlug} key={`book-entry-${index}`} />;
         if (block.type === "factory-project-comparison") return <FactoryProjectComparison key={`factory-project-comparison-${index}`} />;
