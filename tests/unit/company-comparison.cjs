@@ -74,7 +74,7 @@ async function main() {
   assert.ok(unpreparedHtml.includes('両社の企業別キャリア準備情報は未整備'));
   assert.ok(!unpreparedHtml.includes('掲載データなし'));
   assert.ok(!unpreparedHtml.includes('<th>半年後の準備</th>'));
-  assert.equal(catalog.companies.filter(catalog.isCompanyIndexable).length, 10);
+  assert.equal(catalog.companies.filter(catalog.isCompanyIndexable).length, 15);
   const pairs = new Set();
   for (let i = 0; i < catalog.companies.length; i++) for (let j = i + 1; j < catalog.companies.length; j++) {
     const ids = [catalog.companies[i].id, catalog.companies[j].id];
