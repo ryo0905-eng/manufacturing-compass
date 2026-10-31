@@ -10,7 +10,7 @@ const EXPORT = Object.freeze({
   headers: {
     GA4_Daily: ['date', 'active_users', 'sessions', 'screen_page_views'],
     GA4_Pages: ['date', 'page_path', 'screen_page_views', 'active_users'],
-    GA4_Events: ['date', 'event_name', 'source_page', 'cta_location', 'cta_variant', 'destination_group', 'result_type', 'agent_id', 'step_number', 'event_count'],
+    GA4_Events: ['date', 'event_name', 'source_page', 'cta_location', 'cta_variant', 'step_number', 'result_type', 'destination_group', 'agent_id', 'event_count', 'total_users'],
     GSC_Daily: ['date', 'clicks', 'impressions', 'ctr', 'position'],
     GSC_Pages: ['date', 'page_url', 'clicks', 'impressions', 'ctr', 'position'],
     GSC_Queries: ['date', 'query', 'clicks', 'impressions', 'ctr', 'position']
@@ -121,13 +121,19 @@ function exportOne_(cfg, book, name, day, deadline) {
 function ga_(cfg, name, day, deadline) {
   const isPage = name === 'GA4_Pages';
   const isEvent = name === 'GA4_Events';
-  const dimensions = isPage ? ['pagePath'] : isEvent ? ['eventName', 'customEvent:source_page', 'customEvent:cta_location', 'customEvent:cta_variant', 'customEvent:destination_group', 'customEvent:result_type', 'customEvent:agent_id', 'customEvent:step_number'] : [];
-  const metrics = isPage ? ['screenPageViews', 'activeUsers'] : isEvent ? ['eventCount'] : ['activeUsers', 'sessions', 'screenPageViews'];
+  const dimensions = isPage ? ['pagePath'] : isEvent ? ['eventName', 'customEvent:source_page', 'customEvent:cta_location', 'customEvent:cta_variant', 'customEvent:step_number', 'customEvent:result_type', 'customEvent:destination_group', 'customEvent:agent_id'] : [];
+  const metrics = isPage ? ['screenPageViews', 'activeUsers'] : isEvent ? ['eventCount', 'totalUsers'] : ['activeUsers', 'sessions', 'screenPageViews'];
   const rows = [];
   let offset = 0;
   do {
     const body = {dateRanges: [{startDate: day, endDate: day}], metrics: metrics.map(name => ({name})), limit: String(EXPORT.pageSize), offset: String(offset)};
     if (dimensions.length) { body.dimensions = dimensions.map(name => ({name})); body.orderBys = dimensions.map(dimensionName => ({dimension: {dimensionName}})); }
+    if (isEvent) {
+      body.dimensionFilter = {orGroup: {expressions: [
+        {filter: {fieldName: 'eventName', stringFilter: {matchType: 'BEGINS_WITH', value: 'career_compass_'}}},
+        {filter: {fieldName: 'eventName', inListFilter: {values: ['career_agents_cta_click', 'affiliate_outbound_click']}}}
+      ]}};
+    }
     const result = post_('https://analyticsdata.googleapis.com/v1beta/properties/' + cfg.propertyId + ':runReport', body, deadline);
     if (result.metadata && (result.metadata.dataLossFromOtherRow || result.metadata.subjectToThresholding || (result.metadata.samplingMetadatas || []).length)) {
       console.warn(name + ' ' + day + ': GA4 reports sampling, thresholding or (other) data loss.');
