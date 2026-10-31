@@ -70,16 +70,25 @@ async function main() {
   assert.equal(freeMetadata.alternates.canonical, '/compare/' + freeSlug);
   assert.ok(!compareUrls.includes('https://mfg-compass.com/compare/' + freeSlug));
   assert.ok(renderToStaticMarkup(await route.default(props(freeSlug))).includes('比較に使った情報ソース'));
-  const unpreparedHtml = renderToStaticMarkup(await route.default(props('globalfoundries-vs-teradyne')));
-  assert.ok(unpreparedHtml.includes('両社の企業別キャリア準備情報は未整備'));
-  assert.ok(!unpreparedHtml.includes('掲載データなし'));
-  assert.ok(!unpreparedHtml.includes('<th>半年後の準備</th>'));
-  assert.equal(catalog.companies.filter(catalog.isCompanyIndexable).length, 25);
+  const preparedHtml = renderToStaticMarkup(await route.default(props('globalfoundries-vs-teradyne')));
+  assert.ok(!preparedHtml.includes('両社の企業別キャリア準備情報は未整備'));
+  assert.ok(preparedHtml.includes('<th>半年後の準備</th>'));
+  assert.equal(catalog.companies.filter(catalog.isCompanyIndexable).length, 37);
   const companyPage = load('src/app/(ja)/companies/[slug]/page');
   for (const slug of ['broadcom', 'intel', 'samsung-electronics', 'applied-materials', 'sk-hynix', 'canon', 'lam-research', 'texas-instruments', 'amd', 'asml']) {
     const metadata = await companyPage.generateMetadata(props(slug));
     assert.notEqual(metadata.robots?.index, false, slug);
     assert.ok(sitemap.some(entry => entry.url === 'https://mfg-compass.com/companies/' + slug), slug);
+  }
+  for (const slug of ['teradyne', 'onsemi', 'infineon', 'nikon', 'qualcomm', 'stmicroelectronics', 'globalfoundries', 'kla', 'nxp', 'marvell', 'qorvo', 'analog-devices']) {
+    const metadata = await companyPage.generateMetadata(props(slug));
+    assert.notEqual(metadata.robots?.index, false, slug);
+    assert.ok(sitemap.some(entry => entry.url === 'https://mfg-compass.com/companies/' + slug), slug);
+    const html = renderToStaticMarkup(await companyPage.default(props(slug)));
+    assert.ok(html.includes('id="career-prep"'), slug);
+    assert.ok(html.includes('向いている経験'), slug);
+    assert.ok(html.includes('自分の経験がどの半導体職種に近いか整理する'), slug);
+    assert.ok(!html.includes('公開情報を確認しながら準備ポイントを整理中です。'), slug);
   }
   const pairs = new Set();
   for (let i = 0; i < catalog.companies.length; i++) for (let j = i + 1; j < catalog.companies.length; j++) {
