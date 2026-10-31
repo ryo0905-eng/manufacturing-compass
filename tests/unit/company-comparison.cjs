@@ -70,7 +70,7 @@ async function main() {
   assert.equal(freeMetadata.alternates.canonical, '/compare/' + freeSlug);
   assert.ok(!compareUrls.includes('https://mfg-compass.com/compare/' + freeSlug));
   assert.ok(renderToStaticMarkup(await route.default(props(freeSlug))).includes('比較に使った情報ソース'));
-  const unpreparedHtml = renderToStaticMarkup(await route.default(props('nvidia-vs-amd')));
+  const unpreparedHtml = renderToStaticMarkup(await route.default(props('amd-vs-intel')));
   assert.ok(unpreparedHtml.includes('両社の企業別キャリア準備情報は未整備'));
   assert.ok(!unpreparedHtml.includes('掲載データなし'));
   assert.ok(!unpreparedHtml.includes('<th>半年後の準備</th>'));
