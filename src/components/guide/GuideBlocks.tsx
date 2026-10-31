@@ -1,6 +1,7 @@
 import { RankingHistoryArticle } from "@/components/ranking-time-machine/RankingHistoryArticle";
 import { RankingTimeMachinePreview } from "@/components/ranking-time-machine/RankingTimeMachinePreview";
 import { OpticalCompanies } from "@/components/OpticalCompanies";
+import { FoundryRanking } from "@/components/FoundryRanking";
 import { MemoryRanking } from "@/components/MemoryRanking";
 import { EquipmentSalesRanking } from "@/components/EquipmentSalesRanking";
 import { CareerPrioritiesLink } from "@/components/CareerPrioritiesLink";
@@ -656,6 +657,9 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
           return <OpticalCompanies key={`optical-companies-${index}`} />;
         }
 
+        if (block.type === "foundry-market-ranking") {
+          return <FoundryRanking key={`foundry-market-ranking-${index}`} />;
+        }
         if (block.type === "memory-market-ranking") {
           return <MemoryRanking key={`memory-market-ranking-${index}`} />;
         }

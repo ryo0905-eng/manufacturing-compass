@@ -16,6 +16,7 @@ function load(stem) {
 const { buildGuideItemLists } = load('src/lib/guide-item-lists');
 const siteUrl = 'https://mfg-compass.com';
 for (const [slug, expected] of [
+  ['foundry-manufacturer-ranking', [[10, 'TSMC']]],
   ['memory-manufacturer-ranking', [[7, 'Samsung'], [5, 'Samsung']]],
   ['semiconductor-equipment-sales-ranking', [[10, 'ASML']]],
   ['semiconductor-salary-ranking', [[20, 'レーザーテック']]],

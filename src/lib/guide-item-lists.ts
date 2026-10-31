@@ -1,3 +1,4 @@
+import { foundryMarket } from "@/data/foundry-market-share";
 import { memoryMarkets } from "@/data/memory-market-share";
 import { equipmentSalesCompanies } from "@/data/semiconductor-equipment-sales";
 import { japanSemiconductorMarketCapRanking, worldSemiconductorMarketCapRanking } from "@/data/semiconductor-market-cap";
@@ -20,6 +21,7 @@ const builders = new Map<string, (url: string) => ItemList[]>([
     itemList("半導体メーカー世界ランキング（時価総額）", worldSemiconductorMarketCapRanking.map((company) => ({ "@type": "ListItem", position: company.rank, name: company.name, url: `${url}#world-company-${company.id}` }))),
     itemList("半導体メーカー日本ランキング（時価総額）", japanSemiconductorMarketCapRanking.map((company) => ({ "@type": "ListItem", position: company.domesticRank, name: company.name, url: `${url}#japan-company-${company.id}` }))),
   ]],
+  ["foundry-manufacturer-ranking", (url) => [rankedList("ファウンドリメーカー売上ランキング", foundryMarket.rows, url)]],
   ["memory-manufacturer-ranking", (url) => [
     rankedList("メモリメーカー DRAMランキング", memoryMarkets.dram.rows, url),
     rankedList("メモリメーカー NANDランキング", memoryMarkets.nand.rows, url),

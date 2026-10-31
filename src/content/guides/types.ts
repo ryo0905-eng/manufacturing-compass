@@ -272,6 +272,9 @@ export type GuideBlock =
       type: "memory-market-ranking";
     }
   | {
+      type: "foundry-market-ranking";
+    }
+  | {
       type: "equipment-sales-ranking";
     }
   | {
