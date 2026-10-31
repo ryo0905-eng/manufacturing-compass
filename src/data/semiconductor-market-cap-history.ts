@@ -1082,5 +1082,336 @@ export const semiconductorMarketCapHistory: SemiconductorMarketCapHistorySnapsho
         "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
       }
     ]
-  }
+  },
+{
+  "dataAsOf": "2026-10-16",
+  "retrievedAt": "2026-10-17",
+  "currency": "米ドル",
+  "sourceName": "CompaniesMarketCap Semiconductors",
+  "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/",
+  "entries": [
+    {
+      "companyId": "nvidia",
+      "ticker": "NVDA",
+      "marketCapUsdB": 5170.0,
+      "sourceRank": 1,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "tsmc",
+      "ticker": "TSM",
+      "marketCapUsdB": 2139.0,
+      "sourceRank": 2,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "broadcom",
+      "ticker": "AVGO",
+      "marketCapUsdB": 1569.0,
+      "sourceRank": 3,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "samsung-electronics",
+      "ticker": "005930.KS",
+      "marketCapUsdB": 1051.0,
+      "sourceRank": 4,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "micron",
+      "ticker": "MU",
+      "marketCapUsdB": 994.34,
+      "sourceRank": 5,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "amd",
+      "ticker": "AMD",
+      "marketCapUsdB": 863.17,
+      "sourceRank": 6,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "sk-hynix",
+      "ticker": "000660.KS",
+      "marketCapUsdB": 694.66,
+      "sourceRank": 7,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "asml",
+      "ticker": "ASML",
+      "marketCapUsdB": 630.5,
+      "sourceRank": 8,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "cxmt",
+      "ticker": "688825.SS",
+      "marketCapUsdB": 477.54,
+      "sourceRank": 9,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "intel",
+      "ticker": "INTC",
+      "marketCapUsdB": 474.95,
+      "sourceRank": 10,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "lam-research",
+      "ticker": "LRCX",
+      "marketCapUsdB": 330.3,
+      "sourceRank": 11,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "applied-materials",
+      "ticker": "AMAT",
+      "marketCapUsdB": 324.81,
+      "sourceRank": 12,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "texas-instruments",
+      "ticker": "TXN",
+      "marketCapUsdB": 252.49,
+      "sourceRank": 13,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "arm",
+      "ticker": "ARM",
+      "marketCapUsdB": 243.29,
+      "sourceRank": 14,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "kla",
+      "ticker": "KLAC",
+      "marketCapUsdB": 216.29,
+      "sourceRank": 15,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "mediatek",
+      "ticker": "2454.TW",
+      "marketCapUsdB": 209.38,
+      "sourceRank": 16,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "marvell",
+      "ticker": "MRVL",
+      "marketCapUsdB": 204.75,
+      "sourceRank": 17,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "analog-devices",
+      "ticker": "ADI",
+      "marketCapUsdB": 191.61,
+      "sourceRank": 18,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "qualcomm",
+      "ticker": "QCOM",
+      "marketCapUsdB": 183.78,
+      "sourceRank": 19,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "tokyo-electron",
+      "ticker": "8035.T",
+      "marketCapUsdB": 165.99,
+      "sourceRank": 20,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "advantest",
+      "ticker": "6857.T",
+      "marketCapUsdB": 157.71,
+      "sourceRank": 21,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "synopsys",
+      "ticker": "SNPS",
+      "marketCapUsdB": 87.12,
+      "sourceRank": 22,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "ase",
+      "ticker": "ASX",
+      "marketCapUsdB": 86.91,
+      "sourceRank": 23,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "cambricon",
+      "ticker": "688256.SS",
+      "marketCapUsdB": 86.18,
+      "sourceRank": 24,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "infineon",
+      "ticker": "IFX.DE",
+      "marketCapUsdB": 76.46,
+      "sourceRank": 25,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "naura",
+      "ticker": "002371.SZ",
+      "marketCapUsdB": 64.52,
+      "sourceRank": 26,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "monolithic-power-systems",
+      "ticker": "MPWR",
+      "marketCapUsdB": 59.5,
+      "sourceRank": 27,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "nxp",
+      "ticker": "NXPI",
+      "marketCapUsdB": 57.82,
+      "sourceRank": 28,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "smic",
+      "ticker": "0981.HK",
+      "marketCapUsdB": 57.17,
+      "sourceRank": 29,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "umc",
+      "ticker": "UMC",
+      "marketCapUsdB": 49.7,
+      "sourceRank": 30,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "disco",
+      "ticker": "6146.T",
+      "marketCapUsdB": 36.95,
+      "sourceRank": 38,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "renesas",
+      "ticker": "6723.T",
+      "marketCapUsdB": 35.23,
+      "sourceRank": 39,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "lasertec",
+      "ticker": "6920.T",
+      "marketCapUsdB": 23.38,
+      "sourceRank": 47,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "screen",
+      "ticker": "7735.T",
+      "marketCapUsdB": 16.52,
+      "sourceRank": 56,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "kokusai-electric",
+      "ticker": "6525.T",
+      "marketCapUsdB": 11.71,
+      "sourceRank": 65,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "rohm",
+      "ticker": "6963.T",
+      "marketCapUsdB": 10.13,
+      "sourceRank": 72,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "sumco",
+      "ticker": "3436.T",
+      "marketCapUsdB": 5.98,
+      "sourceRank": 90,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "rorze",
+      "ticker": "6323.T",
+      "marketCapUsdB": 4.89,
+      "sourceRank": 96,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/"
+    },
+    {
+      "companyId": "maruwa",
+      "ticker": "5344.T",
+      "marketCapUsdB": 3.96,
+      "sourceRank": 103,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
+    },
+    {
+      "companyId": "micronics-japan",
+      "ticker": "6871.T",
+      "marketCapUsdB": 3.29,
+      "sourceRank": 110,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
+    },
+    {
+      "companyId": "tekscend-photomask",
+      "ticker": "429A.T",
+      "marketCapUsdB": 2.15,
+      "sourceRank": 121,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
+    },
+    {
+      "companyId": "socionext",
+      "ticker": "6526.T",
+      "marketCapUsdB": 2.11,
+      "sourceRank": 123,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
+    },
+    {
+      "companyId": "tomen-devices",
+      "ticker": "2737.T",
+      "marketCapUsdB": 1.58,
+      "sourceRank": 131,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
+    },
+    {
+      "companyId": "towa",
+      "ticker": "6315.T",
+      "marketCapUsdB": 1.02,
+      "sourceRank": 138,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
+    },
+    {
+      "companyId": "rs-technologies",
+      "ticker": "3445.T",
+      "marketCapUsdB": 0.91,
+      "sourceRank": 141,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
+    },
+    {
+      "companyId": "sanken-electric",
+      "ticker": "6707.T",
+      "marketCapUsdB": 0.75,
+      "sourceRank": 145,
+      "sourceUrl": "https://companiesmarketcap.com/semiconductors/largest-semiconductor-companies-by-market-cap/?page=2"
+    }
+  ]
+}
 ];
