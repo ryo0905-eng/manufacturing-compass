@@ -6,10 +6,11 @@ const EXPORT = Object.freeze({
   pageSize: 1000,
   maxRowsPerReport: 10000,
   budgetMs: 240000,
-  datasets: ['GA4_Daily', 'GA4_Pages', 'GSC_Daily', 'GSC_Pages', 'GSC_Queries'],
+  datasets: ['GA4_Daily', 'GA4_Pages', 'GSC_Daily', 'GSC_Pages', 'GSC_Queries', 'GA4_Events'],
   headers: {
     GA4_Daily: ['date', 'active_users', 'sessions', 'screen_page_views'],
     GA4_Pages: ['date', 'page_path', 'screen_page_views', 'active_users'],
+    GA4_Events: ['date', 'event_name', 'source_page', 'cta_location', 'cta_variant', 'destination_group', 'result_type', 'agent_id', 'step_number', 'event_count'],
     GSC_Daily: ['date', 'clicks', 'impressions', 'ctr', 'position'],
     GSC_Pages: ['date', 'page_url', 'clicks', 'impressions', 'ctr', 'position'],
     GSC_Queries: ['date', 'query', 'clicks', 'impressions', 'ctr', 'position']
@@ -119,12 +120,14 @@ function exportOne_(cfg, book, name, day, deadline) {
 
 function ga_(cfg, name, day, deadline) {
   const isPage = name === 'GA4_Pages';
-  const metrics = isPage ? ['screenPageViews', 'activeUsers'] : ['activeUsers', 'sessions', 'screenPageViews'];
+  const isEvent = name === 'GA4_Events';
+  const dimensions = isPage ? ['pagePath'] : isEvent ? ['eventName', 'customEvent:source_page', 'customEvent:cta_location', 'customEvent:cta_variant', 'customEvent:destination_group', 'customEvent:result_type', 'customEvent:agent_id', 'customEvent:step_number'] : [];
+  const metrics = isPage ? ['screenPageViews', 'activeUsers'] : isEvent ? ['eventCount'] : ['activeUsers', 'sessions', 'screenPageViews'];
   const rows = [];
   let offset = 0;
   do {
     const body = {dateRanges: [{startDate: day, endDate: day}], metrics: metrics.map(name => ({name})), limit: String(EXPORT.pageSize), offset: String(offset)};
-    if (isPage) { body.dimensions = [{name: 'pagePath'}]; body.orderBys = [{dimension: {dimensionName: 'pagePath'}}]; }
+    if (dimensions.length) { body.dimensions = dimensions.map(name => ({name})); body.orderBys = dimensions.map(dimensionName => ({dimension: {dimensionName}})); }
     const result = post_('https://analyticsdata.googleapis.com/v1beta/properties/' + cfg.propertyId + ':runReport', body, deadline);
     if (result.metadata && (result.metadata.dataLossFromOtherRow || result.metadata.subjectToThresholding || (result.metadata.samplingMetadatas || []).length)) {
       console.warn(name + ' ' + day + ': GA4 reports sampling, thresholding or (other) data loss.');
@@ -132,7 +135,7 @@ function ga_(cfg, name, day, deadline) {
     const count = Number(result.rowCount || 0);
     if (count > EXPORT.maxRowsPerReport) throw new Error(name + ' ' + day + ' exceeds maxRowsPerReport; existing data preserved.');
     const page = result.rows || [];
-    page.forEach(r => rows.push([day].concat(isPage ? [safeText_(r.dimensionValues[0].value)] : [], r.metricValues.map(v => Number(v.value)))));
+    page.forEach(r => rows.push([day].concat(dimensions.length ? r.dimensionValues.map(v => safeText_(v.value)) : [], r.metricValues.map(v => Number(v.value)))));
     offset += page.length;
     if (!page.length && offset < count) throw new Error('GA4 pagination ended unexpectedly.');
     if (offset >= count) break;
@@ -198,7 +201,8 @@ function replaceDate_(sheet, name, day, fresh) {
   // Date and untrusted dimensions are plain text, including strings beginning with '='.
   if (merged.length) {
     sheet.getRange(2, 1, merged.length, 1).setNumberFormat('@');
-    if (name === 'GA4_Pages' || name === 'GSC_Pages' || name === 'GSC_Queries') sheet.getRange(2, 2, merged.length, 1).setNumberFormat('@');
+    if (name === 'GA4_Events') sheet.getRange(2, 2, merged.length, 8).setNumberFormat('@');
+    else if (name === 'GA4_Pages' || name === 'GSC_Pages' || name === 'GSC_Queries') sheet.getRange(2, 2, merged.length, 1).setNumberFormat('@');
     sheet.getRange(2, 1, merged.length, width).setValues(merged);
   }
   if (last > needed) sheet.getRange(needed + 1, 1, last - needed, width).clearContent();
