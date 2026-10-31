@@ -24,6 +24,34 @@ const { buildPublication, validateSnapshot } = require('../../scripts/chip-pulse
 const { mergeSnapshot, retainVerifiedArticle } = require('../../scripts/chip-pulse-media.cjs');
 const now = '2026-10-04T15:00:00.000Z';
 const copy = value => structuredClone(value);
+test('watch hub FAQ matches structured data and earnings display names stay scoped', async () => {
+  const hub = require('../../src/app/(ja)/semiconductor-watch/page.tsx');
+  const html = renderToStaticMarkup(React.createElement(hub.default));
+  assert.ok(html.includes('<h1>半導体業界ウォッチ｜主要12社の決算・業績推移</h1>'));
+  assert.match(html, /href="\/semiconductor-watch\/earnings">決算一覧<\/a>/);
+  const schemas = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+  const faq = schemas.find(schema => schema['@type'] === 'FAQPage');
+  const section = html.match(/<section[^>]*aria-labelledby="watch-faq-title"[^>]*>([\s\S]*?)<\/section>/)[1];
+  const visible = [...section.matchAll(/<details[^>]*><summary>(.*?)<\/summary><p>(.*?)<\/p><\/details>/g)];
+  assert.equal(visible.length, 3);
+  assert.equal(faq.mainEntity.length, 3);
+  visible.forEach((entry, index) => {
+    assert.equal(faq.mainEntity[index].name, entry[1]);
+    assert.equal(faq.mainEntity[index].acceptedAnswer.text, entry[2]);
+  });
+  const detail = require('../../src/app/(ja)/semiconductor-watch/earnings/[companyId]/page.tsx');
+  const { earningsCompanyName } = require('../../src/lib/earnings.ts');
+  for (const release of earningsReleases) {
+    const companyId = release.companyId;
+    const props = { params: Promise.resolve({ companyId }) };
+    const name = companyId === 'tsmc' ? 'TSMC（台湾積体電路製造）' : earningsCompanyName(companyId);
+    const meta = await detail.generateMetadata(props);
+    assert.equal(meta.title, `${name}の業績推移・決算分析｜Chip Pulse`);
+    assert.ok(meta.description.startsWith(`${name}の売上高・`));
+    const detailHtml = renderToStaticMarkup(await detail.default(props));
+    assert.ok(detailHtml.includes(`<h1>${name}の決算を読む</h1>`));
+  }
+});
 function candidate() {
   const article = copy(media.articles.find(a=>a.id.startsWith('sec-')));
   article.id='test-reviewed-story'; article.version=1; article.relatedIds=[];

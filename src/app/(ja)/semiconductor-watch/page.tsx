@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { StructuredData } from "@/components/StructuredData";
 import { WatchExplorer } from "@/components/chip-pulse/WatchExplorer";
 import { WatchNavigation } from "@/components/chip-pulse/WatchNavigation";
@@ -19,6 +20,11 @@ const description = "主要半導体12社の売上高を円換算の棒グラフ
 export const metadata: Metadata = { title, description, alternates: { canonical: "/semiconductor-watch" }, openGraph: { title, description, url: "/semiconductor-watch", type: "website" } };
 export const revalidate = 3600;
 const uiVersion = "cards-v2";
+const faqs = [
+  { question: "半導体メーカーの決算発表予定は確認できますか？", answer: "はい。このページと決算一覧では、対象12社の決算発表予定を掲載しています。各社の決算ページでは、最新の決算要点と業績推移も確認できます。" },
+  { question: "業績推移は何年分まで見られますか？", answer: "企業により異なりますが、最大で20年分の年次推移（売上高・営業利益・営業利益率）を掲載しています。グラフの円換算は比較用の概算で、原通貨の実績は各社の決算ページで確認できます。" },
+  { question: "決算情報の出典は何ですか？", answer: "各社の公式発表資料（決算短信・IR資料）です。各社の決算ページに、対象期間と出典を明記しています。" },
+];
 
 export default function SemiconductorWatchPage() {
   const now = new Date().toISOString();
@@ -33,7 +39,9 @@ export default function SemiconductorWatchPage() {
 
   return <main className={styles.page}><div className={styles.shell}>
     <StructuredData data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: title, description, url: siteUrl + "/semiconductor-watch", dateModified: [watchUpdatedAt, annualHistoryUpdatedAt, watchExchange.checkedAt].sort().at(-1) }} />
-    <header className={styles.header}><h1>半導体業界ウォッチ</h1><p>掲載内容・日程の更新 <time dateTime={watchUpdatedAt}>{watchDate(watchUpdatedAt)}</time></p></header>
+    <StructuredData data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map(faq => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) }} />
+    <header className={styles.header}><h1>半導体業界ウォッチ｜主要12社の決算・業績推移</h1><p>掲載内容・日程の更新 <time dateTime={watchUpdatedAt}>{watchDate(watchUpdatedAt)}</time></p></header>
+    <p className={styles.intro}>半導体業界ウォッチは、主要半導体メーカー12社（TSMC、ASML、東京エレクトロン、キオクシアなど）の決算と業績推移を追うページです。各社の売上高・営業利益の最大20年の推移、最新の決算要点、決算発表予定、関連ニュースをまとめています。数値は各社の公式発表資料に基づきます。会社ごとの詳しい分析は<Link href="/semiconductor-watch/earnings">決算一覧</Link>から確認できます。</p>
     <WatchNavigation current="watch" />
     {media.status.state !== "success" || staleCollection ? <p className={styles.notice} role="status">{media.status.state === "partial" ? "一部の取得先を更新できませんでした。" : media.status.state === "failed" ? "直近の収集に失敗しました。" : staleCollection ? "収集確認から2日以上経過しています。" : "収集処理の稼働前です。"} 前回確認時の掲載内容を表示しています。</p> : null}
     <WatchExplorer companies={buildWatchCompanies(now)} news={news} now={now} histories={annualHistories}>
@@ -71,5 +79,9 @@ export default function SemiconductorWatchPage() {
         })}</ul>
       </details>
     </WatchExplorer>
+    <section className={styles.faq} aria-labelledby="watch-faq-title">
+      <h2 id="watch-faq-title">よくある質問</h2>
+      {faqs.map(faq => <details className={styles.disclosure} key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}
+    </section>
   </div></main>;
 }

@@ -17,13 +17,14 @@ import styles from "@/components/earnings/Earnings.module.css";
 export const revalidate = 3600;
 
 type Props = { params: Promise<{ companyId: string }>; searchParams?: Promise<Record<string, string | string[] | undefined>> };
+function earningsPageName(companyId: string) { return companyId === "tsmc" ? "TSMC（台湾積体電路製造）" : earningsCompanyName(companyId); }
 export function generateStaticParams() { return earningsReleases.map((release) => ({ companyId: release.companyId })); }
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { companyId } = await params;
   const query = await searchParams ?? {};
   const release = getEarningsRelease(companyId);
   if (!release) return {};
-  const name = earningsCompanyName(companyId);
+  const name = earningsPageName(companyId);
   return { title: `${name}の業績推移・決算分析｜Chip Pulse`, description: `${name}の売上高・営業利益・営業利益率の最大20年の年次推移と、${release.period.label}の決算要点を公式資料から確認。`, robots: { index: query.years === undefined, follow: true }, alternates: { canonical: `/semiconductor-watch/earnings/${companyId}` }, openGraph: { title: `${name}の業績推移・決算分析`, type: "article", url: `/semiconductor-watch/earnings/${companyId}` } };
 }
 
@@ -51,7 +52,7 @@ export default async function EarningsDetailPage({ params, searchParams }: Props
     <StructuredData data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "業界ウォッチ", item: `${siteUrl}/semiconductor-watch` }, { "@type": "ListItem", position: 2, name: "決算・IR", item: `${siteUrl}/semiconductor-watch/earnings` }, { "@type": "ListItem", position: 3, name, item: `${siteUrl}/semiconductor-watch/earnings/${companyId}` }] }} />
     {isStockMarketAvailable() && getStockListing(companyId) ? <p className={styles.fine}><Link href={stockHref(companyId)}>この企業の株価・関連情報を見る →</Link></p> : null}
     <article className={styles.detail}>
-      <header className={styles.hero}><p className={styles.eyebrow}>EARNINGS DETAIL / {earningsSegmentName(release.segment)} / {release.business}</p><h1>{name}の決算を読む</h1><p>{release.period.label} · {release.period.start ? `${release.period.start}〜` : "期首未取得 / 終了日 "}{release.period.end}</p><small>発表 {release.announcedAt} · 数値確認 {release.checkedAt} · 内容更新 {release.contentUpdatedAt ?? release.checkedAt} · データ第{release.version}版</small></header>
+      <header className={styles.hero}><p className={styles.eyebrow}>EARNINGS DETAIL / {earningsSegmentName(release.segment)} / {release.business}</p><h1>{earningsPageName(companyId)}の決算を読む</h1><p>{release.period.label} · {release.period.start ? `${release.period.start}〜` : "期首未取得 / 終了日 "}{release.period.end}</p><small>発表 {release.announcedAt} · 数値確認 {release.checkedAt} · 内容更新 {release.contentUpdatedAt ?? release.checkedAt} · データ第{release.version}版</small></header>
       <aside className={styles.notice}><p>{freshness.text}{freshness.check?.checkedAt ? `（${freshness.check.checkedAt.slice(0, 10)}確認）` : ""}</p>{freshness.check?.latestSourceUrl && freshness.state === "pending" ? <EarningsSourceLink href={freshness.check.latestSourceUrl} companyId={companyId} documentId="latest">確認中の新しい原資料 ↗</EarningsSourceLink> : null}{freshness.check?.notice ? <p><EarningsSourceLink href={freshness.check.notice.sourceUrl} companyId={companyId} documentId="notice">{freshness.check.notice.text} ↗</EarningsSourceLink></p> : null}<p>次回決算：{calendar ? <EarningsSourceLink href={calendar.sourceUrl} companyId={companyId} documentId="calendar">{calendar.date && !nextEvent ? "予定日経過・結果確認中" : watchEventDate(calendar)} ↗</EarningsSourceLink> : "未確認"}</p></aside>
       <div className={styles.detailLayout}>
         <div>

@@ -9,6 +9,10 @@
 .header { display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:22px; }
 .header h1 { font-size:28px; font-weight:600; letter-spacing:-.04em; margin:0; line-height:1.4; }
 .header p { font-size:12px; color:var(--muted); margin:0; flex-shrink:0; }
+.intro { font-size:14px; line-height:1.9; margin:0 0 24px; }
+.intro a { color:var(--blue); text-decoration:underline; text-underline-offset:3px; }
+.faq { margin-top:40px; }
+.faq h2 { font-size:21px; margin:0 0 16px; }
 .themes { display:flex; flex-wrap:wrap; gap:6px; padding-bottom:20px; border-bottom:1px solid var(--line); }
 .themes button { border:1px solid transparent; background:#f7f7f8; color:var(--muted); font-size:13px; padding:10px 15px; min-height:44px; border-radius:6px; transition:background-color 180ms,color 180ms; }
 .themes button:hover { background:#e9edf2; color:var(--ink); }
