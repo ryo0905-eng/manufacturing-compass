@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-30T01:05:55.730Z",
-  "windowStart": "2026-09-30T00:00:00.000Z",
-  "windowEnd": "2026-10-30T00:00:00.000Z",
+  "generatedAt": "2026-10-31T00:51:00.535Z",
+  "windowStart": "2026-10-01T00:00:00.000Z",
+  "windowEnd": "2026-10-31T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -10,6 +10,16 @@
   },
   "errors": [],
   "rows": [
+    {
+      "id": "sec-0000050863-26-000191",
+      "sourceId": "intel",
+      "publishedAt": "2026-10-29T22:50:31.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
     {
       "id": "sec-0000950103-26-016324",
       "sourceId": "ase",
@@ -219,36 +229,13 @@
       "eligible": false,
       "fields": [],
       "state": "metadata"
-    },
-    {
-      "id": "sec-0000723125-26-000018",
-      "sourceId": "micron",
-      "publishedAt": "2026-09-30T20:02:22.000Z",
-      "datePrecision": "instant",
-      "body": true,
-      "eligible": false,
-      "fields": [],
-      "state": "metadata"
     }
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-10-01",
-    "end": "2026-10-30",
+    "start": "2026-10-02",
+    "end": "2026-10-31",
     "days": [
-      {
-        "date": "2026-10-01",
-        "candidates": 1,
-        "deduplicated": 1,
-        "bodies": 1,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-10-02",
         "candidates": 0,
@@ -615,9 +602,22 @@
       },
       {
         "date": "2026-10-30",
-        "candidates": 3,
-        "deduplicated": 3,
-        "bodies": 3,
+        "candidates": 4,
+        "deduplicated": 4,
+        "bodies": 4,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
+      },
+      {
+        "date": "2026-10-31",
+        "candidates": 0,
+        "deduplicated": 0,
+        "bodies": 0,
         "publishable": 0,
         "fields": {
           "equipment": 0,
@@ -630,26 +630,26 @@
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-24",
-        "end": "2026-10-30",
+        "start": "2026-10-25",
+        "end": "2026-10-31",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-17",
-        "end": "2026-10-23",
+        "start": "2026-10-18",
+        "end": "2026-10-24",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-10",
-        "end": "2026-10-16",
+        "start": "2026-10-11",
+        "end": "2026-10-17",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-03",
-        "end": "2026-10-09",
+        "start": "2026-10-04",
+        "end": "2026-10-10",
         "publishable": 0,
         "fields": []
       }
