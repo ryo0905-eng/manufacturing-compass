@@ -3,7 +3,7 @@ import { foundryMarket, foundryRankingMeta } from "@/data/foundry-market-share";
 
 export const foundryManufacturerRankingGuide: GuideArticle = {
   slug: "foundry-manufacturer-ranking",
-  title: "ファウンドリメーカーランキング世界の売上シェアを比較",
+  title: "ファウンドリメーカーランキング【2026年4〜6月】世界の売上シェアを比較",
   description: "世界の大手ファウンドリ10社を、2026年4〜6月の売上高・市場シェアで比較。TSMC、Samsung、SMICなど受託製造企業の順位と、集計範囲・公式出典からランキングを読み解きます。",
   targetQuery: "ファウンドリ 半導体 ランキング",
   searchIntent: "世界のファウンドリ企業の売上シェアと比較条件を知りたい",
