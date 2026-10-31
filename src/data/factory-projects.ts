@@ -17,8 +17,8 @@ export type FactoryProject = {
 };
 export const factoryProjectMeta = {
   sourceSlug: "japan-semiconductor-factory-projects",
-  updatedAt: "2026-10-01",
-  snapshotDate: "2026-10-01",
+  updatedAt: "2026-10-31",
+  snapshotDate: "2026-10-31",
 } as const;
 
 export const factoryProjectSources: Source[] = [
@@ -57,7 +57,12 @@ export const factoryProjectSources: Source[] = [
     "url": "https://investor.tsmc.com/japanese/encrypt/files/encrypt_file/reports/2026-04/3cef85204275f94fd111485cfdf4adb3c0263c45/TSMC%201Q26%20Transcript.pdf",
     "publisher": "TSMC",
     "accessedAt": "2026-10-01"
-  }
+  },
+  { "title": "［7］Rapidus：2nm GAAトランジスタの動作確認 — 2025年7月18日発表。", "url": "https://www.rapidus.inc/news_topics/news-info/rapidus-achieves-significant-milestone-at-its-state-of-the-art-foundry-with-prototyping-of-leading-edge-2nm-gaa-transistors/", "publisher": "Rapidus", "accessedAt": "2026-10-31" },
+  { "title": "［8］経済産業省：Rapidusの事業の進捗状況 — 先行評価用PDKのリリース。", "url": "https://www.meti.go.jp/policy/mono_info_service/joho/laws/josokuho/josokuho_futaiketsugi.pdf", "publisher": "経済産業省", "accessedAt": "2026-10-31" },
+  { "title": "［9］Rapidus：解析センターとRCSの開所 — 2026年4月11日発表。", "url": "https://www.rapidus.inc/news_topics/news-info/rapidus-opens-analysis-center-and-rapidus-chiplet-solutions/", "publisher": "Rapidus", "accessedAt": "2026-10-31" },
+  { "title": "［10］経済産業省：次世代半導体に関する審査基準 — 量産開始のマイルストーン。", "url": "https://www.meti.go.jp/shingikai/sankoshin/shomu_ryutsu/next_generation_semiconductor/pdf/20251118_1.pdf", "publisher": "経済産業省", "accessedAt": "2026-10-31" },
+  { "title": "［11］経済産業省：2026年2月10日大臣記者会見 — JASM第2工場の計画変更。", "url": "https://www.meti.go.jp/english/speeches/press_conferences/2026/0210001.html", "publisher": "経済産業省", "accessedAt": "2026-10-31" }
 ];
 
 export const factoryProjects: FactoryProject[] = [
@@ -83,20 +88,22 @@ export const factoryProjects: FactoryProject[] = [
     locationId: "tsmc-jasm-kumamoto", facilityId: "tsmc-jasm-kumamoto-fab2", operationalStatus: "under-construction",
     milestones: [
       { dateLabel: "2025年", label: "建設開始", outcome: "actual", sourceNumbers: [1] },
+      { dateLabel: "2026年2月", label: "3nmプロセスへの計画高度化を公表", outcome: "actual", sourceNumbers: [11] },
       { dateLabel: "2028年", label: "量産開始予定（2026年4月の説明時点）", outcome: "planned", sourceNumbers: [6] },
     ],
     "name": "JASM 第2工場",
     "location": "熊本県菊陽町",
     "stage": "建設中",
     "actual": "2025年に建設開始",
-    "planned": "2028年に量産開始予定（TSMCの2026年4月説明時点）",
-    "note": "第1工場の量産開始時期を流用しません。予定は変更される可能性があります。",
-    "checkedAt": "2026-10-01",
+    "planned": "2028年に量産開始予定（TSMCの2026年4月説明時点）。3nmプロセスへの高度化が公表されている。",
+    "note": "第1工場の量産開始時期を流用しません。プロセスの高度化により、量産開始時期などの予定は変更される可能性があります。",
+    "checkedAt": "2026-10-31",
     "sourceNumbers": [
       1,
-      6
+      6,
+      11
     ],
-    "summary": "建設中。2025年に建設開始。量産開始は2028年の予定［1・6］",
+    "summary": "建設中。2025年に建設開始。3nmプロセスへの計画高度化を公表。量産開始は2028年の予定［1・6・11］",
     "companySlug": "tsmc"
   },
   {
@@ -104,19 +111,20 @@ export const factoryProjects: FactoryProject[] = [
     locationId: "rapidus-chitose-iim", operationalStatus: "pilot",
     milestones: [
       { dateLabel: "2025年4月", label: "試作ライン稼働", outcome: "actual", sourceNumbers: [2] },
-      { dateLabel: "2027年", label: "量産開始予定", outcome: "planned", sourceNumbers: [2] },
+      { dateLabel: "2025年7月", label: "2nm GAAトランジスタの動作確認に成功", outcome: "actual", sourceNumbers: [7] },
+      { dateLabel: "2025年12月", label: "先行評価用PDKをリリース", outcome: "actual", sourceNumbers: [8] },
+      { dateLabel: "2026年4月", label: "解析センターと後工程拠点RCS（Rapidus Chiplet Solutions）を千歳に開設", outcome: "actual", sourceNumbers: [9] },
+      { dateLabel: "2027年度後半", label: "量産開始予定", outcome: "planned", sourceNumbers: [10] },
     ],
     "name": "Rapidus IIM",
     "location": "北海道千歳市",
     "stage": "パイロットライン稼働",
     "actual": "2025年4月に試作ライン稼働",
-    "planned": "2027年に量産開始予定",
+    "planned": "2027年度後半に量産開始予定",
     "note": "試作ラインの稼働と量産開始を区別します。",
-    "checkedAt": "2026-10-01",
-    "sourceNumbers": [
-      2
-    ],
-    "summary": "パイロットライン稼働。2025年4月に試作ライン稼働。量産開始は2027年の予定［2］"
+    "checkedAt": "2026-10-31",
+    "sourceNumbers": [2, 7, 8, 9, 10],
+    "summary": "パイロットライン稼働。2025年に2nm GAAトランジスタの動作確認と先行評価用PDKのリリース、2026年に解析センターと後工程拠点RCSの開所を発表。量産開始は2027年度後半の予定［2・7・8・9・10］"
   },
   {
     "id": "kioxia-k2",

@@ -17,7 +17,7 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
   "showExperienceBasis": false,
   "showCareerCtas": false,
   "publishedAt": "2026-09-20",
-  "updatedAt": "2026-10-20",
+  "updatedAt": "2026-10-31",
   "sources": factoryProjectSources,
   "readTime": "4分",
   "intro": {
