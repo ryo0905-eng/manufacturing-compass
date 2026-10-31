@@ -14,6 +14,26 @@ import { buildAtlasCompanies, buildDirectoryCompanies } from "@/lib/company-expl
 import { siteUrl } from "@/lib/format";
 
 const japaneseCompanyCount = companies.filter((company) => company.headquartersCountry === "日本").length;
+const faqs = [
+  {
+    question: "日本の主な半導体メーカーはどこですか？",
+    beforeLink: `日本に本社を置く掲載企業${japaneseCompanyCount}社を分野別にまとめています。製造装置の東京エレクトロン、材料のSUMCO、メモリのキオクシア、設計・製造のルネサス エレクトロニクスなどがあります。`,
+    linkText: "日本の半導体メーカー一覧",
+    href: "#japanese-companies",
+    afterLink: "をご覧ください。",
+  },
+  {
+    question: "半導体メーカーにはどんな種類がありますか？",
+    beforeLink: "このページでは、設計（ファブレス）、受託製造（ファウンドリ）、設計・製造（IDM）、製造装置、材料、検査・計測、OSAT・後工程、EDA・IPの8領域から企業を探せます。",
+  },
+  {
+    question: "半導体メーカーの規模やランキングはどう調べますか？",
+    beforeLink: "企業の規模を比べる際は、時価総額や売上高など、指標の違いを確認する方法があります。",
+    linkText: "半導体企業の時価総額ランキング",
+    href: "/guides/semiconductor-market-cap-ranking",
+    afterLink: "も参考にしてください。",
+  },
+];
 const japaneseCompaniesBySegment = segments
   .map((segment) => ({
     segment,
@@ -40,12 +60,12 @@ const baseMetadata: Metadata = {
 };
 
 type IndustryMapPageProps = {
-  searchParams: Promise<{ query?: string | string[] }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export async function generateMetadata({ searchParams }: IndustryMapPageProps): Promise<Metadata> {
   const params = await searchParams;
-  return { ...baseMetadata, robots: params.query !== undefined ? { index: false, follow: true } : undefined };
+  return { ...baseMetadata, robots: Object.keys(params).length > 0 ? { index: false, follow: true } : undefined };
 }
 
 export default async function IndustryMapPage({ searchParams }: IndustryMapPageProps) {
@@ -73,12 +93,21 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
           url: company.slug ? `${siteUrl}/companies/${company.slug}` : company.websiteUrl,
         })),
       }} />
+      <StructuredData data={{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.beforeLink + (faq.linkText ?? "") + (faq.afterLink ?? "") },
+        })),
+      }} />
       <nav className="cpk-breadcrumb" aria-label="パンくず">
         <Link href="/">ホーム</Link><span>/</span><span>業界地図・企業一覧</span>
       </nav>
       <header className="industry-map-hero">
         <div>
-          <h1>半導体業界地図・企業一覧</h1>
+          <h1>半導体業界地図・日本と世界のメーカー一覧</h1>
           <p>{researchPages.industry_map.lead}</p>
         </div>
         <p><strong>8領域 × {atlasCompanies.length}社</strong><span>企業詳細{companies.length}社・簡易紹介7社</span></p>
@@ -147,6 +176,19 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
         <Link href="/guides/semiconductor-market-cap-ranking"><strong>2026年の世界・日本ランキング</strong><span>時価総額と売上高の違いを踏まえて比較する</span></Link>
         <Link href="/guides/semiconductor-manufacturing-process"><strong>半導体製造工程</strong><span>設計から前工程・後工程・最終検査までをたどる</span></Link>
       </nav>
+
+      <section className="section capability-faq" aria-labelledby="industry-map-faq-title">
+        <div className="industry-map-directory-heading">
+          <p className="section-label">FAQ</p>
+          <h2 id="industry-map-faq-title">半導体メーカーについてよくある質問</h2>
+        </div>
+        {faqs.map((faq) => (
+          <details key={faq.question}>
+            <summary>{faq.question}</summary>
+            <p>{faq.beforeLink}{faq.href && faq.linkText ? <Link href={faq.href as Route}>{faq.linkText}</Link> : null}{faq.afterLink}</p>
+          </details>
+        ))}
+      </section>
 
       <CareerCompassCta
         body="工程改善、設備、品質、生産技術などの経験を12問で整理し、接点のある半導体工程・職種と次の準備を確認できます。"

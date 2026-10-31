@@ -238,6 +238,18 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   const itemList = jsonLd.find(item => item['@type'] === 'ItemList');
   assert.equal(itemList.numberOfItems, 44);
   assert.equal(itemList.itemListElement.filter(item => item.url.includes('/companies/')).length, 37);
+  const faq = jsonLd.find(item => item['@type'] === 'FAQPage');
+  const faqHtml = html.match(/<section[^>]*aria-labelledby="industry-map-faq-title"[^>]*>([\s\S]*?)<\/section>/)[1];
+  const visibleFaqs = [...faqHtml.matchAll(/<details><summary>(.*?)<\/summary><p>(.*?)<\/p><\/details>/g)];
+  assert.equal(faq.mainEntity.length, 3);
+  assert.equal(visibleFaqs.length, 3);
+  for (let i = 0; i < visibleFaqs.length; i++) {
+    assert.equal(faq.mainEntity[i].name, visibleFaqs[i][1]);
+    assert.equal(faq.mainEntity[i].acceptedAnswer.text, visibleFaqs[i][2].replace(/<[^>]+>/g, ''));
+  }
+  assert.match(faqHtml, /href="#japanese-companies"/);
+  assert.match(faqHtml, /href="\/guides\/semiconductor-market-cap-ranking"/);
+  assert.ok(html.includes('<h1>半導体業界地図・日本と世界のメーカー一覧</h1>'));
   const meta = await industryPage.generateMetadata({ searchParams: Promise.resolve({}) });
   assert.equal(meta.title, '半導体業界地図・日本と世界のメーカー一覧【2026年版】');
   assert.equal(meta.alternates.canonical, '/industry-map'); assert.equal(meta.robots, undefined);
@@ -245,6 +257,10 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
     const queriedMeta = await industryPage.generateMetadata({ searchParams: Promise.resolve({ query }) });
     assert.equal(queriedMeta.robots.index, false); assert.equal(queriedMeta.robots.follow, true);
     assert.equal(queriedMeta.alternates.canonical, '/industry-map');
+  }
+  for (const params of [{ utm_source: 'test' }, { unknown: '' }, { query: 'GPU', extra: 'test' }]) {
+    const parameterizedMeta = await industryPage.generateMetadata({ searchParams: Promise.resolve(params) });
+    assert.equal(parameterizedMeta.robots.index, false); assert.equal(parameterizedMeta.robots.follow, true);
   }
   const queried = renderToStaticMarkup(await industryPage.default({ searchParams: Promise.resolve({ query: ['ＮＶＩＤＩＡ GPU', 'ignored'] }) }));
   assert.equal((queried.match(/data-company-explorer-company=/g) || []).length, 1);

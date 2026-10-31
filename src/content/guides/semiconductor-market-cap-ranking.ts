@@ -306,7 +306,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
           type: "link-callout",
           title: "企業同士の役割と工程のつながりを見る",
           description: "設計・製造・装置・材料など、代表企業の位置づけを業界マップで確認できます。",
-          label: "半導体業界マップを見る",
+          label: "半導体メーカー一覧・業界マップを見る",
           href: "/industry-map",
           ctaLocation: "world_ranking_after_table",
         },
