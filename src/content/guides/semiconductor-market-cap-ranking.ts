@@ -12,7 +12,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   slug: "semiconductor-market-cap-ranking",
   title: "半導体メーカー世界ランキング【2026年11月】時価総額TOP30・日本18社",
   description:
-    "2026年10月31日基準の半導体メーカー・関連企業の世界時価総額TOP30と日本18社。企業全体の時価総額を比較し、対象・出典・事業分類・売上高との違いを解説します。",
+    "2026年10月31日基準の半導体メーカー・関連企業の世界時価総額TOP30と日本18社。トヨタ自動車を物差しに企業全体の時価総額を比較し、対象・出典・事業分類・売上高との違いを解説します。",
   targetQuery: "半導体企業 時価総額ランキング",
   searchIntent:
     "世界と日本の半導体関連企業を最新の時価総額で比較し、各社の業界内での役割、企業分類、売上高との違い、転職時の見方を理解したい",
@@ -108,7 +108,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
       title: "Toyota Market capitalization（業界外の参考比較）",
       url: "https://companiesmarketcap.com/toyota/marketcap/",
       publisher: "CompaniesMarketCap",
-      accessedAt: "2026-10-17",
+      accessedAt: "2026-11-01",
     },
     {
       title: "About CXMT",
@@ -222,7 +222,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   readTime: "約12分",
   intro: {
     problem: "半導体企業のランキングを見ても、設計会社、製造会社、装置会社がなぜ同じ表に並ぶのか分かりにくくありませんか。",
-    conclusion: "世界1位はNVIDIA、日本1位はアドバンテストです（2026年10月31日基準）。世界30社と日本18社を企業全体の時価総額で比較します。",
+    conclusion: "世界1位はNVIDIA、日本1位はアドバンテストです（2026年10月31日基準）。世界30社と日本18社を、参考のトヨタ自動車とともに企業全体の時価総額で比較します。",
     learnings: "世界TOP30、日本18社、企業分類、時価総額と売上高の違い、転職先の企業研究へ使う際の注意点。",
   },
   overviewBlocks: [
@@ -460,7 +460,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
     {
       id: "sources-method",
       heading: "出典・調査方法とデータ更新日",
-      lead: "ランキングは2026年10月31日基準、データ確認日は11月1日です。10月31日は土曜日で、NVIDIAの出典は10月30日の終値を示しています。基準日・確認日・記事の編集更新日を区別しています。",
+      lead: "ランキングと参考のトヨタ自動車は2026年10月31日基準、データ確認日は11月1日です。10月31日は土曜日で、NVIDIAの出典は10月30日の終値を示しています。基準日・確認日・記事の編集更新日を区別しています。",
       blocks: [
         {
           type: "mapping",
@@ -480,7 +480,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         },
       ],
       paragraphs: [
-        "各市場の取引日・更新時刻や為替の反映には差があり、出典の株価データにも数分から数時間の遅延があり得ます。同じ基準日でも全社が同一時刻の値という意味ではありません。表は基準日時点のスナップショットで、リアルタイム値ではありません。数値は世界30社・日本18社を同じ基準日で更新します。",
+        "各市場の取引日・更新時刻や為替の反映には差があり、出典の株価データにも数分から数時間の遅延があり得ます。同じ基準日でも全社が同一時刻の値という意味ではありません。表は基準日時点のスナップショットで、リアルタイム値ではありません。数値の更新時は世界30社・日本18社と参考のトヨタ自動車を同じ基準日で差し替えます。",
         "本記事は半導体業界の構造と企業研究を目的とし、株式の購入・売却を推奨する投資助言ではありません。",
       ],
     }

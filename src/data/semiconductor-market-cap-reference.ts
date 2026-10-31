@@ -21,10 +21,10 @@ export const toyotaMarketCapReference: MarketCapReferenceSnapshot = {
   name: "トヨタ自動車",
   comparisonLabel: "トヨタ",
   currency: "米ドル",
-  dataAsOf: "2026-10-16",
-  checkedAt: "2026-10-17",
+  dataAsOf: "2026-10-31",
+  checkedAt: "2026-11-01",
   sourceName: "CompaniesMarketCap",
   sourceUrl: "https://companiesmarketcap.com/toyota/marketcap/",
   status: "verified",
-  marketCapUsdB: 229.21,
+  marketCapUsdB: 230.5,
 };
