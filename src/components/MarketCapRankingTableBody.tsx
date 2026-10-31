@@ -65,6 +65,6 @@ export function MarketCapRankingTableBody({ rows, scope, title, reference }: { r
       <button type="button" onClick={() => { setQuery(""); setGroup(""); setCountry(""); setSort("rank"); send({ action: "reset" }); }}>リセット</button>
     </div>
     <div className={`market-cap-table-wrap ${styles.tableWrap}`}><table className="market-cap-table" role="table" aria-label={`${title}の時価総額ランキング`}><thead role="rowgroup"><tr role="row"><th scope="col">{scope === "world" ? "順位" : "国内"}</th><th scope="col">企業名</th><th scope="col">時価総額</th><th scope="col">前回比</th><th scope="col">比較</th></tr></thead><tbody role="rowgroup">{renderedRows.length ? renderedRows : <tr><td colSpan={5}>条件に合う企業がありません</td></tr>}</tbody></table></div>
-    <p className={styles.note}>前回比は2026年10月1日時点のデータがある企業のみ表示しています。順位の変動は世界順位での比較です。</p>
+    <p className={styles.note}>前回比は前回保存した時点のデータがある企業のみ表示しています。順位の変動は世界順位での比較です。</p>
   </>;
 }
