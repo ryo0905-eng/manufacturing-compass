@@ -291,18 +291,18 @@
       "contentUpdatedAt": "2026-10-03"
     },
     {
-      "id": "lam-research-2026-june",
+      "id": "lam-research-2026-september",
       "companyId": "lam-research",
       "segment": "equipment",
       "business": "成膜・エッチング・洗浄と顧客サポート",
-      "announcedAt": "2026-07-29",
-      "checkedAt": "2026-10-16",
-      "version": 2,
+      "announcedAt": "2026-10-21",
+      "checkedAt": "2026-11-01",
+      "version": 3,
       "period": {
-        "label": "2026年6月終了四半期",
+        "label": "2026年9月終了四半期",
         "kind": "quarter",
         "start": null,
-        "end": "2026-06-28"
+        "end": "2026-09-27"
       },
       "currency": "USD",
       "unit": "million",
@@ -310,90 +310,96 @@
       "documents": [
         {
           "id": "release",
-          "title": "June 2026 Quarter Financial Results",
-          "url": "https://investor.lamresearch.com/2026-07-29-Lam-Research-Corporation-Reports-Financial-Results-for-the-Quarter-Ended-June-28,-2026",
+          "title": "September 2026 Quarter Financial Results",
+          "url": "https://investor.lamresearch.com/2026-10-21-Lam-Research-Corporation-Reports-Financial-Results-for-the-Quarter-Ended-September-27,-2026",
           "kind": "html"
+        },
+        {
+          "id": "statement",
+          "title": "September 2026 Quarter Financial Results PDF",
+          "url": "https://investor.lamresearch.com/2026-10-21-Lam-Research-Corporation-Reports-Financial-Results-for-the-Quarter-Ended-September-27%2C-2026?asPDF=",
+          "kind": "pdf"
         }
       ],
       "metrics": {
         "revenue": {
           "status": "reported",
-          "value": 6722.238,
+          "value": 8219.418,
           "source": {
-            "documentId": "release",
-            "locator": "Condensed Consolidated Statements of Operations / Revenue、単位千米ドル"
+            "documentId": "statement",
+            "locator": "Condensed Consolidated Statements of Operations / Revenue、千米ドルから百万米ドルへ換算"
           }
         },
         "operatingIncome": {
           "status": "reported",
-          "value": 2513.488,
+          "value": 3283.727,
           "source": {
-            "documentId": "release",
-            "locator": "Condensed Consolidated Statements of Operations / GAAP Operating income、単位千米ドル"
+            "documentId": "statement",
+            "locator": "Condensed Consolidated Statements of Operations / Operating income、千米ドルから百万米ドルへ換算"
           }
         },
         "revenueYoY": {
           "status": "reported",
-          "value": 30,
-          "calculation": "(6,722.238 - 5,171.393) ÷ 5,171.393 × 100、少数第1位に丸め",
+          "value": 54.4,
+          "comparisonValue": 5324.173,
+          "calculation": "(8,219.418 - 5,324.173) ÷ 5,324.173 × 100、小数第1位に丸め",
           "source": {
-            "documentId": "release",
-            "locator": "Revenue disaggregation / 2026年6月と2025年6月"
-          },
-          "comparisonValue": 5171.393
+            "documentId": "statement",
+            "locator": "Condensed Consolidated Statements of Operations / Revenue、2026年9月と2025年9月"
+          }
         }
       },
       "highlights": [
         {
-          "text": "売上高は67.22億米ドルで前年同期比約30.0%増。",
+          "text": "売上高は82.19418億米ドルで、前年同期比約54.4%増。",
           "source": {
-            "documentId": "release",
-            "locator": "Revenue disaggregation"
+            "documentId": "statement",
+            "locator": "Condensed Consolidated Statements of Operations / Revenue"
           }
         },
         {
-          "text": "システム売上、顧客サポート等の売上はともに前年同期を上回った。",
+          "text": "GAAP営業利益は32.83727億米ドル。",
           "source": {
-            "documentId": "release",
-            "locator": "Revenue disaggregation / 2026年6月と2025年6月"
+            "documentId": "statement",
+            "locator": "Condensed Consolidated Statements of Operations / Operating income"
           }
         },
         {
-          "text": "次の2026年9月終了四半期の売上高を81億米ドル±4億米ドルと予想した。",
+          "text": "次四半期の売上高を86億米ドル±4億米ドルと予想。",
           "source": {
-            "documentId": "release",
-            "locator": "Outlook"
+            "documentId": "statement",
+            "locator": "Outlook / Revenue"
           }
         }
       ],
       "growth": [
         {
-          "text": "システム売上は前年同期の34.38億米ドルから42.50億米ドル、顧客サポート等は17.34億米ドルから24.72億米ドルへ増えた。",
+          "text": "システム売上と顧客サポート関連売上はいずれも前年同期を上回った。",
           "source": {
-            "documentId": "release",
-            "locator": "Revenue disaggregation"
+            "documentId": "statement",
+            "locator": "Revenue / Systems revenue and Customer support-related revenue"
           }
         },
         {
-          "text": "会社はAI関連需要と製造工程の複雑化を成長の背景に挙げた。",
+          "text": "会社はAIに伴う半導体需要とデバイスの複雑化を挙げた。",
           "source": {
             "documentId": "release",
-            "locator": "CEO comment / US GAAP Financial Results後"
+            "locator": "CEO comment"
           }
         }
       ],
       "weakness": [
         {
-          "text": "開示されたシステム売上と顧客サポート等はともに前年同期比で増加。エッチング・成膜別の弱さはこの資料で特定できない。",
+          "text": "システム売上と顧客サポート関連売上の内訳だけでは、装置の種類ごとの弱さは特定できない。",
           "source": {
-            "documentId": "release",
-            "locator": "Revenue disaggregation"
+            "documentId": "statement",
+            "locator": "Revenue / Systems revenue and Customer support-related revenue"
           }
         }
       ],
       "concerns": [
         {
-          "text": "日本向け出荷の一部は顧客検収まで売上計上されず、出荷と当期売上は一致しない。",
+          "text": "日本向け出荷の一部は顧客検収まで売上計上されないため、出荷と当期売上は一致しない。",
           "source": {
             "documentId": "release",
             "locator": "Balance Sheet and Cash Flow Results / Deferred revenue"
@@ -402,35 +408,35 @@
       ],
       "outlook": [
         {
-          "text": "2026年9月終了四半期の売上高を81億米ドル±4億米ドル、GAAP営業利益率を39.5%±1ポイントと予想する。",
+          "text": "2026年12月終了四半期の売上高を86億米ドル±4億米ドルと予想。",
           "source": {
-            "documentId": "release",
-            "locator": "Outlook"
+            "documentId": "statement",
+            "locator": "Outlook / Revenue"
           }
         }
       ],
       "change": {
-        "text": "前四半期の売上高58.41億米ドルから67.22億米ドルに増加。前年同期比とは異なる比較。",
-        "basis": "2026年3月終了四半期",
+        "text": "売上高は前四半期の67.22238億米ドルから82.19418億米ドルへ増加。",
+        "basis": "2026年6月終了四半期",
         "source": {
-          "documentId": "release",
-          "locator": "Key Financial Data / June 2026 and March 2026"
+          "documentId": "statement",
+          "locator": "Condensed Consolidated Statements of Operations / Revenue"
         }
       },
       "forecastRevision": {
         "status": "unverified",
-        "target": "2026年9月終了四半期",
-        "text": "比較可能な前回予想を確認していないため、改定方向は表示しない。"
+        "target": "2026年12月終了四半期売上高",
+        "text": "比較可能な前回予想を確認していない。"
       },
       "themes": [
         "AI",
         "設備投資"
       ],
-      "editorialNote": "売上の伸びを新規装置だけの成果と読まない。サービス・改修等も増えている。",
+      "editorialNote": "新規装置と顧客サポート関連の売上を区別して読む。",
       "unverified": [
-        "エッチングと成膜それぞれの当四半期売上は、この資料から確認していない。"
+        "会社の見通しは実績ではなく、採用の増加を示すものでもありません。"
       ],
-      "contentUpdatedAt": "2026-10-03"
+      "contentUpdatedAt": "2026-11-01"
     },
     {
       "id": "kla-2027-q1",
@@ -975,18 +981,18 @@
       "contentUpdatedAt": "2026-10-16"
     },
     {
-      "id": "sk-hynix-2026-q2",
+      "id": "sk-hynix-2026-q3",
       "companyId": "sk-hynix",
       "segment": "memory",
       "business": "DRAM・HBM・NAND",
-      "announcedAt": "2026-07-29",
-      "checkedAt": "2026-10-16",
-      "version": 2,
+      "announcedAt": "2026-10-28",
+      "checkedAt": "2026-11-01",
+      "version": 3,
       "period": {
-        "label": "2026年第2四半期（発表時点の暫定値）",
+        "label": "2026年第3四半期（発表時点の暫定値）",
         "kind": "quarter",
-        "start": "2026-04-01",
-        "end": "2026-06-30"
+        "start": "2026-07-01",
+        "end": "2026-09-30"
       },
       "currency": "KRW",
       "unit": "billion",
@@ -994,108 +1000,114 @@
       "documents": [
         {
           "id": "release",
-          "title": "2Q26 Financial Results",
-          "url": "https://news.skhynix.com/en/q2-2026-business-results/",
+          "title": "SK hynix Announces 3Q26 Financial Results",
+          "url": "https://news.skhynix.com/en/q3-2026-business-results/",
           "kind": "html"
+        },
+        {
+          "id": "statement",
+          "title": "FY2026 Q3 Earnings Presentation",
+          "url": "https://mis-prod-koce-homepage-cdn-01-blob-ep.azureedge.net/web/attach/21435786328187801.pdf",
+          "kind": "pdf"
         }
       ],
       "metrics": {
         "revenue": {
           "status": "reported",
-          "value": 79318.7,
+          "value": 104615,
           "source": {
-            "documentId": "release",
-            "locator": "2Q26 Financial Results / Revenue、十億ウォン"
+            "documentId": "statement",
+            "locator": "p.15 / Income Statement / Revenue、十億ウォン単位に丸め"
           }
         },
         "operatingIncome": {
           "status": "reported",
-          "value": 60542.6,
+          "value": 83334,
           "source": {
-            "documentId": "release",
-            "locator": "2Q26 Financial Results / Operating Profit、十億ウォン"
+            "documentId": "statement",
+            "locator": "p.15 / Income Statement / Operating Profit、十億ウォン単位に丸め"
           }
         },
         "revenueYoY": {
           "status": "reported",
-          "value": 257,
+          "value": 328,
           "source": {
-            "documentId": "release",
-            "locator": "2Q26 Financial Results / Revenue YoY"
+            "documentId": "statement",
+            "locator": "p.15 / Income Statement / Revenue Y/Y"
           }
         }
       },
       "highlights": [
         {
-          "text": "売上高は79.3187兆ウォンで前年同期比257%増、営業利益は60.5426兆ウォン。",
+          "text": "売上高は約104.615兆ウォン、前年同期比328%増。",
           "source": {
-            "documentId": "release",
-            "locator": "2Q26 Financial Results / K-IFRS"
+            "documentId": "statement",
+            "locator": "p.15 / Income Statement / Revenue"
           }
         },
         {
-          "text": "会社はAIサーバー向け高付加価値メモリとDRAM・NAND価格上昇を業績要因として説明した。",
+          "text": "営業利益は約83.334兆ウォン。数値は十億ウォン単位に丸めた暫定値。",
           "source": {
-            "documentId": "release",
-            "locator": "業績要因の説明"
+            "documentId": "statement",
+            "locator": "p.15 / Income Statement / Operating Profit、丸め注記"
           }
         },
         {
-          "text": "HBM4の量産出荷を第2四半期に始め、下半期に生産を増やす計画。",
+          "text": "HBM4の出荷が本格化し、サーバー向けDDR5の販売が増えた。",
           "source": {
             "documentId": "release",
-            "locator": "HBM4の出荷・生産計画"
+            "locator": "Record quarterly results / By product"
           }
         }
       ],
       "growth": [
         {
-          "text": "HBM、AIサーバー向けDRAM、eSSDを中心とする販売構成と、DRAM・NANDの価格上昇を会社が挙げた。",
+          "text": "会社はAIメモリ需要の増加、製品価格の上昇と高付加価値品の競争力を業績要因に挙げた。",
           "source": {
             "documentId": "release",
-            "locator": "業績要因の説明"
+            "locator": "Record quarterly results in both revenue and operating profit"
           }
         }
       ],
       "weakness": [
         {
-          "text": "DRAM・NANDはいずれも価格が前四半期から上昇。製品別の売上額や弱い事業はこの発表では示されない。",
+          "text": "純利益は前四半期を下回った。",
           "source": {
-            "documentId": "release",
-            "locator": "業績要因、2Q26 Financial Results"
+            "documentId": "statement",
+            "locator": "p.15 / Income Statement / Net Profit Q/Q"
           }
         }
       ],
       "concerns": [
         {
-          "text": "需要に対して供給能力が制約になると説明。設備投資は顧客需要と投資効率を見ながら段階的に進める方針。",
+          "text": "会社は先端工程の技術的な難しさと設備建設の期間を供給制約の要因に挙げた。",
           "source": {
             "documentId": "release",
-            "locator": "供給能力と設備投資の説明"
+            "locator": "Memory supply shortage to persist through 2030"
           }
         }
       ],
       "outlook": [
         {
-          "text": "HBM4を下半期に増産し、NANDの321層品の構成比も高める計画。業績の定量予想はこの発表では確認できない。",
+          "text": "会社は第4四半期にHBM4の出荷量と売上高がHBM3Eを上回ると見込む。",
           "source": {
             "documentId": "release",
-            "locator": "HBM4・NAND・設備投資の見通し"
+            "locator": "Expanding production capacity / HBM demand"
           }
         }
       ],
       "change": {
-        "text": "売上高は前四半期の52.5763兆ウォンから79.3187兆ウォンに増加。",
+        "text": "売上高は前四半期を上回った。",
+        "basis": "2026年第2四半期",
         "source": {
-          "documentId": "release",
-          "locator": "2Q26 Financial Results / 2Q26・1Q26"
-        },
-        "basis": "2026年第1四半期"
+          "documentId": "statement",
+          "locator": "p.15 / Income Statement / Revenue Q/Q"
+        }
       },
       "forecastRevision": {
         "status": "unpublished",
         "target": "通期売上高予想",
-        "text": "今回確認した発表では定量予想を確認できない。"
+        "text": "確認した発表では通期の定量売上予想を確認できない。"
       },
       "themes": [
         "AI",
@@ -1104,12 +1116,12 @@
         "データセンター",
         "設備投資"
       ],
-      "editorialNote": "HBMとNANDの両方に言及するが、製品別の利益額は開示されていない。",
+      "editorialNote": "掲載数値は十億ウォン単位に丸めた暫定値。製品別の利益額とは区別する。",
       "unverified": [
-        "発表時点では四半期数値は暫定値で、レビュー完了前。",
-        "製品別の売上高・利益額と通期定量予想は未取得。"
+        "発表時点では四半期数値は暫定値で、外部監査人のレビュー完了前。",
+        "会社の見通しは実績ではなく、採用の増加を示すものでもありません。"
       ],
-      "contentUpdatedAt": "2026-10-03"
+      "contentUpdatedAt": "2026-11-01"
     },
     {
       "id": "samsung-electronics-2026-q3",
@@ -1731,7 +1743,7 @@
           "companyId": "sk-hynix",
           "source": {
             "documentId": "release",
-            "locator": "業績要因の説明"
+            "locator": "Record quarterly results / By product"
           }
         },
         {
@@ -1753,7 +1765,7 @@
           "companyId": "sk-hynix",
           "source": {
             "documentId": "release",
-            "locator": "HBM4量産出荷と下半期増産計画"
+            "locator": "Expanding production capacity / HBM demand"
           }
         },
         {
