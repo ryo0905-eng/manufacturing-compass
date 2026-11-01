@@ -21,6 +21,7 @@
 .example dd { margin: 0; font-weight: 600; line-height: 1.6; overflow-wrap: anywhere; }
 .note { margin: 12px 0 0; color: var(--muted); font-size: .8rem; line-height: 1.7; }
 .conditions { margin: 16px 0 12px; color: var(--muted); font-size: .85rem; line-height: 1.7; }
+.agentLink { margin: 16px 0 0; line-height: 1.7; }
 .button { max-width: 100%; white-space: normal; text-align: center; }
 
 @media (max-width: 600px) {

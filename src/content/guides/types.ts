@@ -5,7 +5,7 @@ export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
   | { type: "ranking-purpose-entry" }
-  | { type: "career-compass-entry"; placement?: "memoryRanking" | "equipmentRanking" | "salaryRanking" | "foundryRanking" }
+  | { type: "career-compass-entry"; placement?: "factoryProjects" | "memoryRanking" | "equipmentRanking" | "salaryRanking" | "foundryRanking" }
   | { type: "market-cap-growth-ranking" }
   | { type: "ranking-time-machine-preview" }
   | { type: "book-affiliate-entry" }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
+import { CareerAgentsLink } from "@/components/CareerAgentsLink";
 import { CareerCompassCta } from "@/components/CareerCompassCta";
 import { IndustryAtlas } from "@/components/IndustryAtlas";
 import { ResearchNavigation, ResearchNavigationLink } from "@/components/ResearchNavigation";
@@ -197,6 +198,8 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
         sourcePage="/industry-map"
         title="業界の流れが分かったら、自分の経験がつながる場所を確認する"
       />
+
+      <p><CareerAgentsLink className="text-link" ctaLocation="industry_map_agents">半導体・製造業に強い転職エージェントを比較する</CareerAgentsLink></p>
 
       <section className="section">
         <div className="industry-map-directory-heading">

@@ -98,6 +98,7 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
         "勤務地として検討する場合は、企業の採用ページで、雇用する法人、募集職種、配属予定地を確認しましょう。工場の建設予定と、現在応募できる求人は別の情報です。"
       ],
       "blocks": [
+        { type: "career-compass-entry", placement: "factoryProjects" },
         {
           "type": "links",
           "items": [

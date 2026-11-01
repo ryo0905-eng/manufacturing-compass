@@ -8,7 +8,7 @@ import type { AgentFocus } from "@/data/affiliateLinks";
 
 type CareerAgentsLinkProps = Omit<ComponentProps<typeof Link>, "href"> & {
   focus?: AgentFocus;
-  ctaLocation?: "shared_affiliate_cta" | "consultation_after_template" | "consultation_theme";
+  ctaLocation?: "shared_affiliate_cta" | "consultation_after_template" | "consultation_theme" | "factory_projects_agents" | "memory_ranking_agents" | "equipment_ranking_agents" | "salary_ranking_agents" | "foundry_ranking_agents" | "industry_map_agents";
 };
 
 export function CareerAgentsLink({ onClick, focus, ctaLocation = "shared_affiliate_cta", ...props }: CareerAgentsLinkProps) {

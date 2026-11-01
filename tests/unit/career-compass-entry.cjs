@@ -95,6 +95,28 @@ for (const [slug, exportName, rankingType, placement, location] of rankingEntrie
   assert.equal(viewProps.cta_variant, 'preview_entry_v1');
 }
 
+// Every new guide entry renders both destinations and reports a unique comparison placement.
+const agentLocations = {
+  memoryRanking: 'memory_ranking_agents', equipmentRanking: 'equipment_ranking_agents',
+  salaryRanking: 'salary_ranking_agents', foundryRanking: 'foundry_ranking_agents',
+  factoryProjects: 'factory_projects_agents',
+};
+const factory = load('src/content/guides/japan-semiconductor-factory-projects').japanSemiconductorFactoryProjectsGuide;
+const factoryBlock = factory.sections.find(section => section.id === 'locations').blocks.find(block => block.type === 'career-compass-entry');
+assert.equal(factoryBlock.placement, 'factoryProjects');
+for (const [placement, location] of Object.entries(agentLocations)) {
+  let agentProps;
+  const testLoad = loader({
+    '@/components/CareerAgentsLink': { CareerAgentsLink: props => { agentProps = props; return React.createElement('a', { href: '/career-agents' }, props.children); } },
+  });
+  const Preview = testLoad('src/components/career-compass/CareerCompassPreview').CareerCompassPreview;
+  const result = renderToStaticMarkup(React.createElement(Preview, { placement }));
+  assert.match(result, /href="\/career-compass"/);
+  assert.match(result, /href="\/career-agents"[^>]*>半導体・製造業に強い転職エージェントを比較する/);
+  assert.equal(agentProps.ctaLocation, location);
+}
+assert.equal(data.placements.factoryProjects.ctaLocation, 'factory_projects_career_preview');
+
 // Use the real visibility helper with mocked hooks and browser observation.
 function harness(supported = true) {
   const events = [], observers = [], effects = [], refs = [], listeners = new Map();

@@ -20,6 +20,11 @@ export const careerCompassEntry = {
       ctaLocation: "career_compass_intro",
       buttonLabel: "自分の経験を整理する（12問）",
     },
+    factoryProjects: {
+      sourcePage: "/guides/japan-semiconductor-factory-projects",
+      ctaLocation: "factory_projects_career_preview",
+      buttonLabel: "自分の経験で確かめる",
+    },
     memoryRanking: {
       sourcePage: "/guides/memory-manufacturer-ranking",
       ctaLocation: "memory_after_ranking",
