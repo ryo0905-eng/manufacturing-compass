@@ -51,7 +51,7 @@ test('company projection preserves raw values, sources, periods, scope and segme
   assert.match(companies.find(company => company.id === 'samsung-electronics').scope, /DS部門/);
   assert.equal(companies.filter(company => company.segment === 'equipment').length, 5);
   assert.ok(companies.slice(0, 5).every(company => company.segment === 'equipment'));
-  assert.equal(defaultWatchCompany(companies), 'tsmc');
+  assert.equal(defaultWatchCompany(companies), 'kioxia');
   assert.equal(defaultWatchCompany([ { id: 'b', announcedAt: '2026-10-01' }, { id: 'a', announcedAt: '2026-10-01' } ]), 'a');
   assert.equal(defaultWatchCompany([]), null);
 });
@@ -149,7 +149,7 @@ test('annual common domain includes all values and zero, including outliers, wit
 
 test('one global linear domain handles zero, negatives, missing and very large values', () => {
   const domain = watchChartDomain(companies);
-  assert.deepEqual(domain, { min: 0, max: 450 });
+  assert.deepEqual(domain, { min: 0, max: 500 });
   assert.deepEqual(watchChartDomain([{ revenueYoY: null }, { revenueYoY: NaN }]), { min: 0, max: 50 });
   const mixed = watchChartDomain([-33, 0, 1300, null].map(revenueYoY => ({ revenueYoY })));
   assert.deepEqual(mixed, { min: -50, max: 1300 });

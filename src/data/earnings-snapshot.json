@@ -846,18 +846,18 @@
       "contentUpdatedAt": "2026-10-03"
     },
     {
-      "id": "kioxia-2027-q1",
+      "id": "kioxia-2027-q2",
       "companyId": "kioxia",
       "segment": "memory",
       "business": "NANDフラッシュ・SSD",
-      "announcedAt": "2026-07-31",
-      "checkedAt": "2026-10-16",
+      "announcedAt": "2026-10-30",
+      "checkedAt": "2026-11-01",
       "version": 2,
       "period": {
-        "label": "2027年3月期第1四半期",
+        "label": "2027年3月期第2四半期",
         "kind": "quarter",
-        "start": "2026-04-01",
-        "end": "2026-06-30"
+        "start": "2026-07-01",
+        "end": "2026-09-30"
       },
       "currency": "JPY",
       "unit": "million",
@@ -865,107 +865,116 @@
       "documents": [
         {
           "id": "tanshin",
-          "title": "2027年3月期 第1四半期決算短信・英訳（SGX掲載）",
-          "url": "https://links.sgx.com/1.0.0/corporate-announcements/DOATO9EIE4EEQ2Y8/898078_Earnings-Release-FY2026-1Q-EN.pdf",
+          "title": "2027年3月期 第2四半期（中間期）決算短信〔IFRS〕（連結）",
+          "url": "https://ssl4.eir-parts.net/doc/285A/tdnet/2902676/00.pdf",
           "kind": "pdf"
         }
       ],
       "metrics": {
         "revenue": {
           "status": "reported",
-          "value": 1767117,
+          "value": 2480035,
           "source": {
             "documentId": "tanshin",
-            "locator": "p.1 / 連結経営成績・売上収益"
+            "locator": "PDF p.14（資料 p.12）/ 要約四半期連結損益計算書・売上収益"
           }
         },
         "operatingIncome": {
           "status": "reported",
-          "value": 1270017,
+          "value": 1994710,
           "source": {
             "documentId": "tanshin",
-            "locator": "p.1 / IFRS営業利益（Non-GAAP営業利益とは別）"
+            "locator": "PDF p.14（資料 p.12）/ 要約四半期連結損益計算書・営業利益（IFRS）"
           }
         },
         "revenueYoY": {
           "status": "reported",
-          "value": 415.5,
+          "value": 453.2,
           "source": {
             "documentId": "tanshin",
-            "locator": "p.1 / 連結経営成績・売上収益前年同期比"
-          }
+            "locator": "PDF p.14（資料 p.12）/ 要約四半期連結損益計算書・売上収益"
+          },
+          "calculation": "(2,480,035 - 448,346) ÷ 448,346 × 100、小数第1位に丸め",
+          "comparisonValue": 448346
         }
       },
       "highlights": [
         {
-          "text": "売上収益は前年同期比415.5%増の1兆7,671億円。IFRS営業利益は1兆2,700億円。",
+          "text": "7〜9月の売上収益は2兆4,800億円、IFRS営業利益は1兆9,947億円。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.1 / 連結経営成績"
+            "locator": "PDF p.5（資料 p.3）/ 前四半期比較表"
           }
         },
         {
-          "text": "SSD・ストレージ向け売上が前四半期の6,003億円から1兆1,747億円に増えた。",
+          "text": "SSD・ストレージ向け売上収益は前四半期の1兆1,747億円から1兆6,160億円に増加。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.5 / 前四半期比較表"
+            "locator": "PDF p.5（資料 p.3）/ 前四半期比較表"
           }
         },
         {
-          "text": "会社はデータセンター向け需要の継続を見込み、次の単四半期も増収増益を予想。",
+          "text": "会社は次の10〜12月について、データセンター向け需要は旺盛ながら、為替の悪化などを見込み、7〜9月と同水準の業績を予想した。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.8 / 第2四半期の見通し"
+            "locator": "PDF p.8（資料 p.6）/ 連結業績の見通し"
           }
         }
       ],
       "growth": [
         {
-          "text": "会社は生成AI向けデータセンター需要による販売単価の上昇、出荷量の増加、為替改善を増収要因として挙げた。",
+          "text": "生成AI用途を中心としたデータセンター向け需要を背景に、平均販売単価の大幅な上昇と出荷量の増加が増収に寄与した。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.6 / 経営成績の説明"
+            "locator": "PDF p.5（資料 p.3）/ 第2四半期の経営成績"
           }
         }
       ],
       "weakness": [
         {
-          "text": "スマートフォン・PC向け需要は堅調と説明される。用途別に弱い分野は資料から特定できない。",
+          "text": "会社はフラッシュメモリ市場のスマートフォン・PC向け需要が鈍化傾向と説明した。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.4 / 市場環境、p.5 / 用途別売上"
+            "locator": "PDF p.4（資料 p.2）/ 市場環境"
           }
         }
       ],
       "concerns": [
         {
-          "text": "営業利益には訴訟損失引当金と株式報酬費用が減少要因として含まれる。調整後のNon-GAAP営業利益とは区別する。",
+          "text": "売上収益と営業利益は7〜9月の単独四半期値。決算短信の冒頭にある4〜9月の中間期累計値とは異なる。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.5 / 利益の調整項目と説明"
+            "locator": "PDF p.1 / 連結経営成績（累計）、PDF p.14（資料 p.12）/ 要約四半期連結損益計算書"
+          }
+        },
+        {
+          "text": "IFRS営業利益と、調整項目を除くNon-GAAP営業利益は異なる指標。",
+          "source": {
+            "documentId": "tanshin",
+            "locator": "PDF p.5（資料 p.3）/ 前四半期比較表と利益の調整項目"
           }
         }
       ],
       "outlook": [
         {
-          "text": "2027年3月期第2四半期の単四半期売上収益を2兆3,900億円、IFRS営業利益を1兆8,900億円と予想。",
+          "text": "会社は10〜12月の単独四半期について、売上収益2兆5,000億円、IFRS営業利益1兆9,950億円を見込む。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.8 / 第2四半期の見通し"
+            "locator": "PDF p.8（資料 p.6）/ 連結業績の見通し"
           }
         }
       ],
       "change": {
-        "text": "売上収益は前四半期の1兆29億円から1兆7,671億円へ増加。",
+        "text": "売上収益は前四半期の1兆7,671億円から2兆4,800億円へ増加。",
         "source": {
           "documentId": "tanshin",
-          "locator": "p.5 / 前四半期比較表"
+          "locator": "PDF p.5（資料 p.3）/ 前四半期比較表"
         },
-        "basis": "2026年1〜3月の単四半期"
+        "basis": "2026年4〜6月の単独四半期"
       },
       "forecastRevision": {
         "status": "unverified",
-        "target": "2027年3月期第2四半期",
+        "target": "2027年3月期第3四半期",
         "text": "比較可能な前回予想を確認していないため、改定方向は判定しない。"
       },
       "themes": [
@@ -973,12 +982,11 @@
         "データセンター",
         "NAND"
       ],
-      "editorialNote": "キオクシアの用途別伸びはSSD・ストレージに大きい。HBMメーカーの増収要因と同一視しない。",
+      "editorialNote": "キオクシアの増収要因はデータセンター向け需要などによる販売単価上昇と出荷量増加。HBMメーカーの増収要因と同一視しない。",
       "unverified": [
-        "通期予想の改定方向は確認していない。",
-        "今回の再照合はSGX掲載の会社提出英訳を使用。日本語原文と差異がある場合は日本語原文が優先。"
+        "通期予想の改定方向は確認していない。"
       ],
-      "contentUpdatedAt": "2026-10-16"
+      "contentUpdatedAt": "2026-11-01"
     },
     {
       "id": "sk-hynix-2026-q3",
@@ -1729,7 +1737,7 @@
           "companyId": "kioxia",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.6 / データセンター向け需要と増収要因"
+            "locator": "PDF p.5（資料 p.3）/ データセンター向け需要と増収要因"
           }
         },
         {
