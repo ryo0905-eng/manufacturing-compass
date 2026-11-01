@@ -1,6 +1,7 @@
 .inputStack { display: grid; gap: var(--mc-space-3); }
 .inputModes { min-width: 0; margin: 0; padding: 0; border: 0; }
 .inputModes legend { margin-bottom: var(--mc-space-1); font-size: var(--mc-text-label); font-weight: 600; }
+.inputMethodNote { margin: var(--mc-space-1) 0 0; color: var(--mc-text-muted); font-size: var(--mc-text-label); line-height: 1.6; }
 .selectionGroup { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mc-space-1); padding: var(--mc-space-1); border: 1px solid var(--mc-border); border-radius: var(--mc-radius-panel); background: var(--mc-surface-subtle); }
 .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mc-space-3); }
 .fields > p { grid-column: 1 / -1; }

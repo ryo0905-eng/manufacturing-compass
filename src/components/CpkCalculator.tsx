@@ -212,6 +212,7 @@ export function CpkCalculator({ locale = "ja", onLearn }: { locale?: CpkLocale; 
               <SelectionButton selected={state.mode === "raw"} onClick={() => switchMode("raw")}>{t("生データ")}</SelectionButton>
               <SelectionButton selected={state.mode === "summary"} onClick={() => switchMode("summary")}>{t("平均・短期標準偏差")}</SelectionButton>
             </div>
+            {locale === "ja" && <p className={styles.inputMethodNote}>両側規格の場合、測定値の貼り付けでは全体標準偏差を使いPp・Ppkを、別途求めた短期標準偏差の入力ではCp・Cpkを計算します。</p>}
           </fieldset>
 
           {state.mode === "raw" ? <>
