@@ -15,6 +15,7 @@ export function calculateConditions({ dose, focus }: Conditions) {
   const lowerFocusSquared = (-10 + doseSensitivity * (dose - 100)) / focusSensitivity;
   const lowerFocusLimit = lowerFocusSquared > 0 ? Math.sqrt(lowerFocusSquared) : 0;
   const inSpec = cd >= 90 - 1e-9 && cd <= 110 + 1e-9;
-  const state = Math.abs(focus) >= 0.35 ? "解像不良・倒れ寄り" : cd < 90 ? "細り・断線寄り" : cd > 110 ? "太り・残渣寄り" : "正常に近い";
+  // |焦点| ≥ 0.35 µm かつ CD < 目標の 100% なら倒れを優先（130%, 0.35 µm で 94.8%）。
+  const state = Math.abs(focus) >= 0.35 && cd < 100 ? "パターン倒れ" : Math.abs(focus) >= 0.35 ? "解像不良寄り" : cd < 90 ? "細り・断線寄り" : cd > 110 ? "太り・残渣寄り" : "正常に近い";
   return { cd, inSpec, state, doseMargin: inSpec ? Math.min(dose - doseLow, doseHigh - dose) : 0, focusMargin: inSpec ? Math.max(0, Math.min(focusLimit - Math.abs(focus), lowerFocusSquared > 0 ? Math.abs(focus) - lowerFocusLimit : Infinity)) : 0 };
 }
