@@ -9,6 +9,7 @@ import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { CareerCompassPreview } from "@/components/career-compass/CareerCompassPreview";
 import type { Route } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { MarketCapRankingTable } from "@/components/MarketCapRankingTable";
 import { SemiconductorMarketCapGrowthRanking } from "@/components/SemiconductorMarketCapGrowthRanking";
 import { SalaryRankingTable } from "@/components/SalaryRankingTable";
@@ -111,7 +112,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
                 </thead>
                 <tbody>
                   {block.rows.map((row) => (
-                    <tr key={`${row.left}-${row.right}`}><th scope="row">{row.left}</th><td>{row.right}</td></tr>
+                    <tr key={`${row.left}-${row.right}`}><th scope="row">{row.left}</th><td>{row.right}{row.link && <>。<Link href={row.link.href as Route}>{row.link.label}</Link></>}</td></tr>
                   ))}
                 </tbody>
               </table>

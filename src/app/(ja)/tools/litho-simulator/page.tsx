@@ -14,6 +14,7 @@ const links = [
   { href: "/guides/photolithography-process", title: "フォトリソグラフィとは", text: "原理から工程の役割まで詳しく読む" },
   { href: "/guides/semiconductor-lithography-equipment-manufacturers", title: "露光装置メーカー", text: "装置とメーカーの特徴を知る" },
   { href: "/guides/semiconductor-photomask-manufacturers", title: "フォトマスクメーカー", text: "回路原版を支える企業を知る" },
+  { href: "/tools/cmp-simulator", title: "CMPを触って学ぶ", text: "研磨条件と平坦化の関係を体験する" },
   { href: "/tools/semiconductor-process", title: "半導体ができるまで", text: "露光を工程全体の中で見る" },
 ];
 export default function LithoSimulatorPage() {

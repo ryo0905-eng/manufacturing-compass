@@ -20,6 +20,7 @@ export const interconnectQuestions = [
 ] as const;
 export const interconnectRelated = [
   { id: 'interconnect_guide', label: '配線形成を詳しく読む', href: '/guides/semiconductor-interconnect-process' },
+  { id: 'cmp_lab', label: 'CMPを触って学ぶ（Interactive Lab）', href: '/tools/cmp-simulator' },
   { id: 'cmp_guide', label: 'CMPを詳しく読む', href: '/guides/semiconductor-cmp-process' },
   { id: 'industry_map', label: '関連企業を業界地図で見る', href: '/industry-map' },
 ] as const;

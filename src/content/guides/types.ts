@@ -41,7 +41,7 @@ export type GuideBlock =
       type: "mapping";
       leftLabel: string;
       rightLabel: string;
-      rows: Array<{ left: string; right: string }>;
+      rows: Array<{ left: string; right: string; link?: { href: string; label: string } }>;
     }
   | {
       type: "career-bridge";

@@ -96,7 +96,7 @@
 .defectCard dd { margin: 0; }
 .related { display: flex; gap: 18px; align-items: center; margin-top: 10px; padding: 10px 14px; border: 1px solid #cce1ec; border-radius: 12px; background: linear-gradient(120deg,#eff9ff,#fff,#e8f7fc); }
 .related h2 { font-size: 13px; white-space: nowrap; }
-.linkGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 9px; flex: 1; }
+.linkGrid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 9px; flex: 1; }
 .linkGrid a { display: block; border: 1px solid #d3e4f1; border-radius: 8px; padding: 7px 10px; text-decoration: none; color: #163e5e; background: #ffffffd9; box-shadow: 0 2px 3px #176b9a0a; }
 .linkGrid a:hover { border-color: #55a5d3; background: #f2fbff; }
 .linkGrid strong { display: block; font-size: 11px; }

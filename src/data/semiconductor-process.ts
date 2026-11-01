@@ -49,5 +49,6 @@ export const questions = [
 export const processRelated = [
   { id: 'process_guide', label: '全工程を詳しく読む', href: '/guides/semiconductor-manufacturing-process' },
   { id: 'industry_map', label: 'この工程に関わる企業を業界地図で見る', href: '/industry-map' },
+  { id: 'litho_lab', label: '露光条件を変えてリソグラフィを学ぶ', href: '/tools/litho-simulator' },
   { id: 'lithography', label: '光で模様を写す仕組みを読む', href: '/guides/photolithography-process' },
 ] as const;

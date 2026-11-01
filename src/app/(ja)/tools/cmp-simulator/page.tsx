@@ -14,6 +14,7 @@ const links = [
   { href: "/guides/semiconductor-cmp-process", title: "CMPプロセスとは", text: "原理から工程の役割まで詳しく読む" },
   { href: "/guides/semiconductor-cmp-equipment-manufacturers", title: "CMP装置メーカー", text: "装置とメーカーの特徴を知る" },
   { href: "/guides/semiconductor-cmp-slurry-manufacturers", title: "CMPスラリーメーカー", text: "研磨を支える材料を知る" },
+  { href: "/tools/litho-simulator", title: "リソグラフィを触って学ぶ", text: "露光条件とパターンの関係を体験する" },
   { href: "/tools/semiconductor-process", title: "半導体ができるまで", text: "配線とCMPを工程全体の中で見る" },
 ];
 
