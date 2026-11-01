@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-16",
+  "updatedAt": "2026-11-01",
   "releases": [
     {
       "id": "asml-2026-q3",
@@ -433,18 +433,18 @@
       "contentUpdatedAt": "2026-10-03"
     },
     {
-      "id": "kla-2026-q4",
+      "id": "kla-2027-q1",
       "companyId": "kla",
       "segment": "equipment",
       "business": "工程管理・検査・計測",
-      "announcedAt": "2026-07-28",
-      "checkedAt": "2026-10-16",
-      "version": 2,
+      "announcedAt": "2026-10-28",
+      "checkedAt": "2026-11-01",
+      "version": 3,
       "period": {
-        "label": "2026年度第4四半期",
+        "label": "2027年度第1四半期",
         "kind": "quarter",
         "start": null,
-        "end": "2026-06-30"
+        "end": "2026-09-30"
       },
       "currency": "USD",
       "unit": "million",
@@ -452,61 +452,61 @@
       "documents": [
         {
           "id": "release",
-          "title": "Fiscal 2026 Fourth Quarter and Full Year Results",
-          "url": "https://ir.kla.com/news-events/press-releases/detail/518/kla-corporation-reports-fiscal-2026-fourth-quarter-and-full",
+          "title": "Fiscal 2027 First Quarter Results",
+          "url": "https://ir.kla.com/sec-filings/all-sec-filings/content/0000319201-26-000032/exhibit991earningsrelease0.htm",
           "kind": "html"
+        },
+        {
+          "id": "statement",
+          "title": "Form 8-K and earnings release",
+          "url": "https://ir.kla.com/sec-filings/all-sec-filings/content/0000319201-26-000032/0000319201-26-000032.pdf",
+          "kind": "pdf"
         }
       ],
       "metrics": {
         "revenue": {
           "status": "reported",
-          "value": 3658,
+          "value": 4136,
           "source": {
-            "documentId": "release",
-            "locator": "GAAP Results / Q4 FY2026 Total Revenues"
+            "documentId": "statement",
+            "locator": "p.1 / GAAP Results / Total Revenues、百万米ドル"
           }
         },
         "operatingIncome": {
           "status": "unretrieved",
-          "reason": "確認した決算発表の要約表から営業利益を確定できていない"
+          "reason": "公式PDFの営業利益の数値を確認できていない"
         },
         "revenueYoY": {
-          "status": "reported",
-          "value": 15.2,
-          "calculation": "(3,658 - 3,175) ÷ 3,175 × 100、少数第1位に丸め",
-          "source": {
-            "documentId": "release",
-            "locator": "GAAP Results / Q4 FY2026・Q4 FY2025 Total Revenues"
-          },
-          "comparisonValue": 3175
+          "status": "unretrieved",
+          "reason": "公式PDFの丸め後売上高から前年同期比を確定しない"
         }
       },
       "highlights": [
         {
-          "text": "四半期売上高は36.58億米ドルで前年同期比約15.2%増。",
+          "text": "売上高は41.36億米ドル。",
           "source": {
-            "documentId": "release",
-            "locator": "GAAP Results"
+            "documentId": "statement",
+            "locator": "p.1 / GAAP Results / Total Revenues"
           }
         },
         {
-          "text": "会社は先端ロジック、メモリの複雑化が工程管理の需要を押し上げると説明した。",
+          "text": "売上高は前四半期の36.58億米ドルから増加。",
           "source": {
-            "documentId": "release",
-            "locator": "CEO comment"
+            "documentId": "statement",
+            "locator": "p.1 / GAAP Results / Total Revenues"
           }
         },
         {
-          "text": "次四半期の売上高予想は40億米ドル±2億米ドル。",
+          "text": "次四半期の売上高を47億米ドル±2億米ドルと予想。",
           "source": {
-            "documentId": "release",
-            "locator": "First Quarter Fiscal 2027 Guidance"
+            "documentId": "statement",
+            "locator": "p.1 / Second Quarter Fiscal 2027 Guidance"
           }
         }
       ],
       "growth": [
         {
-          "text": "会社はAI関連の先端ロジック・メモリに加え、先端実装を工程管理装置の機会と説明した。",
+          "text": "会社はAI関連の設備拡張や先端製造の複雑化が事業を支えると説明。",
           "source": {
             "documentId": "release",
             "locator": "CEO comment"
@@ -515,69 +515,68 @@
       ],
       "weakness": [
         {
-          "text": "発表資料の主要表では全社売上の増加を確認できるが、事業別の弱い領域はこの要約から特定できない。",
+          "text": "部門別の利益は売上高の要約表だけでは比較できない。",
           "source": {
-            "documentId": "release",
-            "locator": "GAAP Results、CEO comment"
+            "documentId": "statement",
+            "locator": "p.1 / GAAP Results"
           }
         }
       ],
       "concerns": [
         {
-          "text": "中国向け販売には輸出規制や通商政策の変化がリスクとして挙げられている。",
+          "text": "会社の次四半期予想には幅があり、実績は変動し得る。",
           "source": {
-            "documentId": "release",
-            "locator": "Forward-Looking Statements / risks"
+            "documentId": "statement",
+            "locator": "p.1 / Second Quarter Fiscal 2027 Guidance"
           }
         }
       ],
       "outlook": [
         {
-          "text": "会社は2027年度第1四半期の売上高を40億米ドル±2億米ドルと予想する。",
+          "text": "次四半期の売上高予想は47億米ドル±2億米ドル。",
           "source": {
-            "documentId": "release",
-            "locator": "First Quarter Fiscal 2027 Guidance"
+            "documentId": "statement",
+            "locator": "p.1 / Second Quarter Fiscal 2027 Guidance"
           }
         }
       ],
       "change": {
-        "text": "前年同期の売上高31.75億米ドルから36.58億米ドルに増加。",
-        "basis": "2025年度第4四半期",
+        "text": "売上高は前四半期の36.58億米ドルから41.36億米ドルに増加。",
+        "basis": "2026年度第4四半期",
         "source": {
-          "documentId": "release",
-          "locator": "GAAP Results / Q4 FY2026・Q4 FY2025"
+          "documentId": "statement",
+          "locator": "p.1 / GAAP Results / Total Revenues"
         }
       },
       "forecastRevision": {
         "status": "unverified",
-        "target": "2027年度第1四半期",
-        "text": "比較可能な前回予想を確認していないため、改定方向は表示しない。"
+        "target": "2027年度第2四半期売上高",
+        "text": "前回予想との比較は確認していない。"
       },
       "themes": [
         "AI",
-        "先端実装",
-        "中国"
+        "設備投資",
+        "先端実装"
       ],
-      "editorialNote": "売上の増加と、会社が見込む工程管理需要の背景を分けて読む。",
+      "editorialNote": "連結売上と個別事業の動向を分けて読む。",
       "unverified": [
-        "営業利益は未取得。",
-        "先端実装の個別売上寄与額は未取得。"
+        "会社見通しは実績ではなく、採用の増加を示すものでもありません。"
       ],
-      "contentUpdatedAt": "2026-10-03"
+      "contentUpdatedAt": "2026-11-01"
     },
     {
-      "id": "tokyo-electron-2027-q1",
+      "id": "tokyo-electron-2027-q2",
       "companyId": "tokyo-electron",
       "segment": "equipment",
       "business": "半導体製造装置・成膜・エッチング・洗浄",
-      "announcedAt": "2026-07-30",
-      "checkedAt": "2026-10-16",
-      "version": 2,
+      "announcedAt": "2026-10-30",
+      "checkedAt": "2026-11-01",
+      "version": 3,
       "period": {
-        "label": "2027年3月期第1四半期",
+        "label": "2027年3月期第2四半期",
         "kind": "quarter",
-        "start": "2026-04-01",
-        "end": "2026-06-30"
+        "start": "2026-07-01",
+        "end": "2026-09-30"
       },
       "currency": "JPY",
       "unit": "million",
@@ -585,129 +584,124 @@
       "documents": [
         {
           "id": "tanshin",
-          "title": "2027年3月期 第1四半期決算短信",
-          "url": "https://www.tel.com/ir/library/report/i242su0000000goz-att/fy27q1tanshin-e.pdf",
+          "title": "FY2027 Q2 Financial Results",
+          "url": "https://www.tel.com/ir/library/report/i61j9u00000000gf-att/fy27q2tanshin-e.pdf",
           "kind": "pdf"
         },
         {
-          "id": "presentation",
-          "title": "FY2027 Q1 Presentation",
-          "url": "https://www.tel.com/ir/library/report/i242su0000000goz-att/fy27q1presentations-e.pdf",
+          "id": "statement",
+          "title": "FY2027 Q2 Financial Announcement transcript",
+          "url": "https://www.tel.com/ir/library/report/i61j9u00000000gf-att/fy27q2transcript-e.pdf",
           "kind": "pdf"
         }
       ],
       "metrics": {
         "revenue": {
           "status": "reported",
-          "value": 732388,
+          "value": 935000,
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.1 / 連結経営成績、売上高"
+            "documentId": "statement",
+            "locator": "p.4 / Financial Summary (Quarterly) / Net sales、十億円"
           }
         },
         "operatingIncome": {
           "status": "reported",
-          "value": 211407,
+          "value": 295300,
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.1 / 連結経営成績、営業利益"
+            "documentId": "statement",
+            "locator": "p.4 / Financial Summary (Quarterly) / Operating income、十億円"
           }
         },
         "revenueYoY": {
           "status": "reported",
-          "value": 33.3,
+          "value": 48.4,
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.1 / 連結経営成績、前年同期比"
+            "documentId": "statement",
+            "locator": "p.4 / Financial Summary (Quarterly) / Net sales vs. Q2 FY2026"
           }
         }
       },
       "highlights": [
         {
-          "text": "第1四半期の売上高は7,323.88億円で前年同期比33.3%増、営業利益は2,114.07億円。",
+          "text": "四半期売上高は9350億円、営業利益は2953億円。",
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.1 / 連結経営成績"
+            "documentId": "statement",
+            "locator": "p.4 / Financial Summary (Quarterly)"
           }
         },
         {
-          "text": "会社はAI用途の半導体向け設備投資の増加を市場背景として説明した。",
+          "text": "売上高は前年同期比48.4%増。",
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.3 / 経営成績の概況"
+            "documentId": "statement",
+            "locator": "p.4 / Net sales vs. Q2 FY2026"
           }
         },
         {
-          "text": "2027年3月期上期の売上高・営業利益予想を引き上げた。通期予想はこの時点で未公表。",
+          "text": "上期の売上高は会社予想を上回った。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.2、p.5 / 上期予想と改定表"
+            "locator": "p.4 / Difference between Forecast and Actual Results"
           }
         }
       ],
       "growth": [
         {
-          "text": "会社はAIサーバー需要とAI用途の半導体向け設備投資拡大を事業環境として挙げた。",
+          "text": "会社は活発な市場環境を背景に四半期売上高が過去最高になったと説明した。",
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.3 / 経営成績の概況"
+            "documentId": "statement",
+            "locator": "p.4 / Financial Summary (Quarterly)"
           }
         }
       ],
       "weakness": [
         {
-          "text": "半導体製造装置の単一セグメントで、製品別業績は決算短信に記載されない。弱い製品領域は断定できない。",
+          "text": "四半期の研究開発費は前四半期を上回った。",
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.3 / セグメント情報に関する記述"
+            "documentId": "statement",
+            "locator": "p.4 / R&D expenses"
           }
         }
       ],
       "concerns": [
         {
-          "text": "半導体メーカーの設備投資計画の調整が上期予想の改定要因として記されている。個別顧客や装置別への影響額は開示されていない。",
+          "text": "為替変動は連結業績に影響する可能性がある。",
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.4–5 / 業績予想の修正"
+            "documentId": "statement",
+            "locator": "p.2 / Foreign exchange rate fluctuations"
           }
         }
       ],
       "outlook": [
         {
-          "text": "上期の売上高予想は1兆6,200億円、営業利益予想は4,580億円。通期予想は第2四半期発表時に開示予定。",
+          "text": "会社は通期の連結業績予想を公表した。",
           "source": {
             "documentId": "tanshin",
-            "locator": "p.2、p.5 / 2027年3月期上期予想"
+            "locator": "p.2 / Consolidated Financial Forecasts"
           }
         }
       ],
       "change": {
-        "text": "2027年3月期上期売上高予想は従来の1兆5,700億円から1兆6,200億円へ改定。",
-        "basis": "2026年4月30日公表の上期予想",
+        "text": "四半期売上高は前四半期の7323億円から9350億円へ増加。",
+        "basis": "2027年3月期第1四半期",
         "source": {
-          "documentId": "tanshin",
-          "locator": "p.5 / Previous Forecast・Revised Forecast"
+          "documentId": "statement",
+          "locator": "p.4 / Financial Summary (Quarterly) / Net sales"
         }
       },
       "forecastRevision": {
-        "status": "up",
-        "target": "2027年3月期上期予想",
-        "text": "売上高1兆5,700億円→1兆6,200億円、営業利益4,310億円→4,580億円。",
-        "source": {
-          "documentId": "tanshin",
-          "locator": "p.5 / Previous Forecast・Revised Forecast"
-        }
+        "status": "unverified",
+        "target": "2027年3月期通期",
+        "text": "前回の通期予想との改定方向は確認していない。"
       },
       "themes": [
         "AI",
         "設備投資"
       ],
-      "editorialNote": "上期予想の改定と、まだ公表していない通期予想を混同しない。",
+      "editorialNote": "半期累計ではなく、四半期単独の数値を表示。",
       "unverified": [
-        "半導体製造装置事業の製品別売上は非開示。",
-        "2027年3月期の通期予想はこの資料では未公表。"
+        "会社見通しは実績ではなく、採用の増加を示すものでもありません。"
       ],
-      "contentUpdatedAt": "2026-10-03"
+      "contentUpdatedAt": "2026-11-01"
     },
     {
       "id": "micron-2026-q4",
@@ -1118,18 +1112,18 @@
       "contentUpdatedAt": "2026-10-03"
     },
     {
-      "id": "samsung-electronics-2026-q2",
+      "id": "samsung-electronics-2026-q3",
       "companyId": "samsung-electronics",
       "segment": "memory",
       "business": "半導体DS部門（メモリ・System LSI・ファウンドリ）",
-      "announcedAt": "2026-07-30",
-      "checkedAt": "2026-10-16",
-      "version": 2,
+      "announcedAt": "2026-10-29",
+      "checkedAt": "2026-11-01",
+      "version": 3,
       "period": {
-        "label": "2026年第2四半期",
+        "label": "2026年第3四半期",
         "kind": "quarter",
-        "start": "2026-04-01",
-        "end": "2026-06-30"
+        "start": "2026-07-01",
+        "end": "2026-09-30"
       },
       "currency": "KRW",
       "unit": "billion",
@@ -1137,117 +1131,125 @@
       "documents": [
         {
           "id": "release",
-          "title": "Second Quarter 2026 Results",
-          "url": "https://news.samsung.com/global/samsung-electronics-announces-second-quarter-2026-results",
+          "title": "Third Quarter 2026 Results",
+          "url": "https://news.samsung.com/be/samsung-electronics-announces-third-quarter-2026-results",
           "kind": "html"
+        },
+        {
+          "id": "statement",
+          "title": "3Q 2026 Earnings Conference",
+          "url": "https://images.samsung.com/is/content/samsung/assets/global/ir/docs/2026_3Q_conference_eng.pdf",
+          "kind": "pdf"
         }
       ],
       "financialScope": "DS部門（半導体。メモリ専業ではない）",
       "metrics": {
         "revenue": {
           "status": "reported",
-          "value": 127500,
+          "value": 147100,
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / consolidated revenue、127.5兆ウォン"
+            "documentId": "statement",
+            "locator": "p.13 / Results by Business Segment / DS Sales、兆ウォン"
           }
         },
         "operatingIncome": {
           "status": "reported",
-          "value": 89200,
+          "value": 106500,
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / operating profit、89.2兆ウォン"
+            "documentId": "statement",
+            "locator": "p.13 / Results by Business Segment / DS Operating Profit、兆ウォン"
           }
         },
         "revenueYoY": {
-          "status": "unretrieved",
-          "reason": "DS部門の前年同期比は今回確認した発表から確定できない"
+          "status": "reported",
+          "value": 344,
+          "source": {
+            "documentId": "statement",
+            "locator": "p.13 / Results by Business Segment / DS Sales YoY"
+          }
         }
       },
       "highlights": [
         {
-          "text": "半導体を含むDS部門の売上高は127.5兆ウォン、営業利益は89.2兆ウォン。メモリ単独の数値ではない。",
+          "text": "DS部門の売上高は147.1兆ウォン、営業利益は106.5兆ウォン。",
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / revenue and operating profit"
+            "documentId": "statement",
+            "locator": "p.13 / Results by Business Segment / DS"
           }
         },
         {
-          "text": "メモリ事業はサーバー向け需要と価格上昇を背景に四半期の売上・営業利益が過去最高と説明。",
+          "text": "DS部門の売上高は前年同期比344%増。",
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / Memory Business"
+            "documentId": "statement",
+            "locator": "p.13 / Results by Business Segment / DS Sales"
           }
         },
         {
-          "text": "会社はHBM4販売拡大とHBM4E試作品出荷を報告した。",
+          "text": "メモリー事業はHBM4の販売を拡大した。",
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / Memory Business、HBM4・HBM4E"
+            "documentId": "statement",
+            "locator": "p.7 / Memory / 3Q 2026 Results"
           }
         }
       ],
       "growth": [
         {
-          "text": "会社はAIサーバー向け需要、高付加価値製品、メモリ価格の上昇をメモリ事業の成長要因として挙げた。",
+          "text": "会社はHBM4の販売拡大とサーバーSSD需要への対応を挙げた。",
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / Memory Business"
+            "documentId": "statement",
+            "locator": "p.7 / Memory / 3Q 2026 Results"
           }
         }
       ],
       "weakness": [
         {
-          "text": "DS内のSystem LSIは中国のモバイル需要の弱さに言及。DS全体の数値からメモリ単独の弱さは特定できない。",
+          "text": "DX部門は0.8兆ウォンの営業損失を計上した。",
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / System LSI Business"
+            "documentId": "statement",
+            "locator": "p.13 / Results by Business Segment / DX Operating Profit"
           }
         }
       ],
       "concerns": [
         {
-          "text": "会社はモバイル・PC需要の一部鈍化と、増産努力後も供給制約が続く見通しを示した。",
+          "text": "会社は原材料や物流コストの上昇による家電事業への影響を説明した。",
           "source": {
             "documentId": "release",
-            "locator": "DS Division / Memory Business outlook"
+            "locator": "VD/DA Businesses and Harman"
           }
         }
       ],
       "outlook": [
         {
-          "text": "2026年下半期はサーバー向けDRAM、eSSD、HBM需要が伸びると会社は予想。これは会社の見通しであり実績ではない。",
+          "text": "会社は第4四半期にHBM、サーバーDRAM、SSDの販売拡大を目指す。",
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / Memory Business outlook"
+            "documentId": "statement",
+            "locator": "p.7 / Memory / 4Q 2026"
           }
         }
       ],
       "change": {
-        "text": "DS部門の売上高は前四半期比56%増と会社が報告。",
+        "text": "DS部門売上高は前四半期の127.5兆ウォンから147.1兆ウォンに増加。",
+        "basis": "2026年第2四半期",
         "source": {
-          "documentId": "release",
-          "locator": "冒頭 / DS Division QoQ sales"
-        },
-        "basis": "2026年第1四半期・DS部門"
+          "documentId": "statement",
+          "locator": "p.13 / Results by Business Segment / DS Sales"
+        }
       },
       "forecastRevision": {
-        "status": "unpublished",
-        "target": "DS部門の通期売上高予想",
-        "text": "今回確認した発表では定量予想を確認できない。"
+        "status": "unverified",
+        "target": "DS部門の見通し",
+        "text": "定量予想の改定方向は確認していない。"
       },
       "themes": [
         "AI",
-        "HBM",
-        "データセンター"
+        "HBM"
       ],
-      "editorialNote": "Samsungの主要数値はDS部門で、スマートフォン等を含む全社連結でもメモリ事業単独でもない。",
+      "editorialNote": "DS部門は全社連結の数値と範囲が異なる。",
       "unverified": [
-        "メモリ事業単独の売上高・営業利益はこの発表では未取得。",
-        "DS部門売上高の前年同期比は未取得。"
+        "会社見通しは実績ではなく、採用の増加を示すものでもありません。"
       ],
-      "contentUpdatedAt": "2026-10-03"
+      "contentUpdatedAt": "2026-11-01"
     },
     {
       "id": "nvidia-2026-q2-fy2027",
@@ -1522,19 +1524,19 @@
       ]
     },
     {
-      "id": "intel-2026-q2",
+      "id": "intel-2026-q3",
       "companyId": "intel",
       "segment": "idm",
       "business": "CPU・半導体設計製造・ファウンドリ",
-      "announcedAt": "2026-07-23",
-      "checkedAt": "2026-10-16",
-      "contentUpdatedAt": "2026-10-16",
-      "version": 1,
+      "announcedAt": "2026-10-29",
+      "checkedAt": "2026-11-01",
+      "contentUpdatedAt": "2026-11-01",
+      "version": 2,
       "period": {
-        "label": "2026年第2四半期",
+        "label": "2026年第3四半期",
         "kind": "quarter",
-        "start": "2026-03-29",
-        "end": "2026-06-27"
+        "start": "2026-06-28",
+        "end": "2026-09-26"
       },
       "currency": "USD",
       "unit": "million",
@@ -1542,117 +1544,122 @@
       "documents": [
         {
           "id": "release",
-          "title": "Second-Quarter 2026 Financial Results",
-          "url": "https://www.intc.com/news-events/press-releases/detail/1776/intel-reports-second-quarter-2026-financial-results",
+          "title": "Intel Reports Third-Quarter 2026 Financial Results",
+          "url": "https://www.intc.com/news-events/press-releases/detail/1786/intel-reports-third-quarter-2026-financial-results",
           "kind": "html"
+        },
+        {
+          "id": "statement",
+          "title": "Intel Form 10-Q September 2026",
+          "url": "https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000191/0000050863-26-000191.pdf",
+          "kind": "pdf"
         }
       ],
       "metrics": {
         "revenue": {
           "status": "reported",
-          "value": 16128,
+          "value": 16513,
           "source": {
-            "documentId": "release",
-            "locator": "Consolidated Condensed Statements of Income / Net revenue"
+            "documentId": "statement",
+            "locator": "p.3 / Consolidated Condensed Statements of Operations / Net revenue"
           }
         },
         "operatingIncome": {
           "status": "reported",
-          "value": 1796,
+          "value": 2522,
           "source": {
-            "documentId": "release",
-            "locator": "Consolidated Condensed Statements of Income / Operating income"
+            "documentId": "statement",
+            "locator": "p.3 / Consolidated Condensed Statements of Operations / Operating income"
           }
         },
         "revenueYoY": {
           "status": "reported",
-          "value": 25,
+          "value": 21,
           "source": {
             "documentId": "release",
-            "locator": "Q2 2026 Financial Results / Revenue YoY"
+            "locator": "Q3 2026 Financial Results / Revenue YoY"
           }
         }
       },
       "highlights": [
         {
-          "text": "売上高は約161億米ドル、前年同期比25%増。",
+          "text": "売上高は165.13億米ドル、営業利益は25.22億米ドル。",
           "source": {
-            "documentId": "release",
-            "locator": "Q2 2026 Financial Results / Revenue"
+            "documentId": "statement",
+            "locator": "p.3 / Consolidated Condensed Statements of Operations"
           }
         },
         {
-          "text": "GAAP営業利益は17.96億米ドル。",
+          "text": "売上高は前年同期比21%増。",
           "source": {
             "documentId": "release",
-            "locator": "Consolidated Condensed Statements of Income / Operating income"
+            "locator": "Q3 2026 Financial Results / Revenue YoY"
           }
         },
         {
-          "text": "DCAI事業売上は63億米ドル、前年同期比59%増。",
+          "text": "会社は次四半期の売上高を150億〜160億米ドルと予想。",
           "source": {
             "documentId": "release",
-            "locator": "Business Unit Summary / DCAI"
+            "locator": "News Summary / fourth-quarter outlook"
           }
         }
       ],
       "growth": [
         {
-          "text": "会社はAI計算需要に加え、歩留まりと製造サイクルの改善を挙げた。",
+          "text": "データセンター・AI部門の売上高は前年同期比78%増と会社が報告。",
           "source": {
             "documentId": "release",
-            "locator": "CFO statement"
+            "locator": "Business Unit Revenue and Trends / DCAI"
           }
         }
       ],
       "weakness": [
         {
-          "text": "GAAPでは110億米ドルの純損失。営業利益と純損益を区別する。",
+          "text": "クライアント関連部門の売上高は前年同期比5%減。",
           "source": {
             "documentId": "release",
-            "locator": "Q2 2026 Financial Results / Net income"
+            "locator": "Business Unit Revenue and Trends / CCPG"
           }
         }
       ],
       "concerns": [
         {
-          "text": "Alteraの連結除外により、前年との比較範囲に差がある。",
+          "text": "会社はPC業界の短期的な逆風に言及した。",
           "source": {
             "documentId": "release",
-            "locator": "Business Unit Summary / Altera"
+            "locator": "CEO comment"
           }
         }
       ],
       "outlook": [
         {
-          "text": "第3四半期売上高158億〜168億米ドルを会社が予想。",
+          "text": "次四半期の売上高は150億〜160億米ドルを予想。",
           "source": {
             "documentId": "release",
-            "locator": "Business Outlook"
+            "locator": "News Summary / fourth-quarter outlook"
           }
         }
       ],
       "change": {
-        "text": "前年同期のGAAP営業損失31.76億米ドルから、営業利益17.96億米ドルへ変化。",
-        "basis": "2025年第2四半期",
+        "text": "売上高は前年同期の136.53億米ドルから165.13億米ドルに増加。",
+        "basis": "2025年第3四半期",
         "source": {
-          "documentId": "release",
-          "locator": "Consolidated Condensed Statements of Income / Operating income"
+          "documentId": "statement",
+          "locator": "p.3 / Consolidated Condensed Statements of Operations / Net revenue"
         }
       },
       "forecastRevision": {
         "status": "unverified",
-        "target": "次四半期の会社見通し",
-        "text": "今回発表の見通しを掲載。前回の同じ対象期間の予想との改定方向は未確認。"
+        "target": "2026年第4四半期売上高",
+        "text": "前回予想との改定方向は確認していない。"
       },
       "themes": [
         "AI",
-        "設備投資",
-        "先端実装"
+        "ファウンドリー"
       ],
-      "editorialNote": "Intel Foundryの内部取引を含む売上を連結売上へ加算しない。",
+      "editorialNote": "連結売上と部門別売上は内部取引の消去を含めて区別する。",
       "unverified": [
-        "会社見通しと実績、連結全体と個別事業を区別して読んでください。"
+        "会社見通しは実績ではなく、採用の増加を示すものでもありません。"
       ]
     }
   ],
@@ -1694,8 +1701,8 @@
         {
           "companyId": "tokyo-electron",
           "source": {
-            "documentId": "tanshin",
-            "locator": "p.3 / 経営成績の概況"
+            "documentId": "statement",
+            "locator": "p.13 / WFE Market Outlook"
           }
         }
       ]
@@ -1730,8 +1737,8 @@
         {
           "companyId": "samsung-electronics",
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / Memory Business"
+            "documentId": "statement",
+            "locator": "p.7 / Memory / 3Q 2026 Results"
           }
         }
       ]
@@ -1752,8 +1759,8 @@
         {
           "companyId": "samsung-electronics",
           "source": {
-            "documentId": "release",
-            "locator": "DS Division / HBM4 sales and HBM4E samples"
+            "documentId": "statement",
+            "locator": "p.7 / Memory / 3Q 2026 Results"
           }
         }
       ]

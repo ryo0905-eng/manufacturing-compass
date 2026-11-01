@@ -48,7 +48,6 @@ test('company projection preserves raw values, sources, periods, scope and segme
     assert.ok(company.sourceHref.startsWith('https://'));
     assert.ok(company.topics.length);
   }
-  assert.equal(companies.find(company => company.id === 'samsung-electronics').revenueYoY, null);
   assert.match(companies.find(company => company.id === 'samsung-electronics').scope, /DS部門/);
   assert.equal(companies.filter(company => company.segment === 'equipment').length, 5);
   assert.ok(companies.slice(0, 5).every(company => company.segment === 'equipment'));

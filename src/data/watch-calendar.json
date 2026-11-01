@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-16T13:40:12Z",
+  "updatedAt": "2026-11-01T00:19:44Z",
   "companies": [
     {
       "companyId": "asml",
@@ -222,12 +222,12 @@
       "id": "nvidia-next-earnings",
       "companyId": "nvidia",
       "kind": "earnings",
-      "period": "次回決算",
-      "date": null,
+      "period": "2027年度第3四半期決算説明会",
+      "date": "2026-11-17",
       "timezone": "America/Los_Angeles",
-      "sourceUrl": "https://investor.nvidia.com/events-and-presentations/events-and-presentations/default.aspx",
-      "status": "unverified",
-      "checkedAt": "2026-10-16T13:40:12Z"
+      "sourceUrl": "https://investor.nvidia.com/files/content_files/TRANSCRIPT_-NVIDIA-Corp-NVDA-US-Q2-2027-Earnings-Call-26-August-2026-5_00-PM-ET.pdf",
+      "status": "scheduled",
+      "checkedAt": "2026-11-01T00:19:44Z"
     },
     {
       "id": "intel-next-earnings",
