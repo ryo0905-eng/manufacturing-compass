@@ -1,0 +1,138 @@
+import type { GuideArticle } from "@/content/guides/types";
+
+export const euvLithographyGuide: GuideArticle = {
+  slug: "euv-lithography",
+  title: "EUVリソグラフィとは？13.5nmの光と確率的欠陥をわかりやすく解説",
+  description: "EUVリソグラフィの光源、反射光学系、確率的欠陥と露光量のトレードオフを解説。High-NA EUVや関連企業、半導体メーカーの導入例も整理します。",
+  targetQuery: "EUV リソグラフィ とは",
+  searchIntent: "EUV露光の仕組みと確率的欠陥、High-NA、関連企業を理解したい",
+  status: "published",
+  category: "technology",
+  presentation: "structured",
+  author: "Manufacturing Compass編集部",
+  basisLabel: "この記事の調査・編集方針",
+  basisNote: "装置メーカー、研究機関、半導体メーカーの公開情報と学術論文をもとに、EUV露光の原理と課題を一般向けに整理しています。実際の条件や導入段階は装置、材料、製品ごとに異なります。",
+  showCareerCtas: false,
+  experienceBasis: [
+    "ASMLと米国エネルギー省の資料で光源、反射光学系、エネルギー変換を確認",
+    "imecと学術論文で確率的欠陥、露光量、High-NA光学系を確認",
+    "各半導体メーカーの公開情報でEUVの導入例を確認",
+  ],
+  publishedAt: "2026-11-02",
+  updatedAt: "2026-11-02",
+  sources: [
+    { title: "Light & lasers", url: "https://www.asml.com/en/technology/lithography-principles/light-and-lasers", publisher: "ASML", accessedAt: "2026-11-02" },
+    { title: "Lenses & mirrors", url: "https://www.asml.com/en/technology/lithography-principles/lenses-and-mirrors", publisher: "ASML", accessedAt: "2026-11-02" },
+    { title: "Plasma Science and Technology for the Semiconductor Industry", url: "https://science.osti.gov/-/media/fes/pdf/2023/DOE_FES_PlasmaScience_Semiconductors_Final.pdf", publisher: "米国エネルギー省", accessedAt: "2026-11-02" },
+    { title: "Going Extreme", url: "https://str.llnl.gov/sites/str/files/2024-04/2002.10.pdf", publisher: "Lawrence Livermore National Laboratory", accessedAt: "2026-11-02" },
+    { title: "Recent efforts of vapour-phase strategies for EUV resist toward high- and hyper-NA extreme ultraviolet lithography", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC13251773/", publisher: "Chemical Science", accessedAt: "2026-11-02" },
+    { title: "Imec pushes the limits of EUV lithography single exposure", url: "https://www.imec-int.com/en/imec-magazine/imec-magazine-march-2018/imec-pushes-the-limits-of-euv-lithography-single-exposure-for-future-logic-and-memory-applications", publisher: "imec", accessedAt: "2026-11-02" },
+    { title: "High-NA EUV lithography: the next step after EUVL", url: "https://www.imec-int.com/en/articles/high-na-euvl-next-major-step-lithography", publisher: "imec", accessedAt: "2026-11-02" },
+    { title: "Intel Foundry and ASML Accelerate Industry Readiness for High-NA EUV", url: "https://www.intel.com/content/www/us/en/newsroom/news/intel-foundry/intel-foundry-asml-accelerate-industry-readiness-for-high-na-euv.html", publisher: "Intel", accessedAt: "2026-11-02" },
+    { title: "Development of Laser-Produced Tin Plasma-Based EUV Light Source Technology for HVM EUV Lithography", url: "https://doi.org/10.1155/2012/249495", publisher: "Physics Research International", accessedAt: "2026-11-02" },
+    { title: "DCE Platform – N7/N6 Technology", url: "https://www.cld.tsmc.com/english/dedicatedFoundry/technology/platform_DCE_N7_N6", publisher: "TSMC", accessedAt: "2026-11-02" },
+    { title: "Samsung Electronics Begins Mass Production at New EUV Manufacturing Line", url: "https://news.samsung.com/global/samsung-electronics-begins-mass-production-at-new-euv-manufacturing-line", publisher: "Samsung Electronics", accessedAt: "2026-11-02" },
+    { title: "SK hynix Starts Mass Production of 1anm DRAM Using EUV Equipment", url: "https://news.skhynix.com/en/sk-hynix-starts-mass-production-of-1anm-dram-using-euv-equipment/", publisher: "SK hynix", accessedAt: "2026-11-02" },
+    { title: "Rapidus、IIM-1にて2nmノード GAAトランジスタの動作を確認", url: "https://www.rapidus.inc/news_topics/news-info/rapidus-achieves-significant-milestone-at-its-state-of-the-art-foundry-with-prototyping-of-leading-edge-2nm-gaa-transistors/", publisher: "Rapidus", accessedAt: "2026-11-02" },
+  ],
+  readTime: "約12分",
+  intro: {
+    problem: "EUVは短い波長で微細な回路を描けると聞いても、なぜ鏡や真空が必要で、なぜ欠陥が課題になるのでしょうか。",
+    conclusion: "EUVリソグラフィは、波長13.5nmの極端紫外線を反射光学系で導き、レジストに微細なパターンを作る技術です。光子や材料の偶然のばらつきと生産性の両立が重要になります。",
+    learnings: "EUVが必要になった背景、錫プラズマ光源、反射光学系、確率的欠陥、High-NA、供給側と利用側の企業。",
+  },
+  sections: [
+    {
+      id: "why-euv",
+      heading: "EUVとは｜微細化のために短い波長を使う",
+      lead: "EUVはExtreme Ultraviolet（極端紫外線）の略です。露光には13.5nmの光を使います。",
+      paragraphs: [
+        "一般に波長が短い光は、より細かな像を作るうえで有利です。ArF液浸露光でも微細化は進められますが、限界に近いパターンでは複数回に分けて形成するマルチパターニングが必要になる場合があります。工程やマスクが増えると、位置合わせや工程管理が複雑になり、時間とコストも増えます。",
+        "EUVは、そうした複雑なパターンを少ない露光・パターニング工程で作れる可能性を広げます。ただし、装置や材料にも課題があり、すべての層にEUVを使うわけではありません。TSMCはN6技術でEUVによるマスク数の削減と工程の簡素化を説明しています。",
+      ],
+      blocks: [{ type: "links", items: [{ label: "フォトリソグラフィの仕組みと波長の比較", href: "/guides/photolithography-process#wavelengths", description: "i線からEUVまでの違いと、塗布・露光・現像を確認する" }] }],
+    },
+    {
+      id: "light-source",
+      heading: "光の作り方｜錫の粒をレーザーでプラズマにする",
+      lead: "EUV光源の代表的な方式はLPP（レーザー生成プラズマ）です。",
+      paragraphs: [
+        "微小な液体の錫（すず）の粒にレーザーを当てて形を整え、さらに高出力のCO2レーザーで加熱します。錫が高温のプラズマになると、さまざまな波長の光が放射され、その中の13.5nm付近を露光に利用します。光を集める鏡を錫の飛散物から守ることも課題です。",
+        "投入したレーザーエネルギーのすべてが使いたい波長のEUV光になるわけではありません。米国エネルギー省の資料は、レーザーから所定の波長帯のEUV光への変換効率が条件によって数％程度と説明しています。さらに光学系でも光が失われるため、十分な光を安定して届ける工夫が必要です。",
+      ],
+      blocks: [{ type: "process-flow", title: "LPP光源の流れ", description: "実際のレーザーや光源の構成は装置により異なります。", stages: [
+        { label: "01", title: "錫の粒を作る", body: "溶かした錫を小さな液滴として供給する" },
+        { label: "02", title: "レーザーを照射", body: "液滴の形を整え、高出力レーザーで加熱する" },
+        { label: "03", title: "EUV光を集める", body: "プラズマから出た光を集光鏡で光学系へ送る" },
+      ] }],
+    },
+    {
+      id: "reflection",
+      heading: "反射と真空の世界｜レンズを通さず鏡で導く",
+      lead: "EUV光は多くの物質や空気に吸収されやすいため、通常の透過レンズは使えません。",
+      paragraphs: [
+        "光源からウェーハまでの光路を真空に保ち、反射鏡を使って光を集め、マスクの像を縮小投影します。鏡にはモリブデン（Mo）とシリコン（Si）を交互に重ねた多層膜を使う例があり、各層で反射した光を重ね合わせてEUVを反射させます。13.5nm付近は、この多層膜で反射を得られる波長帯です。",
+        "EUVマスクも透過型ではなく、反射する多層膜と光を吸収するパターンを組み合わせます。鏡やマスクは完全には反射せず、反射のたびに光が失われるため、光源の出力と光学系の効率が重要です。",
+      ],
+      blocks: [{ type: "note", title: "マスクを守るペリクル", body: "ペリクルは異物がマスク面へ付くのを防ぐ薄い保護膜です。EUVでは保護と光の透過を両立する必要があり、材料や耐久性が課題になります。" },
+        { type: "links", items: [{ label: "ペリクルメーカーガイド", href: "/guides/semiconductor-pellicle-manufacturers", description: "マスクを異物から守る材料と企業を見る" }] }],
+    },
+    {
+      id: "stochastic-defects",
+      heading: "確率的欠陥｜光の粒とレジストの反応が揺らぐ",
+      lead: "平均の露光条件が同じでも、極めて小さな領域では届く光子や化学反応の数が偶然にばらつきます。",
+      paragraphs: [
+        "光はエネルギーを持つ粒、光子としても振る舞います。EUVはArFより光子1個あたりのエネルギーが高いため、同じ面積に同じエネルギーを与える場合、入射する光子の数は少なくなります。微小な領域に実際に吸収される光子数の統計的な揺らぎを、光子ショットノイズと呼びます。吸収の割合は材料や膜厚にも左右されます。",
+        "吸収された光子は電子を放出し、その電子がさらに二次電子を生みます。電子が周囲へ広がって反応を起こすと、狙った像の境界がぼける要因になります。レジスト成分の分布や化学反応にもばらつきがあり、欠陥は光子数だけでは決まりません。",
+        "露光量を増やして光子数を増やすと、条件によっては統計的な揺らぎの影響や欠陥を抑えられます。一方、光源出力などが同じなら露光に時間がかかり、単位時間に処理できるウェーハ数（スループット）は低下します。材料、形状、照明条件も含めた最適化が必要です。",
+      ],
+      blocks: [
+        { type: "mapping", leftLabel: "現れ方", rightLabel: "パターンへの影響", rows: [
+          { left: "線端の荒れ", right: "本来滑らかな線の端が場所ごとに揺らぐ" },
+          { left: "微小ブリッジ", right: "離れているはずの隣の線が局所的につながる" },
+          { left: "コンタクトの欠け", right: "開くはずの小さな穴が局所的に形成されない" },
+        ] },
+        { type: "note", title: "露光量を増やせばすべて解決するわけではない", body: "欠陥の種類や数は、パターン寸法、レジスト、露光・現像条件にも依存します。露光量と欠陥の関係は条件ごとに検証します。" },
+        { type: "links", items: [{ label: "リソグラフィ Labで露光量を変える", href: "/tools/litho-simulator", description: "露光量や焦点を動かし、パターンの変化を体感する。実際のEUV欠陥を予測するツールではありません" }] },
+      ],
+    },
+    {
+      id: "high-na",
+      heading: "High-NA EUV｜開口数を上げて、さらに細かく描く",
+      lead: "従来のNA 0.33に対し、High-NA EUVはNA 0.55の光学系を使います。",
+      paragraphs: [
+        "NA（開口数）は光学系が光を取り込む能力を表す指標です。NAを高めると、同じ波長でもより細かな像を形成しやすくなります。一方で焦点の許容範囲や材料、マスク、計測の課題も厳しくなります。",
+        "High-NAでは、縦と横の縮小倍率が異なるアナモルフィック光学系を使います。従来と同じ大きさのマスクを使う場合、ウェーハ上で一度に露光できる領域は半分になります。大きなパターンでは隣り合う露光領域を高精度につなぐスティッチングが必要になる場合があります。すべてのチップで接合が必要という意味ではありません。",
+      ],
+      blocks: [{ type: "note", title: "波長とNAは別の指標", body: "High-NAでもEUVの波長は13.5nmです。波長をさらに短くするのではなく、光学系のNAを高めて解像度を改善します。" }],
+    },
+    {
+      id: "companies",
+      heading: "作る企業と使う企業｜装置から材料、半導体製造まで",
+      lead: "EUVは一社で完結せず、光源、光学系、マスク、材料、製造工程がつながる技術です。",
+      paragraphs: [
+        "ASMLはEUV露光装置を製造します。ギガフォトンは錫を使うLPP方式のEUV光源を開発してきました。ギガフォトンの開発実績は、ASMLの量産露光装置への光源供給を意味するものではありません。マスクブランクスは反射型マスクの土台、フォトマスクは転写するパターン、ペリクルは異物からの保護、レジストは光を受けてパターンを作る役割を担います。",
+        "利用例として、TSMCとSamsungはロジック製造、SK hynixはDRAM製造でのEUV採用を公表しています。IntelはHigh-NA装置の導入と一部製品の特定層での量産利用を公表しています。Rapidusは装置を導入し、2025年にパターンの露光・現像に成功したと発表しています。各社の対象製品や開発・量産の段階は同一ではありません。",
+      ],
+      blocks: [{ type: "links", items: [
+        { label: "露光装置メーカーガイド", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "露光装置の役割とメーカーを確認する" },
+        { label: "マスクブランクスメーカーガイド", href: "/guides/semiconductor-mask-blank-manufacturers", description: "反射型マスクの土台となる材料を見る" },
+        { label: "フォトマスクメーカーガイド", href: "/guides/semiconductor-photomask-manufacturers", description: "回路パターンを持つマスクの供給側を見る" },
+        { label: "レジストメーカーガイド", href: "/guides/semiconductor-photoresist-manufacturers", description: "光をパターンへ変える材料とメーカーを見る" },
+      ] }],
+    },
+    {
+      id: "faq",
+      heading: "EUVリソグラフィのよくある質問",
+      paragraphs: [],
+      blocks: [{ type: "faq", items: [
+        { question: "EUV露光になぜ真空が必要ですか？", answer: "EUV光は空気にも吸収されやすいためです。光源からウェーハまでの光路を真空に保ち、光を反射鏡で導きます。" },
+        { question: "確率的欠陥はなぜ発生しますか？", answer: "微小領域に吸収される光子の数やレジスト内の化学反応が偶然にばらつくためです。二次電子の広がりや材料の分布もパターンのばらつきに影響します。" },
+        { question: "露光量を増やせば確率的欠陥はなくなりますか？", answer: "露光量を増やすと条件によって欠陥を減らせますが、欠陥が必ずゼロになるわけではありません。光源出力が同じなら露光時間も長くなるため、生産性との両立が必要です。" },
+        { question: "High-NA EUVではなぜスティッチングが必要になるのですか？", answer: "従来と同じ大きさのマスクを使うHigh-NA光学系では、一度に露光できるウェーハ上の領域が半分になります。その領域より大きなパターンを作る場合、隣り合う露光領域を高精度につなぐ方法が必要になります。" },
+      ] }],
+    },
+  ],
+  relatedGuideSlugs: ["photolithography-process", "semiconductor-lithography-equipment-manufacturers", "semiconductor-mask-blank-manufacturers", "semiconductor-photomask-manufacturers", "semiconductor-pellicle-manufacturers", "semiconductor-photoresist-manufacturers"],
+  relatedCompanyIds: [],
+};

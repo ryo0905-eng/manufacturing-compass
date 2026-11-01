@@ -294,6 +294,10 @@ export const photolithographyProcessGuide: GuideArticle = {
           title: "プロセスノード名と露光波長は一対一ではない",
           body: "同じチップでも層によって必要な寸法が異なり、複数の露光方式を使い分けます。ArF液浸と複数回のパターニングを組み合わせる場合もあり、製品名やノード名だけから全層の方式は決められません。",
         },
+        {
+          type: "links",
+          items: [{ label: "EUVリソグラフィの仕組み", href: "/guides/euv-lithography", description: "光源、反射光学系、確率的欠陥を詳しく見る" }],
+        },
       ],
       paragraphs: [
         "ASMLの公式解説では、i線365nm、KrF 248nm、ArF 193nm、EUV 13.5nmという短波長化の流れが示されています。ニコンは、アナログやパワーなど比較的大きなパターン幅の用途でi線・KrF、微細なCPUやメモリ向けにArFが使われる例を説明しています。",

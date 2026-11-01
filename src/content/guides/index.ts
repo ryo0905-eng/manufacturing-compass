@@ -18,6 +18,7 @@ import { jobPostingSalaryRangeGuide } from "@/content/guides/job-posting-salary-
 import { manufacturingDxAiCodingGuide } from "@/content/guides/manufacturing-dx-ai-coding";
 import { qualityEngineerRouteGuide } from "@/content/guides/quality-engineer-route";
 import { productionEngineeringToSemiconductorProcessEngineerGuide } from "@/content/guides/production-engineering-to-semiconductor-process-engineer";
+import { euvLithographyGuide } from "@/content/guides/euv-lithography";
 import { photolithographyProcessGuide } from "@/content/guides/photolithography-process";
 import { semiconductorCareerEnglishLevelGuide } from "@/content/guides/semiconductor-career-english-level";
 import { semiconductorCareerChatgptGuide } from "@/content/guides/semiconductor-career-chatgpt";
@@ -114,6 +115,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorTestSocketManufacturersGuide,
   semiconductorManufacturingProcessGuide,
   photolithographyProcessGuide,
+  euvLithographyGuide,
   semiconductorPhotomaskManufacturersGuide,
   semiconductorMaskBlankManufacturersGuide,
   semiconductorPhotomaskWriterManufacturersGuide,
