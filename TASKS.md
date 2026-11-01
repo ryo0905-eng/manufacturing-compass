@@ -1514,3 +1514,11 @@ Cp・Cpk、DoE、管理図、Gage R&Rを基礎資産として改善し、ツー�
 - [ ] 電子部品、FA、ロボット、自動車、医療機器への拡張
 
 現在は OpenAI API を使用せず、`OPENAI_API_KEY` を前提にしません。AI 機能を検討する場合は、需要、保存・外部送信、レート制限、日次費用上限、異常利用監視、失敗時の挙動を先に定義します。
+
+## 2026-11-01：CMPラボのコンパクトな学習画面
+
+- 添付デザインを参考に青・シアンのラボ画面へ変更。短いヒーローと虹色ウエハ、研磨パッド・スラリーを添えたSVG断面図、左の図／右の条件と結果、不良切り替え、関連記事を近接配置。PCは一画面の操作完結を目指し、スマホ・低い画面・拡大表示では自然にスクロール可能とする。
+- 比較はnative dialogへ移動。モデル説明・CMPの基本・出典はHTML内のdetailsに保持。材料係数、計算、5不良のデータ、canonical・構造化データ・index設定は維持。画像生成・新規依存・保存領域なし。
+- 検証：npm run typecheckを1回実行して成功、git diff --check成功。ブラウザ・実端末の表示、ダイアログの実操作、1440×900の実画面での収まりは未確認。dev・build・lint・commit・pushは未実施。
+- 変更：src/app/(ja)/tools/cmp-simulator/page.tsx、src/components/cmp-lab/CmpLearningLab.tsx、src/components/cmp-lab/cmp.module.css、docs/architecture.md、TASKS.md。
+- 推奨コミット：style: reshape CMP lab into compact desktop workspace

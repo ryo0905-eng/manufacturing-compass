@@ -472,3 +472,7 @@ native selectと明示的な作成・コピーを使用。回答変更・クリ�
 `/semiconductor-map`はServer Componentで公開拠点・マップ用会社情報・案件・出典・期限判定済み採用情報を準備し、`SemiconductorLocationApp`をSSRする。`location-explorer.ts`は複数条件、URLの許可値、案件／物理拠点の計数、座標公開条件、8地域集計、参照検査を共有する。`location-companies.ts`は企業詳細の有無から独立した表示情報を提供し、Rapidusを既存Company詳細へ追加しない。`company-location-coordinates.ts`に公式案内由来の座標・根拠を分離する。
 
 Leaflet 1.9.4と型定義を追加し、地図だけ遅延読み込みする。地理院淡色タイルを取得し、出典を常設。初期化解除時にmap.remove、ResizeObserverでサイズ再計算。地図取得失敗でもSSR一覧を維持する。URLは複数条件と選択をpushState/popstateで同期し、検索語はメモリ内だけで扱う。FactoryProjectにlocationId・facilityId・operationalStatus・milestonesを追加して既存比較と地図で共用。両既存URLを維持する。[現行仕様](./semiconductor-location-explorer-spec.md)。
+
+## CMP Interactive Lab（2026-11-01）
+
+`/tools/cmp-simulator` はServer Componentでメタデータ・構造化データ・関連記事・折りたたみ式の基本説明と出典を提供する。`src/components/cmp-lab/CmpLearningLab.tsx` が断面図、圧力・速度・時間、架空の膜切り替え、不良学習を担当し、`model.ts` に教育用の相対計算を分離する。PCは左に断面図、右に条件と結果、下に不良切り替えと関連リンクを置くコンパクトな学習画面。小画面では縦に並び、低い画面・説明展開時には自然なスクロールを許容する。条件比較はnative dialog、保存はコンポーネントのメモリ内のみ。図・ウエハ装飾はSVG/CSSで制作し、新規画像・依存関係・外部APIは追加しない。
