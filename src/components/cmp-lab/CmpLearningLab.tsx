@@ -47,7 +47,6 @@ export function CmpLearningLab() {
   const current: Conditions = { material, pressure, speed, time };
   const { mrr, removal, progress, risk } = calculateConditions(current);
   const baselineResult = baseline ? calculateConditions(baseline) : null;
-  const defect = defects[selected];
   const controls = [
     { id: "pressure", label: "研磨圧力 P", value: pressure, set: setPressure, min: 0.5, max: 2, step: 0.1 },
     { id: "speed", label: "相対速度 V", value: speed, set: setSpeed, min: 0.5, max: 2, step: 0.1 },
@@ -64,6 +63,6 @@ export function CmpLearningLab() {
         <p className={styles.comparisonNote}>保存はこの画面を開いている間だけです。リセットは現在の条件にのみ適用されます。</p></section></dialog>
       <details className={styles.model}><summary>計算モデルと注意事項</summary><strong>学習モデル　MRR = K × P × V</strong><p>研磨速度 MRR は、係数 K、圧力 P、相対速度 V の積で考えます。基準の圧力・速度・時間をそれぞれ 1.0 とし、膜 A の係数を 1.0、膜 B を 0.6 と仮定しています。係数は教材のための架空値で、特定の材料の優劣や実際の選択比を示しません。平坦化は相対除去量に比例すると仮定し、1.0 で上限に達します。確認ポイントは表示上の除去量が 0.6 未満で研磨不足、1.4 超で過剰研磨、それ以外で圧力 1.5 以上なら傷に注意とする独自の目安です。</p><p>これは教育用の簡易モデルであり、実際の量産条件や膜種依存を正確に再現するものではありません。実際の結果は材料・膜構成・装置・スラリー・パッド・温度などで変わります。欠陥の発生確率や安全な条件を示すものではありません。</p></details>
     </section>
-    <section className={styles.defects} aria-labelledby="defect-title"><div className={styles.defectHeading}><h2 id="defect-title"><span aria-hidden="true">▦</span> CMPの主な不良を学ぶ</h2><div className={styles.defectButtons} role="group" aria-label="不良の種類">{defects.map((item, index) => <button key={item.name} type="button" aria-pressed={selected === index} onClick={() => setSelected(index)}>{item.name}</button>)}</div></div><div className={styles.defectCard}><DefectDiagram name={defect.name}/><div><h3>{defect.name} <small>（{defect.ja}）</small></h3><p>{defect.what}</p><dl><div><dt>主な原因</dt><dd>{defect.cause}</dd></div><div><dt>対策の方向性</dt><dd>{defect.action}</dd></div></dl></div></div></section>
+    <section className={styles.defects} aria-labelledby="defect-title"><div className={styles.defectHeading}><h2 id="defect-title"><span aria-hidden="true">▦</span> CMPの主な不良を学ぶ</h2><div className={styles.defectButtons} role="group" aria-label="不良の種類">{defects.map((item, index) => <button key={item.name} type="button" aria-pressed={selected === index} onClick={() => setSelected(index)}>{item.name}</button>)}</div></div>{defects.map((defect, index) => <div key={defect.name} className={styles.defectCard} hidden={selected !== index}><DefectDiagram name={defect.name}/><div><h3>{defect.name} <small>（{defect.ja}）</small></h3><p>{defect.what}</p><dl><div><dt>主な原因</dt><dd>{defect.cause}</dd></div><div><dt>対策の方向性</dt><dd>{defect.action}</dd></div></dl></div></div>)}</section>
   </>;
 }
