@@ -7,6 +7,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { siteUrl } from "@/lib/format";
 import { CpkLanguageLink } from "@/components/CpkLanguageLink";
+import { FeedbackPlacement } from "@/components/feedback/FeedbackPlacement";
 import { isEnglishCpkPublished } from "@/data/cpk-english";
 
 export const metadata: Metadata = {
@@ -53,6 +54,7 @@ export default function CpkToolPage() {
         <section className="capability-faq"><h3>よくある質問</h3>{faq.map((item) => <details key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}</section>
       </article>
     <nav className="tool-related-links" aria-label="実測データの比較"><Link href="/tools/process-comparison">変更前後の測定値を比較して、表・PNGを作る →</Link></nav>
+    <FeedbackPlacement survey="cpk" />
     <StatisticsCourseCta sourcePage="/tools/cpk" />
   </main>
   );

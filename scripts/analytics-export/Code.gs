@@ -11,6 +11,7 @@ const EXPORT = Object.freeze({
     GA4_Daily: ['date', 'active_users', 'sessions', 'screen_page_views'],
     GA4_Pages: ['date', 'page_path', 'screen_page_views', 'active_users'],
     GA4_Events: ['date', 'event_name', 'source_page', 'cta_location', 'cta_variant', 'step_number', 'result_type', 'destination_group', 'agent_id', 'event_count', 'total_users'],
+    GA4_Feedback: ['date', 'event_name', 'source_page', 'survey_id', 'need_id', 'feature_id', 'interest_level', 'event_count', 'total_users'],
     GSC_Daily: ['date', 'clicks', 'impressions', 'ctr', 'position'],
     GSC_Pages: ['date', 'page_url', 'clicks', 'impressions', 'ctr', 'position'],
     GSC_Queries: ['date', 'query', 'clicks', 'impressions', 'ctr', 'position']
@@ -60,6 +61,22 @@ function startBackfill() {
 function dailyExport() { run_(true); }
 /** Called by the one-shot continuation trigger, or manually to resume. */
 function continueBackfill() { run_(false); }
+
+/** Optional manual refresh, independent of the existing daily export and its schema. */
+function exportFeedbackEvents() {
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) throw new Error('Another export is running.');
+  try {
+    const cfg = config_();
+    const book = SpreadsheetApp.openById(cfg.spreadsheetId);
+    const sheet = sheet_(book, 'GA4_Feedback');
+    const deadline = Date.now() + EXPORT.budgetMs;
+    for (let day = dateOffset_(today_(), -7); day <= dateOffset_(today_(), -1); day = dateOffset_(day, 1)) {
+      const data = ga_(cfg, 'GA4_Feedback', day, deadline);
+      replaceDate_(sheet, 'GA4_Feedback', day, data);
+    }
+  } finally { lock.releaseLock(); }
+}
 
 function run_(refreshRecent) {
   const lock = LockService.getScriptLock();
@@ -121,8 +138,9 @@ function exportOne_(cfg, book, name, day, deadline) {
 function ga_(cfg, name, day, deadline) {
   const isPage = name === 'GA4_Pages';
   const isEvent = name === 'GA4_Events';
-  const dimensions = isPage ? ['pagePath'] : isEvent ? ['eventName', 'customEvent:source_page', 'customEvent:cta_location', 'customEvent:cta_variant', 'customEvent:step_number', 'customEvent:result_type', 'customEvent:destination_group', 'customEvent:agent_id'] : [];
-  const metrics = isPage ? ['screenPageViews', 'activeUsers'] : isEvent ? ['eventCount', 'totalUsers'] : ['activeUsers', 'sessions', 'screenPageViews'];
+  const isFeedback = name === 'GA4_Feedback';
+  const dimensions = isPage ? ['pagePath'] : isEvent ? ['eventName', 'customEvent:source_page', 'customEvent:cta_location', 'customEvent:cta_variant', 'customEvent:step_number', 'customEvent:result_type', 'customEvent:destination_group', 'customEvent:agent_id'] : isFeedback ? ['eventName', 'customEvent:source_page', 'customEvent:survey_id', 'customEvent:need_id', 'customEvent:feature_id', 'customEvent:interest_level'] : [];
+  const metrics = isPage ? ['screenPageViews', 'activeUsers'] : isEvent || isFeedback ? ['eventCount', 'totalUsers'] : ['activeUsers', 'sessions', 'screenPageViews'];
   const rows = [];
   let offset = 0;
   do {
@@ -134,6 +152,7 @@ function ga_(cfg, name, day, deadline) {
         {filter: {fieldName: 'eventName', inListFilter: {values: ['career_agents_cta_click', 'affiliate_outbound_click']}}}
       ]}};
     }
+    if (isFeedback) body.dimensionFilter = {filter: {fieldName: 'eventName', inListFilter: {values: ['feedback_view', 'feedback_open', 'feedback_interest_click', 'feedback_submit']}}};
     const result = post_('https://analyticsdata.googleapis.com/v1beta/properties/' + cfg.propertyId + ':runReport', body, deadline);
     if (result.metadata && (result.metadata.dataLossFromOtherRow || result.metadata.subjectToThresholding || (result.metadata.samplingMetadatas || []).length)) {
       console.warn(name + ' ' + day + ': GA4 reports sampling, thresholding or (other) data loss.');
@@ -208,6 +227,7 @@ function replaceDate_(sheet, name, day, fresh) {
   if (merged.length) {
     sheet.getRange(2, 1, merged.length, 1).setNumberFormat('@');
     if (name === 'GA4_Events') sheet.getRange(2, 2, merged.length, 8).setNumberFormat('@');
+    else if (name === 'GA4_Feedback') sheet.getRange(2, 2, merged.length, 6).setNumberFormat('@');
     else if (name === 'GA4_Pages' || name === 'GSC_Pages' || name === 'GSC_Queries') sheet.getRange(2, 2, merged.length, 1).setNumberFormat('@');
     sheet.getRange(2, 1, merged.length, width).setValues(merged);
   }

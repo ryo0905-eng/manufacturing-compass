@@ -1,0 +1,12 @@
+.card { margin: 2rem auto; padding: 1.4rem; border: 1px solid #d8e3e8; border-radius: 16px; background: #f7fafb; color: #173342; }
+.card h2 { margin: 0 0 .5rem; font-size: 1.2rem; }
+.card p { line-height: 1.7; font-size: .9rem; }
+.card button { border: 0; border-radius: 8px; padding: .7rem 1rem; background: #175674; color: white; cursor: pointer; font-weight: 600; }
+.card button:disabled { opacity: .55; cursor: wait; }
+.form { display: grid; gap: .85rem; max-width: 42rem; }
+.form label:not(.trap) { display: grid; gap: .35rem; font-size: .9rem; font-weight: 600; }
+.form select, .form textarea, .form input[type="email"] { width: 100%; padding: .65rem; border: 1px solid #a9bdc7; border-radius: 7px; background: white; color: #173342; font: inherit; }
+.form .check { display: flex !important; align-items: flex-start; gap: .5rem; }
+.form p { margin: 0; }
+.form button { justify-self: start; }
+.trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }

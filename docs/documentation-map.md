@@ -51,6 +51,7 @@
 | [`docs/stock-market-spec.md`](./stock-market-spec.md) | 株式市場の無料外部表示、企業ID連携、対応範囲、商用条件と本番公開ゲート | 株価表示・銘柄・外部サービス・公開状態を変更する時 |
 | [`docs/earnings-long-history-audit.md`](./earnings-long-history-audit.md) | 年次最大20期の収集範囲、出典、未取得と比較不能な境界 | 通期更新・訂正・掲載期間を変えた時 |
 | [`docs/conversion-architecture.md`](./conversion-architecture.md) | 現行導線と CTA の役割 | 主要導線や計測イベントを変えた時 |
+| [`docs/feedback-operations.md`](./feedback-operations.md) | 意見募集の設定・プライバシー・計測・削除運用 | 収集内容や保存・計測方式を変えた時 |
 | [`docs/role-map-pilot.md`](./role-map-pilot.md) | 半導体職種マップの4職務群・根拠台帳・業務選択票・結果カード | 出典、対応付け、試用モデルを更新する時 |
 | [`docs/role-map-validation.md`](./role-map-validation.md) | 公開β版のイベント・問い合わせ・根拠レビューによる運用検証 | 継続・修正・停止、職務群の拡張を判断する時 |
 | [`docs/role-map-mvp-spec.md`](./role-map-mvp-spec.md) | 4職務群β版と、検証通過後の8職務群への拡張仕様 | 着手条件・データ・UI・検証仕様を更新する時 |

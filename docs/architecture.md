@@ -1,5 +1,9 @@
 # Architecture
 
+## 意見募集（設定準備中）
+
+`FeedbackPlacement` は必須設定が揃う場合にのみ汎用Clientフォームを表示する。固定選択肢・設置IDは `src/data/feedback.ts`、共有検証は `src/lib/feedback.ts`、同一オリジンの受信は `/api/feedback`。APIは固定Origin・サイズ・入力を検証し、Upstashによる共有レート制限とCloudflare Turnstileのサーバー検証後、専用Apps Scriptへ送信する。Apps Scriptは非公開Sheetsへ回答・連絡先を分け、送信IDで重複排除し、期限削除と集計を行う。自由記述・連絡先を解析イベントに含めず、既存の問い合わせフォーム・ツール入力とは連携しない。外部設定と本番検証は未完了。[運用手順](./feedback-operations.md)。
+
 最終更新日: 2026-10-27
 
 ## ランキング目的別案内（2026-10-27）

@@ -82,6 +82,13 @@ export default function PrivacyPage() {
         </article>
 
         <article>
+          <h2>ご意見の募集について</h2>
+          <p>ご意見フォームを利用する場合、選択した課題・機能・関心と任意の自由記述を、サービスの改善や新しいサービスの検討に利用します。匿名で回答でき、連絡を希望して同意した場合だけメールアドレスを受け付けます。連絡先は改善や先行体験についての連絡に使用します。会社名や測定値などの機密情報は入力しないでください。</p>
+          <p>回答はGoogleのサービスで保存し、原文は180日、連絡先は90日を目安に削除します。固定選択肢と設置ページの区分はアクセス解析に送りますが、自由記述とメールアドレスは送信しません。削除・同意撤回は<Link href="/contact">お問い合わせ</Link>からご連絡ください。</p>
+          <p>不正送信の防止にはCloudflare Turnstileを使用し、ブラウザからCloudflareへ接続します。送信回数制限にはIPアドレスから作成した値を短時間Upstashで処理します。詳しくは<a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer" target="_blank">Cloudflare</a>、<a href="https://upstash.com/trust/privacy.pdf" rel="noopener noreferrer" target="_blank">Upstash</a>、<a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">Google</a>のプライバシーポリシーをご覧ください。</p>
+        </article>
+
+        <article>
           <h2>お問い合わせフォームについて</h2>
           <p>
             当サイトでは、お問い合わせの受付に Google フォームを利用しています。

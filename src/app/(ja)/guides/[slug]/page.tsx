@@ -1,5 +1,6 @@
 import { RankingCompanyCompareProvider, RankingCompanyComparePanel } from "@/components/RankingCompanyCompare";
 import { RankingHeroIllustration } from "@/components/RankingHeroIllustration";
+import { FeedbackPlacement } from "@/components/feedback/FeedbackPlacement";
 import { MarketCapRankingOverview } from "@/components/MarketCapRankingOverview";
 import { StatisticsCourseCta } from "@/components/StatisticsCourseCta";
 import type { Metadata } from "next";
@@ -273,6 +274,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </nav>
         ) : null}
 
+        {isMarketCapRanking ? <FeedbackPlacement survey="market_cap" /> : isFactoryProjects ? <FeedbackPlacement survey="factory_projects" /> : null}
         <StatisticsCourseCta sourcePage={`/guides/${guide.slug}`} />
 
         {guide.todayQuest ? <TodayAction action={guide.todayQuest} /> : null}
