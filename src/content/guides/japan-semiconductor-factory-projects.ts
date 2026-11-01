@@ -11,7 +11,7 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
   "status": "published",
   "category": "industry",
   "presentation": "structured",
-  "author": "Manufacturing Compass編集部",
+  "author": "RYO",
   "experienceBasis": [],
   "showIntroSummary": false,
   "showExperienceBasis": false,
@@ -31,8 +31,8 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
       "heading": "掲載範囲と確認時点",
       "paragraphs": [
         "日本の半導体工場の新設・増設を調べるときは、場所と一緒に「どの段階まで進んでいるか」を見ると整理しやすくなります。建物の完成、試作ラインの稼働、量産開始は、それぞれ違う節目です。",
-        "この記事では、企業の公式情報をもとに、最近稼働した工場と建設が進む主要5案件をまとめます。全国すべての計画を網羅した一覧ではありません。2026年10月1日に資料を再確認し、将来の日程は計画として記載しています。",
-        "2026年9月26日に追加した2件比較も、同じ確認時点の情報を使います。個別の予定は変更される可能性があるため、最新の状況は企業公式情報で確認してください。"
+        "この記事では、企業の公式情報をもとに、最近稼働した工場と建設が進む主要5案件をまとめます。全国すべての計画を網羅した一覧ではありません。資料の確認日は案件ごとに異なり、将来の日程は計画として記載しています。",
+        "2件比較は2026年9月26日に追加し、当時の確認時点の情報を使います。個別の予定は変更される可能性があるため、最新の状況は企業公式情報で確認してください。"
       ]
     },
     {
@@ -114,7 +114,7 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
       "id": "updates",
       "heading": "出典と更新方針",
       "paragraphs": [
-        "以下の企業公式資料を2026年10月1日に再確認しました。JASM第2工場はTSMCの2026年4月の説明にある2028年量産予定を反映しています。予定の変更や稼働発表があった際に更新し、通常は月に一度、掲載案件の進捗を確認します。"
+        "以下の資料の確認日は出典ごとに記載しています。RapidusとJASM第2工場の案件は2026年10月31日に再確認しました。JASM第2工場はTSMCの2026年4月の説明にある2028年量産予定を反映しています。予定の変更や稼働発表があった際に更新し、通常は月に一度、掲載案件の進捗を確認します。"
       ],
       "blocks": []
     }

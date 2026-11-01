@@ -20,7 +20,7 @@ export const semiconductorEquipmentSalesRankingGuide: GuideArticle = {
     "工程対応は各社の公式製品情報をもとに整理。企業の規模と工程での役割を分けて表示",
   ],
   publishedAt: "2026-09-17",
-  updatedAt: "2026-10-17",
+  updatedAt: "2026-10-31",
   sources: [
     { title: equipmentSalesMeta.sourceTitle, url: equipmentSalesMeta.sourceUrl, publisher: "東京エレクトロン（原出典：TechInsights）", accessedAt: equipmentSalesMeta.checkedAt },
     ...equipmentSalesCompanies.flatMap((company) => [...new Set(company.capabilities.map((item) => item.sourceUrl))].map((url) => ({

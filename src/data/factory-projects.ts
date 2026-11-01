@@ -26,13 +26,13 @@ export const factoryProjectSources: Source[] = [
     "title": "［1］TSMC 2025 Annual Report — 2025年版、株主向け説明・事業概要。JASM第1工場の量産開始、第2工場の建設状況。",
     "url": "https://investor.tsmc.com/sites/ir/annual-report/2025/2025%20Annual%20Report.E.pdf",
     "publisher": "TSMC",
-    "accessedAt": "2026-10-01"
+    "accessedAt": "2026-10-31"
   },
   {
     "title": "［2］Rapidus：IIM — ページ更新日記載なし。所在地、試作ラインの稼働時期、量産予定。",
     "url": "https://www.rapidus.inc/iim/",
     "publisher": "Rapidus",
-    "accessedAt": "2026-10-01"
+    "accessedAt": "2026-10-31"
   },
   {
     "title": "［3］キオクシア岩手：第2製造棟の稼働開始について — 2025年9月30日発表。",
@@ -56,7 +56,7 @@ export const factoryProjectSources: Source[] = [
     "title": "［6］TSMC 2026年第1四半期決算説明会 — 2026年4月16日。JASM第2工場の量産開始予定。",
     "url": "https://investor.tsmc.com/japanese/encrypt/files/encrypt_file/reports/2026-04/3cef85204275f94fd111485cfdf4adb3c0263c45/TSMC%201Q26%20Transcript.pdf",
     "publisher": "TSMC",
-    "accessedAt": "2026-10-01"
+    "accessedAt": "2026-10-31"
   },
   { "title": "［7］Rapidus：2nm GAAトランジスタの動作確認 — 2025年7月18日発表。", "url": "https://www.rapidus.inc/news_topics/news-info/rapidus-achieves-significant-milestone-at-its-state-of-the-art-foundry-with-prototyping-of-leading-edge-2nm-gaa-transistors/", "publisher": "Rapidus", "accessedAt": "2026-10-31" },
   { "title": "［8］経済産業省：Rapidusの事業の進捗状況 — 先行評価用PDKのリリース。", "url": "https://www.meti.go.jp/policy/mono_info_service/joho/laws/josokuho/josokuho_futaiketsugi.pdf", "publisher": "経済産業省", "accessedAt": "2026-10-31" },

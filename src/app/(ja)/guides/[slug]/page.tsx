@@ -26,6 +26,7 @@ import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
 import { companies } from "@/data/companies";
 import { semiconductorProcessSeriesSlugs } from "@/data/guide-series";
 import { siteUrl } from "@/lib/format";
+import { getRankingSocialData } from "@/lib/guide-social-image";
 
 type GuidePageProps = {
   params: Promise<{ slug: string }>;
@@ -60,6 +61,9 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
       publishedTime: guide.publishedAt,
       modifiedTime: guide.updatedAt,
       authors: [guide.author],
+      ...(slug === "semiconductor-market-cap-ranking" ? {
+        images: [{ url: `/guides/${slug}/opengraph-image`, width: 1200, height: 630, alt: `半導体メーカー時価総額ランキング ${getRankingSocialData().date}基準` }],
+      } : {}),
     },
     twitter: {
       card: "summary_large_image",
