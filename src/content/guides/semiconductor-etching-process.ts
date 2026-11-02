@@ -344,6 +344,7 @@ export const semiconductorEtchingProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "エッチング装置をメーカー別に探す", href: "/equipment?process=etch", description: "装置の機種や公開仕様を一覧で見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "エッチングが前工程の反復のどこに入るか確認する" },
             { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "反応性ガス、供給設備、排気・除害と主要企業を見る" },
             { label: "高純度薬液メーカー", href: "/guides/semiconductor-high-purity-chemical-manufacturers", description: "ウェット加工・残渣除去用薬液と主要企業を見る" },

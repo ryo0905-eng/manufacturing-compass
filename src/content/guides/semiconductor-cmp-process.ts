@@ -301,6 +301,7 @@ export const semiconductorCmpProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "CMP装置をメーカー別に探す", href: "/equipment?process=cmp", description: "装置の機種や公開仕様を一覧で見る" },
             { label: "CMP装置メーカー", href: "/guides/semiconductor-cmp-equipment-manufacturers", description: "研磨ヘッド・終点・洗浄と主要企業を見る" },
             { label: "CMPスラリーメーカー", href: "/guides/semiconductor-cmp-slurry-manufacturers", description: "砥粒・化学成分・用途別材料と主要企業を見る" },
             { label: "高純度薬液メーカー", href: "/guides/semiconductor-high-purity-chemical-manufacturers", description: "CMP・研磨後洗浄を支える液体材料と主要企業を見る" },

@@ -299,6 +299,7 @@ export const semiconductorCleaningProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "洗浄装置をメーカー別に探す", href: "/equipment?process=clean", description: "装置の機種や公開仕様を一覧で見る" },
             { label: "洗浄装置メーカー", href: "/guides/semiconductor-cleaning-equipment-manufacturers", description: "枚葉式・バッチ式・スクラバーと主要企業を見る" },
             { label: "半導体ガスメーカー", href: "/guides/semiconductor-gas-manufacturers", description: "チャンバ洗浄・パージ用ガスと供給・除害を見る" },
             { label: "高純度薬液メーカー", href: "/guides/semiconductor-high-purity-chemical-manufacturers", description: "洗浄液、純度、容器・供給と主要企業を見る" },

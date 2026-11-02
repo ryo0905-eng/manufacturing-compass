@@ -348,6 +348,7 @@ export const semiconductorDicingProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "ダイシング装置をメーカー別に探す", href: "/equipment?process=dicing", description: "装置の機種や公開仕様を一覧で見る" },
             { label: "ダイシング装置メーカー", href: "/guides/semiconductor-dicing-equipment-manufacturers", description: "ブレード・レーザー・プラズマ装置と主要企業を見る" },
             { label: "半導体製造工程の全体像", href: "/guides/semiconductor-manufacturing-process", description: "ダイシングがウェーハテストと組立の間に入る位置を見る" },
             { label: "ウェーハテストの仕組み", href: "/guides/semiconductor-wafer-test", description: "個片化前に良品ダイと座標を決める工程を見る" },

@@ -345,6 +345,7 @@ export const photolithographyProcessGuide: GuideArticle = {
           type: "links",
           items: [
             { label: "塗布現像装置メーカー", href: "/guides/semiconductor-coater-developer-manufacturers", description: "表面処理、レジスト塗布、ベーク、現像を連続処理する装置を見る" },
+            { label: "露光装置をメーカー別に探す", href: "/equipment?process=expose", description: "装置の機種や公開仕様を一覧で見る" },
             { label: "露光装置メーカー", href: "/guides/semiconductor-lithography-equipment-manufacturers", description: "EUV・DUV・i線・ナノインプリントと主要企業を見る" },
             { label: "フォトマスクメーカー", href: "/guides/semiconductor-photomask-manufacturers", description: "回路原版・マスクブランクス・DUV・EUVと主要企業を見る" },
             { label: "ペリクルメーカー", href: "/guides/semiconductor-pellicle-manufacturers", description: "マスクの異物を焦点外にする防塵部材と主要企業を見る" },

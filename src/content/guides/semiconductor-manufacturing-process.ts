@@ -340,6 +340,7 @@ export const semiconductorManufacturingProcessGuide: GuideArticle = {
         {
           type: "links",
           items: [
+            { label: "半導体製造装置をメーカー別に探す", href: "/equipment", description: "装置の機種や公開仕様を一覧で見る" },
             { label: "シリコンウェーハ製造の仕組み", href: "/guides/semiconductor-silicon-wafer-manufacturing", description: "高純度原料から単結晶を育て、鏡面基板へ仕上げる流れを見る" },
             { label: "シリコンウェーハメーカー", href: "/guides/semiconductor-silicon-wafer-manufacturers", description: "基板の種類・用途と信越化学・SUMCOなどを見る" },
             { label: "リソグラフィを触って学ぶ", href: "/tools/litho-simulator", description: "露光量と焦点を変え、パターンや不良を確かめる" },
