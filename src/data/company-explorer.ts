@@ -16,4 +16,6 @@ export const directoryCompanyZones: Record<string, IndustryMapZoneId> = {
   "hitachi-hightech": "inspection",
   nikon: "equipment",
   canon: "equipment",
+  ebara: "equipment",
+  "tokyo-seimitsu": "equipment",
 };

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-02T22:17:27.367Z",
-  "catalogHash": "05a6a5d2412fef00ed00c1e1a521c826365e0197bfb0a6627004fabf6b64c155",
+  "generatedAt": "2026-11-02T22:20:06.989Z",
+  "catalogHash": "d9710949eb7b5dfc8695bd6729db0f905ffa07589cf8674f5cf97c48a6e313b3",
   "records": [
     {
       "id": "asml-nxt1980di",
@@ -82,6 +82,22 @@
     {
       "id": "screen-su-3300",
       "fingerprint": "2981518087fd9b688106800f87f27cc1f5306af3710e518f5b84e4328abe5374"
+    },
+    {
+      "id": "ebara-f-rex300xa",
+      "fingerprint": "c08bc5b5626142c3c0d1f993464842fff1f8686090b04c9ddd0bc071b930384d"
+    },
+    {
+      "id": "ebara-f-rex",
+      "fingerprint": "16d8026467c9b7574a3ef7dedc9249e3c57ca12b1783d1bd8aad0eabdb047e21"
+    },
+    {
+      "id": "tokyo-seimitsu-ad3000t-plus",
+      "fingerprint": "7f1f027b57f12d35f8b5a79d065f30cde62484ea31158a8ee5e3fbaed9d47cc3"
+    },
+    {
+      "id": "tokyo-seimitsu-ml3200",
+      "fingerprint": "a87a2cfd81576ad2ae6df77e4c496be928abeff430bb9779d810076f67c196d3"
     }
   ],
   "sourceHashes": {
@@ -104,6 +120,10 @@
     "hitachi-m-8000-etch-official": "d96f92a80b7f52ecec8f23e1483ee1eaaf0892163bdce072afe8e875eafba339",
     "amat-centris-sym3-etch-official": "66f0ffcace0da7428c0a8d23b6686c2e99e70822648da733bd6592cda0eb63ae",
     "screen-su-3400-official": "18642d57d9cfe9ed904a0793b52e2b1ca54cc0e5e65b4b2acc6838064913419e",
-    "screen-su-3300-official": "73e53586585be04b7cb1697989fd753b4377c51b6f951a955d0a43e22420ea43"
+    "screen-su-3300-official": "73e53586585be04b7cb1697989fd753b4377c51b6f951a955d0a43e22420ea43",
+    "ebara-f-rex300xa-official": "28ade50a20b56d8ad008f2c51abfb86265d5fd51f28b2d74ba5ea24c1f14198c",
+    "ebara-f-rex-official": "9f04b8f9b48d82c7d67cc49418882a5fda7d891dbe90c630c8dcf9f4e28091a0",
+    "tokyo-seimitsu-ad3000t-plus-official": "80cd7816ef14d7d12a2447bd2fd38a13e6e24d348cff94d505b63dec7a1400a8",
+    "tokyo-seimitsu-ml3200-official": "98bb0c362f9ce964c2f77122844c4a9f7d44688f35167789d9d8965396caeac4"
   }
 }

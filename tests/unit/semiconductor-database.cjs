@@ -42,9 +42,9 @@ function snapshots(input = catalog) {
     return [s.id, { url: s.url, ok: true, text, hash: core.fingerprint(text) }];
   })));
 }
-test('catalog: 20 models, 8 manufacturers, all explicit facts have evidence', () => {
-  assert.equal(catalog.records.length, 20);
-  assert.equal(new Set(catalog.records.map(r => r.manufacturerId)).size, 8);
+test('catalog: 24 models, 10 manufacturers, all explicit facts have evidence', () => {
+  assert.equal(catalog.records.length, 24);
+  assert.equal(new Set(catalog.records.map(r => r.manufacturerId)).size, 10);
   assert.equal(core.inspect(catalog, registry, snapshots(), '2026-11-03').filter(r => r.errors.length).length, 0);
 });
 
@@ -56,6 +56,21 @@ test('cleaning filter and comparison include SCREEN and Tokyo Electron', () => {
   assert.match(html, /SU-3400/);
   assert.match(html, /1,200 wafers per hour/);
   assert.match(html, /標準処理条件/);
+});
+
+test('CMP and dicing filters and comparisons include both manufacturers', () => {
+  const { EquipmentExplorer } = load('src/components/equipment-explorer/EquipmentExplorer.tsx');
+  const manufacturers = companies.map(c => ({ id: c.id, name: c.nameJa, href: '/companies/' + c.slug }));
+  for (const [process, ids, expectedMakers, value] of [
+    ['cmp', ['amat-reflexion-lk', 'ebara-f-rex300xa'], ['applied-materials', 'ebara'], 'デュアルモジュール方式'],
+    ['dicing', ['disco-dfd6363', 'tokyo-seimitsu-ml3200'], ['disco', 'tokyo-seimitsu'], '0.1-2,100 mm/sec'],
+  ]) {
+    const filtered = model.filterEquipment(catalog.records, { ...model.emptyEquipmentFilters, process });
+    assert.deepEqual([...new Set(filtered.map(r => r.manufacturerId))].sort(), expectedMakers);
+    const html = renderToStaticMarkup(React.createElement(EquipmentExplorer, { records: catalog.records, processes, manufacturers, initial: { ...model.emptyEquipmentFilters, process, compare: ids } }));
+    for (const id of ids) assert.ok(html.includes(catalog.records.find(r => r.id === id).name));
+    assert.ok(html.includes(value));
+  }
 });
 test('fabricated numbers and missing quotes are held', () => {
   const input = copy(); input.records[0].facts.specification.value = '192 nm';
@@ -123,7 +138,7 @@ test('comparison is limited to 3 unique models and distinguishes missing facts',
 });
 test('release fingerprints match and data changes cannot silently publish', () => {
   const { getReleasedEquipment } = load('src/lib/equipment-catalog.ts');
-  assert.equal(getReleasedEquipment().length, 20);
+  assert.equal(getReleasedEquipment().length, 24);
   const release = require('../../src/data/database/release.json');
   const record = structuredClone(catalog.records[0]); record.summary += ' altered';
   assert.notEqual(core.fingerprint(record), release.records.find(r => r.id === record.id).fingerprint);
@@ -138,9 +153,9 @@ test('initial HTML contains all names, evidence, Lab links and selected comparis
 test('server projection actually removes changed and suspended records', () => {
   const input = copy(); input.records[0].summary += ' modified';
   const model = load('src/lib/equipment-catalog.ts', { '@/data/database/equipment.json': input });
-  assert.equal(model.getReleasedEquipment().length, 19);
+  assert.equal(model.getReleasedEquipment().length, 23);
   const stopped = load('src/lib/equipment-catalog.ts', { '@/data/database/suspensions.json': { recordIds: [], manufacturerIds: ['asml'], processIds: [], sourceIds: [] } });
-  assert.equal(stopped.getReleasedEquipment().length, 17);
+  assert.equal(stopped.getReleasedEquipment().length, 21);
 });
 test('cached evidence tampering fails its content hash', () => {
   const s = snapshots(); s[catalog.records[0].sources[0].id].text += ' altered';

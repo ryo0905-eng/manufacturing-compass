@@ -2144,6 +2144,442 @@
         "status": "published",
         "index": false
       }
+    },
+    {
+      "id": "ebara-f-rex300xa",
+      "kind": "equipment",
+      "name": "F-REX300XA型",
+      "englishName": "F-REX300XA型",
+      "aliases": [],
+      "category": "CMP",
+      "summary": "デュアルモジュール方式を採用したCMP装置。",
+      "manufacturerId": "ebara",
+      "processIds": [
+        "cmp"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "ebara"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "ebara-f-rex300xa-official",
+            "quote": "F-REX300XA型",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "cmp"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "ebara-f-rex300xa-official",
+            "quote": "CMP装置",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "高信頼性構造(1テーブル1ヘッド、デュアルモジュール方式)",
+          "evidence": {
+            "sourceId": "ebara-f-rex300xa-official",
+            "quote": "高信頼性構造(1テーブル1ヘッド、デュアルモジュール方式)",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "specification": {
+          "status": "unconfirmed",
+          "reason": "公式本文で確認できていません。"
+        },
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "公式本文で確認できていません。"
+        },
+        "application": {
+          "status": "verified",
+          "value": "CMP装置",
+          "evidence": {
+            "sourceId": "ebara-f-rex300xa-official",
+            "quote": "CMP装置",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "polishing": {
+          "status": "verified",
+          "value": "多段薬液洗浄対応",
+          "evidence": {
+            "sourceId": "ebara-f-rex300xa-official",
+            "quote": "多段薬液洗浄対応",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "比較可能な毎時処理枚数は公式本文で確認できていません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "ebara-f-rex300xa-official",
+          "url": "https://www.ebara.com/jp-ja/products/FREX300XA/",
+          "publisher": "荏原製作所",
+          "title": "F-REX300XA型 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "ebara-f-rex",
+      "kind": "equipment",
+      "name": "F-REX型",
+      "englishName": "F-REX型",
+      "aliases": [],
+      "category": "CMP",
+      "summary": "ウェーハ表面を化学的機械的に研磨するCMP装置。",
+      "manufacturerId": "ebara",
+      "processIds": [
+        "cmp"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "ebara"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "ebara-f-rex-official",
+            "quote": "F-REX型",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "cmp"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "ebara-f-rex-official",
+            "quote": "ウェーハ表面を化学的機械的に研磨する",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "デュアルモジュール方式",
+          "evidence": {
+            "sourceId": "ebara-f-rex-official",
+            "quote": "デュアルモジュール方式",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "specification": {
+          "status": "unconfirmed",
+          "reason": "公式本文で確認できていません。"
+        },
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "公式本文で確認できていません。"
+        },
+        "application": {
+          "status": "verified",
+          "value": "ウェーハ表面を化学的機械的に研磨する",
+          "evidence": {
+            "sourceId": "ebara-f-rex-official",
+            "quote": "ウェーハ表面を化学的機械的に研磨する",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "polishing": {
+          "status": "verified",
+          "value": "多段薬液洗浄対応",
+          "evidence": {
+            "sourceId": "ebara-f-rex-official",
+            "quote": "多段薬液洗浄対応",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "比較可能な毎時処理枚数は公式本文で確認できていません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "ebara-f-rex-official",
+          "url": "https://www.ebara.com/jp-ja/products/FREX/",
+          "publisher": "荏原製作所",
+          "title": "F-REX型 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "tokyo-seimitsu-ad3000t-plus",
+      "kind": "equipment",
+      "name": "AD3000T-PLUS",
+      "englishName": "AD3000T-PLUS",
+      "aliases": [],
+      "category": "ブレードダイシング",
+      "summary": "対向型2軸スピンドルを備えるフルオートマチックダイシングマシン。",
+      "manufacturerId": "tokyo-seimitsu",
+      "processIds": [
+        "dicing"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "tokyo-seimitsu"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ad3000t-plus-official",
+            "quote": "AD3000T-PLUS",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "dicing"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ad3000t-plus-official",
+            "quote": "ダイシングマシン",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "対向型2軸スピンドルを対角線上に配置",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ad3000t-plus-official",
+            "quote": "対向型2軸スピンドルを対角線上に配置",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "ブレード交換を装置正面から行う構成。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "定格1.8kW, 最高回転数60,000rpm",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ad3000t-plus-official",
+            "quote": "定格1.8kW, 最高回転数60,000rpm",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "標準スピンドル。X軸最高速度は1,000 mm/s。"
+        },
+        "wafer": {
+          "status": "verified",
+          "value": "Φ300mm対応",
+          "condition": "メーカー公式の対応径表記。",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ad3000t-plus-official",
+            "quote": "Φ300mm対応",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        "application": {
+          "status": "verified",
+          "value": "Siから電子部品まで、幅広いデバイスのダイシング",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ad3000t-plus-official",
+            "quote": "Siから電子部品まで、幅広いデバイスのダイシング",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "axis": {
+          "status": "verified",
+          "value": "X軸速度 1,000mm/sec、Y軸速度 300mm/sec、Z軸速度 80mm/sec",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ad3000t-plus-official",
+            "quote": "X軸速度 1,000mm/sec、Y軸速度 300mm/sec、Z軸速度 80mm/sec",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "比較可能な毎時処理枚数は公式本文で確認できていません。"
+        },
+        "maxWork": {
+          "status": "verified",
+          "value": "最大ワークサイズ &Phi; 305 mm",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ad3000t-plus-official",
+            "quote": "最大ワークサイズ &Phi; 305 mm",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "最大ワークサイズ。ウェーハ径と同一とは限りません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "tokyo-seimitsu-ad3000t-plus-official",
+          "url": "https://www.accretech.com/jp/product/semicon/semi/dicer_semi/ad3000t-plus.html",
+          "publisher": "東京精密",
+          "title": "AD3000T-PLUS 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "tokyo-seimitsu-ml3200",
+      "kind": "equipment",
+      "name": "ML3200",
+      "englishName": "ML3200",
+      "aliases": [],
+      "category": "レーザーダイシング",
+      "summary": "IRレーザでシリコン内部に加工領域を形成するフルオートマチックダイシングマシン。",
+      "manufacturerId": "tokyo-seimitsu",
+      "processIds": [
+        "dicing"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "tokyo-seimitsu"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ml3200-official",
+            "quote": "ML3200",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "dicing"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ml3200-official",
+            "quote": "ダイシングマシン",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "IRレーザエンジン搭載、Si内部にレーザ光を集光し、レーザ加工領域を形成し、エキスパンドプロセスにてチップへ個片化",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ml3200-official",
+            "quote": "IRレーザエンジン搭載、Si内部にレーザ光を集光し、レーザ加工領域を形成し、エキスパンドプロセスにてチップへ個片化",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "X軸 送り速度入力範囲 0.1-2,100 mm/sec",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ml3200-official",
+            "quote": "X軸 送り速度入力範囲 0.1-2,100 mm/sec",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "最大ウェーハサイズは300 mm。軸送り速度の入力範囲。"
+        },
+        "wafer": {
+          "status": "verified",
+          "value": "Φ300mm対応",
+          "condition": "メーカー公式の対応径表記。",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ml3200-official",
+            "quote": "Φ300mm対応",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        "application": {
+          "status": "verified",
+          "value": "Siウエーハ表面に損傷を与えず非接触でのダイシング",
+          "evidence": {
+            "sourceId": "tokyo-seimitsu-ml3200-official",
+            "quote": "Siウエーハ表面に損傷を与えず非接触でのダイシング",
+            "locator": "メーカー公式製品ページ"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "spindle": {
+          "status": "unconfirmed",
+          "reason": "レーザー方式のためスピンドル仕様は公式本文で確認できていません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "比較可能な毎時処理枚数は公式本文で確認できていません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "tokyo-seimitsu-ml3200-official",
+          "url": "https://www.accretech.com/jp/product/semicon/semi/dicer_semi/ml3200.html",
+          "publisher": "東京精密",
+          "title": "ML3200 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
     }
   ]
 }

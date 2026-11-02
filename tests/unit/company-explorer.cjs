@@ -38,12 +38,12 @@ const directory = model.buildDirectoryCompanies(companies, ['tsmc', 'sumco'], ['
 const atlas = model.buildAtlasCompanies(directory);
 const clear = { query: '', region: 'all', locationsOnly: false, segment: 'all' };
 const plain = x => JSON.parse(JSON.stringify(x));
-assert.equal(directory.length, 37);
-assert.equal(atlas.length, 44);
-assert.equal(new Set(directory.map(c => c.id)).size, 37);
-assert.equal(new Set(atlas.map(c => c.id)).size, 44);
+assert.equal(directory.length, 39);
+assert.equal(atlas.length, 46);
+assert.equal(new Set(directory.map(c => c.id)).size, 39);
+assert.equal(new Set(atlas.map(c => c.id)).size, 46);
 assert.equal(atlas.filter(c => c.profileKind === 'map').length, 7);
-assert.equal(directory.filter(c => atlas.some(a => a.id === c.id)).length, 37);
+assert.equal(directory.filter(c => atlas.some(a => a.id === c.id)).length, 39);
 for (const company of directory) {
   assert.equal(company.slug, companies.find(c => c.id === company.id).slug);
   assert.ok(industryMapZones.some(z => z.id === company.primaryZone));
@@ -73,7 +73,7 @@ for (const zone of industryMapZones) {
 }
 assert.equal(model.filterExplorerCompanies(atlas, { ...clear, query: 'arm' }).some(c => c.id === 'arm'), true);
 for (const segment of segments) assert.ok(model.filterExplorerCompanies(atlas, { ...clear, segment: segment.id }).every(c => c.profileKind === 'company'));
-console.log('PASS: 44 unique atlas companies, original order plus 13 additions, 37 detailed / seven sourced profiles, NFKC/token/combined filters.');
+console.log('PASS: 46 unique atlas companies, original order plus 15 additions, 39 detailed / seven sourced profiles, NFKC/token/combined filters.');
 
 function nodes(tree, predicate) {
   if (!tree || typeof tree !== 'object') return [];
@@ -103,7 +103,7 @@ function explorer(props, hash = '', analyticsBlocked = false) {
 const unifiedProps = { items: atlas, segments };
 const ui = explorer(unifiedProps);
 const cards = tree => nodes(tree, n => Boolean(n.props?.['data-company-explorer-company']));
-assert.equal(cards(ui.render()).length, 44);
+assert.equal(cards(ui.render()).length, 46);
 assert.equal(ui.events.length, 0);
 let search = nodes(ui.render(), n => n.type === 'input' && n.props.type === 'search')[0];
 search.props.onChange({ target: { value: 'ＮＶＩＤＩＡ GPU' } });
@@ -127,11 +127,11 @@ assert.equal(focused, 1);
 assert.equal(nodes(ui.render(), n => typeof n.type === 'function' && n.type.name === 'CompanyExplorerDialog').length, 0);
 const clearButton = nodes(ui.render(), n => n.type === 'button' && n.props.children === '条件をクリア')[0];
 clearButton.props.onClick();
-assert.equal(cards(ui.render()).length, 44);
+assert.equal(cards(ui.render()).length, 46);
 for (const event of ui.events) { assert.equal(event.properties.source_page, '/industry-map'); assert.equal(event.properties.ui_version, 'overview-atlas-v3'); }
 const mapUi = explorer(unifiedProps);
 let mapTree = mapUi.render();
-assert.equal(cards(mapTree).length, 44);
+assert.equal(cards(mapTree).length, 46);
 assert.equal(mapUi.events.length, 0);
 nodes(cards(mapTree)[0], n => n.type === 'button')[0].props.onClick({ currentTarget: trigger });
 assert.equal(mapUi.events.map(e => e.name).join(','), 'industry_map_node_open,industry_map_detail_view');
@@ -154,7 +154,7 @@ const filterDisclosure = nodes(mapTree, n => n.type === 'details' && 'data-compa
 const indexDisclosure = nodes(mapTree, n => n.type === 'details' && 'data-company-link-index' in n.props)[0];
 assert.equal(filterDisclosure.props.open, undefined);
 assert.equal(indexDisclosure.props.open, undefined);
-assert.equal(nodes(indexDisclosure, n => n.props?.href?.startsWith('/companies/')).length, 37);
+assert.equal(nodes(indexDisclosure, n => n.props?.href?.startsWith('/companies/')).length, 39);
 assert.equal(nodes(indexDisclosure, n => n.type === 'a' && n.props?.href?.startsWith('https://')).length, 7);
 nodes(indexDisclosure, n => n.props?.href === '/companies/nvidia')[0].props.onClick();
 assert.equal(mapUi.events.at(-1).name, 'industry_map_content_click');
@@ -168,7 +168,7 @@ cleanup.forEach(fn => fn?.());
 for (const company of atlas) {
   const shared = explorer({ ...unifiedProps, initialQuery: 'nonexistentword' }, '#company=' + company.id);
   shared.render(); shared.h.effects.forEach(fn => fn());
-  assert.equal(cards(shared.render()).length, 44);
+  assert.equal(cards(shared.render()).length, 46);
   assert.equal(nodes(shared.render(), n => typeof n.type === 'function' && n.type.name === 'CompanyExplorerDialog')[0].props.company.id, company.id);
 }
 const regionUi = explorer(unifiedProps);
@@ -177,7 +177,7 @@ selects[0].props.onChange({ target: { value: 'japan' } });
 nodes(regionUi.render(), n => n.type === 'input' && n.props.type === 'checkbox')[0].props.onChange({ target: { checked: true } });
 assert.equal(cards(regionUi.render()).map(n => n.props['data-atlas-company']).join(','), 'sumco');
 nodes(regionUi.render(), n => n.type === 'button' && n.props.children === '条件をクリア')[0].props.onClick();
-assert.equal(cards(regionUi.render()).length, 44);
+assert.equal(cards(regionUi.render()).length, 46);
 const toggle = nodes(regionUi.render(), n => n.type === 'button' && n.props.children === '職種との接点')[0];
 toggle.props.onClick();
 assert.ok(nodes(regionUi.render(), n => typeof n.props?.href === 'string' && n.props.href.startsWith('/industry-map?query=')).length);
@@ -219,14 +219,14 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   const industryPage = load('src/app/(ja)/industry-map/page');
   const html = renderToStaticMarkup(await industryPage.default({ searchParams: Promise.resolve({}) }));
   const mapHtml = html;
-  assert.equal((html.match(/data-company-explorer-company=/g) || []).length, 44);
-  assert.equal((html.match(/data-atlas-company=/g) || []).length, 44);
+  assert.equal((html.match(/data-company-explorer-company=/g) || []).length, 46);
+  assert.equal((html.match(/data-atlas-company=/g) || []).length, 46);
   for (const company of companies) assert.ok(html.includes(`href="/companies/${company.slug}"`), company.id);
   for (const anchor of ['company-search', 'company-search-title', 'industry-atlas-title', 'japanese-companies', 'companies-japan-title', 'companies-taxonomy-title', 'companies-role-title', 'companies-adjacent-title']) assert.ok(html.includes(`id="${anchor}"`), anchor);
   for (const segment of segments.filter(s => companies.some(c => c.headquartersCountry === '日本' && c.industrySegments.includes(s.id)))) assert.ok(html.includes(`id="japanese-${segment.id}"`));
   assert.ok(html.indexOf('id="company-search"') < html.indexOf('id="japanese-companies"'));
   const linkIndexHtml = html.match(/<details[^>]*data-company-link-index=""[^>]*>([\s\S]*?)<\/details>/)[1];
-  assert.equal((linkIndexHtml.match(/href="\/companies\//g) || []).length, 37);
+  assert.equal((linkIndexHtml.match(/href="\/companies\//g) || []).length, 39);
   assert.equal((linkIndexHtml.match(/href="https:\/\//g) || []).length, 7);
   assert.ok(html.indexOf('data-company-map-grid') < html.indexOf('data-company-link-index'));
   assert.ok(!html.includes('companies-search-jump'));
@@ -236,8 +236,8 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   assert.equal(new Set(ids).size, ids.length, 'No duplicate anchors');
   const jsonLd = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/g)].map(m => JSON.parse(m[1]));
   const itemList = jsonLd.find(item => item['@type'] === 'ItemList');
-  assert.equal(itemList.numberOfItems, 44);
-  assert.equal(itemList.itemListElement.filter(item => item.url.includes('/companies/')).length, 37);
+  assert.equal(itemList.numberOfItems, 46);
+  assert.equal(itemList.itemListElement.filter(item => item.url.includes('/companies/')).length, 39);
   const faq = jsonLd.find(item => item['@type'] === 'FAQPage');
   const faqHtml = html.match(/<section[^>]*aria-labelledby="industry-map-faq-title"[^>]*>([\s\S]*?)<\/section>/)[1];
   const visibleFaqs = [...faqHtml.matchAll(/<details><summary>(.*?)<\/summary><p>(.*?)<\/p><\/details>/g)];
@@ -295,8 +295,8 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   for (const profile of industryMapSupplementalCompanies) { assert.ok(mapHtml.includes(`href="${profile.websiteUrl}"`)); assert.ok(!mapHtml.includes(`href="/companies/${profile.id}"`)); }
   for (const anchor of ['design', 'materials', 'front-end', 'equipment', 'back-end', 'inspection', 'applications']) assert.ok(mapHtml.includes(`id="supply-chain-${anchor}"`));
   const { companyLogoAssets } = load('src/data/company-logos');
-  assert.equal(atlas.filter(c => companyLogoAssets[c.id]).length, 43);
-  assert.equal(directory.filter(c => companyLogoAssets[c.id]).length, 36);
+  assert.equal(atlas.filter(c => companyLogoAssets[c.id]).length, 44);
+  assert.equal(directory.filter(c => companyLogoAssets[c.id]).length, 37);
   for (const company of [...directory, ...atlas]) {
     const asset = companyLogoAssets[company.id]; if (!asset) continue;
     assert.ok(asset.aspectRatio > 0 && asset.aspectRatio < 20);
@@ -324,5 +324,5 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   const logoOverview = logoCss.nodes.find(rule => rule.selector === '.logo.overview');
   assert.equal(logoOverview.nodes.find(d => d.prop === 'width').value, '72px');
   assert.equal(logoOverview.nodes.find(d => d.prop === '--logo-height').value, '24px');
-  console.log('PASS: overview SSR/closed native disclosures/37+7 links/two-row CSS/eight colors/legacy anchors/native links, query/noindex/canonical/ItemList, exact redirect/fallback, sitemap/subroutes, single navigation entry, 43 logos and valid CSS modules.');
+  console.log('PASS: overview SSR/closed native disclosures/39+7 links/two-row CSS/eight colors/legacy anchors/native links, query/noindex/canonical/ItemList, exact redirect/fallback, sitemap/subroutes, single navigation entry, 44 logos and valid CSS modules.');
 })().catch(error => { console.error(error); process.exitCode = 1; });
