@@ -113,7 +113,7 @@ test('comparison is limited to 3 unique models and distinguishes missing facts',
 });
 test('release fingerprints match and data changes cannot silently publish', () => {
   const { getReleasedEquipment } = load('src/lib/equipment-catalog.ts');
-  assert.equal(getReleasedEquipment().length, 8);
+  assert.equal(getReleasedEquipment().length, 13);
   const release = require('../../src/data/database/release.json');
   const record = structuredClone(catalog.records[0]); record.summary += ' altered';
   assert.notEqual(core.fingerprint(record), release.records.find(r => r.id === record.id).fingerprint);
@@ -128,9 +128,9 @@ test('initial HTML contains all names, evidence, Lab links and selected comparis
 test('server projection actually removes changed and suspended records', () => {
   const input = copy(); input.records[0].summary += ' modified';
   const model = load('src/lib/equipment-catalog.ts', { '@/data/database/equipment.json': input });
-  assert.equal(model.getReleasedEquipment().length, 7);
+  assert.equal(model.getReleasedEquipment().length, 12);
   const stopped = load('src/lib/equipment-catalog.ts', { '@/data/database/suspensions.json': { recordIds: [], manufacturerIds: ['asml'], processIds: [], sourceIds: [] } });
-  assert.equal(stopped.getReleasedEquipment().length, 5);
+  assert.equal(stopped.getReleasedEquipment().length, 10);
 });
 test('cached evidence tampering fails its content hash', () => {
   const s = snapshots(); s[catalog.records[0].sources[0].id].text += ' altered';

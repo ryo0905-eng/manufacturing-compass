@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-02T13:04:30.662Z",
-  "catalogHash": "4a8e7649c4a98f94a870d5bd98d0e566b52a685fedc9e839a22b88584957d117",
+  "generatedAt": "2026-11-02T22:04:10.240Z",
+  "catalogHash": "7f88890fb358319ef08e14e493e705ca5ad80e2fc3c21a33c250e402e59bd1cd",
   "records": [
     {
       "id": "asml-nxt1980di",
@@ -29,11 +29,31 @@
     },
     {
       "id": "amat-reflexion-lk",
-      "fingerprint": "065f249857ec1f456e2087806f92c1d2418b162152a2dc781f58b704fda4ca9b"
+      "fingerprint": "4a909825d10d995fea4fe9778cb989ffaad4bacf597c5318c3994fb54dcfa1da"
     },
     {
       "id": "disco-dfd6363",
       "fingerprint": "8014e31f26a3574c935e1693ca2c082d913f068a0e4729c54f4833d15851e574"
+    },
+    {
+      "id": "nikon-nsr-s636e",
+      "fingerprint": "578df10f05c7e8126d517bcd3e7b6bf12373fdf1f92bb9ca442f35e01feda9fc"
+    },
+    {
+      "id": "nikon-nsr-s635e",
+      "fingerprint": "01d582fde128396bcfc2838fbb55021e63df27172eba2e66c0361528fb7e070c"
+    },
+    {
+      "id": "nikon-nsr-s625e",
+      "fingerprint": "78206e23f380a2bcd9b0dc27c8ccf7a794aed60acdd9df16dce369fbdfcbdeb8"
+    },
+    {
+      "id": "canon-fpa-6300es6a",
+      "fingerprint": "ca6401591c044e0249d2de39c2b964542df755ebea45451c6de156ac1ba58925"
+    },
+    {
+      "id": "canon-fpa-5520iv",
+      "fingerprint": "c33bec5eb9d1146d116e8e93e747dad7b237adb17a4f0b9a1be8361bb3092e4b"
     }
   ],
   "sourceHashes": {
@@ -43,7 +63,12 @@
     "tel-cellesta-ms2-official": "da50618ef9f07f2b58baf7c73d0a732774479fa2acf86bed6ec5169188b1e030",
     "tel-cellesta-scd-official": "777a4d4f5f8f0b0001753e135497cfa0bec080108eca6e6c1860821a2c8a4782",
     "tel-cellesta-pro-spm-official": "5069db99325f4fd43f164e8d89294d4b9aefc604cc4b8c848671f133272d2ff7",
-    "amat-reflexion-lk-official": "195e81762cc8d0f4f00a5069a80940130b75559946d2d65c301cce3f3c5ae6b9",
-    "disco-dfd6363-official": "0a7cc04a6eecdaf3b596a562bb3c90217335e2dd626c10fa16592ab1800a4a4e"
+    "amat-reflexion-lk-official": "1258514a4aa4d0b151e5765d3aa7b7dea5aa4f0690d8e5c1acf856fb7b94ea73",
+    "disco-dfd6363-official": "0a7cc04a6eecdaf3b596a562bb3c90217335e2dd626c10fa16592ab1800a4a4e",
+    "nikon-nsr-s636e-official": "b6303b3b318c2c03250f82ef4063f814d45ef283986c4c052ae61285544743e2",
+    "nikon-nsr-s635e-official": "b6303b3b318c2c03250f82ef4063f814d45ef283986c4c052ae61285544743e2",
+    "nikon-nsr-s625e-official": "b6303b3b318c2c03250f82ef4063f814d45ef283986c4c052ae61285544743e2",
+    "canon-fpa-6300es6a-official": "be025e6187885269753180ee7926fa0d8d96ee24e7447645cb1e10d05fcc06bc",
+    "canon-fpa-5520iv-official": "49d31809c3373459db9efa25448ed614325435eae8cdfacda6e1451b27f0a9fd"
   }
 }
