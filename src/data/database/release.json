@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-02T22:14:18.803Z",
-  "catalogHash": "6be03cc4aaad40a26b351bf051294022e28932d54703a501707083148fc5f268",
+  "generatedAt": "2026-11-02T22:17:27.367Z",
+  "catalogHash": "05a6a5d2412fef00ed00c1e1a521c826365e0197bfb0a6627004fabf6b64c155",
   "records": [
     {
       "id": "asml-nxt1980di",
@@ -74,6 +74,14 @@
     {
       "id": "amat-centris-sym3",
       "fingerprint": "d052b83986f8d7ea09f827b2d9a25f1d20f987d2f937e97ee830007bc318f522"
+    },
+    {
+      "id": "screen-su-3400",
+      "fingerprint": "de4398de4b9fda53e620a64553a1d2c67d916612bba0e73c72268abb9acf1e69"
+    },
+    {
+      "id": "screen-su-3300",
+      "fingerprint": "2981518087fd9b688106800f87f27cc1f5306af3710e518f5b84e4328abe5374"
     }
   ],
   "sourceHashes": {
@@ -94,6 +102,8 @@
     "tel-episode-ul-etch-official": "ba695dec71c4cb2a4796d418652cf42ad356d23bac63b685850ae9059ce74ca2",
     "hitachi-9000-etch-official": "c4513f4050e8b18f4370fe148315c7f97b5407a15fcc3f5efb0359a971464b94",
     "hitachi-m-8000-etch-official": "d96f92a80b7f52ecec8f23e1483ee1eaaf0892163bdce072afe8e875eafba339",
-    "amat-centris-sym3-etch-official": "66f0ffcace0da7428c0a8d23b6686c2e99e70822648da733bd6592cda0eb63ae"
+    "amat-centris-sym3-etch-official": "66f0ffcace0da7428c0a8d23b6686c2e99e70822648da733bd6592cda0eb63ae",
+    "screen-su-3400-official": "18642d57d9cfe9ed904a0793b52e2b1ca54cc0e5e65b4b2acc6838064913419e",
+    "screen-su-3300-official": "73e53586585be04b7cb1697989fd753b4377c51b6f951a955d0a43e22420ea43"
   }
 }

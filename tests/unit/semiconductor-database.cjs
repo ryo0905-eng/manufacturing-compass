@@ -42,10 +42,20 @@ function snapshots(input = catalog) {
     return [s.id, { url: s.url, ok: true, text, hash: core.fingerprint(text) }];
   })));
 }
-test('catalog: 18 models, 7 manufacturers, all explicit facts have evidence', () => {
-  assert.equal(catalog.records.length, 18);
-  assert.equal(new Set(catalog.records.map(r => r.manufacturerId)).size, 7);
+test('catalog: 20 models, 8 manufacturers, all explicit facts have evidence', () => {
+  assert.equal(catalog.records.length, 20);
+  assert.equal(new Set(catalog.records.map(r => r.manufacturerId)).size, 8);
   assert.equal(core.inspect(catalog, registry, snapshots(), '2026-11-03').filter(r => r.errors.length).length, 0);
+});
+
+test('cleaning filter and comparison include SCREEN and Tokyo Electron', () => {
+  const filtered = model.filterEquipment(catalog.records, { ...model.emptyEquipmentFilters, process: 'clean' });
+  assert.deepEqual([...new Set(filtered.map(r => r.manufacturerId))].sort(), ['screen', 'tokyo-electron']);
+  const { EquipmentExplorer } = load('src/components/equipment-explorer/EquipmentExplorer.tsx');
+  const html = renderToStaticMarkup(React.createElement(EquipmentExplorer, { records: catalog.records, processes, manufacturers: companies.map(c => ({ id: c.id, name: c.nameJa, href: '/companies/' + c.slug })), initial: { ...model.emptyEquipmentFilters, process: 'clean', compare: ['screen-su-3400', 'tel-cellesta-ms2'] } }));
+  assert.match(html, /SU-3400/);
+  assert.match(html, /1,200 wafers per hour/);
+  assert.match(html, /標準処理条件/);
 });
 test('fabricated numbers and missing quotes are held', () => {
   const input = copy(); input.records[0].facts.specification.value = '192 nm';
@@ -113,7 +123,7 @@ test('comparison is limited to 3 unique models and distinguishes missing facts',
 });
 test('release fingerprints match and data changes cannot silently publish', () => {
   const { getReleasedEquipment } = load('src/lib/equipment-catalog.ts');
-  assert.equal(getReleasedEquipment().length, 18);
+  assert.equal(getReleasedEquipment().length, 20);
   const release = require('../../src/data/database/release.json');
   const record = structuredClone(catalog.records[0]); record.summary += ' altered';
   assert.notEqual(core.fingerprint(record), release.records.find(r => r.id === record.id).fingerprint);
@@ -128,9 +138,9 @@ test('initial HTML contains all names, evidence, Lab links and selected comparis
 test('server projection actually removes changed and suspended records', () => {
   const input = copy(); input.records[0].summary += ' modified';
   const model = load('src/lib/equipment-catalog.ts', { '@/data/database/equipment.json': input });
-  assert.equal(model.getReleasedEquipment().length, 17);
+  assert.equal(model.getReleasedEquipment().length, 19);
   const stopped = load('src/lib/equipment-catalog.ts', { '@/data/database/suspensions.json': { recordIds: [], manufacturerIds: ['asml'], processIds: [], sourceIds: [] } });
-  assert.equal(stopped.getReleasedEquipment().length, 15);
+  assert.equal(stopped.getReleasedEquipment().length, 17);
 });
 test('cached evidence tampering fails its content hash', () => {
   const s = snapshots(); s[catalog.records[0].sources[0].id].text += ' altered';

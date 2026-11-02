@@ -1962,6 +1962,188 @@
         "status": "published",
         "index": false
       }
+    },
+    {
+      "id": "screen-su-3400",
+      "kind": "equipment",
+      "name": "SU-3400",
+      "englishName": "SU-3400",
+      "aliases": [],
+      "category": "枚葉式洗浄",
+      "summary": "ウェーハを1枚ずつ洗浄する枚葉式洗浄装置。",
+      "manufacturerId": "screen",
+      "processIds": [
+        "clean"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "screen"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "screen-su-3400-official",
+            "quote": "SU-3400",
+            "locator": "メーカー公式本文"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "clean"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "screen-su-3400-official",
+            "quote": "single wafer",
+            "locator": "メーカー公式本文"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "six level, stacked towers",
+          "evidence": {
+            "sourceId": "screen-su-3400-official",
+            "quote": "six level, stacked towers",
+            "locator": "メーカー公式本文"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "equipped with 24 chambers",
+          "evidence": {
+            "sourceId": "screen-su-3400-official",
+            "quote": "equipped with 24 chambers",
+            "locator": "メーカー公式本文"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "throughput": {
+          "status": "verified",
+          "value": "up to 1,200 wafers per hour",
+          "evidence": {
+            "sourceId": "screen-su-3400-official",
+            "quote": "The new design helps the SU-3400 to achieve a practical processing capacity of up to 1,200 wafers per hour",
+            "locator": "メーカー公式本文"
+          },
+          "condition": "SCREEN SPEの標準処理条件に基づく算出（2022年12月時点）。"
+        },
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "取得した公式本文では対応径を確認できていません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "screen-su-3400-official",
+          "url": "https://www.screen.co.jp/en/news/NR221207E",
+          "publisher": "SCREEN Semiconductor Solutions",
+          "title": "SU-3400 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "screen-su-3300",
+      "kind": "equipment",
+      "name": "SU-3300",
+      "englishName": "SU-3300",
+      "aliases": [],
+      "category": "枚葉式洗浄",
+      "summary": "ウェーハを1枚ずつ洗浄する枚葉式洗浄装置。",
+      "manufacturerId": "screen",
+      "processIds": [
+        "clean"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "screen"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "screen-su-3300-official",
+            "quote": "SU-3300",
+            "locator": "メーカー公式本文"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "clean"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "screen-su-3300-official",
+            "quote": "Single Wafer Cleaner",
+            "locator": "メーカー公式本文"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "maximum chamber capability of 4 stages x 6 towers",
+          "evidence": {
+            "sourceId": "screen-su-3300-official",
+            "quote": "maximum chamber capability of 4 stages x 6 towers",
+            "locator": "メーカー公式本文"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "up to 24 chambers",
+          "evidence": {
+            "sourceId": "screen-su-3300-official",
+            "quote": "up to 24 chambers",
+            "locator": "メーカー公式本文"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "公式本文で毎時処理枚数を確認できていません。"
+        },
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "取得した公式本文では対応径を確認できていません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "screen-su-3300-official",
+          "url": "https://www.screen.co.jp/spe/en/products/su-3300",
+          "publisher": "SCREEN Semiconductor Solutions",
+          "title": "SU-3300 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
     }
   ]
 }

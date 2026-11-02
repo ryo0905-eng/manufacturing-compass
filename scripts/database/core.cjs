@@ -3,7 +3,7 @@ const crypto = require('node:crypto');
 const normalize = value => String(value).normalize('NFKC').replace(/[®™]/g, '').replace(/\s+/g, ' ').trim();
 const fingerprint = value => crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const todayJst = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
-const allowedHosts = new Set(['www.asml.com', 'www.tel.com', 'www.tel.co.jp', 'www.hitachi-hightech.com', 'www.disco.co.jp', 'www.appliedmaterials.com', 'www.nikon.com', 'global.canon']);
+const allowedHosts = new Set(['www.asml.com', 'www.tel.com', 'www.tel.co.jp', 'www.hitachi-hightech.com', 'www.disco.co.jp', 'www.appliedmaterials.com', 'www.nikon.com', 'global.canon', 'www.screen.co.jp', 'www.ebara.com', 'www.accretech.com']);
 function officialUrl(value) {
   try {
     const url = new URL(value);
@@ -52,7 +52,7 @@ function inspect(catalog, registry, snapshots = {}, today = todayJst()) {
       if (!source.id || sources.has(source.id)) fail('duplicate-or-missing-source-id');
       sources.set(source.id, source);
       if (!officialUrl(source.url)) fail(`non-allowlisted-source:${source.id}`);
-      const manufacturerHosts = { asml: 'www.asml.com', 'tokyo-electron': ['www.tel.com', 'www.tel.co.jp'], disco: 'www.disco.co.jp', 'applied-materials': 'www.appliedmaterials.com', nikon: 'www.nikon.com', canon: 'global.canon', 'hitachi-hightech': 'www.hitachi-hightech.com' };
+      const manufacturerHosts = { asml: 'www.asml.com', 'tokyo-electron': ['www.tel.com', 'www.tel.co.jp'], disco: 'www.disco.co.jp', 'applied-materials': 'www.appliedmaterials.com', nikon: 'www.nikon.com', canon: 'global.canon', 'hitachi-hightech': 'www.hitachi-hightech.com', screen: 'www.screen.co.jp', ebara: 'www.ebara.com', 'tokyo-seimitsu': 'www.accretech.com' };
       if (officialUrl(source.url) && ![manufacturerHosts[record.manufacturerId]].flat().includes(new URL(source.url).hostname)) fail(`manufacturer-source-mismatch:${source.id}`);
       if (!validDate(source.checkedAt) || !source.title || !source.publisher) fail(`invalid-source:${source.id}`);
       const snapshot = snapshots[source.id];
