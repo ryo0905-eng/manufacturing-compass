@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-01T00:11:06.533Z",
-  "windowStart": "2026-10-02T00:00:00.000Z",
-  "windowEnd": "2026-11-01T00:00:00.000Z",
+  "generatedAt": "2026-11-02T00:48:34.200Z",
+  "windowStart": "2026-10-03T00:00:00.000Z",
+  "windowEnd": "2026-11-02T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -233,22 +233,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-10-03",
-    "end": "2026-11-01",
+    "start": "2026-10-04",
+    "end": "2026-11-02",
     "days": [
-      {
-        "date": "2026-10-03",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-10-04",
         "candidates": 0,
@@ -625,31 +612,44 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-11-02",
+        "candidates": 0,
+        "deduplicated": 0,
+        "bodies": 0,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-26",
-        "end": "2026-11-01",
+        "start": "2026-10-27",
+        "end": "2026-11-02",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-19",
-        "end": "2026-10-25",
+        "start": "2026-10-20",
+        "end": "2026-10-26",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-12",
-        "end": "2026-10-18",
+        "start": "2026-10-13",
+        "end": "2026-10-19",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-05",
-        "end": "2026-10-11",
+        "start": "2026-10-06",
+        "end": "2026-10-12",
         "publishable": 0,
         "fields": []
       }
