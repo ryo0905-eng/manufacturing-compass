@@ -1,5 +1,11 @@
 # Architecture
 
+## 半導体DB・Equipment Explorer（2026-11-02）
+
+`src/data/database` に根拠付き静的装置カタログ・工程アダプター・公開マニフェスト・公開停止対象を配置。共通参照型は `src/types/semiconductor-database.ts`。既存company IDを参照し、レガシーデータを置換しない。`scripts/database` のローカルバッチで公式HTML取得・根拠照合・差分・監査候補を生成する。原文キャッシュとログはgitignore対象の `.cache/semiconductor-database` に置き、Web配信しない。
+
+`src/lib/equipment-catalog.ts` が公開状態・指紋・停止対象をサーバーで照合し、適格データだけを `/equipment` と既存サイト内検索へ投影する。Client Componentは検索・比較・共有を担当し、初期HTMLにも主要情報・出典を出力。条件付きURLはnoindex、基底ページだけをsitemapへ掲載。閲覧時の外部AI呼出し・新規APIルート・永続DBは追加しない。[詳細と運用](./semiconductor-database-explorer-plan.md)。
+
 ## 意見募集（設定準備中）
 
 `FeedbackPlacement` は必須設定が揃う場合にのみ汎用Clientフォームを表示する。固定選択肢・設置IDは `src/data/feedback.ts`、共有検証は `src/lib/feedback.ts`、同一オリジンの受信は `/api/feedback`。APIは固定Origin・サイズ・入力を検証し、Upstashによる共有レート制限とCloudflare Turnstileのサーバー検証後、専用Apps Scriptへ送信する。Apps Scriptは非公開Sheetsへ回答・連絡先を分け、送信IDで重複排除し、期限削除と集計を行う。自由記述・連絡先を解析イベントに含めず、既存の問い合わせフォーム・ツール入力とは連携しない。外部設定と本番検証は未完了。[運用手順](./feedback-operations.md)。

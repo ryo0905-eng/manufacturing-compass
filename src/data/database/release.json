@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-02T13:04:30.662Z",
+  "catalogHash": "4a8e7649c4a98f94a870d5bd98d0e566b52a685fedc9e839a22b88584957d117",
+  "records": [
+    {
+      "id": "asml-nxt1980di",
+      "fingerprint": "b2f9516c0b4c21b6711f2cb477a57b98b6ab99be7d9f14398efa195b50c3e0ee"
+    },
+    {
+      "id": "asml-nxe3600d",
+      "fingerprint": "c01c2e7e99457f7cea189153fa2670e9c81cd6c0ae3d86ed7abd81dfbc29b856"
+    },
+    {
+      "id": "asml-nxe3800e",
+      "fingerprint": "a5d9a441e8f3de6bfa1c7807a3b45278feceb422ace34187ef7e770d02324f11"
+    },
+    {
+      "id": "tel-cellesta-ms2",
+      "fingerprint": "ebfb4493aa72ff4e976282e6e03c1b2da57be86a805495e799ae192b735b92a9"
+    },
+    {
+      "id": "tel-cellesta-scd",
+      "fingerprint": "e225619e24593656fb74af8d36c74dfb403b91344902be4e16f19e5e4368acee"
+    },
+    {
+      "id": "tel-cellesta-pro-spm",
+      "fingerprint": "d481d69459167108be2d7453273ec485ee99010e8063daaf09befee28dd3c94b"
+    },
+    {
+      "id": "amat-reflexion-lk",
+      "fingerprint": "065f249857ec1f456e2087806f92c1d2418b162152a2dc781f58b704fda4ca9b"
+    },
+    {
+      "id": "disco-dfd6363",
+      "fingerprint": "8014e31f26a3574c935e1693ca2c082d913f068a0e4729c54f4833d15851e574"
+    }
+  ],
+  "sourceHashes": {
+    "asml-nxt1980di-official": "f60e8df72e3b3ea257611c80687e9f070343eb868c625f682a66fdace71c7d85",
+    "asml-nxe3600d-official": "d6a830cda293b83098d61a3f299fff95cbd640cf9a0a6436077f772258c799a1",
+    "asml-nxe3800e-official": "eae6a789fceab64dce5cf43cee093c6268c65855c2bb6564a7a389229421c749",
+    "tel-cellesta-ms2-official": "da50618ef9f07f2b58baf7c73d0a732774479fa2acf86bed6ec5169188b1e030",
+    "tel-cellesta-scd-official": "777a4d4f5f8f0b0001753e135497cfa0bec080108eca6e6c1860821a2c8a4782",
+    "tel-cellesta-pro-spm-official": "5069db99325f4fd43f164e8d89294d4b9aefc604cc4b8c848671f133272d2ff7",
+    "amat-reflexion-lk-official": "195e81762cc8d0f4f00a5069a80940130b75559946d2d65c301cce3f3c5ae6b9",
+    "disco-dfd6363-official": "0a7cc04a6eecdaf3b596a562bb3c90217335e2dd626c10fa16592ab1800a4a4e"
+  }
+}

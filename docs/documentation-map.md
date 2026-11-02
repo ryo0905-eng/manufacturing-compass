@@ -17,6 +17,8 @@
 
 ## 文書ごとの役割
 
+半導体DBとEquipment Explorerの現行調査・共通参照モデル・品質ゲート・収集運用・拡張順序は [semiconductor-database-explorer-plan.md](./semiconductor-database-explorer-plan.md)。プロダクト要件はPRD、構成はarchitecture、静的データの方針はdatabaseを引き続き正本とする。
+
 | 文書 | 役割 | 更新するタイミング |
 | --- | --- | --- |
 | [`README.md`](../README.md) | 初めて参加する人向けの概要と開発手順 | セットアップ、主要機能、入口が変わった時 |

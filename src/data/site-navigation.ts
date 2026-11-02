@@ -3,6 +3,7 @@ import type { Route } from "next";
 type SiteLink = { href: Route; label: string; description: string; keywords: readonly string[] };
 
 export const siteLinks = {
+  equipment: { href: "/equipment", label: "製造装置Explorer", description: "工程とメーカーから装置を探し、公開仕様を比較してLabで原理を学びます。", keywords: ["装置DB", "機種", "仕様", "EUV", "CMP", "洗浄"] },
   process_series: { href: "/guides#process-series-title", label: "工程の記事シリーズ", description: "半導体ができるまでを、全体像から工程順に読みます。", keywords: ["製造工程", "前工程", "後工程"] },
   semiconductor_process: { href: "/tools/semiconductor-process", label: "工程の体験", description: "ウエハから製品までの加工の変化を、動く図で確かめます。", keywords: ["工程図鑑", "半導体ができるまで"] },
   tools: { href: "/tools", label: "実務ツール", description: "品質管理・統計・工程改善のツールを、今の用事から選びます。", keywords: ["計算", "学習", "品質", "統計"] },
@@ -26,7 +27,7 @@ export const siteLinks = {
 export type SiteLinkId = keyof typeof siteLinks;
 
 export const siteNavigationGroups = [
-  { id: "technology", label: "技術を学ぶ", menuLabel: "技術を学ぶ", purpose: "technology", linkIds: ["process_series", "semiconductor_process", "tools", "tool_navigator"], journeyIds: ["process_series", "semiconductor_process", "tools", "tool_navigator"] },
+  { id: "technology", label: "技術を学ぶ", menuLabel: "技術を学ぶ", purpose: "technology", linkIds: ["process_series", "semiconductor_process", "equipment", "tools", "tool_navigator"], journeyIds: ["process_series", "semiconductor_process", "tools", "tool_navigator"] },
   { id: "industry", label: "企業・業界を調べる", menuLabel: "企業・業界", purpose: "industry", linkIds: ["rankings", "industry_map", "compare", "semiconductor_watch", "industry_guides"], journeyIds: ["rankings", "industry_map", "compare"] },
   { id: "factories", label: "工場・拠点を探す", menuLabel: "工場・拠点", purpose: "industry", linkIds: ["semiconductor_map", "factory_projects"], journeyIds: ["semiconductor_map", "factory_projects"] },
   { id: "career", label: "仕事・キャリアを考える", menuLabel: "仕事・キャリア", purpose: "career", linkIds: ["roles", "career_priorities", "career_consultation", "career_guides"], journeyIds: ["roles", "career_compass", "career_priorities"] },

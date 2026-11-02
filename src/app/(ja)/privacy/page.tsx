@@ -22,6 +22,10 @@ export default function PrivacyPage() {
 
       <section className="legal-layout">
         <article>
+          <h2>製造装置Explorerについて</h2>
+          <p>検索・絞り込み・比較はブラウザ内で処理し、外部AIへ送信しません。「条件・比較を共有」を押すと検索語と選択条件を含むURLを作成します。共有先やURLにアクセスするサーバーで条件が見えるため、個人情報や社内情報を検索語に含めないでください。自由な検索語や共有URLは操作イベントへ送信せず、操作の種類、掲載データのID、結果件数・選択件数だけを計測します。URLに含まれる条件は、ページ表示時のアクセスログやページ解析で処理される場合があります。</p>
+        </article>
+        <article>
           <h2>株式市場の外部表示について</h2>
           <p>株式市場ウォッチでは、TradingViewのウィジェットを読み込み、株価・チャート・期間別パフォーマンスを表示します。表示時にブラウザからTradingViewへ通信し、埋め込み元ページのURL、表示銘柄、ウィジェットの種類、IPアドレスが処理されます。TradingViewの公式説明では、ウィジェットはCookieを設定しないとされています。</p>
           <p>当サイトでは株価を収集・保存しません。企業切替と関連ページへの移動は、固定の企業IDと操作区分で計測します。自由入力や個人情報の入力欄はありません。詳しくは<a href="https://www.tradingview.com/widget-docs/faq/general/">TradingViewのウィジェットに関する説明</a>と<a href="https://www.tradingview.com/privacy-policy/">プライバシーポリシー</a>をご確認ください。</p>

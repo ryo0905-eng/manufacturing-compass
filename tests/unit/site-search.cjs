@@ -9,10 +9,11 @@ const { renderToStaticMarkup } = require('react-dom/server');
 function loader(overrides = {}, globals = {}) {
   const cache = new Map();
   function load(stem) {
-    const file = [stem, `${stem}.ts`, `${stem}.tsx`, path.join(stem, 'index.ts')]
+    const file = [stem, `${stem}.ts`, `${stem}.tsx`, `${stem}.json`, path.join(stem, 'index.ts')]
       .find(candidate => fs.existsSync(candidate) && fs.statSync(candidate).isFile());
     if (!file) throw Error(`Missing module: ${stem}`);
     if (cache.has(file)) return cache.get(file);
+    if (file.endsWith('.json')) return JSON.parse(fs.readFileSync(file, 'utf8'));
     const exports = {};
     cache.set(file, exports);
     const output = ts.transpileModule(fs.readFileSync(file, 'utf8'), {

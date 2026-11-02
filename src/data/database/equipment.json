@@ -1,0 +1,669 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "id": "asml-nxt1980di",
+      "kind": "equipment",
+      "name": "TWINSCAN NXT:1980Di",
+      "englishName": "TWINSCAN NXT:1980Di",
+      "aliases": [
+        "NXT:1980Di"
+      ],
+      "category": "ArF液浸露光",
+      "summary": "300 mmウエハの量産に向けた液浸露光装置。光学条件と用途を確認して比較します。",
+      "manufacturerId": "asml",
+      "processIds": [
+        "expose"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "asml"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "asml-nxt1980di-official",
+            "quote": "NXT:1980Di",
+            "locator": "Key features & benefits / Optics"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "expose"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "asml-nxt1980di-official",
+            "quote": "dual-stage immersion lithography tool",
+            "locator": "Key features & benefits / Optics"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "dual-stage immersion lithography tool",
+          "evidence": {
+            "sourceId": "asml-nxt1980di-official",
+            "quote": "dual-stage immersion lithography tool",
+            "locator": "Key features & benefits / Optics"
+          },
+          "condition": "メーカー公式の技術説明。実機の導入効果を保証する値ではありません。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "193 nm",
+          "evidence": {
+            "sourceId": "asml-nxt1980di-official",
+            "quote": "193 nm catadioptric projection lens",
+            "locator": "Key features & benefits / Optics"
+          },
+          "condition": "光学系の波長"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "asml-nxt1980di-official",
+          "url": "https://www.asml.com/en/products/duv-lithography-systems/twinscan-nxt1980di",
+          "publisher": "ASML",
+          "title": "TWINSCAN NXT:1980Di 公式情報",
+          "checkedAt": "2026-11-02"
+        }
+      ],
+      "lastChecked": "2026-11-02",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "asml-nxe3600d",
+      "kind": "equipment",
+      "name": "TWINSCAN NXE:3600D",
+      "englishName": "TWINSCAN NXE:3600D",
+      "aliases": [
+        "NXE:3600D"
+      ],
+      "category": "EUV露光",
+      "summary": "EUV光でウエハにパターンを転写する露光装置。液浸露光装置とは相補的な用途として案内されています。",
+      "manufacturerId": "asml",
+      "processIds": [
+        "expose"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "asml"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "asml-nxe3600d-official",
+            "quote": "NXE:3600D",
+            "locator": "Key features & benefits"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "expose"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "asml-nxe3600d-official",
+            "quote": "reflective projection optics",
+            "locator": "Key features & benefits"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "reflective projection optics",
+          "evidence": {
+            "sourceId": "asml-nxe3600d-official",
+            "quote": "reflective projection optics",
+            "locator": "Key features & benefits"
+          },
+          "condition": "メーカー公式の技術説明。実機の導入効果を保証する値ではありません。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "13.5 nm",
+          "evidence": {
+            "sourceId": "asml-nxe3600d-official",
+            "quote": "13.5 nm EUV light",
+            "locator": "Key features & benefits"
+          },
+          "condition": "EUV光源の波長"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "asml-nxe3600d-official",
+          "url": "https://www.asml.com/en/products/euv-lithography-systems/twinscan-nxe-3600d",
+          "publisher": "ASML",
+          "title": "TWINSCAN NXE:3600D 公式情報",
+          "checkedAt": "2026-11-02"
+        }
+      ],
+      "lastChecked": "2026-11-02",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "asml-nxe3800e",
+      "kind": "equipment",
+      "name": "TWINSCAN NXE:3800E",
+      "englishName": "TWINSCAN NXE:3800E",
+      "aliases": [
+        "NXE:3800E"
+      ],
+      "category": "EUV露光",
+      "summary": "NXE:3600Dの後継機。ウエハ搬送やステージなどを改良したEUV露光装置です。",
+      "manufacturerId": "asml",
+      "processIds": [
+        "expose"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "asml"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "asml-nxe3800e-official",
+            "quote": "NXE:3800E",
+            "locator": "Key features & benefits"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "expose"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "asml-nxe3800e-official",
+            "quote": "a new wafer handler, faster wafer stages",
+            "locator": "Key features & benefits"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "a new wafer handler, faster wafer stages",
+          "evidence": {
+            "sourceId": "asml-nxe3800e-official",
+            "quote": "a new wafer handler, faster wafer stages",
+            "locator": "Key features & benefits"
+          },
+          "condition": "メーカー公式の技術説明。実機の導入効果を保証する値ではありません。"
+        },
+        "specification": {
+          "status": "unconfirmed",
+          "reason": "この初期収録では、比較条件付きの数値仕様を確認していません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "asml-nxe3800e-official",
+          "url": "https://www.asml.com/en/products/euv-lithography-systems/twinscan-nxe-3800e",
+          "publisher": "ASML",
+          "title": "TWINSCAN NXE:3800E 公式情報",
+          "checkedAt": "2026-11-02"
+        }
+      ],
+      "lastChecked": "2026-11-02",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "tel-cellesta-ms2",
+      "kind": "equipment",
+      "name": "CELLESTA MS2",
+      "englishName": "CELLESTA MS2",
+      "aliases": [
+        "CELLESTA MS2"
+      ],
+      "category": "枚葉洗浄",
+      "summary": "二流体スプレーとブラシによる物理洗浄に対応。ウエハの両面を同時に処理する装置です。",
+      "manufacturerId": "tokyo-electron",
+      "processIds": [
+        "clean"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "tokyo-electron"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "tel-cellesta-ms2-official",
+            "quote": "CELLESTA MS2",
+            "locator": "2022-12-12 製品発表 / 本文"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "clean"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "tel-cellesta-ms2-official",
+            "quote": "dual-fluid spray technology and brushes",
+            "locator": "2022-12-12 製品発表 / 本文"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "dual-fluid spray technology and brushes",
+          "evidence": {
+            "sourceId": "tel-cellesta-ms2-official",
+            "quote": "dual-fluid spray technology and brushes",
+            "locator": "2022-12-12 製品発表 / 本文"
+          },
+          "condition": "メーカー公式の技術説明。実機の導入効果を保証する値ではありません。"
+        },
+        "specification": {
+          "status": "unconfirmed",
+          "reason": "この初期収録では、比較条件付きの数値仕様を確認していません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "tel-cellesta-ms2-official",
+          "url": "https://www.tel.com/news/product/2022/20221212_001.html",
+          "publisher": "Tokyo Electron",
+          "title": "CELLESTA MS2 公式情報",
+          "checkedAt": "2026-11-02"
+        }
+      ],
+      "lastChecked": "2026-11-02",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "tel-cellesta-scd",
+      "kind": "equipment",
+      "name": "CELLESTA SCD",
+      "englishName": "CELLESTA SCD",
+      "aliases": [
+        "CELLESTA SCD"
+      ],
+      "category": "枚葉洗浄・乾燥",
+      "summary": "超臨界乾燥チャンバーを組み込んだ洗浄装置。微細パターンの乾燥時の倒れに対応する技術を紹介しています。",
+      "manufacturerId": "tokyo-electron",
+      "processIds": [
+        "clean"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "tokyo-electron"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "tel-cellesta-scd-official",
+            "quote": "CELLESTA SCD",
+            "locator": "2020-12-08 製品発表 / 本文"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "clean"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "tel-cellesta-scd-official",
+            "quote": "a dedicated supercritical drying chamber",
+            "locator": "2020-12-08 製品発表 / 本文"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "a dedicated supercritical drying chamber",
+          "evidence": {
+            "sourceId": "tel-cellesta-scd-official",
+            "quote": "a dedicated supercritical drying chamber",
+            "locator": "2020-12-08 製品発表 / 本文"
+          },
+          "condition": "メーカー公式の技術説明。実機の導入効果を保証する値ではありません。"
+        },
+        "specification": {
+          "status": "unconfirmed",
+          "reason": "この初期収録では、比較条件付きの数値仕様を確認していません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "tel-cellesta-scd-official",
+          "url": "https://www.tel.com/news/product/2020/20201208_001.html",
+          "publisher": "Tokyo Electron",
+          "title": "CELLESTA SCD 公式情報",
+          "checkedAt": "2026-11-02"
+        }
+      ],
+      "lastChecked": "2026-11-02",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "tel-cellesta-pro-spm",
+      "kind": "equipment",
+      "name": "CELLESTA Pro SPM",
+      "englishName": "CELLESTA Pro SPM",
+      "aliases": [
+        "CELLESTA Pro SPM"
+      ],
+      "category": "枚葉洗浄・ウェットエッチング",
+      "summary": "SPM処理に対応し、CMP後やアッシング後の洗浄、金属膜のウェットエッチング用途が示されています。",
+      "manufacturerId": "tokyo-electron",
+      "processIds": [
+        "clean"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "tokyo-electron"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "tel-cellesta-pro-spm-official",
+            "quote": "CELLESTA Pro SPM",
+            "locator": "2019-03-13 製品発表 / 本文"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "clean"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "tel-cellesta-pro-spm-official",
+            "quote": "post-CMP and post-ash clean processes",
+            "locator": "2019-03-13 製品発表 / 本文"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "post-CMP and post-ash clean processes",
+          "evidence": {
+            "sourceId": "tel-cellesta-pro-spm-official",
+            "quote": "post-CMP and post-ash clean processes",
+            "locator": "2019-03-13 製品発表 / 本文"
+          },
+          "condition": "メーカー公式の技術説明。実機の導入効果を保証する値ではありません。"
+        },
+        "specification": {
+          "status": "unconfirmed",
+          "reason": "この初期収録では、比較条件付きの数値仕様を確認していません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "tel-cellesta-pro-spm-official",
+          "url": "https://www.tel.com/news/product/2019/20190313_001.html",
+          "publisher": "Tokyo Electron",
+          "title": "CELLESTA Pro SPM 公式情報",
+          "checkedAt": "2026-11-02"
+        }
+      ],
+      "lastChecked": "2026-11-02",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "amat-reflexion-lk",
+      "kind": "equipment",
+      "name": "Reflexion LK CMP",
+      "englishName": "Reflexion LK CMP",
+      "aliases": [
+        "Reflexion LK CMP"
+      ],
+      "category": "CMP装置",
+      "summary": "研磨・洗浄・乾燥を組み合わせるCMP装置。逐次研磨と終点検出・工程制御を備えるプラットフォームです。",
+      "manufacturerId": "applied-materials",
+      "processIds": [
+        "cmp"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "applied-materials"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "amat-reflexion-lk-official",
+            "quote": "Reflexion LK CMP",
+            "locator": "Reflexion LK CMP / 製品本文"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "cmp"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "amat-reflexion-lk-official",
+            "quote": "three-platen sequential polishing platform",
+            "locator": "Reflexion LK CMP / 製品本文"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "three-platen sequential polishing platform",
+          "evidence": {
+            "sourceId": "amat-reflexion-lk-official",
+            "quote": "three-platen sequential polishing platform",
+            "locator": "Reflexion LK CMP / 製品本文"
+          },
+          "condition": "メーカー公式の技術説明。実機の導入効果を保証する値ではありません。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "300mm",
+          "evidence": {
+            "sourceId": "amat-reflexion-lk-official",
+            "quote": "300mm CMP platform",
+            "locator": "Reflexion LK CMP / 製品本文"
+          },
+          "condition": "メーカーが示す対象ウエハ径"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "amat-reflexion-lk-official",
+          "url": "https://www.appliedmaterials.com/us/en/product-library/reflexion-lk-cmp.html",
+          "publisher": "Applied Materials",
+          "title": "Reflexion LK CMP 公式情報",
+          "checkedAt": "2026-11-02"
+        }
+      ],
+      "lastChecked": "2026-11-02",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "disco-dfd6363",
+      "kind": "equipment",
+      "name": "DFD6363",
+      "englishName": "DFD6363",
+      "aliases": [
+        "DFD6363"
+      ],
+      "category": "ブレードダイシング",
+      "summary": "300 mmウエハに対応する全自動ダイシングソー。対向する2本のスピンドルを備えます。",
+      "manufacturerId": "disco",
+      "processIds": [
+        "dicing"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "disco"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "disco-dfd6363-official",
+            "quote": "DFD6363",
+            "locator": "特徴 / 対応ウェーハ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "dicing"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "disco-dfd6363-official",
+            "quote": "フェイシングデュアルスピンドル",
+            "locator": "特徴 / 対応ウェーハ"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "フェイシングデュアルスピンドル",
+          "evidence": {
+            "sourceId": "disco-dfd6363-official",
+            "quote": "フェイシングデュアルスピンドル",
+            "locator": "特徴 / 対応ウェーハ"
+          },
+          "condition": "メーカー公式の技術説明。実機の導入効果を保証する値ではありません。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "300 mm",
+          "evidence": {
+            "sourceId": "disco-dfd6363-official",
+            "quote": "Φ300 mmウェーハ対応",
+            "locator": "特徴 / 対応ウェーハ"
+          },
+          "condition": "メーカーが示す対応ウエハ径"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "disco-dfd6363-official",
+          "url": "https://www.disco.co.jp/jp/products/dicer/dfd6363.html",
+          "publisher": "DISCO",
+          "title": "DFD6363 公式情報",
+          "checkedAt": "2026-11-02"
+        }
+      ],
+      "lastChecked": "2026-11-02",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    }
+  ]
+}

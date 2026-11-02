@@ -24,3 +24,6 @@ pnpm-debug.log*
 # Reproducible visual-inspection experiments (not served by Next.js)
 .cache/ai-visual-inspection/
 scripts/ai-visual-inspection/__pycache__/
+
+# Official-source snapshots and database audit logs (not public assets)
+.cache/semiconductor-database/

@@ -1,5 +1,9 @@
 # Static Data Design
 
+## 根拠付き装置カタログ（2026-11-02）
+
+`src/data/database/equipment.json` は、既存企業IDを参照する静的JSON。項目ごとの値・確認状態・原文根拠と、レコードの検証／公開状態を分離する。`release.json` は照合済み内容の指紋、`suspensions.json` は機種・メーカー・出典・工程単位の停止対象。元データの改変だけでは新しい内容を公開投影へ載せない。共通参照型は `src/types/semiconductor-database.ts`、収集と再実行は `scripts/database`。原文キャッシュは公開せずgitignore対象とする。[モデル・品質ゲート・復旧手順](./semiconductor-database-explorer-plan.md)。
+
 最終更新日: 2026-09-05
 
 ## 方針

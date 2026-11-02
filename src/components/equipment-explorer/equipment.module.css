@@ -1,0 +1,45 @@
+.page { max-width: 1180px; margin: auto; padding: 12px 20px 72px; color: var(--mc-text); font-size: 14px; }
+.page h1 { font-size: clamp(24px, 4vw, 28px); margin: 16px 0 12px; }
+.page h2 { font-size: 20px; margin: 0 0 12px; }
+.page h3 { font-size: 18px; margin: 4px 0; overflow-wrap: anywhere; }
+.page p { line-height: 1.8; }
+.page a { color: var(--mc-action); text-underline-offset: 3px; }
+.breadcrumb, .links { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.hero { padding-bottom: 20px; }
+.workspace { display: grid; gap: 24px; }
+.processPanel, .searchPanel, .comparison { background: var(--mc-surface-subtle); border: 1px solid var(--mc-border); border-radius: 8px; padding: 16px; }
+.processes { display: flex; flex-wrap: wrap; gap: 8px; }
+.processes button { flex: 1 1 150px; justify-content: flex-start; text-align: left; }
+.context { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--mc-border); }
+.context span, .related { display: flex; flex-wrap: wrap; gap: 16px; }
+.searchPanel form { display: grid; grid-template-columns: 2fr 1fr 1fr auto; align-items: end; gap: 12px; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; }
+.toolbar p { margin-right: auto; }
+.note, .page small { color: var(--mc-text-muted); font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.page small { display: block; }
+.records { display: grid; gap: 12px; }
+.record { border-bottom: 1px solid var(--mc-border); padding: 16px 0; }
+.recordHeading { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.record details { margin: 12px 0; }
+.record summary { min-height: 44px; align-content: center; cursor: pointer; color: var(--mc-action); }
+.facts { display: grid; gap: 12px; }
+.facts div { display: grid; grid-template-columns: 140px 1fr; gap: 12px; }
+.facts dt { font-weight: 600; }
+.facts dd { margin: 0; }
+.related a, .links a { min-height: 44px; align-content: center; }
+.empty { padding: 24px; background: var(--mc-surface-subtle); }
+.tableScroll { max-width: 100%; overflow-x: auto; }
+.tableScroll table { border-collapse: collapse; width: 100%; min-width: 620px; background: var(--mc-surface); font-size: 13px; }
+.tableScroll th, .tableScroll td { padding: 12px; border: 1px solid var(--mc-border); text-align: left; vertical-align: top; min-width: 160px; overflow-wrap: anywhere; }
+.tableScroll th:first-child { min-width: 100px; }
+.tableScroll caption { text-align: left; padding: 12px 0; }
+.tableScroll button { display: block; margin-top: 8px; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.page :focus-visible { outline: 2px solid var(--mc-focus); outline-offset: 3px; }
+@media (max-width: 720px) {
+  .page { padding-inline: 16px; }
+  .searchPanel form { grid-template-columns: 1fr; }
+  .recordHeading { align-items: flex-start; flex-direction: column; }
+  .facts div { grid-template-columns: 1fr; gap: 4px; }
+  .processes button { flex-basis: 130px; }
+}

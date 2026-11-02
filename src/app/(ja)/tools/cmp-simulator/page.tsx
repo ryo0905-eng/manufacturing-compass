@@ -11,6 +11,7 @@ const description = "研磨条件を変えながら、CMPの仕組み、平坦�
 export const metadata: Metadata = { title, description, alternates: { canonical: route }, robots: { index: true, follow: true }, openGraph: { title, description, url: `${siteUrl}${route}`, type: "website" }, twitter: { card: "summary_large_image", title, description } };
 
 const links = [
+  { href: "/equipment?process=cmp", title: "CMP装置を探して比較", text: "機種の公式仕様・出典から企業研究へ進む" },
   { href: "/guides/semiconductor-cmp-process", title: "CMPプロセスとは", text: "原理から工程の役割まで詳しく読む" },
   { href: "/guides/semiconductor-cmp-equipment-manufacturers", title: "CMP装置メーカー", text: "装置とメーカーの特徴を知る" },
   { href: "/guides/semiconductor-cmp-slurry-manufacturers", title: "CMPスラリーメーカー", text: "研磨を支える材料を知る" },

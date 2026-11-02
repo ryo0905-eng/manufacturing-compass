@@ -9,6 +9,12 @@ import { track as trackVercelEvent } from "@vercel/analytics";
 type AnalyticsValue = boolean | number | string;
 type AnalyticsProperties = Record<string, AnalyticsValue | undefined>;
 
+type EquipmentEvent = "equipment_filter" | "equipment_search" | "equipment_compare" | "equipment_detail" | "equipment_share" | "equipment_related";
+/** Only catalog IDs and fixed action labels; never send query text or shared URLs. */
+export function trackEquipmentEvent(event: EquipmentEvent, properties: { action: "process" | "manufacturer" | "category" | "clear" | "submit" | "add" | "remove" | "open" | "url" | "company" | "lab"; equipment_id?: string; process_id?: string; selected_count?: number; result_count?: number }) {
+  trackEvent(event, properties);
+}
+
 export type AnalyticsEventMap = {
   career_compass_share: { action: "image_save" | "image_share" | "text_copy"; result: "success" | "unavailable" };
   career_compass_retry: { action: "review" | "restart" };

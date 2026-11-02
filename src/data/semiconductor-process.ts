@@ -47,6 +47,7 @@ export const questions = [
   { id: 'wash', title: 'なぜまた洗う？', body: '処理の後には粒子や反応の残留物などが残ることがあります。次に膜をつけたり模様を作ったりする前に、それらを材料に合った方法で除きます。洗うことと、狙った形に削ることは別の役割です。' },
 ] as const;
 export const processRelated = [
+  { id: 'equipment_explorer', label: '工程から製造装置を探して比較', href: '/equipment' },
   { id: 'process_guide', label: '全工程を詳しく読む', href: '/guides/semiconductor-manufacturing-process' },
   { id: 'industry_map', label: 'この工程に関わる企業を業界地図で見る', href: '/industry-map' },
   { id: 'litho_lab', label: '露光条件を変えてリソグラフィを学ぶ', href: '/tools/litho-simulator' },

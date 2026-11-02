@@ -7,6 +7,7 @@ import { learningTools } from "@/data/learning-tools";
 import { siteLinks } from "@/data/site-navigation";
 import { buildAtlasCompanies, buildDirectoryCompanies } from "@/lib/company-explorer";
 import type { SiteSearchEntry } from "@/lib/site-search";
+import { getReleasedEquipment } from "@/lib/equipment-catalog";
 
 const companyAliases: Record<string, readonly string[]> = {
   "tokyo-electron": ["Tokyo Electron", "TEL"],
@@ -23,6 +24,11 @@ export function buildSiteSearchIndex(): SiteSearchEntry[] {
   const shortTitles = new Map(industryGuideCollections.flatMap((collection) => collection.guides.map((guide) => [guide.slug, guide.shortTitle] as const)));
   const atlasCompanies = buildAtlasCompanies(buildDirectoryCompanies(companies, [], []));
   const entries: SiteSearchEntry[] = [
+    ...getReleasedEquipment().map((record): SiteSearchEntry => ({
+      id: `equipment:${record.id}`, kind: "page", title: record.name, description: record.summary,
+      href: `/equipment?q=${encodeURIComponent(record.name)}` as Route,
+      keywords: [...record.aliases, record.category, record.manufacturerId],
+    })),
     ...beginnerGuides.filter((guide) => guide.status === "published").map((guide): SiteSearchEntry => ({
       id: `article:${guide.slug}`, kind: "article", title: guide.title, description: guide.description,
       href: `/guides/${guide.slug}` as Route, keywords: [shortTitles.get(guide.slug) ?? guide.title],

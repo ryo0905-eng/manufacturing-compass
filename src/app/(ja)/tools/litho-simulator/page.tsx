@@ -11,6 +11,7 @@ const description = "露光量と焦点を変えながら、フォトリソグ�
 export const metadata: Metadata = { title, description, alternates: { canonical: route }, robots: { index: true, follow: true }, openGraph: { title, description, url: `${siteUrl}${route}`, type: "website" }, twitter: { card: "summary_large_image", title, description } };
 
 const links = [
+  { href: "/equipment?process=expose", title: "露光装置を探して比較", text: "機種の公式仕様・出典から企業研究へ進む" },
   { href: "/guides/photolithography-process", title: "フォトリソグラフィとは", text: "原理から工程の役割まで詳しく読む" },
   { href: "/guides/semiconductor-lithography-equipment-manufacturers", title: "露光装置メーカー", text: "装置とメーカーの特徴を知る" },
   { href: "/guides/semiconductor-photomask-manufacturers", title: "フォトマスクメーカー", text: "回路原版を支える企業を知る" },

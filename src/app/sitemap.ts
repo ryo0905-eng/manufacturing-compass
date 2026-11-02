@@ -48,6 +48,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     japanWorkRoute,
     processRoute,
     "/tools/cmp-simulator",
+    "/equipment",
     "/tools/litho-simulator",
     improvementRoute,
     ...(isCorrelationPublished() ? [correlationRoute] : []),

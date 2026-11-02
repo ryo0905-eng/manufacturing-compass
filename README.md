@@ -25,6 +25,8 @@ Manufacturing Compass は、製造技術者の仕事と半導体キャリアの�
 
 ### 情報コンテンツ
 
+- 製造装置Explorer（`/equipment`）：工程・メーカー別の機種検索、最大3機種の公開仕様比較、既存Labとの接続。[データ収集・品質ゲートと制限](docs/semiconductor-database-explorer-plan.md)
+
 - 半導体業界地図とセグメント
 - 企業一覧、企業詳細、キャリア準備、企業比較
 - 半導体製造工程、装置、材料、部品の技術解説

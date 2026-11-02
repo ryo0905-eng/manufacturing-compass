@@ -1,0 +1,7 @@
+{
+  "recordIds": [],
+  "manufacturerIds": [],
+  "sourceIds": [],
+  "processIds": [],
+  "reason": "重大な誤りが判明した場合、対象IDを追加して再デプロイする。空配列は停止対象なし。"
+}
