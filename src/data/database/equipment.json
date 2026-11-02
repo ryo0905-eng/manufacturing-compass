@@ -664,6 +664,782 @@
         "status": "published",
         "index": false
       }
+    },
+    {
+      "id": "nikon-nsr-s636e",
+      "kind": "equipment",
+      "name": "NSR-S636E",
+      "englishName": "NSR-S636E",
+      "aliases": [],
+      "category": "ArF液浸露光",
+      "summary": "ArF液浸露光スキャナー。公式仕様と測定条件を確認できます。",
+      "manufacturerId": "nikon",
+      "processIds": [
+        "expose"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "nikon"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "NSR-S636E",
+            "locator": "製品名"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "expose"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "ArF Immersion Scanners",
+            "locator": "製品紹介"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "ArF Immersion Scanners",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "ArF Immersion Scanners",
+            "locator": "製品紹介"
+          },
+          "condition": "メーカー公式の技術説明。"
+        },
+        "resolution": {
+          "status": "verified",
+          "value": "≦ 38 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "≦ 38 nm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "na": {
+          "status": "verified",
+          "value": "NA 1.35",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "NA 1.35",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "light": {
+          "status": "verified",
+          "value": "ArF excimer laser (193 nm wavelength)",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "ArF excimer laser (193 nm wavelength)",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "reduction": {
+          "status": "verified",
+          "value": "Reduction ratio 1:4",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "Reduction ratio 1:4",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "field": {
+          "status": "verified",
+          "value": "26 mm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "Maximum exposure field 26 mm &times; 33 mm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "公式資料で確認できませんでした。"
+        },
+        "overlay": {
+          "status": "verified",
+          "value": "≦ 2.1 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "≦ 2.1 nm (MMO *1 )",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "≦ 2.1 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "≦ 2.1 nm (MMO *1 )",
+            "locator": "Specifications"
+          },
+          "condition": "MMO：同一機種間の重ね合わせ精度。解像度 ≦ 38 nm、NA 1.35、ArF 193 nm、縮小比 1:4、最大露光範囲 26 mm × 33 mm。ウェーハサイズは未確認。"
+        },
+        "throughput": {
+          "status": "verified",
+          "value": "≧ 280 wafers/hour (96 shots)",
+          "evidence": {
+            "sourceId": "nikon-nsr-s636e-official",
+            "quote": "≧ 280 wafers/hour (96 shots)",
+            "locator": "Specifications"
+          },
+          "condition": "公式の測定条件を含みます。異なる条件の値を単純比較できません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "nikon-nsr-s636e-official",
+          "url": "https://www.nikon.com/business/semi/lineup/",
+          "publisher": "Nikon",
+          "title": "NSR-S636E 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "nikon-nsr-s635e",
+      "kind": "equipment",
+      "name": "NSR-S635E",
+      "englishName": "NSR-S635E",
+      "aliases": [],
+      "category": "ArF液浸露光",
+      "summary": "ArF液浸露光スキャナー。公式仕様と測定条件を確認できます。",
+      "manufacturerId": "nikon",
+      "processIds": [
+        "expose"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "nikon"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "NSR-S635E",
+            "locator": "製品名"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "expose"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "ArF Immersion Scanners",
+            "locator": "製品紹介"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "ArF Immersion Scanners",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "ArF Immersion Scanners",
+            "locator": "製品紹介"
+          },
+          "condition": "メーカー公式の技術説明。"
+        },
+        "resolution": {
+          "status": "verified",
+          "value": "≦ 38 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "≦ 38 nm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "na": {
+          "status": "verified",
+          "value": "NA 1.35",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "NA 1.35",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "light": {
+          "status": "verified",
+          "value": "ArF excimer laser (193 nm wavelength)",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "ArF excimer laser (193 nm wavelength)",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "reduction": {
+          "status": "verified",
+          "value": "Reduction ratio 1:4",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "Reduction ratio 1:4",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "field": {
+          "status": "verified",
+          "value": "26 mm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "Maximum exposure field 26 mm &times; 33 mm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "公式資料で確認できませんでした。"
+        },
+        "overlay": {
+          "status": "verified",
+          "value": "≦ 2.1 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "≦ 2.1 nm (MMO *1 )",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "≦ 2.1 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "≦ 2.1 nm (MMO *1 )",
+            "locator": "Specifications"
+          },
+          "condition": "MMO：同一機種間の重ね合わせ精度。解像度 ≦ 38 nm、NA 1.35、ArF 193 nm、縮小比 1:4、最大露光範囲 26 mm × 33 mm。ウェーハサイズは未確認。"
+        },
+        "throughput": {
+          "status": "verified",
+          "value": "≧ 275 wafers/hour (96 shots)",
+          "evidence": {
+            "sourceId": "nikon-nsr-s635e-official",
+            "quote": "≧ 275 wafers/hour (96 shots)",
+            "locator": "Specifications"
+          },
+          "condition": "公式の測定条件を含みます。異なる条件の値を単純比較できません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "nikon-nsr-s635e-official",
+          "url": "https://www.nikon.com/business/semi/lineup/",
+          "publisher": "Nikon",
+          "title": "NSR-S635E 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "nikon-nsr-s625e",
+      "kind": "equipment",
+      "name": "NSR-S625E",
+      "englishName": "NSR-S625E",
+      "aliases": [],
+      "category": "ArF液浸露光",
+      "summary": "ArF液浸露光スキャナー。公式仕様と測定条件を確認できます。",
+      "manufacturerId": "nikon",
+      "processIds": [
+        "expose"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "nikon"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "NSR-S625E",
+            "locator": "製品名"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "expose"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "ArF Immersion Scanners",
+            "locator": "製品紹介"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "ArF Immersion Scanners",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "ArF Immersion Scanners",
+            "locator": "製品紹介"
+          },
+          "condition": "メーカー公式の技術説明。"
+        },
+        "resolution": {
+          "status": "verified",
+          "value": "≦ 38 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "≦ 38 nm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "na": {
+          "status": "verified",
+          "value": "NA 1.35",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "NA 1.35",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "light": {
+          "status": "verified",
+          "value": "ArF excimer laser (193 nm wavelength)",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "ArF excimer laser (193 nm wavelength)",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "reduction": {
+          "status": "verified",
+          "value": "Reduction ratio 1:4",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "Reduction ratio 1:4",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "field": {
+          "status": "verified",
+          "value": "26 mm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "Maximum exposure field 26 mm &times; 33 mm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "公式資料で確認できませんでした。"
+        },
+        "overlay": {
+          "status": "verified",
+          "value": "≦ 2.5 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "≦ 2.5 nm (MMO *1 )",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "≦ 2.5 nm",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "≦ 2.5 nm (MMO *1 )",
+            "locator": "Specifications"
+          },
+          "condition": "MMO：同一機種間の重ね合わせ精度。解像度 ≦ 38 nm、NA 1.35、ArF 193 nm、縮小比 1:4、最大露光範囲 26 mm × 33 mm。ウェーハサイズは未確認。"
+        },
+        "throughput": {
+          "status": "verified",
+          "value": "≧ 280 wafers/hour (96 shots)",
+          "evidence": {
+            "sourceId": "nikon-nsr-s625e-official",
+            "quote": "≧ 280 wafers/hour (96 shots)",
+            "locator": "Specifications"
+          },
+          "condition": "公式の測定条件を含みます。異なる条件の値を単純比較できません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "nikon-nsr-s625e-official",
+          "url": "https://www.nikon.com/business/semi/lineup/",
+          "publisher": "Nikon",
+          "title": "NSR-S625E 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "canon-fpa-6300es6a",
+      "kind": "equipment",
+      "name": "FPA-6300ES6a",
+      "englishName": "FPA-6300ES6a",
+      "aliases": [],
+      "category": "KrF露光",
+      "summary": "KrF露光スキャナー。公式仕様と測定条件を確認できます。",
+      "manufacturerId": "canon",
+      "processIds": [
+        "expose"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "canon"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "FPA-6300ES6a",
+            "locator": "製品名"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "expose"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "High Resolution / High Productivity KrF Scanner",
+            "locator": "製品紹介"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "High Resolution / High Productivity KrF Scanner",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "High Resolution / High Productivity KrF Scanner",
+            "locator": "製品紹介"
+          },
+          "condition": "メーカー公式の技術説明。"
+        },
+        "resolution": {
+          "status": "verified",
+          "value": "90 nm",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "Resolution &lE; 90 nm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "na": {
+          "status": "verified",
+          "value": "NA (Numerical Aperture) 0.86~0.50 (Variable)",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "NA (Numerical Aperture) 0.86~0.50 (Variable)",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "light": {
+          "status": "verified",
+          "value": "KrF 248 nm",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "KrF 248 nm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "reduction": {
+          "status": "verified",
+          "value": "Reduction Ratio 1:4",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "Reduction Ratio 1:4",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "field": {
+          "status": "verified",
+          "value": "26 mm x 33 mm",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "26 mm x 33 mm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "wafer": {
+          "status": "verified",
+          "value": "200 mm (8 inch), 300 mm (12 inch) (Selection)",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "200 mm (8 inch), 300 mm (12 inch) (Selection)",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "overlay": {
+          "status": "verified",
+          "value": "≤ 5nm",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "≤ 5nm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "≤ 5nm",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "≤ 5nm",
+            "locator": "Specifications"
+          },
+          "condition": "Mix & Match、オプション適用時。解像度 ≦ 90 nm、NA 0.86〜0.50、KrF 248 nm、縮小比 1:4、露光範囲 26 × 33 mm、ウェーハ 200 / 300 mm。"
+        },
+        "throughput": {
+          "status": "verified",
+          "value": "200 wph",
+          "evidence": {
+            "sourceId": "canon-fpa-6300es6a-official",
+            "quote": "throughput of the FPA-6300ES6a is over *200 wph (wafers per hour) which is 1.6 times higher productivity than previous FPA-6000ES6a model scanners. * 300 mm (12 inch) wafer, 98 shots, with Options applied",
+            "locator": "Specifications"
+          },
+          "condition": "200枚/時超。300 mmウェーハ、98ショット、オプション適用時。条件が異なる値は単純比較できません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "canon-fpa-6300es6a-official",
+          "url": "https://global.canon/en/product/indtech/semicon/fpa6300es6a.html",
+          "publisher": "Canon",
+          "title": "FPA-6300ES6a 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "canon-fpa-5520iv",
+      "kind": "equipment",
+      "name": "FPA-5520iV",
+      "englishName": "FPA-5520iV",
+      "aliases": [],
+      "category": "i線露光",
+      "summary": "先端パッケージング向けi線ステッパー。基本機の公式仕様を掲載しています。",
+      "manufacturerId": "canon",
+      "processIds": [
+        "expose"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "canon"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "FPA-5520iV",
+            "locator": "製品名"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "expose"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "i-line stepper for advanced packaging",
+            "locator": "製品紹介"
+          }
+        }
+      ],
+      "facts": {
+        "feature": {
+          "status": "verified",
+          "value": "i-line stepper for advanced packaging",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "i-line stepper for advanced packaging",
+            "locator": "製品紹介"
+          },
+          "condition": "メーカー公式の技術説明。"
+        },
+        "resolution": {
+          "status": "verified",
+          "value": "Resolution FPA-5520iV: &lE;1.5&micro;m",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "Resolution FPA-5520iV: &lE;1.5&micro;m",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "na": {
+          "status": "verified",
+          "value": "FPA-5520iV:0.18~0.15 (Variable)",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "FPA-5520iV:0.18~0.15 (Variable)",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "light": {
+          "status": "verified",
+          "value": "i-Line 365nm",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "i-Line 365nm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "reduction": {
+          "status": "verified",
+          "value": "Reduction Ratio 1:2",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "Reduction Ratio 1:2",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "field": {
+          "status": "verified",
+          "value": "52 mm x 34 mm",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "52 mm x 34 mm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "wafer": {
+          "status": "verified",
+          "value": "300 mm (12 inch)",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "300 mm (12 inch)",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "overlay": {
+          "status": "verified",
+          "value": "≦0.15 µm",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "≦0.15 µm",
+            "locator": "Specifications"
+          },
+          "condition": "メーカー公表値。条件の違いに注意。"
+        },
+        "specification": {
+          "status": "verified",
+          "value": "≦0.15 µm",
+          "evidence": {
+            "sourceId": "canon-fpa-5520iv-official",
+            "quote": "≦0.15 µm",
+            "locator": "Specifications"
+          },
+          "condition": "基本機の公表値。測定基準は未確認。解像度 ≦1.5 µm、NA 0.18〜0.15、i線 365 nm、縮小比 1:2、露光範囲 52 × 34 mm、ウェーハ 300 mm。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "公式資料で測定条件を伴う処理能力の数値を確認できませんでした。"
+        }
+      },
+      "sources": [
+        {
+          "id": "canon-fpa-5520iv-official",
+          "url": "https://global.canon/en/product/indtech/semicon/fpa5520iv.html",
+          "publisher": "Canon",
+          "title": "FPA-5520iV 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
     }
   ]
 }

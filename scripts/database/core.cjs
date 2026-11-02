@@ -3,7 +3,7 @@ const crypto = require('node:crypto');
 const normalize = value => String(value).normalize('NFKC').replace(/[®™]/g, '').replace(/\s+/g, ' ').trim();
 const fingerprint = value => crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const todayJst = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
-const allowedHosts = new Set(['www.asml.com', 'www.tel.com', 'www.disco.co.jp', 'www.appliedmaterials.com']);
+const allowedHosts = new Set(['www.asml.com', 'www.tel.com', 'www.disco.co.jp', 'www.appliedmaterials.com', 'www.nikon.com', 'global.canon']);
 function officialUrl(value) {
   try {
     const url = new URL(value);
@@ -52,7 +52,7 @@ function inspect(catalog, registry, snapshots = {}, today = todayJst()) {
       if (!source.id || sources.has(source.id)) fail('duplicate-or-missing-source-id');
       sources.set(source.id, source);
       if (!officialUrl(source.url)) fail(`non-allowlisted-source:${source.id}`);
-      const manufacturerHosts = { asml: 'www.asml.com', 'tokyo-electron': 'www.tel.com', disco: 'www.disco.co.jp', 'applied-materials': 'www.appliedmaterials.com' };
+      const manufacturerHosts = { asml: 'www.asml.com', 'tokyo-electron': 'www.tel.com', disco: 'www.disco.co.jp', 'applied-materials': 'www.appliedmaterials.com', nikon: 'www.nikon.com', canon: 'global.canon' };
       if (officialUrl(source.url) && new URL(source.url).hostname !== manufacturerHosts[record.manufacturerId]) fail(`manufacturer-source-mismatch:${source.id}`);
       if (!validDate(source.checkedAt) || !source.title || !source.publisher) fail(`invalid-source:${source.id}`);
       const snapshot = snapshots[source.id];

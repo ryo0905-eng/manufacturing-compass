@@ -42,43 +42,43 @@ function snapshots(input = catalog) {
     return [s.id, { url: s.url, ok: true, text, hash: core.fingerprint(text) }];
   })));
 }
-test('initial catalog: 8 models, 4 manufacturers, all explicit facts have evidence', () => {
-  assert.equal(catalog.records.length, 8);
-  assert.equal(new Set(catalog.records.map(r => r.manufacturerId)).size, 4);
-  assert.equal(core.inspect(catalog, registry, snapshots(), '2026-11-02').filter(r => r.errors.length).length, 0);
+test('catalog: 13 models, 6 manufacturers, all explicit facts have evidence', () => {
+  assert.equal(catalog.records.length, 13);
+  assert.equal(new Set(catalog.records.map(r => r.manufacturerId)).size, 6);
+  assert.equal(core.inspect(catalog, registry, snapshots(), '2026-11-03').filter(r => r.errors.length).length, 0);
 });
 test('fabricated numbers and missing quotes are held', () => {
   const input = copy(); input.records[0].facts.specification.value = '192 nm';
-  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-02')[0].errors.includes('value-not-in-quote:specification'));
+  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-03')[0].errors.includes('value-not-in-quote:specification'));
   input.records[0].facts.feature.evidence.quote = 'invented technical claim';
-  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-02')[0].errors.includes('quote-not-in-source:feature'));
+  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-03')[0].errors.includes('quote-not-in-source:feature'));
 });
 test('numeric substrings are not accepted as supported values', () => {
   const input = copy(); const fact = input.records[0].facts.specification;
   fact.value = '93 nm';
-  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-02')[0].errors.includes('numeric-token-mismatch:specification'));
+  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-03')[0].errors.includes('numeric-token-mismatch:specification'));
 });
 test('foreign manufacturer sources and an unrelated model are rejected', () => {
   const input = copy(); input.records[0].manufacturerId = 'disco';
-  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-02')[0].errors.some(e => e.startsWith('manufacturer-source-mismatch')));
+  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-03')[0].errors.some(e => e.startsWith('manufacturer-source-mismatch')));
   const s = snapshots(); s[catalog.records[0].sources[0].id].text = 'unrelated page';
   s[catalog.records[0].sources[0].id].hash = core.fingerprint('unrelated page');
-  assert.ok(core.inspect(catalog, registry, s, '2026-11-02')[0].errors.some(e => e.startsWith('model-not-in-source')));
+  assert.ok(core.inspect(catalog, registry, s, '2026-11-03')[0].errors.some(e => e.startsWith('model-not-in-source')));
 });
 test('both duplicate records, changed source and dangling references are held', () => {
   const input = copy(); input.records.push(structuredClone(input.records[0]));
-  const rows = core.inspect(input, registry, snapshots(), '2026-11-02');
+  const rows = core.inspect(input, registry, snapshots(), '2026-11-03');
   assert.ok(rows[0].errors.includes('invalid-or-duplicate-id'));
   assert.ok(rows.at(-1).errors.includes('duplicate-manufacturer-model'));
   const s = snapshots(); s[catalog.records[0].sources[0].id].changed = true;
-  assert.ok(core.inspect(catalog, registry, s, '2026-11-02')[0].errors.some(e => e.startsWith('source-changed')));
+  assert.ok(core.inspect(catalog, registry, s, '2026-11-03')[0].errors.some(e => e.startsWith('source-changed')));
   input.records[0].relations[0].target.id = 'missing';
-  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-02')[0].errors.includes('dangling-relation'));
+  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-03')[0].errors.includes('dangling-relation'));
 });
 test('failed downloads and unverified semantics cannot release', () => {
-  assert.ok(core.inspect(catalog, registry, {}, '2026-11-02').every(r => r.errors.length));
+  assert.ok(core.inspect(catalog, registry, {}, '2026-11-03').every(r => r.errors.length));
   const input = copy(); input.records[0].verification.status = 'unconfirmed';
-  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-02')[0].errors.includes('semantic-verification-pending'));
+  assert.ok(core.inspect(input, registry, snapshots(), '2026-11-03')[0].errors.includes('semantic-verification-pending'));
 });
 test('suspension supports record, maker, process and source groups', () => {
   for (const [key, id] of [['recordIds', catalog.records[0].id], ['manufacturerIds', 'asml'], ['processIds', 'expose'], ['sourceIds', catalog.records[0].sources[0].id]]) {
@@ -88,6 +88,8 @@ test('suspension supports record, maker, process and source groups', () => {
 test('allowlist rejects arbitrary hosts, credentials, HTTP and nonstandard ports', () => {
   for (const url of ['http://www.asml.com/', 'https://www.asml.com.evil.test/', 'https://localhost/', 'https://user:pass@www.asml.com/', 'https://www.asml.com:8443/']) assert.equal(core.officialUrl(url), false);
   assert.equal(core.officialUrl('https://www.asml.com/en/products'), true);
+  for (const host of ['www.nikon.com', 'global.canon']) assert.equal(core.officialUrl('https://' + host + '/'), true);
+  for (const host of ['nikon.com.evil.test', 'global.canon.evil.test']) assert.equal(core.officialUrl('https://' + host + '/'), false);
   assert.equal(core.sourceText('<script>fake</script><p>193&nbsp;nm &amp; optics</p>'), '193 nm & optics');
 });
 test('audit sample can be replayed independently of record ordering', () => {
@@ -132,7 +134,7 @@ test('server projection actually removes changed and suspended records', () => {
 });
 test('cached evidence tampering fails its content hash', () => {
   const s = snapshots(); s[catalog.records[0].sources[0].id].text += ' altered';
-  assert.ok(core.inspect(catalog, registry, s, '2026-11-02')[0].errors.some(e => e.startsWith('snapshot-integrity-error')));
+  assert.ok(core.inspect(catalog, registry, s, '2026-11-03')[0].errors.some(e => e.startsWith('snapshot-integrity-error')));
 });
 test('base route indexes, all condition URLs noindex and retain the base canonical', async () => {
   const page = load('src/app/(ja)/equipment/page.tsx');
@@ -140,4 +142,17 @@ test('base route indexes, all condition URLs noindex and retain the base canonic
   assert.equal(base.robots.index, true);
   const filtered = await page.generateMetadata({ searchParams: Promise.resolve({ q: 'EUV', compare: 'bogus' }) });
   assert.equal(filtered.robots.index, false); assert.equal(filtered.alternates.canonical, '/equipment');
+});
+
+test('exposure comparison retains manufacturer and measurement conditions', () => {
+  const exposure = catalog.records.filter(r => r.processIds.includes('expose'));
+  assert.deepEqual([...new Set(exposure.map(r => r.manufacturerId))].sort(), ['asml', 'canon', 'nikon']);
+  const nikon = exposure.find(r => r.id === 'nikon-nsr-s636e');
+  const canon = exposure.find(r => r.id === 'canon-fpa-6300es6a');
+  assert.match(nikon.facts.specification.condition, /MMO/);
+  assert.match(nikon.facts.throughput.value, /96 shots/);
+  assert.match(canon.facts.throughput.condition, /98ショット/);
+  const { EquipmentExplorer } = load('src/components/equipment-explorer/EquipmentExplorer.tsx');
+  const html = renderToStaticMarkup(React.createElement(EquipmentExplorer, { records: catalog.records, processes, manufacturers: companies.map(c => ({ id: c.id, name: c.nameJa, href: '/companies/' + c.slug })), initial: { ...model.emptyEquipmentFilters, compare: ['asml-nxt1980di', nikon.id, canon.id] } }));
+  assert.match(html, /96 shots/); assert.match(html, /98ショット/); assert.match(html, /MMO/);
 });
