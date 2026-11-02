@@ -15,6 +15,8 @@ function FactValue({ fact }: { fact?: Fact }) {
   return <><strong>{factText(fact)}</strong><small>{fact?.status === "verified" ? fact.condition : fact?.reason}</small></>;
 }
 
+const etchFacts = [["wafer", "対応ウェーハ径"], ["chambers", "装置構成"], ["application", "対象アプリケーション・膜種"], ["plasma", "プラズマ方式"], ["substrate", "対応基板"]];
+
 export function EquipmentExplorer({ records, processes, manufacturers, initial }: Props) {
   const [filters, setFilters] = useState(initial);
   const [shareUrl, setShareUrl] = useState("");
@@ -76,7 +78,7 @@ export function EquipmentExplorer({ records, processes, manufacturers, initial }
           <div className={styles.recordHeading}><div><small>{record.category} · {maker.name}</small><h3>{record.name}</h3></div><SelectionButton selected={filters.compare.includes(record.id)} disabled={!filters.compare.includes(record.id) && selected.length === 3} onClick={() => toggle(record.id)}>{filters.compare.includes(record.id) ? "比較から外す" : "比較に追加"}<span className={styles.srOnly}>：{record.name}</span></SelectionButton></div>
           <p>{record.summary}</p>
           <details onToggle={event => { if (event.currentTarget.open) trackEquipmentEvent("equipment_detail", { action: "open", equipment_id: record.id }); }}><summary>公開仕様・根拠・関連情報を開く</summary>
-            <dl className={styles.facts}>{[["feature", "技術上の特徴"], ["specification", "確認した数値仕様"], ["throughput", "処理能力"]].map(([key, label]) => <div key={key}><dt>{label}</dt><dd><FactValue fact={record.facts[key]}/></dd></div>)}</dl>
+            <dl className={styles.facts}>{(record.processIds.includes("etch") ? [...etchFacts, ["throughput", "処理能力"]] : [["feature", "技術上の特徴"], ["specification", "確認した数値仕様"], ["throughput", "処理能力"]]).map(([key, label]) => <div key={key}><dt>{label}</dt><dd><FactValue fact={record.facts[key]}/></dd></div>)}</dl>
             <nav className={styles.related} aria-label={`${record.name}の関連情報`}><Link href={maker.href} onClick={() => trackEquipmentEvent("equipment_related", { action: "company", equipment_id: record.id })}>{maker.name}の企業情報 →</Link>{record.processIds.map(id => {
               const p = processes.find(item => item.id === id)!;
               return <Link href={p.lab} key={id} onClick={() => trackEquipmentEvent("equipment_related", { action: "lab", equipment_id: record.id, process_id: id })}>{p.name}の原理を体験 →</Link>;
@@ -95,7 +97,7 @@ export function EquipmentExplorer({ records, processes, manufacturers, initial }
         <tr><th scope="row">メーカー</th>{selected.map(r => <td key={r.id}>{names[r.manufacturerId]}</td>)}</tr>
         <tr><th scope="row">対応工程・製品分類</th>{selected.map(r => <td key={r.id}>{r.processIds.map(id => processes.find(p => p.id === id)?.name).join("・")}<small>{r.category}</small></td>)}</tr>
         <tr><th scope="row">主要用途</th>{selected.map(r => <td key={r.id}>{r.summary}</td>)}</tr>
-        {[["feature", "技術上の特徴"], ["specification", "公開仕様と条件"], ["throughput", "処理能力"]].map(([key, label]) => <tr key={key}><th scope="row">{label}</th>{selected.map(r => <td key={r.id}><FactValue fact={r.facts[key]}/></td>)}</tr>)}
+        {[...(selected.some(r => !r.processIds.includes("etch")) ? [["feature", "技術上の特徴"], ["specification", "公開仕様と条件"]] : []), ["throughput", "処理能力"], ...(selected.some(r => r.processIds.includes("etch")) ? etchFacts : [])].map(([key, label]) => <tr key={key}><th scope="row">{label}</th>{selected.map(r => <td key={r.id}><FactValue fact={r.facts[key]}/></td>)}</tr>)}
         <tr><th scope="row">出典・確認日</th>{selected.map(r => <td key={r.id}>{r.sources.map(s => <p key={s.id}><a href={s.url}>{s.publisher}公式</a><small>{s.checkedAt}</small></p>)}</td>)}</tr>
       </tbody></table></div>}
     </section>

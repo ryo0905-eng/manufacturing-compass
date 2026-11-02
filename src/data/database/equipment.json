@@ -1440,6 +1440,528 @@
         "status": "published",
         "index": false
       }
+    },
+    {
+      "id": "tel-tactras",
+      "kind": "equipment",
+      "name": "Tactras",
+      "englishName": "Tactras",
+      "aliases": [],
+      "category": "プラズマエッチング",
+      "summary": "300 mmウェーハに対応するプラズマエッチング装置。",
+      "manufacturerId": "tokyo-electron",
+      "processIds": [
+        "etch"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "tokyo-electron"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "tel-tactras-etch-official",
+            "quote": "Tactras",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "etch"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "tel-tactras-etch-official",
+            "quote": "プラズマエッチング装置",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "wafer": {
+          "status": "verified",
+          "value": "Wafer size (mm) 300 300 300",
+          "evidence": {
+            "sourceId": "tel-tactras-etch-official",
+            "quote": "Wafer size (mm) 300 300 300",
+            "locator": "シリーズの比較 / Wafer size"
+          },
+          "condition": "比較表の対象機種の列は300 mm。"
+        },
+        "chambers": {
+          "status": "verified",
+          "value": "Number of chambers 1-6 1-12 1-6",
+          "evidence": {
+            "sourceId": "tel-tactras-etch-official",
+            "quote": "Number of chambers 1-6 1-12 1-6",
+            "locator": "シリーズの比較 / Number of chambers"
+          },
+          "condition": "比較表の対象機種の列は1-6。"
+        },
+        "application": {
+          "status": "verified",
+          "value": "Dielectric, Conductor, Reactive Ion Etch",
+          "evidence": {
+            "sourceId": "tel-tactras-etch-official",
+            "quote": "Dielectric, Conductor, Reactive Ion Etch",
+            "locator": "シリーズの比較 / Application"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "plasma": {
+          "status": "verified",
+          "value": "Reactive Ion Etch",
+          "evidence": {
+            "sourceId": "tel-tactras-etch-official",
+            "quote": "Dielectric, Conductor, Reactive Ion Etch",
+            "locator": "シリーズの比較 / Application"
+          },
+          "condition": "比較表のApplication欄の表記。"
+        },
+        "substrate": {
+          "status": "verified",
+          "value": "Si",
+          "evidence": {
+            "sourceId": "tel-tactras-etch-official",
+            "quote": "Substrates Si Si Si",
+            "locator": "シリーズの比較 / Substrates"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "tel-tactras-etch-official",
+          "url": "https://www.tel.co.jp/product/tactras.html",
+          "publisher": "東京エレクトロン",
+          "title": "Tactras 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "tel-episode-ul",
+      "kind": "equipment",
+      "name": "Episode UL",
+      "englishName": "Episode UL",
+      "aliases": [],
+      "category": "プラズマエッチング",
+      "summary": "シリーズ比較表に掲載されたプラズマエッチング装置。",
+      "manufacturerId": "tokyo-electron",
+      "processIds": [
+        "etch"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "tokyo-electron"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "tel-episode-ul-etch-official",
+            "quote": "Episode UL",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "etch"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "tel-episode-ul-etch-official",
+            "quote": "エッチング装置",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "この出典では確認できていません。"
+        },
+        "chambers": {
+          "status": "verified",
+          "value": "搭載チャンバー数を選択することが可能",
+          "evidence": {
+            "sourceId": "tel-episode-ul-etch-official",
+            "quote": "4チャンバーから12チャンバーまでフレキシブルに搭載チャンバー数を選択することが可能",
+            "locator": "製品発表"
+          },
+          "condition": "2021年の製品発表では4〜12チャンバー。"
+        },
+        "application": {
+          "status": "unconfirmed",
+          "reason": "この出典では確認できていません。"
+        },
+        "plasma": {
+          "status": "unconfirmed",
+          "reason": "この出典では確認できていません。"
+        },
+        "substrate": {
+          "status": "unconfirmed",
+          "reason": "この出典では確認できていません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "tel-episode-ul-etch-official",
+          "url": "https://www.tel.co.jp/news/product/2021/20210114_001.html",
+          "publisher": "東京エレクトロン",
+          "title": "Episode UL 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "hitachi-9000",
+      "kind": "equipment",
+      "name": "コンダクターエッチング装置 9000シリーズ",
+      "englishName": "9000 Series",
+      "aliases": [],
+      "category": "プラズマエッチング",
+      "summary": "モジュール化した各種チャンバを搭載可能なコンダクターエッチング装置。",
+      "manufacturerId": "hitachi-hightech",
+      "processIds": [
+        "etch"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "hitachi-hightech"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "hitachi-9000-etch-official",
+            "quote": "コンダクターエッチング装置 9000シリーズ",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "etch"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "hitachi-9000-etch-official",
+            "quote": "コンダクターエッチング装置",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "wafer": {
+          "status": "verified",
+          "value": "300mm",
+          "evidence": {
+            "sourceId": "hitachi-9000-etch-official",
+            "quote": "対応ウェーハ径 300mm",
+            "locator": "仕様"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "chambers": {
+          "status": "verified",
+          "value": "最大9チャンバ搭載可能",
+          "evidence": {
+            "sourceId": "hitachi-9000-etch-official",
+            "quote": "最大9チャンバ搭載可能",
+            "locator": "仕様"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "application": {
+          "status": "verified",
+          "value": "ダブルパターニングや3D構造",
+          "evidence": {
+            "sourceId": "hitachi-9000-etch-official",
+            "quote": "ダブルパターニングや3D構造",
+            "locator": "製品説明"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "plasma": {
+          "status": "verified",
+          "value": "マイクロ波ECR方式",
+          "evidence": {
+            "sourceId": "hitachi-9000-etch-official",
+            "quote": "マイクロ波ECR方式",
+            "locator": "製品説明"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "substrate": {
+          "status": "unconfirmed",
+          "reason": "公式ページで確認できていません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "hitachi-9000-etch-official",
+          "url": "https://www.hitachi-hightech.com/jp/ja/products/semiconductor-manufacturing/dry-etch-systems/conductor/9000.html",
+          "publisher": "日立ハイテク",
+          "title": "コンダクターエッチング装置 9000シリーズ 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "hitachi-m-8000",
+      "kind": "equipment",
+      "name": "コンダクターエッチング装置 M-8000シリーズ",
+      "englishName": "M-8000 Series",
+      "aliases": [],
+      "category": "プラズマエッチング",
+      "summary": "ハードマスクやシリコン加工に対応するコンダクターエッチング装置。",
+      "manufacturerId": "hitachi-hightech",
+      "processIds": [
+        "etch"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "hitachi-hightech"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "hitachi-m-8000-etch-official",
+            "quote": "コンダクターエッチング装置 M-8000シリーズ",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "etch"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "hitachi-m-8000-etch-official",
+            "quote": "コンダクターエッチング装置",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "wafer": {
+          "status": "verified",
+          "value": "300mm",
+          "evidence": {
+            "sourceId": "hitachi-m-8000-etch-official",
+            "quote": "対応ウェーハ径 300mm",
+            "locator": "仕様"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "chambers": {
+          "status": "verified",
+          "value": "最大4チャンバ搭載可能",
+          "evidence": {
+            "sourceId": "hitachi-m-8000-etch-official",
+            "quote": "最大4チャンバ搭載可能",
+            "locator": "仕様"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "application": {
+          "status": "verified",
+          "value": "ハードマスク、シリコン加工",
+          "evidence": {
+            "sourceId": "hitachi-m-8000-etch-official",
+            "quote": "ハードマスク、シリコン加工",
+            "locator": "製品説明"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "plasma": {
+          "status": "verified",
+          "value": "マイクロ波ECR方式",
+          "evidence": {
+            "sourceId": "hitachi-m-8000-etch-official",
+            "quote": "マイクロ波ECR方式",
+            "locator": "製品説明"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "substrate": {
+          "status": "unconfirmed",
+          "reason": "公式ページで確認できていません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "hitachi-m-8000-etch-official",
+          "url": "https://www.hitachi-hightech.com/jp/ja/products/semiconductor-manufacturing/dry-etch-systems/conductor/m8000.html",
+          "publisher": "日立ハイテク",
+          "title": "コンダクターエッチング装置 M-8000シリーズ 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
+    },
+    {
+      "id": "amat-centris-sym3",
+      "kind": "equipment",
+      "name": "Centris Sym3 Etch",
+      "englishName": "Centris Sym3 Etch",
+      "aliases": [],
+      "category": "プラズマエッチング",
+      "summary": "高アスペクト比のエッチングにも対応する装置。",
+      "manufacturerId": "applied-materials",
+      "processIds": [
+        "etch"
+      ],
+      "relations": [
+        {
+          "target": {
+            "kind": "company",
+            "id": "applied-materials"
+          },
+          "type": "manufacturer",
+          "evidence": {
+            "sourceId": "amat-centris-sym3-etch-official",
+            "quote": "Centris Sym3 Etch",
+            "locator": "メーカー公式製品ページ"
+          }
+        },
+        {
+          "target": {
+            "kind": "process",
+            "id": "etch"
+          },
+          "type": "process-use",
+          "evidence": {
+            "sourceId": "amat-centris-sym3-etch-official",
+            "quote": "エッチング",
+            "locator": "メーカー公式製品ページ"
+          }
+        }
+      ],
+      "facts": {
+        "wafer": {
+          "status": "unconfirmed",
+          "reason": "公式ページで確認できていません。"
+        },
+        "chambers": {
+          "status": "verified",
+          "value": "Centrisプラットフォーム上の6つのエッチングチャンバと2つのプラズマ洗浄チャンバ",
+          "evidence": {
+            "sourceId": "amat-centris-sym3-etch-official",
+            "quote": "Centrisプラットフォーム上の6つのエッチングチャンバと2つのプラズマ洗浄チャンバ",
+            "locator": "製品説明"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "application": {
+          "status": "verified",
+          "value": "高アスペクト比のエッチング",
+          "evidence": {
+            "sourceId": "amat-centris-sym3-etch-official",
+            "quote": "高アスペクト比のエッチング",
+            "locator": "製品説明"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "plasma": {
+          "status": "verified",
+          "value": "同期パルスプラズマ",
+          "evidence": {
+            "sourceId": "amat-centris-sym3-etch-official",
+            "quote": "同期パルスプラズマ",
+            "locator": "製品説明"
+          },
+          "condition": "メーカー公式の記載。"
+        },
+        "substrate": {
+          "status": "unconfirmed",
+          "reason": "公式ページで確認できていません。"
+        },
+        "throughput": {
+          "status": "unconfirmed",
+          "reason": "測定条件を揃えた処理能力は未確認。推測・優劣付けをしません。"
+        }
+      },
+      "sources": [
+        {
+          "id": "amat-centris-sym3-etch-official",
+          "url": "https://www.appliedmaterials.com/jp/ja/product-library/centris-sym3-etch.html",
+          "publisher": "Applied Materials",
+          "title": "Centris Sym3 Etch 公式情報",
+          "checkedAt": "2026-11-03"
+        }
+      ],
+      "lastChecked": "2026-11-03",
+      "updateStatus": "current",
+      "verification": {
+        "status": "verified",
+        "method": "Codexによるメーカー公式本文と名称・用途・特徴・表示数値の個別照合。人間確認は未実施。"
+      },
+      "publication": {
+        "status": "published",
+        "index": false
+      }
     }
   ]
 }

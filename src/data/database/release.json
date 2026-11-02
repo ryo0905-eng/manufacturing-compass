@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-02T22:04:10.240Z",
-  "catalogHash": "7f88890fb358319ef08e14e493e705ca5ad80e2fc3c21a33c250e402e59bd1cd",
+  "generatedAt": "2026-11-02T22:14:18.803Z",
+  "catalogHash": "6be03cc4aaad40a26b351bf051294022e28932d54703a501707083148fc5f268",
   "records": [
     {
       "id": "asml-nxt1980di",
@@ -54,6 +54,26 @@
     {
       "id": "canon-fpa-5520iv",
       "fingerprint": "c33bec5eb9d1146d116e8e93e747dad7b237adb17a4f0b9a1be8361bb3092e4b"
+    },
+    {
+      "id": "tel-tactras",
+      "fingerprint": "24c2079d057b9aaf57328c3d7a218cefb93f61db35e716b9470f0bc1cae1b4d3"
+    },
+    {
+      "id": "tel-episode-ul",
+      "fingerprint": "0e1e65b693e690a77dd232a6cb6ced70c4c37550913eb86ef60516a39537b943"
+    },
+    {
+      "id": "hitachi-9000",
+      "fingerprint": "10100ddc7c040cd8ec4e121789d894dc3c77cb960aa006c2b45b855f1cef7e7e"
+    },
+    {
+      "id": "hitachi-m-8000",
+      "fingerprint": "6fd31f431151149f7b3db0d01748f5e065f196be981cee753081181a47cd9ba9"
+    },
+    {
+      "id": "amat-centris-sym3",
+      "fingerprint": "d052b83986f8d7ea09f827b2d9a25f1d20f987d2f937e97ee830007bc318f522"
     }
   ],
   "sourceHashes": {
@@ -69,6 +89,11 @@
     "nikon-nsr-s635e-official": "b6303b3b318c2c03250f82ef4063f814d45ef283986c4c052ae61285544743e2",
     "nikon-nsr-s625e-official": "b6303b3b318c2c03250f82ef4063f814d45ef283986c4c052ae61285544743e2",
     "canon-fpa-6300es6a-official": "be025e6187885269753180ee7926fa0d8d96ee24e7447645cb1e10d05fcc06bc",
-    "canon-fpa-5520iv-official": "49d31809c3373459db9efa25448ed614325435eae8cdfacda6e1451b27f0a9fd"
+    "canon-fpa-5520iv-official": "49d31809c3373459db9efa25448ed614325435eae8cdfacda6e1451b27f0a9fd",
+    "tel-tactras-etch-official": "9ddaa19eb7e336eb010fc09dfa0c3d5dbe009fa97f6db06ff08323a4da176327",
+    "tel-episode-ul-etch-official": "ba695dec71c4cb2a4796d418652cf42ad356d23bac63b685850ae9059ce74ca2",
+    "hitachi-9000-etch-official": "c4513f4050e8b18f4370fe148315c7f97b5407a15fcc3f5efb0359a971464b94",
+    "hitachi-m-8000-etch-official": "d96f92a80b7f52ecec8f23e1483ee1eaaf0892163bdce072afe8e875eafba339",
+    "amat-centris-sym3-etch-official": "66f0ffcace0da7428c0a8d23b6686c2e99e70822648da733bd6592cda0eb63ae"
   }
 }
