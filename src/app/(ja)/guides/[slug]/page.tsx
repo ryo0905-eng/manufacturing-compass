@@ -14,6 +14,7 @@ import { DiagnosisCta } from "@/components/DiagnosisCta";
 import { StructuredData } from "@/components/StructuredData";
 import { TodayAction } from "@/components/TodayAction";
 import { GuideBlocks } from "@/components/guide/GuideBlocks";
+import { GuideAuthor } from "@/components/guide/GuideAuthor";
 import { GuideLanguageLink } from "@/components/guide/GuideLanguageLink";
 import { ResearchNavigation } from "@/components/ResearchNavigation";
 import { researchPages } from "@/data/research-navigation";
@@ -23,6 +24,7 @@ import { semiconductorMarketCapMeta } from "@/data/semiconductor-market-cap";
 import { buildGuideItemLists } from "@/lib/guide-item-lists";
 import { TrackedInternalLink } from "@/components/TrackedInternalLink";
 import { beginnerGuides, getGuideBySlug } from "@/data/editorial";
+import { authorExperience } from "@/data/operator";
 import { companies } from "@/data/companies";
 import { semiconductorProcessSeriesSlugs } from "@/data/guide-series";
 import { siteUrl } from "@/lib/format";
@@ -143,7 +145,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <p className="section-label">製造業・半導体の記事・{guide.readTime}</p>
             <h1>{guide.title}</h1>
             <p>{isFactoryProjects ? researchPages.factory_projects.lead : guide.description}</p>
-            <small>{guide.reviewedBy ? `執筆・確認：${guide.reviewedBy}（製造業経験 約10年）` : "Manufacturing Compass編集部・公開情報に基づく解説"}・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
+            <small>{guide.reviewedBy ? <><GuideAuthor name={guide.reviewedBy} />（{authorExperience}）</> : "Manufacturing Compass編集部・公開情報に基づく解説"}・最終更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></small>
           </>}
           {guide.showIntroSummary !== false ? (
             <dl className="guide-intro-summary">
@@ -169,7 +171,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <small className="ranking-hero-meta">
               <span>基準日 <time dateTime={semiconductorMarketCapMeta.dataAsOf}>{semiconductorMarketCapMeta.dataAsOf.replaceAll("-", ".")}</time></span>
               <span>更新 <time dateTime={guide.updatedAt}>{guide.updatedAt.replaceAll("-", ".")}</time></span>
-              <span>執筆・確認：{guide.reviewedBy ?? guide.author}</span>
+              <span><GuideAuthor name={guide.reviewedBy ?? guide.author} /></span>
             </small>
           <MarketCapRankingOverview />
           <aside className="ranking-learnings" aria-label="この記事でわかること">

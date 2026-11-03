@@ -6,6 +6,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { guideCategoryDetails } from "@/content/guides/categories";
 import type { GuideCategory } from "@/content/guides/types";
 import { beginnerGuides } from "@/data/editorial";
+import { authorExperience } from "@/data/operator";
 import {
   industryGuideCollections,
   industryGuideCount,
@@ -69,7 +70,7 @@ export default function GuidesPage() {
         <aside className="guides-author-card" aria-label="執筆者について">
           <p>WRITTEN &amp; REVIEWED BY</p>
           <strong>RYO</strong>
-          <span>製造業経験 約10年</span>
+          <span>{authorExperience}</span>
           <p>電子部品の製造技術・品質・海外工場・製造DXを経て、半導体の会社へ。実体験と公開情報を分けて書きます。</p>
           <Link href="/about">執筆者と編集方針を見る <span aria-hidden="true">→</span></Link>
         </aside>

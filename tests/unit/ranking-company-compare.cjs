@@ -329,7 +329,7 @@ for(const e of events){assert.ok(['ranking_company_compare','ranking_compare_add
   const expectedDates = [data.semiconductorMarketCapMeta.dataAsOf, guide.updatedAt, data.semiconductorMarketCapMeta.dataAsOf];
   assert.deepEqual(dateTags.map(match => match[1]), expectedDates);
   assert.deepEqual(dateTags.map(match => match[2]), expectedDates.map(date => date.replaceAll('-', '.')));
-  assert.ok(prefix.includes(`執筆・確認：${guide.reviewedBy}`));
+  assert.ok(prefix.includes(`執筆・確認：<a href="/about">${guide.reviewedBy}</a>`));
   assert.ok(!heroHtml.includes('<time'), 'Metadata appears below the image');
   assert.ok(prefix.includes('ranking-learnings') && prefix.includes('企業研究に役立つランキングの読み方'));
   assert.ok(heroHtml.includes('semiconductor-ranking-hero-v2.webp'));
@@ -411,7 +411,8 @@ for(const e of events){assert.ok(['ranking_company_compare','ranking_compare_add
   assert.ok(salaryHtml.includes(salary.description));
   const salaryHero = salaryHtml.match(/<header class="article-hero">([\s\S]*?)<\/header>/)[1];
   assert.ok(salaryHero.includes(`<h1>${salary.title}</h1>`) && salaryHero.includes(salary.readTime));
-  assert.ok(salaryHero.includes('section-label') && salaryHero.includes('製造業経験 約10年'));
+  assert.ok(salaryHero.includes('section-label') && salaryHero.includes('製造業経験 10年超'));
+  assert.ok(salaryHero.includes('執筆・確認：<a href="/about">RYO</a>'));
   assert.ok(!salaryHero.includes('ranking-hero-'));
   console.log('PASS: ranking data/selection/URLs/events, SSR order and tables, legacy anchors, FAQ/metadata and other-article layout isolation.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

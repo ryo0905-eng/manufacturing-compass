@@ -2,7 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CareerTimeline } from "@/components/CareerTimeline";
 import { DiagnosisCta } from "@/components/DiagnosisCta";
+import { StructuredData } from "@/components/StructuredData";
 import { aboutCareerTimeline, editorialPrinciples, operatorProfile } from "@/data/operator";
+
+const socialAccounts = [
+  { name: "Threads", url: "https://www.threads.net/@mfgcompass" },
+  { name: "X", url: "https://x.com/mfgcompass" },
+  { name: "Instagram", url: "https://www.instagram.com/mfgcompass" },
+  { name: "YouTube", url: "https://www.youtube.com/channel/UCanyeIhHyvQ3nhyoBiM8PVw" },
+] as const;
 
 export const metadata: Metadata = {
   title: "このサイトを作っている人",
@@ -13,11 +21,24 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="page about-page about-simple">
+      <StructuredData data={{ "@context": "https://schema.org", "@type": "Person", name: "RYO", jobTitle: "プロセスエンジニア", url: "https://mfg-compass.com/about", knowsAbout: ["半導体製造", "工程改善", "歩留まり改善", "不良解析", "製造DX", "データ分析"], sameAs: socialAccounts.map((account) => account.url) }} />
       <section className="page-hero editorial-page-hero">
         <p className="section-label">短いプロフィール</p>
         <h1>このサイトを作っている人</h1>
         <p>Manufacturing Compassを運営しているRYOです。</p>
         <p>{operatorProfile.introduction} {operatorProfile.summary}</p>
+      </section>
+
+      <section className="about-section" aria-labelledby="profile-summary-title">
+        <header className="editorial-heading"><h2 id="profile-summary-title">プロフィールの要約</h2></header>
+        <ul>
+          <li>製造業経験 10年超</li>
+          <li>専門: 工程改善、歩留まり改善、不良解析、表面処理</li>
+          <li>海外工場での勤務経験（シンガポール、マレーシア）</li>
+          <li>データ活用: Python、SQL、JMP、SPC / DOE、BIツール</li>
+          <li>実績: 量産現場の改善で、年間1億円超の製造コスト削減に関与</li>
+          <li>運営: Manufacturing Compass（半導体ランキングを毎月更新、企業・装置のデータベースを構築中）</li>
+        </ul>
       </section>
 
       <section className="about-section" aria-labelledby="experience-title">
@@ -51,6 +72,7 @@ export default function AboutPage() {
       </section>
 
       <DiagnosisCta />
+      <p className="contact-note">公式アカウント： {socialAccounts.map((account, index) => <span key={account.name}>{index > 0 ? " / " : null}<a href={account.url}>{account.name}</a></span>)}</p>
       <p className="contact-note">掲載情報の修正依頼などは <Link href="/contact">お問い合わせ</Link> からご連絡ください。</p>
     </main>
   );
