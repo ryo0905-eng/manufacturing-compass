@@ -2,9 +2,9 @@ import type { GuideArticle } from "@/content/guides/types";
 
 export const semiconductorMaskBlankManufacturersGuide: GuideArticle = {
   slug: "semiconductor-mask-blank-manufacturers",
-  title: "半導体マスクブランクスメーカーとは？HOYA・AGCなどを初心者向けに図解",
+  title: "半導体マスクブランクスとは？主要メーカー4社（HOYA・AGC・信越化学・S&S TECH）を比較",
   description:
-    "半導体マスクブランクスは、フォトマスクへ回路を描く前の精密な母材です。合成石英・低熱膨張ガラス、遮光膜・位相シフト膜、DUV・EUVの構造、平坦度・欠陥、主要メーカーを図解します。",
+    "マスクブランクスとは何か、フォトマスクとの違いから、主要メーカー4社（HOYA・AGC・信越化学工業・S&S TECH）のDUV・EUV対応や基板・膜構成の違いまで、図解で比較します",
   targetQuery: "半導体 マスクブランクス メーカー",
   searchIntent:
     "半導体マスクブランクスの構造と製造工程、フォトマスクとの違い、DUV・EUV用の材料と品質要求、HOYA・AGC・信越化学工業・S&S TECHなど主要企業の製品領域と比較方法を知りたい",
@@ -23,7 +23,7 @@ export const semiconductorMaskBlankManufacturersGuide: GuideArticle = {
     "信越化学工業とS&S TECHの公式情報で、OMOG、バイナリ、ハーフトーン位相シフト、ハードマスクなどの製品領域を確認",
   ],
   publishedAt: "2026-07-16",
-  updatedAt: "2026-07-16",
+  updatedAt: "2026-11-03",
   sources: [
     {
       title: "Information Technology Business",
