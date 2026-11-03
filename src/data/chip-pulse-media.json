@@ -2,99 +2,99 @@
   "schemaVersion": 1,
   "contentUpdatedAt": "2026-10-31T00:51:00.535Z",
   "edition": {
-    "date": "2026-11-02",
-    "start": "2026-10-31T21:00:00.000Z",
-    "end": "2026-11-01T21:00:00.000Z",
+    "date": "2026-11-03",
+    "start": "2026-11-01T21:00:00.000Z",
+    "end": "2026-11-02T21:00:00.000Z",
     "articleIds": []
   },
   "status": {
-    "checkedAt": "2026-11-02T00:48:34.200Z",
-    "lastSuccessfulAt": "2026-11-02T00:48:34.200Z",
+    "checkedAt": "2026-11-03T02:56:45.691Z",
+    "lastSuccessfulAt": "2026-11-03T02:56:45.691Z",
     "state": "success",
     "sources": [
       {
         "id": "amkor",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "entegris",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "ase",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "globalfoundries",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "nvidia",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "amd",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "broadcom",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "micron",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "intel",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "applied-materials",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "lam-research",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "kla",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "tsmc",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       },
       {
         "id": "asml",
         "state": "success",
-        "checkedAt": "2026-11-02T00:48:34.200Z",
-        "lastSuccessfulAt": "2026-11-02T00:48:34.200Z"
+        "checkedAt": "2026-11-03T02:56:45.691Z",
+        "lastSuccessfulAt": "2026-11-03T02:56:45.691Z"
       }
     ],
     "ai": "disabled"
