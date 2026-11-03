@@ -18,7 +18,7 @@ export function MemoryRanking() {
       {memoryMarketIds.map((id) => {
         const market = memoryMarkets[id];
         return <section key={id} className={styles.tableSection}>
-          <h3>{market.label}の一覧</h3>
+          <h3>{market.label}メーカーの一覧</h3>
           <p>{market.scope}</p>
           <div className={styles.tableWrap} tabIndex={0} role="region" aria-label={`${market.label}の売上・シェア一覧。横にスクロールできます`}>
             <table>
