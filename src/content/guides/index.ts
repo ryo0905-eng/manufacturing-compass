@@ -1,3 +1,4 @@
+import { electronicComponentsMarketCapRankingGuide } from "@/content/guides/electronic-components-market-cap-ranking";
 import { japanSemiconductorMarketCapHistoryGuide } from "./japan-semiconductor-market-cap-history";
 import { nvidiaIntelMarketCapHistoryGuide } from "./nvidia-intel-market-cap-history";
 import { cpkLowCausesGuide } from "@/content/guides/cpk-low-causes";
@@ -169,6 +170,7 @@ const guideArticles: GuideArticle[] = [
   semiconductorResumeImprovementResultsGuide,
   semiconductorCareerChatgptGuide,
   semiconductorMarketCapRankingGuide,
+  electronicComponentsMarketCapRankingGuide,
   semiconductorMarketCapGrowthRankingGuide,
   semiconductorEquipmentSalesRankingGuide,
   japanSemiconductorMarketCapHistoryGuide,

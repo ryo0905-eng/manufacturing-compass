@@ -1,3 +1,4 @@
+import { japanElectronicComponentsMarketCapRanking, worldElectronicComponentsMarketCapRanking } from "@/data/electronic-components-market-cap";
 import { foundryMarket } from "@/data/foundry-market-share";
 import { memoryMarkets } from "@/data/memory-market-share";
 import { equipmentSalesCompanies } from "@/data/semiconductor-equipment-sales";
@@ -17,6 +18,10 @@ function rankedList(name: string, rows: readonly RankedRow[], url: string): Item
 }
 
 const builders = new Map<string, (url: string) => ItemList[]>([
+  ["electronic-components-market-cap-ranking", (url) => [
+    itemList("電子部品メーカー世界ランキング（時価総額）", worldElectronicComponentsMarketCapRanking.map((company) => ({ "@type": "ListItem", position: company.rank, name: company.name, url: `${url}#world-company-${company.id}` }))),
+    itemList("電子部品メーカー日本ランキング（時価総額）", japanElectronicComponentsMarketCapRanking.map((company) => ({ "@type": "ListItem", position: company.domesticRank, name: company.name, url: `${url}#japan-company-${company.id}` }))),
+  ]],
   ["semiconductor-market-cap-ranking", (url) => [
     itemList("半導体メーカー世界ランキング（時価総額）", worldSemiconductorMarketCapRanking.map((company) => ({ "@type": "ListItem", position: company.rank, name: company.name, url: `${url}#world-company-${company.id}` }))),
     itemList("半導体メーカー日本ランキング（時価総額）", japanSemiconductorMarketCapRanking.map((company) => ({ "@type": "ListItem", position: company.domesticRank, name: company.name, url: `${url}#japan-company-${company.id}` }))),

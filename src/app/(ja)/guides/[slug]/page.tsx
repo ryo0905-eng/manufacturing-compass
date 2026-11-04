@@ -1,3 +1,4 @@
+import { electronicComponentsMarketCapRankingHero } from "@/content/guides/electronic-components-market-cap-ranking";
 import { RankingCompanyCompareProvider, RankingCompanyComparePanel } from "@/components/RankingCompanyCompare";
 import { RankingHeroIllustration } from "@/components/RankingHeroIllustration";
 import { FeedbackPlacement } from "@/components/feedback/FeedbackPlacement";
@@ -104,6 +105,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
     guide.showExperienceBasis !== false &&
     guide.basisLabel !== "この記事の調査・編集方針";
   const isMarketCapRanking = guide.slug === "semiconductor-market-cap-ranking";
+  const isElectronicRanking = guide.slug === "electronic-components-market-cap-ranking";
   const isFactoryProjects = guide.slug === "japan-semiconductor-factory-projects";
   const rankingTitlePeriod = isMarketCapRanking ? guide.title.match(/【[^】]+】/)?.[0] : undefined;
   const tableOfContents = guide.sections.length >= 4 ? (
@@ -126,7 +128,11 @@ export default async function GuidePage({ params }: GuidePageProps) {
       <article className="article-layout">
         <header className="article-hero">
           {getPublishedEnglishTranslation(guide.slug) ? <GuideLanguageLink slug={guide.slug} locale="ja" /> : null}
-          {isMarketCapRanking ? <>
+          {isElectronicRanking ? <>
+            <p className="section-label">時価総額で見る、電子部品メーカー</p>
+            <h1>{electronicComponentsMarketCapRankingHero.titleParts.join("")}<br /><small>{electronicComponentsMarketCapRankingHero.metric} {electronicComponentsMarketCapRankingHero.scopes.join("・")}</small></h1>
+            <p>{electronicComponentsMarketCapRankingHero.conclusion}</p>
+          </> : isMarketCapRanking ? <>
             <RankingHeroIllustration />
             <span className="ranking-hero-eyebrow">時価総額で見る、半導体業界の現在地</span>
             <h1>

@@ -487,6 +487,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
   ],
   todayQuest: "ランキングから3社を選び、各社を「設計・製造・装置・後工程・材料」のどこに位置づけるか確認する",
   relatedGuideSlugs: [
+    "electronic-components-market-cap-ranking",
     "semiconductor-market-cap-growth-ranking",
     "japan-semiconductor-market-cap-history",
     "semiconductor-equipment-sales-ranking",

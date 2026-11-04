@@ -4,8 +4,9 @@ export type GuideStatus = "draft" | "published";
 export type GuideCategory = "dx-ai" | "technology" | "industry" | "career";
 
 export type GuideBlock =
+  | { type: "electronic-components-market-cap-ranking"; scope: "world" | "japan" }
   | { type: "ranking-purpose-entry" }
-  | { type: "career-compass-entry"; placement?: "factoryProjects" | "memoryRanking" | "equipmentRanking" | "salaryRanking" | "foundryRanking" }
+  | { type: "career-compass-entry"; placement?: "factoryProjects" | "memoryRanking" | "equipmentRanking" | "salaryRanking" | "foundryRanking" | "electronicComponentsRanking" }
   | { type: "market-cap-growth-ranking" }
   | { type: "ranking-time-machine-preview" }
   | { type: "book-affiliate-entry" }

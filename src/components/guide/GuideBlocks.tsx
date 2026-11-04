@@ -1,3 +1,4 @@
+import { ElectronicComponentsMarketCapTable } from "@/components/ElectronicComponentsMarketCapTable";
 import { RankingHistoryArticle } from "@/components/ranking-time-machine/RankingHistoryArticle";
 import { RankingTimeMachinePreview } from "@/components/ranking-time-machine/RankingTimeMachinePreview";
 import { OpticalCompanies } from "@/components/OpticalCompanies";
@@ -38,6 +39,7 @@ export function GuideBlocks({ blocks, sourceSlug, locale = "ja" }: GuideBlocksPr
   return (
     <div className="guide-blocks">
       {blocks.map((block, index) => {
+        if (block.type === "electronic-components-market-cap-ranking") return <ElectronicComponentsMarketCapTable scope={block.scope} key={`electronic-ranking-${index}`} />;
         if (block.type === "ranking-purpose-entry") return <RankingPurposeEntry key={`ranking-purpose-${index}`} />;
         if (block.type === "career-compass-entry") return <CareerCompassPreview placement={block.placement ?? "ranking"} key={`career-entry-${index}`} />;
         if (block.type === "ranking-time-machine-preview") return <RankingTimeMachinePreview key={`ranking-preview-${index}`} />;

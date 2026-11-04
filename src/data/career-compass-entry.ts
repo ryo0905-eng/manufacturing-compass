@@ -10,6 +10,11 @@ export const careerCompassEntry = {
   conditions: "12問・約3分・登録不要。回答は保存しません",
   variant: "preview_entry_v1",
   placements: {
+    electronicComponentsRanking: {
+      sourcePage: "/guides/electronic-components-market-cap-ranking",
+      ctaLocation: "ranking_after_comparison",
+      buttonLabel: "自分の経験で確かめる",
+    },
     ranking: {
       sourcePage: "/guides/semiconductor-market-cap-ranking",
       ctaLocation: "ranking_after_comparison",
