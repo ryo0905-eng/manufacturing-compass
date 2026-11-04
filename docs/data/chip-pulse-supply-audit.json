@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-03T02:56:45.691Z",
-  "windowStart": "2026-10-04T00:00:00.000Z",
-  "windowEnd": "2026-11-03T00:00:00.000Z",
+  "generatedAt": "2026-11-04T01:26:55.362Z",
+  "windowStart": "2026-10-05T00:00:00.000Z",
+  "windowEnd": "2026-11-04T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -10,6 +10,16 @@
   },
   "errors": [],
   "rows": [
+    {
+      "id": "sec-0000002488-26-000188",
+      "sourceId": "amd",
+      "publishedAt": "2026-11-03T21:16:27.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
     {
       "id": "sec-0000050863-26-000191",
       "sourceId": "intel",
@@ -233,22 +243,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-10-05",
-    "end": "2026-11-03",
+    "start": "2026-10-06",
+    "end": "2026-11-04",
     "days": [
-      {
-        "date": "2026-10-05",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-10-06",
         "candidates": 0,
@@ -625,31 +622,44 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-11-04",
+        "candidates": 1,
+        "deduplicated": 1,
+        "bodies": 1,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-28",
-        "end": "2026-11-03",
+        "start": "2026-10-29",
+        "end": "2026-11-04",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-21",
-        "end": "2026-10-27",
+        "start": "2026-10-22",
+        "end": "2026-10-28",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-14",
-        "end": "2026-10-20",
+        "start": "2026-10-15",
+        "end": "2026-10-21",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-07",
-        "end": "2026-10-13",
+        "start": "2026-10-08",
+        "end": "2026-10-14",
         "publishable": 0,
         "fields": []
       }
