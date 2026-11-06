@@ -380,6 +380,7 @@ export const semiconductorMarketCapRankingGuide: GuideArticle = {
         { label: "半導体企業の平均年収ランキング", href: "/guides/semiconductor-salary-ranking", description: "企業が公表した平均年収と集計条件を確認する" },
         { label: "経験から探す半導体企業リスト", href: "/rankings", description: "経験と仕事内容の接点から企業を調べる" },
         { label: "光半導体メーカーを用途から比較する", href: "/guides/optical-semiconductor-manufacturers", description: "LED・レーザー・イメージセンサー・フォトダイオードの企業例を調べる。総合順位ではなく公式製品情報で比較する" },
+        { label: "電子部品メーカー時価総額ランキング", href: "/guides/electronic-components-market-cap-ranking", description: "受動部品・コネクタ・センサなどの電子部品メーカー世界20社・日本11社を時価総額で比較する" },
       ] }],
     },
     {
