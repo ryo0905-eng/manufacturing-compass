@@ -27,6 +27,12 @@ export async function generateMetadata({ params }: SegmentPageProps): Promise<Me
     return {};
   }
 
+  if (segment.id === "electronic-components") {
+    const title = "電子部品メーカー一覧";
+    const description = "受動部品やコネクタ、センサなどを手がける電子部品メーカーと事業領域を紹介します。";
+    return { title, description, alternates: { canonical: "/segments/electronic-components" }, robots: { index: false, follow: true }, openGraph: { title, description, type: "website", url: "/segments/electronic-components" } };
+  }
+
   if (segment.id === "materials") {
     const title = "半導体材料の分類と役割｜ウェーハ・ガス・薬液・レジストから探す";
     const description = "半導体材料を工程と役割から調べる入口。ウェーハ、高純度ガス、薬液、フォトレジスト、CMPスラリーの解説と企業研究へつなぎ、掲載範囲と比較条件を示します。";
@@ -107,7 +113,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl },
           { "@type": "ListItem", position: 2, name: "半導体業界地図", item: `${siteUrl}/industry-map` },
-          { "@type": "ListItem", position: 3, name: isFabless ? "ファブレス企業一覧" : `${segment.name}の半導体企業`, item: `${siteUrl}/segments/${segment.slug}` },
+          { "@type": "ListItem", position: 3, name: isFabless ? "ファブレス企業一覧" : segment.id === "electronic-components" ? "電子部品メーカー一覧" : `${segment.name}の半導体企業`, item: `${siteUrl}/segments/${segment.slug}` },
         ],
       }} />
       {isFabless ? <StructuredData data={{
@@ -136,7 +142,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
       </nav>
       <section className="page-hero">
         <p className="eyebrow">{segment.shortName}</p>
-        <h1>{isFabless ? `ファブレス企業一覧【2026年版】日本・海外${segmentCompanies.length}社` : segment.id === "materials" ? "半導体材料の分類と役割" : `${segment.name}の半導体企業`}</h1>
+        <h1>{isFabless ? `ファブレス企業一覧【2026年版】日本・海外${segmentCompanies.length}社` : segment.id === "materials" ? "半導体材料の分類と役割" : segment.id === "electronic-components" ? "電子部品メーカー一覧" : `${segment.name}の半導体企業`}</h1>
         <p>{segment.description}</p>
         {isFabless ? <p>「工場を持たない」は、主にウェーハ量産を外部へ委託するという意味です。研究開発・評価設備を持つ場合や、事業によって製造形態が異なる場合もあります。</p> : null}
         {isFabless ? <div className="actions"><Link className="button ghost" href="/guides/semiconductor-foundry">ファウンドリとの違いを見る</Link><Link className="button ghost" href="/industry-map">半導体業界地図で位置を見る</Link></div> : null}

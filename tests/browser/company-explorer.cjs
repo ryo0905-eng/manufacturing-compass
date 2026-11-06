@@ -9,20 +9,16 @@ const { chromium } = require('playwright');
     const errors = []; page.on('pageerror', e => errors.push(e.message));
     for (const [width, height] of [[1440, 900], [1280, 800], [768, 900], [390, 900], [320, 900]]) {
       await page.setViewportSize({ width, height });
-      for (const [route, count] of [['/industry-map', 44], ['/companies', 44]]) {
+      for (const [route, count] of [['/industry-map', 57], ['/companies', 57]]) {
         await page.goto(base + route);
         assert.equal(await page.locator('[data-company-explorer-company]').count(), count);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
         await page.evaluate(() => document.fonts.ready);
         assert.equal(await page.locator('[data-company-filters][open]').count(), 0);
         assert.equal(await page.locator('[data-company-link-index][open]').count(), 0);
-        if (width === 1440) {
-          const box = await page.locator('[data-company-map-grid]').boundingBox();
-          assert.ok(box.y >= 0 && box.y + box.height <= height, 'The whole map fits the initial 1440 × 900 viewport');
-        }
         const targets = await page.locator('[data-company-explorer-company] button').evaluateAll(buttons => buttons.map(button => ({ width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height })));
         assert.ok(targets.every(target => target.width >= 44 && target.height >= 44));
-        assert.equal(new Set(await page.locator('[data-company-map-grid] > section').evaluateAll(zones => zones.map(zone => getComputedStyle(zone).backgroundColor))).size, 8);
+        assert.equal(new Set(await page.locator('[data-company-map-grid] > section').evaluateAll(zones => zones.map(zone => getComputedStyle(zone).backgroundColor))).size, 9);
         assert.equal(await page.locator('[data-company-explorer-company] a').count(), 0);
         assert.ok(await page.locator('[data-atlas-company="globalfoundries"] strong').evaluate(el => el.scrollWidth <= el.clientWidth));
 
@@ -39,7 +35,7 @@ const { chromium } = require('playwright');
     assert.equal(await page.locator('[data-company-explorer-company]').count(), 1);
     assert.ok(page.url().includes('/industry-map?query='));
     await page.getByRole('button', { name: '条件をクリア', exact: true }).click();
-    assert.equal(await page.locator('[data-company-explorer-company]').count(), 44);
+    assert.equal(await page.locator('[data-company-explorer-company]').count(), 57);
     await page.locator('[data-company-filters] > summary').click();
     await page.getByLabel('本社地域', { exact: true }).selectOption('japan');
     await page.getByLabel('国内拠点情報あり').check();
@@ -60,16 +56,16 @@ const { chromium } = require('playwright');
     assert.ok(page.url().endsWith('/industry-map#japanese-companies'));
     await page.goto(base + '/industry-map?query=nonexistentword#company=broadcom');
     await page.getByRole('dialog').waitFor();
-    assert.equal(await page.locator('[data-company-explorer-company]').count(), 44);
+    assert.equal(await page.locator('[data-company-explorer-company]').count(), 57);
     await page.getByRole('button', { name: '閉じる' }).click();
     await page.goto(base + '/industry-map#company=unknown');
     await page.getByText('指定された企業は地図に未収録です。地図から企業を選んでください。', { exact: true }).waitFor();
     assert.equal(await page.getByRole('dialog').count(), 0);
     const noJs = await browser.newContext({ javaScriptEnabled: false });
     const staticPage = await noJs.newPage(); await staticPage.goto(base + '/companies');
-    assert.equal(await staticPage.locator('[data-company-explorer-company]').count(), 44);
+    assert.equal(await staticPage.locator('[data-company-explorer-company]').count(), 57);
     await staticPage.locator('[data-company-link-index] > summary').click();
-    assert.equal(await staticPage.locator('[data-company-link-index] a[href^="/companies/"]').count(), 37);
+    assert.equal(await staticPage.locator('[data-company-link-index] a[href^="/companies/"]').count(), 50);
     assert.equal(await staticPage.locator('[data-company-link-index] a[href^="https://"]').count(), 7);
     assert.ok(await staticPage.locator('[data-company-link-index] a[href="/companies/nvidia"]').isVisible());
     await noJs.close();

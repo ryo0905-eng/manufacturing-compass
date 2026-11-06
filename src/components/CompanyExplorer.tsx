@@ -14,7 +14,7 @@ import type { CompanyExplorerFilters, CompanyExplorerItem } from "@/types/compan
 import styles from "./CompanyExplorer.module.css";
 
 const UI_VERSION = "overview-atlas-v3";
-const overviewZones = ["eda-ip", "fabless", "foundry", "osat", "inspection", "materials", "idm", "equipment"]
+const overviewZones = ["eda-ip", "fabless", "foundry", "osat", "inspection", "materials", "idm", "equipment", "electronic-components"]
   .flatMap((id) => industryMapZones.filter((zone) => zone.id === id));
 const emptyFilters: CompanyExplorerFilters = { query: "", region: "all", locationsOnly: false, segment: "all" };
 
@@ -136,7 +136,7 @@ export function CompanyExplorer({ items, initialQuery = "", segments = [] }: Com
             </select></label>
             <label className={styles.checkbox}><input type="checkbox" checked={filters.locationsOnly} onChange={(event) => filterChanged({ locationsOnly: event.target.checked }, "locations", event.target.checked)} />国内拠点情報あり</label>
             <button type="button" aria-pressed={showCareers} onClick={() => { setShowCareers(!showCareers); record("industry_map_career_layer_change", { enabled: !showCareers }); }}>職種との接点</button>
-            <p className={styles.filterNote}>6分類は企業詳細のある37社が対象です。簡易紹介7社は企業名・製品・職種から検索できます。</p>
+            <p className={styles.filterNote}>分野の絞り込みは企業ページのある企業が対象です。地図内の簡易紹介も企業名・製品・職種から検索できます。</p>
           </div>
         </details>
       </div>
@@ -171,14 +171,14 @@ export function CompanyExplorer({ items, initialQuery = "", segments = [] }: Com
         </section>)}</div>
       </details>
       <details className={styles.explanations}>
-        <summary>8領域の役割と関連情報</summary>
+        <summary>{overviewZones.length}領域の役割と関連情報</summary>
         <div className={styles.linkGroups}>{overviewZones.map((zone) => <section key={zone.id}>
           <h3>{zone.label}</h3><p>{zone.description}</p>
           <Link href={zone.guideHref as Route} onClick={() => record("industry_map_category_click", { category: zone.id, destination: "guide" })}>{zone.guideLabel} →</Link>
         </section>)}</div>
       </details>
       <p className={styles.related}><Link href="#japanese-companies">日本企業を分野別に見る</Link><Link href="/compare">2社を比較する</Link><Link href="/semiconductor-map">日本の拠点から探す</Link></p>
-      <p className={styles.note}>詳細37社・簡易紹介7社を掲載し、全企業を網羅したものではありません。分類は主な役割による整理です。一社が複数の分野を担う場合があります。地図の基本分類更新：{industryMapMetadata.lastUpdated}。</p>
+      <p className={styles.note}>掲載企業は全企業を網羅したものではありません。分類は主な役割による整理です。一社が複数の分野を担う場合があります。地図の基本分類更新：{industryMapMetadata.lastUpdated}。</p>
       <p className={styles.credit}>ロゴは企業識別のために掲載しています。画像提供：<a href="https://companiesmarketcap.com/" target="_blank" rel="noreferrer">CompaniesMarketCap</a>／<a href="https://companieslogo.com/" target="_blank" rel="noreferrer">CompaniesLogo</a>。権利は各権利者に帰属します。</p>
       {selected ? <CompanyExplorerDialog company={selected} onClose={closeDetail} onNavigate={(destination) => contentClick(selected, destination, "detail_panel")} /> : null}
     </section>

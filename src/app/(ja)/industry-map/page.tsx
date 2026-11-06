@@ -14,7 +14,7 @@ import { researchPages } from "@/data/research-navigation";
 import { buildAtlasCompanies, buildDirectoryCompanies } from "@/lib/company-explorer";
 import { siteUrl } from "@/lib/format";
 
-const japaneseCompanyCount = companies.filter((company) => company.headquartersCountry === "日本").length;
+const japaneseCompanyCount = companies.filter((company) => company.headquartersCountry === "日本" && !company.industrySegments.includes("electronic-components")).length;
 const faqs = [
   {
     question: "日本の主な半導体メーカーはどこですか？",
@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     question: "半導体メーカーにはどんな種類がありますか？",
-    beforeLink: "このページでは、設計（ファブレス）、受託製造（ファウンドリ）、設計・製造（IDM）、製造装置、材料、検査・計測、OSAT・後工程、EDA・IPの8領域から企業を探せます。",
+    beforeLink: "このページでは、設計（ファブレス）、受託製造（ファウンドリ）、設計・製造（IDM）、製造装置、材料、検査・計測、OSAT・後工程、EDA・IPの8領域に加え、電子部品の企業を探せます。",
   },
   {
     question: "半導体メーカーの規模やランキングはどう調べますか？",
@@ -46,7 +46,7 @@ const japaneseCompaniesBySegment = segments
 
 const atlasCompanies = buildAtlasCompanies(buildDirectoryCompanies(companies, [], []));
 const pageTitle = "半導体業界地図・日本と世界のメーカー一覧【2026年版】";
-const pageDescription = `半導体業界の8領域と日本・海外の全${atlasCompanies.length}社を図解。企業詳細${companies.length}社と簡易紹介7社を、製品・職種・本社地域・国内拠点情報から探せます。日本のメーカー一覧と企業比較への導線も掲載。`;
+const pageDescription = `半導体業界の8領域と電子部品、日本・海外の全${atlasCompanies.length}社を図解。企業ページ${companies.length}社と地図内の簡易紹介${atlasCompanies.length - companies.length}社を、製品・職種・本社地域・国内拠点情報から探せます。日本のメーカー一覧と企業比較への導線も掲載。`;
 
 const baseMetadata: Metadata = {
   title: pageTitle,
@@ -111,7 +111,7 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
           <h1>半導体業界地図・日本と世界のメーカー一覧</h1>
           <p>{researchPages.industry_map.lead}</p>
         </div>
-        <p><strong>8領域 × {atlasCompanies.length}社</strong><span>企業詳細{companies.length}社・簡易紹介7社</span></p>
+        <p><strong>9領域 × {atlasCompanies.length}社</strong><span>企業ページ{companies.length}社・地図内の簡易紹介{atlasCompanies.length - companies.length}社</span></p>
       </header>
       <ResearchNavigation page="industry_map" />
       <IndustryAtlas companies={companies} initialQuery={query} segments={segments} />
@@ -120,7 +120,7 @@ export default async function IndustryMapPage({ searchParams }: IndustryMapPageP
         <header>
           <p className="section-label">日本に本社がある掲載企業</p>
           <h2 id="companies-japan-title">日本の半導体メーカー・関連企業一覧</h2>
-          <p>企業詳細を掲載する日本企業{japaneseCompanyCount}社を分野別にまとめました。複数の分野を担う企業は、それぞれの分野に掲載しています。</p>
+          <p>企業ページを掲載する日本企業を分野別にまとめました。複数の分野を担う企業は、それぞれの分野に掲載しています。</p>
         </header>
         <div className="companies-japan__grid">
           {japaneseCompaniesBySegment.map(({ segment, companies: groupedCompanies }) => (

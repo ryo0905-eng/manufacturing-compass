@@ -21,7 +21,7 @@
 .flow p { margin: 0; color: #687078; font-size: 11px; line-height: 1.6; }
 .flow p:first-child { color: #45515d; font-size: 12px; }
 .groups { display: grid; gap: 8px; }
-.atlas .groups { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-areas: "eda eda fabless fabless fabless fabless foundry foundry osat osat inspection inspection" "materials materials idm idm idm idm idm idm equipment equipment equipment equipment"; }
+.atlas .groups { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-areas: "eda eda fabless fabless fabless fabless foundry foundry osat osat inspection inspection" "materials materials idm idm idm idm idm idm equipment equipment equipment equipment" "components components components components components components components components components components components components"; }
 .atlas [data-zone="eda-ip"] { grid-area: eda; }
 .atlas [data-zone="fabless"] { grid-area: fabless; }
 .atlas [data-zone="foundry"] { grid-area: foundry; }
@@ -30,6 +30,7 @@
 .atlas [data-zone="materials"] { grid-area: materials; }
 .atlas [data-zone="equipment"] { grid-area: equipment; }
 .atlas [data-zone="inspection"] { grid-area: inspection; }
+.atlas [data-zone="electronic-components"] { grid-area: components; }
 .atlas.filtering .groups { grid-template-areas: none; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
 .atlas.filtering .zone { grid-area: auto; --company-columns: 2; }
 .zone { --zone-accent: #53719a; --zone-bg: #f0f5fa; --company-columns: 1; min-width: 0; scroll-margin-top: 80px; border: 1px solid #dfe4e8; border-radius: 7px; padding: 8px; }
@@ -41,6 +42,7 @@
 .zone[data-zone="materials"] { --zone-accent: #39805c; --zone-bg: #eff8f2; }
 .zone[data-zone="equipment"] { --company-columns: 3; }
 .zone[data-zone="inspection"] { --zone-accent: #9a596c; --zone-bg: #faf1f4; }
+.zone[data-zone="electronic-components"] { --zone-accent: #71623b; --zone-bg: #f9f7ef; --company-columns: 5; }
 .atlas .zone { border-color: color-mix(in srgb, var(--zone-accent) 28%, #dfe4e8); background: var(--zone-bg); }
 .zoneHeading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; margin-bottom: 6px; border-bottom: 2px solid var(--zone-accent); padding-bottom: 5px; }
 .zoneHeading h3 { margin: 0; font-size: 14px; line-height: 1.4; }

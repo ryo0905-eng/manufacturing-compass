@@ -13,11 +13,11 @@ const exportsObject = {};
 vm.runInNewContext(output, { exports: exportsObject }, { filename });
 
 const { industryMapCareers, industryMapSupplementalCompanies, industryMapZoneRelations, industryMapZones } = exportsObject;
-assert.equal(industryMapZones.length, 8);
+assert.equal(industryMapZones.length, 9);
 assert.equal(industryMapSupplementalCompanies.length, 7);
 
 const companyIds = industryMapZones.flatMap(zone => [...zone.companyIds, ...zone.supplementalCompanyIds]);
-assert.equal(companyIds.length, 31);
+assert.equal(companyIds.length, 42);
 assert.equal(new Set(companyIds).size, companyIds.length, 'A company must have one primary zone');
 
 const zoneIds = new Set(industryMapZones.map(zone => zone.id));
@@ -39,4 +39,4 @@ for (const relation of industryMapZoneRelations) {
   assert.ok(relation.label);
 }
 
-console.log('Industry atlas data passed: 8 zones, 31 unique companies, 7 sourced map profiles, valid careers and relations.');
+console.log('Industry atlas data passed: 9 zones, 42 unique companies, 7 sourced map profiles, valid careers and relations.');

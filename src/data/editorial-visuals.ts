@@ -15,7 +15,7 @@ export const roleCategoryImages: Record<ResponsibilityCategory, string> = {
   quality: '/images/roles/quality.png',
 };
 
-export const industryZoneImages: Record<IndustryMapZoneId, string> = {
+export const industryZoneImages: Record<Exclude<IndustryMapZoneId, "electronic-components">, string> = {
   'eda-ip': '/images/industry/eda-ip.png',
   fabless: '/images/industry/fabless.png',
   foundry: '/images/home/semiconductor-hero.png',
