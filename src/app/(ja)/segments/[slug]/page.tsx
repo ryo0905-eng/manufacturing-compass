@@ -7,6 +7,7 @@ import { CareerCompassLink } from "@/components/CareerCompassLink";
 import { CompanyCard } from "@/components/CompanyCard";
 import { StructuredData } from "@/components/StructuredData";
 import { companies, segments } from "@/data/companies";
+import { electronicComponentsOverview } from "@/data/electronic-components-overview";
 import { materialsNavigation } from "@/data/materials-navigation";
 import { getGuideBySlug } from "@/content/guides";
 import { siteUrl } from "@/lib/format";
@@ -28,9 +29,9 @@ export async function generateMetadata({ params }: SegmentPageProps): Promise<Me
   }
 
   if (segment.id === "electronic-components") {
-    const title = "電子部品メーカー一覧";
-    const description = "受動部品やコネクタ、センサなどを手がける電子部品メーカーと事業領域を紹介します。";
-    return { title, description, alternates: { canonical: "/segments/electronic-components" }, robots: { index: false, follow: true }, openGraph: { title, description, type: "website", url: "/segments/electronic-components" } };
+    const title = "電子部品メーカー一覧｜日本の11社と製品分野の違い";
+    const description = "電子部品メーカー日本11社の製品分野を比較。コンデンサなどの受動部品、コネクタ、センサ、電源機器の役割と企業研究のポイントを紹介します。";
+    return { title, description, alternates: { canonical: "/segments/electronic-components" }, openGraph: { title, description, type: "website", url: "/segments/electronic-components" } };
   }
 
   if (segment.id === "materials") {
@@ -80,6 +81,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
   const relatedCompanies = companies.filter((company) => segment.relatedCompanyIds.includes(company.id));
   const jobCategories = Array.from(new Set(segmentCompanies.flatMap((company) => company.jobCategories))).slice(0, 8);
   const isFabless = segment.id === "fabless";
+  const isElectronicComponents = segment.id === "electronic-components";
   const japaneseFablessCompanies = isFabless
     ? segmentCompanies.filter((company) => company.headquartersCountry === "日本")
     : [];
@@ -116,6 +118,16 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
           { "@type": "ListItem", position: 3, name: isFabless ? "ファブレス企業一覧" : segment.id === "electronic-components" ? "電子部品メーカー一覧" : `${segment.name}の半導体企業`, item: `${siteUrl}/segments/${segment.slug}` },
         ],
       }} />
+      {isElectronicComponents ? <StructuredData data={{
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "掲載する電子部品メーカー",
+        numberOfItems: segmentCompanies.length,
+        itemListElement: segmentCompanies.map((company, index) => ({
+          "@type": "ListItem", position: index + 1, name: company.nameJa,
+          url: `${siteUrl}/companies/${company.slug}`,
+        })),
+      }} /> : null}
       {isFabless ? <StructuredData data={{
         "@context": "https://schema.org",
         "@type": "ItemList",
@@ -205,6 +217,38 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         </section>
       ) : null}
 
+      {isElectronicComponents ? <>
+        <section className="home-section" aria-labelledby="electronic-component-types">
+          <div className="section-header"><div><p className="eyebrow">製品分野の違い</p><h2 id="electronic-component-types">電子部品の種類と役割</h2></div></div>
+          <p>電子部品には、電気を蓄えるもの、機器をつなぐもの、周囲の状態を検知するものなどがあります。扱う製品によって、企業研究で見る技術や用途も変わります。</p>
+          <div className="comparison-table-wrap" role="region" aria-label="電子部品の種類と役割" tabIndex={0}>
+            <table className="comparison-table">
+              <thead><tr><th scope="col">分野</th><th scope="col">製品例</th><th scope="col">役割</th><th scope="col">企業研究のポイント</th></tr></thead>
+              <tbody>{electronicComponentsOverview.componentTypes.map((item) => <tr key={item.name}><th scope="row">{item.name}</th><td>{item.examples}</td><td>{item.role}</td><td>{item.researchPoint}</td></tr>)}</tbody>
+            </table>
+          </div>
+          <p className="disclosure">出典：<a href={electronicComponentsOverview.source.url} target="_blank" rel="noreferrer">{electronicComponentsOverview.source.publisher}「{electronicComponentsOverview.source.title}」</a>（確認日 {electronicComponentsOverview.source.accessedAt}）</p>
+        </section>
+        <section className="home-section" aria-labelledby="electronic-company-comparison">
+          <div className="section-header"><div><p className="eyebrow">掲載企業の製品分野</p><h2 id="electronic-company-comparison">日本の電子部品メーカー11社を比べる</h2></div></div>
+          <p>当サイトの時価総額ランキングに掲載する日本企業を、企業DBの製品・事業情報から整理しています。業界全体を網羅した一覧ではなく、各社は下記以外にも事業を持つ場合があります。順序は規模や優劣を示すものではありません。</p>
+          <div className="comparison-table-wrap" role="region" aria-label="電子部品メーカーの製品分野" tabIndex={0}>
+            <table className="comparison-table">
+              <thead><tr><th scope="col">企業</th><th scope="col">事業領域</th><th scope="col">主な製品・領域の例</th><th scope="col">公式出典</th></tr></thead>
+              <tbody>{segmentCompanies.map((company) => <tr key={company.id}>
+                <th scope="row"><Link href={`/companies/${company.slug}` as Route}>{company.nameJa}</Link></th>
+                <td>{company.businessModel}</td><td>{company.mainProducts.join(" / ")}</td>
+                <td>{company.sources.filter((source) => source.title !== "採用情報").map((source, index) => <span key={source.url}>{index > 0 ? " / " : ""}<a href={source.url} target="_blank" rel="noreferrer">{source.title}</a><small>（確認日 {source.accessedAt}）</small></span>)}</td>
+              </tr>)}</tbody>
+            </table>
+          </div>
+          <p>各社ページは事業概要の簡易紹介です。最新の製品情報や募集状況は各社の公式情報も確認してください。</p>
+          <p><Link className="text-link" href="/guides/electronic-components-market-cap-ranking">時価総額から電子部品メーカーを見る</Link> / <Link className="text-link" href="/industry-map#industry-zone-electronic-components">業界地図で掲載企業を見る</Link></p>
+          <p className="disclosure">ページ更新日：{electronicComponentsOverview.updatedAt}。各社情報の確認日は表内の出典に記載しています。</p>
+        </section>
+      </> : null}
+
+      {!isElectronicComponents ? (
       <section className="home-section">
         <div className="section-header">
           <div>
@@ -221,6 +265,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
           ))}
         </div>
       </section>
+      ) : null}
 
       {isFabless ? (
         <section className="home-section" aria-labelledby="overseas-fabless-title">
@@ -263,7 +308,7 @@ export default async function SegmentPage({ params }: SegmentPageProps) {
         </div>
       </section>
 
-      {!isFabless && relatedCompanies.length > 0 ? (
+      {!isFabless && !isElectronicComponents && relatedCompanies.length > 0 ? (
         <section className="home-section">
           <div className="section-header">
             <div>

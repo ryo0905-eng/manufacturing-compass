@@ -301,15 +301,22 @@ console.log('PASS: native modal lifecycle, Escape/cancel, inside/backdrop clicks
   const sitemap = load('src/app/sitemap').default();
   const { siteUrl } = load('src/lib/format');
   assert.ok(sitemap.some(entry => entry.url === siteUrl + '/industry-map'));
-  assert.ok(!sitemap.some(entry => entry.url === siteUrl + '/segments/electronic-components'));
+  assert.ok(sitemap.some(entry => entry.url === siteUrl + '/segments/electronic-components'));
   const segmentPage = load('src/app/(ja)/segments/[slug]/page');
   const segmentParams = { params: Promise.resolve({ slug: 'electronic-components' }) };
   const segmentMeta = await segmentPage.generateMetadata(segmentParams);
-  assert.equal(segmentMeta.title, '電子部品メーカー一覧');
-  assert.equal(segmentMeta.robots.index, false);
+  assert.equal(segmentMeta.title, '電子部品メーカー一覧｜日本の11社と製品分野の違い');
+  assert.notEqual(segmentMeta.robots?.index, false);
+  assert.equal(segmentMeta.alternates.canonical, '/segments/electronic-components');
   const segmentHtml = renderToStaticMarkup(await segmentPage.default(segmentParams));
   assert.ok(segmentHtml.includes('<h1>電子部品メーカー一覧</h1>'));
   assert.ok(!segmentHtml.includes('電子部品の半導体企業'));
+  for (const heading of ['電子部品の種類と役割', '日本の電子部品メーカー11社を比べる', '受動部品', '接続部品', 'センサ', '電源機器']) assert.ok(segmentHtml.includes(heading), heading);
+  assert.ok(segmentHtml.includes('https://home.jeita.or.jp/ecb/about/part.html'));
+  assert.ok(segmentHtml.includes('/guides/electronic-components-market-cap-ranking'));
+  assert.ok(segmentHtml.includes('/industry-map#industry-zone-electronic-components'));
+  const segmentJsonLd = [...segmentHtml.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/g)].map(m => JSON.parse(m[1]));
+  assert.equal(segmentJsonLd.find(item => item['@type'] === 'ItemList').numberOfItems, 11);
   for (const id of electronicIds) assert.ok(segmentHtml.includes(`/companies/${id}`), id);
   const companyPage = load('src/app/(ja)/companies/[slug]/page');
   for (const id of electronicIds) {

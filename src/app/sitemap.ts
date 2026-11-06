@@ -129,9 +129,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  const segmentRoutes = segments.filter((segment) => segment.id !== "electronic-components").map((segment) => ({
+  const segmentRoutes = segments.map((segment) => ({
     url: `${siteUrl}/segments/${segment.slug}`,
     ...(segment.id === "materials" ? { lastModified: contentDate("2026-10-08") } : {}),
+    ...(segment.id === "electronic-components" ? { lastModified: contentDate("2026-11-06") } : {}),
     changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
