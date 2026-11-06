@@ -381,6 +381,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
             { label: "INTEGRATE", title: "接続で見る", body: "FOUP、OHT、装置、安全、通信、追跡、保守をつなぐ" },
           ],
         },
+        { type: "career-compass-entry", placement: "efemGuide" },
         {
           type: "links",
           items: [
@@ -392,6 +393,7 @@ export const semiconductorWaferHandlingEfemManufacturersGuide: GuideArticle = {
             { label: "真空ポンプメーカー", href: "/guides/semiconductor-vacuum-pump-manufacturers", description: "ロードロック・真空搬送を支える排気系を見る" },
             { label: "半導体業界地図", href: "/industry-map", description: "搬送・装置が材料、前工程、検査、後工程をどう支えるか見る" },
             { label: "半導体企業一覧", href: "/industry-map", description: "製造装置企業を日本・海外、本社地域、職種から検索する" },
+            { label: "半導体製造装置メーカー売上ランキング", href: "/guides/semiconductor-equipment-sales-ranking", description: "工程別の売上上位と主要装置メーカーの規模を見る" },
           ],
         },
       ],
