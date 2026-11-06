@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-05T01:29:29.432Z",
-  "windowStart": "2026-10-06T00:00:00.000Z",
-  "windowEnd": "2026-11-05T00:00:00.000Z",
+  "generatedAt": "2026-11-06T01:35:44.504Z",
+  "windowStart": "2026-10-07T00:00:00.000Z",
+  "windowEnd": "2026-11-06T00:00:00.000Z",
   "status": "success",
   "sources": {
     "attempted": 14,
@@ -10,6 +10,26 @@
   },
   "errors": [],
   "rows": [
+    {
+      "id": "sec-0000707549-26-000057",
+      "sourceId": "lam-research",
+      "publishedAt": "2026-11-05T21:17:56.000Z",
+      "datePrecision": "instant",
+      "body": true,
+      "eligible": false,
+      "fields": [],
+      "state": "metadata"
+    },
+    {
+      "id": "sec-0001104659-26-123389",
+      "sourceId": "micron",
+      "publishedAt": "2026-11-05T21:33:48.000Z",
+      "datePrecision": "instant",
+      "body": false,
+      "eligible": false,
+      "fields": [],
+      "state": "excluded"
+    },
     {
       "id": "sec-0000002488-26-000191",
       "sourceId": "amd",
@@ -273,22 +293,9 @@
   ],
   "report": {
     "timezone": "Asia/Tokyo",
-    "start": "2026-10-07",
-    "end": "2026-11-05",
+    "start": "2026-10-08",
+    "end": "2026-11-06",
     "days": [
-      {
-        "date": "2026-10-07",
-        "candidates": 0,
-        "deduplicated": 0,
-        "bodies": 0,
-        "publishable": 0,
-        "fields": {
-          "equipment": 0,
-          "design-manufacturing": 0,
-          "memory": 0,
-          "packaging": 0
-        }
-      },
       {
         "date": "2026-10-08",
         "candidates": 1,
@@ -665,31 +672,44 @@
           "memory": 0,
           "packaging": 0
         }
+      },
+      {
+        "date": "2026-11-06",
+        "candidates": 2,
+        "deduplicated": 2,
+        "bodies": 1,
+        "publishable": 0,
+        "fields": {
+          "equipment": 0,
+          "design-manufacturing": 0,
+          "memory": 0,
+          "packaging": 0
+        }
       }
     ],
     "weekdayMedian": 0,
     "weeks": [
       {
-        "start": "2026-10-30",
-        "end": "2026-11-05",
+        "start": "2026-10-31",
+        "end": "2026-11-06",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-23",
-        "end": "2026-10-29",
+        "start": "2026-10-24",
+        "end": "2026-10-30",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-16",
-        "end": "2026-10-22",
+        "start": "2026-10-17",
+        "end": "2026-10-23",
         "publishable": 0,
         "fields": []
       },
       {
-        "start": "2026-10-09",
-        "end": "2026-10-15",
+        "start": "2026-10-10",
+        "end": "2026-10-16",
         "publishable": 0,
         "fields": []
       }
