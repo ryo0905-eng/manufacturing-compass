@@ -27,7 +27,7 @@ export const siteLinks = {
 export type SiteLinkId = keyof typeof siteLinks;
 
 export const siteNavigationGroups = [
-  { id: "technology", label: "技術を学ぶ", menuLabel: "技術を学ぶ", purpose: "technology", linkIds: ["process_series", "semiconductor_process", "equipment", "tools", "tool_navigator"], journeyIds: ["process_series", "semiconductor_process", "tools", "tool_navigator"] },
+  { id: "technology", label: "技術を学ぶ", menuLabel: "技術を学ぶ", purpose: "technology", linkIds: ["process_series", "semiconductor_process", "equipment", "tools", "tool_navigator"], journeyIds: ["process_series", "semiconductor_process", "equipment", "tools", "tool_navigator"] },
   { id: "industry", label: "企業・業界を調べる", menuLabel: "企業・業界", purpose: "industry", linkIds: ["rankings", "industry_map", "compare", "semiconductor_watch", "industry_guides"], journeyIds: ["rankings", "industry_map", "compare"] },
   { id: "factories", label: "工場・拠点を探す", menuLabel: "工場・拠点", purpose: "industry", linkIds: ["semiconductor_map", "factory_projects"], journeyIds: ["semiconductor_map", "factory_projects"] },
   { id: "career", label: "仕事・キャリアを考える", menuLabel: "仕事・キャリア", purpose: "career", linkIds: ["roles", "career_priorities", "career_consultation", "career_guides"], journeyIds: ["roles", "career_compass", "career_priorities"] },

@@ -12,6 +12,7 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
   "category": "industry",
   "presentation": "structured",
   "author": "RYO",
+  "reviewedBy": "RYO",
   "experienceBasis": [],
   "showIntroSummary": false,
   "showExperienceBasis": false,

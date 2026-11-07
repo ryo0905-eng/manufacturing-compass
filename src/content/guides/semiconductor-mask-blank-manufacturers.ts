@@ -4,7 +4,7 @@ export const semiconductorMaskBlankManufacturersGuide: GuideArticle = {
   slug: "semiconductor-mask-blank-manufacturers",
   title: "半導体マスクブランクスとは？主要メーカー4社（HOYA・AGC・信越化学・S&S TECH）を比較",
   description:
-    "マスクブランクスとは何か、フォトマスクとの違いから、主要メーカー4社（HOYA・AGC・信越化学工業・S&S TECH）のDUV・EUV対応や基板・膜構成の違いまで、図解で比較します",
+    "マスクブランクスとは何か、フォトマスクとの違いから、主要メーカー4社（HOYA・AGC・信越化学工業・S&S TECH）のDUV・EUV対応や基板・膜構成の違いまで、図解で比較します。",
   targetQuery: "半導体 マスクブランクス メーカー",
   searchIntent:
     "半導体マスクブランクスの構造と製造工程、フォトマスクとの違い、DUV・EUV用の材料と品質要求、HOYA・AGC・信越化学工業・S&S TECHなど主要企業の製品領域と比較方法を知りたい",
