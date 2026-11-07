@@ -24,6 +24,7 @@ import { companies, isCompanyIndexable, segments } from "@/data/companies";
 import { companyLocations } from "@/data/company-locations";
 import { beginnerGuides, canonicalComparePairs, rankings } from "@/data/editorial";
 import { companyCompareSlug, siteUrl } from "@/lib/format";
+import { getPrefectureLocationPages } from "@/lib/prefecture-locations";
 import { getCompanyComparisonProfile, isComparisonIndexable } from "@/data/company-comparisons";
 
 function contentDate(date: string) {
@@ -137,6 +138,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  const prefectureRoutes = getPrefectureLocationPages().map((page) => ({
+    url: `${siteUrl}/semiconductor-map/prefectures/${page.slug}`,
+    lastModified: contentDate(page.lastVerifiedAt),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
   const compareRoutes = canonicalComparePairs.filter((ids) => isComparisonIndexable(companyCompareSlug(ids))).map((ids) => ({
     url: `${siteUrl}/compare/${companyCompareSlug(ids)}`,
     lastModified: contentDate(getCompanyComparisonProfile(companyCompareSlug(ids))!.research!.updatedAt),
@@ -177,5 +185,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const newsRoutes = media.articles.map(article => ({ url: `${siteUrl}/semiconductor-watch/${article.id}`, lastModified: new Date(articleWatchItem(article).updatedAt) }));
   const earningsRoutes = earningsReleases.map(release => ({ url: `${siteUrl}/semiconductor-watch/earnings/${release.companyId}`, lastModified: contentDate([release.contentUpdatedAt ?? release.checkedAt, getAnnualHistory(release.companyId)?.checkedAt ?? ""].sort().at(-1)!) }));
-  return [...newsRoutes, ...earningsRoutes, ...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
+  return [...newsRoutes, ...earningsRoutes, ...practicalToolRoutes, ...staticRoutes, ...segmentRoutes, ...prefectureRoutes, ...companyRoutes, ...compareRoutes, ...guideRoutes, ...rankingRoutes, ...englishGuideRoutes, ...englishToolRoutes];
 }

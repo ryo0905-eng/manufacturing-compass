@@ -10,6 +10,7 @@ function loader() {
     const filename = [file, file + '.ts', file + '.tsx', path.join(file, 'index.ts')].find(p => fs.existsSync(p) && fs.statSync(p).isFile());
     if (!filename) throw Error(file);
     if (cache.has(filename)) return cache.get(filename);
+    if (filename.endsWith('.json')) return JSON.parse(fs.readFileSync(filename, 'utf8'));
     const exports = {}; cache.set(filename, exports);
     const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: {
       module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true,
@@ -140,4 +141,57 @@ test('SSR includes the full directory and sources without loading the map, and r
 test('CSS modules remain valid in Next pure mode', async () => {
   const postcss = require('postcss'), pure = require('next/dist/compiled/postcss-modules-local-by-default');
   await postcss([pure({ mode: 'pure' })]).process(fs.readFileSync('src/components/SemiconductorLocationExplorer.module.css', 'utf8'), { from: 'src/components/SemiconductorLocationExplorer.module.css' });
+});
+
+test('prefecture pages derive eligibility from public locations and linked projects', () => {
+  const { getPrefectureLocationPages } = load('src/lib/prefecture-locations');
+  const publicLocations = load('src/lib/company-locations').getPublicCompanyLocations();
+  const pages = getPrefectureLocationPages();
+  const page = load('src/app/(ja)/semiconductor-map/prefectures/[prefecture]/page');
+  assert.equal(page.generateStaticParams().map(item => item.prefecture).join(','), pages.map(item => item.slug).join(','));
+  for (const slug of new Set(publicLocations.map(location => location.prefectureSlug))) {
+    const items = publicLocations.filter(location => location.prefectureSlug === slug);
+    const linked = projects.filter(project => items.some(location => location.id === project.locationId));
+    assert.equal(pages.some(item => item.slug === slug), items.length >= 2 || linked.length > 0, slug);
+  }
+  const single = publicLocations.find(location => !projects.some(project => project.locationId === location.id));
+  assert.equal(getPrefectureLocationPages([single], []).length, 0);
+  assert.equal(getPrefectureLocationPages([single], [{ ...projects[0], locationId: single.id }]).length, 1);
+  assert.equal(getPrefectureLocationPages([single], [{ ...projects[0], locationId: 'missing' }]).length, 0);
+  assert.equal(getPrefectureLocationPages([single, { ...single, id: 'another' }], []).length, 1);
+});
+
+test('prefecture SSR, metadata, hub, guide and sitemap agree on public pages', async () => {
+  const pages = load('src/lib/prefecture-locations').getPrefectureLocationPages();
+  const page = load('src/app/(ja)/semiconductor-map/prefectures/[prefecture]/page');
+  const sitemap = load('src/app/sitemap').default();
+  const guide = load('src/content/guides/japan-semiconductor-factory-projects').japanSemiconductorFactoryProjectsGuide;
+  const guideLinks = guide.sections.find(section => section.id === 'locations').blocks.find(block => block.type === 'links').items;
+  const hub = await load('src/app/(ja)/semiconductor-map/page').default({ searchParams: Promise.resolve({}) });
+  const hubHtml = renderToStaticMarkup(hub);
+  for (const item of pages) {
+    const url = `/semiconductor-map/prefectures/${item.slug}`;
+    const params = Promise.resolve({ prefecture: item.slug });
+    const meta = await page.generateMetadata({ params });
+    assert.equal(meta.alternates.canonical, url);
+    assert.equal(meta.title.absolute, `${item.name}の半導体工場・拠点一覧｜半導体メーカー・製造拠点マップ`);
+    const html = renderToStaticMarkup(await page.default({ params }));
+    assert.ok(html.includes(`${item.name}の半導体工場・拠点一覧`));
+    assert.ok(html.includes('BreadcrumbList') && html.includes('ItemList'));
+    assert.ok(html.includes(`${item.name}に半導体工場はありますか？`));
+    for (const location of item.locations) assert.ok(html.includes(location.name) && html.includes(location.lastVerifiedAt));
+    for (const project of item.projects) {
+      assert.ok(html.includes(project.name) && html.includes(project.stage));
+      for (const milestone of project.milestones) assert.ok(html.includes(milestone.dateLabel) && html.includes(milestone.label));
+    }
+    assert.equal(html.includes('id="projects-title"'), item.projects.length > 0);
+    assert.equal(html.includes(`${item.name}で進んでいる半導体工場の新設・増設計画は？`), item.projects.length > 0);
+    assert.ok(hubHtml.includes(`href="${url}"`));
+    assert.equal(guideLinks.some(link => link.href === url), item.projects.length > 0);
+    const entry = sitemap.find(entry => entry.url.endsWith(url));
+    assert.ok(entry);
+    assert.equal(entry.lastModified.toISOString(), new Date(`${item.lastVerifiedAt}T00:00:00+09:00`).toISOString());
+  }
+  assert.equal(page.dynamicParams, false);
+  assert.equal((await page.generateMetadata({ params: Promise.resolve({ prefecture: 'unknown' }) })).alternates, undefined);
 });

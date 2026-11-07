@@ -1,6 +1,7 @@
 import type { GuideArticle } from "@/content/guides/types";
 import { factoryProjects, factoryProjectSources } from "@/data/factory-projects";
 import { factoryProjectMapHref } from "@/lib/location-explorer";
+import { getPrefectureLocationPages } from "@/lib/prefecture-locations";
 
 export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
   "slug": "japan-semiconductor-factory-projects",
@@ -107,7 +108,12 @@ export const japanSemiconductorFactoryProjectsGuide: GuideArticle = {
               "label": "日本の半導体企業・工場マップ",
               "href": "/semiconductor-map",
               "description": "掲載されている周辺拠点や企業情報を確認する"
-            }
+            },
+            ...getPrefectureLocationPages().filter(page => page.projects.length > 0).map(page => ({
+              label: `${page.name}の半導体工場・拠点一覧`,
+              href: `/semiconductor-map/prefectures/${page.slug}`,
+              description: `${page.name}の掲載拠点と案件を確認する`,
+            }))
           ]
         }
       ]

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Route } from "next";
 import Link from "next/link";
 import { SemiconductorLocationApp } from "@/components/SemiconductorLocationApp";
 import { ResearchNavigation, ResearchNavigationLink } from "@/components/ResearchNavigation";
@@ -13,6 +13,7 @@ import { researchPages } from "@/data/research-navigation";
 import { getHiringSignals, getPublicCompanyLocations, validateCompanyLocationData } from "@/lib/company-locations";
 import { filterExplorerRows, readExplorerState, validateExplorerData } from "@/lib/location-explorer";
 import { siteUrl } from "@/lib/format";
+import { getPrefectureLocationPages } from "@/lib/prefecture-locations";
 
 const pageTitle = "日本の半導体企業・工場マップ【2026年版】製造・研究拠点一覧";
 const pageDescription = "日本で働ける半導体メーカー、製造装置、材料、設計企業の工場・研究開発・設計拠点を、都道府県、役割、関連職種、公式採用情報とともに整理します。";
@@ -55,6 +56,9 @@ export default async function SemiconductorMapPage({ searchParams }: Props) {
       <p>拠点情報の確認日：{dates[0]}〜{dates.at(-1)}。案件・座標の確認日は各詳細に表示しています。</p></header>
     <SemiconductorLocationApp companies={companies} locations={locations} projects={factoryProjects} sources={locationSources}
       projectSources={factoryProjectSources} hiringSignals={getHiringSignals()} initialState={initialState} />
+    <section className="home-section" aria-labelledby="prefectures-title"><h2 id="prefectures-title">都道府県から探す</h2>
+      <ul>{getPrefectureLocationPages().map(page => <li key={page.slug}><Link href={`/semiconductor-map/prefectures/${page.slug}` as Route}>{page.name}（{page.locations.length}拠点）</Link></li>)}</ul>
+    </section>
     <ResearchNavigation page="semiconductor_map" />
     <section className={styles.methodology} aria-labelledby="location-methodology-title"><div>
       <p className="section-label">掲載基準</p><h2 id="location-methodology-title">公式情報で確認できた内容だけを掲載</h2></div>
