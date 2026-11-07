@@ -10,7 +10,7 @@ const EXPORT = Object.freeze({
   headers: {
     GA4_Daily: ['date', 'active_users', 'sessions', 'screen_page_views'],
     GA4_Pages: ['date', 'page_path', 'screen_page_views', 'active_users'],
-    GA4_Events: ['date', 'event_name', 'source_page', 'cta_location', 'cta_variant', 'step_number', 'result_type', 'destination_group', 'agent_id', 'event_count', 'total_users'],
+    GA4_Events: ['date', 'event_name', 'source_page', 'cta_location', 'cta_variant', 'step_number', 'result_type', 'destination_group', 'agent_id', 'event_count', 'total_users', 'action', 'equipment_id', 'process_id'],
     GA4_Feedback: ['date', 'event_name', 'source_page', 'survey_id', 'need_id', 'feature_id', 'interest_level', 'event_count', 'total_users'],
     GSC_Daily: ['date', 'clicks', 'impressions', 'ctr', 'position'],
     GSC_Pages: ['date', 'page_url', 'clicks', 'impressions', 'ctr', 'position'],
@@ -54,6 +54,32 @@ function startBackfill() {
     }
     scheduleContinuation_();
     console.log('Backfill queued: ' + p.getProperty('BACKFILL_DATE') + ' through ' + p.getProperty('BACKFILL_END'));
+  } finally { lock.releaseLock(); }
+}
+
+/** Refresh GA4_Events from 2026-10-24 through yesterday. Rerun to resume. */
+function backfillEventsFrom20261024() {
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) throw new Error('Another export is running. Try again later.');
+  try {
+    const cfg = config_();
+    const sheet = sheet_(SpreadsheetApp.openById(cfg.spreadsheetId), 'GA4_Events');
+    const p = PropertiesService.getScriptProperties();
+    let day = p.getProperty('EVENT_BACKFILL_DATE') || '2026-10-24';
+    const end = p.getProperty('EVENT_BACKFILL_END') || dateOffset_(today_(), -1);
+    p.setProperties({EVENT_BACKFILL_DATE: day, EVENT_BACKFILL_END: end});
+    const deadline = Date.now() + EXPORT.budgetMs;
+    while (day <= end && Date.now() < deadline - 30000) {
+      const data = ga_(cfg, 'GA4_Events', day, deadline);
+      checkDeadline_(deadline);
+      replaceDate_(sheet, 'GA4_Events', day, data);
+      day = dateOffset_(day, 1);
+      p.setProperty('EVENT_BACKFILL_DATE', day);
+    }
+    if (day > end) {
+      p.deleteProperty('EVENT_BACKFILL_DATE'); p.deleteProperty('EVENT_BACKFILL_END');
+      console.log('Event backfill completed through ' + end);
+    } else console.log('Event backfill paused at ' + day + '; rerun to resume.');
   } finally { lock.releaseLock(); }
 }
 
@@ -136,17 +162,31 @@ function exportOne_(cfg, book, name, day, deadline) {
 }
 
 function ga_(cfg, name, day, deadline) {
+  if (name === 'GA4_Events') {
+    // Separate reports stay within the Data API dimension limit and avoid cross-product rows.
+    const career = gaReport_(cfg, name, day, deadline, false);
+    const equipment = gaReport_(cfg, name, day, deadline, true);
+    return career.map(row => row.concat(['', '', ''])).concat(
+      equipment.map(row => [row[0], row[1], '', '', '', '', '', '', '', row[5], row[6], row[2], row[3], row[4]])
+    );
+  }
+  return gaReport_(cfg, name, day, deadline, false);
+}
+
+function gaReport_(cfg, name, day, deadline, isEquipment) {
   const isPage = name === 'GA4_Pages';
   const isEvent = name === 'GA4_Events';
   const isFeedback = name === 'GA4_Feedback';
-  const dimensions = isPage ? ['pagePath'] : isEvent ? ['eventName', 'customEvent:source_page', 'customEvent:cta_location', 'customEvent:cta_variant', 'customEvent:step_number', 'customEvent:result_type', 'customEvent:destination_group', 'customEvent:agent_id'] : isFeedback ? ['eventName', 'customEvent:source_page', 'customEvent:survey_id', 'customEvent:need_id', 'customEvent:feature_id', 'customEvent:interest_level'] : [];
+  const dimensions = isEquipment ? ['eventName', 'customEvent:action', 'customEvent:equipment_id', 'customEvent:process_id'] : isPage ? ['pagePath'] : isEvent ? ['eventName', 'customEvent:source_page', 'customEvent:cta_location', 'customEvent:cta_variant', 'customEvent:step_number', 'customEvent:result_type', 'customEvent:destination_group', 'customEvent:agent_id'] : isFeedback ? ['eventName', 'customEvent:source_page', 'customEvent:survey_id', 'customEvent:need_id', 'customEvent:feature_id', 'customEvent:interest_level'] : [];
   const metrics = isPage ? ['screenPageViews', 'activeUsers'] : isEvent || isFeedback ? ['eventCount', 'totalUsers'] : ['activeUsers', 'sessions', 'screenPageViews'];
   const rows = [];
   let offset = 0;
   do {
     const body = {dateRanges: [{startDate: day, endDate: day}], metrics: metrics.map(name => ({name})), limit: String(EXPORT.pageSize), offset: String(offset)};
     if (dimensions.length) { body.dimensions = dimensions.map(name => ({name})); body.orderBys = dimensions.map(dimensionName => ({dimension: {dimensionName}})); }
-    if (isEvent) {
+    if (isEquipment) {
+      body.dimensionFilter = {filter: {fieldName: 'eventName', inListFilter: {values: ['equipment_filter', 'equipment_search', 'equipment_compare', 'equipment_detail', 'equipment_share', 'equipment_related']}}};
+    } else if (isEvent) {
       body.dimensionFilter = {orGroup: {expressions: [
         {filter: {fieldName: 'eventName', stringFilter: {matchType: 'BEGINS_WITH', value: 'career_compass_'}}},
         {filter: {fieldName: 'eventName', inListFilter: {values: ['career_agents_cta_click', 'affiliate_outbound_click']}}}
@@ -226,7 +266,10 @@ function replaceDate_(sheet, name, day, fresh) {
   // Date and untrusted dimensions are plain text, including strings beginning with '='.
   if (merged.length) {
     sheet.getRange(2, 1, merged.length, 1).setNumberFormat('@');
-    if (name === 'GA4_Events') sheet.getRange(2, 2, merged.length, 8).setNumberFormat('@');
+    if (name === 'GA4_Events') {
+      sheet.getRange(2, 2, merged.length, 8).setNumberFormat('@');
+      sheet.getRange(2, 12, merged.length, 3).setNumberFormat('@');
+    }
     else if (name === 'GA4_Feedback') sheet.getRange(2, 2, merged.length, 6).setNumberFormat('@');
     else if (name === 'GA4_Pages' || name === 'GSC_Pages' || name === 'GSC_Queries') sheet.getRange(2, 2, merged.length, 1).setNumberFormat('@');
     sheet.getRange(2, 1, merged.length, width).setValues(merged);
