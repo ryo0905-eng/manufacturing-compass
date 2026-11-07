@@ -73,7 +73,7 @@ export const electronicComponentsMarketCapRankingGuide: GuideArticle = {
       `世界1位の${world[0].name}は${world[0].marketCapDisplay}、2位の${world[1].name}は${world[1].marketCapDisplay}です。企業全体を比較したもので、個別部品のシェアは示していません。`,
       "上位にはコネクタ、電源、受動部品など異なる事業の企業が並びます。時価総額に加えて各社の事業構成を確認しましょう。",
     ] },
-    { id: "research-flow", heading: "気になった企業から、次に調べる", paragraphs: ["製品、取引先の業界、製造拠点、公式採用情報を見て、自分の経験と仕事内容の接点を整理しましょう。Career Compassは半導体職種を対象とした入口です。"], blocks: [{ type: "career-compass-entry", placement: "electronicComponentsRanking" }, { type: "links", items: [{ label: "半導体メーカーの時価総額ランキング", href: "/guides/semiconductor-market-cap-ranking", description: "半導体関連企業の時価総額と事業分類を見る" }] }] },
+    { id: "research-flow", heading: "気になった企業から、次に調べる", paragraphs: ["製品、取引先の業界、製造拠点、公式採用情報を見て、自分の経験と仕事内容の接点を整理しましょう。Career Compassは半導体職種を対象とした入口です。"], blocks: [{ type: "career-compass-entry", placement: "electronicComponentsRanking" }, { type: "links", items: [{ label: "半導体メーカーの時価総額ランキング", href: "/guides/semiconductor-market-cap-ranking", description: "半導体関連企業の時価総額と事業分類を見る" }, { label: "電子部品メーカー一覧", href: "/segments/electronic-components", description: "日本の電子部品メーカー11社と製品分野の違いを一覧で見る" }] }] },
     { id: "faq", heading: "よくある質問", paragraphs: [], blocks: [{ type: "faq", items: [
       { question: "世界最大の電子部品メーカーはどこですか？", answer: `今回選定した企業の2026年10月31日基準の時価総額では${world[0].name}が1位です。候補は世界の全企業を網羅していません。` },
       { question: "日本の主な電子部品メーカーはどこですか？", answer: `今回の日本ランキングには${japan[0].name}、TDK、京セラなど${japan.length}社を掲載しています。` },
