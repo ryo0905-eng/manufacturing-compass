@@ -10,6 +10,7 @@ const socialAccounts = [
   { name: "X", url: "https://x.com/mfgcompass" },
   { name: "Instagram", url: "https://www.instagram.com/mfgcompass" },
   { name: "YouTube", url: "https://www.youtube.com/channel/UCanyeIhHyvQ3nhyoBiM8PVw" },
+  { name: "note", url: "https://note.com/ryo608" },
 ] as const;
 
 export const metadata: Metadata = {
